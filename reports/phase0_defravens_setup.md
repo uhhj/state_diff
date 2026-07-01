@@ -10,9 +10,13 @@
 
 ## Pass Criteria
 
-- `cable-line-notarget` import smoke test passes.
-- `data/cable-line-notarget` has 10 smoke demos.
-- `goals/cable-line-notarget` has 20 goals.
+- DeformableRavens import smoke test passes.
+- `cable-line-notarget` is present in `tasks.names`.
+- `data/cable-line-notarget` has at least 10 smoke demos.
+- `goals/cable-line-notarget` has at least 20 goals.
+- `reports/phase0_defravens_summary.json` exists.
+- `reports/phase0_defravens_setup.md` exists.
+- Visualization videos or images are not required for Phase0.
 - Dataset fields include `color`, `depth`, `action`, `info`, `last_color`, `last_depth`, `last_info`.
 
 ## Data Field Counts
@@ -27,13 +31,13 @@
 - `last_info`: exists=True, files=10, first=000000-7.pkl
 
 ### goals
-- `color`: exists=True, files=20, first=000000-5.pkl
-- `depth`: exists=True, files=20, first=000000-5.pkl
-- `action`: exists=True, files=20, first=000000-5.pkl
-- `info`: exists=True, files=20, first=000000-5.pkl
-- `last_color`: exists=True, files=20, first=000000-5.pkl
-- `last_depth`: exists=True, files=20, first=000000-5.pkl
-- `last_info`: exists=True, files=20, first=000000-5.pkl
+- `color`: exists=True, files=20, first=000000-6.pkl
+- `depth`: exists=True, files=20, first=000000-6.pkl
+- `action`: exists=True, files=20, first=000000-6.pkl
+- `info`: exists=True, files=20, first=000000-6.pkl
+- `last_color`: exists=True, files=20, first=000000-6.pkl
+- `last_depth`: exists=True, files=20, first=000000-6.pkl
+- `last_info`: exists=True, files=20, first=000000-6.pkl
 
 ## Notes
 

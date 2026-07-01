@@ -1,20 +1,20 @@
 {
   "data": {
     "episode_lengths": {
-      "max": 10,
-      "mean": 5,
+      "max": 8,
+      "mean": 4.4,
       "min": 2,
       "values": [
         7,
-        4,
-        4,
         2,
-        10,
+        6,
         2,
         5,
-        3,
-        5,
-        8
+        2,
+        8,
+        4,
+        4,
+        4
       ]
     },
     "exists": true,
@@ -159,7 +159,7 @@
       "last_info": {
         "exists": true,
         "extras": {
-          "delta_reward": 0.04166666666666663,
+          "delta_reward": 0.16666666666666663,
           "nb_beads": 24,
           "nb_sides": 1,
           "nb_zone": 24,
@@ -208,67 +208,67 @@
   "defravens_root": "/data/state_diff2/external/deformable-ravens",
   "goals": {
     "episode_lengths": {
-      "max": 9,
-      "mean": 5.75,
+      "max": 11,
+      "mean": 6.55,
       "min": 2,
       "values": [
+        6,
+        3,
         5,
-        3,
-        4,
-        8,
-        7,
-        8,
-        3,
-        7,
-        8,
-        6,
-        7,
-        7,
-        7,
-        6,
-        3,
-        6,
-        4,
+        11,
         5,
+        8,
+        5,
+        8,
+        9,
+        5,
+        7,
+        7,
+        11,
+        6,
+        5,
+        6,
+        4,
+        7,
         2,
-        9
+        11
       ]
     },
     "exists": true,
     "fields": {
       "action": {
         "exists": true,
-        "first_file": "000000-5.pkl",
+        "first_file": "000000-6.pkl",
         "num_files": 20
       },
       "color": {
         "exists": true,
-        "first_file": "000000-5.pkl",
+        "first_file": "000000-6.pkl",
         "num_files": 20
       },
       "depth": {
         "exists": true,
-        "first_file": "000000-5.pkl",
+        "first_file": "000000-6.pkl",
         "num_files": 20
       },
       "info": {
         "exists": true,
-        "first_file": "000000-5.pkl",
+        "first_file": "000000-6.pkl",
         "num_files": 20
       },
       "last_color": {
         "exists": true,
-        "first_file": "000000-5.pkl",
+        "first_file": "000000-6.pkl",
         "num_files": 20
       },
       "last_depth": {
         "exists": true,
-        "first_file": "000000-5.pkl",
+        "first_file": "000000-6.pkl",
         "num_files": 20
       },
       "last_info": {
         "exists": true,
-        "first_file": "000000-5.pkl",
+        "first_file": "000000-6.pkl",
         "num_files": 20
       }
     },
@@ -283,14 +283,14 @@
           "primitive"
         ],
         "first_type": "dict",
-        "len": 5,
+        "len": 6,
         "type": "list"
       },
       "color": {
         "dtype": "uint8",
         "exists": true,
         "shape": [
-          5,
+          6,
           3,
           480,
           640,
@@ -302,15 +302,15 @@
         "dtype": "float32",
         "exists": true,
         "shape": [
-          5,
+          6,
           3,
           480,
           640
         ],
         "type": "ndarray"
       },
-      "episode_file": "000000-5.pkl",
-      "episode_len": 5,
+      "episode_file": "000000-6.pkl",
+      "episode_len": 6,
       "info": {
         "exists": true,
         "extras_keys": [
@@ -349,7 +349,7 @@
           "extras"
         ],
         "first_type": "dict",
-        "len": 5,
+        "len": 6,
         "type": "list"
       },
       "last_color": {
@@ -376,7 +376,7 @@
       "last_info": {
         "exists": true,
         "extras": {
-          "delta_reward": 0.04166666666666663,
+          "delta_reward": 0.125,
           "nb_beads": 24,
           "nb_sides": 1,
           "nb_zone": 24,
