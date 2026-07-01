@@ -54,11 +54,7 @@ cd "$ROOT"
 echo "[Phase0] inspecting generated data..."
 TASK="$TASK" DEFRAVENS_ROOT="$DEFRAVENS_ROOT" python scripts/phase0_inspect_defravens_data.py
 
-echo "[Phase0] visualizing generated demos..."
-TASK="$TASK" DEFRAVENS_ROOT="$DEFRAVENS_ROOT" python scripts/phase0_visualize_defravens_data.py
-
 echo "[Phase0] done."
 echo "Report:"
 echo "  reports/phase0_defravens_setup.md"
 echo "  reports/phase0_defravens_summary.json"
-echo "  reports/phase0_visualizations/$TASK/"
