@@ -13,8 +13,12 @@ DEFAULT_DEFRAVENS_ROOT = Path(
     os.environ.get("DEFRAVENS_ROOT", ROOT / "external" / "deformable-ravens")
 ).resolve()
 
+WARNINGS: List[str] = []
+SHORT_EPISODE_WARNED = set()
+
 
 def warn(message: str) -> None:
+    WARNINGS.append(message)
     print(f"[Phase0][visualize][warning] {message}")
 
 
@@ -23,130 +27,266 @@ def load_pickle(path: Path) -> Any:
         return pickle.load(f)
 
 
-def choose_camera(arr: np.ndarray, camera_index: int, field: str) -> np.ndarray:
-    if arr.ndim >= 1 and arr.shape[0] <= 8:
-        idx = min(max(camera_index, 0), arr.shape[0] - 1)
-        return arr[idx]
-    warn(f"{field}: cannot identify camera axis for shape {arr.shape}; using input as-is")
-    return arr
+def parse_episode_len(path: Path) -> Optional[int]:
+    try:
+        return int(path.stem.split("-")[-1])
+    except Exception:
+        return None
 
 
-def as_uint8_rgb(frame: np.ndarray) -> Optional[np.ndarray]:
+def clamp_camera_idx(num_cameras: int, camera_idx: int, context: str) -> int:
+    if num_cameras <= 0:
+        return 0
+    if camera_idx < 0 or camera_idx >= num_cameras:
+        idx = min(max(camera_idx, 0), num_cameras - 1)
+        warn(f"{context}: camera_idx={camera_idx} out of range for {num_cameras} cameras; using {idx}")
+        return idx
+    return camera_idx
+
+
+def color_frame_to_rgb(frame: Any, context: str) -> Optional[np.ndarray]:
     arr = np.asarray(frame)
     if arr.size == 0:
+        warn(f"{context}: empty color frame")
         return None
     arr = np.squeeze(arr)
-
-    if arr.ndim == 2:
-        arr = normalize_depth_frame(arr)
-        return np.repeat(arr[..., None], 3, axis=-1)
-
     if arr.ndim == 3 and arr.shape[-1] in (3, 4):
         arr = arr[..., :3]
     elif arr.ndim == 3 and arr.shape[0] in (3, 4):
         arr = np.moveaxis(arr[:3], 0, -1)
     else:
+        warn(f"{context}: unsupported color frame shape {arr.shape}")
         return None
 
     if arr.dtype == np.uint8:
         return np.ascontiguousarray(arr)
-
     arr = arr.astype(np.float32)
-    if np.nanmax(arr) <= 1.0:
+    finite = np.isfinite(arr)
+    if finite.any() and float(np.nanmax(arr)) <= 1.0:
         arr = arr * 255.0
     arr = np.nan_to_num(arr, nan=0.0, posinf=255.0, neginf=0.0)
-    arr = np.clip(arr, 0, 255).astype(np.uint8)
-    return np.ascontiguousarray(arr)
+    return np.ascontiguousarray(np.clip(arr, 0, 255).astype(np.uint8))
 
 
-def normalize_depth_frame(frame: np.ndarray) -> np.ndarray:
-    arr = np.asarray(frame, dtype=np.float32)
+def depth_frame_to_float(frame: Any, context: str) -> Optional[np.ndarray]:
+    arr = np.asarray(frame)
+    if arr.size == 0:
+        warn(f"{context}: empty depth frame")
+        return None
     arr = np.squeeze(arr)
     if arr.ndim == 3 and arr.shape[-1] == 1:
         arr = arr[..., 0]
-    finite = np.isfinite(arr)
-    if not finite.any():
-        return np.zeros(arr.shape[-2:], dtype=np.uint8)
-    valid = arr[finite]
-    lo, hi = np.percentile(valid, [1, 99])
-    if not np.isfinite(lo) or not np.isfinite(hi) or hi <= lo:
-        lo, hi = float(valid.min()), float(valid.max())
-    if hi <= lo:
-        return np.zeros(arr.shape[-2:], dtype=np.uint8)
-    out = (arr - lo) / (hi - lo)
-    out = np.nan_to_num(out, nan=0.0, posinf=1.0, neginf=0.0)
-    return np.clip(out * 255.0, 0, 255).astype(np.uint8)
-
-
-def split_array_frames(obj: np.ndarray, field: str, camera_index: int) -> Optional[List[np.ndarray]]:
-    arr = np.asarray(obj)
-    if arr.size == 0:
-        warn(f"{field}: empty ndarray")
+    if arr.ndim != 2:
+        warn(f"{context}: unsupported depth frame shape {arr.shape}")
         return None
-
-    if field == "color":
-        if arr.ndim == 5 and arr.shape[-1] in (3, 4):
-            return [as_uint8_rgb(frame) for frame in arr[:, min(camera_index, arr.shape[1] - 1)]]
-        if arr.ndim == 4 and arr.shape[-1] in (3, 4):
-            if arr.shape[0] <= 8 and arr.shape[1] > 32 and arr.shape[2] > 32:
-                return [as_uint8_rgb(choose_camera(arr, camera_index, field))]
-            return [as_uint8_rgb(frame) for frame in arr]
-        if arr.ndim == 3:
-            return [as_uint8_rgb(arr)]
-
-    if field == "depth":
-        if arr.ndim == 4:
-            if arr.shape[-1] == 1:
-                return [as_uint8_rgb(frame[..., 0]) for frame in arr]
-            return [as_uint8_rgb(frame) for frame in arr[:, min(camera_index, arr.shape[1] - 1)]]
-        if arr.ndim == 3:
-            if arr.shape[0] <= 8 and arr.shape[1] > 32 and arr.shape[2] > 32:
-                return [as_uint8_rgb(choose_camera(arr, camera_index, field))]
-            return [as_uint8_rgb(frame) for frame in arr]
-        if arr.ndim == 2:
-            return [as_uint8_rgb(arr)]
-
-    warn(f"{field}: unsupported ndarray shape {arr.shape}")
-    return None
+    return np.asarray(arr, dtype=np.float32)
 
 
-def flatten_frames(obj: Any, field: str, camera_index: int) -> List[np.ndarray]:
-    if isinstance(obj, np.ndarray):
-        frames = split_array_frames(obj, field, camera_index)
-    elif isinstance(obj, (list, tuple)):
-        frames = []
-        for i, item in enumerate(obj):
-            if isinstance(item, np.ndarray):
-                sub = split_array_frames(item, field, camera_index)
-                if sub:
-                    frames.extend(sub)
-            elif isinstance(item, (list, tuple)):
-                sub = flatten_frames(item, field, camera_index)
-                if sub:
-                    frames.extend(sub)
-            else:
-                warn(f"{field}: skipping list item {i} of type {type(item).__name__}")
-    else:
-        warn(f"{field}: unsupported object type {type(obj).__name__}")
-        return []
+def parse_color_timestep(item: Any, camera_idx: int, context: str) -> Optional[np.ndarray]:
+    if isinstance(item, (list, tuple)):
+        if not item:
+            warn(f"{context}: empty color camera list")
+            return None
+        idx = clamp_camera_idx(len(item), camera_idx, context)
+        return parse_color_timestep(item[idx], camera_idx, f"{context}[camera {idx}]")
 
-    clean = [f for f in (frames or []) if f is not None and f.ndim == 3 and f.shape[-1] == 3]
-    if not clean:
-        warn(f"{field}: no renderable frames decoded")
-    return clean
+    arr = np.asarray(item)
+    if arr.ndim == 5 and arr.shape[0] == 1:
+        return parse_color_timestep(arr[0], camera_idx, f"{context}[0]")
+    if arr.ndim == 4 and arr.shape[-1] in (3, 4):
+        idx = clamp_camera_idx(arr.shape[0], camera_idx, context)
+        return color_frame_to_rgb(arr[idx], f"{context}[camera {idx}]")
+    return color_frame_to_rgb(arr, context)
 
 
-def load_frames(path: Path, field: str, camera_index: int) -> List[np.ndarray]:
+def parse_depth_timestep(item: Any, camera_idx: int, context: str) -> Optional[np.ndarray]:
+    if isinstance(item, (list, tuple)):
+        if not item:
+            warn(f"{context}: empty depth camera list")
+            return None
+        idx = clamp_camera_idx(len(item), camera_idx, context)
+        return parse_depth_timestep(item[idx], camera_idx, f"{context}[camera {idx}]")
+
+    arr = np.asarray(item)
+    if arr.ndim == 4 and arr.shape[0] == 1:
+        return parse_depth_timestep(arr[0], camera_idx, f"{context}[0]")
+    if arr.ndim == 3 and arr.shape[0] <= 16 and arr.shape[1] > 32 and arr.shape[2] > 32:
+        idx = clamp_camera_idx(arr.shape[0], camera_idx, context)
+        return depth_frame_to_float(arr[idx], f"{context}[camera {idx}]")
+    return depth_frame_to_float(arr, context)
+
+
+def decode_color_episode(obj: Any, camera_idx: int, expected_len: Optional[int], episode_id: str) -> List[np.ndarray]:
+    frames: List[np.ndarray] = []
+
+    if isinstance(obj, (list, tuple)):
+        for t, item in enumerate(obj):
+            frame = parse_color_timestep(item, camera_idx, f"demo_{episode_id} color timestep {t}")
+            if frame is not None:
+                frames.append(frame)
+        return frames
+
+    arr = np.asarray(obj)
+    if arr.ndim == 5 and arr.shape[-1] in (3, 4):
+        for t in range(arr.shape[0]):
+            frame = parse_color_timestep(arr[t], camera_idx, f"demo_{episode_id} color timestep {t}")
+            if frame is not None:
+                frames.append(frame)
+        return frames
+
+    if arr.ndim == 4 and arr.shape[-1] in (3, 4):
+        if expected_len is not None and arr.shape[0] == expected_len:
+            for t in range(arr.shape[0]):
+                frame = color_frame_to_rgb(arr[t], f"demo_{episode_id} color timestep {t}")
+                if frame is not None:
+                    frames.append(frame)
+        else:
+            frame = parse_color_timestep(arr, camera_idx, f"demo_{episode_id} color single timestep")
+            if frame is not None:
+                frames.append(frame)
+        return frames
+
+    frame = color_frame_to_rgb(arr, f"demo_{episode_id} color single frame")
+    if frame is not None:
+        frames.append(frame)
+    return frames
+
+
+def decode_depth_episode(obj: Any, camera_idx: int, expected_len: Optional[int], episode_id: str) -> List[np.ndarray]:
+    frames: List[np.ndarray] = []
+
+    if isinstance(obj, (list, tuple)):
+        for t, item in enumerate(obj):
+            frame = parse_depth_timestep(item, camera_idx, f"demo_{episode_id} depth timestep {t}")
+            if frame is not None:
+                frames.append(frame)
+        return frames
+
+    arr = np.asarray(obj)
+    if arr.ndim == 4:
+        for t in range(arr.shape[0]):
+            frame = parse_depth_timestep(arr[t], camera_idx, f"demo_{episode_id} depth timestep {t}")
+            if frame is not None:
+                frames.append(frame)
+        return frames
+
+    if arr.ndim == 3:
+        if expected_len is not None and arr.shape[0] == expected_len:
+            for t in range(arr.shape[0]):
+                frame = depth_frame_to_float(arr[t], f"demo_{episode_id} depth timestep {t}")
+                if frame is not None:
+                    frames.append(frame)
+        else:
+            frame = parse_depth_timestep(arr, camera_idx, f"demo_{episode_id} depth single timestep")
+            if frame is not None:
+                frames.append(frame)
+        return frames
+
+    frame = depth_frame_to_float(arr, f"demo_{episode_id} depth single frame")
+    if frame is not None:
+        frames.append(frame)
+    return frames
+
+
+def load_episode_frames(path: Path, field: str, camera_idx: int, episode_id: str) -> List[np.ndarray]:
     try:
         obj = load_pickle(path)
     except Exception as exc:
-        warn(f"{field}: failed to read {path}: {exc!r}")
+        warn(f"demo_{episode_id} {field}: failed to read {path}: {exc!r}")
         return []
+
+    expected_len = parse_episode_len(path)
     try:
-        return flatten_frames(obj, field, camera_index)
+        if field == "color":
+            frames = decode_color_episode(obj, camera_idx, expected_len, episode_id)
+        else:
+            frames = decode_depth_episode(obj, camera_idx, expected_len, episode_id)
     except Exception as exc:
-        warn(f"{field}: failed to decode {path}: {exc!r}")
+        warn(f"demo_{episode_id} {field}: failed to decode {path}: {exc!r}")
         return []
+
+    if not frames:
+        warn(f"demo_{episode_id} {field}: no renderable timesteps decoded")
+    return frames
+
+
+def normalize_depth_episode(frames: Sequence[np.ndarray], episode_id: str) -> List[np.ndarray]:
+    if not frames:
+        return []
+    finite_values = [frame[np.isfinite(frame)] for frame in frames if np.isfinite(frame).any()]
+    if not finite_values:
+        warn(f"demo_{episode_id} depth: no finite values; rendering black frames")
+        return [np.zeros((*frame.shape, 3), dtype=np.uint8) for frame in frames]
+
+    values = np.concatenate([x.reshape(-1) for x in finite_values])
+    lo = float(values.min())
+    hi = float(values.max())
+    if not np.isfinite(lo) or not np.isfinite(hi) or hi <= lo:
+        warn(f"demo_{episode_id} depth: invalid global min/max ({lo}, {hi}); rendering black frames")
+        return [np.zeros((*frame.shape, 3), dtype=np.uint8) for frame in frames]
+
+    rgb_frames = []
+    for frame in frames:
+        arr = (frame - lo) / (hi - lo)
+        arr = np.nan_to_num(arr, nan=0.0, posinf=1.0, neginf=0.0)
+        gray = np.clip(arr * 255.0, 0, 255).astype(np.uint8)
+        rgb_frames.append(np.repeat(gray[..., None], 3, axis=-1))
+    return rgb_frames
+
+
+def annotate_frame(
+    frame: np.ndarray,
+    episode_id: str,
+    timestep_idx: int,
+    camera_idx: int,
+    total_timesteps: int,
+) -> np.ndarray:
+    try:
+        from PIL import Image, ImageDraw
+
+        img = Image.fromarray(frame)
+        draw = ImageDraw.Draw(img)
+        text = f"demo {episode_id} | timestep {timestep_idx} | camera {camera_idx} | total {total_timesteps}"
+        try:
+            box = draw.textbbox((0, 0), text)
+            tw, th = box[2] - box[0], box[3] - box[1]
+        except Exception:
+            tw, th = draw.textsize(text)
+        draw.rectangle((0, 0, tw + 10, th + 10), fill=(0, 0, 0))
+        draw.text((5, 5), text, fill=(255, 255, 255))
+        return np.asarray(img)
+    except Exception:
+        return frame
+
+
+def expand_with_hold(
+    frames: Sequence[np.ndarray],
+    episode_id: str,
+    camera_idx: int,
+    fps: int,
+    hold_sec: float,
+    min_duration_sec: float,
+) -> List[np.ndarray]:
+    if not frames:
+        return []
+    total = len(frames)
+    if 1 <= total <= 3 and episode_id not in SHORT_EPISODE_WARNED:
+        SHORT_EPISODE_WARNED.add(episode_id)
+        warn(
+            f"demo_{episode_id}: source episode has only {total} high-level timesteps; "
+            "video is padded with frame holding, but source data is short."
+        )
+
+    repeat = max(1, int(fps * hold_sec))
+    expanded: List[np.ndarray] = []
+    for t, frame in enumerate(frames):
+        annotated = annotate_frame(frame, episode_id, t, camera_idx, total)
+        expanded.extend([annotated] * repeat)
+
+    min_frames = max(1, int(np.ceil(fps * min_duration_sec)))
+    if len(expanded) < min_frames:
+        expanded.extend([expanded[-1]] * (min_frames - len(expanded)))
+    return expanded
 
 
 def write_video(frames: Sequence[np.ndarray], path: Path, fps: int) -> bool:
@@ -190,7 +330,11 @@ def resize_frame(frame: np.ndarray, width: int) -> np.ndarray:
         return frame
 
 
-def write_contact_sheet(samples: Sequence[Tuple[str, Sequence[np.ndarray]]], path: Path) -> bool:
+def write_contact_sheet(
+    samples: Sequence[Tuple[str, Sequence[np.ndarray], int]],
+    path: Path,
+    camera_idx: int,
+) -> bool:
     if not samples:
         warn("no samples available for contact sheet")
         return False
@@ -206,13 +350,14 @@ def write_contact_sheet(samples: Sequence[Tuple[str, Sequence[np.ndarray]]], pat
     rows = []
     labels = ("start", "middle", "end")
 
-    for episode_id, frames in samples:
+    for episode_id, frames, total in samples:
         if not frames:
             continue
         idxs = [0, len(frames) // 2, len(frames) - 1]
         tiles = []
         for label, idx in zip(labels, idxs):
-            frame = resize_frame(frames[idx], tile_w)
+            frame = annotate_frame(frames[idx], episode_id, idx, camera_idx, total)
+            frame = resize_frame(frame, tile_w)
             img = Image.fromarray(frame)
             canvas = Image.new("RGB", (img.width, img.height + label_h), "white")
             canvas.paste(img, (0, label_h))
@@ -259,8 +404,10 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Export Phase0 DeformableRavens demo videos and contact sheet.")
     parser.add_argument("--task", default=DEFAULT_TASK)
     parser.add_argument("--num-episodes", type=int, default=int(os.environ.get("NUM_EPISODES", "3")))
-    parser.add_argument("--fps", type=int, default=int(os.environ.get("FPS", "6")))
-    parser.add_argument("--camera-index", type=int, default=int(os.environ.get("CAMERA_INDEX", "0")))
+    parser.add_argument("--fps", type=int, default=int(os.environ.get("FPS", "12")))
+    parser.add_argument("--hold-sec", type=float, default=float(os.environ.get("HOLD_SEC", "0.6")))
+    parser.add_argument("--min-duration-sec", type=float, default=float(os.environ.get("MIN_DURATION_SEC", "5.0")))
+    parser.add_argument("--camera_idx", "--camera-index", dest="camera_idx", type=int, default=int(os.environ.get("CAMERA_IDX", os.environ.get("CAMERA_INDEX", "0"))))
     parser.add_argument("--defravens-root", type=Path, default=DEFAULT_DEFRAVENS_ROOT)
     parser.add_argument("--output-dir", type=Path, default=None)
     return parser.parse_args()
@@ -286,42 +433,83 @@ def main() -> None:
         return
 
     outputs: Dict[str, List[Path]] = {"color": [], "depth": [], "overview": []}
-    overview_samples: List[Tuple[str, Sequence[np.ndarray]]] = []
+    overview_samples: List[Tuple[str, Sequence[np.ndarray], int]] = []
+    episode_lengths: Dict[str, int] = {}
 
     for color_path in color_files:
         episode_id = color_path.stem.split("-")[0]
         depth_path = depth_dir / color_path.name
 
-        color_frames = load_frames(color_path, "color", args.camera_index)
-        if color_frames:
+        color_steps = load_episode_frames(color_path, "color", args.camera_idx, episode_id)
+        if color_steps:
+            episode_lengths[episode_id] = len(color_steps)
+            color_video_frames = expand_with_hold(
+                color_steps,
+                episode_id,
+                args.camera_idx,
+                args.fps,
+                args.hold_sec,
+                args.min_duration_sec,
+            )
             color_out = out_dir / f"demo_{episode_id}_color.mp4"
-            if write_video(color_frames, color_out, args.fps):
+            if write_video(color_video_frames, color_out, args.fps):
                 outputs["color"].append(color_out)
-                overview_samples.append((episode_id, color_frames))
+                overview_samples.append((episode_id, color_steps, len(color_steps)))
 
         if not depth_path.exists():
             warn(f"depth file missing for demo_{episode_id}: {depth_path}")
             continue
-        depth_frames = load_frames(depth_path, "depth", args.camera_index)
-        if depth_frames:
+        depth_steps = load_episode_frames(depth_path, "depth", args.camera_idx, episode_id)
+        if depth_steps:
+            total_steps = len(depth_steps)
+            episode_lengths.setdefault(episode_id, total_steps)
+            depth_rgb_steps = normalize_depth_episode(depth_steps, episode_id)
+            depth_video_frames = expand_with_hold(
+                depth_rgb_steps,
+                episode_id,
+                args.camera_idx,
+                args.fps,
+                args.hold_sec,
+                args.min_duration_sec,
+            )
             depth_out = out_dir / f"demo_{episode_id}_depth.mp4"
-            if write_video(depth_frames, depth_out, args.fps):
+            if write_video(depth_video_frames, depth_out, args.fps):
                 outputs["depth"].append(depth_out)
 
     overview_path = out_dir / "overview_contact_sheet.png"
-    if write_contact_sheet(overview_samples, overview_path):
+    if write_contact_sheet(overview_samples, overview_path, args.camera_idx):
         outputs["overview"].append(overview_path)
 
+    short_episodes = {episode_id: n for episode_id, n in episode_lengths.items() if 1 <= n <= 3}
     report_lines = [
         f"- Output directory: `{out_dir}`",
         f"- Episodes requested: `{args.num_episodes}`",
-        f"- Camera index: `{args.camera_index}`",
+        f"- Camera index: `{args.camera_idx}`",
+        f"- FPS: `{args.fps}`",
+        f"- Hold seconds per high-level timestep: `{args.hold_sec}`",
+        f"- Minimum video duration seconds: `{args.min_duration_sec}`",
         f"- Color videos: `{len(outputs['color'])}`",
         f"- Depth videos: `{len(outputs['depth'])}`",
         f"- Overview PNG: `{overview_path}`",
         "",
-        "### Files",
+        "### Warnings",
     ]
+    if short_episodes:
+        for episode_id, n in sorted(short_episodes.items()):
+            report_lines.append(
+                f"- `demo_{episode_id}` has only `{n}` high-level timestep(s); "
+                "frame holding/padding keeps video length >= 5 seconds, but the source data is short."
+            )
+    else:
+        report_lines.append("- None for selected episodes.")
+
+    if WARNINGS:
+        report_lines.append("")
+        report_lines.append("### Runtime Warnings")
+        for message in WARNINGS:
+            report_lines.append(f"- {message}")
+
+    report_lines.extend(["", "### Files"])
     for key in ("color", "depth", "overview"):
         for path in outputs[key]:
             report_lines.append(f"- `{path}`")

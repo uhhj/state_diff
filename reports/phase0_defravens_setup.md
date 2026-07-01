@@ -45,9 +45,15 @@ Phase1 should fork or subclass the cable task after this original-task smoke tes
 - Output directory: `/data/state_diff2/reports/phase0_visualizations/cable-line-notarget`
 - Episodes requested: `3`
 - Camera index: `0`
+- FPS: `12`
+- Hold seconds per high-level timestep: `0.6`
+- Minimum video duration seconds: `5.0`
 - Color videos: `3`
 - Depth videos: `3`
 - Overview PNG: `/data/state_diff2/reports/phase0_visualizations/cable-line-notarget/overview_contact_sheet.png`
+
+### Warnings
+- None for selected episodes.
 
 ### Files
 - `/data/state_diff2/reports/phase0_visualizations/cable-line-notarget/demo_000000_color.mp4`
