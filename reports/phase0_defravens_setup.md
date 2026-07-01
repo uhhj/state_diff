@@ -39,3 +39,21 @@
 
 This is Phase0 only. No hidden contact condition is added here.
 Phase1 should fork or subclass the cable task after this original-task smoke test passes.
+
+## Visualization Outputs
+
+- Output directory: `/data/state_diff2/reports/phase0_visualizations/cable-line-notarget`
+- Episodes requested: `3`
+- Camera index: `0`
+- Color videos: `3`
+- Depth videos: `3`
+- Overview PNG: `/data/state_diff2/reports/phase0_visualizations/cable-line-notarget/overview_contact_sheet.png`
+
+### Files
+- `/data/state_diff2/reports/phase0_visualizations/cable-line-notarget/demo_000000_color.mp4`
+- `/data/state_diff2/reports/phase0_visualizations/cable-line-notarget/demo_000001_color.mp4`
+- `/data/state_diff2/reports/phase0_visualizations/cable-line-notarget/demo_000002_color.mp4`
+- `/data/state_diff2/reports/phase0_visualizations/cable-line-notarget/demo_000000_depth.mp4`
+- `/data/state_diff2/reports/phase0_visualizations/cable-line-notarget/demo_000001_depth.mp4`
+- `/data/state_diff2/reports/phase0_visualizations/cable-line-notarget/demo_000002_depth.mp4`
+- `/data/state_diff2/reports/phase0_visualizations/cable-line-notarget/overview_contact_sheet.png`
