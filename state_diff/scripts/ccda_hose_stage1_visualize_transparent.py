@@ -39,7 +39,47 @@ def _save_video(frames, path: Path, fps: int = 20) -> None:
     imageio.mimsave(path, frames, fps=fps)
 
 
-def _plot_hose_trajectories(rollouts, out_dir: Path) -> None:
+def _plot_plug_trajectories(rollouts, out_dir: Path, marker_stride: int = 10) -> None:
+    out_dir.mkdir(parents=True, exist_ok=True)
+    colors = {
+        FREE_INSERT: "tab:blue",
+        RIGHT_HIDDEN_JAM: "tab:red",
+    }
+
+    for plane, axes, ylabel, out_name in [
+        ("XY", (0, 1), "y", "plug_trajectory_xy.png"),
+        ("XZ", (0, 2), "z", "plug_trajectory_xz.png"),
+    ]:
+        plt.figure(figsize=(8, 5))
+        for rollout in rollouts:
+            plug = rollout["trace"]["plug_pos"]
+            cond = rollout["condition"]
+            plt.plot(
+                plug[:, axes[0]],
+                plug[:, axes[1]],
+                color=colors.get(cond),
+                linewidth=2.0,
+                label=f"{cond} plug",
+            )
+            samples = plug[::marker_stride]
+            plt.scatter(
+                samples[:, axes[0]],
+                samples[:, axes[1]],
+                color=colors.get(cond),
+                s=16,
+                alpha=0.65,
+            )
+        plt.xlabel("x")
+        plt.ylabel(ylabel)
+        plt.title(f"Plug trajectory ({plane})")
+        plt.legend(fontsize=8)
+        plt.axis("equal")
+        plt.tight_layout()
+        plt.savefig(out_dir / out_name, dpi=170)
+        plt.close()
+
+
+def _plot_hose_front_keypoints(rollouts, out_dir: Path, marker_stride: int = 10) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
     colors = {
         FREE_INSERT: "tab:blue",
@@ -54,8 +94,8 @@ def _plot_hose_trajectories(rollouts, out_dir: Path) -> None:
     }
 
     for plane, axes, ylabel, out_name in [
-        ("XY", (0, 1), "y", "hose_keypoint_trajectory_xy.png"),
-        ("XZ", (0, 2), "z", "hose_keypoint_trajectory_xz.png"),
+        ("XY", (0, 1), "y", "hose_front_keypoints_xy.png"),
+        ("XZ", (0, 2), "z", "hose_front_keypoints_xz.png"),
     ]:
         plt.figure(figsize=(8, 5))
         for rollout in rollouts:
@@ -63,7 +103,7 @@ def _plot_hose_trajectories(rollouts, out_dir: Path) -> None:
             cond = rollout["condition"]
             n_keypoints = min(5, keypoints.shape[1])
             for i in range(n_keypoints):
-                alpha = 0.9 if i == 0 else 0.35
+                alpha = 0.95 if i == 0 else 0.42
                 linestyle = "-" if i == 0 else "--"
                 label = f"{cond} / {labels.get(i, f'kp_{i}')}"
                 plt.plot(
@@ -75,9 +115,17 @@ def _plot_hose_trajectories(rollouts, out_dir: Path) -> None:
                     linewidth=1.8 if i == 0 else 1.0,
                     label=label,
                 )
+                samples = keypoints[::marker_stride, i]
+                plt.scatter(
+                    samples[:, axes[0]],
+                    samples[:, axes[1]],
+                    color=colors.get(cond),
+                    s=8 if i else 14,
+                    alpha=0.45,
+                )
         plt.xlabel("x")
         plt.ylabel(ylabel)
-        plt.title(f"Hose keypoint trajectory ({plane})")
+        plt.title(f"Front hose keypoint trajectory ({plane})")
         plt.legend(fontsize=8)
         plt.axis("equal")
         plt.tight_layout()
@@ -125,35 +173,46 @@ def _diagnostic_line(rollout, diff: float) -> str:
     final_depth = float(trace["insertion_depth"][-1, 0])
     initial_plug = trace["plug_pos"][0].tolist()
     final_plug = trace["plug_pos"][-1].tolist()
+    max_lateral = float(np.max(trace["privileged_contact"][:, 3]))
+    max_jam = float(np.max(trace["privileged_contact"][:, 2]))
     return (
         f"* `{rollout['condition']}`: frame_diff={diff:.3f}, "
         f"initial_depth={initial_depth:.6f}, final_depth={final_depth:.6f}, "
         f"initial_plug_pos={initial_plug}, final_plug_pos={final_plug}, "
-        f"final_branch=`{rollout['final_branch']}`, final_success={rollout['final_success']}"
+        f"final_branch=`{rollout['final_branch']}`, final_success={rollout['final_success']}, "
+        f"max_lateral_contact_force={max_lateral:.6f}, max_jam_contact_force={max_jam:.6f}"
     )
 
 
-def _write_report(out_dir: Path, camera: str, diagnostics) -> None:
+def _write_report(out_dir: Path, camera: str, show_occluder: bool, diagnostics) -> None:
     md = f"""# Stage 1 Transparent Socket Visual Debug
 
 Camera: `{camera}`
+
+transparent_socket: `True`
+
+show_occluder: `{show_occluder}`
 
 This transparent socket environment is only for debug visualization. It should not be used as formal model input and does not change the CCDA data definition.
 
 ## Debug Scope
 
-* Socket wall geoms keep collision enabled; only their material alpha changes.
+* Socket collision wall geoms keep collision enabled and are rendered nearly invisible.
+* Separate visual-only socket walls use `contype="0" conaffinity="0"` and transparent blue rgba.
 * The hidden jam block is semi-transparent red to show the right-side jam location.
 * The transparent visual view can reveal hidden contact and should not be used for official CCDA audit inputs.
-* The `side_top` camera is the recommended debug view for socket, plug, hose-front, insertion, and lateral-jam motion.
+* The `debug_close` camera is the recommended close-up debug view for socket-internal plug and hose motion.
+* The `side_top` camera remains useful for wider context.
 * If a video still looks static, first inspect plug x and insertion depth over time.
 
 ## Generated Files
 
 * `free_insert_{camera}_transparent.mp4`
 * `right_hidden_jam_{camera}_transparent.mp4`
-* `hose_keypoint_trajectory_xy.png`
-* `hose_keypoint_trajectory_xz.png`
+* `plug_trajectory_xy.png`
+* `plug_trajectory_xz.png`
+* `hose_front_keypoints_xy.png`
+* `hose_front_keypoints_xz.png`
 * `plug_trajectory_xyz.csv`
 
 ## Frame Diagnostics
@@ -166,8 +225,8 @@ This transparent socket environment is only for debug visualization. It should n
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--seed", type=int, default=0)
-    parser.add_argument("--camera", type=str, default="side_top", choices=["front", "top", "side", "side_top"])
-    parser.add_argument("--out-dir", type=str, default="reports/ccda_hose_stage1/transparent_visual")
+    parser.add_argument("--camera", type=str, default="debug_close", choices=["front", "top", "side", "side_top", "debug_close"])
+    parser.add_argument("--out-dir", type=str, default="reports/ccda_hose_stage1/transparent_debug_close")
     parser.add_argument("--show-occluder", action="store_true")
     args = parser.parse_args()
 
@@ -208,9 +267,10 @@ def main() -> None:
                 "Check gripper/plug trajectory and camera view."
             )
 
-    _plot_hose_trajectories(rollouts, out_dir)
+    _plot_plug_trajectories(rollouts, out_dir)
+    _plot_hose_front_keypoints(rollouts, out_dir)
     _write_plug_csv(rollouts, out_dir / "plug_trajectory_xyz.csv")
-    _write_report(out_dir, args.camera, diagnostics)
+    _write_report(out_dir, args.camera, args.show_occluder, diagnostics)
     print(f"Saved transparent visual report to {out_dir / 'transparent_visual_report.md'}")
 
 

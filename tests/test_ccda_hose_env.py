@@ -12,6 +12,7 @@ pytest.importorskip("mujoco")
 
 from state_diff.env.ccda_hose.config import FREE_INSERT, RIGHT_HIDDEN_JAM, HoseEnvConfig
 from state_diff.env.ccda_hose.env import HiddenJamHoseInsertionEnv, scripted_rollout
+from state_diff.env.ccda_hose.model import make_hose_insert_xml
 
 
 BRANCHES = {
@@ -71,8 +72,34 @@ def test_ccda_hose_transparent_rollout():
         transparent_socket=True,
         show_occluder=False,
         record_frames=False,
-        camera_name="side_top",
+        camera_name="debug_close",
     )
     assert "trace" in rollout
     assert "visible_state" in rollout["trace"]
     assert rollout["final_branch"] in BRANCHES
+
+
+def test_ccda_hose_transparent_xml_has_visual_socket_and_debug_camera():
+    cfg = HoseEnvConfig()
+    xml = make_hose_insert_xml(
+        cfg,
+        condition=RIGHT_HIDDEN_JAM,
+        transparent_socket=True,
+        show_occluder=False,
+    )
+    assert 'name="socket_wall_right"' in xml
+    assert 'name="socket_wall_left"' in xml
+    assert 'name="socket_wall_top"' in xml
+    assert 'name="socket_wall_bottom"' in xml
+    assert 'name="socket_visual_right"' in xml
+    assert 'name="socket_visual_left"' in xml
+    assert 'name="socket_visual_top"' in xml
+    assert 'name="socket_visual_bottom"' in xml
+    assert 'name="socket_visual_right" type="box"' in xml
+    assert 'contype="0" conaffinity="0"' in xml
+    assert 'name="debug_close"' in xml
+    assert 'name="front_occluder_right"' not in xml
+
+    formal_xml = make_hose_insert_xml(cfg, condition=RIGHT_HIDDEN_JAM)
+    assert 'name="socket_visual_right"' not in formal_xml
+    assert 'rgba="0.05 0.05 0.05 1" contype="1" conaffinity="1"' in formal_xml

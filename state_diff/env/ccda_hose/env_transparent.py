@@ -26,7 +26,7 @@ def transparent_scripted_rollout(
     seed: int = 0,
     config: Optional[HoseEnvConfig] = None,
     record_frames: bool = True,
-    camera_name: str = "side_top",
+    camera_name: str = "debug_close",
     show_occluder: bool = False,
 ):
     return scripted_rollout(

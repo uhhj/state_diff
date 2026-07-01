@@ -68,9 +68,11 @@ def make_hose_insert_xml(
     zc = cfg.socket_center_z
     x_center = cfg.socket_entrance_x + depth / 2.0
 
-    socket_rgba = "0.05 0.05 0.05 0.28" if transparent_socket else "0.05 0.05 0.05 1"
-    occluder_rgba = "0.02 0.02 0.02 0.18" if transparent_socket else "0.02 0.02 0.02 1"
-    jam_rgba = "0.85 0.05 0.05 0.55" if transparent_socket else "0.85 0.05 0.05 1"
+    socket_rgba = "0.05 0.05 0.05 1"
+    socket_collision_rgba = "0.05 0.05 0.05 0.04" if transparent_socket else socket_rgba
+    socket_visual_rgba = "0.2 0.8 1.0 0.20"
+    occluder_rgba = "0.02 0.02 0.02 0.08" if transparent_socket else "0.02 0.02 0.02 1"
+    jam_rgba = "1.0 0.05 0.05 0.55" if transparent_socket else "0.85 0.05 0.05 1"
 
     jam_xml = ""
     if condition == RIGHT_HIDDEN_JAM:
@@ -81,6 +83,7 @@ def make_hose_insert_xml(
           pos="{_vec(cfg.jam_block_x, cfg.jam_block_y, cfg.jam_block_z)}"
           size="{_vec(sx, sy, sz)}"
           material="jam_mat"
+          rgba="{jam_rgba}"
           friction="{_vec(fx, fy, fz)}"
           solref="0.006 1" solimp="0.94 0.98 0.001"/>
 """
@@ -91,11 +94,32 @@ def make_hose_insert_xml(
     <geom name="front_occluder_right" type="box"
           pos="{_vec(-0.002, half + thick * 0.45, zc)}"
           size="{_vec(0.0025, thick * 0.65, half + thick)}"
-          material="occluder_mat" contype="0" conaffinity="0"/>
+          material="occluder_mat" rgba="{occluder_rgba}" contype="0" conaffinity="0"/>
     <geom name="front_occluder_left" type="box"
           pos="{_vec(-0.002, -half - thick * 0.45, zc)}"
           size="{_vec(0.0025, thick * 0.65, half + thick)}"
-          material="occluder_mat" contype="0" conaffinity="0"/>
+          material="occluder_mat" rgba="{occluder_rgba}" contype="0" conaffinity="0"/>
+"""
+
+    socket_visual_xml = ""
+    if transparent_socket:
+        socket_visual_xml = f"""
+    <geom name="socket_visual_right" type="box"
+          pos="{_vec(x_center, half + thick / 2.0, zc)}"
+          size="{_vec(depth / 2.0, thick / 2.0, half + thick)}"
+          rgba="{socket_visual_rgba}" contype="0" conaffinity="0"/>
+    <geom name="socket_visual_left" type="box"
+          pos="{_vec(x_center, -half - thick / 2.0, zc)}"
+          size="{_vec(depth / 2.0, thick / 2.0, half + thick)}"
+          rgba="{socket_visual_rgba}" contype="0" conaffinity="0"/>
+    <geom name="socket_visual_top" type="box"
+          pos="{_vec(x_center, 0, zc + half + thick / 2.0)}"
+          size="{_vec(depth / 2.0, half + thick, thick / 2.0)}"
+          rgba="{socket_visual_rgba}" contype="0" conaffinity="0"/>
+    <geom name="socket_visual_bottom" type="box"
+          pos="{_vec(x_center, 0, zc - half - thick / 2.0)}"
+          size="{_vec(depth / 2.0, half + thick, thick / 2.0)}"
+          rgba="{socket_visual_rgba}" contype="0" conaffinity="0"/>
 """
 
     hose_chain_xml = _make_hose_chain_xml(cfg)
@@ -127,7 +151,8 @@ def make_hose_insert_xml(
     <camera name="front" pos="0.035 -0.43 0.09" xyaxes="1 0 0 0 0 1" fovy="42"/>
     <camera name="top" pos="0.045 0.0 0.45" xyaxes="1 0 0 0 1 0" fovy="45"/>
     <camera name="side" pos="-0.18 -0.20 0.11" xyaxes="0.7 -0.7 0 0 0 1" fovy="45"/>
-    <camera name="side_top" pos="-0.12 -0.28 0.18" xyaxes="0.82 -0.57 0 0.25 0.36 0.90" fovy="42"/>
+    <camera name="side_top" pos="-0.10 -0.34 0.24" xyaxes="0.96 -0.28 0 0.18 0.62 0.76" fovy="36"/>
+    <camera name="debug_close" pos="-0.035 -0.20 0.135" xyaxes="0.93 -0.36 0 0.16 0.42 0.89" fovy="32"/>
 
     <geom name="table" type="box" pos="{_vec(0.025, 0, -0.006)}"
           size="{_vec(0.30, 0.20, 0.006)}" material="table_mat"
@@ -136,19 +161,25 @@ def make_hose_insert_xml(
     <geom name="socket_wall_right" type="box"
           pos="{_vec(x_center, half + thick / 2.0, zc)}"
           size="{_vec(depth / 2.0, thick / 2.0, half + thick)}"
-          material="socket_mat" friction="0.75 0.02 0.005"/>
+          material="socket_mat" rgba="{socket_collision_rgba}" contype="1" conaffinity="1"
+          friction="0.75 0.02 0.005"/>
     <geom name="socket_wall_left" type="box"
           pos="{_vec(x_center, -half - thick / 2.0, zc)}"
           size="{_vec(depth / 2.0, thick / 2.0, half + thick)}"
-          material="socket_mat" friction="0.75 0.02 0.005"/>
+          material="socket_mat" rgba="{socket_collision_rgba}" contype="1" conaffinity="1"
+          friction="0.75 0.02 0.005"/>
     <geom name="socket_wall_top" type="box"
           pos="{_vec(x_center, 0, zc + half + thick / 2.0)}"
           size="{_vec(depth / 2.0, half + thick, thick / 2.0)}"
-          material="socket_mat" friction="0.75 0.02 0.005"/>
+          material="socket_mat" rgba="{socket_collision_rgba}" contype="1" conaffinity="1"
+          friction="0.75 0.02 0.005"/>
     <geom name="socket_wall_bottom" type="box"
           pos="{_vec(x_center, 0, zc - half - thick / 2.0)}"
           size="{_vec(depth / 2.0, half + thick, thick / 2.0)}"
-          material="socket_mat" friction="0.75 0.02 0.005"/>
+          material="socket_mat" rgba="{socket_collision_rgba}" contype="1" conaffinity="1"
+          friction="0.75 0.02 0.005"/>
+
+{socket_visual_xml}
 
 {occluder_xml}
 {jam_xml}
