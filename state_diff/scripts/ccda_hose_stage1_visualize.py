@@ -5,8 +5,13 @@ import os
 import sys
 from pathlib import Path
 
-import imageio.v2 as imageio
 import matplotlib.pyplot as plt
+import numpy as np
+
+try:
+    import imageio.v2 as imageio
+except ImportError as exc:  # pragma: no cover
+    raise ImportError("imageio is required to save rollout videos. Install it with `pip install imageio imageio-ffmpeg`.") from exc
 
 ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
@@ -18,11 +23,35 @@ from state_diff.env.ccda_hose.config import FREE_INSERT, RIGHT_HIDDEN_JAM, HoseE
 from state_diff.env.ccda_hose.env import scripted_rollout
 
 
+def _frame_diff(frames) -> float:
+    if len(frames) < 2:
+        return 0.0
+    a = frames[0].astype(np.float32)
+    b = frames[-1].astype(np.float32)
+    return float(np.mean(np.abs(a - b)))
+
+
 def _save_video(frames, path: Path, fps: int = 20) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     if not frames:
         raise RuntimeError("No frames were recorded.")
     imageio.mimsave(path, frames, fps=fps)
+
+
+def _rollout_diagnostics(rollout) -> str:
+    trace = rollout["trace"]
+    initial_depth = float(trace["insertion_depth"][0, 0])
+    final_depth = float(trace["insertion_depth"][-1, 0])
+    initial_plug = trace["plug_pos"][0].tolist()
+    final_plug = trace["plug_pos"][-1].tolist()
+    return (
+        f"initial_depth={initial_depth:.6f}, "
+        f"final_depth={final_depth:.6f}, "
+        f"initial_plug_pos={initial_plug}, "
+        f"final_plug_pos={final_plug}, "
+        f"final_branch={rollout['final_branch']}, "
+        f"final_success={rollout['final_success']}"
+    )
 
 
 def _plot_compare(rollouts, out_dir: Path) -> None:
@@ -65,8 +94,8 @@ def _plot_compare(rollouts, out_dir: Path) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--seed", type=int, default=0)
-    parser.add_argument("--camera", type=str, default="front", choices=["front", "top", "side"])
-    parser.add_argument("--out-dir", type=str, default="reports/ccda_hose_stage1/visual_debug")
+    parser.add_argument("--camera", type=str, default="side_top", choices=["front", "top", "side", "side_top"])
+    parser.add_argument("--out-dir", type=str, default="reports/ccda_hose_stage1/visual_side_top")
     args = parser.parse_args()
 
     cfg = HoseEnvConfig()
@@ -80,7 +109,16 @@ def main() -> None:
     for r in rollouts:
         video_path = out_dir / f"{r['condition']}_{args.camera}.mp4"
         _save_video(r["frames"], video_path)
-        print(f"Saved {video_path}; final_branch={r['final_branch']}; success={r['final_success']}")
+        diff = _frame_diff(r["frames"])
+        print(
+            f"Saved {video_path}; frame_diff={diff:.3f}; "
+            f"{_rollout_diagnostics(r)}"
+        )
+        if diff < 1.0:
+            print(
+                "WARNING: rendered frames have very small pixel difference; video may look static. "
+                "Check gripper/plug trajectory and camera view."
+            )
 
     _plot_compare(rollouts, out_dir)
 
@@ -101,6 +139,10 @@ Generated comparison plots:
 * `lateral_contact_force_compare.png`
 
 The dashed vertical line in each plot marks the audit time, defined as the end of the approach phase and the start of the shared push phase.
+
+## Frame Diagnostics
+
+The script prints frame-diff and initial/final plug and insertion-depth values for each rollout. If frame-diff is below `1.0`, the rendered video may look static even if the simulator state changes.
 """
     (out_dir / "visual_debug_report.md").write_text(md, encoding="utf-8")
     print(f"Saved visual report to {out_dir / 'visual_debug_report.md'}")

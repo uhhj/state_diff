@@ -45,6 +45,8 @@ class HiddenJamHoseInsertionEnv:
         config: Optional[HoseEnvConfig] = None,
         condition: str = FREE_INSERT,
         seed: int = 0,
+        transparent_socket: bool = False,
+        show_occluder: bool = True,
     ) -> None:
         if mujoco is None:  # pragma: no cover
             raise ImportError(
@@ -54,6 +56,8 @@ class HiddenJamHoseInsertionEnv:
         self.cfg = config or HoseEnvConfig()
         self.rng = np.random.default_rng(seed)
         self.condition = condition
+        self.transparent_socket = transparent_socket
+        self.show_occluder = show_occluder
         self.model = None
         self.data = None
         self._renderer = None
@@ -70,7 +74,12 @@ class HiddenJamHoseInsertionEnv:
                 raise ValueError(f"Unsupported condition {condition!r}. Expected {SUPPORTED_CONDITIONS}.")
             self.condition = condition
 
-        xml = make_hose_insert_xml(self.cfg, self.condition)
+        xml = make_hose_insert_xml(
+            self.cfg,
+            self.condition,
+            transparent_socket=self.transparent_socket,
+            show_occluder=self.show_occluder,
+        )
         self.model = mujoco.MjModel.from_xml_string(xml)
         self.data = mujoco.MjData(self.model)
         self._renderer = None
@@ -300,7 +309,7 @@ class HiddenJamHoseInsertionEnv:
             self._renderer = mujoco.Renderer(self.model, height=height, width=width)
             self._renderer_size = (width, height)
         self._renderer.update_scene(self.data, camera=camera_name)
-        return self._renderer.render()
+        return self._renderer.render().copy()
 
 
 def _append_trace(trace: Dict[str, List[np.ndarray]], obs: Dict[str, np.ndarray]) -> None:
@@ -318,20 +327,28 @@ def scripted_rollout(
     config: Optional[HoseEnvConfig] = None,
     record_frames: bool = False,
     camera_name: str = "front",
+    transparent_socket: bool = False,
+    show_occluder: bool = True,
 ) -> Dict[str, object]:
     """Run a deterministic approach-then-push rollout.
 
     Returns arrays for stage-1 auditing and optional rendered frames.
     """
     cfg = config or HoseEnvConfig()
-    env = HiddenJamHoseInsertionEnv(config=cfg, condition=condition, seed=seed)
+    env = HiddenJamHoseInsertionEnv(
+        config=cfg,
+        condition=condition,
+        seed=seed,
+        transparent_socket=transparent_socket,
+        show_occluder=show_occluder,
+    )
     trace: Dict[str, List[np.ndarray]] = {}
     frames: List[np.ndarray] = []
 
     def record(obs: Dict[str, np.ndarray]) -> None:
         _append_trace(trace, obs)
         if record_frames:
-            frames.append(env.render(camera_name=camera_name))
+            frames.append(env.render(camera_name=camera_name).copy())
 
     obs = env.get_observation()
     record(obs)
