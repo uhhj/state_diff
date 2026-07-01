@@ -144,3 +144,21 @@ dmypy.json
 wandb_api_key.txt
 
 scripts/slurm/slurm_outputs
+# DeformableRavens generated data
+external/deformable-ravens/data/
+external/deformable-ravens/goals/
+external/deformable-ravens/checkpoints/
+external/deformable-ravens/**/*.mp4
+external/deformable-ravens/**/*.avi
+external/deformable-ravens/**/*.gif
+external/deformable-ravens/**/__pycache__/
+external/deformable-ravens/**/*.pyc
+external/deformable-ravens/.pytest_cache/
+
+# Local backup of previous external directory
+external/deformable-ravens.local_backup*/
+
+# Large local visualization outputs
+reports/phase0_visualizations/**/*.mp4
+reports/phase0_visualizations/**/*.avi
+reports/phase0_visualizations/**/*.gif
