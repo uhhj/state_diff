@@ -1,0 +1,126 @@
+{
+  "rows": [
+    {
+      "condition": "free_insert",
+      "seed": 0,
+      "success": true,
+      "branch": "success_insert",
+      "final_insert_depth": 0.11045092876225858,
+      "final_lateral_offset": -6.187573208555425e-10,
+      "final_max_curvature": 2.385556804003478,
+      "max_jam_contact_force": 0.0,
+      "max_lateral_contact_force": 0.0
+    },
+    {
+      "condition": "right_hidden_jam",
+      "seed": 10000,
+      "success": true,
+      "branch": "success_insert",
+      "final_insert_depth": 0.10873599403211598,
+      "final_lateral_offset": -0.0024274186598361182,
+      "final_max_curvature": 5.231548761968805,
+      "max_jam_contact_force": 54.072669624316724,
+      "max_lateral_contact_force": 45.34798865682025
+    },
+    {
+      "condition": "free_insert",
+      "seed": 1,
+      "success": true,
+      "branch": "success_insert",
+      "final_insert_depth": 0.11045092876320049,
+      "final_lateral_offset": 3.751067027718208e-09,
+      "final_max_curvature": 2.3855569065560416,
+      "max_jam_contact_force": 0.0,
+      "max_lateral_contact_force": 0.0
+    },
+    {
+      "condition": "right_hidden_jam",
+      "seed": 10001,
+      "success": true,
+      "branch": "success_insert",
+      "final_insert_depth": 0.10882373976679494,
+      "final_lateral_offset": -0.0024227728040811243,
+      "final_max_curvature": 5.265325300070986,
+      "max_jam_contact_force": 54.13705050837551,
+      "max_lateral_contact_force": 45.39723585022195
+    },
+    {
+      "condition": "free_insert",
+      "seed": 2,
+      "success": true,
+      "branch": "success_insert",
+      "final_insert_depth": 0.11045092876260088,
+      "final_lateral_offset": -2.3055622805199164e-09,
+      "final_max_curvature": 2.385556840512045,
+      "max_jam_contact_force": 0.0,
+      "max_lateral_contact_force": 0.0
+    },
+    {
+      "condition": "right_hidden_jam",
+      "seed": 10002,
+      "success": true,
+      "branch": "success_insert",
+      "final_insert_depth": 0.10882373979868089,
+      "final_lateral_offset": -0.0024227727508854785,
+      "final_max_curvature": 5.265324767516211,
+      "max_jam_contact_force": 54.13704607324435,
+      "max_lateral_contact_force": 45.39694309432305
+    },
+    {
+      "condition": "free_insert",
+      "seed": 3,
+      "success": true,
+      "branch": "success_insert",
+      "final_insert_depth": 0.11045092877167004,
+      "final_lateral_offset": -1.1753127025131294e-08,
+      "final_max_curvature": 2.3855578971101594,
+      "max_jam_contact_force": 0.0,
+      "max_lateral_contact_force": 0.0
+    },
+    {
+      "condition": "right_hidden_jam",
+      "seed": 10003,
+      "success": true,
+      "branch": "success_insert",
+      "final_insert_depth": 0.1087938046474018,
+      "final_lateral_offset": -0.0024248858611782883,
+      "final_max_curvature": 5.233358096355501,
+      "max_jam_contact_force": 54.203151405351996,
+      "max_lateral_contact_force": 45.346330065622865
+    }
+  ],
+  "by_condition": {
+    "free_insert": {
+      "n": 4,
+      "success_rate": 1.0,
+      "mean_final_insert_depth": 0.11045092876493251,
+      "mean_final_lateral_offset": -2.731594899697136e-09,
+      "mean_final_max_curvature": 2.385557112045431,
+      "mean_max_jam_contact_force": 0.0,
+      "mean_max_lateral_contact_force": 0.0,
+      "branch_counts": {
+        "failed_insert": 0,
+        "half_insert_wrong_angle": 0,
+        "lateral_jam": 0,
+        "s_buckle": 0,
+        "success_insert": 4
+      }
+    },
+    "right_hidden_jam": {
+      "n": 4,
+      "success_rate": 1.0,
+      "mean_final_insert_depth": 0.1087943195612484,
+      "mean_final_lateral_offset": -0.002424462518995252,
+      "mean_final_max_curvature": 5.248889231477876,
+      "mean_max_jam_contact_force": 54.13747940282215,
+      "mean_max_lateral_contact_force": 45.37212441674703,
+      "branch_counts": {
+        "failed_insert": 0,
+        "half_insert_wrong_angle": 0,
+        "lateral_jam": 0,
+        "s_buckle": 0,
+        "success_insert": 4
+      }
+    }
+  }
+}

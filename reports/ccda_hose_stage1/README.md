@@ -37,6 +37,24 @@ python state_diff/scripts/ccda_hose_stage1_collect.py \
   --report-dir reports/ccda_hose_stage1/debug_v1
 ```
 
+Run Stage 1.5 calibration:
+
+```bash
+python state_diff/scripts/ccda_hose_stage1_calibrate.py \
+  --episodes-per-condition 4 \
+  --max-candidates 30 \
+  --out-dir reports/ccda_hose_stage1/calibration \
+  --save-best-dataset
+```
+
+Run CCDA pair audit on an existing dataset:
+
+```bash
+python state_diff/scripts/ccda_hose_stage1_audit.py \
+  --data data/ccda_hose_stage1/smoke_v1.npz \
+  --out-dir reports/ccda_hose_stage1/smoke_v1/ccda_pair_audit
+```
+
 Generate videos and comparison plots:
 
 ```bash
@@ -72,6 +90,14 @@ pytest tests/test_ccda_hose_env.py -q
 * `lateral_contact_force.png`
 * rollout videos in MP4 format
 * transparent debug videos, plug trajectory CSV, and plug/hose-front trajectory plots
+
+Expected Stage 1.5 audit outputs:
+
+* `pair_metrics.csv`
+* `ccda_audit_report.md`
+* `ccda_audit_summary.json`
+* `future_plug_xy_overlay.png`
+* bar plots for visible/contact/future/success-diff metrics
 
 ## Notes
 

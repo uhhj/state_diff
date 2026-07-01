@@ -14,6 +14,14 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from state_diff.env.ccda_hose.config import FREE_INSERT, RIGHT_HIDDEN_JAM, HoseEnvConfig
+from state_diff.env.ccda_hose.audit import (
+    AuditThresholds,
+    compute_pair_metrics,
+    plot_future_xy_overlay,
+    plot_pair_metric_bars,
+    write_audit_report,
+    write_pair_metrics_csv,
+)
 from state_diff.env.ccda_hose.env import scripted_rollout, summarize_rollouts
 
 
@@ -30,6 +38,20 @@ def _save_npz(rollouts: List[Dict[str, object]], out_path: Path) -> None:
     arrays["final_branch"] = np.array([str(r["final_branch"]) for r in rollouts])
     out_path.parent.mkdir(parents=True, exist_ok=True)
     np.savez_compressed(out_path, **arrays)
+
+
+def _rollouts_to_npz_like_dict(rollouts: List[Dict[str, object]]) -> Dict[str, np.ndarray]:
+    traces = [r["trace"] for r in rollouts]
+    keys = list(traces[0].keys())
+    arrays = {}
+    for k in keys:
+        arrays[k] = np.stack([t[k] for t in traces], axis=0)
+    arrays["condition"] = np.array([r["condition"] for r in rollouts])
+    arrays["seed"] = np.array([int(r["seed"]) for r in rollouts])
+    arrays["audit_index"] = np.array([int(r["audit_index"]) for r in rollouts])
+    arrays["final_success"] = np.array([float(r["final_success"]) for r in rollouts])
+    arrays["final_branch"] = np.array([str(r["final_branch"]) for r in rollouts])
+    return arrays
 
 
 def _plot_metric(rollouts: List[Dict[str, object]], key: str, ylabel: str, out_path: Path) -> None:
@@ -170,9 +192,26 @@ def main() -> None:
         plt.close()
 
     _write_markdown_report(summary, report_dir, out_path)
+
+    data_like = _rollouts_to_npz_like_dict(rollouts)
+    thresholds = AuditThresholds()
+    pair_rows, pair_summary = compute_pair_metrics(
+        data_like,
+        history_steps=8,
+        future_steps=32,
+        thresholds=thresholds,
+        max_pairs_per_type=5000,
+    )
+    audit_dir = report_dir / "ccda_pair_audit"
+    write_pair_metrics_csv(pair_rows, audit_dir / "pair_metrics.csv")
+    write_audit_report(pair_summary, pair_rows, audit_dir, out_path)
+    plot_pair_metric_bars(pair_summary, audit_dir)
+    plot_future_xy_overlay(data_like, audit_dir, future_steps=32)
+
     print(json.dumps(summary["by_condition"], indent=2))
     print(f"Saved dataset to {out_path}")
     print(f"Saved report to {report_dir / 'stage1_report.md'}")
+    print(f"Saved CCDA pair audit to {audit_dir / 'ccda_audit_report.md'}")
 
 
 if __name__ == "__main__":

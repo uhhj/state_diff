@@ -224,6 +224,14 @@ class HiddenJamHoseInsertionEnv:
         }
 
     def label_branch(self) -> Dict[str, object]:
+        """Assign geometry-based success and contact-aware branch label.
+
+        Important:
+        - success_label must not directly depend on privileged contact force.
+        - privileged contact can be used to explain the failure branch.
+        This keeps the CCDA audit logically clean: contact is the hidden cause,
+        not the direct success-label oracle.
+        """
         depth = self.insertion_depth()
         lat = abs(self.lateral_offset())
         curv = self.max_curvature()
@@ -235,16 +243,16 @@ class HiddenJamHoseInsertionEnv:
             depth >= self.cfg.success_insert_depth
             and lat <= self.cfg.lateral_offset_threshold
             and curv <= self.cfg.max_curvature_success_threshold
-            and jam_force <= self.cfg.jam_force_threshold
-            and lateral_force <= 1.5 * self.cfg.jam_force_threshold
         )
 
         if success:
             branch = "success_insert"
-        elif jam_force > self.cfg.jam_force_threshold or lateral_force > 1.5 * self.cfg.jam_force_threshold:
-            branch = "lateral_jam"
         elif curv > self.cfg.max_curvature_buckle_threshold:
             branch = "s_buckle"
+        elif depth > self.cfg.half_insert_depth and lat > self.cfg.lateral_offset_threshold:
+            branch = "half_insert_wrong_angle"
+        elif jam_force > self.cfg.jam_force_threshold or lateral_force > 1.5 * self.cfg.jam_force_threshold:
+            branch = "lateral_jam"
         elif depth > self.cfg.half_insert_depth:
             branch = "half_insert_wrong_angle"
         else:
