@@ -1,0 +1,427 @@
+{
+  "data": {
+    "episode_lengths": {
+      "max": 10,
+      "mean": 5,
+      "min": 2,
+      "values": [
+        7,
+        4,
+        4,
+        2,
+        10,
+        2,
+        5,
+        3,
+        5,
+        8
+      ]
+    },
+    "exists": true,
+    "fields": {
+      "action": {
+        "exists": true,
+        "first_file": "000000-7.pkl",
+        "num_files": 10
+      },
+      "color": {
+        "exists": true,
+        "first_file": "000000-7.pkl",
+        "num_files": 10
+      },
+      "depth": {
+        "exists": true,
+        "first_file": "000000-7.pkl",
+        "num_files": 10
+      },
+      "info": {
+        "exists": true,
+        "first_file": "000000-7.pkl",
+        "num_files": 10
+      },
+      "last_color": {
+        "exists": true,
+        "first_file": "000000-7.pkl",
+        "num_files": 10
+      },
+      "last_depth": {
+        "exists": true,
+        "first_file": "000000-7.pkl",
+        "num_files": 10
+      },
+      "last_info": {
+        "exists": true,
+        "first_file": "000000-7.pkl",
+        "num_files": 10
+      }
+    },
+    "num_episodes": 10,
+    "path": "/data/state_diff2/external/deformable-ravens/data/cable-line-notarget",
+    "sample_episode": {
+      "action": {
+        "exists": true,
+        "first_keys": [
+          "camera_config",
+          "params",
+          "primitive"
+        ],
+        "first_type": "dict",
+        "len": 7,
+        "type": "list"
+      },
+      "color": {
+        "dtype": "uint8",
+        "exists": true,
+        "shape": [
+          7,
+          3,
+          480,
+          640,
+          3
+        ],
+        "type": "ndarray"
+      },
+      "depth": {
+        "dtype": "float32",
+        "exists": true,
+        "shape": [
+          7,
+          3,
+          480,
+          640
+        ],
+        "type": "ndarray"
+      },
+      "episode_file": "000000-7.pkl",
+      "episode_len": 7,
+      "info": {
+        "exists": true,
+        "extras_keys": [
+          "delta_reward",
+          "nb_beads",
+          "nb_sides",
+          "nb_zone",
+          "task.done",
+          "total_rewards"
+        ],
+        "first_keys": [
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18",
+          "19",
+          "20",
+          "21",
+          "22",
+          "23",
+          "24",
+          "25",
+          "26",
+          "27",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "extras"
+        ],
+        "first_type": "dict",
+        "len": 7,
+        "type": "list"
+      },
+      "last_color": {
+        "dtype": "uint8",
+        "exists": true,
+        "shape": [
+          3,
+          480,
+          640,
+          3
+        ],
+        "type": "ndarray"
+      },
+      "last_depth": {
+        "dtype": "float32",
+        "exists": true,
+        "shape": [
+          3,
+          480,
+          640
+        ],
+        "type": "ndarray"
+      },
+      "last_info": {
+        "exists": true,
+        "extras": {
+          "delta_reward": 0.04166666666666663,
+          "nb_beads": 24,
+          "nb_sides": 1,
+          "nb_zone": 24,
+          "task.done": true,
+          "total_rewards": 1.0
+        },
+        "extras_keys": [
+          "delta_reward",
+          "nb_beads",
+          "nb_sides",
+          "nb_zone",
+          "task.done",
+          "total_rewards"
+        ],
+        "keys": [
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18",
+          "19",
+          "20",
+          "21",
+          "22",
+          "23",
+          "24",
+          "25",
+          "26",
+          "27",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "extras"
+        ],
+        "type": "dict"
+      }
+    }
+  },
+  "defravens_root": "/data/state_diff2/external/deformable-ravens",
+  "goals": {
+    "episode_lengths": {
+      "max": 9,
+      "mean": 5.75,
+      "min": 2,
+      "values": [
+        5,
+        3,
+        4,
+        8,
+        7,
+        8,
+        3,
+        7,
+        8,
+        6,
+        7,
+        7,
+        7,
+        6,
+        3,
+        6,
+        4,
+        5,
+        2,
+        9
+      ]
+    },
+    "exists": true,
+    "fields": {
+      "action": {
+        "exists": true,
+        "first_file": "000000-5.pkl",
+        "num_files": 20
+      },
+      "color": {
+        "exists": true,
+        "first_file": "000000-5.pkl",
+        "num_files": 20
+      },
+      "depth": {
+        "exists": true,
+        "first_file": "000000-5.pkl",
+        "num_files": 20
+      },
+      "info": {
+        "exists": true,
+        "first_file": "000000-5.pkl",
+        "num_files": 20
+      },
+      "last_color": {
+        "exists": true,
+        "first_file": "000000-5.pkl",
+        "num_files": 20
+      },
+      "last_depth": {
+        "exists": true,
+        "first_file": "000000-5.pkl",
+        "num_files": 20
+      },
+      "last_info": {
+        "exists": true,
+        "first_file": "000000-5.pkl",
+        "num_files": 20
+      }
+    },
+    "num_episodes": 20,
+    "path": "/data/state_diff2/external/deformable-ravens/goals/cable-line-notarget",
+    "sample_episode": {
+      "action": {
+        "exists": true,
+        "first_keys": [
+          "camera_config",
+          "params",
+          "primitive"
+        ],
+        "first_type": "dict",
+        "len": 5,
+        "type": "list"
+      },
+      "color": {
+        "dtype": "uint8",
+        "exists": true,
+        "shape": [
+          5,
+          3,
+          480,
+          640,
+          3
+        ],
+        "type": "ndarray"
+      },
+      "depth": {
+        "dtype": "float32",
+        "exists": true,
+        "shape": [
+          5,
+          3,
+          480,
+          640
+        ],
+        "type": "ndarray"
+      },
+      "episode_file": "000000-5.pkl",
+      "episode_len": 5,
+      "info": {
+        "exists": true,
+        "extras_keys": [
+          "delta_reward",
+          "nb_beads",
+          "nb_sides",
+          "nb_zone",
+          "task.done",
+          "total_rewards"
+        ],
+        "first_keys": [
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18",
+          "19",
+          "20",
+          "21",
+          "22",
+          "23",
+          "24",
+          "25",
+          "26",
+          "27",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "extras"
+        ],
+        "first_type": "dict",
+        "len": 5,
+        "type": "list"
+      },
+      "last_color": {
+        "dtype": "uint8",
+        "exists": true,
+        "shape": [
+          3,
+          480,
+          640,
+          3
+        ],
+        "type": "ndarray"
+      },
+      "last_depth": {
+        "dtype": "float32",
+        "exists": true,
+        "shape": [
+          3,
+          480,
+          640
+        ],
+        "type": "ndarray"
+      },
+      "last_info": {
+        "exists": true,
+        "extras": {
+          "delta_reward": 0.04166666666666663,
+          "nb_beads": 24,
+          "nb_sides": 1,
+          "nb_zone": 24,
+          "task.done": true,
+          "total_rewards": 1.0
+        },
+        "extras_keys": [
+          "delta_reward",
+          "nb_beads",
+          "nb_sides",
+          "nb_zone",
+          "task.done",
+          "total_rewards"
+        ],
+        "keys": [
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18",
+          "19",
+          "20",
+          "21",
+          "22",
+          "23",
+          "24",
+          "25",
+          "26",
+          "27",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "extras"
+        ],
+        "type": "dict"
+      }
+    }
+  },
+  "repo_root": "/data/state_diff2",
+  "task": "cable-line-notarget"
+}
