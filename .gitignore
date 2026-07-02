@@ -171,3 +171,7 @@ external/deformable-ravens/goals_out/
 
 # Phase1 generated visualization artifacts can be regenerated.
 reports/phase1_hidden_contact_visuals/
+
+# Phase1 regenerated visual artifacts
+reports/phase1_rgbd_check/
+reports/phase1_action_videos/

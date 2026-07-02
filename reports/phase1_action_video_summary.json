@@ -1,0 +1,125 @@
+{
+  "camera_index": 0,
+  "data_root": "/data/state_diff2/external/deformable-ravens/data/hidden-contact-cable-line",
+  "fps": 2.0,
+  "max_groups": 5,
+  "output_dir": "/data/state_diff2/reports/phase1_action_videos",
+  "task": "hidden-contact-cable-line",
+  "videos": [
+    {
+      "camera_index": 0,
+      "condition_files": {
+        "free": "000000-9.pkl",
+        "hidden_high_friction": "000000-7.pkl",
+        "hidden_pin": "000000-1.pkl",
+        "hidden_side_jam": "000000-5.pkl"
+      },
+      "condition_frame_counts": {
+        "free": 10,
+        "hidden_high_friction": 8,
+        "hidden_pin": 2,
+        "hidden_side_jam": 6
+      },
+      "fps": 2.0,
+      "max_observation_steps": 10,
+      "num_video_frames": 14,
+      "path": "/data/state_diff2/reports/phase1_action_videos/seed_0_action_steps.mp4",
+      "status": "written",
+      "tile_height": 320,
+      "tile_width": 426,
+      "visible_seed": "0"
+    },
+    {
+      "camera_index": 0,
+      "condition_files": {
+        "free": "000001-3.pkl",
+        "hidden_high_friction": "000001-5.pkl",
+        "hidden_pin": "000001-1.pkl",
+        "hidden_side_jam": "000001-6.pkl"
+      },
+      "condition_frame_counts": {
+        "free": 4,
+        "hidden_high_friction": 6,
+        "hidden_pin": 2,
+        "hidden_side_jam": 7
+      },
+      "fps": 2.0,
+      "max_observation_steps": 7,
+      "num_video_frames": 11,
+      "path": "/data/state_diff2/reports/phase1_action_videos/seed_1_action_steps.mp4",
+      "status": "written",
+      "tile_height": 320,
+      "tile_width": 426,
+      "visible_seed": "1"
+    },
+    {
+      "camera_index": 0,
+      "condition_files": {
+        "free": "000002-5.pkl",
+        "hidden_high_friction": "000002-8.pkl",
+        "hidden_pin": "000002-1.pkl",
+        "hidden_side_jam": "000002-6.pkl"
+      },
+      "condition_frame_counts": {
+        "free": 6,
+        "hidden_high_friction": 9,
+        "hidden_pin": 2,
+        "hidden_side_jam": 7
+      },
+      "fps": 2.0,
+      "max_observation_steps": 9,
+      "num_video_frames": 13,
+      "path": "/data/state_diff2/reports/phase1_action_videos/seed_2_action_steps.mp4",
+      "status": "written",
+      "tile_height": 320,
+      "tile_width": 426,
+      "visible_seed": "2"
+    },
+    {
+      "camera_index": 0,
+      "condition_files": {
+        "free": "000003-2.pkl",
+        "hidden_high_friction": "000003-3.pkl",
+        "hidden_pin": "000003-20.pkl",
+        "hidden_side_jam": "000003-4.pkl"
+      },
+      "condition_frame_counts": {
+        "free": 3,
+        "hidden_high_friction": 4,
+        "hidden_pin": 21,
+        "hidden_side_jam": 5
+      },
+      "fps": 2.0,
+      "max_observation_steps": 21,
+      "num_video_frames": 25,
+      "path": "/data/state_diff2/reports/phase1_action_videos/seed_3_action_steps.mp4",
+      "status": "written",
+      "tile_height": 320,
+      "tile_width": 426,
+      "visible_seed": "3"
+    },
+    {
+      "camera_index": 0,
+      "condition_files": {
+        "free": "000004-6.pkl",
+        "hidden_high_friction": "000004-8.pkl",
+        "hidden_pin": "000004-1.pkl",
+        "hidden_side_jam": "000004-7.pkl"
+      },
+      "condition_frame_counts": {
+        "free": 7,
+        "hidden_high_friction": 9,
+        "hidden_pin": 2,
+        "hidden_side_jam": 8
+      },
+      "fps": 2.0,
+      "max_observation_steps": 9,
+      "num_video_frames": 13,
+      "path": "/data/state_diff2/reports/phase1_action_videos/seed_4_action_steps.mp4",
+      "status": "written",
+      "tile_height": 320,
+      "tile_width": 426,
+      "visible_seed": "4"
+    }
+  ]
+}

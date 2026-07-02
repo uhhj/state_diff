@@ -1,0 +1,265 @@
+{
+  "aggregate": {
+    "free": {
+      "depth_abs_max": 0.0,
+      "depth_abs_mean": 0.0,
+      "num_records": 5,
+      "rgb_abs_max": 0.0,
+      "rgb_abs_mean": 0.0
+    },
+    "hidden_high_friction": {
+      "depth_abs_max": 0.01931978464126587,
+      "depth_abs_mean": 9.982772667171957e-07,
+      "num_records": 5,
+      "rgb_abs_max": 0.3874510109424591,
+      "rgb_abs_mean": 1.108047463276307e-05
+    },
+    "hidden_pin": {
+      "depth_abs_max": 0.00945795774459839,
+      "depth_abs_mean": 1.6663448860754214e-07,
+      "num_records": 5,
+      "rgb_abs_max": 0.221176478266716,
+      "rgb_abs_mean": 1.9131262547489314e-06
+    },
+    "hidden_side_jam": {
+      "depth_abs_max": 1.3178261280059815,
+      "depth_abs_mean": 0.0001061554838088341,
+      "num_records": 5,
+      "rgb_abs_max": 0.7701960921287536,
+      "rgb_abs_mean": 0.0012616447755135595
+    }
+  },
+  "camera_index": 0,
+  "conditions": [
+    "free",
+    "hidden_pin",
+    "hidden_high_friction",
+    "hidden_side_jam"
+  ],
+  "data_root": "/data/state_diff2/external/deformable-ravens/data/hidden-contact-cable-line",
+  "num_groups_visualized": 5,
+  "output_dir": "/data/state_diff2/reports/phase1_rgbd_check",
+  "records": [
+    {
+      "camera_index": 0,
+      "condition": "free",
+      "depth_abs_max": 0.0,
+      "depth_abs_mean": 0.0,
+      "file": "000000-9.pkl",
+      "rgb_abs_max": 0.0,
+      "rgb_abs_mean": 0.0,
+      "valid_depth_pixels": 307200,
+      "visible_seed": "0"
+    },
+    {
+      "camera_index": 0,
+      "condition": "hidden_pin",
+      "depth_abs_max": 0.005038142204284668,
+      "depth_abs_mean": 1.105924241073808e-07,
+      "file": "000000-1.pkl",
+      "rgb_abs_max": 0.21960784494876862,
+      "rgb_abs_mean": 1.5446282759512542e-06,
+      "valid_depth_pixels": 307200,
+      "visible_seed": "0"
+    },
+    {
+      "camera_index": 0,
+      "condition": "hidden_high_friction",
+      "depth_abs_max": 0.013573825359344482,
+      "depth_abs_mean": 7.599736022712023e-07,
+      "file": "000000-7.pkl",
+      "rgb_abs_max": 0.36862748861312866,
+      "rgb_abs_mean": 8.897569387045223e-06,
+      "valid_depth_pixels": 307200,
+      "visible_seed": "0"
+    },
+    {
+      "camera_index": 0,
+      "condition": "hidden_side_jam",
+      "depth_abs_max": 1.632521390914917,
+      "depth_abs_mean": 9.399042755831033e-05,
+      "file": "000000-5.pkl",
+      "rgb_abs_max": 0.800000011920929,
+      "rgb_abs_mean": 0.001178389647975564,
+      "valid_depth_pixels": 307200,
+      "visible_seed": "0"
+    },
+    {
+      "camera_index": 0,
+      "condition": "free",
+      "depth_abs_max": 0.0,
+      "depth_abs_mean": 0.0,
+      "file": "000001-3.pkl",
+      "rgb_abs_max": 0.0,
+      "rgb_abs_mean": 0.0,
+      "valid_depth_pixels": 307200,
+      "visible_seed": "1"
+    },
+    {
+      "camera_index": 0,
+      "condition": "hidden_pin",
+      "depth_abs_max": 0.00043511390686035156,
+      "depth_abs_mean": 5.2215376911135536e-08,
+      "file": "000001-1.pkl",
+      "rgb_abs_max": 0.00784313678741455,
+      "rgb_abs_mean": 6.595520289920387e-07,
+      "valid_depth_pixels": 307200,
+      "visible_seed": "1"
+    },
+    {
+      "camera_index": 0,
+      "condition": "hidden_high_friction",
+      "depth_abs_max": 0.012836933135986328,
+      "depth_abs_mean": 3.2935639637798886e-07,
+      "file": "000001-5.pkl",
+      "rgb_abs_max": 0.250980406999588,
+      "rgb_abs_mean": 4.382829956739442e-06,
+      "valid_depth_pixels": 307200,
+      "visible_seed": "1"
+    },
+    {
+      "camera_index": 0,
+      "condition": "hidden_side_jam",
+      "depth_abs_max": 1.632521390914917,
+      "depth_abs_mean": 0.00011093947978224605,
+      "file": "000001-6.pkl",
+      "rgb_abs_max": 0.7568627595901489,
+      "rgb_abs_mean": 0.0011128344340249896,
+      "valid_depth_pixels": 307200,
+      "visible_seed": "1"
+    },
+    {
+      "camera_index": 0,
+      "condition": "free",
+      "depth_abs_max": 0.0,
+      "depth_abs_mean": 0.0,
+      "file": "000002-5.pkl",
+      "rgb_abs_max": 0.0,
+      "rgb_abs_mean": 0.0,
+      "valid_depth_pixels": 307200,
+      "visible_seed": "2"
+    },
+    {
+      "camera_index": 0,
+      "condition": "hidden_pin",
+      "depth_abs_max": 0.009146928787231445,
+      "depth_abs_mean": 1.3398569365108415e-07,
+      "file": "000002-1.pkl",
+      "rgb_abs_max": 0.3058823347091675,
+      "rgb_abs_mean": 9.233728519575379e-07,
+      "valid_depth_pixels": 307200,
+      "visible_seed": "2"
+    },
+    {
+      "camera_index": 0,
+      "condition": "hidden_high_friction",
+      "depth_abs_max": 0.025821924209594727,
+      "depth_abs_mean": 1.214554913531174e-06,
+      "file": "000002-8.pkl",
+      "rgb_abs_max": 0.46274513006210327,
+      "rgb_abs_mean": 9.391170351591427e-06,
+      "valid_depth_pixels": 307200,
+      "visible_seed": "2"
+    },
+    {
+      "camera_index": 0,
+      "condition": "hidden_side_jam",
+      "depth_abs_max": 0.0590440034866333,
+      "depth_abs_mean": 5.873301415704191e-05,
+      "file": "000002-6.pkl",
+      "rgb_abs_max": 0.7529411911964417,
+      "rgb_abs_mean": 0.0007818670128472149,
+      "valid_depth_pixels": 307200,
+      "visible_seed": "2"
+    },
+    {
+      "camera_index": 0,
+      "condition": "free",
+      "depth_abs_max": 0.0,
+      "depth_abs_mean": 0.0,
+      "file": "000003-2.pkl",
+      "rgb_abs_max": 0.0,
+      "rgb_abs_mean": 0.0,
+      "valid_depth_pixels": 307200,
+      "visible_seed": "3"
+    },
+    {
+      "camera_index": 0,
+      "condition": "hidden_pin",
+      "depth_abs_max": 0.026577889919281006,
+      "depth_abs_mean": 3.443522587076586e-07,
+      "file": "000003-20.pkl",
+      "rgb_abs_max": 0.3607843518257141,
+      "rgb_abs_mean": 3.553070200723596e-06,
+      "valid_depth_pixels": 307200,
+      "visible_seed": "3"
+    },
+    {
+      "camera_index": 0,
+      "condition": "hidden_high_friction",
+      "depth_abs_max": 0.014402329921722412,
+      "depth_abs_mean": 5.716986493098375e-07,
+      "file": "000003-3.pkl",
+      "rgb_abs_max": 0.3960784673690796,
+      "rgb_abs_mean": 7.872072274039965e-06,
+      "valid_depth_pixels": 307200,
+      "visible_seed": "3"
+    },
+    {
+      "camera_index": 0,
+      "condition": "hidden_side_jam",
+      "depth_abs_max": 1.632523775100708,
+      "depth_abs_mean": 0.00010348777141189203,
+      "file": "000003-4.pkl",
+      "rgb_abs_max": 0.7411764860153198,
+      "rgb_abs_mean": 0.0015245992690324783,
+      "valid_depth_pixels": 307200,
+      "visible_seed": "3"
+    },
+    {
+      "camera_index": 0,
+      "condition": "free",
+      "depth_abs_max": 0.0,
+      "depth_abs_mean": 0.0,
+      "file": "000004-6.pkl",
+      "rgb_abs_max": 0.0,
+      "rgb_abs_mean": 0.0,
+      "valid_depth_pixels": 307200,
+      "visible_seed": "4"
+    },
+    {
+      "camera_index": 0,
+      "condition": "hidden_pin",
+      "depth_abs_max": 0.006091713905334473,
+      "depth_abs_mean": 1.9202668966045167e-07,
+      "file": "000004-1.pkl",
+      "rgb_abs_max": 0.21176472306251526,
+      "rgb_abs_mean": 2.8850079161202302e-06,
+      "valid_depth_pixels": 307200,
+      "visible_seed": "4"
+    },
+    {
+      "camera_index": 0,
+      "condition": "hidden_high_friction",
+      "depth_abs_max": 0.029963910579681396,
+      "depth_abs_mean": 2.115802772095776e-06,
+      "file": "000004-8.pkl",
+      "rgb_abs_max": 0.458823561668396,
+      "rgb_abs_mean": 2.4858731194399297e-05,
+      "valid_depth_pixels": 307200,
+      "visible_seed": "4"
+    },
+    {
+      "camera_index": 0,
+      "condition": "hidden_side_jam",
+      "depth_abs_max": 1.632520079612732,
+      "depth_abs_mean": 0.0001636267261346802,
+      "file": "000004-7.pkl",
+      "rgb_abs_max": 0.800000011920929,
+      "rgb_abs_mean": 0.001710533513687551,
+      "valid_depth_pixels": 307200,
+      "visible_seed": "4"
+    }
+  ],
+  "task": "hidden-contact-cable-line"
+}
