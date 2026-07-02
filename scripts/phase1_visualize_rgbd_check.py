@@ -25,7 +25,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-CONDITIONS = ["free", "hidden_pin", "hidden_high_friction", "hidden_side_jam"]
+CONDITIONS = ["free", "hidden_pin", "hidden_high_friction"]
 
 
 def load_pickle(path: Path) -> Any:

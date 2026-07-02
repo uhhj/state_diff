@@ -12,7 +12,7 @@ STRIDE="${STRIDE:-4}"
 FRESH="${FRESH:-1}"
 OUTDIR="$ROOT/reports/phase1_continuous_videos"
 
-CONDITIONS=(free hidden_pin hidden_high_friction hidden_side_jam)
+CONDITIONS=(free hidden_pin hidden_high_friction)
 
 echo "[Phase1.1] root: $ROOT"
 echo "[Phase1.1] defravens: $DEFRAVENS_ROOT"

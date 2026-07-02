@@ -11,7 +11,7 @@ from typing import Any, Dict, List, Optional, Tuple
 import numpy as np
 
 
-CONDITIONS = ["free", "hidden_pin", "hidden_high_friction", "hidden_side_jam"]
+CONDITIONS = ["free", "hidden_pin", "hidden_high_friction"]
 
 
 def load_pickle(path: Path) -> Any:
@@ -267,6 +267,14 @@ def write_report(report_md: Path, summary: Dict) -> None:
     lines.append("- This phase verifies task registration, hidden-contact injection, bead-state logging, and qualitative/quantitative divergence.")
     lines.append("- It is not yet the final CCDA audit. Phase2 should generate larger paired rollouts and compute formal thresholds.")
     lines.append("- A good Phase1 signal is low initial Chamfer with higher final Chamfer between `free` and hidden-contact conditions.")
+    lines.append("")
+    lines.append("## Phase1 Cleanup Conclusion")
+    lines.append("")
+    lines.append("Phase1 now keeps only two hidden-contact variants: `hidden_pin` and `hidden_high_friction`.")
+    lines.append("The invalid side-jam variant was removed because RGB-D observation checks showed visible leakage.")
+    lines.append("The previous action-step observation replay visualization was also removed because it did not show continuous robot-cable contact and could be misleading.")
+    lines.append("The retained visual checks are bead trajectory overlays and RGB-D observation checks.")
+    lines.append("Continuous robot-cable interaction should be inspected only with the continuous PyBullet rollout recorder.")
     lines.append("")
     report_md.write_text("\n".join(lines))
 

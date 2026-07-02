@@ -10,9 +10,8 @@ For each visible seed, the first observation under each hidden condition is comp
 | Condition | N | Mean RGB Abs Diff | Max RGB Abs Diff | Mean Depth Abs Diff | Max Depth Abs Diff |
 |---|---:|---:|---:|---:|---:|
 | free | 5 | 0.000000 | 0.000000 | 0.000000 | 0.000000 |
-| hidden_pin | 5 | 0.000002 | 0.221176 | 0.000000 | 0.009458 |
-| hidden_high_friction | 5 | 0.000011 | 0.387451 | 0.000001 | 0.019320 |
-| hidden_side_jam | 5 | 0.001262 | 0.770196 | 0.000106 | 1.317826 |
+| hidden_pin | 5 | 0.000002 | 0.202353 | 0.000000 | 0.005531 |
+| hidden_high_friction | 5 | 0.000010 | 0.381961 | 0.000001 | 0.020867 |
 
 ## Interpretation
 

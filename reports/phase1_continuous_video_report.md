@@ -16,10 +16,9 @@ Unlike the earlier action-step dataset replay videos, these MP4 files are record
 
 | Condition | Seed | Status | Action Steps | Frames | Reward | Done | Path |
 |---|---:|---|---:|---:|---:|---|---|
-| free | 0 | written | 1 | 129 | 0.0000 | True | `/data/state_diff2/reports/phase1_continuous_videos/seed_0_free.mp4` |
-| hidden_pin | 0 | written | 1 | 126 | 0.0000 | True | `/data/state_diff2/reports/phase1_continuous_videos/seed_0_hidden_pin.mp4` |
-| hidden_high_friction | 0 | written | 1 | 128 | 0.0000 | True | `/data/state_diff2/reports/phase1_continuous_videos/seed_0_hidden_high_friction.mp4` |
-| hidden_side_jam | 0 | written | 1 | 132 | 0.0000 | True | `/data/state_diff2/reports/phase1_continuous_videos/seed_0_hidden_side_jam.mp4` |
+| free | 0 | written | 1 | 130 | 0.0000 | True | `/data/state_diff2/reports/phase1_continuous_videos/seed_0_free.mp4` |
+| hidden_pin | 0 | written | 1 | 129 | 0.0000 | True | `/data/state_diff2/reports/phase1_continuous_videos/seed_0_hidden_pin.mp4` |
+| hidden_high_friction | 0 | written | 1 | 129 | 0.0000 | True | `/data/state_diff2/reports/phase1_continuous_videos/seed_0_hidden_high_friction.mp4` |
 
 ## Interpretation
 

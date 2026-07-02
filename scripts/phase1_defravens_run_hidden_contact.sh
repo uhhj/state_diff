@@ -49,7 +49,7 @@ fi
 echo "[Phase1] generating paired hidden-contact data..."
 python ccda_generate_hidden_contact.py \
   --task "$TASK" \
-  --conditions free hidden_pin hidden_high_friction hidden_side_jam \
+  --conditions free hidden_pin hidden_high_friction \
   --num_demos "$NUM_DEMOS" \
   --seed_start "$SEED_START" \
   --hz "$HZ" \
