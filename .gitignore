@@ -162,3 +162,12 @@ external/deformable-ravens.local_backup*/
 reports/phase0_visualizations/**/*.mp4
 reports/phase0_visualizations/**/*.avi
 reports/phase0_visualizations/**/*.gif
+
+# Phase0/Phase1 generated DeformableRavens data
+external/deformable-ravens/data/
+external/deformable-ravens/goals/
+external/deformable-ravens/data_out/
+external/deformable-ravens/goals_out/
+
+# Phase1 generated visualization artifacts can be regenerated.
+reports/phase1_hidden_contact_visuals/
