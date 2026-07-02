@@ -175,3 +175,6 @@ reports/phase1_hidden_contact_visuals/
 # Phase1 regenerated visual artifacts
 reports/phase1_rgbd_check/
 reports/phase1_action_videos/
+
+# Phase1.1 continuous rollout videos
+reports/phase1_continuous_videos/
