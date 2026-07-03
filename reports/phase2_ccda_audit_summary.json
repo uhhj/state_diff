@@ -1,0 +1,108 @@
+{
+  "condition_summary": [
+    {
+      "condition": "free",
+      "episodes": 50,
+      "mean_episode_len": 5.82,
+      "mean_final_curve": 0.0036695422767661513,
+      "mean_final_fraction": 1.0,
+      "mean_first_curve": 0.014387576673179865,
+      "std_final_curve": 0.0013507299088519717,
+      "success_rate": 1.0
+    },
+    {
+      "condition": "hidden_pin",
+      "episodes": 50,
+      "mean_episode_len": 3.82,
+      "mean_final_curve": 0.01179750559385866,
+      "mean_final_fraction": 0.04666666666666667,
+      "mean_first_curve": 0.01439557570964098,
+      "std_final_curve": 0.002485728900872607,
+      "success_rate": 0.0
+    },
+    {
+      "condition": "hidden_high_friction",
+      "episodes": 50,
+      "mean_episode_len": 5.82,
+      "mean_final_curve": 0.004398716751020402,
+      "mean_final_fraction": 1.0,
+      "mean_first_curve": 0.014397066924721003,
+      "std_final_curve": 0.0014081529584761337,
+      "success_rate": 1.0
+    }
+  ],
+  "conditions": [
+    "free",
+    "hidden_pin",
+    "hidden_high_friction"
+  ],
+  "data_root": "/data/state_diff2/external/deformable-ravens/data/phase2_hidden_contact_cable_line/hidden-contact-cable-line",
+  "num_visible_seed_groups": 50,
+  "pair_summary": {
+    "branch_pair_counts": {
+      "pinned_bend vs weak_contact_success": 50,
+      "success_line vs pinned_bend": 50,
+      "success_line vs weak_contact_success": 50
+    },
+    "by_pair_type": {
+      "free_vs_hidden_high_friction": {
+        "ccda_state_ratio": 0.0,
+        "ccda_success_ratio": 0.0,
+        "count": 50,
+        "mean_action_distance": 2.4871572713064693e-05,
+        "mean_depth_abs_diff": 1.3393511019899052e-06,
+        "mean_final_chamfer": 0.017246615830808876,
+        "mean_initial_chamfer": 0.0004396967819775455,
+        "mean_rgb_abs_diff": 0.004438585087191313,
+        "mean_trajectory_chamfer": 0.024477668436172065,
+        "success_diff_ratio": 0.0
+      },
+      "free_vs_hidden_pin": {
+        "ccda_state_ratio": 0.98,
+        "ccda_success_ratio": 0.98,
+        "count": 50,
+        "mean_action_distance": 1.2812907198403754e-05,
+        "mean_depth_abs_diff": 4.7303428971190445e-07,
+        "mean_final_chamfer": 0.4344686079770327,
+        "mean_initial_chamfer": 0.0001563590452860808,
+        "mean_rgb_abs_diff": 0.0015607204879052006,
+        "mean_trajectory_chamfer": 0.33857220470594035,
+        "success_diff_ratio": 1.0
+      },
+      "hidden_pin_vs_hidden_high_friction": {
+        "ccda_state_ratio": 0.96,
+        "ccda_success_ratio": 0.96,
+        "count": 50,
+        "mean_action_distance": 1.6695538841454968e-05,
+        "mean_depth_abs_diff": 1.227026488379579e-06,
+        "mean_final_chamfer": 0.4354464625194669,
+        "mean_initial_chamfer": 0.0004061976629600395,
+        "mean_rgb_abs_diff": 0.004114062490407378,
+        "mean_trajectory_chamfer": 0.3773168786264852,
+        "success_diff_ratio": 1.0
+      }
+    },
+    "ccda_impact_gap": 0.9433962264150944,
+    "ccda_state_count": 97,
+    "ccda_state_ratio": 0.6466666666666666,
+    "ccda_success_count": 97,
+    "ccda_success_ratio": 0.6466666666666666,
+    "failure_reason_counts": {
+      "ccda_state": 97,
+      "future_not_different": 51,
+      "visible_not_similar_or_rgbd_leakage": 2
+    },
+    "success_diff_ratio_all": 0.6666666666666666,
+    "success_diff_ratio_ccda_state": 1.0,
+    "success_diff_ratio_non_ccda_state": 0.05660377358490566,
+    "total_pairs": 150
+  },
+  "task": "hidden-contact-cable-line",
+  "thresholds": {
+    "tau_action_first_action": 0.02,
+    "tau_depth_mean_abs_diff": 0.0001,
+    "tau_future_final_chamfer": 0.05,
+    "tau_rgb_mean_abs_diff": 1.0,
+    "tau_vis_initial_chamfer": 0.002
+  }
+}

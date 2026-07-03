@@ -177,3 +177,9 @@ reports/phase1_rgbd_check/
 
 # Phase1.1 continuous rollout videos
 reports/phase1_continuous_videos/
+
+# Phase2 generated DeformableRavens audit data
+external/deformable-ravens/data/phase2_hidden_contact_cable_line/
+
+# Phase2 generated figures can be regenerated.
+reports/phase2_ccda_visuals/
