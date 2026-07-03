@@ -172,9 +172,185 @@ def save_json(path: Path, obj: Dict[str, Any]) -> None:
     path.write_text(json.dumps(obj, indent=2, sort_keys=True))
 
 
-def load_future_model(path: Path) -> NumpyFutureModel:
-    return NumpyFutureModel.load(path)
 
 
-def load_inverse_model(path: Path) -> NumpyInverseDynamics:
-    return NumpyInverseDynamics.load(path)
+class TorchFutureModel:
+    def __init__(self, model, x_std: Standardizer, y_std: Standardizer, residual_std: np.ndarray, config: Dict[str, Any], device: str = "cpu"):
+        self.model = model
+        self.x_std = x_std
+        self.y_std = y_std
+        self.residual_std = np.asarray(residual_std, dtype=np.float32)
+        self.config = dict(config)
+        self.device = device
+        self.model.to(device)
+        self.model.eval()
+
+    def predict_mean(self, x: np.ndarray) -> np.ndarray:
+        import torch
+        xz = self.x_std.transform(x).astype(np.float32)
+        with torch.no_grad():
+            xt = torch.from_numpy(xz).to(self.device)
+            pred = self.model(xt).cpu().numpy()
+        return self.y_std.inverse(pred)
+
+    def sample(self, x: np.ndarray, n_samples: int = 1, seed: int = 0) -> np.ndarray:
+        mean = self.predict_mean(x)
+        rng = np.random.default_rng(seed)
+        noise = rng.normal(0.0, self.residual_std.reshape(1, 1, -1), size=(n_samples, mean.shape[0], mean.shape[1]))
+        return mean.reshape(1, mean.shape[0], mean.shape[1]) + noise.astype(np.float32)
+
+    def save(self, path: Path) -> None:
+        import torch
+        Path(path).parent.mkdir(parents=True, exist_ok=True)
+        torch.save({
+            "backend": "torch",
+            "model_type": "torch_mlp_future_state",
+            "state_dict": self.model.cpu().state_dict(),
+            "x_dim": int(self.x_std.mean.size),
+            "y_dim": int(self.y_std.mean.size),
+            "x_std": self.x_std.to_dict(),
+            "y_std": self.y_std.to_dict(),
+            "residual_std": self.residual_std,
+            "config": self.config,
+        }, path)
+        self.model.to(self.device)
+
+    @classmethod
+    def load(cls, path: Path, device: str = "cpu") -> "TorchFutureModel":
+        import torch
+        obj = torch.load(path, map_location=device)
+        model = make_mlp(int(obj["x_dim"]), int(obj["y_dim"]), int(obj.get("hidden_dim", obj.get("config", {}).get("hidden_dim", 256))))
+        model.load_state_dict(obj["state_dict"])
+        return cls(model, Standardizer.from_dict(obj["x_std"]), Standardizer.from_dict(obj["y_std"]), obj["residual_std"], obj.get("config", {}), device=device)
+
+
+class TorchInverseDynamics:
+    def __init__(self, model, x_std: Standardizer, y_std: Standardizer, train_action_mean: np.ndarray, train_action_std: np.ndarray, config: Dict[str, Any], device: str = "cpu"):
+        self.model = model
+        self.x_std = x_std
+        self.y_std = y_std
+        self.train_action_mean = np.asarray(train_action_mean, dtype=np.float32)
+        self.train_action_std = np.where(np.asarray(train_action_std, dtype=np.float32) < 1e-6, 1.0, train_action_std).astype(np.float32)
+        self.config = dict(config)
+        self.device = device
+        self.model.to(device)
+        self.model.eval()
+
+    def predict(self, x: np.ndarray) -> np.ndarray:
+        import torch
+        xz = self.x_std.transform(x).astype(np.float32)
+        with torch.no_grad():
+            xt = torch.from_numpy(xz).to(self.device)
+            pred = self.model(xt).cpu().numpy()
+        return self.y_std.inverse(pred)
+
+    def ood_score(self, action: np.ndarray) -> np.ndarray:
+        z = (np.asarray(action, dtype=np.float32) - self.train_action_mean) / self.train_action_std
+        return np.sqrt(np.mean(z * z, axis=-1))
+
+    def save(self, path: Path) -> None:
+        import torch
+        Path(path).parent.mkdir(parents=True, exist_ok=True)
+        torch.save({
+            "backend": "torch",
+            "model_type": "torch_mlp_inverse_dynamics",
+            "state_dict": self.model.cpu().state_dict(),
+            "x_dim": int(self.x_std.mean.size),
+            "y_dim": int(self.y_std.mean.size),
+            "x_std": self.x_std.to_dict(),
+            "y_std": self.y_std.to_dict(),
+            "train_action_mean": self.train_action_mean,
+            "train_action_std": self.train_action_std,
+            "config": self.config,
+        }, path)
+        self.model.to(self.device)
+
+    @classmethod
+    def load(cls, path: Path, device: str = "cpu") -> "TorchInverseDynamics":
+        import torch
+        obj = torch.load(path, map_location=device)
+        model = make_mlp(int(obj["x_dim"]), int(obj["y_dim"]), int(obj.get("hidden_dim", obj.get("config", {}).get("hidden_dim", 256))))
+        model.load_state_dict(obj["state_dict"])
+        return cls(model, Standardizer.from_dict(obj["x_std"]), Standardizer.from_dict(obj["y_std"]), obj["train_action_mean"], obj["train_action_std"], obj.get("config", {}), device=device)
+
+
+def make_mlp(x_dim: int, y_dim: int, hidden_dim: int = 256):
+    import torch.nn as nn
+    return nn.Sequential(
+        nn.Linear(x_dim, hidden_dim), nn.ReLU(),
+        nn.Linear(hidden_dim, hidden_dim), nn.ReLU(),
+        nn.Linear(hidden_dim, y_dim),
+    )
+
+
+def _train_torch_regressor(x: np.ndarray, y: np.ndarray, epochs: int, batch_size: int, seed: int, hidden_dim: int = 256, lr: float = 1e-3):
+    import torch
+    set_seed(seed)
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    x_std = Standardizer.fit(x)
+    y_std = Standardizer.fit(y)
+    xz = x_std.transform(x).astype(np.float32)
+    yz = y_std.transform(y).astype(np.float32)
+    model = make_mlp(xz.shape[1], yz.shape[1], hidden_dim=hidden_dim).to(device)
+    opt = torch.optim.Adam(model.parameters(), lr=lr)
+    loss_fn = torch.nn.MSELoss()
+    xt = torch.from_numpy(xz)
+    yt = torch.from_numpy(yz)
+    n = len(xt)
+    batch_size = max(1, min(int(batch_size), n))
+    for _ in range(max(1, int(epochs))):
+        perm = torch.randperm(n)
+        for start in range(0, n, batch_size):
+            idx = perm[start:start + batch_size]
+            xb = xt[idx].to(device)
+            yb = yt[idx].to(device)
+            opt.zero_grad(set_to_none=True)
+            loss = loss_fn(model(xb), yb)
+            loss.backward()
+            opt.step()
+    model.eval()
+    with torch.no_grad():
+        pred = model(xt.to(device)).cpu().numpy()
+    residual = yz - pred
+    residual_std = np.maximum(np.std(residual, axis=0).astype(np.float32), 1e-4)
+    return model, x_std, y_std, residual_std, device
+
+
+def train_torch_future_model(x: np.ndarray, y: np.ndarray, config: Dict[str, Any], epochs: int, batch_size: int, seed: int) -> TorchFutureModel:
+    y_flat = y.reshape(len(y), -1).astype(np.float32)
+    model, x_std, y_std, residual_std, device = _train_torch_regressor(x, y_flat, epochs, batch_size, seed, hidden_dim=int(config.get("hidden_dim", 256)))
+    return TorchFutureModel(model, x_std, y_std, residual_std, config, device=device)
+
+
+def train_torch_inverse_model(x: np.ndarray, y_action: np.ndarray, config: Dict[str, Any], epochs: int, batch_size: int, seed: int) -> TorchInverseDynamics:
+    model, x_std, y_std, _residual_std, device = _train_torch_regressor(x, y_action, epochs, batch_size, seed, hidden_dim=int(config.get("hidden_dim", 256)))
+    return TorchInverseDynamics(model, x_std, y_std, np.mean(y_action, axis=0), np.std(y_action, axis=0), config, device=device)
+
+
+def _torch_checkpoint_backend(path: Path) -> str:
+    try:
+        import torch
+        obj = torch.load(path, map_location="cpu")
+        return str(obj.get("backend", ""))
+    except Exception:
+        return ""
+
+
+def load_future_model(path: Path):
+    if _torch_checkpoint_backend(Path(path)) == "torch":
+        return TorchFutureModel.load(Path(path), device="cuda" if _torch_cuda_available() else "cpu")
+    return NumpyFutureModel.load(Path(path))
+
+
+def load_inverse_model(path: Path):
+    if _torch_checkpoint_backend(Path(path)) == "torch":
+        return TorchInverseDynamics.load(Path(path), device="cuda" if _torch_cuda_available() else "cpu")
+    return NumpyInverseDynamics.load(Path(path))
+
+
+def _torch_cuda_available() -> bool:
+    try:
+        import torch
+        return bool(torch.cuda.is_available())
+    except Exception:
+        return False

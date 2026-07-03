@@ -7,7 +7,7 @@ sys.path.insert(0, str(ROOT))
 import argparse
 import csv
 import json
-from collections import defaultdict
+from collections import Counter, defaultdict
 from pathlib import Path
 
 import numpy as np
@@ -67,6 +67,9 @@ def main():
             cfg = json.loads(cfg_path.read_text())
             fold = int(cfg["fold"])
             seed = int(cfg["seed"])
+            training_backend = str(cfg.get("training_backend", cfg.get("backend", "unknown")))
+            python_executable = str(cfg.get("python_executable", ""))
+            conda_env = str(cfg.get("conda_env", ""))
             state_model = load_future_model(ckpt / "state_model.pt")
             idm = load_inverse_model(ckpt / "inverse_dynamics.pt")
             x_all = paper_x if baseline == "paper_state" else state_action_x
@@ -88,6 +91,9 @@ def main():
                     "baseline": baseline,
                     "fold": fold,
                     "seed": seed,
+                    "training_backend": training_backend,
+                    "python_executable": python_executable,
+                    "conda_env": conda_env,
                     "condition": str(cond_name[i]),
                     "visible_seed": int(visible_seed[i]),
                     "source_file": str(data["source_file"][i]),
@@ -114,23 +120,30 @@ def main():
     Path(args.out_csv).parent.mkdir(parents=True, exist_ok=True)
     fieldnames = list(rows[0].keys()) if rows else []
     with Path(args.out_csv).open("w", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=fieldnames)
+        w = csv.DictWriter(f, fieldnames=fieldnames, lineterminator="\n")
         w.writeheader()
         for r in rows:
             w.writerow(r)
 
     groups = defaultdict(list)
     for r in rows:
-        groups[(r["baseline"], r["fold"], r["seed"], r["condition"])].append(r)
+        groups[(r["baseline"], r["fold"], r["seed"], r["condition"], r["training_backend"])].append(r)
     metrics = ["sample_wrong_branch_rate", "branch_accuracy", "future_chamfer_to_true", "mean_prediction_chamfer_to_true", "averaging_score", "action_mse", "action_ood_score"]
     summary_rows = []
     for key, rs in sorted(groups.items()):
-        item = {"baseline": key[0], "fold": key[1], "seed": key[2], "condition": key[3], "count": len(rs)}
+        item = {"baseline": key[0], "fold": key[1], "seed": key[2], "condition": key[3], "training_backend": key[4], "count": len(rs)}
         item.update(row_summary(rs, metrics))
         summary_rows.append(item)
-    summary = {"num_prediction_rows": len(rows), "summary_rows": summary_rows}
+    backends = Counter([r["training_backend"] for r in rows])
+    summary = {
+        "num_prediction_rows": len(rows),
+        "summary_rows": summary_rows,
+        "backends_seen": dict(backends),
+        "all_torch_backend": bool(rows) and set(backends.keys()) == {"torch"},
+        "fallback_note": "This is fallback smoke, not a PyTorch DDPM result." if "numpy_fallback" in backends else "",
+    }
     Path(args.out_json).write_text(json.dumps(summary, indent=2, sort_keys=True))
-    print(json.dumps({"num_prediction_rows": len(rows)}, indent=2))
+    print(json.dumps({"num_prediction_rows": len(rows), "backends_seen": dict(backends), "all_torch_backend": summary["all_torch_backend"]}, indent=2))
 
 
 if __name__ == "__main__":

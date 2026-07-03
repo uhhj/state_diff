@@ -77,6 +77,7 @@ def main():
     ap.add_argument("--samples_per_step", type=int, default=16)
     ap.add_argument("--motion_timeout", type=float, default=5.0, help="Per movej timeout for learned policy execution; lower values make OOD action failures explicit.")
     ap.add_argument("--action_clip_std", type=float, default=3.0, help="Clip decoded action vector to train action mean +/- N std for numerical rollout stability.")
+    ap.add_argument("--allow_numpy_fallback", action="store_true", help="Accepted for run_all compatibility; runtime guard controls whether fallback checkpoints are allowed.")
     ap.add_argument("--out_trials", default="reports/phase3_policy_rollout_trials.csv")
     ap.add_argument("--out_summary", default="reports/phase3_policy_rollout_summary.json")
     args = ap.parse_args()
