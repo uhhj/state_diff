@@ -66,6 +66,35 @@ def runtime_row(step, info):
     return f"| {step} | `{info.get('python','')}` | `{info.get('conda_env','')}` | {torch} | {ravens} |"
 
 
+
+def diagnostics_markdown(root: Path) -> str:
+    sanity = read_json(root / "reports/phase3_sanity_check_summary.json") or {}
+    action = read_json(root / "reports/phase3_action_idm_debug_summary.json") or {}
+    lines = []
+    lines += ["", "## Sanity Diagnostics", "", "| Diagnostic | Verdict |", "|---|---|", f"| Phase3 metric sanity | `{sanity.get('verdict', 'not_run')}` |", f"| Action/IDM debug | `{action.get('verdict', 'not_run')}` |", ""]
+
+    def issue_lines(title, payload):
+        issues = payload.get("issues", []) if isinstance(payload, dict) else []
+        lines.extend([f"### {title}", "", "| Level | Name | Detail |", "|---|---|---|"])
+        if issues:
+            for issue in issues:
+                lines.append("| `{}` | `{}` | {} |".format(issue.get("level", ""), issue.get("name", ""), issue.get("detail", "")))
+        else:
+            lines.append("| `PASS` | `none` | No issue recorded or diagnostic not run. |")
+        lines.append("")
+
+    issue_lines("Metric Sanity Issues", sanity)
+    issue_lines("Action/IDM Issues", action)
+    verdicts = {str(sanity.get("verdict", "")), str(action.get("verdict", ""))}
+    if "FAIL" in verdicts:
+        lines.append("**Execution-level Phase3 evidence is blocked by sanity diagnostics. Do not count policy rollout or move to Phase4 until the FAIL items are fixed.**")
+    elif "WARN" in verdicts:
+        lines.append("**Diagnostics contain WARN items. This is acceptable for smoke, but should be resolved or explicitly discussed before medium/full paper-level runs.**")
+    else:
+        lines.append("**Diagnostics do not report blocking anomalies.**")
+    lines.append("")
+    return "\n".join(lines)
+
 def infer_scale(root: Path):
     prep = read_json(root / "reports/phase3_prepare_windows_summary.json") or {}
     n_train = int(prep.get("num_train_windows", 0) or 0)
@@ -170,10 +199,11 @@ def main():
         lines.append("")
         lines.append("The input consistency and leakage checks verify that paired `free` and `hidden_pin` samples have matched visible/proprio/action inputs, and probe classifiers cannot reliably recover hidden condition from the model inputs. Therefore, the branch ambiguity is not caused by accidental input leakage.")
         lines.append("")
-        lines.append("Across the current folds and random seeds, the contact-blind baselines exhibit elevated wrong-branch rate and/or branch ambiguity on the primary `free` vs `hidden_pin` CCDA subset. These results support moving to Phase4 only after a full-scale run if paper-level statistics are required.")
+        lines.append("Across the current folds and random seeds, the contact-blind baselines exhibit elevated wrong-branch rate and/or branch ambiguity on the primary `free` vs `hidden_pin` CCDA subset. This preserves the offline wrong-branch signal, but rollout, medium/full runs, and Phase4 decisions must obey the sanity diagnostics below.")
     else:
         lines.append("Phase3 did not establish a robust contact-blind StateDiff failure mode. Before moving to contact-conditioned models, inspect input leakage, seed grouping, branch definitions, and inverse-dynamics or rollout failures.")
-    (root / "reports/phase3_final_report.md").write_text("\n".join(lines) + "\n")
+    lines.append(diagnostics_markdown(root))
+    (root / "reports/phase3_final_report.md").write_text("\n".join(lines).rstrip() + "\n")
     print("[Phase3] wrote", out_csv)
     print("[Phase3] wrote", root / "reports/phase3_final_report.md")
 

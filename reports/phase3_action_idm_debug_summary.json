@@ -1,0 +1,273 @@
+{
+  "action_stats": {
+    "max": 640.0,
+    "mean": 101.03858689128964,
+    "mean_abs": 101.11478402784071,
+    "min": -0.8681627511978149,
+    "num_inf": 0,
+    "num_nan": 0,
+    "p95_abs": 480.0,
+    "p99_abs": 640.0,
+    "shape": [
+      48,
+      77
+    ],
+    "std": 191.68543282869206
+  },
+  "action_template_summary": {
+    "camera_config_paths_head": [
+      "camera_config/0/image_size/0",
+      "camera_config/0/image_size/1",
+      "camera_config/0/intrinsics/0",
+      "camera_config/0/intrinsics/1",
+      "camera_config/0/intrinsics/2",
+      "camera_config/0/intrinsics/3",
+      "camera_config/0/intrinsics/4",
+      "camera_config/0/intrinsics/5",
+      "camera_config/0/intrinsics/6",
+      "camera_config/0/intrinsics/7",
+      "camera_config/0/intrinsics/8",
+      "camera_config/0/noise",
+      "camera_config/0/position/0",
+      "camera_config/0/position/1",
+      "camera_config/0/position/2",
+      "camera_config/0/rotation/0",
+      "camera_config/0/rotation/1",
+      "camera_config/0/rotation/2",
+      "camera_config/0/rotation/3",
+      "camera_config/0/zrange/0"
+    ],
+    "exists": true,
+    "forbidden_token_paths": [],
+    "num_camera_config_paths": 63,
+    "num_param_paths": 14,
+    "num_paths": 77,
+    "param_paths_head": [
+      "params/pose0/0/0",
+      "params/pose0/0/1",
+      "params/pose0/0/2",
+      "params/pose0/1/0",
+      "params/pose0/1/1",
+      "params/pose0/1/2",
+      "params/pose0/1/3",
+      "params/pose1/0/0",
+      "params/pose1/0/1",
+      "params/pose1/0/2",
+      "params/pose1/1/0",
+      "params/pose1/1/1",
+      "params/pose1/1/2",
+      "params/pose1/1/3"
+    ],
+    "path": "/data/state_diff2/data/phase3_state_diff_windows/phase3_action_template.pkl"
+  },
+  "checkpoint_backend_counts": {
+    "torch": 4
+  },
+  "checkpoint_backends": [
+    {
+      "checkpoint": "/data/state_diff2/checkpoints/phase3/paper_state/fold_0_seed_0",
+      "training_backend": "torch"
+    },
+    {
+      "checkpoint": "/data/state_diff2/checkpoints/phase3/paper_state/fold_1_seed_0",
+      "training_backend": "torch"
+    },
+    {
+      "checkpoint": "/data/state_diff2/checkpoints/phase3/state_action/fold_0_seed_0",
+      "training_backend": "torch"
+    },
+    {
+      "checkpoint": "/data/state_diff2/checkpoints/phase3/state_action/fold_1_seed_0",
+      "training_backend": "torch"
+    }
+  ],
+  "condition_counts": {
+    "free": 16,
+    "hidden_high_friction": 16,
+    "hidden_pin": 16
+  },
+  "dimension_summary": {
+    "paper_x_shape": [
+      48,
+      405
+    ],
+    "state_action_x_shape": [
+      48,
+      636
+    ],
+    "y_action_shape": [
+      48,
+      77
+    ]
+  },
+  "idm_debug": [
+    {
+      "baseline": "paper_state",
+      "checkpoint": "/data/state_diff2/checkpoints/phase3/paper_state/fold_0_seed_0",
+      "heldout_rows": 18,
+      "normalized_action_mse": 1091.6448974609375,
+      "pred_action_ood_max": 79.51719665527344,
+      "pred_action_ood_mean": 15.354827880859375,
+      "raw_action_mse": 1018.7034912109375,
+      "training_backend": "torch",
+      "uses_standardized_target": true
+    },
+    {
+      "baseline": "paper_state",
+      "checkpoint": "/data/state_diff2/checkpoints/phase3/paper_state/fold_1_seed_0",
+      "heldout_rows": 18,
+      "normalized_action_mse": 0.17466022074222565,
+      "pred_action_ood_max": 0.28031817078590393,
+      "pred_action_ood_mean": 0.1514567732810974,
+      "raw_action_mse": 0.010322703048586845,
+      "training_backend": "torch",
+      "uses_standardized_target": true
+    },
+    {
+      "baseline": "state_action",
+      "checkpoint": "/data/state_diff2/checkpoints/phase3/state_action/fold_0_seed_0",
+      "heldout_rows": 18,
+      "normalized_action_mse": 1091.6448974609375,
+      "pred_action_ood_max": 79.51719665527344,
+      "pred_action_ood_mean": 15.354827880859375,
+      "raw_action_mse": 1018.7034912109375,
+      "training_backend": "torch",
+      "uses_standardized_target": true
+    },
+    {
+      "baseline": "state_action",
+      "checkpoint": "/data/state_diff2/checkpoints/phase3/state_action/fold_1_seed_0",
+      "heldout_rows": 18,
+      "normalized_action_mse": 0.17466022074222565,
+      "pred_action_ood_max": 0.28031817078590393,
+      "pred_action_ood_mean": 0.1514567732810974,
+      "raw_action_mse": 0.010322703048586845,
+      "training_backend": "torch",
+      "uses_standardized_target": true
+    }
+  ],
+  "issues": [
+    {
+      "detail": "state_action baseline has limited additional information because the current primitive dataset contains very short action histories.",
+      "level": "FAIL",
+      "name": "state_action_extra_block_constant"
+    },
+    {
+      "detail": "y_action p99 abs=640.000000. Raw action MSE may be dominated by unnormalized coordinates or wrong fields.",
+      "level": "WARN",
+      "name": "large_raw_action_scale"
+    },
+    {
+      "detail": "71/77 action dims have std < 1e-8.",
+      "level": "WARN",
+      "name": "many_near_zero_action_dims"
+    },
+    {
+      "detail": "Action codec target includes 63 camera_config numeric paths. These are observation metadata, not executable pick-place action parameters.",
+      "level": "FAIL",
+      "name": "action_codec_encodes_camera_config"
+    },
+    {
+      "detail": "heldout IDM raw-space MSE max=1018.703491 > 10.0.",
+      "level": "FAIL",
+      "name": "idm_raw_mse_too_large"
+    },
+    {
+      "detail": "heldout IDM normalized MSE max=1091.644897 > 5.0.",
+      "level": "FAIL",
+      "name": "idm_normalized_mse_too_large"
+    },
+    {
+      "detail": "heldout IDM predicted action OOD mean max=15.354828 > 5.0.",
+      "level": "FAIL",
+      "name": "idm_pred_ood_too_large"
+    }
+  ],
+  "large_scale_action_dims_count": 18,
+  "large_scale_action_dims_head": [
+    0,
+    1,
+    2,
+    4,
+    6,
+    7,
+    21,
+    22,
+    23,
+    25,
+    27,
+    28,
+    42,
+    43,
+    44,
+    46,
+    48,
+    49
+  ],
+  "near_zero_variance_action_dims_count": 71,
+  "near_zero_variance_action_dims_head": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19
+  ],
+  "split_counts": {
+    "heldout": 18,
+    "train": 30
+  },
+  "state_action_extra_block": {
+    "max": 0.0,
+    "mean": 0.0,
+    "mean_abs": 0.0,
+    "min": 0.0,
+    "num_inf": 0,
+    "num_nan": 0,
+    "p95_abs": 0.0,
+    "p99_abs": 0.0,
+    "shape": [
+      48,
+      231
+    ],
+    "std": 0.0
+  },
+  "verdict": "FAIL",
+  "zero_variance_action_dims_count": 71,
+  "zero_variance_action_dims_head": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19
+  ]
+}

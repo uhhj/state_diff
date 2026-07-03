@@ -1,0 +1,158 @@
+{
+  "backend_counts": {
+    "torch": 72
+  },
+  "column_map": {
+    "action_mse": "action_mse",
+    "action_ood": "action_ood_score",
+    "averaging_score": "averaging_score",
+    "backend": "training_backend",
+    "baseline": "baseline",
+    "branch_accuracy": "branch_accuracy",
+    "condition": "condition",
+    "fold": "fold",
+    "future_error": "future_chamfer_to_true",
+    "seed": "seed",
+    "wrong_branch": "sample_wrong_branch_rate"
+  },
+  "issues": [
+    {
+      "detail": "Only 72 prediction rows. This is smoke-scale, not paper-scale.",
+      "level": "WARN",
+      "name": "small_prediction_table"
+    },
+    {
+      "detail": "paper_state and state_action differ by <1e-3 for future_error_mean on free: 0.51646805057923 vs 0.5158502335349718",
+      "level": "WARN",
+      "name": "baseline_nearly_identical_future_error_mean_free"
+    },
+    {
+      "detail": "paper_state and state_action differ by <1e-3 for averaging_score_mean on free: 0.0009062504395842552 vs 0.0012557267521818478",
+      "level": "WARN",
+      "name": "baseline_nearly_identical_averaging_score_mean_free"
+    },
+    {
+      "detail": "paper_state and state_action differ by <1e-3 for future_error_mean on hidden_high_friction: 0.5162610212961832 vs 0.5157370045781136",
+      "level": "WARN",
+      "name": "baseline_nearly_identical_future_error_mean_hidden_high_friction"
+    },
+    {
+      "detail": "paper_state and state_action differ by <1e-3 for averaging_score_mean on hidden_high_friction: 0.0009062504395842552 vs 0.0012557267521818478",
+      "level": "WARN",
+      "name": "baseline_nearly_identical_averaging_score_mean_hidden_high_friction"
+    },
+    {
+      "detail": "paper_state and state_action differ by <1e-3 for averaging_score_mean on hidden_pin: 0.0009062504395842552 vs 0.0012557267521818478",
+      "level": "WARN",
+      "name": "baseline_nearly_identical_averaging_score_mean_hidden_pin"
+    },
+    {
+      "detail": "hidden_pin and free future errors are close: pin-free=0.017243. This may indicate mean prediction collapse or an overly coarse metric.",
+      "level": "WARN",
+      "name": "low_future_error_contrast_paper_state"
+    },
+    {
+      "detail": "hidden_pin and free future errors are close: pin-free=0.019826. This may indicate mean prediction collapse or an overly coarse metric.",
+      "level": "WARN",
+      "name": "low_future_error_contrast_state_action"
+    },
+    {
+      "detail": "max action MSE=283.148601 > 10.0. Do not trust rollout until action codec / normalization / IDM target are diagnosed.",
+      "level": "FAIL",
+      "name": "action_mse_too_large"
+    },
+    {
+      "detail": "max action OOD=17.367888 > 5.0. Predicted actions are far from expert action distribution.",
+      "level": "FAIL",
+      "name": "action_ood_too_large"
+    }
+  ],
+  "num_prediction_rows": 72,
+  "summary_by_baseline_condition": [
+    {
+      "action_mse_mean": 283.14859199523926,
+      "action_ood_mean": 17.36788781483968,
+      "averaging_score_mean": 0.0009062504395842552,
+      "averaging_score_std": 0.01806332198962716,
+      "baseline": "paper_state",
+      "branch_acc_mean": 0.6276041666666666,
+      "condition": "free",
+      "count": 12,
+      "future_error_mean": 0.51646805057923,
+      "future_error_std": 0.048075754651893635,
+      "wrong_branch_mean": 0.3723958333333333,
+      "wrong_branch_std": 0.06805799138214573
+    },
+    {
+      "action_mse_mean": 283.1485939025879,
+      "action_ood_mean": 17.36788781483968,
+      "averaging_score_mean": 0.0009062504395842552,
+      "averaging_score_std": 0.01806332198962716,
+      "baseline": "paper_state",
+      "branch_acc_mean": null,
+      "condition": "hidden_high_friction",
+      "count": 12,
+      "future_error_mean": 0.5162610212961832,
+      "future_error_std": 0.04830260633598049,
+      "wrong_branch_mean": null,
+      "wrong_branch_std": null
+    },
+    {
+      "action_mse_mean": 283.1486008961995,
+      "action_ood_mean": 17.36788781483968,
+      "averaging_score_mean": 0.0009062504395842552,
+      "averaging_score_std": 0.01806332198962716,
+      "baseline": "paper_state",
+      "branch_acc_mean": 0.3723958333333333,
+      "condition": "hidden_pin",
+      "count": 12,
+      "future_error_mean": 0.5337109218041102,
+      "future_error_std": 0.05265468933635546,
+      "wrong_branch_mean": 0.6276041666666666,
+      "wrong_branch_std": 0.06805799138214573
+    },
+    {
+      "action_mse_mean": 283.08703931172687,
+      "action_ood_mean": 17.363845268885296,
+      "averaging_score_mean": 0.0012557267521818478,
+      "averaging_score_std": 0.015489250830554635,
+      "baseline": "state_action",
+      "branch_acc_mean": 0.6458333333333334,
+      "condition": "free",
+      "count": 12,
+      "future_error_mean": 0.5158502335349718,
+      "future_error_std": 0.04846151580000097,
+      "wrong_branch_mean": 0.3541666666666667,
+      "wrong_branch_std": 0.053875418920773965
+    },
+    {
+      "action_mse_mean": 283.0870354970296,
+      "action_ood_mean": 17.363845268885296,
+      "averaging_score_mean": 0.0012557267521818478,
+      "averaging_score_std": 0.015489250830554635,
+      "baseline": "state_action",
+      "branch_acc_mean": null,
+      "condition": "hidden_high_friction",
+      "count": 12,
+      "future_error_mean": 0.5157370045781136,
+      "future_error_std": 0.04873585907477599,
+      "wrong_branch_mean": null,
+      "wrong_branch_std": null
+    },
+    {
+      "action_mse_mean": 283.08704948425293,
+      "action_ood_mean": 17.363845268885296,
+      "averaging_score_mean": 0.0012557267521818478,
+      "averaging_score_std": 0.015489250830554635,
+      "baseline": "state_action",
+      "branch_acc_mean": 0.3541666666666667,
+      "condition": "hidden_pin",
+      "count": 12,
+      "future_error_mean": 0.5356765066583952,
+      "future_error_std": 0.05227149189426666,
+      "wrong_branch_mean": 0.6458333333333334,
+      "wrong_branch_std": 0.053875418920773965
+    }
+  ],
+  "verdict": "FAIL"
+}

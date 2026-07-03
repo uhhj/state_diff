@@ -145,11 +145,36 @@ run_aggregate() {
     "${agg_extra[@]}"
 }
 
+run_sanity() {
+  echo "[Phase3] Step sanity diagnostics. Expected env: coord_bimanual"
+
+  if [[ -f scripts/phase3_check_runtime_env.py ]]; then
+    python scripts/phase3_check_runtime_env.py \
+      --role torch_train_eval \
+      --root "$ROOT" \
+      --write_json "$ROOT/reports/phase3_runtime_sanity_env.json"
+  fi
+
+  python scripts/phase3_sanity_check_metrics.py \
+    --root "$ROOT" \
+    --pred_csv "$ROOT/reports/phase3_baseline_eval_predictions.csv" \
+    --leak_json "$ROOT/reports/phase3_input_leakage_summary.json" \
+    --out_json "$ROOT/reports/phase3_sanity_check_summary.json" \
+    --out_md "$ROOT/reports/phase3_sanity_check_report.md"
+
+  python scripts/phase3_debug_action_codec_idm.py \
+    --data "$ROOT/data/phase3_state_diff_windows/phase3_windows.npz" \
+    --ckpt_root "$ROOT/checkpoints/phase3" \
+    --out_json "$ROOT/reports/phase3_action_idm_debug_summary.json" \
+    --out_md "$ROOT/reports/phase3_action_idm_debug_report.md"
+}
+
 case "$PHASE3_STEP" in
   generate) run_generate ;;
   prepare) run_prepare ;;
   train_eval) run_train_eval; run_aggregate ;;
   rollout) run_rollout; run_aggregate ;;
+  sanity) run_sanity ;;
   aggregate) run_aggregate ;;
   all) run_generate; run_prepare; run_train_eval; run_rollout; run_aggregate ;;
   *) echo "[Phase3][ERROR] unknown PHASE3_STEP=$PHASE3_STEP"; exit 1 ;;
