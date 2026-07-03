@@ -1,0 +1,43 @@
+{
+  "action_dim": 77,
+  "action_template_json_or_pickle_path": "/data/state_diff2/data/phase3_state_diff_windows/phase3_action_template.pkl",
+  "canonicalization_rule": "group by split, visible_seed, window_t; copy free-branch paper_x and state_action_x to all conditions",
+  "canonicalized_paired_input_windows": 32,
+  "conditions": [
+    "free",
+    "hidden_pin",
+    "hidden_high_friction"
+  ],
+  "heldout_visible_seeds": [
+    100000,
+    100001,
+    100002,
+    100003,
+    100004,
+    100005
+  ],
+  "max_windows_per_episode": 1,
+  "n_beads": 24,
+  "num_heldout_windows": 18,
+  "num_train_windows": 30,
+  "num_windows": 48,
+  "robot_pose_dim": 39,
+  "robot_pose_proxy_source_counts": {
+    "pybullet_robot_body": 48
+  },
+  "state_dim": 135,
+  "tf": 4,
+  "th": 3,
+  "train_visible_seeds": [
+    1000,
+    1001,
+    1002,
+    1003,
+    1004,
+    1005,
+    1006,
+    1007,
+    1008,
+    1009
+  ]
+}

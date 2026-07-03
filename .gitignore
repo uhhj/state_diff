@@ -183,3 +183,8 @@ external/deformable-ravens/data/phase2_hidden_contact_cable_line/
 
 # Phase2 generated figures can be regenerated.
 reports/phase2_ccda_visuals/
+# Phase3 generated datasets, windows, checkpoints, and heavy visuals
+data/phase3_ccda_large/
+data/phase3_state_diff_windows/
+checkpoints/phase3/
+reports/phase3_failure_visuals/
