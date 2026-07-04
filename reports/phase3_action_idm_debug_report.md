@@ -11,11 +11,6 @@
 - `y_action_shape`: `[75, 14]`
 - `episode_action_len_max`: `20`
 
-## Dataset Counts
-
-- Condition counts: `{'free': 25, 'hidden_high_friction': 25, 'hidden_pin': 25}`
-- Split counts: `{'heldout': 21, 'train': 54}`
-
 ## Action Target Stats
 
 | Metric | Value |
@@ -31,16 +26,7 @@
 | `num_nan` | `0` |
 | `num_inf` | `0` |
 
-## Action Dimension Diagnostics
-
-- Zero-variance dims: `8`
-- Near-zero-variance dims: `8`
-- Large-scale dims count: `0`
-- Zero-variance dims head: `[3, 4, 5, 6, 10, 11, 12, 13]`
-- Near-zero dims head: `[3, 4, 5, 6, 10, 11, 12, 13]`
-- Large-scale dims head: `[]`
-
-## State-Action Extra Block
+## Action-History Leakage
 
 - `shape`: `[75, 42]`
 - `mean`: `0.03358640093195607`
@@ -52,6 +38,10 @@
 - `p99_abs`: `1.0`
 - `num_nan`: `0`
 - `num_inf`: `0`
+- `state_action_extra_dim`: `42`
+- `expected_extra_dim`: `42`
+- `action_history_target_exact_match_rate`: `0.0`
+- `action_history_target_corr_max`: `0.44612507259263456`
 
 ## Action Template
 
@@ -65,23 +55,12 @@
 
 ## IDM Heldout Reconstruction
 
-- Feature mode: `['cable_xy_history_future']`
-
-| Checkpoint | Backend | Raw MSE | Normalized MSE | Pred OOD mean | Pred OOD max | Standardized target |
-|---|---|---:|---:|---:|---:|---|
-| `paper_state/fold_0_seed_0` | `torch` | `0.014688277617096901` | `2.3499228954315186` | `0.5697910785675049` | `0.9521216750144958` | `True` |
-| `paper_state/fold_1_seed_0` | `torch` | `0.008442241698503494` | `0.8672045469284058` | `0.5028700232505798` | `1.0105563402175903` | `True` |
-| `state_action/fold_0_seed_0` | `torch` | `0.014688277617096901` | `2.3499228954315186` | `0.5697910785675049` | `0.9521216750144958` | `True` |
-| `state_action/fold_1_seed_0` | `torch` | `0.008442241698503494` | `0.8672045469284058` | `0.5028700232505798` | `1.0105563402175903` | `True` |
-
-## Checkpoint Backends
-
-| Checkpoint | Backend |
-|---|---|
-| `/data/state_diff2/checkpoints/phase3/paper_state/fold_0_seed_0` | `torch` |
-| `/data/state_diff2/checkpoints/phase3/paper_state/fold_1_seed_0` | `torch` |
-| `/data/state_diff2/checkpoints/phase3/state_action/fold_0_seed_0` | `torch` |
-| `/data/state_diff2/checkpoints/phase3/state_action/fold_1_seed_0` | `torch` |
+| Checkpoint | Backend | Future model | DDPM | IDM features | Raw MSE | Normalized MSE | Pred OOD mean | Pred OOD max |
+|---|---|---|---|---|---:|---:|---:|---:|
+| `paper_state/fold_0_seed_0` | `torch` | `torch_conditional_ddpm_future_state` | `True` | `paper_full_state_history_future` | `0.0049493820406496525` | `2.189709186553955` | `0.5352833271026611` | `0.9634959101676941` |
+| `paper_state/fold_1_seed_0` | `torch` | `torch_conditional_ddpm_future_state` | `True` | `paper_full_state_history_future` | `0.004737044218927622` | `0.8170351386070251` | `0.5460922718048096` | `1.0564866065979004` |
+| `state_action/fold_0_seed_0` | `torch` | `torch_conditional_ddpm_future_state` | `True` | `paper_full_state_history_future` | `0.0049493820406496525` | `2.189709186553955` | `0.5352833271026611` | `0.9634959101676941` |
+| `state_action/fold_1_seed_0` | `torch` | `torch_conditional_ddpm_future_state` | `True` | `paper_full_state_history_future` | `0.004737044218927622` | `0.8170351386070251` | `0.5460922718048096` | `1.0564866065979004` |
 
 ## Issues
 
@@ -91,6 +70,5 @@
 
 ## Interpretation
 
-- If this report is FAIL, do not trust policy rollout.
-- High raw action scale may make raw MSE misleading, but high OOD still requires action normalization/codec diagnosis.
-- If `state_action_x` is not larger than `paper_x`, the state_action baseline is not implemented correctly.
+- IDM diagnostics use `paper_x + future_state` full-state inputs, matching the formal Phase3 action pipeline.
+- If this report is FAIL, do not trust policy rollout or move to Phase4.

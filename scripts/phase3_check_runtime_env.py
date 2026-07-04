@@ -80,11 +80,15 @@ def main():
             )
 
     elif args.role == "torch_train_eval":
-        if not torch_ok and not args.allow_numpy_fallback:
+        if args.allow_numpy_fallback:
             raise SystemExit(
-                "[Phase3][ENV FAIL] PyTorch is required for Phase3 train/eval. "
-                "You are likely running in defravens37. Activate coord_bimanual. "
-                "Fallback is disabled by default. Use --allow_numpy_fallback only for pipeline smoke."
+                "[Phase3][ENV FAIL] NumPy fallback is disabled for the DDPM Phase3 pipeline. "
+                "Activate coord_bimanual and rerun with PyTorch."
+            )
+        if not torch_ok:
+            raise SystemExit(
+                "[Phase3][ENV FAIL] PyTorch is required for Phase3 DDPM train/eval. "
+                "You are likely running in defravens37. Activate coord_bimanual."
             )
 
     elif args.role == "rollout":

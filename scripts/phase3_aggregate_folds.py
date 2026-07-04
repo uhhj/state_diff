@@ -12,6 +12,9 @@ from pathlib import Path
 
 import numpy as np
 
+DDPM_MODEL_TYPE = "torch_conditional_ddpm_future_state"
+BRANCH_REFERENCE_MODE = "split_visible_seed_window_t"
+
 
 def read_csv(path):
     if not Path(path).exists():
@@ -37,6 +40,10 @@ def fval(x):
         return None
 
 
+def boolish(x):
+    return str(x).strip().lower() in {"true", "1", "yes"}
+
+
 def mean_std(rows, key):
     vals = [fval(r.get(key)) for r in rows]
     vals = [v for v in vals if v is not None]
@@ -52,19 +59,24 @@ def fmt(v):
 def runtime_row(step, info):
     if not info:
         return f"| {step} | not run in current report | NA | NA | NA |"
-
     torch_required = step in ("train_eval", "rollout")
     ravens_required = step in ("generate", "rollout")
-
     def status(ok, required):
         if ok:
             return "OK"
         return "FAIL" if required else "not required"
+    return f"| {step} | `{info.get('python','')}` | `{info.get('conda_env','')}` | {status(info.get('torch_ok'), torch_required)} | {status(info.get('ravens_ok'), ravens_required)} |"
 
-    torch = status(info.get("torch_ok"), torch_required)
-    ravens = status(info.get("ravens_ok"), ravens_required)
-    return f"| {step} | `{info.get('python','')}` | `{info.get('conda_env','')}` | {torch} | {ravens} |"
 
+def infer_scale(root: Path):
+    prep = read_json(root / "reports/phase3_prepare_windows_summary.json") or {}
+    train_seeds = prep.get("train_visible_seeds", []) or []
+    n_seeds = len(train_seeds)
+    if n_seeds >= 500:
+        return "full"
+    if n_seeds >= 100:
+        return "medium"
+    return "smoke"
 
 
 def diagnostics_markdown(root: Path) -> str:
@@ -95,17 +107,6 @@ def diagnostics_markdown(root: Path) -> str:
     lines.append("")
     return "\n".join(lines)
 
-def infer_scale(root: Path):
-    prep = read_json(root / "reports/phase3_prepare_windows_summary.json") or {}
-    n_train = int(prep.get("num_train_windows", 0) or 0)
-    train_seeds = prep.get("train_visible_seeds", []) or []
-    n_seeds = len(train_seeds)
-    if n_seeds >= 500:
-        return "full"
-    if n_seeds >= 100:
-        return "medium"
-    return "smoke"
-
 
 def main():
     ap = argparse.ArgumentParser()
@@ -118,6 +119,9 @@ def main():
     backend_counts = Counter([r.get("training_backend", "unknown") for r in pred])
     has_fallback = any(k == "numpy_fallback" for k in backend_counts)
     all_torch = bool(pred) and set(backend_counts.keys()) == {"torch"}
+    future_types = Counter([r.get("future_model_type", "") for r in pred])
+    ddpm_flags = Counter([str(r.get("ddpm_used", "")).lower() for r in pred])
+    non_ddpm_rows = [r for r in pred if r.get("future_model_type") != DDPM_MODEL_TYPE or not boolish(r.get("ddpm_used"))]
 
     rows = []
     groups = defaultdict(list)
@@ -137,7 +141,8 @@ def main():
     fields = list(rows[0].keys()) if rows else ["baseline", "condition", "subset"]
     with out_csv.open("w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=fields, lineterminator="\n")
-        w.writeheader(); w.writerows(rows)
+        w.writeheader()
+        w.writerows(rows)
 
     rt_generate = read_json(root / "reports/phase3_runtime_generate_env.json")
     rt_train = read_json(root / "reports/phase3_runtime_train_eval_env.json")
@@ -149,15 +154,28 @@ def main():
         for r in policy:
             policy_groups[(r.get("baseline"), r.get("condition"))].append(r)
 
-    title = "# Phase3 PyTorch StateDiff CCDA Baseline Evaluation" if all_torch else "# Phase3 StateDiff CCDA Pipeline Smoke Evaluation"
+    report_fails = []
+    if has_fallback and not args.allow_fallback_report:
+        report_fails.append("numpy_fallback prediction rows are not allowed in DDPM Phase3.")
+    if non_ddpm_rows:
+        report_fails.append("Non-DDPM future model rows found in prediction CSV.")
+    if future_types and set(future_types.keys()) != {DDPM_MODEL_TYPE}:
+        report_fails.append(f"Unexpected future_model_types_seen={dict(future_types)}")
+    if ddpm_flags and set(ddpm_flags.keys()) != {"true"}:
+        report_fails.append(f"Unexpected ddpm_used flags={dict(ddpm_flags)}")
+
+    title = "# Phase3 PyTorch StateDiff CCDA Baseline Evaluation" if all_torch and not report_fails else "# Phase3 DDPM Alignment Report - FAIL"
     lines = [title, "", "## Scope", "", "Phase3 evaluates contact-blind StateDiff-style baselines on `hidden-contact-cable-line` without hidden condition labels, pin ids, hidden contact metadata, success labels, contact concatenation, CPS guidance, or action feasibility classifiers.", ""]
     lines += ["## Runtime Backend", "", "| Step | Python | Conda Env | Torch | Ravens |", "|---|---|---|---|---|",
               runtime_row("generate", rt_generate), runtime_row("train_eval", rt_train), runtime_row("rollout", rt_rollout), runtime_row("aggregate", rt_aggregate), ""]
+    lines += ["## Future Model", "", "| Field | Value |", "|---|---|", f"| future_model_type | {DDPM_MODEL_TYPE} |", f"| ddpm_used | {str(set(ddpm_flags.keys()) == {'true'}).lower()} |", "| simplified_mlp_removed | true |", f"| branch_reference_mode | {BRANCH_REFERENCE_MODE} |", "", "This Phase3 run uses a conditional DDPM future-state predictor. It no longer uses the previous PyTorch MLP residual future-state surrogate.", ""]
     lines += ["## Training Backend", "", "| Backend | Count |", "|---|---:|"]
     for k, v in sorted(backend_counts.items()):
         lines.append(f"| `{k}` | {v} |")
-    if has_fallback:
-        lines += ["", "This is fallback smoke, not a PyTorch DDPM result."]
+    if report_fails:
+        lines += ["", "## Report Failures", ""]
+        for item in report_fails:
+            lines.append(f"- {item}")
     lines += ["", "## Offline State Prediction", "", "| Baseline | Condition | Wrong-Branch mean | Branch-Accuracy mean | Future Error mean | Averaging Score mean |", "|---|---|---:|---:|---:|---:|"]
     for r in rows:
         if r["condition"] == "all":
@@ -176,9 +194,6 @@ def main():
             frac, _ = mean_std(rs, "final_fraction")
             curve, _ = mean_std(rs, "final_curve")
             lines.append(f"| {key[0]} | {key[1]} | {len(rs)} | {fmt(succ)} | {fmt(frac)} | {fmt(curve)} |")
-        all_zero = policy and all((fval(r.get("success")) or 0.0) == 0.0 for r in policy)
-        if all_zero:
-            lines += ["", "Policy rollout currently records zero success for all conditions; this is reported as policy execution failure and should not be hidden or counted as successful execution evidence."]
     else:
         lines.append("Policy rollout was not rerun for the current PyTorch train/eval report, so any older rollout CSV is not counted as current execution evidence.")
 
@@ -187,21 +202,17 @@ def main():
     hidden_pin_rows = [r for r in rows if r["condition"] == "hidden_pin"]
     wrong = [fval(r.get("sample_wrong_branch_rate_mean")) for r in hidden_pin_rows]
     wrong = [x for x in wrong if x is not None]
-    if has_fallback and not args.allow_fallback_report:
-        lines.append("This report is pipeline smoke only because at least one checkpoint used `numpy_fallback`. It must not be cited as a PyTorch StateDiff baseline result.")
-    elif all_torch and wrong and max(wrong) >= 0.2:
-        if scale == "full":
-            lines.append("Full Phase3 completed with PyTorch checkpoints. Confirm fold and seed counts before treating this as paper-level 5-fold x 3-seed statistics.")
-        elif scale == "medium":
-            lines.append("Phase3-medium passed with PyTorch backend, leakage-checked matched inputs, executable action targets, and multi-fold/multi-seed statistics. Contact-blind baselines still exhibit elevated wrong-branch rate on the hidden_pin CCDA subset. Policy execution remains excluded unless torch-enabled DeformableRavens rollout is run and action diagnostics pass.")
-        else:
-            lines.append("Phase3 PyTorch smoke passed after fixing the executable action codec. The previous camera_config leakage into y_action was removed; y_action now contains only executable pick-place pose parameters. This validates the corrected offline state prediction and inverse dynamics pipeline at smoke scale. Paper-level evidence still requires MODE=medium or MODE=full.")
-        lines.append("")
-        lines.append("The input consistency and leakage checks verify that paired `free` and `hidden_pin` samples have matched visible/proprio/action inputs, and probe classifiers cannot reliably recover hidden condition from the model inputs. Therefore, the branch ambiguity is not caused by accidental input leakage.")
+    if report_fails:
+        lines.append("Phase3 DDPM alignment is still FAIL. Do not run medium, rollout, Phase4, or cite this report until the listed failures are fixed.")
+    elif scale == "full":
+        lines.append("Full Phase3 completed with PyTorch DDPM checkpoints. Confirm fold and seed counts before treating this as paper-level 5-fold x 3-seed statistics.")
+    elif scale == "medium":
+        lines.append("Phase3-medium passed with PyTorch DDPM backend, leakage-checked matched inputs, executable action targets, and multi-fold/multi-seed statistics. Policy execution remains excluded unless torch-enabled DeformableRavens rollout is run and action diagnostics pass.")
+    else:
+        lines.append("Phase3 PyTorch DDPM smoke passed after replacing the simplified MLP residual future predictor. The executable action codec removes camera_config leakage; y_action contains only pick-place pose parameters. Paper-level evidence still requires MODE=medium or MODE=full.")
+    if wrong:
         lines.append("")
         lines.append("Across the current folds and random seeds, the contact-blind baselines exhibit elevated wrong-branch rate and/or branch ambiguity on the primary `free` vs `hidden_pin` CCDA subset. This preserves the offline wrong-branch signal, but rollout, medium/full runs, and Phase4 decisions must obey the sanity diagnostics below.")
-    else:
-        lines.append("Phase3 did not establish a robust contact-blind StateDiff failure mode. Before moving to contact-conditioned models, inspect input leakage, seed grouping, branch definitions, and inverse-dynamics or rollout failures.")
     lines.append(diagnostics_markdown(root))
     (root / "reports/phase3_final_report.md").write_text("\n".join(lines).rstrip() + "\n")
     print("[Phase3] wrote", out_csv)

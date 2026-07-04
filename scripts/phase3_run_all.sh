@@ -8,6 +8,12 @@ MODE="${MODE:-smoke}"
 PHASE3_STEP="${PHASE3_STEP:-all}"
 ALLOW_NUMPY_FALLBACK="${ALLOW_NUMPY_FALLBACK:-0}"
 
+if [[ "$ALLOW_NUMPY_FALLBACK" == "1" ]]; then
+  echo "[Phase3][ERROR] NumPy fallback is disabled for the DDPM Phase3 pipeline."
+  echo "[Phase3][ERROR] Activate coord_bimanual for train/eval and rerun without ALLOW_NUMPY_FALLBACK."
+  exit 1
+fi
+
 if [[ "$MODE" == "smoke" ]]; then
   TRAIN_SEEDS="${TRAIN_SEEDS:-10}"
   HELDOUT_SEEDS="${HELDOUT_SEEDS:-6}"
@@ -37,17 +43,17 @@ else
   exit 1
 fi
 
+DIFFUSION_STEPS="${DIFFUSION_STEPS:-100}"
+HIDDEN_DIM="${HIDDEN_DIM:-512}"
+TIME_DIM="${TIME_DIM:-128}"
+LR="${LR:-1e-3}"
+
 TRAIN_DATA_ROOT="$ROOT/external/deformable-ravens/data/phase3_ccda_large/train/hidden-contact-cable-line"
 HELDOUT_DATA_ROOT="$ROOT/external/deformable-ravens/data/phase3_ccda_large/heldout/hidden-contact-cable-line"
 WINDOWS="$ROOT/data/phase3_state_diff_windows/phase3_windows.npz"
 CKPT_ROOT="$ROOT/checkpoints/phase3"
 
-fallback_arg=()
-if [[ "$ALLOW_NUMPY_FALLBACK" == "1" ]]; then
-  fallback_arg=(--allow_numpy_fallback)
-fi
-
-echo "[Phase3] MODE=$MODE PHASE3_STEP=$PHASE3_STEP ALLOW_NUMPY_FALLBACK=$ALLOW_NUMPY_FALLBACK"
+echo "[Phase3] MODE=$MODE PHASE3_STEP=$PHASE3_STEP DDPM_STEPS=$DIFFUSION_STEPS HIDDEN_DIM=$HIDDEN_DIM TIME_DIM=$TIME_DIM"
 
 run_generate() {
   echo "[Phase3] Step generate. Expected env: defravens37"
@@ -83,7 +89,6 @@ run_train_eval() {
   python scripts/phase3_check_runtime_env.py \
     --role torch_train_eval \
     --root "$ROOT" \
-    "${fallback_arg[@]}" \
     --write_json "$ROOT/reports/phase3_runtime_train_eval_env.json"
 
   python scripts/phase3_train_baselines.py \
@@ -95,8 +100,10 @@ run_train_eval() {
     --epochs_state "$EPOCHS_STATE" \
     --epochs_idm "$EPOCHS_IDM" \
     --batch_size 128 \
-    --diffusion_steps 100 \
-    "${fallback_arg[@]}"
+    --diffusion_steps "$DIFFUSION_STEPS" \
+    --hidden_dim "$HIDDEN_DIM" \
+    --time_dim "$TIME_DIM" \
+    --lr "$LR"
 
   python scripts/phase3_eval_baselines.py \
     --data "$WINDOWS" \
@@ -104,15 +111,14 @@ run_train_eval() {
     --out_csv "$ROOT/reports/phase3_baseline_eval_predictions.csv" \
     --out_json "$ROOT/reports/phase3_baseline_eval_summary.json" \
     --samples_per_prefix 64 \
-    --diffusion_steps 100
+    --diffusion_steps "$DIFFUSION_STEPS"
 }
 
 run_rollout() {
-  echo "[Phase3] Step rollout. Expected env: defravens37 with torch, or explicit fallback smoke."
+  echo "[Phase3] Step rollout. Expected env: defravens37 with torch."
   python scripts/phase3_check_runtime_env.py \
     --role rollout \
     --root "$ROOT" \
-    "${fallback_arg[@]}" \
     --write_json "$ROOT/reports/phase3_runtime_rollout_env.json"
 
   python scripts/phase3_policy_rollout.py \
@@ -124,8 +130,7 @@ run_rollout() {
     --max_steps 10 \
     --samples_per_step 16 \
     --motion_timeout "${MOTION_TIMEOUT:-5}" \
-    --action_clip_std "${ACTION_CLIP_STD:-3}" \
-    "${fallback_arg[@]}"
+    --action_clip_std "${ACTION_CLIP_STD:-3}"
 }
 
 run_aggregate() {
@@ -135,25 +140,17 @@ run_aggregate() {
     --root "$ROOT" \
     --write_json "$ROOT/reports/phase3_runtime_aggregate_env.json"
 
-  agg_extra=()
-  if [[ "$ALLOW_NUMPY_FALLBACK" == "1" ]]; then
-    agg_extra=(--allow_fallback_report)
-  fi
-
   python scripts/phase3_aggregate_folds.py \
-    --root "$ROOT" \
-    "${agg_extra[@]}"
+    --root "$ROOT"
 }
 
 run_sanity() {
   echo "[Phase3] Step sanity diagnostics. Expected env: coord_bimanual"
 
-  if [[ -f scripts/phase3_check_runtime_env.py ]]; then
-    python scripts/phase3_check_runtime_env.py \
-      --role torch_train_eval \
-      --root "$ROOT" \
-      --write_json "$ROOT/reports/phase3_runtime_sanity_env.json"
-  fi
+  python scripts/phase3_check_runtime_env.py \
+    --role torch_train_eval \
+    --root "$ROOT" \
+    --write_json "$ROOT/reports/phase3_runtime_sanity_env.json"
 
   python scripts/phase3_sanity_check_metrics.py \
     --root "$ROOT" \
@@ -167,6 +164,8 @@ run_sanity() {
     --ckpt_root "$ROOT/checkpoints/phase3" \
     --out_json "$ROOT/reports/phase3_action_idm_debug_summary.json" \
     --out_md "$ROOT/reports/phase3_action_idm_debug_report.md"
+
+  run_aggregate
 }
 
 case "$PHASE3_STEP" in

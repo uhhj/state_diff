@@ -1,0 +1,35 @@
+{
+  "canonicalization_enabled": true,
+  "num_canonicalized_windows": 50,
+  "post_max_pair_paper_x_max_abs_diff": 0.0,
+  "post_max_pair_state_action_x_max_abs_diff": 0.0,
+  "post_mean_pair_paper_x_max_abs_diff": 0.0,
+  "post_mean_pair_state_action_x_max_abs_diff": 0.0,
+  "post_pair_stats": {
+    "num_pairs": 50,
+    "paper_x_max_abs": {
+      "max": 0.0,
+      "mean": 0.0
+    },
+    "state_action_x_max_abs": {
+      "max": 0.0,
+      "mean": 0.0
+    }
+  },
+  "raw_max_pair_paper_x_max_abs_diff": 1.905490756034851,
+  "raw_max_pair_state_action_x_max_abs_diff": 1.905490756034851,
+  "raw_mean_pair_paper_x_max_abs_diff": 0.12923611821956002,
+  "raw_mean_pair_state_action_x_max_abs_diff": 0.12923611821956002,
+  "raw_pair_stats": {
+    "num_pairs": 50,
+    "paper_x_max_abs": {
+      "max": 1.905490756034851,
+      "mean": 0.12923611821956002
+    },
+    "state_action_x_max_abs": {
+      "max": 1.905490756034851,
+      "mean": 0.12923611821956002
+    }
+  },
+  "rule": "group by split_name, visible_seed, window_t; copy free input to paired hidden branches; targets remain condition-specific"
+}

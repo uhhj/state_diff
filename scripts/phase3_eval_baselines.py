@@ -12,9 +12,12 @@ from pathlib import Path
 
 import numpy as np
 
-from ccda_phase3.data_io import make_idm_xy_features
 from ccda_phase3.metrics import branch_stats, finite_mean, finite_std, state_chamfer
 from ccda_phase3.train_utils import load_future_model, load_inverse_model
+
+
+BRANCH_REFERENCE_MODE = "split_visible_seed_window_t"
+DDPM_MODEL_TYPE = "torch_conditional_ddpm_future_state"
 
 
 def row_summary(rows, keys):
@@ -24,6 +27,25 @@ def row_summary(rows, keys):
         out[f"mean_{key}"] = finite_mean(vals)
         out[f"std_{key}"] = finite_std(vals)
     return out
+
+
+def missing_branch_stats(samples_final, true_final, n_beads):
+    mean_final = np.mean(np.asarray(samples_final, dtype=np.float32), axis=0)
+    return {
+        "future_chamfer_to_true": float(np.mean([state_chamfer(s, true_final, n_beads) for s in samples_final])),
+        "final_chamfer_to_true": state_chamfer(mean_final, true_final, n_beads),
+        "min_sample_chamfer_to_true": float(np.min([state_chamfer(s, true_final, n_beads) for s in samples_final])),
+        "mean_prediction_chamfer_to_true": state_chamfer(mean_final, true_final, n_beads),
+        "p_free_branch": float("nan"),
+        "p_pin_branch": float("nan"),
+        "sample_wrong_branch_rate": float("nan"),
+        "majority_wrong_branch": float("nan"),
+        "branch_entropy": float("nan"),
+        "branch_accuracy": float("nan"),
+        "averaging_score": float("nan"),
+        "physical_violation_length": float("nan"),
+        "curve_error": float("nan"),
+    }
 
 
 def main():
@@ -41,22 +63,26 @@ def main():
     held = np.where(split == "heldout")[0]
     cond_name = data["condition_name"].astype(str)
     visible_seed = data["visible_seed"].astype(int)
+    window_t = data["window_t"].astype(int)
     paper_x = data["paper_x"].astype(np.float32)
     state_action_x = data["state_action_x"].astype(np.float32)
     y_state = data["y_state"].astype(np.float32)
-    y_flat = y_state.reshape(len(y_state), -1)
     y_final = data["y_final_state"].astype(np.float32)
     y_action = data["y_action"].astype(np.float32)
     n_beads = int(data["n_beads"])
-    th = int(data["th"])
     tf = int(data["tf"])
     state_dim = int(data["state_dim"])
 
     refs = defaultdict(dict)
     for i in held:
-        refs[int(visible_seed[i])][str(cond_name[i])] = y_final[i]
+        key = (str(split[i]), int(visible_seed[i]), int(window_t[i]))
+        refs[key][str(cond_name[i])] = y_final[i]
 
     rows = []
+    num_missing_primary_branch_refs = 0
+    num_valid_primary_branch_refs = 0
+    model_types = Counter()
+    ddpm_flags = Counter()
     ckpt_root = Path(args.ckpt_root)
     for baseline_dir in sorted(ckpt_root.glob("*")):
         if not baseline_dir.is_dir():
@@ -67,9 +93,17 @@ def main():
             if not cfg_path.exists():
                 continue
             cfg = json.loads(cfg_path.read_text())
+            future_model_type = str(cfg.get("future_model_type", ""))
+            ddpm_used = bool(cfg.get("ddpm_used", False))
+            model_types[future_model_type] += 1
+            ddpm_flags[str(ddpm_used).lower()] += 1
+            if future_model_type != DDPM_MODEL_TYPE or not ddpm_used:
+                raise SystemExit("[Phase3][FAIL] Non-DDPM future model found in DDPM-aligned Phase3 eval.")
             fold = int(cfg["fold"])
             seed = int(cfg["seed"])
             training_backend = str(cfg.get("training_backend", cfg.get("backend", "unknown")))
+            if training_backend != "torch":
+                raise SystemExit("[Phase3][FAIL] Non-torch backend found in DDPM-aligned Phase3 eval.")
             python_executable = str(cfg.get("python_executable", ""))
             conda_env = str(cfg.get("conda_env", ""))
             state_model = load_future_model(ckpt / "state_model.pt")
@@ -81,20 +115,22 @@ def main():
                 samples_traj = samples.reshape(args.samples_per_prefix, tf, state_dim)
                 samples_final = samples_traj[:, -1, :]
                 mean_future = np.mean(samples, axis=0, keepdims=True)
-                idm_x = make_idm_xy_features(
-                    paper_x[i : i + 1],
-                    mean_future.reshape(1, tf, state_dim),
-                    th=th,
-                    state_dim=state_dim,
-                    n_beads=n_beads,
-                )
+                idm_x = np.concatenate([paper_x[i : i + 1], mean_future], axis=1)
                 pred_action = idm.predict(idm_x)
                 action_mse = float(np.mean((pred_action[0] - y_action[i]) ** 2))
                 action_ood = float(idm.ood_score(pred_action)[0])
-                ref = refs[int(visible_seed[i])]
-                free_final = ref.get("free", y_final[i])
-                pin_final = ref.get("hidden_pin", y_final[i])
-                bs = branch_stats(samples_final, y_final[i], free_final, pin_final, str(cond_name[i]), n_beads)
+
+                ref_key = (str(split[i]), int(visible_seed[i]), int(window_t[i]))
+                ref = refs.get(ref_key, {})
+                has_free_ref = "free" in ref
+                has_pin_ref = "hidden_pin" in ref
+                if has_free_ref and has_pin_ref:
+                    num_valid_primary_branch_refs += 1
+                    bs = branch_stats(samples_final, y_final[i], ref["free"], ref["hidden_pin"], str(cond_name[i]), n_beads)
+                else:
+                    num_missing_primary_branch_refs += 1
+                    bs = missing_branch_stats(samples_final, y_final[i], n_beads)
+
                 rows.append({
                     "baseline": baseline,
                     "fold": fold,
@@ -102,11 +138,17 @@ def main():
                     "training_backend": training_backend,
                     "python_executable": python_executable,
                     "conda_env": conda_env,
+                    "future_model_type": future_model_type,
+                    "ddpm_used": ddpm_used,
                     "idm_feature_mode": str(cfg.get("idm_feature_mode", "")),
+                    "branch_reference_mode": BRANCH_REFERENCE_MODE,
+                    "ref_key": f"{split[i]}_{visible_seed[i]}_{window_t[i]}",
+                    "has_free_ref": bool(has_free_ref),
+                    "has_pin_ref": bool(has_pin_ref),
                     "condition": str(cond_name[i]),
                     "visible_seed": int(visible_seed[i]),
                     "source_file": str(data["source_file"][i]),
-                    "window_t": int(data["window_t"][i]),
+                    "window_t": int(window_t[i]),
                     "primary_pair": "free_vs_hidden_pin",
                     "heldout": True,
                     "future_chamfer_to_true": bs["future_chamfer_to_true"],
@@ -144,15 +186,29 @@ def main():
         item.update(row_summary(rs, metrics))
         summary_rows.append(item)
     backends = Counter([r["training_backend"] for r in rows])
+    future_model_types_seen = Counter([r["future_model_type"] for r in rows])
+    ddpm_seen = Counter([str(r["ddpm_used"]).lower() for r in rows])
     summary = {
         "num_prediction_rows": len(rows),
         "summary_rows": summary_rows,
         "backends_seen": dict(backends),
         "all_torch_backend": bool(rows) and set(backends.keys()) == {"torch"},
+        "branch_reference_mode": BRANCH_REFERENCE_MODE,
+        "num_missing_primary_branch_refs": int(num_missing_primary_branch_refs),
+        "num_valid_primary_branch_refs": int(num_valid_primary_branch_refs),
+        "future_model_types_seen": dict(future_model_types_seen),
+        "all_ddpm_used": bool(rows) and set(ddpm_seen.keys()) == {"true"},
+        "ddpm_used_counts": dict(ddpm_seen),
         "fallback_note": "This is fallback smoke, not a PyTorch DDPM result." if "numpy_fallback" in backends else "",
     }
     Path(args.out_json).write_text(json.dumps(summary, indent=2, sort_keys=True))
-    print(json.dumps({"num_prediction_rows": len(rows), "backends_seen": dict(backends), "all_torch_backend": summary["all_torch_backend"]}, indent=2))
+    print(json.dumps({
+        "num_prediction_rows": len(rows),
+        "backends_seen": dict(backends),
+        "future_model_types_seen": dict(future_model_types_seen),
+        "all_ddpm_used": summary["all_ddpm_used"],
+        "num_missing_primary_branch_refs": num_missing_primary_branch_refs,
+    }, indent=2))
 
 
 if __name__ == "__main__":

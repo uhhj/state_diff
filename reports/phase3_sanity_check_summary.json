@@ -15,6 +15,17 @@
     "seed": "seed",
     "wrong_branch": "sample_wrong_branch_rate"
   },
+  "ddpm_metadata_counts": {
+    "branch_reference_mode_counts": {
+      "split_visible_seed_window_t": 84
+    },
+    "ddpm_used_counts": {
+      "true": 84
+    },
+    "future_model_type_counts": {
+      "torch_conditional_ddpm_future_state": 84
+    }
+  },
   "issues": [
     {
       "detail": "Only 84 prediction rows. This is smoke-scale, not paper-scale.",
@@ -22,47 +33,32 @@
       "name": "small_prediction_table"
     },
     {
-      "detail": "paper_state and state_action differ by <1e-3 for future_error_mean on free: 0.5323939727885383 vs 0.5332859030791691",
+      "detail": "paper_state and state_action differ by <1e-3 for future_error_mean on free: 0.1880333838718278 vs 0.18747245307479585",
       "level": "WARN",
       "name": "baseline_nearly_identical_future_error_mean_free"
     },
     {
-      "detail": "paper_state and state_action differ by <1e-3 for averaging_score_mean on free: -0.01359889842569828 vs -0.013652579858899117",
-      "level": "WARN",
-      "name": "baseline_nearly_identical_averaging_score_mean_free"
-    },
-    {
-      "detail": "paper_state and state_action differ by <1e-3 for action_mse_mean on free: 0.013352553459948726 vs 0.013896014192141593",
+      "detail": "paper_state and state_action differ by <1e-3 for action_mse_mean on free: 0.005387358267658523 vs 0.005494523743566658",
       "level": "WARN",
       "name": "baseline_nearly_identical_action_mse_mean_free"
     },
     {
-      "detail": "paper_state and state_action differ by <1e-3 for future_error_mean on hidden_high_friction: 0.5337501849446978 vs 0.5346673130989075",
+      "detail": "paper_state and state_action differ by <1e-3 for future_error_mean on hidden_high_friction: 0.18961642788989203 vs 0.18902442497866495",
       "level": "WARN",
       "name": "baseline_nearly_identical_future_error_mean_hidden_high_friction"
     },
     {
-      "detail": "paper_state and state_action differ by <1e-3 for averaging_score_mean on hidden_high_friction: -0.01359889842569828 vs -0.013652579858899117",
-      "level": "WARN",
-      "name": "baseline_nearly_identical_averaging_score_mean_hidden_high_friction"
-    },
-    {
-      "detail": "paper_state and state_action differ by <1e-3 for action_mse_mean on hidden_high_friction: 0.013434154846306359 vs 0.01398549198971263",
+      "detail": "paper_state and state_action differ by <1e-3 for action_mse_mean on hidden_high_friction: 0.005450264858414552 vs 0.005558272624122245",
       "level": "WARN",
       "name": "baseline_nearly_identical_action_mse_mean_hidden_high_friction"
     },
     {
-      "detail": "paper_state and state_action differ by <1e-3 for future_error_mean on hidden_pin: 0.5617055020162037 vs 0.5614840494734901",
+      "detail": "paper_state and state_action differ by <1e-3 for future_error_mean on hidden_pin: 0.22729624594960893 vs 0.22701956225293024",
       "level": "WARN",
       "name": "baseline_nearly_identical_future_error_mean_hidden_pin"
     },
     {
-      "detail": "paper_state and state_action differ by <1e-3 for averaging_score_mean on hidden_pin: -0.01359889842569828 vs -0.013652579858899117",
-      "level": "WARN",
-      "name": "baseline_nearly_identical_averaging_score_mean_hidden_pin"
-    },
-    {
-      "detail": "paper_state and state_action differ by <1e-3 for action_mse_mean on hidden_pin: 0.01339553639159671 vs 0.013817112709927772",
+      "detail": "paper_state and state_action differ by <1e-3 for action_mse_mean on hidden_pin: 0.005257259921303817 vs 0.005373392079491168",
       "level": "WARN",
       "name": "baseline_nearly_identical_action_mse_mean_hidden_pin"
     }
@@ -70,88 +66,88 @@
   "num_prediction_rows": 84,
   "summary_by_baseline_condition": [
     {
-      "action_mse_mean": 0.013352553459948726,
-      "action_ood_mean": 0.5682271271944046,
-      "averaging_score_mean": -0.01359889842569828,
-      "averaging_score_std": 0.01682621327359957,
+      "action_mse_mean": 0.005387358267658523,
+      "action_ood_mean": 0.4436942679541452,
+      "averaging_score_mean": -0.027736715440239226,
+      "averaging_score_std": 0.03158693336473488,
       "baseline": "paper_state",
-      "branch_acc_mean": 0.7142857142857143,
+      "branch_acc_mean": 0.8069196428571429,
       "condition": "free",
       "count": 14,
-      "future_error_mean": 0.5323939727885383,
-      "future_error_std": 0.04161463856451519,
-      "wrong_branch_mean": 0.2857142857142857,
-      "wrong_branch_std": 0.08847286242235006
+      "future_error_mean": 0.1880333838718278,
+      "future_error_std": 0.017152366868837924,
+      "wrong_branch_mean": 0.19308035714285715,
+      "wrong_branch_std": 0.2126548102430681
     },
     {
-      "action_mse_mean": 0.013434154846306359,
-      "action_ood_mean": 0.5682271271944046,
-      "averaging_score_mean": -0.01359889842569828,
-      "averaging_score_std": 0.01682621327359957,
+      "action_mse_mean": 0.005450264858414552,
+      "action_ood_mean": 0.4436942679541452,
+      "averaging_score_mean": -0.027736715440239226,
+      "averaging_score_std": 0.03158693336473488,
       "baseline": "paper_state",
       "branch_acc_mean": null,
       "condition": "hidden_high_friction",
       "count": 14,
-      "future_error_mean": 0.5337501849446978,
-      "future_error_std": 0.04171599767026828,
+      "future_error_mean": 0.18961642788989203,
+      "future_error_std": 0.01616222427351449,
       "wrong_branch_mean": null,
       "wrong_branch_std": null
     },
     {
-      "action_mse_mean": 0.01339553639159671,
-      "action_ood_mean": 0.5682271271944046,
-      "averaging_score_mean": -0.01359889842569828,
-      "averaging_score_std": 0.01682621327359957,
+      "action_mse_mean": 0.005257259921303817,
+      "action_ood_mean": 0.4436942679541452,
+      "averaging_score_mean": -0.027736715440239226,
+      "averaging_score_std": 0.03158693336473488,
       "baseline": "paper_state",
-      "branch_acc_mean": 0.2857142857142857,
+      "branch_acc_mean": 0.19308035714285715,
       "condition": "hidden_pin",
       "count": 14,
-      "future_error_mean": 0.5617055020162037,
-      "future_error_std": 0.041961074103795716,
-      "wrong_branch_mean": 0.7142857142857143,
-      "wrong_branch_std": 0.08847286242235006
+      "future_error_mean": 0.22729624594960893,
+      "future_error_std": 0.02485979020947803,
+      "wrong_branch_mean": 0.8069196428571429,
+      "wrong_branch_std": 0.21265481024306812
     },
     {
-      "action_mse_mean": 0.013896014192141593,
-      "action_ood_mean": 0.581839212349483,
-      "averaging_score_mean": -0.013652579858899117,
-      "averaging_score_std": 0.017094129722178004,
+      "action_mse_mean": 0.005494523743566658,
+      "action_ood_mean": 0.44298247567244936,
+      "averaging_score_mean": -0.029106505481260165,
+      "averaging_score_std": 0.035021204125275304,
       "baseline": "state_action",
-      "branch_acc_mean": 0.6819196428571429,
+      "branch_acc_mean": 0.8136160714285714,
       "condition": "free",
       "count": 14,
-      "future_error_mean": 0.5332859030791691,
-      "future_error_std": 0.04303070467465445,
-      "wrong_branch_mean": 0.31808035714285715,
-      "wrong_branch_std": 0.06775022415525084
+      "future_error_mean": 0.18747245307479585,
+      "future_error_std": 0.017139296416056937,
+      "wrong_branch_mean": 0.18638392857142858,
+      "wrong_branch_std": 0.2049594606273098
     },
     {
-      "action_mse_mean": 0.01398549198971263,
-      "action_ood_mean": 0.581839212349483,
-      "averaging_score_mean": -0.013652579858899117,
-      "averaging_score_std": 0.017094129722178004,
+      "action_mse_mean": 0.005558272624122245,
+      "action_ood_mean": 0.44298247567244936,
+      "averaging_score_mean": -0.029106505481260165,
+      "averaging_score_std": 0.035021204125275304,
       "baseline": "state_action",
       "branch_acc_mean": null,
       "condition": "hidden_high_friction",
       "count": 14,
-      "future_error_mean": 0.5346673130989075,
-      "future_error_std": 0.04320122718566208,
+      "future_error_mean": 0.18902442497866495,
+      "future_error_std": 0.01609626306512075,
       "wrong_branch_mean": null,
       "wrong_branch_std": null
     },
     {
-      "action_mse_mean": 0.013817112709927772,
-      "action_ood_mean": 0.581839212349483,
-      "averaging_score_mean": -0.013652579858899117,
-      "averaging_score_std": 0.017094129722178004,
+      "action_mse_mean": 0.005373392079491168,
+      "action_ood_mean": 0.44298247567244936,
+      "averaging_score_mean": -0.029106505481260165,
+      "averaging_score_std": 0.035021204125275304,
       "baseline": "state_action",
-      "branch_acc_mean": 0.31808035714285715,
+      "branch_acc_mean": 0.18638392857142858,
       "condition": "hidden_pin",
       "count": 14,
-      "future_error_mean": 0.5614840494734901,
-      "future_error_std": 0.04467426195871908,
-      "wrong_branch_mean": 0.6819196428571429,
-      "wrong_branch_std": 0.06775022415525084
+      "future_error_mean": 0.22701956225293024,
+      "future_error_std": 0.023054183583581588,
+      "wrong_branch_mean": 0.8136160714285714,
+      "wrong_branch_std": 0.2049594606273098
     }
   ],
   "verdict": "WARN"

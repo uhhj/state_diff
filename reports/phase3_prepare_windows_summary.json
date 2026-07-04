@@ -4,6 +4,7 @@
     "dim": 14,
     "num_camera_config_paths": 0,
     "num_param_paths": 14,
+    "num_paths": 14,
     "paths": [
       "params/pose0/0/0",
       "params/pose0/0/1",
@@ -26,6 +27,7 @@
     "dim": 14,
     "num_camera_config_paths": 0,
     "num_param_paths": 14,
+    "num_paths": 14,
     "paths": [
       "params/pose0/0/0",
       "params/pose0/0/1",
@@ -46,7 +48,8 @@
   "action_dim": 14,
   "action_template_json_or_pickle_path": "/data/state_diff2/data/phase3_state_diff_windows/phase3_action_template.pkl",
   "action_template_path": "/data/state_diff2/data/phase3_state_diff_windows/phase3_action_template.pkl",
-  "canonicalization_rule": "group by split, visible_seed, window_t; copy free-branch paper_x and state_action_x to all conditions",
+  "canonicalization_rule": "group by split_name, visible_seed, window_t; copy free input to paired hidden branches; targets remain condition-specific",
+  "canonicalization_summary_path": "/data/state_diff2/reports/phase3_canonicalization_summary.json",
   "canonicalized_paired_input_windows": 50,
   "complete_condition_filter": "keep only split/visible_seed/window_t groups containing free, hidden_pin, and hidden_high_friction",
   "conditions": [

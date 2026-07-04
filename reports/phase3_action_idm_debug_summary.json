@@ -24,22 +24,6 @@
     "num_camera_config_paths": 0,
     "num_param_paths": 14,
     "num_paths": 14,
-    "param_paths_head": [
-      "params/pose0/0/0",
-      "params/pose0/0/1",
-      "params/pose0/0/2",
-      "params/pose0/1/0",
-      "params/pose0/1/1",
-      "params/pose0/1/2",
-      "params/pose0/1/3",
-      "params/pose1/0/0",
-      "params/pose1/0/1",
-      "params/pose1/0/2",
-      "params/pose1/1/0",
-      "params/pose1/1/1",
-      "params/pose1/1/2",
-      "params/pose1/1/3"
-    ],
     "path": "/data/state_diff2/data/phase3_state_diff_windows/phase3_action_template.pkl",
     "paths": [
       "params/pose0/0/0",
@@ -65,18 +49,30 @@
   "checkpoint_backends": [
     {
       "checkpoint": "/data/state_diff2/checkpoints/phase3/paper_state/fold_0_seed_0",
+      "ddpm_used": true,
+      "future_model_type": "torch_conditional_ddpm_future_state",
+      "idm_feature_mode": "paper_full_state_history_future",
       "training_backend": "torch"
     },
     {
       "checkpoint": "/data/state_diff2/checkpoints/phase3/paper_state/fold_1_seed_0",
+      "ddpm_used": true,
+      "future_model_type": "torch_conditional_ddpm_future_state",
+      "idm_feature_mode": "paper_full_state_history_future",
       "training_backend": "torch"
     },
     {
       "checkpoint": "/data/state_diff2/checkpoints/phase3/state_action/fold_0_seed_0",
+      "ddpm_used": true,
+      "future_model_type": "torch_conditional_ddpm_future_state",
+      "idm_feature_mode": "paper_full_state_history_future",
       "training_backend": "torch"
     },
     {
       "checkpoint": "/data/state_diff2/checkpoints/phase3/state_action/fold_1_seed_0",
+      "ddpm_used": true,
+      "future_model_type": "torch_conditional_ddpm_future_state",
+      "idm_feature_mode": "paper_full_state_history_future",
       "training_backend": "torch"
     }
   ],
@@ -104,52 +100,60 @@
     {
       "baseline": "paper_state",
       "checkpoint": "/data/state_diff2/checkpoints/phase3/paper_state/fold_0_seed_0",
+      "ddpm_used": true,
+      "future_model_type": "torch_conditional_ddpm_future_state",
       "heldout_rows": 21,
-      "idm_feature_mode": "cable_xy_history_future",
-      "idm_x_dim": 336,
-      "normalized_action_mse": 2.3499228954315186,
-      "pred_action_ood_max": 0.9521216750144958,
-      "pred_action_ood_mean": 0.5697910785675049,
-      "raw_action_mse": 0.014688277617096901,
+      "idm_feature_mode": "paper_full_state_history_future",
+      "idm_x_dim": 945,
+      "normalized_action_mse": 2.189709186553955,
+      "pred_action_ood_max": 0.9634959101676941,
+      "pred_action_ood_mean": 0.5352833271026611,
+      "raw_action_mse": 0.0049493820406496525,
       "training_backend": "torch",
       "uses_standardized_target": true
     },
     {
       "baseline": "paper_state",
       "checkpoint": "/data/state_diff2/checkpoints/phase3/paper_state/fold_1_seed_0",
+      "ddpm_used": true,
+      "future_model_type": "torch_conditional_ddpm_future_state",
       "heldout_rows": 21,
-      "idm_feature_mode": "cable_xy_history_future",
-      "idm_x_dim": 336,
-      "normalized_action_mse": 0.8672045469284058,
-      "pred_action_ood_max": 1.0105563402175903,
-      "pred_action_ood_mean": 0.5028700232505798,
-      "raw_action_mse": 0.008442241698503494,
+      "idm_feature_mode": "paper_full_state_history_future",
+      "idm_x_dim": 945,
+      "normalized_action_mse": 0.8170351386070251,
+      "pred_action_ood_max": 1.0564866065979004,
+      "pred_action_ood_mean": 0.5460922718048096,
+      "raw_action_mse": 0.004737044218927622,
       "training_backend": "torch",
       "uses_standardized_target": true
     },
     {
       "baseline": "state_action",
       "checkpoint": "/data/state_diff2/checkpoints/phase3/state_action/fold_0_seed_0",
+      "ddpm_used": true,
+      "future_model_type": "torch_conditional_ddpm_future_state",
       "heldout_rows": 21,
-      "idm_feature_mode": "cable_xy_history_future",
-      "idm_x_dim": 336,
-      "normalized_action_mse": 2.3499228954315186,
-      "pred_action_ood_max": 0.9521216750144958,
-      "pred_action_ood_mean": 0.5697910785675049,
-      "raw_action_mse": 0.014688277617096901,
+      "idm_feature_mode": "paper_full_state_history_future",
+      "idm_x_dim": 945,
+      "normalized_action_mse": 2.189709186553955,
+      "pred_action_ood_max": 0.9634959101676941,
+      "pred_action_ood_mean": 0.5352833271026611,
+      "raw_action_mse": 0.0049493820406496525,
       "training_backend": "torch",
       "uses_standardized_target": true
     },
     {
       "baseline": "state_action",
       "checkpoint": "/data/state_diff2/checkpoints/phase3/state_action/fold_1_seed_0",
+      "ddpm_used": true,
+      "future_model_type": "torch_conditional_ddpm_future_state",
       "heldout_rows": 21,
-      "idm_feature_mode": "cable_xy_history_future",
-      "idm_x_dim": 336,
-      "normalized_action_mse": 0.8672045469284058,
-      "pred_action_ood_max": 1.0105563402175903,
-      "pred_action_ood_mean": 0.5028700232505798,
-      "raw_action_mse": 0.008442241698503494,
+      "idm_feature_mode": "paper_full_state_history_future",
+      "idm_x_dim": 945,
+      "normalized_action_mse": 0.8170351386070251,
+      "pred_action_ood_max": 1.0564866065979004,
+      "pred_action_ood_mean": 0.5460922718048096,
+      "raw_action_mse": 0.004737044218927622,
       "training_backend": "torch",
       "uses_standardized_target": true
     }
@@ -179,6 +183,9 @@
     "train": 54
   },
   "state_action_extra_block": {
+    "action_history_target_corr_max": 0.44612507259263456,
+    "action_history_target_exact_match_rate": 0.0,
+    "expected_extra_dim": 42,
     "max": 1.0,
     "mean": 0.03358640093195607,
     "mean_abs": 0.0396039736318025,
@@ -191,6 +198,7 @@
       75,
       42
     ],
+    "state_action_extra_dim": 42,
     "std": 0.1718082709216301
   },
   "verdict": "WARN",

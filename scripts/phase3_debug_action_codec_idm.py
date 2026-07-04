@@ -1,21 +1,9 @@
 #!/usr/bin/env python3
-"""Debug Phase3 action codec and inverse dynamics targets.
-
-Focuses on abnormal Phase3 action metrics:
-- raw y_action scale;
-- zero-variance action dimensions;
-- paper_x vs state_action_x dimensionality;
-- action-history extra block variance;
-- checkpoint backend metadata;
-- optional action template diagnostics.
-
-This script intentionally does not require DeformableRavens runtime.
-"""
+"""Debug Phase3 executable action codec and inverse dynamics targets."""
 
 import argparse
 import json
 import math
-import pickle
 import sys
 from collections import Counter
 from pathlib import Path
@@ -26,7 +14,7 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from ccda_phase3.data_io import make_idm_features_from_npz
+from ccda_phase3.action_codec import ExecutableActionCodec
 
 
 def arr_stats(x: np.ndarray) -> Dict[str, Any]:
@@ -45,98 +33,9 @@ def arr_stats(x: np.ndarray) -> Dict[str, Any]:
     }
 
 
-def load_json_maybe(path: Path) -> Dict:
-    if path.exists():
-        try:
-            return json.loads(path.read_text())
-        except Exception:
-            return {}
-    return {}
-
-
-def get_key(data, names):
-    keys = set(data.files)
-    for name in names:
-        if name in keys:
-            return name
-    return None
-
-
 def add_issue(issues, level, name, detail):
     issues.append({"level": level, "name": name, "detail": detail})
 
-
-def scan_checkpoint_backends(ckpt_root: Path):
-    out = []
-    seen = set()
-
-    for cfg in sorted(ckpt_root.glob("*/*/config.json")):
-        j = load_json_maybe(cfg)
-        item = {
-            "checkpoint": str(cfg.parent),
-            "training_backend": j.get("training_backend", j.get("backend", "unknown")),
-        }
-        key = (item["checkpoint"], item["training_backend"])
-        if key not in seen:
-            seen.add(key)
-            out.append(item)
-
-    for cfg in sorted(ckpt_root.glob("*/*/train_log.json")):
-        j = load_json_maybe(cfg)
-        if isinstance(j, dict) and "training_backend" in j:
-            item = {
-                "checkpoint": str(cfg.parent),
-                "training_backend": j.get("training_backend", "unknown"),
-            }
-            key = (item["checkpoint"], item["training_backend"])
-            if key not in seen:
-                seen.add(key)
-                out.append(item)
-
-    return out
-
-
-def load_action_template_summary(path: Path) -> Dict[str, Any]:
-    if not path or not Path(path).exists():
-        return {"exists": False, "path": str(path)}
-    with Path(path).open("rb") as f:
-        obj = pickle.load(f)
-
-    roundtrip_error = None
-    if hasattr(obj, "summary"):
-        summary = dict(obj.summary())
-        path_strings = list(summary.get("paths", []))
-        try:
-            roundtrip_error = float(obj.roundtrip_error(obj.template))
-        except Exception as exc:
-            roundtrip_error = f"ERROR: {exc!r}"
-    elif isinstance(obj, dict):
-        paths = obj.get("paths", [])
-        path_strings = ["/".join(str(x) for x in p) for p in paths]
-        summary = {"class": "legacy_dict_template", "dim": len(path_strings), "paths": path_strings}
-    else:
-        path_strings = []
-        summary = {"class": type(obj).__name__, "dim": None, "paths": []}
-
-    forbidden_tokens = ["hidden", "condition", "seed", "object", "success", "reward", "file", "id"]
-    forbidden = [p for p in path_strings if any(tok in p.lower() for tok in forbidden_tokens)]
-    camera = [p for p in path_strings if "camera_config" in p]
-    params = [p for p in path_strings if p.startswith("params/")]
-    allowed = [p for p in path_strings if p.startswith("params/pose0") or p.startswith("params/pose1") or p.startswith("pose0") or p.startswith("pose1")]
-    invalid = [p for p in path_strings if p not in allowed]
-    summary.update({
-        "exists": True,
-        "path": str(path),
-        "num_paths": len(path_strings),
-        "num_camera_config_paths": len(camera),
-        "num_param_paths": len(params),
-        "camera_config_paths_head": camera[:20],
-        "param_paths_head": params[:20],
-        "forbidden_token_paths": forbidden[:50],
-        "invalid_executable_paths": invalid[:50],
-        "roundtrip_error": roundtrip_error,
-    })
-    return summary
 
 def safe_float(x: Any):
     try:
@@ -146,6 +45,72 @@ def safe_float(x: Any):
         return v
     except Exception:
         return None
+
+
+def load_json(path: Path) -> Dict[str, Any]:
+    try:
+        return json.loads(path.read_text())
+    except Exception:
+        return {}
+
+
+def scan_checkpoint_backends(ckpt_root: Path):
+    out = []
+    for cfg_path in sorted(Path(ckpt_root).glob("*/*/config.json")):
+        cfg = load_json(cfg_path)
+        out.append({
+            "checkpoint": str(cfg_path.parent),
+            "training_backend": cfg.get("training_backend", cfg.get("backend", "unknown")),
+            "future_model_type": cfg.get("future_model_type", ""),
+            "ddpm_used": bool(cfg.get("ddpm_used", False)),
+            "idm_feature_mode": cfg.get("idm_feature_mode", ""),
+        })
+    return out
+
+
+def load_action_template_summary(path: Path, data) -> Dict[str, Any]:
+    summary = {"path": str(path), "exists": path.exists()}
+    if not path.exists():
+        return summary
+    try:
+        codec = ExecutableActionCodec.load(path)
+        summary.update(codec.summary())
+        paths = summary.get("paths", [])
+        summary["camera_config_paths_head"] = [p for p in paths if "camera_config" in p][:20]
+        summary["forbidden_token_paths"] = [p for p in paths if any(tok in p for tok in ["seed", "reward", "success", "hidden", "object", "info"])]
+        summary["invalid_executable_paths"] = [
+            p for p in paths
+            if not (p.startswith("params/pose0") or p.startswith("params/pose1") or p.startswith("pose0") or p.startswith("pose1"))
+        ]
+        target = data["y_action"][0].astype(np.float32)
+        summary["roundtrip_error"] = codec.roundtrip_error(codec.decode(target))
+    except Exception as exc:
+        summary["error"] = repr(exc)
+    return summary
+
+
+def action_history_diagnostics(paper_x, state_action_x, y_action, th, action_dim):
+    extra = state_action_x[:, paper_x.shape[1]:]
+    out = arr_stats(extra)
+    expected_extra_dim = int(th) * int(action_dim)
+    out["state_action_extra_dim"] = int(extra.shape[1]) if extra.ndim == 2 else None
+    out["expected_extra_dim"] = expected_extra_dim
+    out["action_history_target_exact_match_rate"] = None
+    out["action_history_target_corr_max"] = None
+    if extra.ndim == 2 and extra.shape[1] == expected_extra_dim:
+        hist = extra.reshape(len(extra), int(th), int(action_dim))
+        target = y_action.reshape(len(y_action), 1, int(action_dim))
+        exact = np.all(np.isclose(hist, target, atol=1e-7), axis=2)
+        out["action_history_target_exact_match_rate"] = float(np.mean(exact))
+        corr_max = 0.0
+        for d in range(int(action_dim)):
+            a = hist[:, -1, d]
+            b = y_action[:, d]
+            if np.std(a) > 1e-8 and np.std(b) > 1e-8:
+                corr = abs(float(np.corrcoef(a, b)[0, 1]))
+                corr_max = max(corr_max, corr)
+        out["action_history_target_corr_max"] = corr_max
+    return out
 
 
 def compute_idm_diagnostics(data, ckpt_root: Path):
@@ -158,15 +123,15 @@ def compute_idm_diagnostics(data, ckpt_root: Path):
     if len(held) == 0:
         return [{"error": "no heldout rows"}]
     paper_x = data["paper_x"].astype(np.float32)
+    y_flat = data["y_state"].astype(np.float32).reshape(len(split), -1)
     y_action = data["y_action"].astype(np.float32)
-    idm_x_all = make_idm_features_from_npz(data)
+    x_all = np.concatenate([paper_x, y_flat], axis=1).astype(np.float32)
     out = []
-    for cfg in sorted(Path(ckpt_root).glob("*/*/config.json")):
+    for cfg_path in sorted(Path(ckpt_root).glob("*/*/config.json")):
         try:
-            meta = load_json_maybe(cfg)
-            idm = load_inverse_model(cfg.parent / "inverse_dynamics.pt")
-            x = idm_x_all[held]
-            pred = idm.predict(x).astype(np.float32)
+            meta = load_json(cfg_path)
+            idm = load_inverse_model(cfg_path.parent / "inverse_dynamics.pt")
+            pred = idm.predict(x_all[held]).astype(np.float32)
             target = y_action[held].astype(np.float32)
             raw_mse = float(np.mean((pred - target) ** 2))
             std = np.asarray(getattr(idm, "train_action_std", np.std(y_action, axis=0)), dtype=np.float32)
@@ -174,24 +139,26 @@ def compute_idm_diagnostics(data, ckpt_root: Path):
             norm_mse = float(np.mean(((pred - target) / std) ** 2))
             ood = idm.ood_score(pred) if hasattr(idm, "ood_score") else np.sqrt(np.mean((pred / std) ** 2, axis=-1))
             out.append({
-                "checkpoint": str(cfg.parent),
-                "baseline": meta.get("baseline", cfg.parent.parent.name),
+                "checkpoint": str(cfg_path.parent),
+                "baseline": meta.get("baseline", cfg_path.parent.parent.name),
                 "training_backend": meta.get("training_backend", meta.get("backend", "unknown")),
+                "future_model_type": meta.get("future_model_type", ""),
+                "ddpm_used": bool(meta.get("ddpm_used", False)),
+                "idm_feature_mode": meta.get("idm_feature_mode", ""),
+                "idm_x_dim": int(x_all.shape[1]),
                 "raw_action_mse": raw_mse,
                 "normalized_action_mse": norm_mse,
                 "pred_action_ood_mean": float(np.mean(ood)),
                 "pred_action_ood_max": float(np.max(ood)),
                 "uses_standardized_target": bool(hasattr(idm, "y_std")),
-                "idm_feature_mode": meta.get("idm_feature_mode", ""),
-                "idm_x_dim": int(idm_x_all.shape[1]),
                 "heldout_rows": int(len(held)),
             })
         except Exception as exc:
-            out.append({"checkpoint": str(cfg.parent), "error": repr(exc)})
+            out.append({"checkpoint": str(cfg_path.parent), "error": repr(exc)})
     return out
 
 
-def write_report(path: Path, payload: Dict):
+def write_report(path: Path, payload: Dict[str, Any]) -> None:
     lines = []
     lines.append("# Phase3 Action Codec / Inverse Dynamics Debug Report")
     lines.append("")
@@ -204,29 +171,14 @@ def write_report(path: Path, payload: Dict):
     for k, v in payload["dimension_summary"].items():
         lines.append(f"- `{k}`: `{v}`")
     lines.append("")
-    lines.append("## Dataset Counts")
-    lines.append("")
-    lines.append(f"- Condition counts: `{payload['condition_counts']}`")
-    lines.append(f"- Split counts: `{payload['split_counts']}`")
-    lines.append("")
     lines.append("## Action Target Stats")
     lines.append("")
-    s = payload["action_stats"]
     lines.append("| Metric | Value |")
     lines.append("|---|---:|")
-    for k in ["shape", "mean", "std", "min", "max", "mean_abs", "p95_abs", "p99_abs", "num_nan", "num_inf"]:
-        lines.append(f"| `{k}` | `{s.get(k)}` |")
+    for k, v in payload["action_stats"].items():
+        lines.append(f"| `{k}` | `{v}` |")
     lines.append("")
-    lines.append("## Action Dimension Diagnostics")
-    lines.append("")
-    lines.append(f"- Zero-variance dims: `{payload['zero_variance_action_dims_count']}`")
-    lines.append(f"- Near-zero-variance dims: `{payload['near_zero_variance_action_dims_count']}`")
-    lines.append(f"- Large-scale dims count: `{payload['large_scale_action_dims_count']}`")
-    lines.append(f"- Zero-variance dims head: `{payload['zero_variance_action_dims_head']}`")
-    lines.append(f"- Near-zero dims head: `{payload['near_zero_variance_action_dims_head']}`")
-    lines.append(f"- Large-scale dims head: `{payload['large_scale_action_dims_head']}`")
-    lines.append("")
-    lines.append("## State-Action Extra Block")
+    lines.append("## Action-History Leakage")
     lines.append("")
     for k, v in payload["state_action_extra_block"].items():
         lines.append(f"- `{k}`: `{v}`")
@@ -236,48 +188,33 @@ def write_report(path: Path, payload: Dict):
     ats = payload.get("action_template_summary", {})
     for k in ["path", "class", "dim", "num_paths", "num_camera_config_paths", "num_param_paths", "roundtrip_error"]:
         lines.append(f"- `{k}`: `{ats.get(k)}`")
-    if ats.get("camera_config_paths_head"):
-        lines.append(f"- `camera_config_paths_head`: `{ats.get('camera_config_paths_head')}`")
-    if ats.get("forbidden_token_paths"):
-        lines.append(f"- `forbidden_token_paths`: `{ats.get('forbidden_token_paths')}`")
     if ats.get("invalid_executable_paths"):
         lines.append(f"- `invalid_executable_paths`: `{ats.get('invalid_executable_paths')}`")
     lines.append("")
     lines.append("## IDM Heldout Reconstruction")
     lines.append("")
-    feature_modes = sorted({str(item.get("idm_feature_mode", "")) for item in payload.get("idm_debug", []) if item.get("idm_feature_mode", "")})
-    if feature_modes:
-        lines.append(f"- Feature mode: `{feature_modes}`")
-        lines.append("")
-    lines.append("| Checkpoint | Backend | Raw MSE | Normalized MSE | Pred OOD mean | Pred OOD max | Standardized target |")
-    lines.append("|---|---|---:|---:|---:|---:|---|")
+    lines.append("| Checkpoint | Backend | Future model | DDPM | IDM features | Raw MSE | Normalized MSE | Pred OOD mean | Pred OOD max |")
+    lines.append("|---|---|---|---|---|---:|---:|---:|---:|")
     for item in payload.get("idm_debug", []):
         ck = Path(item.get("checkpoint", "")).name if item.get("checkpoint") else "NA"
         label = f"{item.get('baseline', '')}/{ck}"
-        lines.append(f"| `{label}` | `{item.get('training_backend', 'NA')}` | `{item.get('raw_action_mse')}` | `{item.get('normalized_action_mse')}` | `{item.get('pred_action_ood_mean')}` | `{item.get('pred_action_ood_max')}` | `{item.get('uses_standardized_target', 'NA')}` |")
-    lines.append("")
-    lines.append("## Checkpoint Backends")
-    lines.append("")
-    lines.append("| Checkpoint | Backend |")
-    lines.append("|---|---|")
-    for item in payload["checkpoint_backends"]:
-        lines.append(f"| `{item['checkpoint']}` | `{item['training_backend']}` |")
+        lines.append(f"| `{label}` | `{item.get('training_backend', 'NA')}` | `{item.get('future_model_type', 'NA')}` | `{item.get('ddpm_used', 'NA')}` | `{item.get('idm_feature_mode', 'NA')}` | `{item.get('raw_action_mse')}` | `{item.get('normalized_action_mse')}` | `{item.get('pred_action_ood_mean')}` | `{item.get('pred_action_ood_max')}` |")
     lines.append("")
     lines.append("## Issues")
     lines.append("")
     lines.append("| Level | Name | Detail |")
     lines.append("|---|---|---|")
-    for issue in payload["issues"]:
-        lines.append(f"| `{issue['level']}` | `{issue['name']}` | {issue['detail']} |")
-    if not payload["issues"]:
+    if payload["issues"]:
+        for issue in payload["issues"]:
+            lines.append(f"| `{issue['level']}` | `{issue['name']}` | {issue['detail']} |")
+    else:
         lines.append("| `PASS` | `none` | No action/IDM diagnostic issue detected. |")
     lines.append("")
     lines.append("## Interpretation")
     lines.append("")
-    lines.append("- If this report is FAIL, do not trust policy rollout.")
-    lines.append("- High raw action scale may make raw MSE misleading, but high OOD still requires action normalization/codec diagnosis.")
-    lines.append("- If `state_action_x` is not larger than `paper_x`, the state_action baseline is not implemented correctly.")
-    path.write_text("\n".join(lines))
+    lines.append("- IDM diagnostics use `paper_x + future_state` full-state inputs, matching the formal Phase3 action pipeline.")
+    lines.append("- If this report is FAIL, do not trust policy rollout or move to Phase4.")
+    path.write_text("\n".join(lines) + "\n")
 
 
 def main():
@@ -290,160 +227,70 @@ def main():
     args = parser.parse_args()
 
     data = np.load(args.data, allow_pickle=True)
-    prepare_summary = load_json_maybe(Path(args.data).resolve().parents[1] / "reports" / "phase3_prepare_windows_summary.json")
-    if not prepare_summary:
-        prepare_summary = load_json_maybe(Path("/data/state_diff2/reports/phase3_prepare_windows_summary.json"))
     issues = []
+    paper_x = data["paper_x"].astype(np.float32)
+    state_action_x = data["state_action_x"].astype(np.float32)
+    y_action = data["y_action"].astype(np.float32)
+    th = int(data["th"])
+    action_dim = int(data["action_dim"])
+    episode_action_len = data["episode_action_len"].astype(int) if "episode_action_len" in data.files else np.asarray([], dtype=int)
 
-    paper_key = get_key(data, ["paper_x"])
-    state_action_key = get_key(data, ["state_action_x"])
-    y_action_key = get_key(data, ["y_action", "action_y", "target_action"])
-    cond_key = get_key(data, ["condition_name"])
-    split_key = get_key(data, ["split_name"])
+    dimension_summary = {
+        "paper_x_shape": list(paper_x.shape),
+        "state_action_x_shape": list(state_action_x.shape),
+        "y_action_shape": list(y_action.shape),
+        "episode_action_len_max": int(np.max(episode_action_len)) if episode_action_len.size else None,
+    }
+    if y_action.ndim != 2 or y_action.shape[1] != 14:
+        add_issue(issues, "FAIL", "y_action_dim_not_14", f"Expected executable y_action dim 14, got shape {list(y_action.shape)}.")
 
-    if paper_key is None:
-        add_issue(issues, "FAIL", "paper_x_missing", "NPZ has no paper_x.")
-    if state_action_key is None:
-        add_issue(issues, "FAIL", "state_action_x_missing", "NPZ has no state_action_x.")
-    if y_action_key is None:
-        add_issue(issues, "FAIL", "y_action_missing", "NPZ has no y_action/action target.")
+    action_stats = arr_stats(y_action)
+    ya = y_action.astype(np.float64)
+    zero_var_dims = np.where(np.std(ya, axis=0) < 1e-12)[0].astype(int).tolist() if ya.ndim == 2 else []
+    near_zero_dims = np.where(np.std(ya, axis=0) < 1e-8)[0].astype(int).tolist() if ya.ndim == 2 else []
+    large_scale_dims = np.where(np.percentile(np.abs(ya), 99, axis=0) > 10.0)[0].astype(int).tolist() if ya.ndim == 2 else []
+    if action_stats.get("num_nan") or action_stats.get("num_inf"):
+        add_issue(issues, "FAIL", "action_nan_inf", "y_action contains NaN or Inf.")
+    if action_stats.get("p99_abs") is not None and action_stats["p99_abs"] > 10.0:
+        add_issue(issues, "FAIL", "large_raw_action_scale", f"y_action p99 abs={action_stats['p99_abs']:.6f}.")
+    if y_action.shape[1] > 0 and len(near_zero_dims) > 0.5 * y_action.shape[1]:
+        add_issue(issues, "WARN", "many_near_zero_action_dims", f"{len(near_zero_dims)}/{y_action.shape[1]} action dims have std < 1e-8.")
 
-    paper_x = data[paper_key] if paper_key else None
-    state_action_x = data[state_action_key] if state_action_key else None
-    y_action = data[y_action_key] if y_action_key else None
-
-    dimension_summary = {}
-    if paper_x is not None:
-        dimension_summary["paper_x_shape"] = list(paper_x.shape)
-    if state_action_x is not None:
-        dimension_summary["state_action_x_shape"] = list(state_action_x.shape)
-    if y_action is not None:
-        dimension_summary["y_action_shape"] = list(y_action.shape)
-        if y_action.ndim != 2 or y_action.shape[1] != 14:
-            add_issue(issues, "FAIL", "y_action_dim_not_14", f"Expected executable y_action dim 14, got shape {list(y_action.shape)}.")
-
-    if "episode_action_len" in data.files:
-        episode_action_len_max = int(np.max(data["episode_action_len"].astype(int)))
-    else:
-        episode_action_len_max = int(prepare_summary.get("episode_action_len_max") or -1)
-    dimension_summary["episode_action_len_max"] = episode_action_len_max
-
-    if paper_x is not None and state_action_x is not None:
-        if state_action_x.shape[1] <= paper_x.shape[1]:
-            add_issue(
-                issues,
-                "FAIL",
-                "state_action_not_larger_than_paper",
-                f"state_action_x dim {state_action_x.shape[1]} <= paper_x dim {paper_x.shape[1]}. "
-                "The state_action baseline may not include action history.",
-            )
-            extra = np.zeros((state_action_x.shape[0], 0), dtype=np.float32)
-        else:
-            extra = state_action_x[:, paper_x.shape[1]:]
-        extra_stats = arr_stats(extra) if extra.size else {"shape": list(extra.shape), "std": 0.0}
-        if extra.size and np.std(extra) < 1e-8:
-            if episode_action_len_max <= 1:
-                add_issue(
-                    issues,
-                    "WARN",
-                    "state_action_extra_block_constant_short_episodes",
-                    "state_action baseline has limited additional information because the current primitive dataset contains very short action histories.",
-                )
-            else:
-                add_issue(
-                    issues,
-                    "FAIL",
-                    "state_action_extra_block_constant",
-                    f"state_action extra block is all zero even though episode_action_len_max={episode_action_len_max} > 1.",
-                )
-    else:
-        extra_stats = {}
-
-    action_stats = arr_stats(y_action) if y_action is not None else {}
-
-    if y_action is not None:
-        ya = y_action.astype(np.float64)
-        per_dim_std = np.std(ya, axis=0)
-        per_dim_abs_p99 = np.percentile(np.abs(ya), 99, axis=0)
-
-        zero_var_dims = np.where(per_dim_std == 0)[0].tolist()
-        near_zero_dims = np.where(per_dim_std < 1e-8)[0].tolist()
-        large_scale_dims = np.where(per_dim_abs_p99 > 10.0)[0].tolist()
-
-        if action_stats.get("num_nan", 0) > 0 or action_stats.get("num_inf", 0) > 0:
-            add_issue(issues, "FAIL", "action_nan_inf", "y_action contains NaN or Inf.")
-
-        if action_stats.get("p99_abs") is not None and action_stats["p99_abs"] > 10.0:
-            add_issue(
-                issues,
-                "WARN",
-                "large_raw_action_scale",
-                f"y_action p99 abs={action_stats['p99_abs']:.6f}. "
-                "Raw action MSE may be dominated by unnormalized coordinates or wrong fields.",
-            )
-
-        if y_action.shape[1] > 0 and len(near_zero_dims) > 0.5 * y_action.shape[1]:
-            add_issue(
-                issues,
-                "WARN",
-                "many_near_zero_action_dims",
-                f"{len(near_zero_dims)}/{y_action.shape[1]} action dims have std < 1e-8.",
-            )
-    else:
-        zero_var_dims = []
-        near_zero_dims = []
-        large_scale_dims = []
-
-    if cond_key:
-        condition_counts = {str(k): int(v) for k, v in zip(*np.unique(data[cond_key].astype(str), return_counts=True))}
-    else:
-        condition_counts = {}
-
-    if split_key:
-        split_counts = {str(k): int(v) for k, v in zip(*np.unique(data[split_key].astype(str), return_counts=True))}
-    else:
-        split_counts = {}
-
-    checkpoint_backends = scan_checkpoint_backends(Path(args.ckpt_root))
-    if checkpoint_backends:
-        for item in checkpoint_backends:
-            if item["training_backend"] not in {"torch", "unknown"}:
-                add_issue(
-                    issues,
-                    "FAIL",
-                    "non_torch_checkpoint_backend",
-                    f"{item['checkpoint']} backend={item['training_backend']}",
-                )
-    else:
-        add_issue(issues, "WARN", "no_checkpoint_config_found", "No config/train_log backend metadata found under ckpt_root.")
-
-    checkpoint_backend_counts = dict(Counter(item.get("training_backend", "unknown") for item in checkpoint_backends))
+    extra_stats = action_history_diagnostics(paper_x, state_action_x, y_action, th, action_dim)
+    if extra_stats.get("state_action_extra_dim") != extra_stats.get("expected_extra_dim"):
+        add_issue(issues, "FAIL", "state_action_extra_dim_mismatch", f"extra dim={extra_stats.get('state_action_extra_dim')} expected={extra_stats.get('expected_extra_dim')}.")
+    exact_rate = safe_float(extra_stats.get("action_history_target_exact_match_rate"))
+    if exact_rate is not None:
+        if exact_rate > 0.20:
+            add_issue(issues, "FAIL", "action_history_target_leakage", f"exact target-action match rate={exact_rate:.6f} > 0.20.")
+        elif exact_rate > 0.05:
+            add_issue(issues, "WARN", "action_history_target_possible_leakage", f"exact target-action match rate={exact_rate:.6f} > 0.05.")
+    corr = safe_float(extra_stats.get("action_history_target_corr_max"))
+    if corr is not None and corr > 0.999:
+        add_issue(issues, "WARN", "action_history_target_corr_high", f"max corr between last history action and target action={corr:.6f}.")
 
     template_path = Path(str(data["action_template_json_or_pickle_path"])) if "action_template_json_or_pickle_path" in data.files else None
-    action_template_summary = load_action_template_summary(template_path) if template_path else {"exists": False}
+    action_template_summary = load_action_template_summary(template_path, data) if template_path else {"exists": False}
     if action_template_summary.get("dim") != 14:
         add_issue(issues, "FAIL", "action_codec_dim_not_14", f"Expected action codec dim 14, got {action_template_summary.get('dim')}.")
+    if action_template_summary.get("num_camera_config_paths", 0) > 0:
+        add_issue(issues, "FAIL", "action_codec_encodes_camera_config", f"Action codec target includes {action_template_summary.get('num_camera_config_paths')} camera_config paths.")
+    if action_template_summary.get("invalid_executable_paths"):
+        add_issue(issues, "FAIL", "action_codec_invalid_paths", f"Non-executable action paths: {action_template_summary.get('invalid_executable_paths')[:10]}")
     rt_err = action_template_summary.get("roundtrip_error")
     if isinstance(rt_err, (int, float)) and rt_err > 1e-6:
         add_issue(issues, "FAIL", "action_codec_roundtrip_error", f"roundtrip error={rt_err} > 1e-6.")
-    elif isinstance(rt_err, str) and rt_err.startswith("ERROR"):
-        add_issue(issues, "FAIL", "action_codec_roundtrip_error", rt_err)
-    if action_template_summary.get("invalid_executable_paths"):
-        add_issue(issues, "FAIL", "action_codec_invalid_paths", f"Non-executable action paths: {action_template_summary.get('invalid_executable_paths')[:10]}")
-    if action_template_summary.get("num_camera_config_paths", 0) > 0:
-        add_issue(
-            issues,
-            "FAIL",
-            "action_codec_encodes_camera_config",
-            f"Action codec target includes {action_template_summary.get('num_camera_config_paths')} camera_config numeric paths. These are observation metadata, not executable pick-place action parameters.",
-        )
-    if action_template_summary.get("forbidden_token_paths"):
-        add_issue(
-            issues,
-            "FAIL",
-            "action_codec_forbidden_metadata_paths",
-            f"Action codec target includes forbidden metadata-like paths: {action_template_summary.get('forbidden_token_paths')[:10]}",
-        )
+
+    checkpoint_backends = scan_checkpoint_backends(Path(args.ckpt_root))
+    for item in checkpoint_backends:
+        if item.get("training_backend") != "torch":
+            add_issue(issues, "FAIL", "non_torch_checkpoint_backend", f"{item['checkpoint']} backend={item.get('training_backend')}")
+        if item.get("future_model_type") != "torch_conditional_ddpm_future_state" or not item.get("ddpm_used"):
+            add_issue(issues, "FAIL", "non_ddpm_future_checkpoint", f"{item['checkpoint']} future={item.get('future_model_type')} ddpm={item.get('ddpm_used')}")
+        if item.get("idm_feature_mode") != "paper_full_state_history_future":
+            add_issue(issues, "FAIL", "idm_not_full_state", f"{item['checkpoint']} idm_feature_mode={item.get('idm_feature_mode')}")
+    if not checkpoint_backends:
+        add_issue(issues, "WARN", "no_checkpoint_config_found", "No config/train_log backend metadata found under ckpt_root.")
 
     idm_debug = compute_idm_diagnostics(data, Path(args.ckpt_root))
     raw_vals = [safe_float(x.get("raw_action_mse")) for x in idm_debug]
@@ -459,15 +306,13 @@ def main():
     if ood_vals and max(ood_vals) > 5.0:
         add_issue(issues, "FAIL", "idm_pred_ood_too_large", f"heldout IDM predicted action OOD mean max={max(ood_vals):.6f} > 5.0.")
 
-    has_fail = any(i["level"] == "FAIL" for i in issues)
-    has_warn = any(i["level"] == "WARN" for i in issues)
-    verdict = "FAIL" if has_fail else ("WARN" if has_warn else "PASS")
-
+    split = data["split_name"].astype(str)
+    cond = data["condition_name"].astype(str)
     payload = {
-        "verdict": verdict,
+        "verdict": "FAIL" if any(i["level"] == "FAIL" for i in issues) else ("WARN" if any(i["level"] == "WARN" for i in issues) else "PASS"),
         "dimension_summary": dimension_summary,
-        "condition_counts": condition_counts,
-        "split_counts": split_counts,
+        "condition_counts": {str(k): int(v) for k, v in zip(*np.unique(cond, return_counts=True))},
+        "split_counts": {str(k): int(v) for k, v in zip(*np.unique(split, return_counts=True))},
         "action_stats": action_stats,
         "zero_variance_action_dims_count": len(zero_var_dims),
         "near_zero_variance_action_dims_count": len(near_zero_dims),
@@ -478,20 +323,18 @@ def main():
         "state_action_extra_block": extra_stats,
         "action_template_summary": action_template_summary,
         "checkpoint_backends": checkpoint_backends,
-        "checkpoint_backend_counts": checkpoint_backend_counts,
+        "checkpoint_backend_counts": dict(Counter(item.get("training_backend", "unknown") for item in checkpoint_backends)),
         "idm_debug": idm_debug,
         "issues": issues,
     }
-
     Path(args.out_json).parent.mkdir(parents=True, exist_ok=True)
     Path(args.out_json).write_text(json.dumps(payload, indent=2, sort_keys=True))
     write_report(Path(args.out_md), payload)
-
     print(json.dumps(payload, indent=2, sort_keys=True))
     print("[Phase3] wrote", args.out_json)
     print("[Phase3] wrote", args.out_md)
 
-    if args.strict and has_fail:
+    if args.strict and payload["verdict"] == "FAIL":
         raise SystemExit("[Phase3][FAIL] action/IDM diagnostics found fatal issues")
 
 

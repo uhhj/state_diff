@@ -13,6 +13,17 @@ Phase3 evaluates contact-blind StateDiff-style baselines on `hidden-contact-cabl
 | rollout | not run in current report | NA | NA | NA |
 | aggregate | `/miniforge3/envs/coord_bimanual/bin/python` | `coord_bimanual` | OK | not required |
 
+## Future Model
+
+| Field | Value |
+|---|---|
+| future_model_type | torch_conditional_ddpm_future_state |
+| ddpm_used | true |
+| simplified_mlp_removed | true |
+| branch_reference_mode | split_visible_seed_window_t |
+
+This Phase3 run uses a conditional DDPM future-state predictor. It no longer uses the previous PyTorch MLP residual future-state surrogate.
+
 ## Training Backend
 
 | Backend | Count |
@@ -23,23 +34,23 @@ Phase3 evaluates contact-blind StateDiff-style baselines on `hidden-contact-cabl
 
 | Baseline | Condition | Wrong-Branch mean | Branch-Accuracy mean | Future Error mean | Averaging Score mean |
 |---|---|---:|---:|---:|---:|
-| paper_state | free | 0.285714 | 0.714286 | 0.532394 | -0.0135989 |
-| paper_state | hidden_high_friction | NA | NA | 0.53375 | -0.0135989 |
-| paper_state | hidden_pin | 0.714286 | 0.285714 | 0.561706 | -0.0135989 |
-| state_action | free | 0.31808 | 0.68192 | 0.533286 | -0.0136526 |
-| state_action | hidden_high_friction | NA | NA | 0.534667 | -0.0136526 |
-| state_action | hidden_pin | 0.68192 | 0.31808 | 0.561484 | -0.0136526 |
+| paper_state | free | 0.19308 | 0.80692 | 0.188033 | -0.0277367 |
+| paper_state | hidden_high_friction | NA | NA | 0.189616 | -0.0277367 |
+| paper_state | hidden_pin | 0.80692 | 0.19308 | 0.227296 | -0.0277367 |
+| state_action | free | 0.186384 | 0.813616 | 0.187472 | -0.0291065 |
+| state_action | hidden_high_friction | NA | NA | 0.189024 | -0.0291065 |
+| state_action | hidden_pin | 0.813616 | 0.186384 | 0.22702 | -0.0291065 |
 
 ## Inverse Dynamics
 
 | Baseline | Condition | Action MSE mean | Action OOD mean |
 |---|---|---:|---:|
-| paper_state | free | 0.0133526 | 0.568227 |
-| paper_state | hidden_high_friction | 0.0134342 | 0.568227 |
-| paper_state | hidden_pin | 0.0133955 | 0.568227 |
-| state_action | free | 0.013896 | 0.581839 |
-| state_action | hidden_high_friction | 0.0139855 | 0.581839 |
-| state_action | hidden_pin | 0.0138171 | 0.581839 |
+| paper_state | free | 0.00538736 | 0.443694 |
+| paper_state | hidden_high_friction | 0.00545026 | 0.443694 |
+| paper_state | hidden_pin | 0.00525726 | 0.443694 |
+| state_action | free | 0.00549452 | 0.442982 |
+| state_action | hidden_high_friction | 0.00555827 | 0.442982 |
+| state_action | hidden_pin | 0.00537339 | 0.442982 |
 
 ## Policy Execution
 
@@ -47,9 +58,7 @@ Policy rollout was not rerun for the current PyTorch train/eval report, so any o
 
 ## Phase3 Conclusion
 
-Phase3 PyTorch smoke passed after fixing the executable action codec. The previous camera_config leakage into y_action was removed; y_action now contains only executable pick-place pose parameters. This validates the corrected offline state prediction and inverse dynamics pipeline at smoke scale. Paper-level evidence still requires MODE=medium or MODE=full.
-
-The input consistency and leakage checks verify that paired `free` and `hidden_pin` samples have matched visible/proprio/action inputs, and probe classifiers cannot reliably recover hidden condition from the model inputs. Therefore, the branch ambiguity is not caused by accidental input leakage.
+Phase3 PyTorch DDPM smoke passed after replacing the simplified MLP residual future predictor. The executable action codec removes camera_config leakage; y_action contains only pick-place pose parameters. Paper-level evidence still requires MODE=medium or MODE=full.
 
 Across the current folds and random seeds, the contact-blind baselines exhibit elevated wrong-branch rate and/or branch ambiguity on the primary `free` vs `hidden_pin` CCDA subset. This preserves the offline wrong-branch signal, but rollout, medium/full runs, and Phase4 decisions must obey the sanity diagnostics below.
 
@@ -65,15 +74,12 @@ Across the current folds and random seeds, the contact-blind baselines exhibit e
 | Level | Name | Detail |
 |---|---|---|
 | `WARN` | `small_prediction_table` | Only 84 prediction rows. This is smoke-scale, not paper-scale. |
-| `WARN` | `baseline_nearly_identical_future_error_mean_free` | paper_state and state_action differ by <1e-3 for future_error_mean on free: 0.5323939727885383 vs 0.5332859030791691 |
-| `WARN` | `baseline_nearly_identical_averaging_score_mean_free` | paper_state and state_action differ by <1e-3 for averaging_score_mean on free: -0.01359889842569828 vs -0.013652579858899117 |
-| `WARN` | `baseline_nearly_identical_action_mse_mean_free` | paper_state and state_action differ by <1e-3 for action_mse_mean on free: 0.013352553459948726 vs 0.013896014192141593 |
-| `WARN` | `baseline_nearly_identical_future_error_mean_hidden_high_friction` | paper_state and state_action differ by <1e-3 for future_error_mean on hidden_high_friction: 0.5337501849446978 vs 0.5346673130989075 |
-| `WARN` | `baseline_nearly_identical_averaging_score_mean_hidden_high_friction` | paper_state and state_action differ by <1e-3 for averaging_score_mean on hidden_high_friction: -0.01359889842569828 vs -0.013652579858899117 |
-| `WARN` | `baseline_nearly_identical_action_mse_mean_hidden_high_friction` | paper_state and state_action differ by <1e-3 for action_mse_mean on hidden_high_friction: 0.013434154846306359 vs 0.01398549198971263 |
-| `WARN` | `baseline_nearly_identical_future_error_mean_hidden_pin` | paper_state and state_action differ by <1e-3 for future_error_mean on hidden_pin: 0.5617055020162037 vs 0.5614840494734901 |
-| `WARN` | `baseline_nearly_identical_averaging_score_mean_hidden_pin` | paper_state and state_action differ by <1e-3 for averaging_score_mean on hidden_pin: -0.01359889842569828 vs -0.013652579858899117 |
-| `WARN` | `baseline_nearly_identical_action_mse_mean_hidden_pin` | paper_state and state_action differ by <1e-3 for action_mse_mean on hidden_pin: 0.01339553639159671 vs 0.013817112709927772 |
+| `WARN` | `baseline_nearly_identical_future_error_mean_free` | paper_state and state_action differ by <1e-3 for future_error_mean on free: 0.1880333838718278 vs 0.18747245307479585 |
+| `WARN` | `baseline_nearly_identical_action_mse_mean_free` | paper_state and state_action differ by <1e-3 for action_mse_mean on free: 0.005387358267658523 vs 0.005494523743566658 |
+| `WARN` | `baseline_nearly_identical_future_error_mean_hidden_high_friction` | paper_state and state_action differ by <1e-3 for future_error_mean on hidden_high_friction: 0.18961642788989203 vs 0.18902442497866495 |
+| `WARN` | `baseline_nearly_identical_action_mse_mean_hidden_high_friction` | paper_state and state_action differ by <1e-3 for action_mse_mean on hidden_high_friction: 0.005450264858414552 vs 0.005558272624122245 |
+| `WARN` | `baseline_nearly_identical_future_error_mean_hidden_pin` | paper_state and state_action differ by <1e-3 for future_error_mean on hidden_pin: 0.22729624594960893 vs 0.22701956225293024 |
+| `WARN` | `baseline_nearly_identical_action_mse_mean_hidden_pin` | paper_state and state_action differ by <1e-3 for action_mse_mean on hidden_pin: 0.005257259921303817 vs 0.005373392079491168 |
 
 ### Action/IDM Issues
 

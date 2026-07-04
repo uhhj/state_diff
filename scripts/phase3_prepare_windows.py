@@ -15,6 +15,39 @@ from ccda_phase3.action_codec import ExecutableActionCodec
 from ccda_phase3.data_io import CONDITIONS, build_windows_from_dataset, save_action_template
 
 
+def paired_input_diff_stats(windows):
+    groups = {}
+    for w in windows:
+        key = (w["split_name"], int(w["visible_seed"]), int(w["window_t"]))
+        groups.setdefault(key, []).append(w)
+
+    paper_diffs = []
+    state_action_diffs = []
+    num_pairs = 0
+    for rows in groups.values():
+        by_cond = {r["condition_name"]: r for r in rows}
+        if "free" not in by_cond:
+            continue
+        ref = by_cond["free"]
+        for cond in ["hidden_pin", "hidden_high_friction"]:
+            if cond not in by_cond:
+                continue
+            num_pairs += 1
+            paper_diffs.append(float(np.max(np.abs(ref["paper_x"] - by_cond[cond]["paper_x"]))))
+            state_action_diffs.append(float(np.max(np.abs(ref["state_action_x"] - by_cond[cond]["state_action_x"]))))
+
+    def stat(xs):
+        if not xs:
+            return {"mean": None, "max": None}
+        return {"mean": float(np.mean(xs)), "max": float(np.max(xs))}
+
+    return {
+        "num_pairs": int(num_pairs),
+        "paper_x_max_abs": stat(paper_diffs),
+        "state_action_x_max_abs": stat(state_action_diffs),
+    }
+
+
 def canonicalize_paired_inputs(windows):
     """Force paired CCDA branches to share exactly the same model input.
 
@@ -69,6 +102,33 @@ def arr(values, dtype=None):
     return np.asarray(values, dtype=dtype) if dtype is not None else np.asarray(values)
 
 
+def write_canonicalization_report(report_md: Path, summary: dict) -> None:
+    lines = [
+        "# Phase3 Canonicalization Report",
+        "",
+        "Canonicalization is an audit control for the matched-input CCDA premise. It changes only model inputs within paired conditions and never changes future-state targets, action targets, success labels, or condition labels.",
+        "",
+        "## Summary",
+        "",
+        f"- Enabled: `{summary['canonicalization_enabled']}`",
+        f"- Rule: `{summary['rule']}`",
+        f"- Canonicalized windows: `{summary['num_canonicalized_windows']}`",
+        f"- Raw pair count: `{summary['raw_pair_stats']['num_pairs']}`",
+        f"- Post pair count: `{summary['post_pair_stats']['num_pairs']}`",
+        "",
+        "## Input Differences",
+        "",
+        "| Metric | Raw | Post |",
+        "|---|---:|---:|",
+        f"| mean pair paper_x max abs diff | `{summary['raw_mean_pair_paper_x_max_abs_diff']}` | `{summary['post_mean_pair_paper_x_max_abs_diff']}` |",
+        f"| max pair paper_x max abs diff | `{summary['raw_max_pair_paper_x_max_abs_diff']}` | `{summary['post_max_pair_paper_x_max_abs_diff']}` |",
+        f"| mean pair state_action_x max abs diff | `{summary['raw_mean_pair_state_action_x_max_abs_diff']}` | `{summary['post_mean_pair_state_action_x_max_abs_diff']}` |",
+        f"| max pair state_action_x max abs diff | `{summary['raw_max_pair_state_action_x_max_abs_diff']}` | `{summary['post_max_pair_state_action_x_max_abs_diff']}` |",
+        "",
+    ]
+    report_md.write_text("\n".join(lines))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default="/data/state_diff2")
@@ -112,10 +172,12 @@ def main():
 
     raw_num_windows = len(windows)
     windows, dropped_incomplete_condition_groups = filter_complete_condition_groups(windows)
+    raw_pair_stats = paired_input_diff_stats(windows)
 
     canonicalized_inputs = 0
     if not args.no_canonicalize_paired_inputs:
         canonicalized_inputs = canonicalize_paired_inputs(windows)
+    post_pair_stats = paired_input_diff_stats(windows)
 
     if not windows:
         raise SystemExit("[Phase3][FAIL] no windows built")
@@ -158,6 +220,22 @@ def main():
     windows_per_condition = Counter(str(x) for x in condition_name.tolist())
     num_episodes_loaded = len({(w["split_name"], w["condition_name"], w["source_file"]) for w in windows})
 
+    canonical_summary = {
+        "canonicalization_enabled": not args.no_canonicalize_paired_inputs,
+        "num_canonicalized_windows": int(canonicalized_inputs),
+        "rule": "group by split_name, visible_seed, window_t; copy free input to paired hidden branches; targets remain condition-specific",
+        "raw_pair_stats": raw_pair_stats,
+        "post_pair_stats": post_pair_stats,
+        "raw_mean_pair_paper_x_max_abs_diff": raw_pair_stats["paper_x_max_abs"]["mean"],
+        "raw_max_pair_paper_x_max_abs_diff": raw_pair_stats["paper_x_max_abs"]["max"],
+        "raw_mean_pair_state_action_x_max_abs_diff": raw_pair_stats["state_action_x_max_abs"]["mean"],
+        "raw_max_pair_state_action_x_max_abs_diff": raw_pair_stats["state_action_x_max_abs"]["max"],
+        "post_mean_pair_paper_x_max_abs_diff": post_pair_stats["paper_x_max_abs"]["mean"],
+        "post_max_pair_paper_x_max_abs_diff": post_pair_stats["paper_x_max_abs"]["max"],
+        "post_mean_pair_state_action_x_max_abs_diff": post_pair_stats["state_action_x_max_abs"]["mean"],
+        "post_max_pair_state_action_x_max_abs_diff": post_pair_stats["state_action_x_max_abs"]["max"],
+    }
+
     meta = {
         "conditions": CONDITIONS,
         "num_windows": int(len(windows)),
@@ -191,7 +269,8 @@ def main():
         "state_action_extra_all_zero": bool(extra_std < 1e-8),
         "robot_pose_proxy_source_counts": dict(source_counts),
         "canonicalized_paired_input_windows": int(canonicalized_inputs),
-        "canonicalization_rule": "group by split, visible_seed, window_t; copy free-branch paper_x and state_action_x to all conditions",
+        "canonicalization_rule": canonical_summary["rule"],
+        "canonicalization_summary_path": str(root / "reports/phase3_canonicalization_summary.json"),
     }
 
     np.savez_compressed(
@@ -231,9 +310,13 @@ def main():
     reports = root / "reports"
     reports.mkdir(parents=True, exist_ok=True)
     (reports / "phase3_prepare_windows_summary.json").write_text(json.dumps(meta, indent=2, sort_keys=True))
+    (reports / "phase3_canonicalization_summary.json").write_text(json.dumps(canonical_summary, indent=2, sort_keys=True))
+    write_canonicalization_report(reports / "phase3_canonicalization_report.md", canonical_summary)
     print(json.dumps(meta, indent=2, sort_keys=True))
     print("[Phase3] wrote", out)
     print("[Phase3] wrote", out.parent / "phase3_splits.json")
+    print("[Phase3] wrote", reports / "phase3_canonicalization_summary.json")
+    print("[Phase3] wrote", reports / "phase3_canonicalization_report.md")
 
 
 if __name__ == "__main__":

@@ -24,6 +24,10 @@ from typing import Any, Dict, List, Optional
 import numpy as np
 
 
+DDPM_MODEL_TYPE = "torch_conditional_ddpm_future_state"
+BRANCH_REFERENCE_MODE = "split_visible_seed_window_t"
+
+
 def to_float(x: Any) -> Optional[float]:
     try:
         if x is None or x == "" or str(x).lower() == "nan":
@@ -280,7 +284,7 @@ def check_action_metrics(summary_rows: List[Dict], issues: List[Dict], mse_warn:
 def check_backend(rows: List[Dict], colmap: Dict[str, str], issues: List[Dict]):
     bkey = colmap.get("backend")
     if not bkey:
-        add_issue(issues, "WARN", "backend_column_missing", "No training_backend column found.")
+        add_issue(issues, "FAIL", "backend_column_missing", "No training_backend column found.")
         return
 
     counts = Counter(r.get(bkey, "") for r in rows)
@@ -291,6 +295,14 @@ def check_backend(rows: List[Dict], colmap: Dict[str, str], issues: List[Dict]):
             "numpy_fallback_present",
             f"Found numpy_fallback rows: {counts.get('numpy_fallback')}. Current report is not PyTorch evidence.",
         )
+    non_torch = {k: v for k, v in counts.items() if k != "torch"}
+    if non_torch:
+        add_issue(
+            issues,
+            "FAIL",
+            "non_torch_backend_present",
+            f"All Phase3 DDPM rows must use torch backend; found {dict(non_torch)}.",
+        )
     if counts.get("torch", 0) == 0:
         add_issue(
             issues,
@@ -299,6 +311,90 @@ def check_backend(rows: List[Dict], colmap: Dict[str, str], issues: List[Dict]):
             "No torch backend rows found.",
         )
 
+
+def check_ddpm_metadata(rows: List[Dict], issues: List[Dict]) -> Dict[str, Dict[str, int]]:
+    if not rows:
+        add_issue(issues, "FAIL", "prediction_rows_missing", "No prediction rows found.")
+        return {}
+
+    expected_columns = ["future_model_type", "ddpm_used", "branch_reference_mode"]
+    for col in expected_columns:
+        if col not in rows[0]:
+            add_issue(issues, "FAIL", f"{col}_missing", f"Prediction CSV lacks required `{col}` metadata column.")
+
+    counts = {
+        "future_model_type_counts": Counter(r.get("future_model_type", "") for r in rows),
+        "ddpm_used_counts": Counter(str(r.get("ddpm_used", "")).lower() for r in rows),
+        "branch_reference_mode_counts": Counter(r.get("branch_reference_mode", "") for r in rows),
+    }
+
+    future_counts = counts["future_model_type_counts"]
+    bad_future = {k: v for k, v in future_counts.items() if k != DDPM_MODEL_TYPE}
+    if bad_future or future_counts.get(DDPM_MODEL_TYPE, 0) != len(rows):
+        add_issue(
+            issues,
+            "FAIL",
+            "non_ddpm_future_model_present",
+            f"Expected only {DDPM_MODEL_TYPE}; counts={dict(future_counts)}.",
+        )
+
+    ddpm_counts = counts["ddpm_used_counts"]
+    bad_ddpm = {k: v for k, v in ddpm_counts.items() if k not in {"true", "1", "yes"}}
+    if bad_ddpm or sum(v for k, v in ddpm_counts.items() if k in {"true", "1", "yes"}) != len(rows):
+        add_issue(
+            issues,
+            "FAIL",
+            "ddpm_used_not_true",
+            f"All rows must report ddpm_used=true; counts={dict(ddpm_counts)}.",
+        )
+
+    ref_counts = counts["branch_reference_mode_counts"]
+    bad_ref = {k: v for k, v in ref_counts.items() if k != BRANCH_REFERENCE_MODE}
+    if bad_ref or ref_counts.get(BRANCH_REFERENCE_MODE, 0) != len(rows):
+        add_issue(
+            issues,
+            "FAIL",
+            "branch_reference_mode_wrong",
+            f"Expected branch_reference_mode={BRANCH_REFERENCE_MODE}; counts={dict(ref_counts)}.",
+        )
+
+    return {k: dict(v) for k, v in counts.items()}
+
+
+def check_eval_summary(eval_summary: Dict, issues: List[Dict]):
+    if not eval_summary:
+        add_issue(issues, "WARN", "eval_summary_missing", "No evaluation summary JSON found.")
+        return
+
+    missing_refs = int(eval_summary.get("num_missing_primary_branch_refs", 0) or 0)
+    if missing_refs:
+        add_issue(
+            issues,
+            "FAIL",
+            "missing_primary_branch_refs",
+            f"Evaluation had {missing_refs} rows without the required split+visible_seed+window_t branch reference.",
+        )
+
+    if eval_summary.get("all_ddpm_used") is False:
+        add_issue(issues, "FAIL", "eval_summary_ddpm_false", "Evaluation summary reports all_ddpm_used=false.")
+
+    seen = eval_summary.get("future_model_types_seen") or []
+    if seen and set(seen) != {DDPM_MODEL_TYPE}:
+        add_issue(
+            issues,
+            "FAIL",
+            "eval_summary_non_ddpm_future_model",
+            f"Evaluation summary future_model_types_seen={seen}; expected only {DDPM_MODEL_TYPE}.",
+        )
+
+    mode = eval_summary.get("branch_reference_mode")
+    if mode and mode != BRANCH_REFERENCE_MODE:
+        add_issue(
+            issues,
+            "FAIL",
+            "eval_summary_branch_reference_mode_wrong",
+            f"Evaluation summary branch_reference_mode={mode}; expected {BRANCH_REFERENCE_MODE}.",
+        )
 
 def check_leakage(leak: Dict, issues: List[Dict]):
     if not leak:
@@ -350,6 +446,16 @@ def write_report(path: Path, payload: Dict):
     for k, v in payload["backend_counts"].items():
         lines.append(f"| `{k}` | {v} |")
     lines.append("")
+    lines.append("## DDPM Metadata Counts")
+    lines.append("")
+    for name, counts in payload.get("ddpm_metadata_counts", {}).items():
+        lines.append(f"### {name}")
+        lines.append("")
+        lines.append("| Value | Count |")
+        lines.append("|---|---:|")
+        for k, v in counts.items():
+            lines.append(f"| `{k}` | {v} |")
+        lines.append("")
     lines.append("## Metric Summary")
     lines.append("")
     lines.append("| Baseline | Condition | Count | Wrong-Branch | Future Error | Averaging Score | Action MSE | Action OOD |")
@@ -390,6 +496,7 @@ def main():
     parser.add_argument("--root", default="/data/state_diff2")
     parser.add_argument("--pred_csv", default="/data/state_diff2/reports/phase3_baseline_eval_predictions.csv")
     parser.add_argument("--leak_json", default="/data/state_diff2/reports/phase3_input_leakage_summary.json")
+    parser.add_argument("--eval_json", default="/data/state_diff2/reports/phase3_baseline_eval_summary.json")
     parser.add_argument("--out_json", default="/data/state_diff2/reports/phase3_sanity_check_summary.json")
     parser.add_argument("--out_md", default="/data/state_diff2/reports/phase3_sanity_check_report.md")
     parser.add_argument("--action_mse_warn", type=float, default=10.0)
@@ -403,6 +510,8 @@ def main():
     issues = []
 
     check_backend(rows, colmap, issues)
+    ddpm_metadata_counts = check_ddpm_metadata(rows, issues)
+    check_eval_summary(read_json(Path(args.eval_json)), issues)
     check_leakage(read_json(Path(args.leak_json)), issues)
 
     if len(rows) < args.min_rows_warn:
@@ -433,6 +542,7 @@ def main():
         "num_prediction_rows": len(rows),
         "column_map": colmap,
         "backend_counts": dict(backend_counts),
+        "ddpm_metadata_counts": ddpm_metadata_counts,
         "summary_by_baseline_condition": summary_rows,
         "issues": issues,
     }

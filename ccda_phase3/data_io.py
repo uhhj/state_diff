@@ -196,42 +196,6 @@ def build_action_history(actions: List[Any], t: int, th: int, codec: ExecutableA
     return np.stack(hist, axis=0).reshape(-1).astype(np.float32)
 
 
-def make_idm_xy_features(paper_x: np.ndarray, y_state: np.ndarray, th: int, state_dim: int, n_beads: int) -> np.ndarray:
-    """Build stable inverse-dynamics features from cable geometry only."""
-    paper = np.asarray(paper_x, dtype=np.float32)
-    future = np.asarray(y_state, dtype=np.float32)
-    th = int(th)
-    state_dim = int(state_dim)
-    xy_dim = int(n_beads) * 2
-    if paper.ndim != 2:
-        raise ValueError(f"paper_x must be 2-D, got shape={paper.shape}")
-    if future.ndim == 2:
-        if future.shape[1] % state_dim != 0:
-            raise ValueError(f"flat y_state dim {future.shape[1]} is not divisible by state_dim={state_dim}")
-        future = future.reshape(future.shape[0], future.shape[1] // state_dim, state_dim)
-    if future.ndim != 3:
-        raise ValueError(f"y_state must be 3-D or flat 2-D, got shape={future.shape}")
-    if len(paper) != len(future):
-        raise ValueError(f"paper_x/y_state row mismatch: {len(paper)} vs {len(future)}")
-    if xy_dim <= 0 or xy_dim > state_dim:
-        raise ValueError(f"invalid xy_dim={xy_dim} for state_dim={state_dim}")
-    if paper.shape[1] != th * state_dim:
-        raise ValueError(f"paper_x dim {paper.shape[1]} does not equal th*state_dim={th * state_dim}")
-    hist_xy = paper.reshape(len(paper), th, state_dim)[:, :, :xy_dim].reshape(len(paper), -1)
-    future_xy = future[:, :, :xy_dim].reshape(len(future), -1)
-    return np.concatenate([hist_xy, future_xy], axis=1).astype(np.float32)
-
-
-def make_idm_features_from_npz(data: Any) -> np.ndarray:
-    return make_idm_xy_features(
-        data["paper_x"],
-        data["y_state"],
-        th=int(data["th"]),
-        state_dim=int(data["state_dim"]),
-        n_beads=int(data["n_beads"]),
-    )
-
-
 def condition_files(condition_dir: Path) -> List[str]:
     color_dir = Path(condition_dir) / "color"
     if not color_dir.exists():
@@ -291,11 +255,4 @@ def save_action_template(path: Path, codec: ActionCodec) -> None:
 
 
 def load_action_codec_from_template(path: Path) -> ActionCodec:
-    obj = load_pickle(path)
-    if isinstance(obj, ActionCodec):
-        return obj
-    if hasattr(obj, "encode") and hasattr(obj, "decode"):
-        return obj
-    if isinstance(obj, dict) and "template" in obj:
-        return ActionCodec(obj["template"])
-    raise TypeError(f"Unsupported action codec template object: {type(obj).__name__}")
+    return ExecutableActionCodec.load(path)
