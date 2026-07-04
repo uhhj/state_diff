@@ -4,7 +4,7 @@
 
 | Metric | Value |
 |---|---:|
-| `num_pairs` | `6` |
+| `num_pairs` | `7` |
 | `mean_pair_paper_x_max_abs_diff` | `0.0` |
 | `max_pair_paper_x_max_abs_diff` | `0.0` |
 | `mean_pair_state_action_x_max_abs_diff` | `0.0` |
@@ -14,7 +14,7 @@
 
 | Source | Count |
 |---|---:|
-| `pybullet_robot_body` | 48 |
+| `pybullet_robot_body` | 1096 |
 
 ## Probe Accuracies
 
@@ -23,7 +23,7 @@
 | `paper_x -> condition_id` | `0.333333` |
 | `state_action_x -> condition_id` | `0.333333` |
 | `paper_x -> free_vs_pin` | `0.500000` |
-| `paper_x -> success` | `0.555556` |
+| `paper_x -> success` | `0.571429` |
 
 ## Conclusion
 

@@ -26,6 +26,8 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
+from ccda_phase3.data_io import make_idm_features_from_npz
+
 
 def arr_stats(x: np.ndarray) -> Dict[str, Any]:
     x = np.asarray(x, dtype=np.float64)
@@ -99,13 +101,30 @@ def load_action_template_summary(path: Path) -> Dict[str, Any]:
         return {"exists": False, "path": str(path)}
     with Path(path).open("rb") as f:
         obj = pickle.load(f)
-    paths = obj.get("paths", []) if isinstance(obj, dict) else []
-    path_strings = ["/".join(str(x) for x in p) for p in paths]
+
+    roundtrip_error = None
+    if hasattr(obj, "summary"):
+        summary = dict(obj.summary())
+        path_strings = list(summary.get("paths", []))
+        try:
+            roundtrip_error = float(obj.roundtrip_error(obj.template))
+        except Exception as exc:
+            roundtrip_error = f"ERROR: {exc!r}"
+    elif isinstance(obj, dict):
+        paths = obj.get("paths", [])
+        path_strings = ["/".join(str(x) for x in p) for p in paths]
+        summary = {"class": "legacy_dict_template", "dim": len(path_strings), "paths": path_strings}
+    else:
+        path_strings = []
+        summary = {"class": type(obj).__name__, "dim": None, "paths": []}
+
     forbidden_tokens = ["hidden", "condition", "seed", "object", "success", "reward", "file", "id"]
     forbidden = [p for p in path_strings if any(tok in p.lower() for tok in forbidden_tokens)]
     camera = [p for p in path_strings if "camera_config" in p]
     params = [p for p in path_strings if p.startswith("params/")]
-    return {
+    allowed = [p for p in path_strings if p.startswith("params/pose0") or p.startswith("params/pose1") or p.startswith("pose0") or p.startswith("pose1")]
+    invalid = [p for p in path_strings if p not in allowed]
+    summary.update({
         "exists": True,
         "path": str(path),
         "num_paths": len(path_strings),
@@ -114,8 +133,10 @@ def load_action_template_summary(path: Path) -> Dict[str, Any]:
         "camera_config_paths_head": camera[:20],
         "param_paths_head": params[:20],
         "forbidden_token_paths": forbidden[:50],
-    }
-
+        "invalid_executable_paths": invalid[:50],
+        "roundtrip_error": roundtrip_error,
+    })
+    return summary
 
 def safe_float(x: Any):
     try:
@@ -137,14 +158,14 @@ def compute_idm_diagnostics(data, ckpt_root: Path):
     if len(held) == 0:
         return [{"error": "no heldout rows"}]
     paper_x = data["paper_x"].astype(np.float32)
-    y_flat = data["y_state"].astype(np.float32).reshape(len(split), -1)
     y_action = data["y_action"].astype(np.float32)
+    idm_x_all = make_idm_features_from_npz(data)
     out = []
     for cfg in sorted(Path(ckpt_root).glob("*/*/config.json")):
         try:
             meta = load_json_maybe(cfg)
             idm = load_inverse_model(cfg.parent / "inverse_dynamics.pt")
-            x = np.concatenate([paper_x[held], y_flat[held]], axis=1)
+            x = idm_x_all[held]
             pred = idm.predict(x).astype(np.float32)
             target = y_action[held].astype(np.float32)
             raw_mse = float(np.mean((pred - target) ** 2))
@@ -161,6 +182,8 @@ def compute_idm_diagnostics(data, ckpt_root: Path):
                 "pred_action_ood_mean": float(np.mean(ood)),
                 "pred_action_ood_max": float(np.max(ood)),
                 "uses_standardized_target": bool(hasattr(idm, "y_std")),
+                "idm_feature_mode": meta.get("idm_feature_mode", ""),
+                "idm_x_dim": int(idm_x_all.shape[1]),
                 "heldout_rows": int(len(held)),
             })
         except Exception as exc:
@@ -211,15 +234,21 @@ def write_report(path: Path, payload: Dict):
     lines.append("## Action Template")
     lines.append("")
     ats = payload.get("action_template_summary", {})
-    for k in ["path", "num_paths", "num_camera_config_paths", "num_param_paths"]:
+    for k in ["path", "class", "dim", "num_paths", "num_camera_config_paths", "num_param_paths", "roundtrip_error"]:
         lines.append(f"- `{k}`: `{ats.get(k)}`")
     if ats.get("camera_config_paths_head"):
         lines.append(f"- `camera_config_paths_head`: `{ats.get('camera_config_paths_head')}`")
     if ats.get("forbidden_token_paths"):
         lines.append(f"- `forbidden_token_paths`: `{ats.get('forbidden_token_paths')}`")
+    if ats.get("invalid_executable_paths"):
+        lines.append(f"- `invalid_executable_paths`: `{ats.get('invalid_executable_paths')}`")
     lines.append("")
     lines.append("## IDM Heldout Reconstruction")
     lines.append("")
+    feature_modes = sorted({str(item.get("idm_feature_mode", "")) for item in payload.get("idm_debug", []) if item.get("idm_feature_mode", "")})
+    if feature_modes:
+        lines.append(f"- Feature mode: `{feature_modes}`")
+        lines.append("")
     lines.append("| Checkpoint | Backend | Raw MSE | Normalized MSE | Pred OOD mean | Pred OOD max | Standardized target |")
     lines.append("|---|---|---:|---:|---:|---:|---|")
     for item in payload.get("idm_debug", []):
@@ -261,6 +290,9 @@ def main():
     args = parser.parse_args()
 
     data = np.load(args.data, allow_pickle=True)
+    prepare_summary = load_json_maybe(Path(args.data).resolve().parents[1] / "reports" / "phase3_prepare_windows_summary.json")
+    if not prepare_summary:
+        prepare_summary = load_json_maybe(Path("/data/state_diff2/reports/phase3_prepare_windows_summary.json"))
     issues = []
 
     paper_key = get_key(data, ["paper_x"])
@@ -287,6 +319,14 @@ def main():
         dimension_summary["state_action_x_shape"] = list(state_action_x.shape)
     if y_action is not None:
         dimension_summary["y_action_shape"] = list(y_action.shape)
+        if y_action.ndim != 2 or y_action.shape[1] != 14:
+            add_issue(issues, "FAIL", "y_action_dim_not_14", f"Expected executable y_action dim 14, got shape {list(y_action.shape)}.")
+
+    if "episode_action_len" in data.files:
+        episode_action_len_max = int(np.max(data["episode_action_len"].astype(int)))
+    else:
+        episode_action_len_max = int(prepare_summary.get("episode_action_len_max") or -1)
+    dimension_summary["episode_action_len_max"] = episode_action_len_max
 
     if paper_x is not None and state_action_x is not None:
         if state_action_x.shape[1] <= paper_x.shape[1]:
@@ -302,12 +342,20 @@ def main():
             extra = state_action_x[:, paper_x.shape[1]:]
         extra_stats = arr_stats(extra) if extra.size else {"shape": list(extra.shape), "std": 0.0}
         if extra.size and np.std(extra) < 1e-8:
-            add_issue(
-                issues,
-                "FAIL",
-                "state_action_extra_block_constant",
-                "state_action baseline has limited additional information because the current primitive dataset contains very short action histories.",
-            )
+            if episode_action_len_max <= 1:
+                add_issue(
+                    issues,
+                    "WARN",
+                    "state_action_extra_block_constant_short_episodes",
+                    "state_action baseline has limited additional information because the current primitive dataset contains very short action histories.",
+                )
+            else:
+                add_issue(
+                    issues,
+                    "FAIL",
+                    "state_action_extra_block_constant",
+                    f"state_action extra block is all zero even though episode_action_len_max={episode_action_len_max} > 1.",
+                )
     else:
         extra_stats = {}
 
@@ -373,6 +421,15 @@ def main():
 
     template_path = Path(str(data["action_template_json_or_pickle_path"])) if "action_template_json_or_pickle_path" in data.files else None
     action_template_summary = load_action_template_summary(template_path) if template_path else {"exists": False}
+    if action_template_summary.get("dim") != 14:
+        add_issue(issues, "FAIL", "action_codec_dim_not_14", f"Expected action codec dim 14, got {action_template_summary.get('dim')}.")
+    rt_err = action_template_summary.get("roundtrip_error")
+    if isinstance(rt_err, (int, float)) and rt_err > 1e-6:
+        add_issue(issues, "FAIL", "action_codec_roundtrip_error", f"roundtrip error={rt_err} > 1e-6.")
+    elif isinstance(rt_err, str) and rt_err.startswith("ERROR"):
+        add_issue(issues, "FAIL", "action_codec_roundtrip_error", rt_err)
+    if action_template_summary.get("invalid_executable_paths"):
+        add_issue(issues, "FAIL", "action_codec_invalid_paths", f"Non-executable action paths: {action_template_summary.get('invalid_executable_paths')[:10]}")
     if action_template_summary.get("num_camera_config_paths", 0) > 0:
         add_issue(
             issues,

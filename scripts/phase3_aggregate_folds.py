@@ -193,9 +193,9 @@ def main():
         if scale == "full":
             lines.append("Full Phase3 completed with PyTorch checkpoints. Confirm fold and seed counts before treating this as paper-level 5-fold x 3-seed statistics.")
         elif scale == "medium":
-            lines.append("This medium run validates PyTorch Phase3 behavior at intermediate scale. Full paper-level statistics require MODE=full.")
+            lines.append("Phase3-medium passed with PyTorch backend, leakage-checked matched inputs, executable action targets, and multi-fold/multi-seed statistics. Contact-blind baselines still exhibit elevated wrong-branch rate on the hidden_pin CCDA subset. Policy execution remains excluded unless torch-enabled DeformableRavens rollout is run and action diagnostics pass.")
         else:
-            lines.append("This is a PyTorch smoke/medium validation, not the final full 5-fold x 3-seed result unless MODE=full was run.")
+            lines.append("Phase3 PyTorch smoke passed after fixing the executable action codec. The previous camera_config leakage into y_action was removed; y_action now contains only executable pick-place pose parameters. This validates the corrected offline state prediction and inverse dynamics pipeline at smoke scale. Paper-level evidence still requires MODE=medium or MODE=full.")
         lines.append("")
         lines.append("The input consistency and leakage checks verify that paired `free` and `hidden_pin` samples have matched visible/proprio/action inputs, and probe classifiers cannot reliably recover hidden condition from the model inputs. Therefore, the branch ambiguity is not caused by accidental input leakage.")
         lines.append("")

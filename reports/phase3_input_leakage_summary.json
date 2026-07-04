@@ -6,14 +6,14 @@
     "max_pair_state_action_x_max_abs_diff": 0.0,
     "mean_pair_paper_x_max_abs_diff": 0.0,
     "mean_pair_state_action_x_max_abs_diff": 0.0,
-    "num_pairs": 6
+    "num_pairs": 7
   },
   "pair_consistency_pass": true,
   "paper_x_condition_probe_acc": 0.3333333333333333,
-  "paper_x_success_probe_acc": 0.5555555555555556,
+  "paper_x_success_probe_acc": 0.5714285714285714,
   "pass": true,
   "robot_pose_proxy_source_counts": {
-    "pybullet_robot_body": 48
+    "pybullet_robot_body": 1096
   },
   "state_action_x_condition_probe_acc": 0.3333333333333333,
   "warning_high_probe_accuracy": false

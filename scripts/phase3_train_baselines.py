@@ -10,6 +10,7 @@ from pathlib import Path
 
 import numpy as np
 
+from ccda_phase3.data_io import make_idm_features_from_npz
 from ccda_phase3.train_utils import (
     grouped_folds,
     save_json,
@@ -84,6 +85,7 @@ def main():
     paper_x = data["paper_x"].astype(np.float32)
     state_action_x = data["state_action_x"].astype(np.float32)
     y_action = data["y_action"].astype(np.float32)
+    idm_x_all = make_idm_features_from_npz(data)
     visible_seed = data["visible_seed"].astype(int)
     heldout_seeds = sorted(set(data["visible_seed"][split == "heldout"].astype(int).tolist()))
     out_root = Path(args.out_root)
@@ -116,16 +118,18 @@ def main():
                     "seed": seed,
                     "fold": fold_idx,
                     "epochs_idm_requested": args.epochs_idm,
+                    "idm_feature_mode": "cable_xy_history_future",
+                    "idm_x_dim": int(idm_x_all.shape[1]),
                     "python_executable": python_executable,
                     "conda_env": conda_env,
                 }
                 if training_backend == "torch":
                     state_model = train_torch_future_model(x_all[fold_train], y_state[fold_train], state_cfg, args.epochs_state, args.batch_size, seed)
-                    idm_x = np.concatenate([paper_x[fold_train], y_flat[fold_train]], axis=1)
+                    idm_x = idm_x_all[fold_train]
                     idm = train_torch_inverse_model(idm_x, y_action[fold_train], idm_cfg, args.epochs_idm, args.batch_size, seed)
                 else:
                     state_model = train_numpy_future_model(x_all[fold_train], y_state[fold_train], state_cfg)
-                    idm_x = np.concatenate([paper_x[fold_train], y_flat[fold_train]], axis=1)
+                    idm_x = idm_x_all[fold_train]
                     idm = train_numpy_inverse_model(idm_x, y_action[fold_train], idm_cfg)
                 state_model.save(ckpt / "state_model.pt")
                 idm.save(ckpt / "inverse_dynamics.pt")
@@ -149,6 +153,8 @@ def main():
                     "state_dim": int(data["state_dim"]),
                     "robot_pose_dim": int(data["robot_pose_dim"]),
                     "action_dim": int(data["action_dim"]),
+                    "idm_feature_mode": "cable_xy_history_future",
+                    "idm_x_dim": int(idm_x_all.shape[1]),
                     "n_beads": int(data["n_beads"]),
                     "th": int(data["th"]),
                     "tf": int(data["tf"]),
@@ -168,6 +174,8 @@ def main():
                     "state_val_mse": val_mse,
                     "num_train_windows": int(np.sum(fold_train)),
                     "num_val_windows": int(np.sum(fold_val)),
+                    "idm_feature_mode": "cable_xy_history_future",
+                    "idm_x_dim": int(idm_x_all.shape[1]),
                 }
                 save_json(ckpt / "train_log.json", train_log)
                 print("[Phase3] trained", ckpt, train_log)

@@ -6,7 +6,7 @@ from typing import Any, Dict, Iterable, List, Optional, Tuple
 
 import numpy as np
 
-from .action_codec import ActionCodec
+from .action_codec import ActionCodec, ExecutableActionCodec
 
 CONDITIONS = ["free", "hidden_pin", "hidden_high_friction"]
 CONDITION_TO_ID = {name: i for i, name in enumerate(CONDITIONS)}
@@ -144,6 +144,7 @@ def load_episode(condition: str, condition_dir: Path, file_name: str, codec: Opt
         "pair_group": str(first_ex.get("ccda_pair_group", last_ex.get("ccda_pair_group", ""))),
         "states": np.asarray(states, dtype=np.float32),
         "actions": np.asarray(action_vecs, dtype=np.float32),
+        "raw_actions": actions,
         "action_template": template,
         "codec": codec,
         "success": bool(last_ex.get("task.done", False)),
@@ -177,6 +178,60 @@ def resample_or_pad_future(future: np.ndarray, tf: int) -> np.ndarray:
     return np.concatenate([arr, pad], axis=0)
 
 
+def build_action_history(actions: List[Any], t: int, th: int, codec: ExecutableActionCodec) -> np.ndarray:
+    """Past-action history for the state_action baseline.
+
+    Returns actions from [t-th, ..., t-1], left-padded with zeros. The current
+    target action actions[t] is intentionally excluded.
+    """
+    action_dim = codec.dim()
+    hist = []
+    for k in range(t - th, t):
+        if k < 0:
+            hist.append(np.zeros(action_dim, dtype=np.float32))
+        else:
+            hist.append(codec.encode(actions[k]).astype(np.float32))
+    if not hist:
+        hist = [np.zeros(action_dim, dtype=np.float32) for _ in range(th)]
+    return np.stack(hist, axis=0).reshape(-1).astype(np.float32)
+
+
+def make_idm_xy_features(paper_x: np.ndarray, y_state: np.ndarray, th: int, state_dim: int, n_beads: int) -> np.ndarray:
+    """Build stable inverse-dynamics features from cable geometry only."""
+    paper = np.asarray(paper_x, dtype=np.float32)
+    future = np.asarray(y_state, dtype=np.float32)
+    th = int(th)
+    state_dim = int(state_dim)
+    xy_dim = int(n_beads) * 2
+    if paper.ndim != 2:
+        raise ValueError(f"paper_x must be 2-D, got shape={paper.shape}")
+    if future.ndim == 2:
+        if future.shape[1] % state_dim != 0:
+            raise ValueError(f"flat y_state dim {future.shape[1]} is not divisible by state_dim={state_dim}")
+        future = future.reshape(future.shape[0], future.shape[1] // state_dim, state_dim)
+    if future.ndim != 3:
+        raise ValueError(f"y_state must be 3-D or flat 2-D, got shape={future.shape}")
+    if len(paper) != len(future):
+        raise ValueError(f"paper_x/y_state row mismatch: {len(paper)} vs {len(future)}")
+    if xy_dim <= 0 or xy_dim > state_dim:
+        raise ValueError(f"invalid xy_dim={xy_dim} for state_dim={state_dim}")
+    if paper.shape[1] != th * state_dim:
+        raise ValueError(f"paper_x dim {paper.shape[1]} does not equal th*state_dim={th * state_dim}")
+    hist_xy = paper.reshape(len(paper), th, state_dim)[:, :, :xy_dim].reshape(len(paper), -1)
+    future_xy = future[:, :, :xy_dim].reshape(len(future), -1)
+    return np.concatenate([hist_xy, future_xy], axis=1).astype(np.float32)
+
+
+def make_idm_features_from_npz(data: Any) -> np.ndarray:
+    return make_idm_xy_features(
+        data["paper_x"],
+        data["y_state"],
+        th=int(data["th"]),
+        state_dim=int(data["state_dim"]),
+        n_beads=int(data["n_beads"]),
+    )
+
+
 def condition_files(condition_dir: Path) -> List[str]:
     color_dir = Path(condition_dir) / "color"
     if not color_dir.exists():
@@ -184,7 +239,7 @@ def condition_files(condition_dir: Path) -> List[str]:
     return [p.name for p in sorted(color_dir.glob("*.pkl"))]
 
 
-def build_windows_from_dataset(split_name: str, data_root: Path, th: int, tf: int, codec: Optional[ActionCodec] = None, max_windows_per_episode: int = 1) -> Tuple[List[Dict[str, Any]], Optional[ActionCodec], Counter]:
+def build_windows_from_dataset(split_name: str, data_root: Path, th: int, tf: int, codec: Optional[ActionCodec] = None, max_windows_per_episode: int = 0) -> Tuple[List[Dict[str, Any]], Optional[ActionCodec], Counter]:
     data_root = Path(data_root)
     windows: List[Dict[str, Any]] = []
     source_counts: Counter = Counter()
@@ -194,19 +249,19 @@ def build_windows_from_dataset(split_name: str, data_root: Path, th: int, tf: in
             ep = load_episode(condition, cond_dir, file_name, codec=codec)
             codec = ep["codec"]
             states = ep["states"]
-            actions = ep["actions"]
-            if len(actions) == 0 or len(states) < 2:
+            raw_actions = ep.get("raw_actions", [])
+            if len(raw_actions) == 0 or len(states) < 2:
                 continue
-            max_t = len(actions)
+            max_t = min(len(raw_actions), len(states) - 1)
             if max_windows_per_episode > 0:
                 max_t = min(max_t, max_windows_per_episode)
             for t in range(max_t):
+                if t >= len(raw_actions) or t + 1 >= len(states):
+                    continue
                 hist_states = resample_or_pad_history(states[: t + 1], th)
-                future = resample_or_pad_future(states[t + 1 :], tf)
-                past_actions = actions[max(0, t - th) : t]
-                if len(past_actions) == 0:
-                    past_actions = np.zeros((1, actions.shape[1]), dtype=np.float32)
-                hist_actions = resample_or_pad_history(past_actions, th)
+                future = resample_or_pad_future(states[t + 1 : t + 1 + tf], tf)
+                hist_actions = build_action_history(raw_actions, t, th, codec)
+                y_action_t = codec.encode(raw_actions[t]).astype(np.float32)
                 source_counts.update(ep["robot_pose_proxy_sources"][: t + 1])
                 windows.append(
                     {
@@ -214,13 +269,14 @@ def build_windows_from_dataset(split_name: str, data_root: Path, th: int, tf: in
                         "state_action_x": np.concatenate([hist_states.reshape(-1), hist_actions.reshape(-1)]).astype(np.float32),
                         "y_state": future.astype(np.float32),
                         "y_final_state": future[-1].astype(np.float32),
-                        "y_action": actions[t].astype(np.float32),
+                        "y_action": y_action_t,
                         "condition_id": ep["condition_id"],
                         "condition_name": condition,
                         "visible_seed": ep["visible_seed"],
                         "split_name": split_name,
                         "source_file": file_name,
                         "window_t": int(t),
+                        "episode_action_len": int(len(raw_actions)),
                         "success": ep["success"],
                         "final_fraction": ep["final_fraction"],
                         "n_beads": ep["n_beads"],
@@ -231,12 +287,15 @@ def build_windows_from_dataset(split_name: str, data_root: Path, th: int, tf: in
 
 
 def save_action_template(path: Path, codec: ActionCodec) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("wb") as f:
-        pickle.dump({"template": codec.template, "paths": codec.paths}, f)
+    codec.save(path)
 
 
 def load_action_codec_from_template(path: Path) -> ActionCodec:
     obj = load_pickle(path)
-    codec = ActionCodec(obj["template"])
-    return codec
+    if isinstance(obj, ActionCodec):
+        return obj
+    if hasattr(obj, "encode") and hasattr(obj, "decode"):
+        return obj
+    if isinstance(obj, dict) and "template" in obj:
+        return ActionCodec(obj["template"])
+    raise TypeError(f"Unsupported action codec template object: {type(obj).__name__}")

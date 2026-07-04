@@ -8,7 +8,7 @@ Phase3 evaluates contact-blind StateDiff-style baselines on `hidden-contact-cabl
 
 | Step | Python | Conda Env | Torch | Ravens |
 |---|---|---|---|---|
-| generate | not run in current report | NA | NA | NA |
+| generate | `/root/miniforge3/envs/defravens37/bin/python` | `defravens37` | not required | OK |
 | train_eval | `/miniforge3/envs/coord_bimanual/bin/python` | `coord_bimanual` | OK | not required |
 | rollout | not run in current report | NA | NA | NA |
 | aggregate | `/miniforge3/envs/coord_bimanual/bin/python` | `coord_bimanual` | OK | not required |
@@ -17,29 +17,29 @@ Phase3 evaluates contact-blind StateDiff-style baselines on `hidden-contact-cabl
 
 | Backend | Count |
 |---|---:|
-| `torch` | 72 |
+| `torch` | 84 |
 
 ## Offline State Prediction
 
 | Baseline | Condition | Wrong-Branch mean | Branch-Accuracy mean | Future Error mean | Averaging Score mean |
 |---|---|---:|---:|---:|---:|
-| paper_state | free | 0.372396 | 0.627604 | 0.516468 | 0.00090625 |
-| paper_state | hidden_high_friction | NA | NA | 0.516261 | 0.00090625 |
-| paper_state | hidden_pin | 0.627604 | 0.372396 | 0.533711 | 0.00090625 |
-| state_action | free | 0.354167 | 0.645833 | 0.51585 | 0.00125573 |
-| state_action | hidden_high_friction | NA | NA | 0.515737 | 0.00125573 |
-| state_action | hidden_pin | 0.645833 | 0.354167 | 0.535677 | 0.00125573 |
+| paper_state | free | 0.285714 | 0.714286 | 0.532394 | -0.0135989 |
+| paper_state | hidden_high_friction | NA | NA | 0.53375 | -0.0135989 |
+| paper_state | hidden_pin | 0.714286 | 0.285714 | 0.561706 | -0.0135989 |
+| state_action | free | 0.31808 | 0.68192 | 0.533286 | -0.0136526 |
+| state_action | hidden_high_friction | NA | NA | 0.534667 | -0.0136526 |
+| state_action | hidden_pin | 0.68192 | 0.31808 | 0.561484 | -0.0136526 |
 
 ## Inverse Dynamics
 
 | Baseline | Condition | Action MSE mean | Action OOD mean |
 |---|---|---:|---:|
-| paper_state | free | 283.149 | 17.3679 |
-| paper_state | hidden_high_friction | 283.149 | 17.3679 |
-| paper_state | hidden_pin | 283.149 | 17.3679 |
-| state_action | free | 283.087 | 17.3638 |
-| state_action | hidden_high_friction | 283.087 | 17.3638 |
-| state_action | hidden_pin | 283.087 | 17.3638 |
+| paper_state | free | 0.0133526 | 0.568227 |
+| paper_state | hidden_high_friction | 0.0134342 | 0.568227 |
+| paper_state | hidden_pin | 0.0133955 | 0.568227 |
+| state_action | free | 0.013896 | 0.581839 |
+| state_action | hidden_high_friction | 0.0139855 | 0.581839 |
+| state_action | hidden_pin | 0.0138171 | 0.581839 |
 
 ## Policy Execution
 
@@ -47,7 +47,7 @@ Policy rollout was not rerun for the current PyTorch train/eval report, so any o
 
 ## Phase3 Conclusion
 
-This is a PyTorch smoke/medium validation, not the final full 5-fold x 3-seed result unless MODE=full was run.
+Phase3 PyTorch smoke passed after fixing the executable action codec. The previous camera_config leakage into y_action was removed; y_action now contains only executable pick-place pose parameters. This validates the corrected offline state prediction and inverse dynamics pipeline at smoke scale. Paper-level evidence still requires MODE=medium or MODE=full.
 
 The input consistency and leakage checks verify that paired `free` and `hidden_pin` samples have matched visible/proprio/action inputs, and probe classifiers cannot reliably recover hidden condition from the model inputs. Therefore, the branch ambiguity is not caused by accidental input leakage.
 
@@ -57,34 +57,28 @@ Across the current folds and random seeds, the contact-blind baselines exhibit e
 
 | Diagnostic | Verdict |
 |---|---|
-| Phase3 metric sanity | `FAIL` |
-| Action/IDM debug | `FAIL` |
+| Phase3 metric sanity | `WARN` |
+| Action/IDM debug | `WARN` |
 
 ### Metric Sanity Issues
 
 | Level | Name | Detail |
 |---|---|---|
-| `WARN` | `small_prediction_table` | Only 72 prediction rows. This is smoke-scale, not paper-scale. |
-| `WARN` | `baseline_nearly_identical_future_error_mean_free` | paper_state and state_action differ by <1e-3 for future_error_mean on free: 0.51646805057923 vs 0.5158502335349718 |
-| `WARN` | `baseline_nearly_identical_averaging_score_mean_free` | paper_state and state_action differ by <1e-3 for averaging_score_mean on free: 0.0009062504395842552 vs 0.0012557267521818478 |
-| `WARN` | `baseline_nearly_identical_future_error_mean_hidden_high_friction` | paper_state and state_action differ by <1e-3 for future_error_mean on hidden_high_friction: 0.5162610212961832 vs 0.5157370045781136 |
-| `WARN` | `baseline_nearly_identical_averaging_score_mean_hidden_high_friction` | paper_state and state_action differ by <1e-3 for averaging_score_mean on hidden_high_friction: 0.0009062504395842552 vs 0.0012557267521818478 |
-| `WARN` | `baseline_nearly_identical_averaging_score_mean_hidden_pin` | paper_state and state_action differ by <1e-3 for averaging_score_mean on hidden_pin: 0.0009062504395842552 vs 0.0012557267521818478 |
-| `WARN` | `low_future_error_contrast_paper_state` | hidden_pin and free future errors are close: pin-free=0.017243. This may indicate mean prediction collapse or an overly coarse metric. |
-| `WARN` | `low_future_error_contrast_state_action` | hidden_pin and free future errors are close: pin-free=0.019826. This may indicate mean prediction collapse or an overly coarse metric. |
-| `FAIL` | `action_mse_too_large` | max action MSE=283.148601 > 10.0. Do not trust rollout until action codec / normalization / IDM target are diagnosed. |
-| `FAIL` | `action_ood_too_large` | max action OOD=17.367888 > 5.0. Predicted actions are far from expert action distribution. |
+| `WARN` | `small_prediction_table` | Only 84 prediction rows. This is smoke-scale, not paper-scale. |
+| `WARN` | `baseline_nearly_identical_future_error_mean_free` | paper_state and state_action differ by <1e-3 for future_error_mean on free: 0.5323939727885383 vs 0.5332859030791691 |
+| `WARN` | `baseline_nearly_identical_averaging_score_mean_free` | paper_state and state_action differ by <1e-3 for averaging_score_mean on free: -0.01359889842569828 vs -0.013652579858899117 |
+| `WARN` | `baseline_nearly_identical_action_mse_mean_free` | paper_state and state_action differ by <1e-3 for action_mse_mean on free: 0.013352553459948726 vs 0.013896014192141593 |
+| `WARN` | `baseline_nearly_identical_future_error_mean_hidden_high_friction` | paper_state and state_action differ by <1e-3 for future_error_mean on hidden_high_friction: 0.5337501849446978 vs 0.5346673130989075 |
+| `WARN` | `baseline_nearly_identical_averaging_score_mean_hidden_high_friction` | paper_state and state_action differ by <1e-3 for averaging_score_mean on hidden_high_friction: -0.01359889842569828 vs -0.013652579858899117 |
+| `WARN` | `baseline_nearly_identical_action_mse_mean_hidden_high_friction` | paper_state and state_action differ by <1e-3 for action_mse_mean on hidden_high_friction: 0.013434154846306359 vs 0.01398549198971263 |
+| `WARN` | `baseline_nearly_identical_future_error_mean_hidden_pin` | paper_state and state_action differ by <1e-3 for future_error_mean on hidden_pin: 0.5617055020162037 vs 0.5614840494734901 |
+| `WARN` | `baseline_nearly_identical_averaging_score_mean_hidden_pin` | paper_state and state_action differ by <1e-3 for averaging_score_mean on hidden_pin: -0.01359889842569828 vs -0.013652579858899117 |
+| `WARN` | `baseline_nearly_identical_action_mse_mean_hidden_pin` | paper_state and state_action differ by <1e-3 for action_mse_mean on hidden_pin: 0.01339553639159671 vs 0.013817112709927772 |
 
 ### Action/IDM Issues
 
 | Level | Name | Detail |
 |---|---|---|
-| `FAIL` | `state_action_extra_block_constant` | state_action baseline has limited additional information because the current primitive dataset contains very short action histories. |
-| `WARN` | `large_raw_action_scale` | y_action p99 abs=640.000000. Raw action MSE may be dominated by unnormalized coordinates or wrong fields. |
-| `WARN` | `many_near_zero_action_dims` | 71/77 action dims have std < 1e-8. |
-| `FAIL` | `action_codec_encodes_camera_config` | Action codec target includes 63 camera_config numeric paths. These are observation metadata, not executable pick-place action parameters. |
-| `FAIL` | `idm_raw_mse_too_large` | heldout IDM raw-space MSE max=1018.703491 > 10.0. |
-| `FAIL` | `idm_normalized_mse_too_large` | heldout IDM normalized MSE max=1091.644897 > 5.0. |
-| `FAIL` | `idm_pred_ood_too_large` | heldout IDM predicted action OOD mean max=15.354828 > 5.0. |
+| `WARN` | `many_near_zero_action_dims` | 8/14 action dims have std < 1e-8. |
 
-**Execution-level Phase3 evidence is blocked by sanity diagnostics. Do not count policy rollout or move to Phase4 until the FAIL items are fixed.**
+**Diagnostics contain WARN items. This is acceptable for smoke, but should be resolved or explicitly discussed before medium/full paper-level runs.**

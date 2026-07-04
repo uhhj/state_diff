@@ -1,13 +1,63 @@
 {
-  "action_dim": 77,
+  "action_codec": {
+    "class": "ExecutableActionCodec",
+    "dim": 14,
+    "num_camera_config_paths": 0,
+    "num_param_paths": 14,
+    "paths": [
+      "params/pose0/0/0",
+      "params/pose0/0/1",
+      "params/pose0/0/2",
+      "params/pose0/1/0",
+      "params/pose0/1/1",
+      "params/pose0/1/2",
+      "params/pose0/1/3",
+      "params/pose1/0/0",
+      "params/pose1/0/1",
+      "params/pose1/0/2",
+      "params/pose1/1/0",
+      "params/pose1/1/1",
+      "params/pose1/1/2",
+      "params/pose1/1/3"
+    ]
+  },
+  "action_codec_summary": {
+    "class": "ExecutableActionCodec",
+    "dim": 14,
+    "num_camera_config_paths": 0,
+    "num_param_paths": 14,
+    "paths": [
+      "params/pose0/0/0",
+      "params/pose0/0/1",
+      "params/pose0/0/2",
+      "params/pose0/1/0",
+      "params/pose0/1/1",
+      "params/pose0/1/2",
+      "params/pose0/1/3",
+      "params/pose1/0/0",
+      "params/pose1/0/1",
+      "params/pose1/0/2",
+      "params/pose1/1/0",
+      "params/pose1/1/1",
+      "params/pose1/1/2",
+      "params/pose1/1/3"
+    ]
+  },
+  "action_dim": 14,
   "action_template_json_or_pickle_path": "/data/state_diff2/data/phase3_state_diff_windows/phase3_action_template.pkl",
+  "action_template_path": "/data/state_diff2/data/phase3_state_diff_windows/phase3_action_template.pkl",
   "canonicalization_rule": "group by split, visible_seed, window_t; copy free-branch paper_x and state_action_x to all conditions",
-  "canonicalized_paired_input_windows": 32,
+  "canonicalized_paired_input_windows": 50,
+  "complete_condition_filter": "keep only split/visible_seed/window_t groups containing free, hidden_pin, and hidden_high_friction",
   "conditions": [
     "free",
     "hidden_pin",
     "hidden_high_friction"
   ],
+  "dropped_windows_incomplete_condition_groups": 167,
+  "episode_action_len_max": 20,
+  "episode_action_len_mean": 5.6,
+  "episode_action_len_min": 1,
   "heldout_visible_seeds": [
     100000,
     100001,
@@ -16,15 +66,27 @@
     100004,
     100005
   ],
-  "max_windows_per_episode": 1,
+  "max_windows_per_episode": 0,
   "n_beads": 24,
-  "num_heldout_windows": 18,
-  "num_train_windows": 30,
-  "num_windows": 48,
+  "num_episodes_loaded": 48,
+  "num_heldout_windows": 21,
+  "num_train_windows": 54,
+  "num_windows": 75,
+  "paper_x_shape": [
+    75,
+    405
+  ],
+  "raw_num_windows_before_complete_condition_filter": 242,
   "robot_pose_dim": 39,
   "robot_pose_proxy_source_counts": {
-    "pybullet_robot_body": 48
+    "pybullet_robot_body": 1096
   },
+  "state_action_extra_all_zero": false,
+  "state_action_extra_std": 0.17180827260017395,
+  "state_action_x_shape": [
+    75,
+    447
+  ],
   "state_dim": 135,
   "tf": 4,
   "th": 3,
@@ -39,5 +101,14 @@
     1007,
     1008,
     1009
+  ],
+  "windows_per_condition": {
+    "free": 25,
+    "hidden_high_friction": 25,
+    "hidden_pin": 25
+  },
+  "y_action_shape": [
+    75,
+    14
   ]
 }

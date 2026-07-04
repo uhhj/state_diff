@@ -12,6 +12,7 @@ from pathlib import Path
 
 import numpy as np
 
+from ccda_phase3.data_io import make_idm_xy_features
 from ccda_phase3.metrics import branch_stats, finite_mean, finite_std, state_chamfer
 from ccda_phase3.train_utils import load_future_model, load_inverse_model
 
@@ -47,6 +48,7 @@ def main():
     y_final = data["y_final_state"].astype(np.float32)
     y_action = data["y_action"].astype(np.float32)
     n_beads = int(data["n_beads"])
+    th = int(data["th"])
     tf = int(data["tf"])
     state_dim = int(data["state_dim"])
 
@@ -79,7 +81,13 @@ def main():
                 samples_traj = samples.reshape(args.samples_per_prefix, tf, state_dim)
                 samples_final = samples_traj[:, -1, :]
                 mean_future = np.mean(samples, axis=0, keepdims=True)
-                idm_x = np.concatenate([paper_x[i : i + 1], mean_future], axis=1)
+                idm_x = make_idm_xy_features(
+                    paper_x[i : i + 1],
+                    mean_future.reshape(1, tf, state_dim),
+                    th=th,
+                    state_dim=state_dim,
+                    n_beads=n_beads,
+                )
                 pred_action = idm.predict(idm_x)
                 action_mse = float(np.mean((pred_action[0] - y_action[i]) ** 2))
                 action_ood = float(idm.ood_score(pred_action)[0])
@@ -94,6 +102,7 @@ def main():
                     "training_backend": training_backend,
                     "python_executable": python_executable,
                     "conda_env": conda_env,
+                    "idm_feature_mode": str(cfg.get("idm_feature_mode", "")),
                     "condition": str(cond_name[i]),
                     "visible_seed": int(visible_seed[i]),
                     "source_file": str(data["source_file"][i]),
