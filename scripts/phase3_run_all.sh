@@ -44,6 +44,11 @@ else
 fi
 
 DIFFUSION_STEPS="${DIFFUSION_STEPS:-100}"
+NUM_INFERENCE_STEPS="${NUM_INFERENCE_STEPS:-$DIFFUSION_STEPS}"
+BETA_SCHEDULE="${BETA_SCHEDULE:-squaredcos_cap_v2}"
+PREDICTION_TYPE="${PREDICTION_TYPE:-epsilon}"
+VARIANCE_TYPE="${VARIANCE_TYPE:-fixed_small}"
+SAMPLE_TEMPERATURE="${SAMPLE_TEMPERATURE:-1.0}"
 HIDDEN_DIM="${HIDDEN_DIM:-512}"
 TIME_DIM="${TIME_DIM:-128}"
 LR="${LR:-1e-3}"
@@ -101,6 +106,12 @@ run_train_eval() {
     --epochs_idm "$EPOCHS_IDM" \
     --batch_size 128 \
     --diffusion_steps "$DIFFUSION_STEPS" \
+    --num_inference_steps "$NUM_INFERENCE_STEPS" \
+    --beta_schedule "$BETA_SCHEDULE" \
+    --prediction_type "$PREDICTION_TYPE" \
+    --variance_type "$VARIANCE_TYPE" \
+    --sample_temperature "$SAMPLE_TEMPERATURE" \
+    --denoiser_arch mlp \
     --hidden_dim "$HIDDEN_DIM" \
     --time_dim "$TIME_DIM" \
     --lr "$LR"
@@ -168,12 +179,27 @@ run_sanity() {
   run_aggregate
 }
 
+run_pre_medium_audit() {
+  echo "[Phase3] Step pre_medium_audit. Expected env: coord_bimanual"
+  python scripts/phase3_check_runtime_env.py \
+    --role torch_train_eval \
+    --root "$ROOT" \
+    --write_json "$ROOT/reports/phase3_runtime_pre_medium_audit_env.json"
+
+  python scripts/phase3_pre_medium_audit.py \
+    --root "$ROOT" \
+    --data "$WINDOWS" \
+    --out_json "$ROOT/reports/phase3_pre_medium_audit_summary.json" \
+    --out_md "$ROOT/reports/phase3_pre_medium_audit_report.md"
+}
+
 case "$PHASE3_STEP" in
   generate) run_generate ;;
   prepare) run_prepare ;;
   train_eval) run_train_eval; run_aggregate ;;
   rollout) run_rollout; run_aggregate ;;
   sanity) run_sanity ;;
+  pre_medium_audit) run_pre_medium_audit ;;
   aggregate) run_aggregate ;;
   all) run_generate; run_prepare; run_train_eval; run_rollout; run_aggregate ;;
   *) echo "[Phase3][ERROR] unknown PHASE3_STEP=$PHASE3_STEP"; exit 1 ;;

@@ -9,6 +9,10 @@ from typing import Any, Dict, List, Sequence, Tuple
 
 import numpy as np
 
+DDPM_MODEL_TYPE = "torch_conditional_ddpm_future_state"
+SCHEDULER_TYPE = "diffusers.DDPMScheduler"
+PAPER_ALIGNMENT_LEVEL = "ddpm_scheduler_aligned_mlp_denoiser"
+
 
 def set_seed(seed: int) -> None:
     random.seed(seed)
@@ -45,6 +49,66 @@ class Standardizer:
     @classmethod
     def from_dict(cls, d: Dict[str, Any]) -> "Standardizer":
         return cls(np.asarray(d["mean"], dtype=np.float32), np.asarray(d["std"], dtype=np.float32))
+
+
+def make_ddpm_scheduler(
+    num_train_timesteps: int,
+    beta_schedule: str = "squaredcos_cap_v2",
+    prediction_type: str = "epsilon",
+    variance_type: str = "fixed_small",
+    clip_sample: bool = True,
+):
+    try:
+        from diffusers.schedulers.scheduling_ddpm import DDPMScheduler
+    except Exception as exc:
+        raise RuntimeError(
+            "diffusers is required for Phase3 paper-aligned DDPM scheduler. "
+            "Install it in coord_bimanual: python -m pip install diffusers"
+        ) from exc
+
+    return DDPMScheduler(
+        num_train_timesteps=int(num_train_timesteps),
+        beta_start=0.0001,
+        beta_end=0.02,
+        beta_schedule=str(beta_schedule),
+        variance_type=str(variance_type),
+        clip_sample=bool(clip_sample),
+        prediction_type=str(prediction_type),
+    )
+
+
+def normalize_ddpm_config(config: Dict[str, Any]) -> Dict[str, Any]:
+    cfg = dict(config)
+    diffusion_steps = int(cfg.get("diffusion_steps", cfg.get("num_train_timesteps", 100)))
+    cfg.update({
+        "future_model_type": DDPM_MODEL_TYPE,
+        "ddpm_used": True,
+        "scheduler_type": SCHEDULER_TYPE,
+        "beta_schedule": str(cfg.get("beta_schedule", "squaredcos_cap_v2")),
+        "prediction_type": str(cfg.get("prediction_type", "epsilon")),
+        "variance_type": str(cfg.get("variance_type", "fixed_small")),
+        "clip_sample": bool(cfg.get("clip_sample", True)),
+        "diffusion_steps": diffusion_steps,
+        "num_train_timesteps": int(cfg.get("num_train_timesteps", diffusion_steps)),
+        "num_inference_steps": int(cfg.get("num_inference_steps", diffusion_steps)),
+        "sample_temperature": float(cfg.get("sample_temperature", 1.0)),
+        "denoiser_arch": str(cfg.get("denoiser_arch", "mlp")),
+        "conditional_unet1d_used": bool(cfg.get("conditional_unet1d_used", False)),
+        "paper_alignment_level": str(cfg.get("paper_alignment_level", PAPER_ALIGNMENT_LEVEL)),
+    })
+    if cfg["scheduler_type"] != SCHEDULER_TYPE:
+        raise ValueError(f"scheduler_type must be {SCHEDULER_TYPE}, got {cfg['scheduler_type']}")
+    if cfg["beta_schedule"] != "squaredcos_cap_v2":
+        raise ValueError("beta_schedule must be squaredcos_cap_v2")
+    if cfg["prediction_type"] != "epsilon":
+        raise ValueError("prediction_type must be epsilon")
+    if cfg["variance_type"] == "learned_range":
+        raise ValueError("learned_range requires 2*y_dim output and is not enabled for the pre-medium MLP denoiser")
+    if cfg["denoiser_arch"] != "mlp":
+        raise ValueError("only denoiser_arch=mlp is enabled in this pre-medium alignment commit")
+    if cfg["conditional_unet1d_used"]:
+        raise ValueError("conditional_unet1d_used must be false for this pre-medium MLP denoiser")
+    return cfg
 
 
 def ridge_fit(x: np.ndarray, y: np.ndarray, l2: float = 1e-4) -> np.ndarray:
@@ -128,17 +192,46 @@ def save_json(path: Path, obj: Dict[str, Any]) -> None:
 class TorchDDPMFutureModel:
     def __init__(self, model, config: Dict[str, Any], device: str = "cpu"):
         self.model = model.to(device)
-        self.config = dict(config)
+        self.config = normalize_ddpm_config(config)
         self.device = device
         self.model.eval()
 
     def sample(self, x: np.ndarray, n_samples: int = 1, seed: int = 0) -> np.ndarray:
         import torch
+        scheduler = make_ddpm_scheduler(
+            num_train_timesteps=int(self.config.get("num_train_timesteps", self.config.get("diffusion_steps", 100))),
+            beta_schedule=str(self.config.get("beta_schedule", "squaredcos_cap_v2")),
+            prediction_type=str(self.config.get("prediction_type", "epsilon")),
+            variance_type=str(self.config.get("variance_type", "fixed_small")),
+            clip_sample=bool(self.config.get("clip_sample", True)),
+        )
+        num_inference_steps = int(self.config.get("num_inference_steps", self.config.get("diffusion_steps", 100)))
+        scheduler.set_timesteps(num_inference_steps)
+
         torch.manual_seed(int(seed))
-        x_t = torch.from_numpy(np.asarray(x, dtype=np.float32)).to(self.device)
+        device = self.device
+        x_t = torch.from_numpy(np.asarray(x, dtype=np.float32)).to(device)
+        batch = x_t.shape[0]
+        x_rep = x_t.repeat_interleave(n_samples, dim=0)
+
+        generator = torch.Generator(device=device)
+        generator.manual_seed(int(seed))
+        y_z = torch.randn((batch * n_samples, self.model.y_dim), device=device, generator=generator)
+        y_z = y_z * float(self.config.get("sample_temperature", 1.0))
+
+        self.model.eval()
         with torch.no_grad():
-            y = self.model.sample(x_t, n_samples=n_samples)
-        return y.detach().cpu().numpy().transpose(1, 0, 2)
+            for t in scheduler.timesteps:
+                tt = torch.full((y_z.shape[0],), int(t), device=device, dtype=torch.long)
+                eps = self.model(x_rep, y_z, tt)
+                try:
+                    step_out = scheduler.step(eps, t, y_z, generator=generator)
+                except TypeError:
+                    step_out = scheduler.step(eps, t, y_z)
+                y_z = step_out.prev_sample
+
+        y_raw = self.model.unstandardize_y(y_z)
+        return y_raw.detach().cpu().numpy().reshape(batch, n_samples, self.model.y_dim).transpose(1, 0, 2)
 
     def predict_mean(self, x: np.ndarray, n_samples: int = 16, seed: int = 0) -> np.ndarray:
         samples = self.sample(x, n_samples=n_samples, seed=seed)
@@ -148,11 +241,23 @@ class TorchDDPMFutureModel:
         import torch
         path = Path(path)
         path.parent.mkdir(parents=True, exist_ok=True)
+        cfg = normalize_ddpm_config(self.config)
         torch.save(
             {
                 "backend": "torch",
-                "model_type": "torch_conditional_ddpm_future_state",
+                "model_type": DDPM_MODEL_TYPE,
                 "ddpm_used": True,
+                "scheduler_type": cfg["scheduler_type"],
+                "beta_schedule": cfg["beta_schedule"],
+                "prediction_type": cfg["prediction_type"],
+                "variance_type": cfg["variance_type"],
+                "clip_sample": cfg["clip_sample"],
+                "num_train_timesteps": cfg["num_train_timesteps"],
+                "num_inference_steps": cfg["num_inference_steps"],
+                "sample_temperature": cfg["sample_temperature"],
+                "denoiser_arch": cfg["denoiser_arch"],
+                "paper_alignment_level": cfg["paper_alignment_level"],
+                "conditional_unet1d_used": cfg["conditional_unet1d_used"],
                 "state_dict": self.model.cpu().state_dict(),
                 "x_dim": self.model.x_dim,
                 "y_dim": self.model.y_dim,
@@ -163,7 +268,7 @@ class TorchDDPMFutureModel:
                 "x_std": self.model.x_std.detach().cpu().numpy(),
                 "y_mean": self.model.y_mean.detach().cpu().numpy(),
                 "y_std": self.model.y_std.detach().cpu().numpy(),
-                "config": self.config,
+                "config": cfg,
             },
             path,
         )
@@ -174,18 +279,29 @@ class TorchDDPMFutureModel:
         import torch
         from ccda_phase3.models import ConditionalStateDDPM
         obj = torch.load(path, map_location=device)
-        if obj.get("model_type") != "torch_conditional_ddpm_future_state" or not bool(obj.get("ddpm_used", False)):
-            raise RuntimeError("Old MLP future checkpoint is not allowed in DDPM Phase3.")
+        if obj.get("model_type") != DDPM_MODEL_TYPE or not bool(obj.get("ddpm_used", False)):
+            raise RuntimeError("Old or non-DDPM future checkpoint is not allowed in Phase3.")
+        cfg = normalize_ddpm_config(obj.get("config", {}))
+        if obj.get("scheduler_type", cfg.get("scheduler_type")) != SCHEDULER_TYPE:
+            raise RuntimeError("Checkpoint does not use diffusers.DDPMScheduler; retrain Phase3.")
+        if obj.get("beta_schedule", cfg.get("beta_schedule")) != "squaredcos_cap_v2":
+            raise RuntimeError("Checkpoint beta_schedule is not squaredcos_cap_v2; retrain Phase3.")
         model = ConditionalStateDDPM(
             x_dim=int(obj["x_dim"]),
             y_dim=int(obj["y_dim"]),
             hidden_dim=int(obj.get("hidden_dim", 512)),
             time_dim=int(obj.get("time_dim", 128)),
-            diffusion_steps=int(obj.get("diffusion_steps", 100)),
+            diffusion_steps=int(obj.get("diffusion_steps", cfg.get("diffusion_steps", 100))),
+            scheduler_type=cfg["scheduler_type"],
+            beta_schedule=cfg["beta_schedule"],
+            prediction_type=cfg["prediction_type"],
+            variance_type=cfg["variance_type"],
+            clip_sample=cfg["clip_sample"],
+            denoiser_arch=cfg["denoiser_arch"],
         ).to(device)
         model.load_state_dict(obj["state_dict"])
         model.set_standardizers(obj["x_mean"], obj["x_std"], obj["y_mean"], obj["y_std"])
-        return cls(model, obj.get("config", {}), device=device)
+        return cls(model, cfg, device=device)
 
 
 class TorchInverseDynamics:
@@ -245,6 +361,7 @@ def train_torch_ddpm_future_model(x: np.ndarray, y: np.ndarray, config: Dict[str
     import torch
     from ccda_phase3.models import ConditionalStateDDPM
 
+    cfg = normalize_ddpm_config(config)
     set_seed(seed)
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -257,16 +374,30 @@ def train_torch_ddpm_future_model(x: np.ndarray, y: np.ndarray, config: Dict[str
     model = ConditionalStateDDPM(
         x_dim=x.shape[1],
         y_dim=y_flat.shape[1],
-        hidden_dim=int(config.get("hidden_dim", 512)),
-        time_dim=int(config.get("time_dim", 128)),
-        diffusion_steps=int(config.get("diffusion_steps", 100)),
+        hidden_dim=int(cfg.get("hidden_dim", 512)),
+        time_dim=int(cfg.get("time_dim", 128)),
+        diffusion_steps=int(cfg.get("num_train_timesteps", cfg.get("diffusion_steps", 100))),
+        scheduler_type=cfg["scheduler_type"],
+        beta_schedule=cfg["beta_schedule"],
+        prediction_type=cfg["prediction_type"],
+        variance_type=cfg["variance_type"],
+        clip_sample=cfg["clip_sample"],
+        denoiser_arch=cfg["denoiser_arch"],
     ).to(device)
     model.set_standardizers(x_std.mean, x_std.std, y_std.mean, y_std.std)
+
+    scheduler = make_ddpm_scheduler(
+        num_train_timesteps=int(cfg["num_train_timesteps"]),
+        beta_schedule=cfg["beta_schedule"],
+        prediction_type=cfg["prediction_type"],
+        variance_type=cfg["variance_type"],
+        clip_sample=cfg["clip_sample"],
+    )
 
     xt = torch.from_numpy(x).float()
     y0_z = torch.from_numpy(y_std.transform(y_flat)).float()
 
-    opt = torch.optim.AdamW(model.parameters(), lr=float(config.get("lr", 1e-3)), weight_decay=1e-4)
+    opt = torch.optim.AdamW(model.parameters(), lr=float(cfg.get("lr", 1e-3)), weight_decay=1e-4)
     batch_size = max(1, min(int(batch_size), len(x)))
     n = len(x)
 
@@ -279,9 +410,9 @@ def train_torch_ddpm_future_model(x: np.ndarray, y: np.ndarray, config: Dict[str
             xb = xt[idx].to(device)
             yb = y0_z[idx].to(device)
             b = xb.shape[0]
-            t = torch.randint(0, model.diffusion_steps, (b,), device=device)
+            t = torch.randint(0, scheduler.config.num_train_timesteps, (b,), device=device, dtype=torch.long)
             noise = torch.randn_like(yb)
-            y_noisy = model.q_sample(yb, t, noise)
+            y_noisy = scheduler.add_noise(yb, noise, t)
             pred = model(xb, y_noisy, t)
             loss = torch.mean((pred - noise) ** 2)
             opt.zero_grad(set_to_none=True)
@@ -292,12 +423,7 @@ def train_torch_ddpm_future_model(x: np.ndarray, y: np.ndarray, config: Dict[str
         if epoch == 1 or epoch % 50 == 0 or epoch == int(epochs):
             losses.append({"epoch": epoch, "ddpm_noise_mse": float(np.mean(epoch_losses))})
 
-    cfg = dict(config)
-    cfg.update({
-        "future_model_type": "torch_conditional_ddpm_future_state",
-        "ddpm_used": True,
-        "ddpm_train_loss_history": losses,
-    })
+    cfg["ddpm_train_loss_history"] = losses
     return TorchDDPMFutureModel(model, cfg, device=device)
 
 
@@ -345,9 +471,13 @@ def load_future_model(path: Path):
     try:
         obj = _torch_checkpoint_obj(Path(path))
     except Exception as exc:
-        raise RuntimeError("Old MLP future checkpoint is not allowed in DDPM Phase3.") from exc
-    if obj.get("model_type") != "torch_conditional_ddpm_future_state" or not bool(obj.get("ddpm_used", False)):
-        raise RuntimeError("Old MLP future checkpoint is not allowed in DDPM Phase3.")
+        raise RuntimeError("Old or non-DDPM future checkpoint is not allowed in Phase3.") from exc
+    if obj.get("model_type") != DDPM_MODEL_TYPE or not bool(obj.get("ddpm_used", False)):
+        raise RuntimeError("Old or non-DDPM future checkpoint is not allowed in Phase3.")
+    if obj.get("scheduler_type") != SCHEDULER_TYPE:
+        raise RuntimeError("Future checkpoint does not use diffusers.DDPMScheduler; retrain Phase3.")
+    if obj.get("beta_schedule") != "squaredcos_cap_v2":
+        raise RuntimeError("Future checkpoint beta_schedule is not squaredcos_cap_v2; retrain Phase3.")
     return TorchDDPMFutureModel.load(Path(path), device="cuda" if _torch_cuda_available() else "cpu")
 
 

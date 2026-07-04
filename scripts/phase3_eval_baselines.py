@@ -18,6 +18,12 @@ from ccda_phase3.train_utils import load_future_model, load_inverse_model
 
 BRANCH_REFERENCE_MODE = "split_visible_seed_window_t"
 DDPM_MODEL_TYPE = "torch_conditional_ddpm_future_state"
+SCHEDULER_TYPE = "diffusers.DDPMScheduler"
+BETA_SCHEDULE = "squaredcos_cap_v2"
+PREDICTION_TYPE = "epsilon"
+VARIANCE_TYPE = "fixed_small"
+DENOISER_ARCH = "mlp"
+PAPER_ALIGNMENT_LEVEL = "ddpm_scheduler_aligned_mlp_denoiser"
 
 
 def row_summary(rows, keys):
@@ -104,6 +110,12 @@ def main():
             training_backend = str(cfg.get("training_backend", cfg.get("backend", "unknown")))
             if training_backend != "torch":
                 raise SystemExit("[Phase3][FAIL] Non-torch backend found in DDPM-aligned Phase3 eval.")
+            if str(cfg.get("scheduler_type", "")) != SCHEDULER_TYPE:
+                raise SystemExit("[Phase3][FAIL] Phase3 eval requires scheduler_type=diffusers.DDPMScheduler.")
+            if str(cfg.get("beta_schedule", "")) != BETA_SCHEDULE:
+                raise SystemExit("[Phase3][FAIL] Phase3 eval requires beta_schedule=squaredcos_cap_v2.")
+            if str(cfg.get("prediction_type", "")) != PREDICTION_TYPE:
+                raise SystemExit("[Phase3][FAIL] Phase3 eval requires prediction_type=epsilon.")
             python_executable = str(cfg.get("python_executable", ""))
             conda_env = str(cfg.get("conda_env", ""))
             state_model = load_future_model(ckpt / "state_model.pt")
@@ -111,7 +123,8 @@ def main():
             x_all = paper_x if baseline == "paper_state" else state_action_x
             for i in held:
                 x = x_all[i : i + 1]
-                samples = state_model.sample(x, n_samples=args.samples_per_prefix, seed=seed + int(visible_seed[i]))[:, 0, :]
+                eval_sample_seed = int(seed + int(visible_seed[i]))
+                samples = state_model.sample(x, n_samples=args.samples_per_prefix, seed=eval_sample_seed)[:, 0, :]
                 samples_traj = samples.reshape(args.samples_per_prefix, tf, state_dim)
                 samples_final = samples_traj[:, -1, :]
                 mean_future = np.mean(samples, axis=0, keepdims=True)
@@ -140,6 +153,19 @@ def main():
                     "conda_env": conda_env,
                     "future_model_type": future_model_type,
                     "ddpm_used": ddpm_used,
+                    "scheduler_type": str(cfg.get("scheduler_type", "")),
+                    "beta_schedule": str(cfg.get("beta_schedule", "")),
+                    "prediction_type": str(cfg.get("prediction_type", "")),
+                    "variance_type": str(cfg.get("variance_type", "")),
+                    "clip_sample": cfg.get("clip_sample", ""),
+                    "num_train_timesteps": cfg.get("num_train_timesteps", ""),
+                    "num_inference_steps": cfg.get("num_inference_steps", ""),
+                    "sample_temperature": cfg.get("sample_temperature", ""),
+                    "denoiser_arch": str(cfg.get("denoiser_arch", "")),
+                    "conditional_unet1d_used": cfg.get("conditional_unet1d_used", False),
+                    "paper_alignment_level": str(cfg.get("paper_alignment_level", "")),
+                    "eval_sample_seed_mode": "paired_shared_visible_seed",
+                    "eval_sample_seed": eval_sample_seed,
                     "idm_feature_mode": str(cfg.get("idm_feature_mode", "")),
                     "branch_reference_mode": BRANCH_REFERENCE_MODE,
                     "ref_key": f"{split[i]}_{visible_seed[i]}_{window_t[i]}",
@@ -188,6 +214,29 @@ def main():
     backends = Counter([r["training_backend"] for r in rows])
     future_model_types_seen = Counter([r["future_model_type"] for r in rows])
     ddpm_seen = Counter([str(r["ddpm_used"]).lower() for r in rows])
+    scheduler_type_counts = Counter([str(r.get("scheduler_type", "")) for r in rows])
+    beta_schedule_counts = Counter([str(r.get("beta_schedule", "")) for r in rows])
+    prediction_type_counts = Counter([str(r.get("prediction_type", "")) for r in rows])
+    variance_type_counts = Counter([str(r.get("variance_type", "")) for r in rows])
+    denoiser_arch_counts = Counter([str(r.get("denoiser_arch", "")) for r in rows])
+    conditional_unet_counts = Counter([str(r.get("conditional_unet1d_used", "")).lower() for r in rows])
+    paper_alignment_counts = Counter([str(r.get("paper_alignment_level", "")) for r in rows])
+    eval_seed_mode_counts = Counter([str(r.get("eval_sample_seed_mode", "")) for r in rows])
+    metadata_issues = []
+    if set(scheduler_type_counts.keys()) != {SCHEDULER_TYPE}:
+        metadata_issues.append({"level": "FAIL", "name": "scheduler_type_mismatch", "counts": dict(scheduler_type_counts)})
+    if set(beta_schedule_counts.keys()) != {BETA_SCHEDULE}:
+        metadata_issues.append({"level": "FAIL", "name": "beta_schedule_mismatch", "counts": dict(beta_schedule_counts)})
+    if set(prediction_type_counts.keys()) != {PREDICTION_TYPE}:
+        metadata_issues.append({"level": "FAIL", "name": "prediction_type_mismatch", "counts": dict(prediction_type_counts)})
+    if set(variance_type_counts.keys()) != {VARIANCE_TYPE}:
+        metadata_issues.append({"level": "WARN", "name": "variance_type_not_fixed_small", "counts": dict(variance_type_counts)})
+    else:
+        metadata_issues.append({"level": "WARN", "name": "variance_fixed_small_not_learned_range", "detail": "fixed_small is accepted before medium; learned_range requires a separate architecture-level change."})
+    if set(denoiser_arch_counts.keys()) != {DENOISER_ARCH}:
+        metadata_issues.append({"level": "WARN", "name": "denoiser_arch_unexpected", "counts": dict(denoiser_arch_counts)})
+    else:
+        metadata_issues.append({"level": "WARN", "name": "mlp_denoiser_not_conditional_unet1d", "detail": "Scheduler is aligned, but denoiser remains MLP over low-dimensional future states."})
     summary = {
         "num_prediction_rows": len(rows),
         "summary_rows": summary_rows,
@@ -199,6 +248,15 @@ def main():
         "future_model_types_seen": dict(future_model_types_seen),
         "all_ddpm_used": bool(rows) and set(ddpm_seen.keys()) == {"true"},
         "ddpm_used_counts": dict(ddpm_seen),
+        "scheduler_type_counts": dict(scheduler_type_counts),
+        "beta_schedule_counts": dict(beta_schedule_counts),
+        "prediction_type_counts": dict(prediction_type_counts),
+        "variance_type_counts": dict(variance_type_counts),
+        "denoiser_arch_counts": dict(denoiser_arch_counts),
+        "conditional_unet1d_used_counts": dict(conditional_unet_counts),
+        "paper_alignment_level_counts": dict(paper_alignment_counts),
+        "eval_sample_seed_mode_counts": dict(eval_seed_mode_counts),
+        "scheduler_metadata_issues": metadata_issues,
         "fallback_note": "This is fallback smoke, not a PyTorch DDPM result." if "numpy_fallback" in backends else "",
     }
     Path(args.out_json).write_text(json.dumps(summary, indent=2, sort_keys=True))
@@ -208,6 +266,11 @@ def main():
         "future_model_types_seen": dict(future_model_types_seen),
         "all_ddpm_used": summary["all_ddpm_used"],
         "num_missing_primary_branch_refs": num_missing_primary_branch_refs,
+        "scheduler_type_counts": dict(scheduler_type_counts),
+        "beta_schedule_counts": dict(beta_schedule_counts),
+        "prediction_type_counts": dict(prediction_type_counts),
+        "variance_type_counts": dict(variance_type_counts),
+        "denoiser_arch_counts": dict(denoiser_arch_counts),
     }, indent=2))
 
 

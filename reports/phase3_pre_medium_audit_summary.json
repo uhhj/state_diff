@@ -1,0 +1,163 @@
+{
+  "action_history_target_exact_match_rate": 0.0,
+  "action_idm_debug_verdict": "WARN",
+  "branch_reference_mode": "split_visible_seed_window_t",
+  "canonicalization_summary": {
+    "canonicalization_enabled": true,
+    "num_canonicalized_windows": 50,
+    "post_max_pair_paper_x_max_abs_diff": 0.0,
+    "post_max_pair_state_action_x_max_abs_diff": 0.0,
+    "post_mean_pair_paper_x_max_abs_diff": 0.0,
+    "post_mean_pair_state_action_x_max_abs_diff": 0.0,
+    "post_pair_stats": {
+      "num_pairs": 50,
+      "paper_x_max_abs": {
+        "max": 0.0,
+        "mean": 0.0
+      },
+      "state_action_x_max_abs": {
+        "max": 0.0,
+        "mean": 0.0
+      }
+    },
+    "raw_max_pair_paper_x_max_abs_diff": 1.905490756034851,
+    "raw_max_pair_state_action_x_max_abs_diff": 1.905490756034851,
+    "raw_mean_pair_paper_x_max_abs_diff": 0.12923611821956002,
+    "raw_mean_pair_state_action_x_max_abs_diff": 0.12923611821956002,
+    "raw_pair_stats": {
+      "num_pairs": 50,
+      "paper_x_max_abs": {
+        "max": 1.905490756034851,
+        "mean": 0.12923611821956002
+      },
+      "state_action_x_max_abs": {
+        "max": 1.905490756034851,
+        "mean": 0.12923611821956002
+      }
+    },
+    "rule": "group by split_name, visible_seed, window_t; copy free input to paired hidden branches; targets remain condition-specific"
+  },
+  "complete_condition_groups": true,
+  "eval_summary_missing_branch_refs": 0,
+  "feature_schema": {
+    "forbidden_not_in_x": [
+      "hidden_condition",
+      "hidden_contact_meta",
+      "success",
+      "final_fraction",
+      "condition_id",
+      "condition_name",
+      "ccda_pair_group",
+      "source_file"
+    ],
+    "paper_x": [
+      "bead_xy_history",
+      "bead_velocity_history",
+      "robot_pose_proxy_history"
+    ],
+    "state_action_x": [
+      "paper_x",
+      "past_action_history_excluding_current_action"
+    ],
+    "y_action": [
+      "current_executable_pick_place_action"
+    ],
+    "y_state": [
+      "future_state_trajectory"
+    ]
+  },
+  "forbidden_not_in_x": [
+    "ccda_pair_group",
+    "condition_id",
+    "condition_name",
+    "final_fraction",
+    "hidden_condition",
+    "hidden_contact_meta",
+    "source_file",
+    "success"
+  ],
+  "heldout_visible_seed_count": 6,
+  "input_leakage_pass": true,
+  "input_leakage_summary": {
+    "condition_leakage_fail": false,
+    "free_vs_pin_probe_acc": 0.5,
+    "pair_consistency": {
+      "max_pair_paper_x_max_abs_diff": 0.0,
+      "max_pair_state_action_x_max_abs_diff": 0.0,
+      "mean_pair_paper_x_max_abs_diff": 0.0,
+      "mean_pair_state_action_x_max_abs_diff": 0.0,
+      "num_pairs": 7
+    },
+    "pair_consistency_pass": true,
+    "paper_x_condition_probe_acc": 0.3333333333333333,
+    "paper_x_success_probe_acc": 0.5714285714285714,
+    "pass": true,
+    "robot_pose_proxy_source_counts": {
+      "pybullet_robot_body": 1096
+    },
+    "state_action_x_condition_probe_acc": 0.3333333333333333,
+    "warning_high_probe_accuracy": false
+  },
+  "issues": [
+    {
+      "detail": "fixed_small is acceptable before medium, but not exact learned_range alignment.",
+      "level": "WARN",
+      "name": "variance_fixed_small_not_learned_range"
+    },
+    {
+      "detail": "Scheduler is aligned, but denoiser is still MLP, not original ConditionalUnet1D.",
+      "level": "WARN",
+      "name": "mlp_denoiser_not_conditional_unet1d"
+    },
+    {
+      "detail": "raw_max_pair_paper_x_max_abs_diff=1.905490756034851; acceptable as matched-input audit control.",
+      "level": "WARN",
+      "name": "canonicalization_strong_intervention"
+    }
+  ],
+  "missing_branch_refs": 0,
+  "num_condition_groups": 25,
+  "num_incomplete_condition_groups": 0,
+  "num_prediction_rows": 84,
+  "prediction_metadata_counts": {
+    "beta_schedule": {
+      "squaredcos_cap_v2": 84
+    },
+    "branch_reference_mode": {
+      "split_visible_seed_window_t": 84
+    },
+    "conditional_unet1d_used": {
+      "false": 84
+    },
+    "ddpm_used": {
+      "true": 84
+    },
+    "denoiser_arch": {
+      "mlp": 84
+    },
+    "eval_sample_seed_mode": {
+      "paired_shared_visible_seed": 84
+    },
+    "future_model_type": {
+      "torch_conditional_ddpm_future_state": 84
+    },
+    "paper_alignment_level": {
+      "ddpm_scheduler_aligned_mlp_denoiser": 84
+    },
+    "prediction_type": {
+      "epsilon": 84
+    },
+    "scheduler_type": {
+      "diffusers.DDPMScheduler": 84
+    },
+    "training_backend": {
+      "torch": 84
+    },
+    "variance_type": {
+      "fixed_small": 84
+    }
+  },
+  "train_heldout_seed_overlap": [],
+  "train_visible_seed_count": 10,
+  "verdict": "WARN"
+}

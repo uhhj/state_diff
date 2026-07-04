@@ -14,6 +14,12 @@ import numpy as np
 
 DDPM_MODEL_TYPE = "torch_conditional_ddpm_future_state"
 BRANCH_REFERENCE_MODE = "split_visible_seed_window_t"
+SCHEDULER_TYPE = "diffusers.DDPMScheduler"
+BETA_SCHEDULE = "squaredcos_cap_v2"
+PREDICTION_TYPE = "epsilon"
+VARIANCE_TYPE = "fixed_small"
+DENOISER_ARCH = "mlp"
+PAPER_ALIGNMENT_LEVEL = "ddpm_scheduler_aligned_mlp_denoiser"
 
 
 def read_csv(path):
@@ -121,6 +127,14 @@ def main():
     all_torch = bool(pred) and set(backend_counts.keys()) == {"torch"}
     future_types = Counter([r.get("future_model_type", "") for r in pred])
     ddpm_flags = Counter([str(r.get("ddpm_used", "")).lower() for r in pred])
+    scheduler_types = Counter([r.get("scheduler_type", "") for r in pred])
+    beta_schedules = Counter([r.get("beta_schedule", "") for r in pred])
+    prediction_types = Counter([r.get("prediction_type", "") for r in pred])
+    variance_types = Counter([r.get("variance_type", "") for r in pred])
+    clip_samples = Counter([str(r.get("clip_sample", "")).lower() for r in pred])
+    denoiser_arches = Counter([r.get("denoiser_arch", "") for r in pred])
+    conditional_unets = Counter([str(r.get("conditional_unet1d_used", "")).lower() for r in pred])
+    alignment_levels = Counter([r.get("paper_alignment_level", "") for r in pred])
     non_ddpm_rows = [r for r in pred if r.get("future_model_type") != DDPM_MODEL_TYPE or not boolish(r.get("ddpm_used"))]
 
     rows = []
@@ -163,12 +177,46 @@ def main():
         report_fails.append(f"Unexpected future_model_types_seen={dict(future_types)}")
     if ddpm_flags and set(ddpm_flags.keys()) != {"true"}:
         report_fails.append(f"Unexpected ddpm_used flags={dict(ddpm_flags)}")
+    if scheduler_types and set(scheduler_types.keys()) != {SCHEDULER_TYPE}:
+        report_fails.append(f"Unexpected scheduler_type counts={dict(scheduler_types)}")
+    if beta_schedules and set(beta_schedules.keys()) != {BETA_SCHEDULE}:
+        report_fails.append(f"Unexpected beta_schedule counts={dict(beta_schedules)}")
+    if prediction_types and set(prediction_types.keys()) != {PREDICTION_TYPE}:
+        report_fails.append(f"Unexpected prediction_type counts={dict(prediction_types)}")
 
     title = "# Phase3 PyTorch StateDiff CCDA Baseline Evaluation" if all_torch and not report_fails else "# Phase3 DDPM Alignment Report - FAIL"
     lines = [title, "", "## Scope", "", "Phase3 evaluates contact-blind StateDiff-style baselines on `hidden-contact-cable-line` without hidden condition labels, pin ids, hidden contact metadata, success labels, contact concatenation, CPS guidance, or action feasibility classifiers.", ""]
     lines += ["## Runtime Backend", "", "| Step | Python | Conda Env | Torch | Ravens |", "|---|---|---|---|---|",
               runtime_row("generate", rt_generate), runtime_row("train_eval", rt_train), runtime_row("rollout", rt_rollout), runtime_row("aggregate", rt_aggregate), ""]
     lines += ["## Future Model", "", "| Field | Value |", "|---|---|", f"| future_model_type | {DDPM_MODEL_TYPE} |", f"| ddpm_used | {str(set(ddpm_flags.keys()) == {'true'}).lower()} |", "| simplified_mlp_removed | true |", f"| branch_reference_mode | {BRANCH_REFERENCE_MODE} |", "", "This Phase3 run uses a conditional DDPM future-state predictor. It no longer uses the previous PyTorch MLP residual future-state surrogate.", ""]
+    lines += [
+        "## Paper Alignment Status",
+        "",
+        "| Field | Value |",
+        "|---|---|",
+        f"| scheduler_type | {SCHEDULER_TYPE} |",
+        f"| beta_schedule | {BETA_SCHEDULE} |",
+        f"| prediction_type | {PREDICTION_TYPE} |",
+        f"| variance_type | {VARIANCE_TYPE} |",
+        "| clip_sample | true |",
+        f"| denoiser_arch | {DENOISER_ARCH} |",
+        "| conditional_unet1d_used | false |",
+        f"| alignment_level | {PAPER_ALIGNMENT_LEVEL} |",
+        "",
+        "This run aligns the DDPM scheduler with the original StateDiff configuration but still uses an MLP denoiser over low-dimensional future states. It is not yet an architecture-identical ConditionalUnet1D reproduction.",
+        "",
+        "### Paper Alignment Metadata Counts",
+        "",
+        f"- scheduler_type_counts: `{dict(scheduler_types)}`",
+        f"- beta_schedule_counts: `{dict(beta_schedules)}`",
+        f"- prediction_type_counts: `{dict(prediction_types)}`",
+        f"- variance_type_counts: `{dict(variance_types)}`",
+        f"- clip_sample_counts: `{dict(clip_samples)}`",
+        f"- denoiser_arch_counts: `{dict(denoiser_arches)}`",
+        f"- conditional_unet1d_used_counts: `{dict(conditional_unets)}`",
+        f"- paper_alignment_level_counts: `{dict(alignment_levels)}`",
+        "",
+    ]
     lines += ["## Training Backend", "", "| Backend | Count |", "|---|---:|"]
     for k, v in sorted(backend_counts.items()):
         lines.append(f"| `{k}` | {v} |")

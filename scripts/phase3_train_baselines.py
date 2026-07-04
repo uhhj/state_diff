@@ -55,7 +55,21 @@ def main():
     ap.add_argument("--hidden_dim", type=int, default=512)
     ap.add_argument("--time_dim", type=int, default=128)
     ap.add_argument("--lr", type=float, default=1e-3)
+    ap.add_argument("--beta_schedule", default="squaredcos_cap_v2")
+    ap.add_argument("--prediction_type", default="epsilon")
+    ap.add_argument("--variance_type", default="fixed_small")
+    ap.add_argument("--clip_sample", action="store_true", default=True)
+    ap.add_argument("--no_clip_sample", dest="clip_sample", action="store_false")
+    ap.add_argument("--num_inference_steps", type=int, default=None)
+    ap.add_argument("--sample_temperature", type=float, default=1.0)
+    ap.add_argument("--denoiser_arch", default="mlp", choices=["mlp"])
     args = ap.parse_args()
+
+    if args.variance_type == "learned_range":
+        raise SystemExit(
+            "learned_range requires 2*y_dim output and is not enabled in pre-medium MLP denoiser. "
+            "Use fixed_small for scheduler-aligned medium, or implement learned_range in a separate commit."
+        )
 
     require_torch_or_fail()
     training_backend = "torch"
@@ -95,7 +109,18 @@ def main():
                     "fold": fold_idx,
                     "future_model_type": "torch_conditional_ddpm_future_state",
                     "ddpm_used": True,
+                    "scheduler_type": "diffusers.DDPMScheduler",
+                    "beta_schedule": args.beta_schedule,
+                    "prediction_type": args.prediction_type,
+                    "variance_type": args.variance_type,
+                    "clip_sample": bool(args.clip_sample),
                     "diffusion_steps": args.diffusion_steps,
+                    "num_train_timesteps": int(args.diffusion_steps),
+                    "num_inference_steps": int(args.num_inference_steps or args.diffusion_steps),
+                    "sample_temperature": float(args.sample_temperature),
+                    "denoiser_arch": args.denoiser_arch,
+                    "conditional_unet1d_used": False,
+                    "paper_alignment_level": "ddpm_scheduler_aligned_mlp_denoiser",
                     "epochs_state_requested": args.epochs_state,
                     "hidden_dim": args.hidden_dim,
                     "time_dim": args.time_dim,
@@ -142,7 +167,18 @@ def main():
                     "training_backend": training_backend,
                     "future_model_type": "torch_conditional_ddpm_future_state",
                     "ddpm_used": True,
+                    "scheduler_type": "diffusers.DDPMScheduler",
+                    "beta_schedule": args.beta_schedule,
+                    "prediction_type": args.prediction_type,
+                    "variance_type": args.variance_type,
+                    "clip_sample": bool(args.clip_sample),
                     "diffusion_steps": args.diffusion_steps,
+                    "num_train_timesteps": int(args.diffusion_steps),
+                    "num_inference_steps": int(args.num_inference_steps or args.diffusion_steps),
+                    "sample_temperature": float(args.sample_temperature),
+                    "denoiser_arch": args.denoiser_arch,
+                    "conditional_unet1d_used": False,
+                    "paper_alignment_level": "ddpm_scheduler_aligned_mlp_denoiser",
                     "python_executable": python_executable,
                     "conda_env": conda_env,
                     "fold_train_seeds": [int(x) for x in fold_train_seeds],

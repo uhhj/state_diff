@@ -188,6 +188,40 @@ def main():
     if codec.dim() != 14:
         raise SystemExit(f"[Phase3][FAIL] expected executable action dim 14, got {codec.dim()}: {codec.summary()}")
 
+    train_visible_seed_set = {int(w["visible_seed"]) for w in windows if w["split_name"] == "train"}
+    heldout_visible_seed_set = {int(w["visible_seed"]) for w in windows if w["split_name"] == "heldout"}
+    train_heldout_seed_overlap = sorted(train_visible_seed_set & heldout_visible_seed_set)
+    if train_heldout_seed_overlap:
+        raise SystemExit(f"[Phase3][FAIL] train/heldout visible_seed overlap: {train_heldout_seed_overlap[:20]}")
+
+    feature_schema = {
+        "paper_x": [
+            "bead_xy_history",
+            "bead_velocity_history",
+            "robot_pose_proxy_history",
+        ],
+        "state_action_x": [
+            "paper_x",
+            "past_action_history_excluding_current_action",
+        ],
+        "y_state": [
+            "future_state_trajectory",
+        ],
+        "y_action": [
+            "current_executable_pick_place_action",
+        ],
+        "forbidden_not_in_x": [
+            "hidden_condition",
+            "hidden_contact_meta",
+            "success",
+            "final_fraction",
+            "condition_id",
+            "condition_name",
+            "ccda_pair_group",
+            "source_file",
+        ],
+    }
+
     state_dim = int(windows[0]["y_final_state"].shape[0])
     action_dim = int(windows[0]["y_action"].shape[0])
     n_beads = int(windows[0]["n_beads"])
@@ -245,8 +279,12 @@ def main():
         "num_episodes_loaded": int(num_episodes_loaded),
         "num_train_windows": int(np.sum(split_name == "train")),
         "num_heldout_windows": int(np.sum(split_name == "heldout")),
-        "train_visible_seeds": sorted({int(w["visible_seed"]) for w in windows if w["split_name"] == "train"}),
-        "heldout_visible_seeds": sorted({int(w["visible_seed"]) for w in windows if w["split_name"] == "heldout"}),
+        "train_visible_seeds": sorted(train_visible_seed_set),
+        "heldout_visible_seeds": sorted(heldout_visible_seed_set),
+        "train_visible_seed_count": int(len(train_visible_seed_set)),
+        "heldout_visible_seed_count": int(len(heldout_visible_seed_set)),
+        "train_heldout_seed_overlap": train_heldout_seed_overlap,
+        "feature_schema": feature_schema,
         "episode_action_len_min": int(min(action_lens)) if action_lens else None,
         "episode_action_len_mean": float(np.mean(action_lens)) if action_lens else None,
         "episode_action_len_max": int(max(action_lens)) if action_lens else None,

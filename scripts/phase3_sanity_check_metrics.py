@@ -26,6 +26,12 @@ import numpy as np
 
 DDPM_MODEL_TYPE = "torch_conditional_ddpm_future_state"
 BRANCH_REFERENCE_MODE = "split_visible_seed_window_t"
+SCHEDULER_TYPE = "diffusers.DDPMScheduler"
+BETA_SCHEDULE = "squaredcos_cap_v2"
+PREDICTION_TYPE = "epsilon"
+VARIANCE_TYPE = "fixed_small"
+DENOISER_ARCH = "mlp"
+PAPER_ALIGNMENT_LEVEL = "ddpm_scheduler_aligned_mlp_denoiser"
 
 
 def to_float(x: Any) -> Optional[float]:
@@ -317,7 +323,17 @@ def check_ddpm_metadata(rows: List[Dict], issues: List[Dict]) -> Dict[str, Dict[
         add_issue(issues, "FAIL", "prediction_rows_missing", "No prediction rows found.")
         return {}
 
-    expected_columns = ["future_model_type", "ddpm_used", "branch_reference_mode"]
+    expected_columns = [
+        "future_model_type",
+        "ddpm_used",
+        "branch_reference_mode",
+        "scheduler_type",
+        "beta_schedule",
+        "prediction_type",
+        "variance_type",
+        "denoiser_arch",
+        "paper_alignment_level",
+    ]
     for col in expected_columns:
         if col not in rows[0]:
             add_issue(issues, "FAIL", f"{col}_missing", f"Prediction CSV lacks required `{col}` metadata column.")
@@ -326,6 +342,14 @@ def check_ddpm_metadata(rows: List[Dict], issues: List[Dict]) -> Dict[str, Dict[
         "future_model_type_counts": Counter(r.get("future_model_type", "") for r in rows),
         "ddpm_used_counts": Counter(str(r.get("ddpm_used", "")).lower() for r in rows),
         "branch_reference_mode_counts": Counter(r.get("branch_reference_mode", "") for r in rows),
+        "scheduler_type_counts": Counter(r.get("scheduler_type", "") for r in rows),
+        "beta_schedule_counts": Counter(r.get("beta_schedule", "") for r in rows),
+        "prediction_type_counts": Counter(r.get("prediction_type", "") for r in rows),
+        "variance_type_counts": Counter(r.get("variance_type", "") for r in rows),
+        "denoiser_arch_counts": Counter(r.get("denoiser_arch", "") for r in rows),
+        "conditional_unet1d_used_counts": Counter(str(r.get("conditional_unet1d_used", "")).lower() for r in rows),
+        "paper_alignment_level_counts": Counter(r.get("paper_alignment_level", "") for r in rows),
+        "eval_sample_seed_mode_counts": Counter(r.get("eval_sample_seed_mode", "") for r in rows),
     }
 
     future_counts = counts["future_model_type_counts"]
@@ -350,13 +374,18 @@ def check_ddpm_metadata(rows: List[Dict], issues: List[Dict]) -> Dict[str, Dict[
 
     ref_counts = counts["branch_reference_mode_counts"]
     bad_ref = {k: v for k, v in ref_counts.items() if k != BRANCH_REFERENCE_MODE}
-    if bad_ref or ref_counts.get(BRANCH_REFERENCE_MODE, 0) != len(rows):
-        add_issue(
-            issues,
-            "FAIL",
-            "branch_reference_mode_wrong",
-            f"Expected branch_reference_mode={BRANCH_REFERENCE_MODE}; counts={dict(ref_counts)}.",
-        )
+    if counts["scheduler_type_counts"].get(SCHEDULER_TYPE, 0) != len(rows):
+        add_issue(issues, "FAIL", "scheduler_type_wrong", f"Expected only {SCHEDULER_TYPE}; counts={dict(counts['scheduler_type_counts'])}.")
+    if counts["beta_schedule_counts"].get(BETA_SCHEDULE, 0) != len(rows):
+        add_issue(issues, "FAIL", "beta_schedule_wrong", f"Expected only {BETA_SCHEDULE}; counts={dict(counts['beta_schedule_counts'])}.")
+    if counts["prediction_type_counts"].get(PREDICTION_TYPE, 0) != len(rows):
+        add_issue(issues, "FAIL", "prediction_type_wrong", f"Expected only {PREDICTION_TYPE}; counts={dict(counts['prediction_type_counts'])}.")
+    if counts["variance_type_counts"].get(VARIANCE_TYPE, 0) != len(rows):
+        add_issue(issues, "WARN", "variance_type_not_fixed_small", f"Expected pre-medium variance_type={VARIANCE_TYPE}; counts={dict(counts['variance_type_counts'])}.")
+    if counts["denoiser_arch_counts"].get(DENOISER_ARCH, 0) != len(rows):
+        add_issue(issues, "WARN", "denoiser_arch_not_mlp", f"Expected denoiser_arch={DENOISER_ARCH}; counts={dict(counts['denoiser_arch_counts'])}.")
+    if counts["paper_alignment_level_counts"].get(PAPER_ALIGNMENT_LEVEL, 0) != len(rows):
+        add_issue(issues, "WARN", "paper_alignment_level_unexpected", f"Expected {PAPER_ALIGNMENT_LEVEL}; counts={dict(counts['paper_alignment_level_counts'])}.")
 
     return {k: dict(v) for k, v in counts.items()}
 
@@ -446,7 +475,7 @@ def write_report(path: Path, payload: Dict):
     for k, v in payload["backend_counts"].items():
         lines.append(f"| `{k}` | {v} |")
     lines.append("")
-    lines.append("## DDPM Metadata Counts")
+    lines.append("## Scheduler Metadata Counts")
     lines.append("")
     for name, counts in payload.get("ddpm_metadata_counts", {}).items():
         lines.append(f"### {name}")

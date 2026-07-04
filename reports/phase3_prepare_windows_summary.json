@@ -61,6 +61,34 @@
   "episode_action_len_max": 20,
   "episode_action_len_mean": 5.6,
   "episode_action_len_min": 1,
+  "feature_schema": {
+    "forbidden_not_in_x": [
+      "hidden_condition",
+      "hidden_contact_meta",
+      "success",
+      "final_fraction",
+      "condition_id",
+      "condition_name",
+      "ccda_pair_group",
+      "source_file"
+    ],
+    "paper_x": [
+      "bead_xy_history",
+      "bead_velocity_history",
+      "robot_pose_proxy_history"
+    ],
+    "state_action_x": [
+      "paper_x",
+      "past_action_history_excluding_current_action"
+    ],
+    "y_action": [
+      "current_executable_pick_place_action"
+    ],
+    "y_state": [
+      "future_state_trajectory"
+    ]
+  },
+  "heldout_visible_seed_count": 6,
   "heldout_visible_seeds": [
     100000,
     100001,
@@ -93,6 +121,8 @@
   "state_dim": 135,
   "tf": 4,
   "th": 3,
+  "train_heldout_seed_overlap": [],
+  "train_visible_seed_count": 10,
   "train_visible_seeds": [
     1000,
     1001,

@@ -251,6 +251,13 @@ def build_windows_from_dataset(split_name: str, data_root: Path, th: int, tf: in
 
 
 def save_action_template(path: Path, codec: ActionCodec) -> None:
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if not isinstance(codec, ExecutableActionCodec):
+        codec = ExecutableActionCodec(codec.template)
+    summary = codec.summary()
+    if codec.dim() != 14 or summary.get("num_camera_config_paths", 0) != 0:
+        raise ValueError(f"Invalid executable action codec: {summary}")
     codec.save(path)
 
 

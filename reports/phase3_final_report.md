@@ -24,6 +24,32 @@ Phase3 evaluates contact-blind StateDiff-style baselines on `hidden-contact-cabl
 
 This Phase3 run uses a conditional DDPM future-state predictor. It no longer uses the previous PyTorch MLP residual future-state surrogate.
 
+## Paper Alignment Status
+
+| Field | Value |
+|---|---|
+| scheduler_type | diffusers.DDPMScheduler |
+| beta_schedule | squaredcos_cap_v2 |
+| prediction_type | epsilon |
+| variance_type | fixed_small |
+| clip_sample | true |
+| denoiser_arch | mlp |
+| conditional_unet1d_used | false |
+| alignment_level | ddpm_scheduler_aligned_mlp_denoiser |
+
+This run aligns the DDPM scheduler with the original StateDiff configuration but still uses an MLP denoiser over low-dimensional future states. It is not yet an architecture-identical ConditionalUnet1D reproduction.
+
+### Paper Alignment Metadata Counts
+
+- scheduler_type_counts: `{'diffusers.DDPMScheduler': 84}`
+- beta_schedule_counts: `{'squaredcos_cap_v2': 84}`
+- prediction_type_counts: `{'epsilon': 84}`
+- variance_type_counts: `{'fixed_small': 84}`
+- clip_sample_counts: `{'true': 84}`
+- denoiser_arch_counts: `{'mlp': 84}`
+- conditional_unet1d_used_counts: `{'false': 84}`
+- paper_alignment_level_counts: `{'ddpm_scheduler_aligned_mlp_denoiser': 84}`
+
 ## Training Backend
 
 | Backend | Count |
@@ -34,23 +60,23 @@ This Phase3 run uses a conditional DDPM future-state predictor. It no longer use
 
 | Baseline | Condition | Wrong-Branch mean | Branch-Accuracy mean | Future Error mean | Averaging Score mean |
 |---|---|---:|---:|---:|---:|
-| paper_state | free | 0.19308 | 0.80692 | 0.188033 | -0.0277367 |
-| paper_state | hidden_high_friction | NA | NA | 0.189616 | -0.0277367 |
-| paper_state | hidden_pin | 0.80692 | 0.19308 | 0.227296 | -0.0277367 |
-| state_action | free | 0.186384 | 0.813616 | 0.187472 | -0.0291065 |
-| state_action | hidden_high_friction | NA | NA | 0.189024 | -0.0291065 |
-| state_action | hidden_pin | 0.813616 | 0.186384 | 0.22702 | -0.0291065 |
+| paper_state | free | 0.256696 | 0.743304 | 0.0845824 | -0.0356031 |
+| paper_state | hidden_high_friction | NA | NA | 0.0856306 | -0.0356031 |
+| paper_state | hidden_pin | 0.743304 | 0.256696 | 0.139249 | -0.0356031 |
+| state_action | free | 0.248884 | 0.751116 | 0.084281 | -0.0352584 |
+| state_action | hidden_high_friction | NA | NA | 0.0852454 | -0.0352584 |
+| state_action | hidden_pin | 0.751116 | 0.248884 | 0.139187 | -0.0352584 |
 
 ## Inverse Dynamics
 
 | Baseline | Condition | Action MSE mean | Action OOD mean |
 |---|---|---:|---:|
-| paper_state | free | 0.00538736 | 0.443694 |
-| paper_state | hidden_high_friction | 0.00545026 | 0.443694 |
-| paper_state | hidden_pin | 0.00525726 | 0.443694 |
-| state_action | free | 0.00549452 | 0.442982 |
-| state_action | hidden_high_friction | 0.00555827 | 0.442982 |
-| state_action | hidden_pin | 0.00537339 | 0.442982 |
+| paper_state | free | 0.00555198 | 0.439413 |
+| paper_state | hidden_high_friction | 0.005619 | 0.439413 |
+| paper_state | hidden_pin | 0.00543407 | 0.439413 |
+| state_action | free | 0.00559723 | 0.438207 |
+| state_action | hidden_high_friction | 0.00566467 | 0.438207 |
+| state_action | hidden_pin | 0.0054858 | 0.438207 |
 
 ## Policy Execution
 
@@ -74,12 +100,15 @@ Across the current folds and random seeds, the contact-blind baselines exhibit e
 | Level | Name | Detail |
 |---|---|---|
 | `WARN` | `small_prediction_table` | Only 84 prediction rows. This is smoke-scale, not paper-scale. |
-| `WARN` | `baseline_nearly_identical_future_error_mean_free` | paper_state and state_action differ by <1e-3 for future_error_mean on free: 0.1880333838718278 vs 0.18747245307479585 |
-| `WARN` | `baseline_nearly_identical_action_mse_mean_free` | paper_state and state_action differ by <1e-3 for action_mse_mean on free: 0.005387358267658523 vs 0.005494523743566658 |
-| `WARN` | `baseline_nearly_identical_future_error_mean_hidden_high_friction` | paper_state and state_action differ by <1e-3 for future_error_mean on hidden_high_friction: 0.18961642788989203 vs 0.18902442497866495 |
-| `WARN` | `baseline_nearly_identical_action_mse_mean_hidden_high_friction` | paper_state and state_action differ by <1e-3 for action_mse_mean on hidden_high_friction: 0.005450264858414552 vs 0.005558272624122245 |
-| `WARN` | `baseline_nearly_identical_future_error_mean_hidden_pin` | paper_state and state_action differ by <1e-3 for future_error_mean on hidden_pin: 0.22729624594960893 vs 0.22701956225293024 |
-| `WARN` | `baseline_nearly_identical_action_mse_mean_hidden_pin` | paper_state and state_action differ by <1e-3 for action_mse_mean on hidden_pin: 0.005257259921303817 vs 0.005373392079491168 |
+| `WARN` | `baseline_nearly_identical_future_error_mean_free` | paper_state and state_action differ by <1e-3 for future_error_mean on free: 0.08458239611770425 vs 0.08428095360951764 |
+| `WARN` | `baseline_nearly_identical_averaging_score_mean_free` | paper_state and state_action differ by <1e-3 for averaging_score_mean on free: -0.03560307728392737 vs -0.035258366859384944 |
+| `WARN` | `baseline_nearly_identical_action_mse_mean_free` | paper_state and state_action differ by <1e-3 for action_mse_mean on free: 0.005551980517338961 vs 0.005597225190805537 |
+| `WARN` | `baseline_nearly_identical_future_error_mean_hidden_high_friction` | paper_state and state_action differ by <1e-3 for future_error_mean on hidden_high_friction: 0.0856306217610836 vs 0.08524539933672973 |
+| `WARN` | `baseline_nearly_identical_averaging_score_mean_hidden_high_friction` | paper_state and state_action differ by <1e-3 for averaging_score_mean on hidden_high_friction: -0.03560307728392737 vs -0.035258366859384944 |
+| `WARN` | `baseline_nearly_identical_action_mse_mean_hidden_high_friction` | paper_state and state_action differ by <1e-3 for action_mse_mean on hidden_high_friction: 0.005619003811651575 vs 0.005664670565498194 |
+| `WARN` | `baseline_nearly_identical_future_error_mean_hidden_pin` | paper_state and state_action differ by <1e-3 for future_error_mean on hidden_pin: 0.1392485275864601 vs 0.13918697887233325 |
+| `WARN` | `baseline_nearly_identical_averaging_score_mean_hidden_pin` | paper_state and state_action differ by <1e-3 for averaging_score_mean on hidden_pin: -0.03560307728392737 vs -0.035258366859384944 |
+| `WARN` | `baseline_nearly_identical_action_mse_mean_hidden_pin` | paper_state and state_action differ by <1e-3 for action_mse_mean on hidden_pin: 0.005434069774180118 vs 0.005485800535617662 |
 
 ### Action/IDM Issues
 

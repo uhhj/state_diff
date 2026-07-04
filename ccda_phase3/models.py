@@ -15,7 +15,7 @@ if torch is not None:
     class SinusoidalTimeEmbedding(nn.Module):
         def __init__(self, dim: int):
             super().__init__()
-            self.dim = dim
+            self.dim = int(dim)
 
         def forward(self, t):
             half = self.dim // 2
@@ -32,7 +32,11 @@ if torch is not None:
 
 
     class ConditionalStateDDPM(nn.Module):
-        """Conditional DDPM over future state trajectories."""
+        """Conditional DDPM denoiser over future state trajectories.
+
+        Scheduler math is handled by diffusers.DDPMScheduler in train_utils.py.
+        This module only predicts epsilon from (x_cond, noisy_y, timestep).
+        """
 
         def __init__(
             self,
@@ -41,8 +45,12 @@ if torch is not None:
             hidden_dim: int = 512,
             time_dim: int = 128,
             diffusion_steps: int = 100,
-            beta_start: float = 1e-4,
-            beta_end: float = 0.02,
+            scheduler_type: str = "diffusers.DDPMScheduler",
+            beta_schedule: str = "squaredcos_cap_v2",
+            prediction_type: str = "epsilon",
+            variance_type: str = "fixed_small",
+            clip_sample: bool = True,
+            denoiser_arch: str = "mlp",
         ):
             super().__init__()
             self.x_dim = int(x_dim)
@@ -50,6 +58,12 @@ if torch is not None:
             self.hidden_dim = int(hidden_dim)
             self.time_dim = int(time_dim)
             self.diffusion_steps = int(diffusion_steps)
+            self.scheduler_type = str(scheduler_type)
+            self.beta_schedule = str(beta_schedule)
+            self.prediction_type = str(prediction_type)
+            self.variance_type = str(variance_type)
+            self.clip_sample = bool(clip_sample)
+            self.denoiser_arch = str(denoiser_arch)
 
             self.time = SinusoidalTimeEmbedding(time_dim)
             self.net = nn.Sequential(
@@ -61,14 +75,6 @@ if torch is not None:
                 nn.SiLU(),
                 nn.Linear(hidden_dim, y_dim),
             )
-
-            betas = torch.linspace(beta_start, beta_end, diffusion_steps)
-            alphas = 1.0 - betas
-            alpha_bar = torch.cumprod(alphas, dim=0)
-
-            self.register_buffer("betas", betas)
-            self.register_buffer("alphas", alphas)
-            self.register_buffer("alpha_bar", alpha_bar)
 
             self.register_buffer("x_mean", torch.zeros(x_dim))
             self.register_buffer("x_std", torch.ones(x_dim))
@@ -95,34 +101,6 @@ if torch is not None:
             x_z = self.standardize_x(x_cond_raw)
             h = torch.cat([x_z, y_noisy_z, self.time(t)], dim=-1)
             return self.net(h)
-
-        def q_sample(self, y0_z, t, noise):
-            ab = self.alpha_bar[t].view(-1, 1)
-            return torch.sqrt(ab) * y0_z + torch.sqrt(1.0 - ab) * noise
-
-        @torch.no_grad()
-        def sample(self, x_cond_raw, n_samples: int = 1):
-            self.eval()
-            device = next(self.parameters()).device
-            x_cond_raw = x_cond_raw.to(device)
-            batch = x_cond_raw.shape[0]
-            x_rep = x_cond_raw.repeat_interleave(n_samples, dim=0)
-            y_z = torch.randn((batch * n_samples, self.y_dim), device=device)
-
-            for step in reversed(range(self.diffusion_steps)):
-                t = torch.full((y_z.shape[0],), step, device=device, dtype=torch.long)
-                eps = self.forward(x_rep, y_z, t)
-                beta = self.betas[step]
-                alpha = self.alphas[step]
-                abar = self.alpha_bar[step]
-                mean = (1.0 / torch.sqrt(alpha)) * (y_z - beta / torch.sqrt(1.0 - abar) * eps)
-                if step > 0:
-                    y_z = mean + torch.sqrt(beta) * torch.randn_like(y_z)
-                else:
-                    y_z = mean
-
-            y_raw = self.unstandardize_y(y_z)
-            return y_raw.reshape(batch, n_samples, self.y_dim)
 
 
     class InverseDynamicsMLP(nn.Module):
