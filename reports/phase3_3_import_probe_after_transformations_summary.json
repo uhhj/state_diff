@@ -1,0 +1,46 @@
+{
+  "all_required_ok": false,
+  "conda_default_env": "coord_bimanual",
+  "deformable_ravens_path": "/data/state_diff2/external/deformable-ravens",
+  "python": "/miniforge3/envs/coord_bimanual/bin/python3",
+  "results": {
+    "meshcat": {
+      "error": null,
+      "ok": true,
+      "traceback": null,
+      "version": "unknown"
+    },
+    "numpy": {
+      "error": null,
+      "ok": true,
+      "traceback": null,
+      "version": "1.23.3"
+    },
+    "pybullet": {
+      "error": null,
+      "ok": true,
+      "traceback": null,
+      "version": "unknown"
+    },
+    "ravens": {
+      "error": "ModuleNotFoundError(\"No module named 'tensorflow'\")",
+      "ok": false,
+      "traceback": "Traceback (most recent call last):\n  File \"/data/state_diff2/scripts/phase3_3_probe_ravens_imports.py\", line 22, in check_import\n    mod = importlib.import_module(name)\n  File \"/miniforge3/envs/coord_bimanual/lib/python3.9/importlib/__init__.py\", line 127, in import_module\n    return _bootstrap._gcd_import(name[level:], package, level)\n  File \"<frozen importlib._bootstrap>\", line 1030, in _gcd_import\n  File \"<frozen importlib._bootstrap>\", line 1007, in _find_and_load\n  File \"<frozen importlib._bootstrap>\", line 986, in _find_and_load_unlocked\n  File \"<frozen importlib._bootstrap>\", line 680, in _load_unlocked\n  File \"<frozen importlib._bootstrap_external>\", line 850, in exec_module\n  File \"<frozen importlib._bootstrap>\", line 228, in _call_with_frames_removed\n  File \"/data/state_diff2/external/deformable-ravens/ravens/__init__.py\", line 2, in <module>\n    import ravens.agents as agents\n  File \"/data/state_diff2/external/deformable-ravens/ravens/agents/__init__.py\", line 1, in <module>\n    from ravens.agents.dummy import DummyAgent\n  File \"/data/state_diff2/external/deformable-ravens/ravens/agents/dummy.py\", line 10, in <module>\n    from ravens.models import Attention, Transport\n  File \"/data/state_diff2/external/deformable-ravens/ravens/models/__init__.py\", line 1, in <module>\n    from ravens.models.gt_state import MlpModel\n  File \"/data/state_diff2/external/deformable-ravens/ravens/models/gt_state.py\", line 1, in <module>\n    import tensorflow as tf; tf.compat.v1.enable_eager_execution()\nModuleNotFoundError: No module named 'tensorflow'\n",
+      "version": null
+    },
+    "ravens.tasks": {
+      "error": null,
+      "ok": true,
+      "traceback": null,
+      "version": "unknown"
+    },
+    "torch": {
+      "error": null,
+      "ok": true,
+      "traceback": null,
+      "version": "1.12.1.post200"
+    }
+  },
+  "root": "/data/state_diff2",
+  "sys_path_contains_deformable_ravens": true
+}
