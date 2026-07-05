@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 import argparse
 import csv
+import importlib
 import json
 import os
 import random
 import sys
+import types
 from collections import defaultdict
 from pathlib import Path
 from typing import Any, Dict, List, Tuple
@@ -32,16 +34,62 @@ def require_rollout_gates() -> None:
         raise SystemExit("[Phase3.2][BLOCKED] Set PHASE3_ROLLOUT_CONFIRMED=1 after user approval.")
 
 
-def require_runtime(root: Path) -> None:
-    sys.path.insert(0, str(root / "external" / "deformable-ravens"))
+FORBIDDEN_ROLLOUT_PREFIXES = ["tensorflow", "ravens.agents", "ravens.models", "ravens.datasets"]
+
+
+def assert_no_tensorflow_loaded(stage: str) -> None:
+    bad = []
+    for name in sys.modules:
+        if name == "tensorflow" or name.startswith("tensorflow."):
+            bad.append(name)
+        if name.startswith("ravens.agents") or name.startswith("ravens.models") or name.startswith("ravens.datasets"):
+            bad.append(name)
+    if bad:
+        raise SystemExit(f"[Phase3.3b][FAIL] Forbidden rollout modules loaded at {stage}: {bad[:20]}")
+
+
+def install_minimal_ravens_package(root: Path) -> None:
+    defravens = root / "external" / "deformable-ravens"
+    if str(defravens) not in sys.path:
+        sys.path.insert(0, str(defravens))
+    for name in list(sys.modules):
+        if name == "ravens" or name.startswith("ravens."):
+            del sys.modules[name]
+    pkg = types.ModuleType("ravens")
+    pkg.__path__ = [str(defravens / "ravens")]
+    pkg.__file__ = str(defravens / "ravens" / "__init__.py")
+    pkg.__package__ = "ravens"
+    sys.modules["ravens"] = pkg
+
+
+def import_ravens_runtime(root: Path):
+    # TensorFlow-free minimal rollout runtime imports.
+    # Do not import top-level ravens, ravens.agents, ravens.models, ravens.datasets, or TensorFlow.
+    # This DeformableRavens fork exposes Environment at ravens.environment.
+    install_minimal_ravens_package(root)
+    tasks = importlib.import_module("ravens.tasks")
+    env_mod = importlib.import_module("ravens.environment")
+    Environment = env_mod.Environment
+    assert_no_tensorflow_loaded("after_minimal_ravens_import")
+    return tasks, Environment
+
+
+def require_runtime(root: Path):
     missing = []
-    for name in ["torch", "ravens", "pybullet"]:
+    for name in ["torch", "pybullet"]:
         try:
             __import__(name)
         except Exception as exc:
             missing.append(f"{name}: {repr(exc)}")
     if missing:
-        raise SystemExit("[Phase3.2][FAIL] Rollout runtime missing dependencies: " + "; ".join(missing))
+        raise SystemExit("[Phase3.3b][FAIL] Rollout runtime missing dependencies: " + "; ".join(missing))
+    try:
+        tasks, Environment = import_ravens_runtime(root)
+    except Exception as exc:
+        raise SystemExit(f"[Phase3.3b][FAIL] Minimal Ravens runtime import failed: {repr(exc)}") from exc
+    if "hidden-contact-cable-line" not in tasks.names:
+        raise SystemExit("[Phase3.3b][FAIL] hidden-contact-cable-line not registered in ravens.tasks.names")
+    return tasks, Environment
 
 
 def set_selected_recoverable_env_defaults() -> None:
@@ -251,16 +299,12 @@ def main() -> None:
     root = Path(args.root).resolve()
     require_rollout_gates()
     set_selected_recoverable_env_defaults()
-    require_runtime(root)
+    tasks, Environment = require_runtime(root)
     data, meta, template_path = validate_rollout_inputs(args, root)
-
-    sys.path.insert(0, str(root / "external" / "deformable-ravens"))
-    try:
-        from ravens import Environment, tasks
-    except Exception as exc:
-        raise SystemExit(f"[Phase3.2][FAIL] DeformableRavens import failed. Error: {exc}")
+    assert_no_tensorflow_loaded("after_rollout_input_validation")
 
     codec = load_action_codec_from_template(template_path)
+    assert_no_tensorflow_loaded("after_action_codec_load")
     th = int(data["th"])
     action_dim = int(data["action_dim"])
     n_beads = int(data["n_beads"])
@@ -282,6 +326,7 @@ def main() -> None:
     for baseline, ckpt in checkpoints:
         state_model = load_future_model(ckpt / "state_model.pt")
         idm = load_inverse_model(ckpt / "inverse_dynamics.pt")
+        assert_no_tensorflow_loaded("after_checkpoint_load")
         for condition in REQUIRED_CONDITIONS:
             for episode_idx in range(max_episodes):
                 visible_seed = args.seed_start + episode_idx
@@ -293,8 +338,10 @@ def main() -> None:
 
                 task = tasks.names["hidden-contact-cable-line"]()
                 task.mode = "train"
+                assert_no_tensorflow_loaded("before_environment_create")
                 env = Environment(disp=False, hz=240)
                 env.t_lim = float(args.motion_timeout)
+                assert_no_tensorflow_loaded("after_environment_create")
                 info: Dict[str, Any] = {}
                 state_hist: List[np.ndarray] = []
                 action_hist: List[np.ndarray] = []

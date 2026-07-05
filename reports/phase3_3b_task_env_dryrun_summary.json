@@ -1,0 +1,31 @@
+{
+  "checks": {
+    "env_dryrun_attempted": false,
+    "env_dryrun_ok": null,
+    "forbidden_modules_not_loaded": true,
+    "minimal_imports_ok": true,
+    "task_has_hidden_breakaway_pin": true,
+    "task_instantiates": true,
+    "task_registered": true
+  },
+  "conda_env": "coord_bimanual",
+  "details": {
+    "task_conditions": [
+      "free",
+      "hidden_pin",
+      "hidden_high_friction",
+      "hidden_partial_pin",
+      "hidden_soft_pin",
+      "hidden_breakaway_pin",
+      "hidden_friction_patch"
+    ],
+    "task_names_has_hidden_contact": true
+  },
+  "env_results": {
+    "attempted": false
+  },
+  "errors": [],
+  "interpretation": "PASS means TensorFlow-free task import path is viable. It is not rollout evidence.",
+  "python": "/miniforge3/envs/coord_bimanual/bin/python",
+  "verdict": "PASS"
+}
