@@ -5,11 +5,13 @@ ROOT = _Phase3Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 import argparse
+import json
 import os
 from pathlib import Path
 
 import numpy as np
 
+from ccda_phase3.data_io import normalize_conditions
 from ccda_phase3.train_utils import (
     grouped_folds,
     save_json,
@@ -63,6 +65,9 @@ def main():
     ap.add_argument("--num_inference_steps", type=int, default=None)
     ap.add_argument("--sample_temperature", type=float, default=1.0)
     ap.add_argument("--denoiser_arch", default="mlp", choices=["mlp"])
+    ap.add_argument("--conditions", nargs="+", default=None)
+    ap.add_argument("--primary_hidden_condition", default=None)
+    ap.add_argument("--diagnostic_hidden_condition", default=None)
     args = ap.parse_args()
 
     if args.variance_type == "learned_range":
@@ -77,6 +82,14 @@ def main():
     conda_env = infer_conda_env()
 
     data = np.load(args.data, allow_pickle=True)
+    meta = json.loads(str(data["meta_json"]))
+    conditions = normalize_conditions(args.conditions or meta.get("conditions"))
+    primary_hidden = args.primary_hidden_condition or meta.get("primary_hidden_condition", "hidden_breakaway_pin")
+    diagnostic_hidden = args.diagnostic_hidden_condition or meta.get("diagnostic_hidden_condition", "hidden_pin")
+    if primary_hidden not in conditions:
+        raise SystemExit(f"[Phase3][FAIL] primary_hidden_condition={primary_hidden} not in conditions={conditions}")
+    if diagnostic_hidden not in conditions:
+        raise SystemExit(f"[Phase3][FAIL] diagnostic_hidden_condition={diagnostic_hidden} not in conditions={conditions}")
     split = data["split_name"].astype(str)
     train_mask = split == "train"
     train_seeds = sorted(set(data["visible_seed"][train_mask].astype(int).tolist()))
@@ -127,6 +140,11 @@ def main():
                     "lr": args.lr,
                     "python_executable": python_executable,
                     "conda_env": conda_env,
+                    "conditions": conditions,
+                    "primary_hidden_condition": primary_hidden,
+                    "diagnostic_hidden_condition": diagnostic_hidden,
+                    "primary_branch_pair": f"free_vs_{primary_hidden}",
+                    "diagnostic_branch_pair": f"free_vs_{diagnostic_hidden}",
                 }
                 idm_cfg = {
                     "training_backend": training_backend,
@@ -141,6 +159,11 @@ def main():
                     "idm_hidden_dim": 64,
                     "python_executable": python_executable,
                     "conda_env": conda_env,
+                    "conditions": conditions,
+                    "primary_hidden_condition": primary_hidden,
+                    "diagnostic_hidden_condition": diagnostic_hidden,
+                    "primary_branch_pair": f"free_vs_{primary_hidden}",
+                    "diagnostic_branch_pair": f"free_vs_{diagnostic_hidden}",
                 }
                 state_model = train_torch_ddpm_future_model(
                     x_all[fold_train],
@@ -155,7 +178,7 @@ def main():
                 idm.save(ckpt / "inverse_dynamics.pt")
 
                 branch_means = {}
-                for cond in ["free", "hidden_pin", "hidden_high_friction"]:
+                for cond in conditions:
                     m = fold_train & (data["condition_name"].astype(str) == cond)
                     if np.any(m):
                         branch_means[cond] = np.mean(data["y_final_state"][m], axis=0).tolist()
@@ -197,6 +220,11 @@ def main():
                     "y_dim": int(y_flat.shape[1]),
                     "action_template_json_or_pickle_path": str(data["action_template_json_or_pickle_path"]),
                     "branch_mean_final_state": branch_means,
+                    "conditions": conditions,
+                    "primary_hidden_condition": primary_hidden,
+                    "diagnostic_hidden_condition": diagnostic_hidden,
+                    "primary_branch_pair": f"free_vs_{primary_hidden}",
+                    "diagnostic_branch_pair": f"free_vs_{diagnostic_hidden}",
                 }
                 save_json(ckpt / "config.json", cfg)
                 val_pred = state_model.predict_mean(x_all[fold_val], n_samples=8, seed=seed) if np.any(fold_val) else np.zeros((0, y_flat.shape[1]))
@@ -212,6 +240,11 @@ def main():
                     "num_val_windows": int(np.sum(fold_val)),
                     "idm_feature_mode": "paper_full_state_history_future",
                     "idm_x_dim": int(idm_x_all.shape[1]),
+                    "conditions": conditions,
+                    "primary_hidden_condition": primary_hidden,
+                    "diagnostic_hidden_condition": diagnostic_hidden,
+                    "primary_branch_pair": f"free_vs_{primary_hidden}",
+                    "diagnostic_branch_pair": f"free_vs_{diagnostic_hidden}",
                 }
                 save_json(ckpt / "train_log.json", train_log)
                 print("[Phase3] trained", ckpt, train_log)

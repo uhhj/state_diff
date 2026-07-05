@@ -7,6 +7,17 @@ cd "$ROOT"
 MODE="${MODE:-smoke}"
 PHASE3_STEP="${PHASE3_STEP:-all}"
 ALLOW_NUMPY_FALLBACK="${ALLOW_NUMPY_FALLBACK:-0}"
+PHASE3_ALLOW_ROLLOUT="${PHASE3_ALLOW_ROLLOUT:-0}"
+
+PHASE3_CONDITIONS="${PHASE3_CONDITIONS:-free hidden_pin hidden_high_friction hidden_breakaway_pin}"
+PHASE3_PRIMARY_HIDDEN_CONDITION="${PHASE3_PRIMARY_HIDDEN_CONDITION:-hidden_breakaway_pin}"
+PHASE3_DIAGNOSTIC_HIDDEN_CONDITION="${PHASE3_DIAGNOSTIC_HIDDEN_CONDITION:-hidden_pin}"
+PHASE2_5_SELECTED_CONFIG="${PHASE2_5_SELECTED_CONFIG:-breakaway_force_2p6_disp_0p045_pull_0p36}"
+export CCDA_BREAKAWAY_FORCE="${CCDA_BREAKAWAY_FORCE:-2.6}"
+export CCDA_BREAKAWAY_DISP="${CCDA_BREAKAWAY_DISP:-0.045}"
+export CCDA_BREAKAWAY_BEAD_RATIO="${CCDA_BREAKAWAY_BEAD_RATIO:-0.45}"
+export CCDA_ORACLE_BREAKAWAY_PULL_DIST="${CCDA_ORACLE_BREAKAWAY_PULL_DIST:-0.36}"
+export PHASE3_CONDITIONS PHASE3_PRIMARY_HIDDEN_CONDITION PHASE3_DIAGNOSTIC_HIDDEN_CONDITION PHASE2_5_SELECTED_CONFIG
 
 if [[ "$ALLOW_NUMPY_FALLBACK" == "1" ]]; then
   echo "[Phase3][ERROR] NumPy fallback is disabled for the DDPM Phase3 pipeline."
@@ -58,7 +69,12 @@ HELDOUT_DATA_ROOT="$ROOT/external/deformable-ravens/data/phase3_ccda_large/heldo
 WINDOWS="$ROOT/data/phase3_state_diff_windows/phase3_windows.npz"
 CKPT_ROOT="$ROOT/checkpoints/phase3"
 
+condition_args=(--conditions $PHASE3_CONDITIONS --primary_hidden_condition "$PHASE3_PRIMARY_HIDDEN_CONDITION" --diagnostic_hidden_condition "$PHASE3_DIAGNOSTIC_HIDDEN_CONDITION")
+
 echo "[Phase3] MODE=$MODE PHASE3_STEP=$PHASE3_STEP DDPM_STEPS=$DIFFUSION_STEPS HIDDEN_DIM=$HIDDEN_DIM TIME_DIM=$TIME_DIM"
+echo "[Phase3] conditions=$PHASE3_CONDITIONS"
+echo "[Phase3] primary_hidden_condition=$PHASE3_PRIMARY_HIDDEN_CONDITION diagnostic_hidden_condition=$PHASE3_DIAGNOSTIC_HIDDEN_CONDITION"
+echo "[Phase3] selected_config=$PHASE2_5_SELECTED_CONFIG breakaway_force=$CCDA_BREAKAWAY_FORCE breakaway_disp=$CCDA_BREAKAWAY_DISP"
 
 run_generate() {
   echo "[Phase3] Step generate. Expected env: defravens37"
@@ -69,6 +85,9 @@ run_generate() {
 
   TRAIN_SEEDS="$TRAIN_SEEDS" \
   HELDOUT_SEEDS="$HELDOUT_SEEDS" \
+  PHASE3_CONDITIONS="$PHASE3_CONDITIONS" \
+  PHASE3_PRIMARY_HIDDEN_CONDITION="$PHASE3_PRIMARY_HIDDEN_CONDITION" \
+  PHASE3_DIAGNOSTIC_HIDDEN_CONDITION="$PHASE3_DIAGNOSTIC_HIDDEN_CONDITION" \
   bash scripts/phase3_generate_large_dataset.sh
 }
 
@@ -80,13 +99,24 @@ run_prepare() {
     --heldout_data_root "$HELDOUT_DATA_ROOT" \
     --out "$WINDOWS" \
     --th 3 \
-    --tf 4
+    --tf 4 \
+    "${condition_args[@]}"
 
   echo "[Phase3] Step leakage check"
   python scripts/phase3_check_input_leakage.py \
     --data "$WINDOWS" \
     --out_json "$ROOT/reports/phase3_input_leakage_summary.json" \
-    --out_md "$ROOT/reports/phase3_input_leakage_report.md"
+    --out_md "$ROOT/reports/phase3_input_leakage_report.md" \
+    "${condition_args[@]}"
+
+  echo "[Phase3] Step condition integration audit"
+  python scripts/phase3_condition_integration_audit.py \
+    --root "$ROOT" \
+    --data "$WINDOWS" \
+    --leak_json "$ROOT/reports/phase3_input_leakage_summary.json" \
+    --out_json "$ROOT/reports/phase3_condition_integration_audit_summary.json" \
+    --out_md "$ROOT/reports/phase3_condition_integration_audit.md" \
+    "${condition_args[@]}"
 }
 
 run_train_eval() {
@@ -114,7 +144,8 @@ run_train_eval() {
     --denoiser_arch mlp \
     --hidden_dim "$HIDDEN_DIM" \
     --time_dim "$TIME_DIM" \
-    --lr "$LR"
+    --lr "$LR" \
+    "${condition_args[@]}"
 
   python scripts/phase3_eval_baselines.py \
     --data "$WINDOWS" \
@@ -122,10 +153,15 @@ run_train_eval() {
     --out_csv "$ROOT/reports/phase3_baseline_eval_predictions.csv" \
     --out_json "$ROOT/reports/phase3_baseline_eval_summary.json" \
     --samples_per_prefix 64 \
-    --diffusion_steps "$DIFFUSION_STEPS"
+    --diffusion_steps "$DIFFUSION_STEPS" \
+    "${condition_args[@]}"
 }
 
 run_rollout() {
+  if [[ "$PHASE3_ALLOW_ROLLOUT" != "1" ]]; then
+    echo "[Phase3][ERROR] rollout is disabled by default. Set PHASE3_ALLOW_ROLLOUT=1 to run it explicitly."
+    exit 1
+  fi
   echo "[Phase3] Step rollout. Expected env: defravens37 with torch."
   python scripts/phase3_check_runtime_env.py \
     --role rollout \
@@ -152,7 +188,8 @@ run_aggregate() {
     --write_json "$ROOT/reports/phase3_runtime_aggregate_env.json"
 
   python scripts/phase3_aggregate_folds.py \
-    --root "$ROOT"
+    --root "$ROOT" \
+    "${condition_args[@]}"
 }
 
 run_sanity() {
@@ -168,7 +205,8 @@ run_sanity() {
     --pred_csv "$ROOT/reports/phase3_baseline_eval_predictions.csv" \
     --leak_json "$ROOT/reports/phase3_input_leakage_summary.json" \
     --out_json "$ROOT/reports/phase3_sanity_check_summary.json" \
-    --out_md "$ROOT/reports/phase3_sanity_check_report.md"
+    --out_md "$ROOT/reports/phase3_sanity_check_report.md" \
+    "${condition_args[@]}"
 
   python scripts/phase3_debug_action_codec_idm.py \
     --data "$ROOT/data/phase3_state_diff_windows/phase3_windows.npz" \
@@ -201,7 +239,7 @@ case "$PHASE3_STEP" in
   sanity) run_sanity ;;
   pre_medium_audit) run_pre_medium_audit ;;
   aggregate) run_aggregate ;;
-  all) run_generate; run_prepare; run_train_eval; run_rollout; run_aggregate ;;
+  all) run_generate; run_prepare; run_train_eval; run_sanity ;;
   *) echo "[Phase3][ERROR] unknown PHASE3_STEP=$PHASE3_STEP"; exit 1 ;;
 esac
 

@@ -1,0 +1,42 @@
+{
+  "action_codec_num_camera_config_paths": 0,
+  "action_dim": 14,
+  "action_idm_verdict": "WARN",
+  "backend_counts": {
+    "torch": 2256
+  },
+  "conditions": [
+    "free",
+    "hidden_pin",
+    "hidden_high_friction",
+    "hidden_breakaway_pin"
+  ],
+  "diagnostic_hidden_condition": "hidden_pin",
+  "fail_issues": [],
+  "heldout_visible_seed_count": 30,
+  "input_leakage_pass": true,
+  "max_post_canonical_pair_diff": 0.0,
+  "mode": "medium",
+  "num_missing_primary_branch_refs": 0,
+  "num_windows": 956,
+  "phase2_5_selected_config": "breakaway_force_2p6_disp_0p045_pull_0p36",
+  "phase4_started": false,
+  "policy_rollout_run": false,
+  "pre_medium_audit_verdict": "WARN",
+  "prediction_rows": 2256,
+  "primary_hidden_condition": "hidden_breakaway_pin",
+  "sanity_verdict": "WARN",
+  "state_action_extra_std": 0.2338666021823883,
+  "train_visible_seed_count": 100,
+  "verdict": "PASS",
+  "windows_per_condition": {
+    "free": 239,
+    "hidden_breakaway_pin": 239,
+    "hidden_high_friction": 239,
+    "hidden_pin": 239
+  },
+  "y_action_shape": [
+    956,
+    14
+  ]
+}

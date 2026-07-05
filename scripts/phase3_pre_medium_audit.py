@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+import sys
+from pathlib import Path as _Phase3Path
+ROOT = _Phase3Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+
 import argparse
 import csv
 import json
@@ -7,7 +12,9 @@ from pathlib import Path
 
 import numpy as np
 
-CONDITIONS = {"free", "hidden_pin", "hidden_high_friction"}
+from ccda_phase3.data_io import FORBIDDEN_METADATA_NOT_IN_X, normalize_conditions
+
+DEFAULT_CONDITIONS = ["free", "hidden_pin", "hidden_high_friction", "hidden_breakaway_pin"]
 DDPM_MODEL_TYPE = "torch_conditional_ddpm_future_state"
 BRANCH_REFERENCE_MODE = "split_visible_seed_window_t"
 SCHEDULER_TYPE = "diffusers.DDPMScheduler"
@@ -16,16 +23,7 @@ PREDICTION_TYPE = "epsilon"
 VARIANCE_TYPE = "fixed_small"
 DENOISER_ARCH = "mlp"
 PAPER_ALIGNMENT_LEVEL = "ddpm_scheduler_aligned_mlp_denoiser"
-REQUIRED_FORBIDDEN = {
-    "hidden_condition",
-    "hidden_contact_meta",
-    "success",
-    "final_fraction",
-    "condition_id",
-    "condition_name",
-    "ccda_pair_group",
-    "source_file",
-}
+REQUIRED_FORBIDDEN = set(FORBIDDEN_METADATA_NOT_IN_X)
 
 
 def read_json(path):
@@ -78,6 +76,11 @@ def main():
     seed = data["visible_seed"].astype(int)
     wt = data["window_t"].astype(int)
     cond = data["condition_name"].astype(str)
+    meta = scalar_json(data["meta_json"])
+    conditions = normalize_conditions(meta.get("conditions", DEFAULT_CONDITIONS))
+    required_conditions = set(conditions)
+    primary_hidden = meta.get("primary_hidden_condition", "hidden_breakaway_pin")
+    diagnostic_hidden = meta.get("diagnostic_hidden_condition", "hidden_pin")
 
     train_seeds = set(seed[split == "train"].tolist())
     held_seeds = set(seed[split == "heldout"].tolist())
@@ -92,7 +95,7 @@ def main():
     groups = defaultdict(set)
     for s, sd, t, c in zip(split, seed, wt, cond):
         groups[(str(s), int(sd), int(t))].add(str(c))
-    incomplete = {str(k): sorted(CONDITIONS - v) for k, v in groups.items() if not CONDITIONS.issubset(v)}
+    incomplete = {str(k): sorted(required_conditions - v) for k, v in groups.items() if not required_conditions.issubset(v)}
     if incomplete:
         add(issues, "FAIL", "incomplete_condition_groups", dict(list(incomplete.items())[:10]))
     complete_condition_groups = not bool(incomplete)
@@ -111,7 +114,6 @@ def main():
     if extra_dim != expected_extra_dim:
         add(issues, "FAIL", "bad_state_action_extra_dim", f"{extra_dim} != {expected_extra_dim}")
 
-    meta = scalar_json(data["meta_json"])
     action_codec = meta.get("action_codec_summary", meta.get("action_codec", {}))
     if action_codec.get("num_camera_config_paths", None) != 0:
         add(issues, "FAIL", "camera_config_in_action_codec", action_codec)
@@ -178,7 +180,7 @@ def main():
 
     missing_refs = 0
     for r in pred_rows:
-        if str(r.get("has_free_ref", "")).lower() in {"false", "0"} or str(r.get("has_pin_ref", "")).lower() in {"false", "0"}:
+        if str(r.get("has_free_ref", "")).lower() in {"false", "0"} or str(r.get("has_primary_ref", r.get("has_pin_ref", ""))).lower() in {"false", "0"}:
             missing_refs += 1
     if missing_refs:
         add(issues, "FAIL", "missing_branch_refs", missing_refs)
@@ -199,12 +201,21 @@ def main():
     if not canon:
         add(issues, "FAIL", "canonicalization_summary_missing", "")
     else:
-        raw_max = canon.get("raw_max_pair_paper_x_max_abs_diff", None)
-        post_max = canon.get("post_max_pair_paper_x_max_abs_diff", None)
-        raw_sa = canon.get("raw_max_pair_state_action_x_max_abs_diff", None)
-        post_sa = canon.get("post_max_pair_state_action_x_max_abs_diff", None)
+        def max_from_pair_stats(pair_stats, field):
+            vals = []
+            for item in (pair_stats.get("by_hidden_condition") or {}).values():
+                v = item.get(field, {}).get("max") if isinstance(item.get(field), dict) else None
+                if v is not None:
+                    vals.append(float(v))
+            return max(vals) if vals else None
+        raw_max = max_from_pair_stats(canon.get("raw_pair_stats", {}), "paper_x_max_abs")
+        post_max = max_from_pair_stats(canon.get("post_pair_stats", {}), "paper_x_max_abs")
+        raw_sa = max_from_pair_stats(canon.get("raw_pair_stats", {}), "state_action_x_max_abs")
+        post_sa = max_from_pair_stats(canon.get("post_pair_stats", {}), "state_action_x_max_abs")
         if None in (raw_max, post_max, raw_sa, post_sa):
             add(issues, "FAIL", "canonicalization_diff_missing", canon)
+        elif float(post_max) > 1e-8 or float(post_sa) > 1e-8:
+            add(issues, "FAIL", "canonicalization_post_diff_nonzero", {"post_max": post_max, "post_sa": post_sa})
         elif float(raw_max) > 0.1:
             add(issues, "WARN", "canonicalization_strong_intervention", f"raw_max_pair_paper_x_max_abs_diff={raw_max}; acceptable as matched-input audit control.")
 
@@ -222,6 +233,9 @@ def main():
         "train_visible_seed_count": len(train_seeds),
         "heldout_visible_seed_count": len(held_seeds),
         "train_heldout_seed_overlap": overlap,
+        "conditions": conditions,
+        "primary_hidden_condition": primary_hidden,
+        "diagnostic_hidden_condition": diagnostic_hidden,
         "complete_condition_groups": complete_condition_groups,
         "num_condition_groups": len(groups),
         "num_incomplete_condition_groups": len(incomplete),

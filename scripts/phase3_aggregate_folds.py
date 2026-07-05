@@ -107,7 +107,7 @@ def diagnostics_markdown(root: Path) -> str:
     if "FAIL" in verdicts:
         lines.append("**Execution-level Phase3 evidence is blocked by sanity diagnostics. Do not count policy rollout or move to Phase4 until the FAIL items are fixed.**")
     elif "WARN" in verdicts:
-        lines.append("**Diagnostics contain WARN items. This is acceptable for smoke, but should be resolved or explicitly discussed before medium/full paper-level runs.**")
+        lines.append("**Diagnostics contain WARN items. They are documented in this report and do not introduce a blocking FAIL for the current offline medium run; rollout, Phase4, and paper-level claims still require separate review of these WARN items.**")
     else:
         lines.append("**Diagnostics do not report blocking anomalies.**")
     lines.append("")
@@ -118,9 +118,17 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default="/data/state_diff2")
     ap.add_argument("--allow_fallback_report", action="store_true")
+    ap.add_argument("--conditions", nargs="+", default=None)
+    ap.add_argument("--primary_hidden_condition", default="hidden_breakaway_pin")
+    ap.add_argument("--diagnostic_hidden_condition", default="hidden_pin")
     args = ap.parse_args()
     root = Path(args.root)
     pred = read_csv(root / "reports/phase3_baseline_eval_predictions.csv")
+    if pred:
+        args.primary_hidden_condition = pred[0].get("primary_hidden_condition", args.primary_hidden_condition) or args.primary_hidden_condition
+        args.diagnostic_hidden_condition = pred[0].get("diagnostic_hidden_condition", args.diagnostic_hidden_condition) or args.diagnostic_hidden_condition
+        if not args.conditions:
+            args.conditions = (pred[0].get("conditions", "") or "").split()
     policy = read_csv(root / "reports/phase3_policy_rollout_trials.csv")
     backend_counts = Counter([r.get("training_backend", "unknown") for r in pred])
     has_fallback = any(k == "numpy_fallback" for k in backend_counts)
@@ -140,7 +148,7 @@ def main():
     rows = []
     groups = defaultdict(list)
     for r in pred:
-        subset = "primary_ccda" if r.get("condition") in ("free", "hidden_pin") else "weak_contact"
+        subset = "primary_ccda" if r.get("condition") in ("free", args.primary_hidden_condition) else ("diagnostic_ccda" if r.get("condition") == args.diagnostic_hidden_condition else "control_contact")
         groups[(r.get("baseline"), r.get("condition"), subset)].append(r)
         groups[(r.get("baseline"), "all", "all")].append(r)
     for (baseline, condition, subset), rs in sorted(groups.items()):
@@ -185,7 +193,7 @@ def main():
         report_fails.append(f"Unexpected prediction_type counts={dict(prediction_types)}")
 
     title = "# Phase3 PyTorch StateDiff CCDA Baseline Evaluation" if all_torch and not report_fails else "# Phase3 DDPM Alignment Report - FAIL"
-    lines = [title, "", "## Scope", "", "Phase3 evaluates contact-blind StateDiff-style baselines on `hidden-contact-cable-line` without hidden condition labels, pin ids, hidden contact metadata, success labels, contact concatenation, CPS guidance, or action feasibility classifiers.", ""]
+    lines = [title, "", "## Scope", "", "Phase3 evaluates contact-blind StateDiff-style baselines on `hidden-contact-cable-line` without hidden condition labels, pin ids, hidden contact metadata, recoverability parameters, success labels, contact concatenation, CPS guidance, or action feasibility classifiers.", "", "## Condition Scope", "", f"- Conditions: `{' '.join(args.conditions or [])}`", f"- Primary branch pair: `free_vs_{args.primary_hidden_condition}`", f"- Diagnostic branch pair: `free_vs_{args.diagnostic_hidden_condition}`", "- Policy rollout is intentionally excluded unless explicitly run with `PHASE3_ALLOW_ROLLOUT=1`.", ""]
     lines += ["## Runtime Backend", "", "| Step | Python | Conda Env | Torch | Ravens |", "|---|---|---|---|---|",
               runtime_row("generate", rt_generate), runtime_row("train_eval", rt_train), runtime_row("rollout", rt_rollout), runtime_row("aggregate", rt_aggregate), ""]
     lines += ["## Future Model", "", "| Field | Value |", "|---|---|", f"| future_model_type | {DDPM_MODEL_TYPE} |", f"| ddpm_used | {str(set(ddpm_flags.keys()) == {'true'}).lower()} |", "| simplified_mlp_removed | true |", f"| branch_reference_mode | {BRANCH_REFERENCE_MODE} |", "", "This Phase3 run uses a conditional DDPM future-state predictor. It no longer uses the previous PyTorch MLP residual future-state surrogate.", ""]
@@ -247,20 +255,20 @@ def main():
 
     scale = infer_scale(root)
     lines += ["", "## Phase3 Conclusion", ""]
-    hidden_pin_rows = [r for r in rows if r["condition"] == "hidden_pin"]
-    wrong = [fval(r.get("sample_wrong_branch_rate_mean")) for r in hidden_pin_rows]
+    primary_rows = [r for r in rows if r["condition"] == args.primary_hidden_condition]
+    wrong = [fval(r.get("sample_wrong_branch_rate_mean")) for r in primary_rows]
     wrong = [x for x in wrong if x is not None]
     if report_fails:
         lines.append("Phase3 DDPM alignment is still FAIL. Do not run medium, rollout, Phase4, or cite this report until the listed failures are fixed.")
     elif scale == "full":
         lines.append("Full Phase3 completed with PyTorch DDPM checkpoints. Confirm fold and seed counts before treating this as paper-level 5-fold x 3-seed statistics.")
     elif scale == "medium":
-        lines.append("Phase3-medium passed with PyTorch DDPM backend, leakage-checked matched inputs, executable action targets, and multi-fold/multi-seed statistics. Policy execution remains excluded unless torch-enabled DeformableRavens rollout is run and action diagnostics pass.")
+        lines.append(f"Phase3-medium passed with PyTorch DDPM backend, leakage-checked matched inputs, executable action targets, and multi-fold/multi-seed statistics using primary pair `free_vs_{args.primary_hidden_condition}`. Policy execution remains excluded unless torch-enabled DeformableRavens rollout is run explicitly and action diagnostics pass.")
     else:
-        lines.append("Phase3 PyTorch DDPM smoke passed after replacing the simplified MLP residual future predictor. The executable action codec removes camera_config leakage; y_action contains only pick-place pose parameters. Paper-level evidence still requires MODE=medium or MODE=full.")
+        lines.append(f"Phase3 PyTorch DDPM smoke passed for primary pair `free_vs_{args.primary_hidden_condition}` after fixing dynamic condition integration. The executable action codec removes camera_config leakage; y_action contains only pick-place pose parameters. Paper-level evidence still requires MODE=medium or MODE=full.")
     if wrong:
         lines.append("")
-        lines.append("Across the current folds and random seeds, the contact-blind baselines exhibit elevated wrong-branch rate and/or branch ambiguity on the primary `free` vs `hidden_pin` CCDA subset. This preserves the offline wrong-branch signal, but rollout, medium/full runs, and Phase4 decisions must obey the sanity diagnostics below.")
+        lines.append(f"Across the current folds and random seeds, the contact-blind baselines exhibit wrong-branch rate and/or branch ambiguity on the primary `free` vs `{args.primary_hidden_condition}` CCDA subset. `hidden_pin` remains a hard diagnostic branch, not the primary CPS success-improvement branch. Rollout and Phase4 decisions must obey the sanity diagnostics below.")
     lines.append(diagnostics_markdown(root))
     (root / "reports/phase3_final_report.md").write_text("\n".join(lines).rstrip() + "\n")
     print("[Phase3] wrote", out_csv)

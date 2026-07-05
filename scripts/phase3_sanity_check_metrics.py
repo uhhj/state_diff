@@ -221,23 +221,23 @@ def compare_baselines(summary_rows: List[Dict], issues: List[Dict]):
                 )
 
 
-def check_future_error_contrast(summary_rows: List[Dict], issues: List[Dict]):
+def check_future_error_contrast(summary_rows: List[Dict], issues: List[Dict], primary_hidden_condition: str):
     by_base = defaultdict(dict)
     for r in summary_rows:
         by_base[r["baseline"]][r["condition"]] = r
 
     for base, d in by_base.items():
-        if "free" in d and "hidden_pin" in d:
+        if "free" in d and primary_hidden_condition in d:
             free_err = to_float(d["free"].get("future_error_mean"))
-            pin_err = to_float(d["hidden_pin"].get("future_error_mean"))
-            if free_err is not None and pin_err is not None:
-                delta = pin_err - free_err
+            hidden_err = to_float(d[primary_hidden_condition].get("future_error_mean"))
+            if free_err is not None and hidden_err is not None:
+                delta = hidden_err - free_err
                 if abs(delta) < 0.02:
                     add_issue(
                         issues,
                         "WARN",
                         f"low_future_error_contrast_{base}",
-                        f"hidden_pin and free future errors are close: pin-free={delta:.6f}. "
+                        f"{primary_hidden_condition} and free future errors are close: hidden-free={delta:.6f}. "
                         "This may indicate mean prediction collapse or an overly coarse metric.",
                     )
 
@@ -425,7 +425,7 @@ def check_eval_summary(eval_summary: Dict, issues: List[Dict]):
             f"Evaluation summary branch_reference_mode={mode}; expected {BRANCH_REFERENCE_MODE}.",
         )
 
-def check_leakage(leak: Dict, issues: List[Dict]):
+def check_leakage(leak: Dict, issues: List[Dict], primary_hidden_condition: str, diagnostic_hidden_condition: str):
     if not leak:
         add_issue(issues, "WARN", "leakage_report_missing", "No leakage JSON found.")
         return
@@ -449,14 +449,17 @@ def check_leakage(leak: Dict, issues: List[Dict]):
 
     paper = find_metric("mean_pair_paper_x_max_abs_diff")
     sa = find_metric("mean_pair_state_action_x_max_abs_diff")
-    probe = find_metric("free_vs_pin_probe_acc")
+    primary_probe = leak.get("free_vs_primary_probe_acc")
+    diagnostic_probe = leak.get("free_vs_diagnostic_probe_acc", leak.get("free_vs_pin_probe_acc"))
 
-    if paper is not None and paper > 1e-3:
+    if paper is not None and paper > 1e-8:
         add_issue(issues, "FAIL", "paper_x_pair_inconsistent", f"mean pair paper_x max diff={paper}")
-    if sa is not None and sa > 1e-3:
+    if sa is not None and sa > 1e-8:
         add_issue(issues, "FAIL", "state_action_pair_inconsistent", f"mean pair state_action_x max diff={sa}")
-    if probe is not None and probe > 0.60:
-        add_issue(issues, "FAIL", "free_vs_pin_probe_too_high", f"free-vs-pin probe acc={probe}")
+    if primary_probe is not None and to_float(primary_probe) is not None and to_float(primary_probe) > 0.60:
+        add_issue(issues, "FAIL", "free_vs_primary_probe_too_high", f"free-vs-{primary_hidden_condition} probe acc={primary_probe}")
+    if diagnostic_probe is not None and to_float(diagnostic_probe) is not None and to_float(diagnostic_probe) > 0.60:
+        add_issue(issues, "FAIL", "free_vs_diagnostic_probe_too_high", f"free-vs-{diagnostic_hidden_condition} probe acc={diagnostic_probe}")
 
 
 def write_report(path: Path, payload: Dict):
@@ -467,6 +470,8 @@ def write_report(path: Path, payload: Dict):
     lines.append("")
     lines.append(f"- Verdict: `{payload['verdict']}`")
     lines.append(f"- Prediction rows: `{payload['num_prediction_rows']}`")
+    lines.append(f"- Primary hidden condition: `{payload.get('primary_hidden_condition')}`")
+    lines.append(f"- Diagnostic hidden condition: `{payload.get('diagnostic_hidden_condition')}`")
     lines.append("")
     lines.append("## Backend Counts")
     lines.append("")
@@ -516,7 +521,8 @@ def write_report(path: Path, payload: Dict):
     lines.append("")
     lines.append("- `FAIL` means do not run policy rollout or Phase4 until fixed.")
     lines.append("- `WARN` means acceptable for smoke, but inspect before medium/full.")
-    lines.append("- High wrong-branch on `hidden_pin` is expected. Cascaded action MSE/OOD is a warning; pure IDM health is checked separately.")
+    lines.append(f"- High wrong-branch on `{payload.get('primary_hidden_condition')}` is the primary CCDA signal. `hidden_pin` remains a hard diagnostic branch.")
+    lines.append("- Cascaded action MSE/OOD is a warning; pure IDM health is checked separately.")
     path.write_text("\n".join(lines))
 
 
@@ -531,6 +537,9 @@ def main():
     parser.add_argument("--action_mse_warn", type=float, default=10.0)
     parser.add_argument("--action_ood_warn", type=float, default=5.0)
     parser.add_argument("--min_rows_warn", type=int, default=300)
+    parser.add_argument("--conditions", nargs="+", default=None)
+    parser.add_argument("--primary_hidden_condition", default="hidden_breakaway_pin")
+    parser.add_argument("--diagnostic_hidden_condition", default="hidden_pin")
     parser.add_argument("--strict", action="store_true")
     args = parser.parse_args()
 
@@ -541,7 +550,7 @@ def main():
     check_backend(rows, colmap, issues)
     ddpm_metadata_counts = check_ddpm_metadata(rows, issues)
     check_eval_summary(read_json(Path(args.eval_json)), issues)
-    check_leakage(read_json(Path(args.leak_json)), issues)
+    check_leakage(read_json(Path(args.leak_json)), issues, args.primary_hidden_condition, args.diagnostic_hidden_condition)
 
     if len(rows) < args.min_rows_warn:
         add_issue(
@@ -553,7 +562,7 @@ def main():
 
     summary_rows = summarize_by_baseline_condition(rows, colmap)
     compare_baselines(summary_rows, issues)
-    check_future_error_contrast(summary_rows, issues)
+    check_future_error_contrast(summary_rows, issues, args.primary_hidden_condition)
     check_averaging_constant(rows, colmap, issues)
     check_action_metrics(summary_rows, issues, args.action_mse_warn, args.action_ood_warn)
 
@@ -571,6 +580,9 @@ def main():
         "num_prediction_rows": len(rows),
         "column_map": colmap,
         "backend_counts": dict(backend_counts),
+        "conditions": args.conditions or [],
+        "primary_hidden_condition": args.primary_hidden_condition,
+        "diagnostic_hidden_condition": args.diagnostic_hidden_condition,
         "ddpm_metadata_counts": ddpm_metadata_counts,
         "summary_by_baseline_condition": summary_rows,
         "issues": issues,

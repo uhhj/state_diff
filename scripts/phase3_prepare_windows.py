@@ -6,46 +6,68 @@ sys.path.insert(0, str(ROOT))
 
 import argparse
 import json
+import os
 from collections import Counter
 from pathlib import Path
 
 import numpy as np
 
 from ccda_phase3.action_codec import ExecutableActionCodec
-from ccda_phase3.data_io import CONDITIONS, build_windows_from_dataset, save_action_template
+from ccda_phase3.data_io import (
+    FORBIDDEN_METADATA_NOT_IN_X,
+    build_windows_from_dataset,
+    normalize_conditions,
+    save_action_template,
+)
 
 
-def paired_input_diff_stats(windows):
+def hidden_conditions(conditions):
+    return [c for c in conditions if c != "free"]
+
+
+def paired_input_diff_stats(windows, conditions):
     groups = {}
     for w in windows:
         key = (w["split_name"], int(w["visible_seed"]), int(w["window_t"]))
         groups.setdefault(key, []).append(w)
 
-    paper_diffs = []
-    state_action_diffs = []
-    num_pairs = 0
-    for rows in groups.values():
-        by_cond = {r["condition_name"]: r for r in rows}
-        if "free" not in by_cond:
-            continue
-        ref = by_cond["free"]
-        for cond in ["hidden_pin", "hidden_high_friction"]:
-            if cond not in by_cond:
+    by_hidden = {}
+    all_paper = []
+    all_state_action = []
+    for cond in hidden_conditions(conditions):
+        paper_diffs = []
+        state_action_diffs = []
+        num_pairs = 0
+        for rows in groups.values():
+            by_cond = {r["condition_name"]: r for r in rows}
+            if "free" not in by_cond or cond not in by_cond:
                 continue
             num_pairs += 1
-            paper_diffs.append(float(np.max(np.abs(ref["paper_x"] - by_cond[cond]["paper_x"]))))
-            state_action_diffs.append(float(np.max(np.abs(ref["state_action_x"] - by_cond[cond]["state_action_x"]))))
+            paper = float(np.max(np.abs(by_cond["free"]["paper_x"] - by_cond[cond]["paper_x"])))
+            state_action = float(np.max(np.abs(by_cond["free"]["state_action_x"] - by_cond[cond]["state_action_x"])))
+            paper_diffs.append(paper)
+            state_action_diffs.append(state_action)
+            all_paper.append(paper)
+            all_state_action.append(state_action)
 
-    def stat(xs):
-        if not xs:
-            return {"mean": None, "max": None}
-        return {"mean": float(np.mean(xs)), "max": float(np.max(xs))}
+        by_hidden[cond] = {
+            "num_pairs": int(num_pairs),
+            "paper_x_max_abs": stat(paper_diffs),
+            "state_action_x_max_abs": stat(state_action_diffs),
+        }
 
     return {
-        "num_pairs": int(num_pairs),
-        "paper_x_max_abs": stat(paper_diffs),
-        "state_action_x_max_abs": stat(state_action_diffs),
+        "num_pairs": int(sum(v["num_pairs"] for v in by_hidden.values())),
+        "paper_x_max_abs": stat(all_paper),
+        "state_action_x_max_abs": stat(all_state_action),
+        "by_hidden_condition": by_hidden,
     }
+
+
+def stat(xs):
+    if not xs:
+        return {"mean": None, "max": None}
+    return {"mean": float(np.mean(xs)), "max": float(np.max(xs))}
 
 
 def canonicalize_paired_inputs(windows):
@@ -53,7 +75,7 @@ def canonicalize_paired_inputs(windows):
 
     Targets remain condition-specific. Model inputs are copied from the free
     branch within each split/visible_seed/window_t group so Phase3 tests the
-    contact-blind branch ambiguity rather than tiny reset/settling differences.
+    contact-blind branch ambiguity rather than hidden/contact label leakage.
     """
     groups = {}
     for w in windows:
@@ -61,13 +83,7 @@ def canonicalize_paired_inputs(windows):
         groups.setdefault(key, []).append(w)
     changed = 0
     for rows in groups.values():
-        ref = None
-        for w in rows:
-            if w["condition_name"] == "free":
-                ref = w
-                break
-        if ref is None:
-            ref = rows[0]
+        ref = next((w for w in rows if w["condition_name"] == "free"), rows[0])
         paper = ref["paper_x"].copy()
         state_action = ref["state_action_x"].copy()
         source = ref.get("robot_pose_proxy_source", "canonical_free")
@@ -80,22 +96,32 @@ def canonicalize_paired_inputs(windows):
     return changed
 
 
-def filter_complete_condition_groups(windows):
-    """Keep only split/seed/window_t groups with every Phase3 condition present."""
+def filter_complete_condition_groups(windows, conditions):
+    """Keep only split/seed/window_t groups with every requested condition present."""
     groups = {}
     for w in windows:
         key = (w["split_name"], int(w["visible_seed"]), int(w["window_t"]))
         groups.setdefault(key, []).append(w)
     keep = []
-    required = set(CONDITIONS)
+    required = set(conditions)
     for rows in groups.values():
         present = {r["condition_name"] for r in rows}
         if required.issubset(present):
             by_condition = {}
             for r in rows:
                 by_condition.setdefault(r["condition_name"], r)
-            keep.extend(by_condition[c] for c in CONDITIONS)
+            keep.extend(by_condition[c] for c in conditions)
     return keep, len(windows) - len(keep)
+
+
+def max_pair_diff(pair_stats):
+    vals = []
+    for payload in pair_stats.get("by_hidden_condition", {}).values():
+        for field in ["paper_x_max_abs", "state_action_x_max_abs"]:
+            v = payload.get(field, {}).get("max")
+            if v is not None:
+                vals.append(float(v))
+    return max(vals) if vals else None
 
 
 def arr(values, dtype=None):
@@ -106,27 +132,40 @@ def write_canonicalization_report(report_md: Path, summary: dict) -> None:
     lines = [
         "# Phase3 Canonicalization Report",
         "",
-        "Canonicalization is an audit control for the matched-input CCDA premise. It changes only model inputs within paired conditions and never changes future-state targets, action targets, success labels, or condition labels.",
+        "Canonicalization is an audit control for the matched-input CCDA premise. It changes only model inputs within paired conditions and never changes future-state targets, action targets, success labels, condition labels, hidden-contact metadata, or recoverability parameters.",
         "",
         "## Summary",
         "",
         f"- Enabled: `{summary['canonicalization_enabled']}`",
         f"- Rule: `{summary['rule']}`",
+        f"- Conditions: `{', '.join(summary['conditions'])}`",
+        f"- Primary pair: `{summary['primary_branch_pair']}`",
+        f"- Diagnostic pair: `{summary['diagnostic_branch_pair']}`",
         f"- Canonicalized windows: `{summary['num_canonicalized_windows']}`",
         f"- Raw pair count: `{summary['raw_pair_stats']['num_pairs']}`",
         f"- Post pair count: `{summary['post_pair_stats']['num_pairs']}`",
         "",
-        "## Input Differences",
+        "## Input Differences By Hidden Condition",
         "",
-        "| Metric | Raw | Post |",
-        "|---|---:|---:|",
-        f"| mean pair paper_x max abs diff | `{summary['raw_mean_pair_paper_x_max_abs_diff']}` | `{summary['post_mean_pair_paper_x_max_abs_diff']}` |",
-        f"| max pair paper_x max abs diff | `{summary['raw_max_pair_paper_x_max_abs_diff']}` | `{summary['post_max_pair_paper_x_max_abs_diff']}` |",
-        f"| mean pair state_action_x max abs diff | `{summary['raw_mean_pair_state_action_x_max_abs_diff']}` | `{summary['post_mean_pair_state_action_x_max_abs_diff']}` |",
-        f"| max pair state_action_x max abs diff | `{summary['raw_max_pair_state_action_x_max_abs_diff']}` | `{summary['post_max_pair_state_action_x_max_abs_diff']}` |",
-        "",
+        "| Hidden condition | Raw paper max | Raw state_action max | Post paper max | Post state_action max |",
+        "|---|---:|---:|---:|---:|",
     ]
-    report_md.write_text("\n".join(lines))
+    raw = summary["raw_pair_stats"].get("by_hidden_condition", {})
+    post = summary["post_pair_stats"].get("by_hidden_condition", {})
+    for cond in hidden_conditions(summary["conditions"]):
+        r = raw.get(cond, {})
+        q = post.get(cond, {})
+        lines.append(
+            "| `{}` | `{}` | `{}` | `{}` | `{}` |".format(
+                cond,
+                r.get("paper_x_max_abs", {}).get("max"),
+                r.get("state_action_x_max_abs", {}).get("max"),
+                q.get("paper_x_max_abs", {}).get("max"),
+                q.get("state_action_x_max_abs", {}).get("max"),
+            )
+        )
+    lines.append("")
+    report_md.write_text("\n".join(lines) + "\n")
 
 
 def main():
@@ -138,10 +177,21 @@ def main():
     ap.add_argument("--th", type=int, default=3)
     ap.add_argument("--tf", type=int, default=4)
     ap.add_argument("--max_windows_per_episode", type=int, default=0, help="<=0 uses all possible windows; >0 caps windows per episode")
+    ap.add_argument("--conditions", nargs="+", default=None)
+    ap.add_argument("--primary_hidden_condition", default=None)
+    ap.add_argument("--diagnostic_hidden_condition", default="hidden_pin")
     ap.add_argument("--no_canonicalize_paired_inputs", action="store_true")
     args = ap.parse_args()
 
     root = Path(args.root).resolve()
+    conditions = normalize_conditions(args.conditions or os.environ.get("PHASE3_CONDITIONS", "").split() or None)
+    primary_hidden = args.primary_hidden_condition or os.environ.get("PHASE3_PRIMARY_HIDDEN_CONDITION", "hidden_breakaway_pin")
+    diagnostic_hidden = args.diagnostic_hidden_condition or os.environ.get("PHASE3_DIAGNOSTIC_HIDDEN_CONDITION", "hidden_pin")
+    if primary_hidden not in conditions:
+        raise SystemExit(f"[Phase3][FAIL] primary_hidden_condition={primary_hidden} not in conditions={conditions}")
+    if diagnostic_hidden not in conditions:
+        raise SystemExit(f"[Phase3][FAIL] diagnostic_hidden_condition={diagnostic_hidden} not in conditions={conditions}")
+
     out = Path(args.out)
     if not out.is_absolute():
         out = root / out
@@ -156,6 +206,7 @@ def main():
         args.tf,
         codec=None,
         max_windows_per_episode=args.max_windows_per_episode,
+        conditions=conditions,
     )
     heldout_windows, codec, heldout_sources = build_windows_from_dataset(
         "heldout",
@@ -164,6 +215,7 @@ def main():
         args.tf,
         codec=codec,
         max_windows_per_episode=args.max_windows_per_episode,
+        conditions=conditions,
     )
     windows.extend(train_windows)
     windows.extend(heldout_windows)
@@ -171,13 +223,16 @@ def main():
     source_counts.update(heldout_sources)
 
     raw_num_windows = len(windows)
-    windows, dropped_incomplete_condition_groups = filter_complete_condition_groups(windows)
-    raw_pair_stats = paired_input_diff_stats(windows)
+    windows, dropped_incomplete_condition_groups = filter_complete_condition_groups(windows, conditions)
+    raw_pair_stats = paired_input_diff_stats(windows, conditions)
 
     canonicalized_inputs = 0
     if not args.no_canonicalize_paired_inputs:
         canonicalized_inputs = canonicalize_paired_inputs(windows)
-    post_pair_stats = paired_input_diff_stats(windows)
+    post_pair_stats = paired_input_diff_stats(windows, conditions)
+    post_max = max_pair_diff(post_pair_stats)
+    if post_max is None or post_max > 1e-8:
+        raise SystemExit(f"[Phase3][FAIL] paired inputs still differ after canonicalization: post_max={post_max}")
 
     if not windows:
         raise SystemExit("[Phase3][FAIL] no windows built")
@@ -195,31 +250,11 @@ def main():
         raise SystemExit(f"[Phase3][FAIL] train/heldout visible_seed overlap: {train_heldout_seed_overlap[:20]}")
 
     feature_schema = {
-        "paper_x": [
-            "bead_xy_history",
-            "bead_velocity_history",
-            "robot_pose_proxy_history",
-        ],
-        "state_action_x": [
-            "paper_x",
-            "past_action_history_excluding_current_action",
-        ],
-        "y_state": [
-            "future_state_trajectory",
-        ],
-        "y_action": [
-            "current_executable_pick_place_action",
-        ],
-        "forbidden_not_in_x": [
-            "hidden_condition",
-            "hidden_contact_meta",
-            "success",
-            "final_fraction",
-            "condition_id",
-            "condition_name",
-            "ccda_pair_group",
-            "source_file",
-        ],
+        "paper_x": ["bead_xy_history", "bead_velocity_history", "robot_pose_proxy_history"],
+        "state_action_x": ["paper_x", "past_action_history_excluding_current_action"],
+        "y_state": ["future_state_trajectory"],
+        "y_action": ["current_executable_pick_place_action"],
+        "forbidden_not_in_x": list(FORBIDDEN_METADATA_NOT_IN_X),
     }
 
     state_dim = int(windows[0]["y_final_state"].shape[0])
@@ -256,26 +291,34 @@ def main():
 
     canonical_summary = {
         "canonicalization_enabled": not args.no_canonicalize_paired_inputs,
+        "conditions": conditions,
+        "primary_hidden_condition": primary_hidden,
+        "diagnostic_hidden_condition": diagnostic_hidden,
+        "primary_branch_pair": f"free_vs_{primary_hidden}",
+        "diagnostic_branch_pair": f"free_vs_{diagnostic_hidden}",
         "num_canonicalized_windows": int(canonicalized_inputs),
         "rule": "group by split_name, visible_seed, window_t; copy free input to paired hidden branches; targets remain condition-specific",
         "raw_pair_stats": raw_pair_stats,
         "post_pair_stats": post_pair_stats,
-        "raw_mean_pair_paper_x_max_abs_diff": raw_pair_stats["paper_x_max_abs"]["mean"],
-        "raw_max_pair_paper_x_max_abs_diff": raw_pair_stats["paper_x_max_abs"]["max"],
-        "raw_mean_pair_state_action_x_max_abs_diff": raw_pair_stats["state_action_x_max_abs"]["mean"],
-        "raw_max_pair_state_action_x_max_abs_diff": raw_pair_stats["state_action_x_max_abs"]["max"],
-        "post_mean_pair_paper_x_max_abs_diff": post_pair_stats["paper_x_max_abs"]["mean"],
-        "post_max_pair_paper_x_max_abs_diff": post_pair_stats["paper_x_max_abs"]["max"],
-        "post_mean_pair_state_action_x_max_abs_diff": post_pair_stats["state_action_x_max_abs"]["mean"],
-        "post_max_pair_state_action_x_max_abs_diff": post_pair_stats["state_action_x_max_abs"]["max"],
+        "post_max_pair_input_diff": post_max,
     }
 
     meta = {
-        "conditions": CONDITIONS,
+        "conditions": conditions,
+        "primary_hidden_condition": primary_hidden,
+        "diagnostic_hidden_condition": diagnostic_hidden,
+        "primary_branch_pair": f"free_vs_{primary_hidden}",
+        "diagnostic_branch_pair": f"free_vs_{diagnostic_hidden}",
+        "phase2_5_selected_recoverable_condition": primary_hidden,
+        "phase2_5_selected_config": os.environ.get("PHASE2_5_SELECTED_CONFIG", "breakaway_force_2p6_disp_0p045_pull_0p36"),
+        "ccda_breakaway_force": os.environ.get("CCDA_BREAKAWAY_FORCE", "2.6"),
+        "ccda_breakaway_disp": os.environ.get("CCDA_BREAKAWAY_DISP", "0.045"),
+        "ccda_breakaway_bead_ratio": os.environ.get("CCDA_BREAKAWAY_BEAD_RATIO", "0.45"),
+        "ccda_oracle_breakaway_pull_dist": os.environ.get("CCDA_ORACLE_BREAKAWAY_PULL_DIST", "0.36"),
         "num_windows": int(len(windows)),
         "raw_num_windows_before_complete_condition_filter": int(raw_num_windows),
         "dropped_windows_incomplete_condition_groups": int(dropped_incomplete_condition_groups),
-        "complete_condition_filter": "keep only split/visible_seed/window_t groups containing free, hidden_pin, and hidden_high_friction",
+        "complete_condition_filter": "keep only split/visible_seed/window_t groups containing: " + ", ".join(conditions),
         "num_episodes_loaded": int(num_episodes_loaded),
         "num_train_windows": int(np.sum(split_name == "train")),
         "num_heldout_windows": int(np.sum(split_name == "heldout")),
@@ -285,6 +328,7 @@ def main():
         "heldout_visible_seed_count": int(len(heldout_visible_seed_set)),
         "train_heldout_seed_overlap": train_heldout_seed_overlap,
         "feature_schema": feature_schema,
+        "forbidden_metadata_not_in_x": list(FORBIDDEN_METADATA_NOT_IN_X),
         "episode_action_len_min": int(min(action_lens)) if action_lens else None,
         "episode_action_len_mean": float(np.mean(action_lens)) if action_lens else None,
         "episode_action_len_max": int(max(action_lens)) if action_lens else None,

@@ -13,6 +13,7 @@ from pathlib import Path
 import numpy as np
 
 from ccda_phase3.metrics import branch_stats, finite_mean, finite_std, state_chamfer
+from ccda_phase3.data_io import normalize_conditions
 from ccda_phase3.train_utils import load_future_model, load_inverse_model
 
 
@@ -62,9 +63,20 @@ def main():
     ap.add_argument("--out_json", required=True)
     ap.add_argument("--samples_per_prefix", type=int, default=64)
     ap.add_argument("--diffusion_steps", type=int, default=100)
+    ap.add_argument("--conditions", nargs="+", default=None)
+    ap.add_argument("--primary_hidden_condition", default=None)
+    ap.add_argument("--diagnostic_hidden_condition", default=None)
     args = ap.parse_args()
 
     data = np.load(args.data, allow_pickle=True)
+    meta = json.loads(str(data["meta_json"]))
+    conditions = normalize_conditions(args.conditions or meta.get("conditions"))
+    primary_hidden = args.primary_hidden_condition or meta.get("primary_hidden_condition", "hidden_breakaway_pin")
+    diagnostic_hidden = args.diagnostic_hidden_condition or meta.get("diagnostic_hidden_condition", "hidden_pin")
+    if primary_hidden not in conditions:
+        raise SystemExit(f"[Phase3][FAIL] primary_hidden_condition={primary_hidden} not in conditions={conditions}")
+    if diagnostic_hidden not in conditions:
+        raise SystemExit(f"[Phase3][FAIL] diagnostic_hidden_condition={diagnostic_hidden} not in conditions={conditions}")
     split = data["split_name"].astype(str)
     held = np.where(split == "heldout")[0]
     cond_name = data["condition_name"].astype(str)
@@ -136,10 +148,13 @@ def main():
                 ref_key = (str(split[i]), int(visible_seed[i]), int(window_t[i]))
                 ref = refs.get(ref_key, {})
                 has_free_ref = "free" in ref
-                has_pin_ref = "hidden_pin" in ref
-                if has_free_ref and has_pin_ref:
+                has_primary_ref = primary_hidden in ref
+                has_diagnostic_ref = diagnostic_hidden in ref
+                has_pin_ref = has_diagnostic_ref if diagnostic_hidden == "hidden_pin" else ("hidden_pin" in ref)
+                if has_free_ref and has_primary_ref:
                     num_valid_primary_branch_refs += 1
-                    bs = branch_stats(samples_final, y_final[i], ref["free"], ref["hidden_pin"], str(cond_name[i]), n_beads)
+                    branch_condition_label = "hidden_pin" if str(cond_name[i]) == primary_hidden else str(cond_name[i])
+                    bs = branch_stats(samples_final, y_final[i], ref["free"], ref[primary_hidden], branch_condition_label, n_beads)
                 else:
                     num_missing_primary_branch_refs += 1
                     bs = missing_branch_stats(samples_final, y_final[i], n_beads)
@@ -170,12 +185,18 @@ def main():
                     "branch_reference_mode": BRANCH_REFERENCE_MODE,
                     "ref_key": f"{split[i]}_{visible_seed[i]}_{window_t[i]}",
                     "has_free_ref": bool(has_free_ref),
+                    "has_primary_ref": bool(has_primary_ref),
+                    "has_diagnostic_ref": bool(has_diagnostic_ref),
                     "has_pin_ref": bool(has_pin_ref),
                     "condition": str(cond_name[i]),
                     "visible_seed": int(visible_seed[i]),
                     "source_file": str(data["source_file"][i]),
                     "window_t": int(window_t[i]),
-                    "primary_pair": "free_vs_hidden_pin",
+                    "conditions": " ".join(conditions),
+                    "primary_hidden_condition": primary_hidden,
+                    "diagnostic_hidden_condition": diagnostic_hidden,
+                    "primary_pair": f"free_vs_{primary_hidden}",
+                    "diagnostic_pair": f"free_vs_{diagnostic_hidden}",
                     "heldout": True,
                     "future_chamfer_to_true": bs["future_chamfer_to_true"],
                     "final_chamfer_to_true": state_chamfer(np.mean(samples_final, axis=0), y_final[i], n_beads),
@@ -185,6 +206,7 @@ def main():
                     "curve_error": bs["curve_error"],
                     "p_free_branch": bs["p_free_branch"],
                     "p_pin_branch": bs["p_pin_branch"],
+                    "p_primary_hidden_branch": bs["p_pin_branch"],
                     "sample_wrong_branch_rate": bs["sample_wrong_branch_rate"],
                     "majority_wrong_branch": bs["majority_wrong_branch"],
                     "branch_entropy": bs["branch_entropy"],
@@ -242,6 +264,11 @@ def main():
         "summary_rows": summary_rows,
         "backends_seen": dict(backends),
         "all_torch_backend": bool(rows) and set(backends.keys()) == {"torch"},
+        "conditions": conditions,
+        "primary_hidden_condition": primary_hidden,
+        "diagnostic_hidden_condition": diagnostic_hidden,
+        "primary_branch_pair": f"free_vs_{primary_hidden}",
+        "diagnostic_branch_pair": f"free_vs_{diagnostic_hidden}",
         "branch_reference_mode": BRANCH_REFERENCE_MODE,
         "num_missing_primary_branch_refs": int(num_missing_primary_branch_refs),
         "num_valid_primary_branch_refs": int(num_valid_primary_branch_refs),
@@ -265,6 +292,9 @@ def main():
         "backends_seen": dict(backends),
         "future_model_types_seen": dict(future_model_types_seen),
         "all_ddpm_used": summary["all_ddpm_used"],
+        "conditions": conditions,
+        "primary_hidden_condition": primary_hidden,
+        "diagnostic_hidden_condition": diagnostic_hidden,
         "num_missing_primary_branch_refs": num_missing_primary_branch_refs,
         "scheduler_type_counts": dict(scheduler_type_counts),
         "beta_schedule_counts": dict(beta_schedule_counts),

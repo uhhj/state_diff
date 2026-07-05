@@ -8,10 +8,50 @@ import numpy as np
 
 from .action_codec import ActionCodec, ExecutableActionCodec
 
-CONDITIONS = ["free", "hidden_pin", "hidden_high_friction"]
-CONDITION_TO_ID = {name: i for i, name in enumerate(CONDITIONS)}
+DEFAULT_CONDITIONS = ["free", "hidden_pin", "hidden_high_friction", "hidden_breakaway_pin"]
+CONDITIONS = list(DEFAULT_CONDITIONS)
+FORBIDDEN_METADATA_NOT_IN_X = [
+    "hidden_condition",
+    "hidden_contact_meta",
+    "recoverability_params",
+    "recoverability_class_candidate",
+    "breakaway_released",
+    "breakaway_release_step",
+    "breakaway_step",
+    "breakaway_threshold",
+    "breakaway_max_disp_seen",
+    "condition_id",
+    "condition_name",
+    "condition_label",
+    "condition_id_onehot",
+    "success",
+    "final_fraction",
+    "ccda_pair_group",
+    "pair_group",
+    "source_file",
+    "visible_seed",
+    "ccda_visible_seed",
+]
 ROBOT_PROXY_MAX_JOINTS = 16
 ROBOT_PROXY_DIM = ROBOT_PROXY_MAX_JOINTS * 2 + 3 + 4
+
+
+def normalize_conditions(conditions: Optional[Iterable[str]] = None) -> List[str]:
+    if conditions is None:
+        return list(DEFAULT_CONDITIONS)
+    out: List[str] = []
+    for item in conditions:
+        for part in str(item).replace(",", " ").split():
+            part = part.strip()
+            if part and part not in out:
+                out.append(part)
+    if "free" not in out:
+        raise ValueError("Phase3 condition list must include free")
+    return out
+
+
+def condition_to_id_map(conditions: Optional[Iterable[str]] = None) -> Dict[str, int]:
+    return {name: i for i, name in enumerate(normalize_conditions(conditions))}
 
 
 def load_pickle(path: Path) -> Any:
@@ -100,7 +140,7 @@ def visible_seed_from_extras(ex: Dict[str, Any]) -> int:
         return int(digits) if digits else -1
 
 
-def load_episode(condition: str, condition_dir: Path, file_name: str, codec: Optional[ActionCodec] = None) -> Dict[str, Any]:
+def load_episode(condition: str, condition_dir: Path, file_name: str, codec: Optional[ActionCodec] = None, condition_to_id: Optional[Dict[str, int]] = None) -> Dict[str, Any]:
     condition_dir = Path(condition_dir)
     info_list = load_pickle(condition_dir / "info" / file_name)
     last_info = load_pickle(condition_dir / "last_info" / file_name)
@@ -137,7 +177,7 @@ def load_episode(condition: str, condition_dir: Path, file_name: str, codec: Opt
         final_fraction = last_ex.get("total_rewards", None)
     return {
         "condition": condition,
-        "condition_id": CONDITION_TO_ID[condition],
+        "condition_id": (condition_to_id or condition_to_id_map())[condition],
         "file_name": file_name,
         "episode_len": parse_ep_len(file_name),
         "visible_seed": visible_seed_from_extras(first_ex or last_ex),
@@ -203,14 +243,16 @@ def condition_files(condition_dir: Path) -> List[str]:
     return [p.name for p in sorted(color_dir.glob("*.pkl"))]
 
 
-def build_windows_from_dataset(split_name: str, data_root: Path, th: int, tf: int, codec: Optional[ActionCodec] = None, max_windows_per_episode: int = 0) -> Tuple[List[Dict[str, Any]], Optional[ActionCodec], Counter]:
+def build_windows_from_dataset(split_name: str, data_root: Path, th: int, tf: int, codec: Optional[ActionCodec] = None, max_windows_per_episode: int = 0, conditions: Optional[Iterable[str]] = None) -> Tuple[List[Dict[str, Any]], Optional[ActionCodec], Counter]:
     data_root = Path(data_root)
     windows: List[Dict[str, Any]] = []
     source_counts: Counter = Counter()
-    for condition in CONDITIONS:
+    active_conditions = normalize_conditions(conditions)
+    condition_to_id = condition_to_id_map(active_conditions)
+    for condition in active_conditions:
         cond_dir = data_root / condition
         for file_name in condition_files(cond_dir):
-            ep = load_episode(condition, cond_dir, file_name, codec=codec)
+            ep = load_episode(condition, cond_dir, file_name, codec=codec, condition_to_id=condition_to_id)
             codec = ep["codec"]
             states = ep["states"]
             raw_actions = ep.get("raw_actions", [])

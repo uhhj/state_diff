@@ -4,13 +4,53 @@
   "branch_reference_mode": "split_visible_seed_window_t",
   "canonicalization_summary": {
     "canonicalization_enabled": true,
-    "num_canonicalized_windows": 50,
-    "post_max_pair_paper_x_max_abs_diff": 0.0,
-    "post_max_pair_state_action_x_max_abs_diff": 0.0,
-    "post_mean_pair_paper_x_max_abs_diff": 0.0,
-    "post_mean_pair_state_action_x_max_abs_diff": 0.0,
+    "conditions": [
+      "free",
+      "hidden_pin",
+      "hidden_high_friction",
+      "hidden_breakaway_pin"
+    ],
+    "diagnostic_branch_pair": "free_vs_hidden_pin",
+    "diagnostic_hidden_condition": "hidden_pin",
+    "num_canonicalized_windows": 717,
+    "post_max_pair_input_diff": 0.0,
     "post_pair_stats": {
-      "num_pairs": 50,
+      "by_hidden_condition": {
+        "hidden_breakaway_pin": {
+          "num_pairs": 239,
+          "paper_x_max_abs": {
+            "max": 0.0,
+            "mean": 0.0
+          },
+          "state_action_x_max_abs": {
+            "max": 0.0,
+            "mean": 0.0
+          }
+        },
+        "hidden_high_friction": {
+          "num_pairs": 239,
+          "paper_x_max_abs": {
+            "max": 0.0,
+            "mean": 0.0
+          },
+          "state_action_x_max_abs": {
+            "max": 0.0,
+            "mean": 0.0
+          }
+        },
+        "hidden_pin": {
+          "num_pairs": 239,
+          "paper_x_max_abs": {
+            "max": 0.0,
+            "mean": 0.0
+          },
+          "state_action_x_max_abs": {
+            "max": 0.0,
+            "mean": 0.0
+          }
+        }
+      },
+      "num_pairs": 717,
       "paper_x_max_abs": {
         "max": 0.0,
         "mean": 0.0
@@ -20,35 +60,87 @@
         "mean": 0.0
       }
     },
-    "raw_max_pair_paper_x_max_abs_diff": 1.905490756034851,
-    "raw_max_pair_state_action_x_max_abs_diff": 1.905490756034851,
-    "raw_mean_pair_paper_x_max_abs_diff": 0.12923611821956002,
-    "raw_mean_pair_state_action_x_max_abs_diff": 0.12923611821956002,
+    "primary_branch_pair": "free_vs_hidden_breakaway_pin",
+    "primary_hidden_condition": "hidden_breakaway_pin",
     "raw_pair_stats": {
-      "num_pairs": 50,
+      "by_hidden_condition": {
+        "hidden_breakaway_pin": {
+          "num_pairs": 239,
+          "paper_x_max_abs": {
+            "max": 1.9388586282730103,
+            "mean": 0.16202918443829795
+          },
+          "state_action_x_max_abs": {
+            "max": 1.9388586282730103,
+            "mean": 0.1620836615015433
+          }
+        },
+        "hidden_high_friction": {
+          "num_pairs": 239,
+          "paper_x_max_abs": {
+            "max": 1.9335333108901978,
+            "mean": 0.1143710808572749
+          },
+          "state_action_x_max_abs": {
+            "max": 1.9335333108901978,
+            "mean": 0.11439525570002458
+          }
+        },
+        "hidden_pin": {
+          "num_pairs": 239,
+          "paper_x_max_abs": {
+            "max": 1.942394733428955,
+            "mean": 0.3064925776883204
+          },
+          "state_action_x_max_abs": {
+            "max": 1.942394733428955,
+            "mean": 0.3077586196225612
+          }
+        }
+      },
+      "num_pairs": 717,
       "paper_x_max_abs": {
-        "max": 1.905490756034851,
-        "mean": 0.12923611821956002
+        "max": 1.942394733428955,
+        "mean": 0.1942976143279644
       },
       "state_action_x_max_abs": {
-        "max": 1.905490756034851,
-        "mean": 0.12923611821956002
+        "max": 1.942394733428955,
+        "mean": 0.19474584560804303
       }
     },
     "rule": "group by split_name, visible_seed, window_t; copy free input to paired hidden branches; targets remain condition-specific"
   },
   "complete_condition_groups": true,
+  "conditions": [
+    "free",
+    "hidden_pin",
+    "hidden_high_friction",
+    "hidden_breakaway_pin"
+  ],
+  "diagnostic_hidden_condition": "hidden_pin",
   "eval_summary_missing_branch_refs": 0,
   "feature_schema": {
     "forbidden_not_in_x": [
       "hidden_condition",
       "hidden_contact_meta",
-      "success",
-      "final_fraction",
+      "recoverability_params",
+      "recoverability_class_candidate",
+      "breakaway_released",
+      "breakaway_release_step",
+      "breakaway_step",
+      "breakaway_threshold",
+      "breakaway_max_disp_seen",
       "condition_id",
       "condition_name",
+      "condition_label",
+      "condition_id_onehot",
+      "success",
+      "final_fraction",
       "ccda_pair_group",
-      "source_file"
+      "pair_group",
+      "source_file",
+      "visible_seed",
+      "ccda_visible_seed"
     ],
     "paper_x": [
       "bead_xy_history",
@@ -67,35 +159,125 @@
     ]
   },
   "forbidden_not_in_x": [
+    "breakaway_max_disp_seen",
+    "breakaway_release_step",
+    "breakaway_released",
+    "breakaway_step",
+    "breakaway_threshold",
     "ccda_pair_group",
+    "ccda_visible_seed",
     "condition_id",
+    "condition_id_onehot",
+    "condition_label",
     "condition_name",
     "final_fraction",
     "hidden_condition",
     "hidden_contact_meta",
+    "pair_group",
+    "recoverability_class_candidate",
+    "recoverability_params",
     "source_file",
-    "success"
+    "success",
+    "visible_seed"
   ],
-  "heldout_visible_seed_count": 6,
+  "heldout_visible_seed_count": 30,
   "input_leakage_pass": true,
   "input_leakage_summary": {
     "condition_leakage_fail": false,
-    "free_vs_pin_probe_acc": 0.5,
-    "pair_consistency": {
+    "conditions": [
+      "free",
+      "hidden_pin",
+      "hidden_high_friction",
+      "hidden_breakaway_pin"
+    ],
+    "diagnostic_branch_pair": "free_vs_hidden_pin",
+    "diagnostic_hidden_condition": "hidden_pin",
+    "diagnostic_pair_consistency": {
       "max_pair_paper_x_max_abs_diff": 0.0,
       "max_pair_state_action_x_max_abs_diff": 0.0,
       "mean_pair_paper_x_max_abs_diff": 0.0,
       "mean_pair_state_action_x_max_abs_diff": 0.0,
-      "num_pairs": 7
+      "num_pairs": 47
+    },
+    "forbidden_metadata_schema_check": {
+      "forbidden_count": 20,
+      "forbidden_names_present_in_x_schema": [],
+      "missing_required_forbidden_entries": [],
+      "pass": true
+    },
+    "free_vs_diagnostic_probe_acc": 0.5,
+    "free_vs_pin_probe_acc": 0.5,
+    "free_vs_primary_probe_acc": 0.5,
+    "pair_consistency": {
+      "by_hidden_condition": {
+        "hidden_breakaway_pin": {
+          "max_pair_paper_x_max_abs_diff": 0.0,
+          "max_pair_state_action_x_max_abs_diff": 0.0,
+          "mean_pair_paper_x_max_abs_diff": 0.0,
+          "mean_pair_state_action_x_max_abs_diff": 0.0,
+          "num_pairs": 47
+        },
+        "hidden_high_friction": {
+          "max_pair_paper_x_max_abs_diff": 0.0,
+          "max_pair_state_action_x_max_abs_diff": 0.0,
+          "mean_pair_paper_x_max_abs_diff": 0.0,
+          "mean_pair_state_action_x_max_abs_diff": 0.0,
+          "num_pairs": 47
+        },
+        "hidden_pin": {
+          "max_pair_paper_x_max_abs_diff": 0.0,
+          "max_pair_state_action_x_max_abs_diff": 0.0,
+          "mean_pair_paper_x_max_abs_diff": 0.0,
+          "mean_pair_state_action_x_max_abs_diff": 0.0,
+          "num_pairs": 47
+        }
+      },
+      "max_pair_paper_x_max_abs_diff": 0.0,
+      "max_pair_state_action_x_max_abs_diff": 0.0,
+      "mean_pair_paper_x_max_abs_diff": 0.0,
+      "mean_pair_state_action_x_max_abs_diff": 0.0,
+      "num_pairs": 141
+    },
+    "pair_consistency_by_hidden_condition": {
+      "hidden_breakaway_pin": {
+        "max_pair_paper_x_max_abs_diff": 0.0,
+        "max_pair_state_action_x_max_abs_diff": 0.0,
+        "mean_pair_paper_x_max_abs_diff": 0.0,
+        "mean_pair_state_action_x_max_abs_diff": 0.0,
+        "num_pairs": 47
+      },
+      "hidden_high_friction": {
+        "max_pair_paper_x_max_abs_diff": 0.0,
+        "max_pair_state_action_x_max_abs_diff": 0.0,
+        "mean_pair_paper_x_max_abs_diff": 0.0,
+        "mean_pair_state_action_x_max_abs_diff": 0.0,
+        "num_pairs": 47
+      },
+      "hidden_pin": {
+        "max_pair_paper_x_max_abs_diff": 0.0,
+        "max_pair_state_action_x_max_abs_diff": 0.0,
+        "mean_pair_paper_x_max_abs_diff": 0.0,
+        "mean_pair_state_action_x_max_abs_diff": 0.0,
+        "num_pairs": 47
+      }
     },
     "pair_consistency_pass": true,
-    "paper_x_condition_probe_acc": 0.3333333333333333,
-    "paper_x_success_probe_acc": 0.5714285714285714,
+    "paper_x_condition_probe_acc": 0.25,
+    "paper_x_success_probe_acc": 0.4627659574468085,
     "pass": true,
-    "robot_pose_proxy_source_counts": {
-      "pybullet_robot_body": 1096
+    "primary_branch_pair": "free_vs_hidden_breakaway_pin",
+    "primary_hidden_condition": "hidden_breakaway_pin",
+    "primary_pair_consistency": {
+      "max_pair_paper_x_max_abs_diff": 0.0,
+      "max_pair_state_action_x_max_abs_diff": 0.0,
+      "mean_pair_paper_x_max_abs_diff": 0.0,
+      "mean_pair_state_action_x_max_abs_diff": 0.0,
+      "num_pairs": 47
     },
-    "state_action_x_condition_probe_acc": 0.3333333333333333,
+    "robot_pose_proxy_source_counts": {
+      "pybullet_robot_body": 13471
+    },
+    "state_action_x_condition_probe_acc": 0.25,
     "warning_high_probe_accuracy": false
   },
   "issues": [
@@ -110,54 +292,55 @@
       "name": "mlp_denoiser_not_conditional_unet1d"
     },
     {
-      "detail": "raw_max_pair_paper_x_max_abs_diff=1.905490756034851; acceptable as matched-input audit control.",
+      "detail": "raw_max_pair_paper_x_max_abs_diff=1.942394733428955; acceptable as matched-input audit control.",
       "level": "WARN",
       "name": "canonicalization_strong_intervention"
     }
   ],
   "missing_branch_refs": 0,
-  "num_condition_groups": 25,
+  "num_condition_groups": 239,
   "num_incomplete_condition_groups": 0,
-  "num_prediction_rows": 84,
+  "num_prediction_rows": 2256,
   "prediction_metadata_counts": {
     "beta_schedule": {
-      "squaredcos_cap_v2": 84
+      "squaredcos_cap_v2": 2256
     },
     "branch_reference_mode": {
-      "split_visible_seed_window_t": 84
+      "split_visible_seed_window_t": 2256
     },
     "conditional_unet1d_used": {
-      "false": 84
+      "false": 2256
     },
     "ddpm_used": {
-      "true": 84
+      "true": 2256
     },
     "denoiser_arch": {
-      "mlp": 84
+      "mlp": 2256
     },
     "eval_sample_seed_mode": {
-      "paired_shared_visible_seed": 84
+      "paired_shared_visible_seed": 2256
     },
     "future_model_type": {
-      "torch_conditional_ddpm_future_state": 84
+      "torch_conditional_ddpm_future_state": 2256
     },
     "paper_alignment_level": {
-      "ddpm_scheduler_aligned_mlp_denoiser": 84
+      "ddpm_scheduler_aligned_mlp_denoiser": 2256
     },
     "prediction_type": {
-      "epsilon": 84
+      "epsilon": 2256
     },
     "scheduler_type": {
-      "diffusers.DDPMScheduler": 84
+      "diffusers.DDPMScheduler": 2256
     },
     "training_backend": {
-      "torch": 84
+      "torch": 2256
     },
     "variance_type": {
-      "fixed_small": 84
+      "fixed_small": 2256
     }
   },
+  "primary_hidden_condition": "hidden_breakaway_pin",
   "train_heldout_seed_overlap": [],
-  "train_visible_seed_count": 10,
+  "train_visible_seed_count": 100,
   "verdict": "WARN"
 }
