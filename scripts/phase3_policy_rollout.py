@@ -6,6 +6,7 @@ import json
 import os
 import random
 import sys
+import time
 import types
 from collections import defaultdict
 from pathlib import Path
@@ -29,9 +30,9 @@ SELECTED_RECOVERABLE_CONFIG = "breakaway_force_2p6_disp_0p045_pull_0p36"
 
 def require_rollout_gates() -> None:
     if os.environ.get("PHASE3_ALLOW_ROLLOUT", "0") != "1":
-        raise SystemExit("[Phase3.2][BLOCKED] Set PHASE3_ALLOW_ROLLOUT=1 to run rollout.")
+        raise SystemExit("[Phase3.4][BLOCKED] Set PHASE3_ALLOW_ROLLOUT=1 to run rollout.")
     if os.environ.get("PHASE3_ROLLOUT_CONFIRMED", "0") != "1":
-        raise SystemExit("[Phase3.2][BLOCKED] Set PHASE3_ROLLOUT_CONFIRMED=1 after user approval.")
+        raise SystemExit("[Phase3.4][BLOCKED] Set PHASE3_ROLLOUT_CONFIRMED=1 after user approval.")
 
 
 FORBIDDEN_ROLLOUT_PREFIXES = ["tensorflow", "ravens.agents", "ravens.models", "ravens.datasets"]
@@ -83,6 +84,7 @@ def require_runtime(root: Path):
             missing.append(f"{name}: {repr(exc)}")
     if missing:
         raise SystemExit("[Phase3.3b][FAIL] Rollout runtime missing dependencies: " + "; ".join(missing))
+    patch_pybullet_pkg_resources_metadata()
     try:
         tasks, Environment = import_ravens_runtime(root)
     except Exception as exc:
@@ -92,11 +94,60 @@ def require_runtime(root: Path):
     return tasks, Environment
 
 
+
+
+def patch_pybullet_pkg_resources_metadata() -> None:
+    # DeformableRavens Environment checks pkg_resources.get_distribution("pybullet").
+    # In coord_bimanual, pybullet is importable but may lack setuptools distribution metadata.
+    # Provide the version expected by the original environment check without installing packages.
+    try:
+        import pkg_resources
+        pkg_resources.get_distribution("pybullet")
+        return
+    except Exception:
+        pass
+    import pkg_resources
+
+    original_get_distribution = pkg_resources.get_distribution
+
+    class _PyBulletDistribution:
+        version = "3.0.4"
+
+    def _patched_get_distribution(dist):
+        if str(dist) == "pybullet":
+            return _PyBulletDistribution()
+        return original_get_distribution(dist)
+
+    pkg_resources.get_distribution = _patched_get_distribution
+
+
 def set_selected_recoverable_env_defaults() -> None:
     os.environ.setdefault("CCDA_BREAKAWAY_FORCE", "2.6")
     os.environ.setdefault("CCDA_BREAKAWAY_DISP", "0.045")
     os.environ.setdefault("CCDA_BREAKAWAY_BEAD_RATIO", "0.45")
     os.environ.setdefault("CCDA_ORACLE_BREAKAWAY_PULL_DIST", "0.36")
+
+
+def close_env_safely(env: Any) -> None:
+    # Pause the upstream daemon simulation loop before disconnecting PyBullet.
+    # This avoids post-disconnect background thread exceptions in Phase3.4 logs.
+    try:
+        env.pause()
+    except Exception:
+        pass
+    try:
+        env.running = False
+    except Exception:
+        pass
+    try:
+        env.ee = None
+    except Exception:
+        pass
+    time.sleep(0.05)
+    try:
+        env.stop()
+    except Exception:
+        pass
 
 
 def load_windows_meta(path: Path) -> Tuple[Any, Dict[str, Any]]:
@@ -115,37 +166,37 @@ def load_windows_meta(path: Path) -> Tuple[Any, Dict[str, Any]]:
 def validate_rollout_inputs(args: argparse.Namespace, root: Path) -> Tuple[Any, Dict[str, Any], Path]:
     conditions = list(dict.fromkeys(args.conditions))
     if conditions != REQUIRED_CONDITIONS:
-        raise SystemExit(f"[Phase3.2][FAIL] rollout conditions must be exactly {REQUIRED_CONDITIONS}, got {conditions}")
+        raise SystemExit(f"[Phase3.4][FAIL] rollout conditions must be exactly {REQUIRED_CONDITIONS}, got {conditions}")
     if args.primary_hidden_condition != PRIMARY_HIDDEN:
-        raise SystemExit(f"[Phase3.2][FAIL] primary hidden condition must be {PRIMARY_HIDDEN}, got {args.primary_hidden_condition}")
+        raise SystemExit(f"[Phase3.4][FAIL] primary hidden condition must be {PRIMARY_HIDDEN}, got {args.primary_hidden_condition}")
     if args.diagnostic_hidden_condition != DIAGNOSTIC_HIDDEN:
-        raise SystemExit(f"[Phase3.2][FAIL] diagnostic hidden condition must be {DIAGNOSTIC_HIDDEN}, got {args.diagnostic_hidden_condition}")
+        raise SystemExit(f"[Phase3.4][FAIL] diagnostic hidden condition must be {DIAGNOSTIC_HIDDEN}, got {args.diagnostic_hidden_condition}")
 
     windows = Path(args.windows)
     if not windows.is_absolute():
         windows = root / windows
     if not windows.exists():
-        raise SystemExit(f"[Phase3.2][FAIL] windows file missing: {windows}")
+        raise SystemExit(f"[Phase3.4][FAIL] windows file missing: {windows}")
 
     data, meta = load_windows_meta(windows)
     if meta.get("conditions") != REQUIRED_CONDITIONS:
-        raise SystemExit(f"[Phase3.2][FAIL] windows conditions mismatch: {meta.get('conditions')}")
+        raise SystemExit(f"[Phase3.4][FAIL] windows conditions mismatch: {meta.get('conditions')}")
     if meta.get("primary_hidden_condition") != args.primary_hidden_condition:
-        raise SystemExit(f"[Phase3.2][FAIL] windows primary mismatch: {meta.get('primary_hidden_condition')}")
+        raise SystemExit(f"[Phase3.4][FAIL] windows primary mismatch: {meta.get('primary_hidden_condition')}")
     if meta.get("diagnostic_hidden_condition") != args.diagnostic_hidden_condition:
-        raise SystemExit(f"[Phase3.2][FAIL] windows diagnostic mismatch: {meta.get('diagnostic_hidden_condition')}")
+        raise SystemExit(f"[Phase3.4][FAIL] windows diagnostic mismatch: {meta.get('diagnostic_hidden_condition')}")
     if "y_action" not in data or data["y_action"].shape[1] != 14:
         shape = data["y_action"].shape if "y_action" in data else None
-        raise SystemExit(f"[Phase3.2][FAIL] y_action dim must be 14, got {shape}")
+        raise SystemExit(f"[Phase3.4][FAIL] y_action dim must be 14, got {shape}")
     if int(data["action_dim"]) != 14:
-        raise SystemExit(f"[Phase3.2][FAIL] action_dim must be 14, got {int(data['action_dim'])}")
+        raise SystemExit(f"[Phase3.4][FAIL] action_dim must be 14, got {int(data['action_dim'])}")
 
     template_path = Path(str(data["action_template_json_or_pickle_path"]))
     codec = load_action_codec_from_template(template_path)
     if codec.dim() != 14:
-        raise SystemExit(f"[Phase3.2][FAIL] action codec dim must be 14, got {codec.dim()}")
+        raise SystemExit(f"[Phase3.4][FAIL] action codec dim must be 14, got {codec.dim()}")
     if codec.summary().get("num_camera_config_paths") != 0:
-        raise SystemExit(f"[Phase3.2][FAIL] action codec encodes camera_config: {codec.summary()}")
+        raise SystemExit(f"[Phase3.4][FAIL] action codec encodes camera_config: {codec.summary()}")
     return data, meta, template_path
 
 
@@ -222,15 +273,17 @@ def write_outputs(trials: List[Dict[str, Any]], out_csv: Path, out_json: Path, o
         "primary_pair": primary_pair,
         "diagnostic_pair": diagnostic_pair,
         "selected_recoverable_config": args.selected_recoverable_config,
-        "rollout_runtime": "learned_policy",
+        "rollout_runtime": "tf_free_learned_policy",
+        "scope": "phase3_4_rollout_smoke_only_no_phase4_no_cps",
         "summary_rows": summary_rows,
         "success_gaps_by_baseline": gaps,
         "interpretation": "Rollout smoke only. This is not Phase4 or CPS evidence.",
     }
+    assert_no_tensorflow_loaded("before_summary_write")
     out_json.write_text(json.dumps(summary, indent=2, sort_keys=True))
 
     lines = [
-        "# Phase3.2 Rollout Smoke Report",
+        "# Phase3.4 Rollout Smoke Report",
         "",
         "## Scope",
         "",
@@ -294,7 +347,7 @@ def main() -> None:
     args = parser.parse_args()
 
     if args.allow_numpy_fallback:
-        raise SystemExit("[Phase3.2][FAIL] NumPy fallback is not allowed for learned rollout.")
+        raise SystemExit("[Phase3.4][FAIL] NumPy fallback is not allowed for learned rollout.")
 
     root = Path(args.root).resolve()
     require_rollout_gates()
@@ -334,7 +387,7 @@ def main() -> None:
                 np.random.seed(visible_seed)
                 os.environ["CCDA_HIDDEN_CONDITION"] = condition
                 os.environ["CCDA_VISIBLE_SEED"] = str(visible_seed)
-                os.environ["CCDA_PAIR_GROUP"] = f"phase3_2_rollout_seed_{visible_seed}"
+                os.environ["CCDA_PAIR_GROUP"] = f"phase3_4_rollout_seed_{visible_seed}"
 
                 task = tasks.names["hidden-contact-cable-line"]()
                 task.mode = "train"
@@ -352,6 +405,7 @@ def main() -> None:
                 final_curve = float("nan")
 
                 try:
+                    assert_no_tensorflow_loaded("before_rollout_loop")
                     env.reset(task)
                     reward_extras = task.reward()[1]
                     info = env.info
@@ -360,10 +414,9 @@ def main() -> None:
                     prev_xy = None
                     done = False
                     for step in range(int(args.max_steps)):
-                        # WARNING:
-                        # The rollout policy input is built from observable state history and past action history only.
-                        # Do not concatenate hidden condition, hidden_contact_meta, recoverability_params,
-                        # breakaway release fields, success labels, or final_fraction.
+                        # Policy input must use observable bead/proprio history and past action history only.
+                        # Do not concatenate condition labels, hidden_contact_meta, recoverability params,
+                        # breakaway release fields, success labels, final_fraction, or future labels.
                         state = state_from_live_info(info, prev_xy=prev_xy)
                         prev_xy = state[: n_beads * 2].reshape(n_beads, 2)
                         state_hist.append(state)
@@ -399,10 +452,7 @@ def main() -> None:
                 except Exception as exc:
                     failure = repr(exc)
                 finally:
-                    try:
-                        env.stop()
-                    except Exception:
-                        pass
+                    close_env_safely(env)
 
                 row = {
                     "baseline": baseline,
@@ -422,10 +472,10 @@ def main() -> None:
                     "primary_pair": primary_pair,
                     "diagnostic_pair": diagnostic_pair,
                     "selected_recoverable_config": args.selected_recoverable_config,
-                    "rollout_runtime": "learned_policy",
+                    "rollout_runtime": "tf_free_learned_policy",
                 }
                 trials.append(row)
-                print("[Phase3.2] rollout", row, flush=True)
+                print("[Phase3.4] rollout", row, flush=True)
 
     out_csv = Path(args.out_csv)
     out_json = Path(args.out_json)
@@ -437,9 +487,9 @@ def main() -> None:
     if not out_md.is_absolute():
         out_md = root / out_md
     write_outputs(trials, out_csv, out_json, out_md, args)
-    print("[Phase3.2] wrote", out_csv)
-    print("[Phase3.2] wrote", out_json)
-    print("[Phase3.2] wrote", out_md)
+    print("[Phase3.4] wrote", out_csv)
+    print("[Phase3.4] wrote", out_json)
+    print("[Phase3.4] wrote", out_md)
 
 
 if __name__ == "__main__":

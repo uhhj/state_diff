@@ -1,0 +1,156 @@
+{
+  "action_template": {
+    "class": "ExecutableActionCodec",
+    "dim": 14,
+    "exists": true,
+    "num_camera_config_paths": 0,
+    "num_paths": 14
+  },
+  "checkpoint_summary": {
+    "paper_state": {
+      "exists": true,
+      "first_complete": "/data/state_diff2/checkpoints/phase3/paper_state/fold_0_seed_0",
+      "num_complete": 6
+    },
+    "state_action": {
+      "exists": true,
+      "first_complete": "/data/state_diff2/checkpoints/phase3/state_action/fold_0_seed_0",
+      "num_complete": 6
+    }
+  },
+  "checks": {
+    "action_template_dim_14": true,
+    "action_template_exists": true,
+    "action_template_no_camera_config": true,
+    "forbidden_modules_not_loaded_after_imports": true,
+    "import_numpy": true,
+    "import_pybullet": true,
+    "import_ravens_environment": true,
+    "import_ravens_tasks": true,
+    "import_torch": true,
+    "paper_state_checkpoints_exist": true,
+    "phase33b_pass": true,
+    "rollout_script_hazard_free": true,
+    "running_in_coord_bimanual": true,
+    "state_action_checkpoints_exist": true,
+    "task_conditions_exact_or_superset": true,
+    "task_has_hidden_breakaway_pin": true,
+    "task_instantiates": true,
+    "task_registered": true,
+    "windows_conditions_match": true,
+    "windows_diagnostic_match": true,
+    "windows_loadable": true,
+    "windows_primary_match": true,
+    "y_action_dim_14": true
+  },
+  "conda_env": "coord_bimanual",
+  "forbidden_loaded": [],
+  "git": {
+    "branch": "Experiment1",
+    "head": "0f825485c173cedd42a1c9810603f85966622f76",
+    "origin_experiment1": "0f825485c173cedd42a1c9810603f85966622f76",
+    "status": " M scripts/phase3_policy_rollout.py\n?? reports/phase3_4_rollout_preflight_report.md\n?? reports/phase3_4_rollout_preflight_summary.json\n?? reports/phase3_4_rollout_smoke_runtime_config.md\n?? reports/phase3_4_rollout_smoke_start_audit.md\n?? scripts/phase3_4_rollout_preflight.py\n?? scripts/phase3_4_rollout_result_audit.py\n?? scripts/phase3_4_run_rollout_smoke.sh\n",
+    "submodule": "388a3f5582c8fdffaecb06448f285d693a45b83c external/deformable-ravens (heads/ccda-cable)"
+  },
+  "imports": {
+    "numpy": {
+      "error": null,
+      "ok": true,
+      "version": "1.23.3"
+    },
+    "pybullet": {
+      "error": null,
+      "ok": true,
+      "version": "unknown"
+    },
+    "ravens.environment": {
+      "error": null,
+      "ok": true,
+      "version": "unknown"
+    },
+    "ravens.tasks": {
+      "error": null,
+      "ok": true,
+      "version": "unknown"
+    },
+    "torch": {
+      "error": null,
+      "ok": true,
+      "version": "1.12.1.post200"
+    }
+  },
+  "issues": [],
+  "python": "/miniforge3/envs/coord_bimanual/bin/python",
+  "shapes": {
+    "action_dim": [],
+    "action_template_json_or_pickle_path": [],
+    "condition_id": [
+      956
+    ],
+    "condition_name": [
+      956
+    ],
+    "episode_action_len": [
+      956
+    ],
+    "final_fraction": [
+      956
+    ],
+    "meta_json": [],
+    "n_beads": [],
+    "paper_x": [
+      956,
+      405
+    ],
+    "robot_pose_dim": [],
+    "robot_pose_proxy_source": [
+      956
+    ],
+    "source_file": [
+      956
+    ],
+    "split_name": [
+      956
+    ],
+    "state_action_x": [
+      956,
+      447
+    ],
+    "state_dim": [],
+    "success": [
+      956
+    ],
+    "tf": [],
+    "th": [],
+    "visible_seed": [
+      956
+    ],
+    "window_t": [
+      956
+    ],
+    "y_action": [
+      956,
+      14
+    ],
+    "y_final_state": [
+      956,
+      135
+    ],
+    "y_state": [
+      956,
+      4,
+      135
+    ]
+  },
+  "verdict": "PASS",
+  "windows_meta": {
+    "conditions": [
+      "free",
+      "hidden_pin",
+      "hidden_high_friction",
+      "hidden_breakaway_pin"
+    ],
+    "diagnostic_hidden_condition": "hidden_pin",
+    "primary_hidden_condition": "hidden_breakaway_pin"
+  }
+}
