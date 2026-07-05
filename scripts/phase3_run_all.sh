@@ -8,6 +8,7 @@ MODE="${MODE:-smoke}"
 PHASE3_STEP="${PHASE3_STEP:-all}"
 ALLOW_NUMPY_FALLBACK="${ALLOW_NUMPY_FALLBACK:-0}"
 PHASE3_ALLOW_ROLLOUT="${PHASE3_ALLOW_ROLLOUT:-0}"
+PHASE3_ROLLOUT_CONFIRMED="${PHASE3_ROLLOUT_CONFIRMED:-0}"
 
 PHASE3_CONDITIONS="${PHASE3_CONDITIONS:-free hidden_pin hidden_high_friction hidden_breakaway_pin}"
 PHASE3_PRIMARY_HIDDEN_CONDITION="${PHASE3_PRIMARY_HIDDEN_CONDITION:-hidden_breakaway_pin}"
@@ -162,6 +163,10 @@ run_rollout() {
     echo "[Phase3][ERROR] rollout is disabled by default. Set PHASE3_ALLOW_ROLLOUT=1 to run it explicitly."
     exit 1
   fi
+  if [[ "$PHASE3_ROLLOUT_CONFIRMED" != "1" ]]; then
+    echo "[Phase3][ERROR] rollout is disabled until the user confirms. Set PHASE3_ROLLOUT_CONFIRMED=1."
+    exit 1
+  fi
   echo "[Phase3] Step rollout. Expected env: defravens37 with torch."
   python scripts/phase3_check_runtime_env.py \
     --role rollout \
@@ -170,14 +175,22 @@ run_rollout() {
 
   python scripts/phase3_policy_rollout.py \
     --root "$ROOT" \
-    --ckpt_root "$CKPT_ROOT" \
-    --baselines paper_state state_action \
-    --num_seeds "$ROLLOUT_SEEDS" \
+    --checkpoint_root "$CKPT_ROOT" \
+    --rollout_models paper_state state_action \
+    --max_episodes_per_condition "$ROLLOUT_SEEDS" \
     --seed_start 200000 \
     --max_steps 10 \
     --samples_per_step 16 \
     --motion_timeout "${MOTION_TIMEOUT:-5}" \
-    --action_clip_std "${ACTION_CLIP_STD:-3}"
+    --action_clip_std "${ACTION_CLIP_STD:-3}" \
+    --conditions $PHASE3_CONDITIONS \
+    --primary_hidden_condition "$PHASE3_PRIMARY_HIDDEN_CONDITION" \
+    --diagnostic_hidden_condition "$PHASE3_DIAGNOSTIC_HIDDEN_CONDITION" \
+    --selected_recoverable_config "$PHASE2_5_SELECTED_CONFIG" \
+    --windows "$WINDOWS" \
+    --out_csv "$ROOT/reports/phase3_policy_rollout_trials.csv" \
+    --out_json "$ROOT/reports/phase3_policy_rollout_summary.json" \
+    --out_md "$ROOT/reports/phase3_policy_rollout_report.md"
 }
 
 run_aggregate() {

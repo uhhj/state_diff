@@ -1,0 +1,10 @@
+{
+  "findings": [],
+  "required_conditions": [
+    "free",
+    "hidden_pin",
+    "hidden_high_friction",
+    "hidden_breakaway_pin"
+  ],
+  "verdict": "PASS"
+}
