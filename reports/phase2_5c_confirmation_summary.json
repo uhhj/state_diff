@@ -1,0 +1,325 @@
+{
+  "checks": {
+    "free_guided_ok": true,
+    "free_nominal_ok": true,
+    "hidden_pin_oracle_best_low": true,
+    "selected_breakaway_released_high": true,
+    "selected_gap_high": true,
+    "selected_nominal_low": true,
+    "selected_oracle_breakaway_or_best_high": true
+  },
+  "condition_summaries": {
+    "free": {
+      "breakaway_release_total": 120,
+      "breakaway_released_count": 0,
+      "breakaway_released_rate": 0.0,
+      "condition": "free",
+      "guided_search_success": 1.0,
+      "guided_search_success_count": 20,
+      "guided_search_total": 20,
+      "nominal_success": 1.0,
+      "nominal_success_count": 20,
+      "nominal_total": 20,
+      "oracle_best_success": 1.0,
+      "oracle_best_success_count": 20,
+      "oracle_best_total": 20,
+      "oracle_breakaway_success": 1.0,
+      "oracle_breakaway_success_count": 20,
+      "oracle_breakaway_total": 20,
+      "oracle_mean_success": 1.0,
+      "oracle_mean_success_count": 80,
+      "oracle_mean_total": 80,
+      "policy_stats": {
+        "guided_search": {
+          "breakaway_release_total": 20,
+          "breakaway_released_count": 0,
+          "breakaway_released_rate": 0.0,
+          "success_count": 20,
+          "success_rate": 1.0,
+          "total": 20
+        },
+        "nominal": {
+          "breakaway_release_total": 20,
+          "breakaway_released_count": 0,
+          "breakaway_released_rate": 0.0,
+          "success_count": 20,
+          "success_rate": 1.0,
+          "total": 20
+        },
+        "oracle_breakaway_then_place": {
+          "breakaway_release_total": 20,
+          "breakaway_released_count": 0,
+          "breakaway_released_rate": 0.0,
+          "success_count": 20,
+          "success_rate": 1.0,
+          "total": 20
+        },
+        "oracle_pull": {
+          "breakaway_release_total": 20,
+          "breakaway_released_count": 0,
+          "breakaway_released_rate": 0.0,
+          "success_count": 20,
+          "success_rate": 1.0,
+          "total": 20
+        },
+        "oracle_regrasp": {
+          "breakaway_release_total": 20,
+          "breakaway_released_count": 0,
+          "breakaway_released_rate": 0.0,
+          "success_count": 20,
+          "success_rate": 1.0,
+          "total": 20
+        },
+        "oracle_wiggle": {
+          "breakaway_release_total": 20,
+          "breakaway_released_count": 0,
+          "breakaway_released_rate": 0.0,
+          "success_count": 20,
+          "success_rate": 1.0,
+          "total": 20
+        }
+      }
+    },
+    "hidden_breakaway_pin": {
+      "breakaway_release_total": 120,
+      "breakaway_released_count": 100,
+      "breakaway_released_rate": 0.8333333333333334,
+      "condition": "hidden_breakaway_pin",
+      "guided_search_success": 1.0,
+      "guided_search_success_count": 20,
+      "guided_search_total": 20,
+      "nominal_success": 0.0,
+      "nominal_success_count": 0,
+      "nominal_total": 20,
+      "oracle_best_success": 1.0,
+      "oracle_best_success_count": 20,
+      "oracle_best_total": 20,
+      "oracle_breakaway_success": 0.9,
+      "oracle_breakaway_success_count": 18,
+      "oracle_breakaway_total": 20,
+      "oracle_mean_success": 0.9625,
+      "oracle_mean_success_count": 77,
+      "oracle_mean_total": 80,
+      "policy_stats": {
+        "guided_search": {
+          "breakaway_release_total": 20,
+          "breakaway_released_count": 20,
+          "breakaway_released_rate": 1.0,
+          "success_count": 20,
+          "success_rate": 1.0,
+          "total": 20
+        },
+        "nominal": {
+          "breakaway_release_total": 20,
+          "breakaway_released_count": 0,
+          "breakaway_released_rate": 0.0,
+          "success_count": 0,
+          "success_rate": 0.0,
+          "total": 20
+        },
+        "oracle_breakaway_then_place": {
+          "breakaway_release_total": 20,
+          "breakaway_released_count": 20,
+          "breakaway_released_rate": 1.0,
+          "success_count": 18,
+          "success_rate": 0.9,
+          "total": 20
+        },
+        "oracle_pull": {
+          "breakaway_release_total": 20,
+          "breakaway_released_count": 20,
+          "breakaway_released_rate": 1.0,
+          "success_count": 20,
+          "success_rate": 1.0,
+          "total": 20
+        },
+        "oracle_regrasp": {
+          "breakaway_release_total": 20,
+          "breakaway_released_count": 20,
+          "breakaway_released_rate": 1.0,
+          "success_count": 20,
+          "success_rate": 1.0,
+          "total": 20
+        },
+        "oracle_wiggle": {
+          "breakaway_release_total": 20,
+          "breakaway_released_count": 20,
+          "breakaway_released_rate": 1.0,
+          "success_count": 19,
+          "success_rate": 0.95,
+          "total": 20
+        }
+      }
+    },
+    "hidden_high_friction": {
+      "breakaway_release_total": 120,
+      "breakaway_released_count": 0,
+      "breakaway_released_rate": 0.0,
+      "condition": "hidden_high_friction",
+      "guided_search_success": 1.0,
+      "guided_search_success_count": 20,
+      "guided_search_total": 20,
+      "nominal_success": 0.0,
+      "nominal_success_count": 0,
+      "nominal_total": 20,
+      "oracle_best_success": 1.0,
+      "oracle_best_success_count": 20,
+      "oracle_best_total": 20,
+      "oracle_breakaway_success": 1.0,
+      "oracle_breakaway_success_count": 20,
+      "oracle_breakaway_total": 20,
+      "oracle_mean_success": 0.9875,
+      "oracle_mean_success_count": 79,
+      "oracle_mean_total": 80,
+      "policy_stats": {
+        "guided_search": {
+          "breakaway_release_total": 20,
+          "breakaway_released_count": 0,
+          "breakaway_released_rate": 0.0,
+          "success_count": 20,
+          "success_rate": 1.0,
+          "total": 20
+        },
+        "nominal": {
+          "breakaway_release_total": 20,
+          "breakaway_released_count": 0,
+          "breakaway_released_rate": 0.0,
+          "success_count": 0,
+          "success_rate": 0.0,
+          "total": 20
+        },
+        "oracle_breakaway_then_place": {
+          "breakaway_release_total": 20,
+          "breakaway_released_count": 0,
+          "breakaway_released_rate": 0.0,
+          "success_count": 20,
+          "success_rate": 1.0,
+          "total": 20
+        },
+        "oracle_pull": {
+          "breakaway_release_total": 20,
+          "breakaway_released_count": 0,
+          "breakaway_released_rate": 0.0,
+          "success_count": 20,
+          "success_rate": 1.0,
+          "total": 20
+        },
+        "oracle_regrasp": {
+          "breakaway_release_total": 20,
+          "breakaway_released_count": 0,
+          "breakaway_released_rate": 0.0,
+          "success_count": 20,
+          "success_rate": 1.0,
+          "total": 20
+        },
+        "oracle_wiggle": {
+          "breakaway_release_total": 20,
+          "breakaway_released_count": 0,
+          "breakaway_released_rate": 0.0,
+          "success_count": 19,
+          "success_rate": 0.95,
+          "total": 20
+        }
+      }
+    },
+    "hidden_pin": {
+      "breakaway_release_total": 120,
+      "breakaway_released_count": 0,
+      "breakaway_released_rate": 0.0,
+      "condition": "hidden_pin",
+      "guided_search_success": 0.05,
+      "guided_search_success_count": 1,
+      "guided_search_total": 20,
+      "nominal_success": 0.0,
+      "nominal_success_count": 0,
+      "nominal_total": 20,
+      "oracle_best_success": 0.0,
+      "oracle_best_success_count": 0,
+      "oracle_best_total": 20,
+      "oracle_breakaway_success": 0.0,
+      "oracle_breakaway_success_count": 0,
+      "oracle_breakaway_total": 20,
+      "oracle_mean_success": 0.0,
+      "oracle_mean_success_count": 0,
+      "oracle_mean_total": 80,
+      "policy_stats": {
+        "guided_search": {
+          "breakaway_release_total": 20,
+          "breakaway_released_count": 0,
+          "breakaway_released_rate": 0.0,
+          "success_count": 1,
+          "success_rate": 0.05,
+          "total": 20
+        },
+        "nominal": {
+          "breakaway_release_total": 20,
+          "breakaway_released_count": 0,
+          "breakaway_released_rate": 0.0,
+          "success_count": 0,
+          "success_rate": 0.0,
+          "total": 20
+        },
+        "oracle_breakaway_then_place": {
+          "breakaway_release_total": 20,
+          "breakaway_released_count": 0,
+          "breakaway_released_rate": 0.0,
+          "success_count": 0,
+          "success_rate": 0.0,
+          "total": 20
+        },
+        "oracle_pull": {
+          "breakaway_release_total": 20,
+          "breakaway_released_count": 0,
+          "breakaway_released_rate": 0.0,
+          "success_count": 0,
+          "success_rate": 0.0,
+          "total": 20
+        },
+        "oracle_regrasp": {
+          "breakaway_release_total": 20,
+          "breakaway_released_count": 0,
+          "breakaway_released_rate": 0.0,
+          "success_count": 0,
+          "success_rate": 0.0,
+          "total": 20
+        },
+        "oracle_wiggle": {
+          "breakaway_release_total": 20,
+          "breakaway_released_count": 0,
+          "breakaway_released_rate": 0.0,
+          "success_count": 0,
+          "success_rate": 0.0,
+          "total": 20
+        }
+      }
+    }
+  },
+  "confirmation_n": 20,
+  "confirmation_scale_note": "confirmation_n = 20, weaker than preferred n=30",
+  "num_rows": 480,
+  "preferred_confirmation_n": 30,
+  "raw_summary_path": "/data/state_diff2/external/deformable-ravens/data/phase2_5c_confirmation/recoverability_summary.json",
+  "recommendation": "Phase2.5c confirmed selected recoverable branch. Phase3 medium may be configured with free/hidden_pin/hidden_high_friction/hidden_breakaway_pin and primary pair free vs hidden_breakaway_pin, but do not start it without user confirmation.",
+  "selected_gap": 1.0,
+  "selected_oracle_for_pass": 1.0,
+  "selected_recoverable_condition": "hidden_breakaway_pin",
+  "selected_recoverable_config": "breakaway_force_2p6_disp_0p045_pull_0p36",
+  "selected_recoverable_env": {
+    "CCDA_BREAKAWAY_BEAD_RATIO": "0.45",
+    "CCDA_BREAKAWAY_DISP": "0.045",
+    "CCDA_BREAKAWAY_FORCE": "2.6",
+    "CCDA_ORACLE_BREAKAWAY_PULL_DIST": "0.36"
+  },
+  "thresholds": {
+    "free_guided_min": 0.5,
+    "free_nominal_min": 0.95,
+    "hidden_pin_oracle_best_max": 0.05,
+    "selected_breakaway_release_min": 0.5,
+    "selected_gap_min": 0.3,
+    "selected_nominal_max": 0.4,
+    "selected_oracle_best_min": 0.6,
+    "selected_oracle_breakaway_min": 0.6
+  },
+  "trials_csv": "/data/state_diff2/external/deformable-ravens/data/phase2_5c_confirmation/recoverability_trials.csv",
+  "verdict": "PASS"
+}

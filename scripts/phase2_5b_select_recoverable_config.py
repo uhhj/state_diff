@@ -69,7 +69,7 @@ def classify(nominal, oracle):
         return "impossible_diagnostic"
     if nominal >= 0.80 and oracle >= 0.80:
         return "weak_easy_control"
-    if nominal <= 0.40 and oracle >= 0.50 and gap >= 0.30:
+    if nominal <= 0.40 and oracle >= 0.60 and gap >= 0.30:
         return "recoverable_cps_candidate"
     if nominal <= 0.50 and oracle >= 0.50 and gap >= 0.20:
         return "near_recoverable_candidate"
@@ -185,11 +185,12 @@ def main():
         },
         "pass_thresholds": {
             "nominal_success_max": 0.40,
-            "oracle_success_min": 0.50,
+            "oracle_success_min": 0.60,
             "oracle_gap_min": 0.30,
         },
+        "requires_phase2_5c_confirmation": True,
         "recommendation": (
-            "Use selected config for Phase3 medium only if verdict=PASS."
+            "Phase2.5b grid proposes a candidate only; Phase2.5c confirmation is required before Phase3 medium."
             if verdict == "PASS"
             else "No fully qualified recoverable branch yet. Continue tuning; do not run Phase3 medium."
         ),
@@ -206,6 +207,10 @@ def main():
         f"- Selected recoverable condition: `{payload['selected_recoverable_condition']}`",
         f"- Selected recoverable config: `{payload['selected_recoverable_config']}`",
         f"- Selected env vars: `{json.dumps(payload.get('selected_recoverable_env', {}), sort_keys=True)}`",
+        "",
+        "## Warning",
+        "",
+        "This grid selector proposes a candidate only. A candidate with oracle success below 0.60 must not unlock Phase3 medium. Phase2.5c confirmation is required.",
         "",
         "## Search Sanity",
         "",
@@ -241,7 +246,7 @@ def main():
         "",
         "## Interpretation",
         "",
-        "- PASS means Phase3 medium can be configured with the selected recoverable branch.",
+        "- PASS means this grid proposes a candidate; Phase2.5c confirmation is still required before Phase3 medium.",
         "- WARN means a near candidate exists but is not strong enough for paper-level CPS success improvement.",
         "- FAIL means do not run Phase3 medium.",
         "- `hidden_pin` remains hard diagnostic, not the CPS success-improvement target.",

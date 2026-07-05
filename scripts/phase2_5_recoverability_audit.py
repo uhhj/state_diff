@@ -34,6 +34,13 @@ def f(v: Any, default: float = float("nan")) -> float:
         return default
 
 
+def safe_int(v: Any, default: int = -1) -> int:
+    try:
+        return int(float(v))
+    except Exception:
+        return default
+
+
 def read_csv(path: Path) -> List[Dict[str, str]]:
     with Path(path).open(newline="") as fh:
         return list(csv.DictReader(fh))
@@ -50,10 +57,10 @@ def row_success(row: Dict[str, str]) -> bool:
     return as_bool(row.get("success"))
 
 
-def success_rate(rows: List[Dict[str, str]]) -> float:
-    if not rows:
-        return 0.0
-    return float(np.mean([1.0 if row_success(r) else 0.0 for r in rows]))
+def success_count_total(rows: List[Dict[str, str]]) -> tuple[int, int, float]:
+    n = len(rows)
+    k = sum(1 for r in rows if row_success(r))
+    return k, n, float(k) / float(n) if n else float("nan")
 
 
 def mean_value(rows: List[Dict[str, str]], key: str) -> Optional[float]:
@@ -62,61 +69,127 @@ def mean_value(rows: List[Dict[str, str]], key: str) -> Optional[float]:
     return float(np.mean(vals)) if vals else None
 
 
-def classify(nominal_success: float, oracle_success: float, search_success: float = 0.0, free_search_sanity: bool = True) -> str:
-    gap = oracle_success - nominal_success
-    if oracle_success <= 0.05:
+def fmt_count(k: int, n: int, rate: float) -> str:
+    return f"{k}/{n} = {rate:.3f}" if n else "NA"
+
+
+def policy_stats(rows: List[Dict[str, str]]) -> Dict[str, Dict[str, Any]]:
+    by_policy: Dict[str, List[Dict[str, str]]] = defaultdict(list)
+    for r in rows:
+        by_policy[r.get("policy", "")].append(r)
+    out: Dict[str, Dict[str, Any]] = {}
+    for policy, rs in sorted(by_policy.items()):
+        k, n, rate = success_count_total(rs)
+        release_rows = [r for r in rs if "breakaway_released" in r]
+        release_k = sum(1 for r in release_rows if as_bool(r.get("breakaway_released")))
+        release_rate = float(release_k) / float(len(release_rows)) if release_rows else float("nan")
+        release_steps = [f(r.get("breakaway_release_step")) for r in release_rows if as_bool(r.get("breakaway_released"))]
+        release_steps = [x for x in release_steps if np.isfinite(x)]
+        out[policy] = {
+            "success_count": int(k),
+            "total": int(n),
+            "success_rate": float(rate),
+            "breakaway_released_count": int(release_k),
+            "breakaway_release_total": int(len(release_rows)),
+            "breakaway_released_rate": float(release_rate),
+            "breakaway_release_step_mean": float(np.mean(release_steps)) if release_steps else None,
+            "breakaway_max_disp_seen_mean": mean_value(rs, "breakaway_max_disp_seen"),
+            "final_fraction_mean": mean_value(rs, "final_fraction"),
+            "final_curve_mean": mean_value(rs, "final_curve"),
+            "future_divergence_vs_free_mean": mean_value(rs, "final_chamfer_to_free"),
+        }
+    return out
+
+
+def oracle_best_stats(rows: List[Dict[str, str]]) -> tuple[int, int, float]:
+    oracle_rows = [r for r in rows if r.get("policy") in ORACLE_POLICIES]
+    by_seed: Dict[int, List[Dict[str, str]]] = defaultdict(list)
+    for r in oracle_rows:
+        by_seed[safe_int(r.get("visible_seed"), -1)].append(r)
+    total = len(by_seed)
+    count = sum(1 for rs in by_seed.values() if any(row_success(r) for r in rs))
+    return count, total, float(count) / float(total) if total else float("nan")
+
+
+def classify(nominal_success: float, oracle_for_classification: float) -> str:
+    gap = oracle_for_classification - nominal_success
+    if oracle_for_classification <= 0.05:
         return "impossible_diagnostic"
-    if nominal_success >= 0.80 and oracle_success >= 0.80:
+    if nominal_success >= 0.80 and oracle_for_classification >= 0.80:
         return "weak_easy_control"
-    if nominal_success <= 0.40 and oracle_success >= 0.50 and gap >= 0.30:
+    if nominal_success <= 0.40 and oracle_for_classification >= 0.60 and gap >= 0.30:
         return "recoverable_cps_candidate"
-    if nominal_success <= 0.50 and oracle_success >= 0.50 and gap >= 0.20:
+    if nominal_success <= 0.50 and oracle_for_classification >= 0.50 and gap >= 0.20:
         return "near_recoverable_candidate"
     return "ambiguous_needs_tuning"
 
 
 def summarize_condition_rows(condition: str, rows: List[Dict[str, str]], label: str = "") -> Dict[str, Any]:
-    by_policy: Dict[str, List[Dict[str, str]]] = defaultdict(list)
-    for r in rows:
-        by_policy[r.get("policy", "")].append(r)
-    nominal = success_rate(by_policy.get("nominal", []))
-    oracle_rates = [success_rate(by_policy.get(p, [])) for p in ORACLE_POLICIES if by_policy.get(p)]
-    oracle = max(oracle_rates) if oracle_rates else 0.0
-    search_rates = [success_rate(by_policy.get(p, [])) for p in SEARCH_POLICIES if by_policy.get(p)]
-    search_best = max(search_rates) if search_rates else 0.0
-    gap = oracle - nominal
-    cls = classify(nominal, oracle, search_best)
-    release_rows = [r for r in rows if as_bool(r.get("breakaway_released"))]
-    release_steps = [f(r.get("breakaway_release_step")) for r in release_rows]
+    stats = policy_stats(rows)
+    nominal = stats.get("nominal", {"success_count": 0, "total": 0, "success_rate": float("nan")})
+    guided = stats.get("guided_search", {"success_count": 0, "total": 0, "success_rate": float("nan")})
+    breakaway = stats.get("oracle_breakaway_then_place", {"success_count": 0, "total": 0, "success_rate": float("nan")})
+    oracle_rows = [r for r in rows if r.get("policy") in ORACLE_POLICIES]
+    oracle_mean_k, oracle_mean_n, oracle_mean = success_count_total(oracle_rows)
+    oracle_best_k, oracle_best_n, oracle_best = oracle_best_stats(rows)
+    oracle_break = float(breakaway["success_rate"])
+    oracle_for = max(
+        oracle_best if np.isfinite(oracle_best) else -1.0,
+        oracle_break if np.isfinite(oracle_break) else -1.0,
+    )
+    if oracle_for < 0:
+        oracle_for = 0.0
+    nominal_rate = float(nominal["success_rate"])
+    if not np.isfinite(nominal_rate):
+        nominal_rate = 0.0
+    release_rows = [r for r in rows if "breakaway_released" in r]
+    release_k = sum(1 for r in release_rows if as_bool(r.get("breakaway_released")))
+    release_rate = float(release_k) / float(len(release_rows)) if release_rows else float("nan")
+    release_steps = [f(r.get("breakaway_release_step")) for r in release_rows if as_bool(r.get("breakaway_released"))]
     release_steps = [x for x in release_steps if np.isfinite(x)]
     return {
         "label": label or condition,
         "condition": condition,
-        "nominal_success": nominal,
-        "oracle_success": oracle,
-        "search_best_success": search_best,
-        "gap": gap,
+        "policy_stats": stats,
+        "nominal_success_count": int(nominal["success_count"]),
+        "nominal_total": int(nominal["total"]),
+        "nominal_success": nominal_rate,
+        "guided_search_success_count": int(guided["success_count"]),
+        "guided_search_total": int(guided["total"]),
+        "guided_search_success": float(guided["success_rate"]),
+        "oracle_mean_success_count": int(oracle_mean_k),
+        "oracle_mean_total": int(oracle_mean_n),
+        "oracle_mean_success": float(oracle_mean),
+        "oracle_best_success_count": int(oracle_best_k),
+        "oracle_best_total": int(oracle_best_n),
+        "oracle_best_success": float(oracle_best),
+        "oracle_breakaway_then_place_success_count": int(breakaway["success_count"]),
+        "oracle_breakaway_then_place_total": int(breakaway["total"]),
+        "oracle_breakaway_then_place_success": oracle_break,
+        "oracle_for_classification": float(oracle_for),
+        "gap": float(oracle_for - nominal_rate),
         "future_divergence_vs_free": mean_value(rows, "final_chamfer_to_free"),
-        "class": cls,
+        "class": classify(nominal_rate, oracle_for),
         "num_trials": len(rows),
-        "breakaway_released_rate": success_rate([{"final_fraction": "1" if as_bool(r.get("breakaway_released")) else "0"} for r in rows]),
+        "breakaway_released_count": int(release_k),
+        "breakaway_release_total": int(len(release_rows)),
+        "breakaway_released_rate": float(release_rate),
         "breakaway_release_step_mean": float(np.mean(release_steps)) if release_steps else None,
         "breakaway_max_disp_seen_mean": mean_value(rows, "breakaway_max_disp_seen"),
     }
 
 
 def compute_search_sanity(rows: List[Dict[str, str]]) -> Dict[str, Any]:
-    free_nom = [r for r in rows if r.get("condition") == "free" and r.get("policy") == "nominal"]
-    free_guided = [r for r in rows if r.get("condition") == "free" and r.get("policy") == "guided_search"]
-    free_random = [r for r in rows if r.get("condition") == "free" and r.get("policy") in SEARCH_POLICIES]
-    nominal = success_rate(free_nom)
-    guided = success_rate(free_guided)
-    search_best = success_rate(free_random)
+    free_rows = [r for r in rows if r.get("condition") == "free"]
+    s = summarize_condition_rows("free", free_rows)
     return {
-        "free_nominal_success": nominal,
-        "free_guided_search_success": guided,
-        "free_search_best_success": search_best,
-        "search_sanity_pass": bool(nominal >= 0.95 and guided >= 0.50),
+        "free_nominal_success_count": s["nominal_success_count"],
+        "free_nominal_total": s["nominal_total"],
+        "free_nominal_success": s["nominal_success"],
+        "free_guided_search_success_count": s["guided_search_success_count"],
+        "free_guided_search_total": s["guided_search_total"],
+        "free_guided_search_success": s["guided_search_success"],
+        "search_sanity_pass": bool(s["nominal_success"] >= 0.95 and s["guided_search_success"] >= 0.50),
     }
 
 
@@ -151,31 +224,6 @@ def sanitize_json(obj: Any) -> Any:
     return obj
 
 
-def write_plan(root: Path, selected: Optional[Dict[str, Any]]) -> None:
-    if not selected:
-        return
-    selected_condition = selected["condition"]
-    selected_label = selected.get("label", selected_condition)
-    path = root / "reports/phase3_condition_plan_after_recoverability.md"
-    path.write_text(
-        "# Phase3 Condition Plan After Recoverability Audit\n\n"
-        "- hard diagnostic condition: `hidden_pin`\n"
-        "- weak control condition: `hidden_high_friction`\n"
-        f"- selected recoverable CPS branch: `{selected_condition}`\n"
-        f"- selected recoverable config: `{selected_label}`\n\n"
-        "## Phase3 medium should use\n\n"
-        "conditions:\n"
-        "- `free`\n"
-        "- `hidden_pin`\n"
-        "- `hidden_high_friction`\n"
-        f"- `{selected_condition}`\n\n"
-        "primary_branch_pair:\n"
-        f"- `free` vs `{selected_condition}`\n\n"
-        "diagnostic_branch_pair:\n"
-        "- `free` vs `hidden_pin`\n"
-    )
-
-
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default="/data/state_diff2")
@@ -198,46 +246,34 @@ def main() -> None:
     all_for_selection = table + sweep_table
     candidates = [r for r in all_for_selection if r["class"] == "recoverable_cps_candidate"]
     near = [r for r in all_for_selection if r["class"] == "near_recoverable_candidate"]
-    selected = None
+    selected: Optional[Dict[str, Any]] = None
     verdict = "FAIL"
     if candidates and search_sanity["search_sanity_pass"]:
-        selected = sorted(candidates, key=lambda r: (r["gap"], r["oracle_success"], -r["nominal_success"]), reverse=True)[0]
+        selected = sorted(candidates, key=lambda r: (r["gap"], r["oracle_for_classification"], -r["nominal_success"]), reverse=True)[0]
         verdict = "PASS"
     elif candidates or near:
-        selected = sorted(candidates or near, key=lambda r: (r["gap"], r["oracle_success"], -r["nominal_success"]), reverse=True)[0]
+        selected = sorted(candidates or near, key=lambda r: (r["gap"], r["oracle_for_classification"], -r["nominal_success"]), reverse=True)[0]
         verdict = "WARN"
 
-    impossible = [r["condition"] for r in table if r["class"] == "impossible_diagnostic"]
-    weak = [r["condition"] for r in table if r["class"] == "weak_easy_control"]
-    ambiguous = [r["condition"] for r in table if r["class"] == "ambiguous_needs_tuning"]
-
     recommendation = (
-        "Use selected config for Phase3 medium only if verdict=PASS."
+        "Candidate proposed only. Phase2.5c confirmation is required before Phase3 medium."
         if verdict == "PASS"
         else "No fully qualified recoverable branch yet. Continue tuning; do not run Phase3 medium."
     )
     if not search_sanity["search_sanity_pass"]:
         recommendation = "Search sanity failed; search evidence is invalid. Fix guided_search before interpreting search_best_success."
 
-    payload = {
+    payload = sanitize_json({
         "verdict": verdict,
+        "requires_phase2_5c_confirmation": True,
         "condition_table": table,
         "parameter_sweep_table": sweep_table,
         "search_sanity": search_sanity,
         "selected_recoverable_condition": selected["condition"] if selected and verdict == "PASS" else None,
         "selected_recoverable_config": selected["label"] if selected and verdict == "PASS" else None,
-        "selected_recoverable_label": selected["label"] if selected and verdict == "PASS" else None,
         "selected_row": selected,
         "candidate_rows": candidates,
         "near_candidate_rows": near,
-        "impossible_conditions": impossible,
-        "weak_conditions": weak,
-        "ambiguous_conditions": ambiguous,
-        "branch_roles": {
-            "hard_diagnostic_branch": "hidden_pin",
-            "weak_control_branch": "hidden_high_friction",
-            "selected_recoverable_cps_branch": selected["condition"] if selected and verdict == "PASS" else None,
-        },
         "recommendation": recommendation,
         "submodule_runtime": {
             "audit_runtime": sub_summary.get("audit_runtime", {}),
@@ -246,12 +282,11 @@ def main() -> None:
             "policies": sub_summary.get("policies", []),
             "source_summary_json": str(Path(args.summary_json)),
         },
-    }
+    })
 
     out_json = root / args.out_json
     out_md = root / args.out_md
     out_json.parent.mkdir(parents=True, exist_ok=True)
-    payload = sanitize_json(payload)
     out_json.write_text(json.dumps(payload, indent=2, sort_keys=True, allow_nan=False))
 
     lines = [
@@ -260,47 +295,51 @@ def main() -> None:
         "## Verdict",
         "",
         f"- Verdict: `{verdict}`",
+        f"- Requires Phase2.5c confirmation: `True`",
         f"- Selected recoverable condition: `{payload['selected_recoverable_condition']}`",
         f"- Selected recoverable config: `{payload['selected_recoverable_config']}`",
         f"- Recommendation: {recommendation}",
+        "",
+        "## Warning",
+        "",
+        "This grid selector proposes a candidate only. A candidate with oracle success below 0.60 must not unlock Phase3 medium. Phase2.5c confirmation is required.",
         "",
         "## Search Sanity",
         "",
         "| Metric | Value |",
         "|---|---:|",
-        f"| free nominal success | {search_sanity['free_nominal_success']:.3f} |",
-        f"| free guided_search success | {search_sanity['free_guided_search_success']:.3f} |",
+        f"| free nominal success | {fmt_count(search_sanity['free_nominal_success_count'], search_sanity['free_nominal_total'], search_sanity['free_nominal_success'])} |",
+        f"| free guided_search success | {fmt_count(search_sanity['free_guided_search_success_count'], search_sanity['free_guided_search_total'], search_sanity['free_guided_search_success'])} |",
         f"| search sanity pass | {search_sanity['search_sanity_pass']} |",
-        "",
-        "If search sanity fails, search_best_success is diagnostic only and cannot be used for selection.",
         "",
         "## Condition Summary",
         "",
-        "| Condition | Nominal Success | Oracle Success | Search Best Success | Gap | Class |",
-        "|---|---:|---:|---:|---:|---|",
+        "| Condition | Nominal | Guided Search | Oracle Mean | Oracle Best | Oracle Breakaway | Gap(best-nominal) | Class |",
+        "|---|---:|---:|---:|---:|---:|---:|---|",
     ]
     for r in table:
-        lines.append("| {condition} | {nominal_success:.3f} | {oracle_success:.3f} | {search_best_success:.3f} | {gap:.3f} | {class} |".format(**r))
-    if sweep_table:
-        lines += ["", "## Parameter Sweep", "", "| Sweep | Condition | Nominal Success | Oracle Success | Search Best Success | Gap | Class |", "|---|---|---:|---:|---:|---:|---|"]
-        for r in sweep_table:
-            lines.append("| {label} | {condition} | {nominal_success:.3f} | {oracle_success:.3f} | {search_best_success:.3f} | {gap:.3f} | {class} |".format(**r))
+        lines.append(
+            "| `{condition}` | {nom} | {guided} | {omean} | {obest} | {obreak} | {gap:.3f} | {cls} |".format(
+                condition=r["condition"],
+                nom=fmt_count(r["nominal_success_count"], r["nominal_total"], r["nominal_success"]),
+                guided=fmt_count(r["guided_search_success_count"], r["guided_search_total"], r["guided_search_success"]),
+                omean=fmt_count(r["oracle_mean_success_count"], r["oracle_mean_total"], r["oracle_mean_success"]),
+                obest=fmt_count(r["oracle_best_success_count"], r["oracle_best_total"], r["oracle_best_success"]),
+                obreak=fmt_count(r["oracle_breakaway_then_place_success_count"], r["oracle_breakaway_then_place_total"], r["oracle_breakaway_then_place_success"]),
+                gap=r["gap"],
+                cls=r["class"],
+            )
+        )
     lines += [
-        "",
-        "## Selected Config",
-        "",
-        f"- selected_recoverable_condition: `{payload['selected_recoverable_condition']}`",
-        f"- selected_recoverable_config: `{payload['selected_recoverable_config']}`",
         "",
         "## Interpretation",
         "",
-        "- Success rates are computed from `final_fraction >= 0.95`.",
-        "- PASS requires a recoverable candidate and search sanity pass.",
-        "- WARN means a near candidate exists or search sanity is incomplete, but Phase3 medium is still blocked.",
+        "- `oracle_mean_success` is reported for transparency but is not used for classification.",
+        "- Classification uses `max(oracle_best_success, oracle_breakaway_then_place_success)`.",
+        "- Phase2.5b cannot by itself unlock Phase3 medium; Phase2.5c confirmation is required.",
         "- `hidden_pin` remains hard diagnostic, not the CPS success-improvement target.",
     ]
     out_md.write_text("\n".join(lines) + "\n")
-    write_plan(root, selected if verdict == "PASS" else None)
     print(json.dumps(payload, indent=2, sort_keys=True))
 
     if verdict == "FAIL":
