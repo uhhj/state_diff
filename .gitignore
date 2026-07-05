@@ -188,3 +188,8 @@ data/phase3_ccda_large/
 data/phase3_state_diff_windows/
 checkpoints/phase3/
 reports/phase3_failure_visuals/
+
+# Phase2.5 recoverability generated grid/visual artifacts
+reports/phase2_5b_grid/
+reports/phase2_5_recoverability_visuals/
+reports/phase2_5b_recoverability_visuals/

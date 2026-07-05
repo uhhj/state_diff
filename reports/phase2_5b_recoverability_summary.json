@@ -1,0 +1,124 @@
+{
+  "all_rows": [
+    {
+      "breakaway_max_disp_seen_mean": 0.10107589326798916,
+      "breakaway_release_step_mean": 2.0,
+      "breakaway_released_rate": 0.5833333333333334,
+      "class": "recoverable_cps_candidate",
+      "condition": "hidden_breakaway_pin",
+      "gap": 0.5,
+      "label": "breakaway_force_2p6_disp_0p045_pull_0p36",
+      "nominal_success": 0.0,
+      "oracle_success": 0.5,
+      "search_best_success": 0.25,
+      "search_sanity_pass": true
+    }
+  ],
+  "candidate_rows": [
+    {
+      "breakaway_max_disp_seen_mean": 0.10107589326798916,
+      "breakaway_release_step_mean": 2.0,
+      "breakaway_released_rate": 0.5833333333333334,
+      "class": "recoverable_cps_candidate",
+      "condition": "hidden_breakaway_pin",
+      "gap": 0.5,
+      "label": "breakaway_force_2p6_disp_0p045_pull_0p36",
+      "nominal_success": 0.0,
+      "oracle_success": 0.5,
+      "search_best_success": 0.25,
+      "search_sanity_pass": true
+    }
+  ],
+  "condition_table": [
+    {
+      "breakaway_max_disp_seen_mean": 0.0,
+      "breakaway_release_step_mean": null,
+      "breakaway_released_rate": 0.0,
+      "class": "ambiguous_needs_tuning",
+      "condition": "free",
+      "future_divergence_vs_free": 0.005603111271436016,
+      "gap": -0.25,
+      "label": "breakaway_force_2p6_disp_0p045_pull_0p36",
+      "nominal_success": 1.0,
+      "num_trials": 12,
+      "oracle_success": 0.75,
+      "search_best_success": 1.0
+    },
+    {
+      "breakaway_max_disp_seen_mean": 0.10107589326798916,
+      "breakaway_release_step_mean": 2.0,
+      "breakaway_released_rate": 0.5833333333333334,
+      "class": "recoverable_cps_candidate",
+      "condition": "hidden_breakaway_pin",
+      "future_divergence_vs_free": 0.08671250916086137,
+      "gap": 0.5,
+      "label": "breakaway_force_2p6_disp_0p045_pull_0p36",
+      "nominal_success": 0.0,
+      "num_trials": 12,
+      "oracle_success": 0.5,
+      "search_best_success": 0.25
+    },
+    {
+      "breakaway_max_disp_seen_mean": 0.0,
+      "breakaway_release_step_mean": null,
+      "breakaway_released_rate": 0.0,
+      "class": "recoverable_cps_candidate",
+      "condition": "hidden_high_friction",
+      "future_divergence_vs_free": 0.08617706410586834,
+      "gap": 0.5,
+      "label": "breakaway_force_2p6_disp_0p045_pull_0p36",
+      "nominal_success": 0.0,
+      "num_trials": 12,
+      "oracle_success": 0.5,
+      "search_best_success": 0.75
+    },
+    {
+      "breakaway_max_disp_seen_mean": 0.0,
+      "breakaway_release_step_mean": null,
+      "breakaway_released_rate": 0.0,
+      "class": "impossible_diagnostic",
+      "condition": "hidden_pin",
+      "future_divergence_vs_free": 0.20867106939355531,
+      "gap": 0.0,
+      "label": "breakaway_force_2p6_disp_0p045_pull_0p36",
+      "nominal_success": 0.0,
+      "num_trials": 12,
+      "oracle_success": 0.0,
+      "search_best_success": 0.0
+    }
+  ],
+  "near_candidate_rows": [],
+  "pass_thresholds": {
+    "nominal_success_max": 0.4,
+    "oracle_gap_min": 0.3,
+    "oracle_success_min": 0.5
+  },
+  "recommendation": "Use selected config for Phase3 medium only if verdict=PASS.",
+  "search_sanity": {
+    "free_guided_search_success": 1.0,
+    "free_nominal_success": 1.0,
+    "search_sanity_pass": true
+  },
+  "selected_recoverable_condition": "hidden_breakaway_pin",
+  "selected_recoverable_config": "breakaway_force_2p6_disp_0p045_pull_0p36",
+  "selected_recoverable_env": {
+    "CCDA_BREAKAWAY_BEAD_RATIO": "0.45",
+    "CCDA_BREAKAWAY_DISP": "0.045",
+    "CCDA_BREAKAWAY_FORCE": "2.6",
+    "CCDA_ORACLE_BREAKAWAY_PULL_DIST": "0.36"
+  },
+  "selected_row": {
+    "breakaway_max_disp_seen_mean": 0.10107589326798916,
+    "breakaway_release_step_mean": 2.0,
+    "breakaway_released_rate": 0.5833333333333334,
+    "class": "recoverable_cps_candidate",
+    "condition": "hidden_breakaway_pin",
+    "gap": 0.5,
+    "label": "breakaway_force_2p6_disp_0p045_pull_0p36",
+    "nominal_success": 0.0,
+    "oracle_success": 0.5,
+    "search_best_success": 0.25,
+    "search_sanity_pass": true
+  },
+  "verdict": "PASS"
+}
