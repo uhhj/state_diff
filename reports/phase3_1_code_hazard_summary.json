@@ -1,0 +1,105 @@
+{
+  "diagnostic_hidden_condition": "hidden_pin",
+  "findings": [
+    {
+      "explain": "Rollout code exists; it must be gated by PHASE3_ALLOW_ROLLOUT=1.",
+      "file": "scripts/phase3_run_all.sh",
+      "level": "INFO",
+      "line": null,
+      "name": "rollout_gate",
+      "snippet": "run_rollout"
+    },
+    {
+      "explain": "Allowed only when hidden_pin is diagnostic and primary_hidden_condition is dynamic.",
+      "file": "scripts/phase3_eval_baselines.py",
+      "level": "INFO",
+      "line": 153,
+      "name": "eval_hidden_pin_reference",
+      "snippet": "                has_pin_ref = has_diagnostic_ref if diagnostic_hidden == \"hidden_pin\" else (\"hidden_pin\" in ref)"
+    },
+    {
+      "explain": "Rollout summary still reports the old hidden_pin success gap. Patch or explicitly reinterpret this before rollout smoke.",
+      "file": "scripts/phase3_policy_rollout.py",
+      "level": "WARN",
+      "line": null,
+      "name": "rollout_hidden_pin_primary_metric",
+      "snippet": "free_vs_hidden_pin_success_gap"
+    },
+    {
+      "explain": "Rollout defaults omit hidden_breakaway_pin. Use explicit conditions or patch defaults before rollout smoke.",
+      "file": "scripts/phase3_policy_rollout.py",
+      "level": "WARN",
+      "line": null,
+      "name": "rollout_three_condition_default",
+      "snippet": "default=[\"free\", \"hidden_pin\", \"hidden_high_friction\"]"
+    }
+  ],
+  "git": {
+    "branch": "Experiment1",
+    "head": "13d9c6c0373a6d110451cb7bb9fb020dc05cc1e9",
+    "origin_experiment1": "13d9c6c0373a6d110451cb7bb9fb020dc05cc1e9",
+    "status": "M reports/phase3_code_reading_notes.md\n M reports/phase3_pre_medium_audit_report.md\n M reports/phase3_pre_medium_audit_summary.json\n M scripts/phase3_pre_medium_audit.py\n?? reports/phase3_1_action_dim_review.csv\n?? reports/phase3_1_code_hazard_report.md\n?? reports/phase3_1_code_hazard_summary.json\n?? reports/phase3_1_idm_ood_topk.csv\n?? reports/phase3_1_medium_evidence_report.md\n?? reports/phase3_1_medium_evidence_summary.json\n?? reports/phase3_1_next_step_plan.md\n?? reports/phase3_1_primary_pair_deltas.csv\n?? reports/phase3_1_start_audit.md\n?? scripts/phase3_1_code_hazard_audit.py\n?? scripts/phase3_1_medium_evidence_audit.py\n?? scripts/phase3_1_run_audit.sh",
+    "submodule": "388a3f5582c8fdffaecb06448f285d693a45b83c external/deformable-ravens (heads/ccda-cable)"
+  },
+  "local_head_equals_origin_experiment1": true,
+  "primary_hidden_condition": "hidden_breakaway_pin",
+  "required_results": [
+    {
+      "file": "scripts/phase3_eval_baselines.py",
+      "present": true,
+      "required": "primary_hidden_condition"
+    },
+    {
+      "file": "scripts/phase3_eval_baselines.py",
+      "present": true,
+      "required": "diagnostic_hidden_condition"
+    },
+    {
+      "file": "scripts/phase3_eval_baselines.py",
+      "present": true,
+      "required": "hidden_breakaway_pin"
+    },
+    {
+      "file": "scripts/phase3_check_input_leakage.py",
+      "present": true,
+      "required": "primary_hidden_condition"
+    },
+    {
+      "file": "scripts/phase3_check_input_leakage.py",
+      "present": true,
+      "required": "diagnostic_hidden_condition"
+    },
+    {
+      "file": "scripts/phase3_run_all.sh",
+      "present": true,
+      "required": "PHASE3_PRIMARY_HIDDEN_CONDITION"
+    },
+    {
+      "file": "scripts/phase3_run_all.sh",
+      "present": true,
+      "required": "PHASE3_DIAGNOSTIC_HIDDEN_CONDITION"
+    },
+    {
+      "file": "scripts/phase3_run_all.sh",
+      "present": true,
+      "required": "PHASE3_CONDITIONS"
+    },
+    {
+      "file": "scripts/phase3_run_all.sh",
+      "present": true,
+      "required": "PHASE3_ALLOW_ROLLOUT"
+    },
+    {
+      "file": "ccda_phase3/data_io.py",
+      "present": true,
+      "required": "hidden_breakaway_pin"
+    },
+    {
+      "file": "ccda_phase3/data_io.py",
+      "present": true,
+      "required": "FORBIDDEN_METADATA_NOT_IN_X"
+    }
+  ],
+  "stale_report_marked": true,
+  "verdict": "WARN"
+}

@@ -2,6 +2,12 @@
   "action_history_target_exact_match_rate": 0.0,
   "action_idm_debug_verdict": "WARN",
   "branch_reference_mode": "split_visible_seed_window_t",
+  "canonicalization_flat": {
+    "post_max_pair_paper_x_max_abs_diff": 0.0,
+    "post_max_pair_state_action_x_max_abs_diff": 0.0,
+    "raw_max_pair_paper_x_max_abs_diff": 1.942394733428955,
+    "raw_max_pair_state_action_x_max_abs_diff": 1.942394733428955
+  },
   "canonicalization_summary": {
     "canonicalization_enabled": true,
     "conditions": [

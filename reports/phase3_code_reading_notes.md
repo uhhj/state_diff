@@ -1,3 +1,14 @@
+# STALE / SUPERSEDED REPORT
+
+This report was produced before Phase2.5c and before Phase3 recoverable-branch integration.
+It may mention only three active conditions and must not be used as the current Phase3 state.
+Current condition scope is documented in:
+- reports/phase3_condition_integration_audit.md
+- reports/phase3_1_code_hazard_report.md
+- reports/phase3_1_medium_evidence_report.md
+
+---
+
 # Phase3 Code Reading Notes
 
 ## Repository State

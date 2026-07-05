@@ -60,6 +60,19 @@ def counter_dict(counter):
     return {str(k): int(v) for k, v in counter.items()}
 
 
+def nested_pair_max(canon, stage, field):
+    stats = canon.get(stage, {}) if isinstance(canon, dict) else {}
+    by_cond = stats.get("by_hidden_condition", {}) if isinstance(stats, dict) else {}
+    vals = []
+    for item in by_cond.values():
+        if not isinstance(item, dict):
+            continue
+        block = item.get(field, {})
+        if isinstance(block, dict) and block.get("max") is not None:
+            vals.append(float(block["max"]))
+    return max(vals) if vals else None
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default="/data/state_diff2")
@@ -201,17 +214,10 @@ def main():
     if not canon:
         add(issues, "FAIL", "canonicalization_summary_missing", "")
     else:
-        def max_from_pair_stats(pair_stats, field):
-            vals = []
-            for item in (pair_stats.get("by_hidden_condition") or {}).values():
-                v = item.get(field, {}).get("max") if isinstance(item.get(field), dict) else None
-                if v is not None:
-                    vals.append(float(v))
-            return max(vals) if vals else None
-        raw_max = max_from_pair_stats(canon.get("raw_pair_stats", {}), "paper_x_max_abs")
-        post_max = max_from_pair_stats(canon.get("post_pair_stats", {}), "paper_x_max_abs")
-        raw_sa = max_from_pair_stats(canon.get("raw_pair_stats", {}), "state_action_x_max_abs")
-        post_sa = max_from_pair_stats(canon.get("post_pair_stats", {}), "state_action_x_max_abs")
+        raw_max = nested_pair_max(canon, "raw_pair_stats", "paper_x_max_abs")
+        post_max = nested_pair_max(canon, "post_pair_stats", "paper_x_max_abs")
+        raw_sa = nested_pair_max(canon, "raw_pair_stats", "state_action_x_max_abs")
+        post_sa = nested_pair_max(canon, "post_pair_stats", "state_action_x_max_abs")
         if None in (raw_max, post_max, raw_sa, post_sa):
             add(issues, "FAIL", "canonicalization_diff_missing", canon)
         elif float(post_max) > 1e-8 or float(post_sa) > 1e-8:
@@ -223,6 +229,13 @@ def main():
     missing_branch_refs_summary = int(eval_summary.get("num_missing_primary_branch_refs", 0) or 0)
     if missing_branch_refs_summary:
         add(issues, "FAIL", "eval_summary_missing_branch_refs", missing_branch_refs_summary)
+
+    canonicalization_flat = {
+        "raw_max_pair_paper_x_max_abs_diff": nested_pair_max(canon, "raw_pair_stats", "paper_x_max_abs"),
+        "post_max_pair_paper_x_max_abs_diff": nested_pair_max(canon, "post_pair_stats", "paper_x_max_abs"),
+        "raw_max_pair_state_action_x_max_abs_diff": nested_pair_max(canon, "raw_pair_stats", "state_action_x_max_abs"),
+        "post_max_pair_state_action_x_max_abs_diff": nested_pair_max(canon, "post_pair_stats", "state_action_x_max_abs"),
+    }
 
     has_fail = any(i["level"] == "FAIL" for i in issues)
     has_warn = any(i["level"] == "WARN" for i in issues)
@@ -247,6 +260,7 @@ def main():
         "missing_branch_refs": missing_refs,
         "eval_summary_missing_branch_refs": missing_branch_refs_summary,
         "canonicalization_summary": canon,
+        "canonicalization_flat": canonicalization_flat,
         "input_leakage_summary": leak,
         "input_leakage_pass": leak.get("pass"),
         "action_idm_debug_verdict": action_dbg.get("verdict"),
@@ -288,10 +302,10 @@ def main():
     lines += [
         "## Canonicalization",
         "",
-        f"- raw_max_pair_paper_x_max_abs_diff: `{canon.get('raw_max_pair_paper_x_max_abs_diff')}`",
-        f"- post_max_pair_paper_x_max_abs_diff: `{canon.get('post_max_pair_paper_x_max_abs_diff')}`",
-        f"- raw_max_pair_state_action_x_max_abs_diff: `{canon.get('raw_max_pair_state_action_x_max_abs_diff')}`",
-        f"- post_max_pair_state_action_x_max_abs_diff: `{canon.get('post_max_pair_state_action_x_max_abs_diff')}`",
+        f"- raw_max_pair_paper_x_max_abs_diff: `{canonicalization_flat['raw_max_pair_paper_x_max_abs_diff']}`",
+        f"- post_max_pair_paper_x_max_abs_diff: `{canonicalization_flat['post_max_pair_paper_x_max_abs_diff']}`",
+        f"- raw_max_pair_state_action_x_max_abs_diff: `{canonicalization_flat['raw_max_pair_state_action_x_max_abs_diff']}`",
+        f"- post_max_pair_state_action_x_max_abs_diff: `{canonicalization_flat['post_max_pair_state_action_x_max_abs_diff']}`",
         "",
         "## Issues",
         "",

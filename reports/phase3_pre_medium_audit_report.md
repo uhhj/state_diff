@@ -93,10 +93,10 @@
 
 ## Canonicalization
 
-- raw_max_pair_paper_x_max_abs_diff: `None`
-- post_max_pair_paper_x_max_abs_diff: `None`
-- raw_max_pair_state_action_x_max_abs_diff: `None`
-- post_max_pair_state_action_x_max_abs_diff: `None`
+- raw_max_pair_paper_x_max_abs_diff: `1.942394733428955`
+- post_max_pair_paper_x_max_abs_diff: `0.0`
+- raw_max_pair_state_action_x_max_abs_diff: `1.942394733428955`
+- post_max_pair_state_action_x_max_abs_diff: `0.0`
 
 ## Issues
 
