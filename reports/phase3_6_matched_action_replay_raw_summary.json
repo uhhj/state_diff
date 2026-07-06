@@ -1,0 +1,97 @@
+{
+  "allow_low_conf_prefix": false,
+  "max_prefix_actions": 20,
+  "motion_timeouts": [
+    15.0
+  ],
+  "num_rows": 24,
+  "out_csv": "reports/phase3_6_matched_action_replay_trials.csv",
+  "samples_per_condition": 3,
+  "scope": "phase3_6_matched_state_replay_no_phase4_no_cps",
+  "selected_windows": [
+    {
+      "condition": "free",
+      "idx": 0,
+      "source_value": "000000-9.pkl",
+      "visible_seed": "1000",
+      "window_t": 0
+    },
+    {
+      "condition": "free",
+      "idx": 4,
+      "source_value": "000000-9.pkl",
+      "visible_seed": "1000",
+      "window_t": 1
+    },
+    {
+      "condition": "free",
+      "idx": 8,
+      "source_value": "000000-9.pkl",
+      "visible_seed": "1000",
+      "window_t": 2
+    },
+    {
+      "condition": "hidden_pin",
+      "idx": 1,
+      "source_value": "000000-3.pkl",
+      "visible_seed": "1000",
+      "window_t": 0
+    },
+    {
+      "condition": "hidden_pin",
+      "idx": 5,
+      "source_value": "000000-3.pkl",
+      "visible_seed": "1000",
+      "window_t": 1
+    },
+    {
+      "condition": "hidden_pin",
+      "idx": 9,
+      "source_value": "000000-3.pkl",
+      "visible_seed": "1000",
+      "window_t": 2
+    },
+    {
+      "condition": "hidden_high_friction",
+      "idx": 2,
+      "source_value": "000000-5.pkl",
+      "visible_seed": "1000",
+      "window_t": 0
+    },
+    {
+      "condition": "hidden_high_friction",
+      "idx": 6,
+      "source_value": "000000-5.pkl",
+      "visible_seed": "1000",
+      "window_t": 1
+    },
+    {
+      "condition": "hidden_high_friction",
+      "idx": 10,
+      "source_value": "000000-5.pkl",
+      "visible_seed": "1000",
+      "window_t": 2
+    },
+    {
+      "condition": "hidden_breakaway_pin",
+      "idx": 3,
+      "source_value": "000000-4.pkl",
+      "visible_seed": "1000",
+      "window_t": 0
+    },
+    {
+      "condition": "hidden_breakaway_pin",
+      "idx": 7,
+      "source_value": "000000-4.pkl",
+      "visible_seed": "1000",
+      "window_t": 1
+    },
+    {
+      "condition": "hidden_breakaway_pin",
+      "idx": 11,
+      "source_value": "000000-4.pkl",
+      "visible_seed": "1000",
+      "window_t": 2
+    }
+  ]
+}
