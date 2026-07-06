@@ -1,0 +1,23 @@
+{
+  "checkpoint_inverse_dynamics": "/data/state_diff2/checkpoints/phase3_9_geometry_idm/state_action/fold_phase3_9_seed_390000/inverse_dynamics.pt",
+  "checkpoint_state_model": "/data/state_diff2/checkpoints/phase3/state_action/fold_0_seed_0/state_model.pt",
+  "condition": "free",
+  "diagnostic_hidden_condition": "hidden_pin",
+  "episode_idx": 1,
+  "failure_reason": "",
+  "final_curve": 0.2604585327208042,
+  "final_fraction": 0.2916666666666667,
+  "max_action_ood_score": 0.6579579710960388,
+  "mean_action_ood_score": 0.29036245308816433,
+  "mean_future_sample_std": 0.0382859674282372,
+  "mean_pose0_xy_step_delta": 0.047822735458612445,
+  "mean_pose1_xy_step_delta": 0.052975601765016714,
+  "mean_pull_xy_len": 0.06770116731058806,
+  "num_steps": 16,
+  "policy": "phase39_default_geometry",
+  "primary_hidden_condition": "hidden_breakaway_pin",
+  "scope": "phase3_10_controlled_learned_rollout_no_phase4_no_cps",
+  "status": "ok",
+  "success": 0,
+  "visible_seed": 310001
+}
