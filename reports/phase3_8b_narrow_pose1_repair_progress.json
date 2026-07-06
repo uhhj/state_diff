@@ -1,0 +1,22 @@
+{
+  "already_completed_on_resume": 0,
+  "completed": 4,
+  "failed": 0,
+  "finished_at": "2026-07-06T18:52:41+0800",
+  "last_row": {
+    "baseline": "state_action",
+    "condition": "free",
+    "exec_delta_final_fraction": 0.6666666666666666,
+    "exec_failure_reason": "",
+    "repair_variant": "idm_gt_pose0_xy",
+    "source_action": "idm_gt_future",
+    "status": "ok"
+  },
+  "ok": 4,
+  "out_csv": "reports/phase3_8b_narrow_pose1_repair_trials.csv",
+  "scope": "phase3_8b_narrow_pose1_repair_no_phase4_no_cps",
+  "started_at": "2026-07-06T18:51:53+0800",
+  "status": "stopped_after_first_effective",
+  "timeout": 0,
+  "total_specs": 18
+}
