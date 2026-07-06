@@ -1,0 +1,20 @@
+{
+  "completed": 36,
+  "failed": 0,
+  "finished_at": "2026-07-07T00:00:09+0800",
+  "last_row": {
+    "condition": "hidden_high_friction",
+    "failure_reason": "",
+    "final_fraction": 0.0,
+    "policy": "phase39b_xy_only_high_weight",
+    "status": "ok"
+  },
+  "ok": 36,
+  "out_episode_csv": "reports/phase3_10b_future_rollout_audit_episodes.csv",
+  "out_step_csv": "reports/phase3_10b_future_rollout_audit_steps.csv",
+  "scope": "phase3_10b_future_rollout_audit_no_phase4_no_cps",
+  "started_at": "2026-07-06T23:35:33+0800",
+  "status": "completed",
+  "timeout": 0,
+  "total_specs": 36
+}

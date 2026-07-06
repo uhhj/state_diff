@@ -1,0 +1,27 @@
+{
+  "failed": 0,
+  "matrix": {
+    "conditions": [
+      "free",
+      "hidden_breakaway_pin",
+      "hidden_high_friction"
+    ],
+    "episodes_per_condition": 4,
+    "max_steps": 16,
+    "policies": [
+      "old_state_action",
+      "phase39_default_geometry",
+      "phase39b_xy_only_high_weight"
+    ],
+    "samples_per_step": 16
+  },
+  "num_episodes_written": 36,
+  "ok": 36,
+  "out_episode_csv": "reports/phase3_10b_future_rollout_audit_episodes.csv",
+  "out_step_csv": "reports/phase3_10b_future_rollout_audit_steps.csv",
+  "progress_json": "reports/phase3_10b_future_rollout_audit_progress.json",
+  "scope": "phase3_10b_future_rollout_audit_no_phase4_no_cps",
+  "status": "completed",
+  "timeout": 0,
+  "worker_dir": "reports/phase3_10b_workers"
+}

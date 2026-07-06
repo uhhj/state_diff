@@ -1,0 +1,6 @@
+/data/state_diff2/scripts/phase3_policy_rollout.py:104: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+/data/state_diff2/scripts/phase3_10b_trace_rollout.py:714: RuntimeWarning: Mean of empty slice
+  "mean_model_x_ood_l2": float(np.nanmean(model_ood_l2s)) if model_ood_l2s else float("nan"),
+
+{"condition": "free", "failure": "", "final_fraction": 0.20833333333333334, "future_match": 0.0, "policy": "phase39_default_geometry", "status": "ok"}
