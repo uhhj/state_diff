@@ -1,0 +1,26 @@
+{
+  "failed": 0,
+  "matrix": {
+    "actions": [
+      "gt_reference",
+      "old_idm_gt_future",
+      "phase39_idm_gt_future"
+    ],
+    "baseline": "state_action",
+    "conditions": [
+      "free",
+      "hidden_breakaway_pin",
+      "hidden_high_friction"
+    ],
+    "max_rows": 36,
+    "samples_per_condition": 4
+  },
+  "num_rows_written": 27,
+  "ok": 27,
+  "out_csv": "reports/phase3_9b_ablation/xy_only_high_weight/controlled_retry_trials.csv",
+  "progress_json": "reports/phase3_9b_ablation/xy_only_high_weight/controlled_retry_progress.json",
+  "scope": "phase3_9_geometry_idm_controlled_retry_no_phase4_no_cps",
+  "status": "completed",
+  "timeout": 0,
+  "worker_dir": "reports/phase3_9b_ablation/xy_only_high_weight/workers"
+}

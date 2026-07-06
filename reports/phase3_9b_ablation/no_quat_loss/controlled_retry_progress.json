@@ -1,0 +1,19 @@
+{
+  "completed": 27,
+  "failed": 0,
+  "finished_at": "2026-07-06T20:26:57+0800",
+  "last_row": {
+    "action_source": "phase39_idm_gt_future",
+    "condition": "hidden_high_friction",
+    "exec_delta_final_fraction": NaN,
+    "exec_failure_reason": "",
+    "status": "ok"
+  },
+  "ok": 27,
+  "out_csv": "reports/phase3_9b_ablation/no_quat_loss/controlled_retry_trials.csv",
+  "scope": "phase3_9_geometry_idm_controlled_retry_no_phase4_no_cps",
+  "started_at": "2026-07-06T20:21:11+0800",
+  "status": "completed",
+  "timeout": 0,
+  "total_specs": 27
+}

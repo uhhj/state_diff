@@ -1,0 +1,20 @@
+{
+  "action_source": "old_idm_gt_future",
+  "action_template": "data/phase3_state_diff_windows/phase3_action_template.pkl",
+  "baseline": "state_action",
+  "item": {
+    "condition": "free",
+    "idx": 4,
+    "source_file": "000000-9.pkl",
+    "visible_seed": "1000",
+    "window_t": 1
+  },
+  "max_prefix_actions": 20,
+  "motion_timeout": 15.0,
+  "new_inverse_path": "/data/state_diff2/checkpoints/phase3_9b_geometry_idm/state_action/no_coupled_xy_loss/fold_phase3_9b_seed_392002/inverse_dynamics.pt",
+  "old_checkpoint_root": "checkpoints/phase3",
+  "pred_samples": 16,
+  "root": "/data/state_diff2",
+  "seed_base": 393002,
+  "windows": "data/phase3_state_diff_windows/phase3_windows.npz"
+}

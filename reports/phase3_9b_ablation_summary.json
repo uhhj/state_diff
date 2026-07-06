@@ -1,0 +1,436 @@
+{
+  "best_ablation": "xy_only_high_weight",
+  "coupled_needed": false,
+  "default_robust": true,
+  "important_note": "This is still one-step matched-prefix diagnostic only. No Phase4/CPS or closed-loop policy evidence.",
+  "issues": [
+    {
+      "detail": "{'improved_conditions': ['free', 'hidden_breakaway_pin', 'hidden_high_friction'], 'hidden_breakaway_improvement': 0.06944444444444445}",
+      "level": "WARN",
+      "name": "default_geometry_repair_robust"
+    },
+    {
+      "detail": "hidden_breakaway improvement gap=0.138889",
+      "level": "WARN",
+      "name": "pull_xy_loss_supported_by_ablation"
+    },
+    {
+      "detail": "hidden_breakaway improvement gap=0.166667",
+      "level": "WARN",
+      "name": "xy_only_high_weight_competitive"
+    }
+  ],
+  "pull_needed": true,
+  "quat_not_needed": false,
+  "raw_summary": {
+    "ablations": [
+      "default_geometry",
+      "no_pull_loss",
+      "no_coupled_xy_loss",
+      "xy_only_high_weight",
+      "no_quat_loss"
+    ],
+    "completed": [
+      "default_geometry",
+      "no_pull_loss",
+      "no_coupled_xy_loss",
+      "xy_only_high_weight",
+      "no_quat_loss"
+    ],
+    "failed": [],
+    "important_note": "Local checkpoints are diagnostic artifacts and must not be committed.",
+    "results": {
+      "default_geometry": {
+        "ablation": "default_geometry",
+        "analyze_rc": 0,
+        "checkpoint": "/data/state_diff2/checkpoints/phase3_9b_geometry_idm/state_action/default_geometry/fold_phase3_9b_seed_392000/inverse_dynamics.pt",
+        "retry_csv": "reports/phase3_9b_ablation/default_geometry/controlled_retry_trials.csv",
+        "retry_rc": 0,
+        "retry_summary": "reports/phase3_9b_ablation/default_geometry/controlled_retry_summary.json",
+        "seed": 392000,
+        "train_rc": 0,
+        "train_summary": "reports/phase3_9b_ablation/default_geometry/train_summary.json",
+        "weights": {
+          "action_z_weight": 1.0,
+          "coupled_xy_weight": 8.0,
+          "pose0_xy_weight": 8.0,
+          "pose1_xy_weight": 8.0,
+          "pull_xy_weight": 4.0,
+          "quat_weight": 0.02,
+          "z_weight": 0.25
+        }
+      },
+      "no_coupled_xy_loss": {
+        "ablation": "no_coupled_xy_loss",
+        "analyze_rc": 0,
+        "checkpoint": "/data/state_diff2/checkpoints/phase3_9b_geometry_idm/state_action/no_coupled_xy_loss/fold_phase3_9b_seed_392002/inverse_dynamics.pt",
+        "retry_csv": "reports/phase3_9b_ablation/no_coupled_xy_loss/controlled_retry_trials.csv",
+        "retry_rc": 0,
+        "retry_summary": "reports/phase3_9b_ablation/no_coupled_xy_loss/controlled_retry_summary.json",
+        "seed": 392002,
+        "train_rc": 0,
+        "train_summary": "reports/phase3_9b_ablation/no_coupled_xy_loss/train_summary.json",
+        "weights": {
+          "action_z_weight": 1.0,
+          "coupled_xy_weight": 0.0,
+          "pose0_xy_weight": 8.0,
+          "pose1_xy_weight": 8.0,
+          "pull_xy_weight": 4.0,
+          "quat_weight": 0.02,
+          "z_weight": 0.25
+        }
+      },
+      "no_pull_loss": {
+        "ablation": "no_pull_loss",
+        "analyze_rc": 1,
+        "checkpoint": "/data/state_diff2/checkpoints/phase3_9b_geometry_idm/state_action/no_pull_loss/fold_phase3_9b_seed_392001/inverse_dynamics.pt",
+        "retry_csv": "reports/phase3_9b_ablation/no_pull_loss/controlled_retry_trials.csv",
+        "retry_rc": 0,
+        "retry_summary": "reports/phase3_9b_ablation/no_pull_loss/controlled_retry_summary.json",
+        "seed": 392001,
+        "train_rc": 0,
+        "train_summary": "reports/phase3_9b_ablation/no_pull_loss/train_summary.json",
+        "weights": {
+          "action_z_weight": 1.0,
+          "coupled_xy_weight": 8.0,
+          "pose0_xy_weight": 8.0,
+          "pose1_xy_weight": 8.0,
+          "pull_xy_weight": 0.0,
+          "quat_weight": 0.02,
+          "z_weight": 0.25
+        }
+      },
+      "no_quat_loss": {
+        "ablation": "no_quat_loss",
+        "analyze_rc": 0,
+        "checkpoint": "/data/state_diff2/checkpoints/phase3_9b_geometry_idm/state_action/no_quat_loss/fold_phase3_9b_seed_392004/inverse_dynamics.pt",
+        "retry_csv": "reports/phase3_9b_ablation/no_quat_loss/controlled_retry_trials.csv",
+        "retry_rc": 0,
+        "retry_summary": "reports/phase3_9b_ablation/no_quat_loss/controlled_retry_summary.json",
+        "seed": 392004,
+        "train_rc": 0,
+        "train_summary": "reports/phase3_9b_ablation/no_quat_loss/train_summary.json",
+        "weights": {
+          "action_z_weight": 1.0,
+          "coupled_xy_weight": 8.0,
+          "pose0_xy_weight": 8.0,
+          "pose1_xy_weight": 8.0,
+          "pull_xy_weight": 4.0,
+          "quat_weight": 0.0,
+          "z_weight": 0.25
+        }
+      },
+      "xy_only_high_weight": {
+        "ablation": "xy_only_high_weight",
+        "analyze_rc": 0,
+        "checkpoint": "/data/state_diff2/checkpoints/phase3_9b_geometry_idm/state_action/xy_only_high_weight/fold_phase3_9b_seed_392003/inverse_dynamics.pt",
+        "retry_csv": "reports/phase3_9b_ablation/xy_only_high_weight/controlled_retry_trials.csv",
+        "retry_rc": 0,
+        "retry_summary": "reports/phase3_9b_ablation/xy_only_high_weight/controlled_retry_summary.json",
+        "seed": 392003,
+        "train_rc": 0,
+        "train_summary": "reports/phase3_9b_ablation/xy_only_high_weight/train_summary.json",
+        "weights": {
+          "action_z_weight": 0.5,
+          "coupled_xy_weight": 12.0,
+          "pose0_xy_weight": 12.0,
+          "pose1_xy_weight": 12.0,
+          "pull_xy_weight": 6.0,
+          "quat_weight": 0.0,
+          "z_weight": 0.05
+        }
+      }
+    },
+    "scope": "phase3_9b_geometry_idm_ablation_no_phase4_no_cps",
+    "status": "completed"
+  },
+  "recommendation": "Do not enter Phase4/CPS. Next run Phase3.10 controlled learned rollout retry with repaired IDM only if default geometry remains robust.",
+  "records": [
+    {
+      "ablation": "default_geometry",
+      "condition_rows": {
+        "free": {
+          "condition": "free",
+          "gt_reference_delta": 0.2916666666666667,
+          "gt_success": 0.0,
+          "improved": true,
+          "improvement": 0.25,
+          "old_idm_delta": 0.0,
+          "old_success": 0.0,
+          "phase39_idm_delta": 0.25,
+          "phase39_success": 0.0,
+          "ratio_to_gt": 0.8571428571428571
+        },
+        "hidden_breakaway_pin": {
+          "condition": "hidden_breakaway_pin",
+          "gt_reference_delta": 0.23611111111111113,
+          "gt_success": 0.0,
+          "improved": true,
+          "improvement": 0.06944444444444445,
+          "old_idm_delta": 0.05555555555555555,
+          "old_success": 0.0,
+          "phase39_idm_delta": 0.125,
+          "phase39_success": 0.0,
+          "ratio_to_gt": 0.5294117647058824
+        },
+        "hidden_high_friction": {
+          "condition": "hidden_high_friction",
+          "gt_reference_delta": 0.1875,
+          "gt_success": 0.3333333333333333,
+          "improved": true,
+          "improvement": 0.16666666666666669,
+          "old_idm_delta": 0.08333333333333333,
+          "old_success": 0.6666666666666666,
+          "phase39_idm_delta": 0.25,
+          "phase39_success": 0.3333333333333333,
+          "ratio_to_gt": 1.3333333333333333
+        }
+      },
+      "hidden_breakaway_improvement": 0.06944444444444445,
+      "improved_conditions": [
+        "free",
+        "hidden_breakaway_pin",
+        "hidden_high_friction"
+      ],
+      "mean_gt_delta": 0.23842592592592593,
+      "mean_improvement": 0.16203703703703703,
+      "mean_old_delta": 0.0462962962962963,
+      "mean_phase39_delta": 0.20833333333333334,
+      "min_improvement": 0.06944444444444445,
+      "num_improved_conditions": 3,
+      "primary_improved": true,
+      "root_cause": "phase39_geometry_idm_repair_supported",
+      "summary_path": "/data/state_diff2/reports/phase3_9b_ablation/default_geometry/controlled_retry_summary.json",
+      "verdict": "WARN"
+    },
+    {
+      "ablation": "no_pull_loss",
+      "condition_rows": {
+        "free": {
+          "condition": "free",
+          "gt_reference_delta": 0.2916666666666667,
+          "gt_success": 0.0,
+          "improved": false,
+          "improvement": 0.0,
+          "old_idm_delta": 0.0,
+          "old_success": 0.0,
+          "phase39_idm_delta": 0.0,
+          "phase39_success": 0.0,
+          "ratio_to_gt": 0.0
+        },
+        "hidden_breakaway_pin": {
+          "condition": "hidden_breakaway_pin",
+          "gt_reference_delta": 0.18055555555555555,
+          "gt_success": 0.0,
+          "improved": false,
+          "improvement": -0.06944444444444445,
+          "old_idm_delta": 0.06944444444444445,
+          "old_success": 0.0,
+          "phase39_idm_delta": 0.0,
+          "phase39_success": 0.0,
+          "ratio_to_gt": 0.0
+        },
+        "hidden_high_friction": {
+          "condition": "hidden_high_friction",
+          "gt_reference_delta": 0.7083333333333334,
+          "gt_success": 0.6666666666666666,
+          "improved": true,
+          "improvement": 0.4375,
+          "old_idm_delta": 0.041666666666666664,
+          "old_success": 0.6666666666666666,
+          "phase39_idm_delta": 0.4791666666666667,
+          "phase39_success": 0.3333333333333333,
+          "ratio_to_gt": 0.6764705882352942
+        }
+      },
+      "hidden_breakaway_improvement": -0.06944444444444445,
+      "improved_conditions": [
+        "hidden_high_friction"
+      ],
+      "mean_gt_delta": 0.39351851851851855,
+      "mean_improvement": 0.12268518518518519,
+      "mean_old_delta": 0.037037037037037035,
+      "mean_phase39_delta": 0.15972222222222224,
+      "min_improvement": -0.06944444444444445,
+      "num_improved_conditions": 1,
+      "primary_improved": false,
+      "root_cause": "phase39_repair_not_supported",
+      "summary_path": "/data/state_diff2/reports/phase3_9b_ablation/no_pull_loss/controlled_retry_summary.json",
+      "verdict": "FAIL"
+    },
+    {
+      "ablation": "no_coupled_xy_loss",
+      "condition_rows": {
+        "free": {
+          "condition": "free",
+          "gt_reference_delta": 0.2777777777777778,
+          "gt_success": 0.0,
+          "improved": true,
+          "improvement": 0.23611111111111113,
+          "old_idm_delta": 0.0,
+          "old_success": 0.0,
+          "phase39_idm_delta": 0.23611111111111113,
+          "phase39_success": 0.0,
+          "ratio_to_gt": 0.8500000000000001
+        },
+        "hidden_breakaway_pin": {
+          "condition": "hidden_breakaway_pin",
+          "gt_reference_delta": 0.20833333333333334,
+          "gt_success": 0.0,
+          "improved": true,
+          "improvement": 0.19444444444444445,
+          "old_idm_delta": 0.013888888888888888,
+          "old_success": 0.0,
+          "phase39_idm_delta": 0.20833333333333334,
+          "phase39_success": 0.0,
+          "ratio_to_gt": 1.0
+        },
+        "hidden_high_friction": {
+          "condition": "hidden_high_friction",
+          "gt_reference_delta": 0.4583333333333333,
+          "gt_success": 0.6666666666666666,
+          "improved": true,
+          "improvement": 0.6041666666666666,
+          "old_idm_delta": 0.06250000000000003,
+          "old_success": 0.3333333333333333,
+          "phase39_idm_delta": 0.6666666666666666,
+          "phase39_success": 0.6666666666666666,
+          "ratio_to_gt": 1.4545454545454546
+        }
+      },
+      "hidden_breakaway_improvement": 0.19444444444444445,
+      "improved_conditions": [
+        "free",
+        "hidden_breakaway_pin",
+        "hidden_high_friction"
+      ],
+      "mean_gt_delta": 0.3148148148148148,
+      "mean_improvement": 0.34490740740740744,
+      "mean_old_delta": 0.025462962962962975,
+      "mean_phase39_delta": 0.3703703703703704,
+      "min_improvement": 0.19444444444444445,
+      "num_improved_conditions": 3,
+      "primary_improved": true,
+      "root_cause": "phase39_geometry_idm_repair_supported",
+      "summary_path": "/data/state_diff2/reports/phase3_9b_ablation/no_coupled_xy_loss/controlled_retry_summary.json",
+      "verdict": "WARN"
+    },
+    {
+      "ablation": "xy_only_high_weight",
+      "condition_rows": {
+        "free": {
+          "condition": "free",
+          "gt_reference_delta": 0.2777777777777778,
+          "gt_success": 0.0,
+          "improved": true,
+          "improvement": 0.2916666666666667,
+          "old_idm_delta": 0.0,
+          "old_success": 0.0,
+          "phase39_idm_delta": 0.2916666666666667,
+          "phase39_success": 0.0,
+          "ratio_to_gt": 1.05
+        },
+        "hidden_breakaway_pin": {
+          "condition": "hidden_breakaway_pin",
+          "gt_reference_delta": 0.19444444444444445,
+          "gt_success": 0.0,
+          "improved": true,
+          "improvement": 0.23611111111111113,
+          "old_idm_delta": 0.041666666666666664,
+          "old_success": 0.0,
+          "phase39_idm_delta": 0.2777777777777778,
+          "phase39_success": 0.0,
+          "ratio_to_gt": 1.4285714285714286
+        },
+        "hidden_high_friction": {
+          "condition": "hidden_high_friction",
+          "gt_reference_delta": 0.9166666666666666,
+          "gt_success": 0.6666666666666666,
+          "improved": true,
+          "improvement": 0.4166666666666667,
+          "old_idm_delta": 0.0,
+          "old_success": 0.6666666666666666,
+          "phase39_idm_delta": 0.4166666666666667,
+          "phase39_success": 0.3333333333333333,
+          "ratio_to_gt": 0.4545454545454546
+        }
+      },
+      "hidden_breakaway_improvement": 0.23611111111111113,
+      "improved_conditions": [
+        "free",
+        "hidden_breakaway_pin",
+        "hidden_high_friction"
+      ],
+      "mean_gt_delta": 0.46296296296296297,
+      "mean_improvement": 0.3148148148148148,
+      "mean_old_delta": 0.013888888888888888,
+      "mean_phase39_delta": 0.3287037037037037,
+      "min_improvement": 0.23611111111111113,
+      "num_improved_conditions": 3,
+      "primary_improved": true,
+      "root_cause": "phase39_geometry_idm_repair_supported",
+      "summary_path": "/data/state_diff2/reports/phase3_9b_ablation/xy_only_high_weight/controlled_retry_summary.json",
+      "verdict": "WARN"
+    },
+    {
+      "ablation": "no_quat_loss",
+      "condition_rows": {
+        "free": {
+          "condition": "free",
+          "gt_reference_delta": 0.2916666666666667,
+          "gt_success": 0.0,
+          "improved": true,
+          "improvement": 0.19444444444444445,
+          "old_idm_delta": 0.0,
+          "old_success": 0.0,
+          "phase39_idm_delta": 0.19444444444444445,
+          "phase39_success": 0.0,
+          "ratio_to_gt": 0.6666666666666666
+        },
+        "hidden_breakaway_pin": {
+          "condition": "hidden_breakaway_pin",
+          "gt_reference_delta": 0.2222222222222222,
+          "gt_success": 0.0,
+          "improved": true,
+          "improvement": 0.22222222222222224,
+          "old_idm_delta": 0.041666666666666664,
+          "old_success": 0.0,
+          "phase39_idm_delta": 0.2638888888888889,
+          "phase39_success": 0.0,
+          "ratio_to_gt": 1.1875
+        },
+        "hidden_high_friction": {
+          "condition": "hidden_high_friction",
+          "gt_reference_delta": 0.875,
+          "gt_success": 0.6666666666666666,
+          "improved": true,
+          "improvement": 0.9166666666666666,
+          "old_idm_delta": 0.08333333333333333,
+          "old_success": 0.3333333333333333,
+          "phase39_idm_delta": 1.0,
+          "phase39_success": 1.0,
+          "ratio_to_gt": 1.1428571428571428
+        }
+      },
+      "hidden_breakaway_improvement": 0.22222222222222224,
+      "improved_conditions": [
+        "free",
+        "hidden_breakaway_pin",
+        "hidden_high_friction"
+      ],
+      "mean_gt_delta": 0.46296296296296297,
+      "mean_improvement": 0.4444444444444444,
+      "mean_old_delta": 0.041666666666666664,
+      "mean_phase39_delta": 0.48611111111111116,
+      "min_improvement": 0.19444444444444445,
+      "num_improved_conditions": 3,
+      "primary_improved": true,
+      "root_cause": "phase39_geometry_idm_repair_supported",
+      "summary_path": "/data/state_diff2/reports/phase3_9b_ablation/no_quat_loss/controlled_retry_summary.json",
+      "verdict": "WARN"
+    }
+  ],
+  "root_cause": "phase39b_geometry_loss_ablation_supported",
+  "verdict": "WARN",
+  "xy_high_competitive": true
+}

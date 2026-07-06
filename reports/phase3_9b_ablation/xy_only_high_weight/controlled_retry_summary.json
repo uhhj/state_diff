@@ -1,0 +1,339 @@
+{
+  "completed_fraction": 1.0,
+  "condition_table": [
+    {
+      "condition": "free",
+      "gt_reference_delta": 0.2777777777777778,
+      "gt_success": 0.0,
+      "improved": true,
+      "improvement": 0.2916666666666667,
+      "old_idm_delta": 0.0,
+      "old_success": 0.0,
+      "phase39_idm_delta": 0.2916666666666667,
+      "phase39_success": 0.0,
+      "ratio_to_gt": 1.05
+    },
+    {
+      "condition": "hidden_breakaway_pin",
+      "gt_reference_delta": 0.19444444444444445,
+      "gt_success": 0.0,
+      "improved": true,
+      "improvement": 0.23611111111111113,
+      "old_idm_delta": 0.041666666666666664,
+      "old_success": 0.0,
+      "phase39_idm_delta": 0.2777777777777778,
+      "phase39_success": 0.0,
+      "ratio_to_gt": 1.4285714285714286
+    },
+    {
+      "condition": "hidden_high_friction",
+      "gt_reference_delta": 0.9166666666666666,
+      "gt_success": 0.6666666666666666,
+      "improved": true,
+      "improvement": 0.4166666666666667,
+      "old_idm_delta": 0.0,
+      "old_success": 0.6666666666666666,
+      "phase39_idm_delta": 0.4166666666666667,
+      "phase39_success": 0.3333333333333333,
+      "ratio_to_gt": 0.4545454545454546
+    }
+  ],
+  "important_note": "This is one-step matched-prefix diagnostic only, not Phase4/CPS and not paper-level rollout evidence.",
+  "improved_conditions": [
+    "free",
+    "hidden_breakaway_pin",
+    "hidden_high_friction"
+  ],
+  "issues": [
+    {
+      "detail": "['free', 'hidden_breakaway_pin', 'hidden_high_friction']",
+      "level": "WARN",
+      "name": "phase39_geometry_idm_repair_supported"
+    }
+  ],
+  "num_failed_rows": 0,
+  "num_ok_rows": 27,
+  "num_rows": 27,
+  "num_timeout_rows": 0,
+  "primary_improved": true,
+  "progress": {
+    "completed": 27,
+    "failed": 0,
+    "finished_at": "2026-07-06T20:21:06+0800",
+    "last_row": {
+      "action_source": "phase39_idm_gt_future",
+      "condition": "hidden_high_friction",
+      "exec_delta_final_fraction": NaN,
+      "exec_failure_reason": "",
+      "status": "ok"
+    },
+    "ok": 27,
+    "out_csv": "reports/phase3_9b_ablation/xy_only_high_weight/controlled_retry_trials.csv",
+    "scope": "phase3_9_geometry_idm_controlled_retry_no_phase4_no_cps",
+    "started_at": "2026-07-06T20:15:22+0800",
+    "status": "completed",
+    "timeout": 0,
+    "total_specs": 27
+  },
+  "raw_summary": {
+    "failed": 0,
+    "matrix": {
+      "actions": [
+        "gt_reference",
+        "old_idm_gt_future",
+        "phase39_idm_gt_future"
+      ],
+      "baseline": "state_action",
+      "conditions": [
+        "free",
+        "hidden_breakaway_pin",
+        "hidden_high_friction"
+      ],
+      "max_rows": 36,
+      "samples_per_condition": 4
+    },
+    "num_rows_written": 27,
+    "ok": 27,
+    "out_csv": "reports/phase3_9b_ablation/xy_only_high_weight/controlled_retry_trials.csv",
+    "progress_json": "reports/phase3_9b_ablation/xy_only_high_weight/controlled_retry_progress.json",
+    "scope": "phase3_9_geometry_idm_controlled_retry_no_phase4_no_cps",
+    "status": "completed",
+    "timeout": 0,
+    "worker_dir": "reports/phase3_9b_ablation/xy_only_high_weight/workers"
+  },
+  "recommendation": "Do not enter Phase4/CPS. Next run a slightly larger Phase3.9b controlled retry or repair loss ablation before rollout.",
+  "root_cause": "phase39_geometry_idm_repair_supported",
+  "table": [
+    {
+      "action_source": "gt_reference",
+      "baseline": "state_action",
+      "condition": "free",
+      "exec_failure_count": 0,
+      "failed_rows": 0,
+      "mean_action_mae_to_gt": 0.0,
+      "mean_delta_final_fraction": 0.2777777777777778,
+      "mean_final_fraction_after": 0.2777777777777778,
+      "mean_pose0_xy_dist_to_gt": 0.0,
+      "mean_pose1_xy_dist_to_gt": 0.0,
+      "mean_prefix_mae": 0.06517867495616277,
+      "mean_pull_angle_deg_to_gt": 4.0247275657524445e-07,
+      "ok_rows": 3,
+      "rows": 3,
+      "success_rate": 0.0,
+      "timeout_rows": 0
+    },
+    {
+      "action_source": "gt_reference",
+      "baseline": "state_action",
+      "condition": "hidden_breakaway_pin",
+      "exec_failure_count": 0,
+      "failed_rows": 0,
+      "mean_action_mae_to_gt": 0.0,
+      "mean_delta_final_fraction": 0.19444444444444445,
+      "mean_final_fraction_after": 0.19444444444444445,
+      "mean_pose0_xy_dist_to_gt": 0.0,
+      "mean_pose1_xy_dist_to_gt": 0.0,
+      "mean_prefix_mae": 0.06513890336888532,
+      "mean_pull_angle_deg_to_gt": 6.870639719924424e-07,
+      "ok_rows": 3,
+      "rows": 3,
+      "success_rate": 0.0,
+      "timeout_rows": 0
+    },
+    {
+      "action_source": "gt_reference",
+      "baseline": "state_action",
+      "condition": "hidden_high_friction",
+      "exec_failure_count": 0,
+      "failed_rows": 0,
+      "mean_action_mae_to_gt": 0.0,
+      "mean_delta_final_fraction": 0.9166666666666666,
+      "mean_final_fraction_after": 0.9166666666666666,
+      "mean_pose0_xy_dist_to_gt": 0.0,
+      "mean_pose1_xy_dist_to_gt": 0.0,
+      "mean_prefix_mae": 0.03301520754272739,
+      "mean_pull_angle_deg_to_gt": 0.0,
+      "ok_rows": 3,
+      "rows": 3,
+      "success_rate": 0.6666666666666666,
+      "timeout_rows": 0
+    },
+    {
+      "action_source": "old_idm_gt_future",
+      "baseline": "state_action",
+      "condition": "free",
+      "exec_failure_count": 0,
+      "failed_rows": 0,
+      "mean_action_mae_to_gt": 0.01575681349883477,
+      "mean_delta_final_fraction": 0.0,
+      "mean_final_fraction_after": 0.0,
+      "mean_pose0_xy_dist_to_gt": 0.11935638020549715,
+      "mean_pose1_xy_dist_to_gt": 0.043409718428056486,
+      "mean_prefix_mae": 0.06513464932019512,
+      "mean_pull_angle_deg_to_gt": 23.37435692574138,
+      "ok_rows": 3,
+      "rows": 3,
+      "success_rate": 0.0,
+      "timeout_rows": 0
+    },
+    {
+      "action_source": "old_idm_gt_future",
+      "baseline": "state_action",
+      "condition": "hidden_breakaway_pin",
+      "exec_failure_count": 0,
+      "failed_rows": 0,
+      "mean_action_mae_to_gt": 0.013182169757783413,
+      "mean_delta_final_fraction": 0.041666666666666664,
+      "mean_final_fraction_after": 0.041666666666666664,
+      "mean_pose0_xy_dist_to_gt": 0.041847672193400125,
+      "mean_pose1_xy_dist_to_gt": 0.09845475916535484,
+      "mean_prefix_mae": 0.06514005153439939,
+      "mean_pull_angle_deg_to_gt": 18.973852656381705,
+      "ok_rows": 3,
+      "rows": 3,
+      "success_rate": 0.0,
+      "timeout_rows": 0
+    },
+    {
+      "action_source": "old_idm_gt_future",
+      "baseline": "state_action",
+      "condition": "hidden_high_friction",
+      "exec_failure_count": 0,
+      "failed_rows": 0,
+      "mean_action_mae_to_gt": 0.011369904813667139,
+      "mean_delta_final_fraction": 0.0,
+      "mean_final_fraction_after": 0.0,
+      "mean_pose0_xy_dist_to_gt": 0.03309376206275448,
+      "mean_pose1_xy_dist_to_gt": 0.08221109563335566,
+      "mean_prefix_mae": 0.03320181276649237,
+      "mean_pull_angle_deg_to_gt": 21.002621231750656,
+      "ok_rows": 3,
+      "rows": 3,
+      "success_rate": 0.6666666666666666,
+      "timeout_rows": 0
+    },
+    {
+      "action_source": "phase39_idm_gt_future",
+      "baseline": "state_action",
+      "condition": "free",
+      "exec_failure_count": 0,
+      "failed_rows": 0,
+      "mean_action_mae_to_gt": 0.0010742205098116149,
+      "mean_delta_final_fraction": 0.2916666666666667,
+      "mean_final_fraction_after": 0.2916666666666667,
+      "mean_pose0_xy_dist_to_gt": 0.005091358126232354,
+      "mean_pose1_xy_dist_to_gt": 0.004721510953396989,
+      "mean_prefix_mae": 0.06513394368812442,
+      "mean_pull_angle_deg_to_gt": 1.4400386048894838,
+      "ok_rows": 3,
+      "rows": 3,
+      "success_rate": 0.0,
+      "timeout_rows": 0
+    },
+    {
+      "action_source": "phase39_idm_gt_future",
+      "baseline": "state_action",
+      "condition": "hidden_breakaway_pin",
+      "exec_failure_count": 0,
+      "failed_rows": 0,
+      "mean_action_mae_to_gt": 0.0012064643863899012,
+      "mean_delta_final_fraction": 0.2777777777777778,
+      "mean_final_fraction_after": 0.2777777777777778,
+      "mean_pose0_xy_dist_to_gt": 0.006382429798871686,
+      "mean_pose1_xy_dist_to_gt": 0.005183215849783707,
+      "mean_prefix_mae": 0.06514455657452345,
+      "mean_pull_angle_deg_to_gt": 1.1824327983366947,
+      "ok_rows": 3,
+      "rows": 3,
+      "success_rate": 0.0,
+      "timeout_rows": 0
+    },
+    {
+      "action_source": "phase39_idm_gt_future",
+      "baseline": "state_action",
+      "condition": "hidden_high_friction",
+      "exec_failure_count": 0,
+      "failed_rows": 0,
+      "mean_action_mae_to_gt": 0.0010710491333156824,
+      "mean_delta_final_fraction": 0.4166666666666667,
+      "mean_final_fraction_after": 0.7291666666666667,
+      "mean_pose0_xy_dist_to_gt": 0.004887842828915076,
+      "mean_pose1_xy_dist_to_gt": 0.004721204884557847,
+      "mean_prefix_mae": 0.03395336493849754,
+      "mean_pull_angle_deg_to_gt": 2.526997714451218,
+      "ok_rows": 3,
+      "rows": 3,
+      "success_rate": 0.3333333333333333,
+      "timeout_rows": 0
+    }
+  ],
+  "train_summary": {
+    "inverse_dynamics_path": "/data/state_diff2/checkpoints/phase3_9b_geometry_idm/state_action/xy_only_high_weight/fold_phase3_9b_seed_392003/inverse_dynamics.pt",
+    "metrics": {
+      "history": [
+        {
+          "epoch": 1,
+          "train_geom_loss": 0.07503318972885609,
+          "train_loss": 1.027238170305888
+        },
+        {
+          "epoch": 25,
+          "train_geom_loss": 0.0010311749453345935,
+          "train_loss": 0.05543362100919088
+        },
+        {
+          "epoch": 50,
+          "train_geom_loss": 0.0004701083040951441,
+          "train_loss": 0.023853321559727192
+        },
+        {
+          "epoch": 75,
+          "train_geom_loss": 0.00035586153777937096,
+          "train_loss": 0.014153228917469582
+        },
+        {
+          "epoch": 100,
+          "train_geom_loss": 0.00017152588407043368,
+          "train_loss": 0.007039367686957121
+        },
+        {
+          "epoch": 125,
+          "train_geom_loss": 0.00016071910188960223,
+          "train_loss": 0.005965414612243573
+        },
+        {
+          "epoch": 150,
+          "train_geom_loss": 0.00013931717937036106,
+          "train_loss": 0.004639793769456446
+        },
+        {
+          "epoch": 175,
+          "train_geom_loss": 8.9226633766278e-05,
+          "train_loss": 0.0034344849409535527
+        },
+        {
+          "epoch": 200,
+          "train_geom_loss": 0.0003294367828251173,
+          "train_loss": 0.006494440526391069
+        },
+        {
+          "epoch": 225,
+          "train_geom_loss": 8.36608960526064e-05,
+          "train_loss": 0.0025248614450295768
+        },
+        {
+          "epoch": 250,
+          "train_geom_loss": 8.411270634193595e-05,
+          "train_loss": 0.0023931593944629035
+        }
+      ],
+      "train_rows": 768,
+      "val_action_mae": 0.00826484989374876,
+      "val_pose0_xy_mae": 0.027689406648278236,
+      "val_pose1_xy_mae": 0.026142532005906105,
+      "val_pull_xy_mae": 0.033688023686409,
+      "val_rows": 188
+    }
+  },
+  "verdict": "WARN"
+}
