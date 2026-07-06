@@ -1,0 +1,22 @@
+{
+  "baselines": [
+    "paper_state",
+    "state_action"
+  ],
+  "conditions": [
+    "free",
+    "hidden_pin",
+    "hidden_high_friction",
+    "hidden_breakaway_pin"
+  ],
+  "learned_steps": 4,
+  "motion_timeouts": [
+    5.0,
+    15.0
+  ],
+  "num_rows": 246,
+  "oracle_steps": 8,
+  "out_csv": "reports/phase3_5_action_execution_trials.csv",
+  "scope": "phase3_5_action_execution_diagnostic_no_phase4_no_cps",
+  "seeds_per_condition": 2
+}

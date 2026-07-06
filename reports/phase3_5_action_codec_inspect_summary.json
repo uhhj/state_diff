@@ -1,0 +1,23 @@
+{
+  "action_dim_std": [
+    0.11606723070144653,
+    0.23564045131206512,
+    0.004804996307939291,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.10031915456056595,
+    0.1750912070274353,
+    0.003473927266895771,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "interpretation": "Codec decode sanity only; not action execution evidence.",
+  "issues": [],
+  "near_zero_action_dims": 8,
+  "num_rows": 32,
+  "verdict": "PASS"
+}
