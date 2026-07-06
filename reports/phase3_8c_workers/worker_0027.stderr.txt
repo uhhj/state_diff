@@ -1,0 +1,4 @@
+/miniforge3/envs/coord_bimanual/lib/python3.9/site-packages/wandb/apis/public.py:2997: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import parse_version
+
+{"delta": NaN, "status": "ok", "variant": "idm_gt_pose0_xy"}

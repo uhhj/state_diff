@@ -1,0 +1,21 @@
+{
+  "action_clip_std": 3.0,
+  "action_template": "data/phase3_state_diff_windows/phase3_action_template.pkl",
+  "baseline": "state_action",
+  "checkpoint_root": "checkpoints/phase3",
+  "item": {
+    "condition": "hidden_breakaway_pin",
+    "idx": 7,
+    "source_file": "000000-4.pkl",
+    "visible_seed": "1000",
+    "window_t": 1
+  },
+  "max_prefix_actions": 20,
+  "motion_timeout": 15.0,
+  "pred_samples": 16,
+  "repair_variant": "idm_gt_pose1_xy",
+  "root": "/data/state_diff2",
+  "seed_base": 390000,
+  "source_action": "idm_gt_future",
+  "windows": "data/phase3_state_diff_windows/phase3_windows.npz"
+}
