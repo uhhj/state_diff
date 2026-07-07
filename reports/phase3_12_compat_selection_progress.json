@@ -1,0 +1,19 @@
+{
+  "completed": 54,
+  "failed": 0,
+  "finished_at": "2026-07-07T15:33:58+0800",
+  "last_row": {
+    "condition": "hidden_high_friction",
+    "delta_fraction": 0.0,
+    "failure_reason": "",
+    "final_fraction": 0.0,
+    "selector": "compat_condition_action_geom",
+    "status": "ok"
+  },
+  "ok": 54,
+  "scope": "phase3_12_compat_selection_no_phase4_no_cps",
+  "started_at": "2026-07-07T14:56:23+0800",
+  "status": "completed",
+  "timeout": 0,
+  "total_specs": 54
+}
