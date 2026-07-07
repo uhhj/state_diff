@@ -1,0 +1,18 @@
+{
+  "completed": 63,
+  "failed": 0,
+  "finished_at": "2026-07-07T13:06:28+0800",
+  "last_row": {
+    "condition": "hidden_high_friction",
+    "delta": 0.0,
+    "failure": "",
+    "status": "ok",
+    "variant": "live_condition_retrieval_repaired_idm"
+  },
+  "ok": 63,
+  "scope": "phase3_11b_retrieval_feasibility_no_phase4_no_cps",
+  "started_at": "2026-07-07T12:52:20+0800",
+  "status": "completed",
+  "timeout": 0,
+  "total_specs": 63
+}
