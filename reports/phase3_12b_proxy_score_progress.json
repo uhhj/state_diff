@@ -1,0 +1,19 @@
+{
+  "completed": 84,
+  "failed": 0,
+  "finished_at": "2026-07-10T11:01:12+0800",
+  "last_row": {
+    "condition": "hidden_high_friction",
+    "delta_fraction": 0.0,
+    "failure_reason": "",
+    "final_fraction": 0.0,
+    "selector": "proxy_combined_topk_no_action_geom",
+    "status": "ok"
+  },
+  "ok": 84,
+  "scope": "phase3_12b_proxy_score_no_phase4_no_cps",
+  "started_at": "2026-07-10T09:59:58+0800",
+  "status": "completed",
+  "timeout": 0,
+  "total_specs": 84
+}
