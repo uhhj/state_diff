@@ -1,0 +1,5256 @@
+{
+  "causal_force_probe": [
+    {
+      "free": {
+        "bead_local_index": 10,
+        "breakaway_released": false,
+        "condition": "free",
+        "full_cable_change": {
+          "mae": 0.4961851097953816,
+          "max_abs": 1.0866920948028564,
+          "rmse": 0.6934357567383157
+        },
+        "hook_error": "None",
+        "max_disp_seen": 0.0,
+        "release_loop_step": null,
+        "release_physics_step": null,
+        "seed": 312000,
+        "selected_bead_displacement": 1.0867222547531128
+      },
+      "hidden": {
+        "bead_local_index": 10,
+        "breakaway_released": true,
+        "condition": "hidden_breakaway_pin",
+        "full_cable_change": {
+          "mae": 0.46441561899458367,
+          "max_abs": 1.0233429670333862,
+          "rmse": 0.6488327936344721
+        },
+        "hook_error": "None",
+        "max_disp_seen": 0.04566289111971855,
+        "release_loop_step": 27,
+        "release_physics_step": 27,
+        "seed": 312000,
+        "selected_bead_displacement": 1.0235099792480469
+      },
+      "hidden_released": true,
+      "hook_error_free": "None",
+      "hook_error_hidden": "None",
+      "max_trajectory_divergence": 0.06419747980391081,
+      "mean_trajectory_divergence": 0.04006888797663574,
+      "seed": 312000
+    },
+    {
+      "free": {
+        "bead_local_index": 10,
+        "breakaway_released": false,
+        "condition": "free",
+        "full_cable_change": {
+          "mae": 0.4895184338092804,
+          "max_abs": 1.0604816675186157,
+          "rmse": 0.6830639845660503
+        },
+        "hook_error": "None",
+        "max_disp_seen": 0.0,
+        "release_loop_step": null,
+        "release_physics_step": null,
+        "seed": 312500,
+        "selected_bead_displacement": 1.0606762170791626
+      },
+      "hidden": {
+        "bead_local_index": 10,
+        "breakaway_released": true,
+        "condition": "hidden_breakaway_pin",
+        "full_cable_change": {
+          "mae": 0.46361541623870534,
+          "max_abs": 1.00728440284729,
+          "rmse": 0.64556503592393
+        },
+        "hook_error": "None",
+        "max_disp_seen": 0.046458467841148376,
+        "release_loop_step": 29,
+        "release_physics_step": 29,
+        "seed": 312500,
+        "selected_bead_displacement": 1.0076794624328613
+      },
+      "hidden_released": true,
+      "hook_error_free": "None",
+      "hook_error_hidden": "None",
+      "max_trajectory_divergence": 0.05378029053914109,
+      "mean_trajectory_divergence": 0.031774422820096584,
+      "seed": 312500
+    }
+  ],
+  "correction_note": "Unlike r2, all hard visible comparisons pair free and hidden at the same no-action physics horizon. Absolute motion from t=0 is diagnostic only.",
+  "decision": "Run query-local candidate smoke only if this report has no FAIL.",
+  "failure_categories": {
+    "causal_semantics": false,
+    "code_or_runtime": false,
+    "common_evolution": false,
+    "paired_visible": true,
+    "reproducibility": false
+  },
+  "goal_action_probe": [
+    {
+      "dense_gain": 0.07463679648935795,
+      "diagnostic_bead_local_index": 23,
+      "done": false,
+      "fraction_gain": 0.5,
+      "hook_error": "None",
+      "ordered_gain": 0.16656508296728134,
+      "reward": 0.5,
+      "seed": 312000
+    },
+    {
+      "dense_gain": 0.27173469960689545,
+      "diagnostic_bead_local_index": 22,
+      "done": false,
+      "fraction_gain": 0.16666666666666666,
+      "hook_error": "None",
+      "ordered_gain": 0.3338738903403282,
+      "reward": 0.16666666666666666,
+      "seed": 312500
+    }
+  ],
+  "horizon_rows": [
+    {
+      "absolute_no_action_drift": {
+        "free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_replicate": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "evaluation_steps": 0,
+      "goal_parity": {
+        "free_replicate": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "immediate_arm_jump": {
+        "anchor_error": 0.0,
+        "curve_diff": 0.0,
+        "fraction_diff": 0.0,
+        "mae": 0.0,
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "pre_arm": {
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "runtime_state": {
+        "free_body_count": 0,
+        "free_constraint_count": 0,
+        "free_hook_error": "None",
+        "free_replicate_hook_error": "None",
+        "hidden_armed_body_count": 0,
+        "hidden_armed_constraint_count": 1,
+        "hidden_armed_hook_error": "None",
+        "hidden_armed_released": false,
+        "hidden_contact_applied": true,
+        "hidden_unarmed_constraint_count": 0,
+        "hidden_unarmed_contact_applied": false,
+        "hidden_unarmed_hook_error": "None",
+        "hidden_unarmed_released": false
+      },
+      "same_horizon": {
+        "common_evolution_parity": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "excess_motion_difference": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "unarmed_excess_motion": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "seed": 312000,
+      "settle_steps": {
+        "free_a": 610,
+        "free_b": 610,
+        "hidden_armed": 610,
+        "hidden_unarmed": 610
+      },
+      "velocity": {
+        "common_evolution_parity": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_reproducibility": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      }
+    },
+    {
+      "absolute_no_action_drift": {
+        "free": {
+          "curve_diff": 4.769145937194574e-07,
+          "fraction_diff": 0.0,
+          "mae": 6.360933184623718e-07,
+          "max_abs": 2.2277235984802246e-06,
+          "rmse": 8.338508486004883e-07
+        },
+        "free_replicate": {
+          "curve_diff": 4.769145937194574e-07,
+          "fraction_diff": 0.0,
+          "mae": 6.360933184623718e-07,
+          "max_abs": 2.2277235984802246e-06,
+          "rmse": 8.338508486004883e-07
+        },
+        "hidden_armed": {
+          "curve_diff": 8.053436041325496e-07,
+          "fraction_diff": 0.0,
+          "mae": 7.959703604380289e-07,
+          "max_abs": 3.121793270111084e-06,
+          "rmse": 1.0742312370664389e-06
+        },
+        "hidden_unarmed": {
+          "curve_diff": 4.769145937194574e-07,
+          "fraction_diff": 0.0,
+          "mae": 6.360933184623718e-07,
+          "max_abs": 2.2277235984802246e-06,
+          "rmse": 8.338508486004883e-07
+        }
+      },
+      "evaluation_steps": 1,
+      "goal_parity": {
+        "free_replicate": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "immediate_arm_jump": {
+        "anchor_error": 0.0,
+        "curve_diff": 0.0,
+        "fraction_diff": 0.0,
+        "mae": 0.0,
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "pre_arm": {
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "runtime_state": {
+        "free_body_count": 0,
+        "free_constraint_count": 0,
+        "free_hook_error": "None",
+        "free_replicate_hook_error": "None",
+        "hidden_armed_body_count": 0,
+        "hidden_armed_constraint_count": 1,
+        "hidden_armed_hook_error": "None",
+        "hidden_armed_released": false,
+        "hidden_contact_applied": true,
+        "hidden_unarmed_constraint_count": 0,
+        "hidden_unarmed_contact_applied": false,
+        "hidden_unarmed_hook_error": "None",
+        "hidden_unarmed_released": false
+      },
+      "same_horizon": {
+        "common_evolution_parity": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "excess_motion_difference": {
+          "mae": 4.386529326438904e-07,
+          "max_abs": 3.516674041748047e-06,
+          "rmse": 8.302467828387799e-07
+        },
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "curve_diff": 3.2842901041309214e-07,
+          "fraction_diff": 0.0,
+          "mae": 4.386529326438904e-07,
+          "max_abs": 3.516674041748047e-06,
+          "rmse": 8.302467828387799e-07
+        },
+        "unarmed_excess_motion": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "seed": 312000,
+      "settle_steps": {
+        "free_a": 610,
+        "free_b": 610,
+        "hidden_armed": 610,
+        "hidden_unarmed": 610
+      },
+      "velocity": {
+        "common_evolution_parity": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_reproducibility": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "mae": 8.887984057300476e-05,
+          "max_abs": 0.0008476708899252117,
+          "rmse": 0.00017593763696959014
+        }
+      }
+    },
+    {
+      "absolute_no_action_drift": {
+        "free": {
+          "curve_diff": 8.789620695864864e-07,
+          "fraction_diff": 0.0,
+          "mae": 2.571847289800644e-06,
+          "max_abs": 1.0073184967041016e-05,
+          "rmse": 3.5794462058562798e-06
+        },
+        "free_replicate": {
+          "curve_diff": 8.789620695864864e-07,
+          "fraction_diff": 0.0,
+          "mae": 2.571847289800644e-06,
+          "max_abs": 1.0073184967041016e-05,
+          "rmse": 3.5794462058562798e-06
+        },
+        "hidden_armed": {
+          "curve_diff": 1.4283277330520011e-06,
+          "fraction_diff": 0.0,
+          "mae": 3.008016695578893e-06,
+          "max_abs": 1.1049211025238037e-05,
+          "rmse": 4.256115635227428e-06
+        },
+        "hidden_unarmed": {
+          "curve_diff": 8.789620695864864e-07,
+          "fraction_diff": 0.0,
+          "mae": 2.571847289800644e-06,
+          "max_abs": 1.0073184967041016e-05,
+          "rmse": 3.5794462058562798e-06
+        }
+      },
+      "evaluation_steps": 5,
+      "goal_parity": {
+        "free_replicate": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "immediate_arm_jump": {
+        "anchor_error": 0.0,
+        "curve_diff": 0.0,
+        "fraction_diff": 0.0,
+        "mae": 0.0,
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "pre_arm": {
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "runtime_state": {
+        "free_body_count": 0,
+        "free_constraint_count": 0,
+        "free_hook_error": "None",
+        "free_replicate_hook_error": "None",
+        "hidden_armed_body_count": 0,
+        "hidden_armed_constraint_count": 1,
+        "hidden_armed_hook_error": "None",
+        "hidden_armed_released": false,
+        "hidden_contact_applied": true,
+        "hidden_unarmed_constraint_count": 0,
+        "hidden_unarmed_contact_applied": false,
+        "hidden_unarmed_hook_error": "None",
+        "hidden_unarmed_released": false
+      },
+      "same_horizon": {
+        "common_evolution_parity": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "excess_motion_difference": {
+          "mae": 1.4801820119222005e-06,
+          "max_abs": 6.496906280517578e-06,
+          "rmse": 2.303168070639627e-06
+        },
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "curve_diff": 5.493656634655147e-07,
+          "fraction_diff": 0.0,
+          "mae": 1.4801820119222005e-06,
+          "max_abs": 6.496906280517578e-06,
+          "rmse": 2.303168070639627e-06
+        },
+        "unarmed_excess_motion": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "seed": 312000,
+      "settle_steps": {
+        "free_a": 610,
+        "free_b": 610,
+        "hidden_armed": 610,
+        "hidden_unarmed": 610
+      },
+      "velocity": {
+        "common_evolution_parity": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_reproducibility": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "mae": 6.497742171972397e-05,
+          "max_abs": 0.0005145566319697537,
+          "rmse": 0.00011486027838522037
+        }
+      }
+    },
+    {
+      "absolute_no_action_drift": {
+        "free": {
+          "curve_diff": 2.0982879676799404e-06,
+          "fraction_diff": 0.0,
+          "mae": 1.1739631493886312e-05,
+          "max_abs": 4.1604042053222656e-05,
+          "rmse": 1.5218620805721278e-05
+        },
+        "free_replicate": {
+          "curve_diff": 2.0982879676799404e-06,
+          "fraction_diff": 0.0,
+          "mae": 1.1739631493886312e-05,
+          "max_abs": 4.1604042053222656e-05,
+          "rmse": 1.5218620805721278e-05
+        },
+        "hidden_armed": {
+          "curve_diff": 4.068643194394747e-06,
+          "fraction_diff": 0.0,
+          "mae": 1.1082893858353296e-05,
+          "max_abs": 4.1604042053222656e-05,
+          "rmse": 1.5294088429817705e-05
+        },
+        "hidden_unarmed": {
+          "curve_diff": 2.0982879676799404e-06,
+          "fraction_diff": 0.0,
+          "mae": 1.1739631493886312e-05,
+          "max_abs": 4.1604042053222656e-05,
+          "rmse": 1.5218620805721278e-05
+        }
+      },
+      "evaluation_steps": 20,
+      "goal_parity": {
+        "free_replicate": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "immediate_arm_jump": {
+        "anchor_error": 0.0,
+        "curve_diff": 0.0,
+        "fraction_diff": 0.0,
+        "mae": 0.0,
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "pre_arm": {
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "runtime_state": {
+        "free_body_count": 0,
+        "free_constraint_count": 0,
+        "free_hook_error": "None",
+        "free_replicate_hook_error": "None",
+        "hidden_armed_body_count": 0,
+        "hidden_armed_constraint_count": 1,
+        "hidden_armed_hook_error": "None",
+        "hidden_armed_released": false,
+        "hidden_contact_applied": true,
+        "hidden_unarmed_constraint_count": 0,
+        "hidden_unarmed_contact_applied": false,
+        "hidden_unarmed_hook_error": "None",
+        "hidden_unarmed_released": false
+      },
+      "same_horizon": {
+        "common_evolution_parity": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "excess_motion_difference": {
+          "mae": 3.3569522202014923e-06,
+          "max_abs": 2.485513687133789e-05,
+          "rmse": 5.4850044113850925e-06
+        },
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "curve_diff": 1.9703552267148067e-06,
+          "fraction_diff": 0.0,
+          "mae": 3.3569522202014923e-06,
+          "max_abs": 2.485513687133789e-05,
+          "rmse": 5.4850044113850925e-06
+        },
+        "unarmed_excess_motion": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "seed": 312000,
+      "settle_steps": {
+        "free_a": 610,
+        "free_b": 610,
+        "hidden_armed": 610,
+        "hidden_unarmed": 610
+      },
+      "velocity": {
+        "common_evolution_parity": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_reproducibility": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "mae": 8.844709968198256e-05,
+          "max_abs": 0.0004445834165380802,
+          "rmse": 0.00012423258475481125
+        }
+      }
+    },
+    {
+      "absolute_no_action_drift": {
+        "free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_replicate": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "evaluation_steps": 0,
+      "goal_parity": {
+        "free_replicate": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "immediate_arm_jump": {
+        "anchor_error": 0.0,
+        "curve_diff": 0.0,
+        "fraction_diff": 0.0,
+        "mae": 0.0,
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "pre_arm": {
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "runtime_state": {
+        "free_body_count": 0,
+        "free_constraint_count": 0,
+        "free_hook_error": "None",
+        "free_replicate_hook_error": "None",
+        "hidden_armed_body_count": 0,
+        "hidden_armed_constraint_count": 1,
+        "hidden_armed_hook_error": "None",
+        "hidden_armed_released": false,
+        "hidden_contact_applied": true,
+        "hidden_unarmed_constraint_count": 0,
+        "hidden_unarmed_contact_applied": false,
+        "hidden_unarmed_hook_error": "None",
+        "hidden_unarmed_released": false
+      },
+      "same_horizon": {
+        "common_evolution_parity": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "excess_motion_difference": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "unarmed_excess_motion": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "seed": 312001,
+      "settle_steps": {
+        "free_a": 610,
+        "free_b": 610,
+        "hidden_armed": 610,
+        "hidden_unarmed": 610
+      },
+      "velocity": {
+        "common_evolution_parity": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_reproducibility": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      }
+    },
+    {
+      "absolute_no_action_drift": {
+        "free": {
+          "curve_diff": 1.983550629146985e-07,
+          "fraction_diff": 0.0,
+          "mae": 5.0601859887441e-07,
+          "max_abs": 2.2649765014648438e-06,
+          "rmse": 6.957555191686556e-07
+        },
+        "free_replicate": {
+          "curve_diff": 1.983550629146985e-07,
+          "fraction_diff": 0.0,
+          "mae": 5.0601859887441e-07,
+          "max_abs": 2.2649765014648438e-06,
+          "rmse": 6.957555191686556e-07
+        },
+        "hidden_armed": {
+          "curve_diff": 2.331517724683818e-07,
+          "fraction_diff": 0.0,
+          "mae": 6.146728992462158e-07,
+          "max_abs": 2.294778823852539e-06,
+          "rmse": 8.391087189496211e-07
+        },
+        "hidden_unarmed": {
+          "curve_diff": 1.983550629146985e-07,
+          "fraction_diff": 0.0,
+          "mae": 5.0601859887441e-07,
+          "max_abs": 2.2649765014648438e-06,
+          "rmse": 6.957555191686556e-07
+        }
+      },
+      "evaluation_steps": 1,
+      "goal_parity": {
+        "free_replicate": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "immediate_arm_jump": {
+        "anchor_error": 0.0,
+        "curve_diff": 0.0,
+        "fraction_diff": 0.0,
+        "mae": 0.0,
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "pre_arm": {
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "runtime_state": {
+        "free_body_count": 0,
+        "free_constraint_count": 0,
+        "free_hook_error": "None",
+        "free_replicate_hook_error": "None",
+        "hidden_armed_body_count": 0,
+        "hidden_armed_constraint_count": 1,
+        "hidden_armed_hook_error": "None",
+        "hidden_armed_released": false,
+        "hidden_contact_applied": true,
+        "hidden_unarmed_constraint_count": 0,
+        "hidden_unarmed_contact_applied": false,
+        "hidden_unarmed_hook_error": "None",
+        "hidden_unarmed_released": false
+      },
+      "same_horizon": {
+        "common_evolution_parity": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "excess_motion_difference": {
+          "mae": 2.4649004141489666e-07,
+          "max_abs": 1.1622905731201172e-06,
+          "rmse": 4.1382593145963e-07
+        },
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "curve_diff": 3.47967095536833e-08,
+          "fraction_diff": 0.0,
+          "mae": 2.4649004141489666e-07,
+          "max_abs": 1.1622905731201172e-06,
+          "rmse": 4.1382593145963e-07
+        },
+        "unarmed_excess_motion": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "seed": 312001,
+      "settle_steps": {
+        "free_a": 610,
+        "free_b": 610,
+        "hidden_armed": 610,
+        "hidden_unarmed": 610
+      },
+      "velocity": {
+        "common_evolution_parity": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_reproducibility": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "mae": 4.900268923401107e-05,
+          "max_abs": 0.00027859675174113363,
+          "rmse": 8.929071296575758e-05
+        }
+      }
+    },
+    {
+      "absolute_no_action_drift": {
+        "free": {
+          "curve_diff": 9.427337889032078e-07,
+          "fraction_diff": 0.0,
+          "mae": 2.3146470387776694e-06,
+          "max_abs": 1.1920928955078125e-05,
+          "rmse": 3.4829584993656453e-06
+        },
+        "free_replicate": {
+          "curve_diff": 9.427337889032078e-07,
+          "fraction_diff": 0.0,
+          "mae": 2.3146470387776694e-06,
+          "max_abs": 1.1920928955078125e-05,
+          "rmse": 3.4829584993656453e-06
+        },
+        "hidden_armed": {
+          "curve_diff": 1.9579627248047377e-06,
+          "fraction_diff": 0.0,
+          "mae": 2.718841036160787e-06,
+          "max_abs": 1.2069940567016602e-05,
+          "rmse": 4.085203912888857e-06
+        },
+        "hidden_unarmed": {
+          "curve_diff": 9.427337889032078e-07,
+          "fraction_diff": 0.0,
+          "mae": 2.3146470387776694e-06,
+          "max_abs": 1.1920928955078125e-05,
+          "rmse": 3.4829584993656453e-06
+        }
+      },
+      "evaluation_steps": 5,
+      "goal_parity": {
+        "free_replicate": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "immediate_arm_jump": {
+        "anchor_error": 0.0,
+        "curve_diff": 0.0,
+        "fraction_diff": 0.0,
+        "mae": 0.0,
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "pre_arm": {
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "runtime_state": {
+        "free_body_count": 0,
+        "free_constraint_count": 0,
+        "free_hook_error": "None",
+        "free_replicate_hook_error": "None",
+        "hidden_armed_body_count": 0,
+        "hidden_armed_constraint_count": 1,
+        "hidden_armed_hook_error": "None",
+        "hidden_armed_released": false,
+        "hidden_contact_applied": true,
+        "hidden_unarmed_constraint_count": 0,
+        "hidden_unarmed_contact_applied": false,
+        "hidden_unarmed_hook_error": "None",
+        "hidden_unarmed_released": false
+      },
+      "same_horizon": {
+        "common_evolution_parity": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "excess_motion_difference": {
+          "mae": 1.2113402287165325e-06,
+          "max_abs": 5.781650543212891e-06,
+          "rmse": 2.0616399597790764e-06
+        },
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "curve_diff": 1.0152289359015298e-06,
+          "fraction_diff": 0.0,
+          "mae": 1.2113402287165325e-06,
+          "max_abs": 5.781650543212891e-06,
+          "rmse": 2.0616399597790764e-06
+        },
+        "unarmed_excess_motion": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "seed": 312001,
+      "settle_steps": {
+        "free_a": 610,
+        "free_b": 610,
+        "hidden_armed": 610,
+        "hidden_unarmed": 610
+      },
+      "velocity": {
+        "common_evolution_parity": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_reproducibility": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "mae": 6.331620890639063e-05,
+          "max_abs": 0.00041590484033804387,
+          "rmse": 0.000102242035188085
+        }
+      }
+    },
+    {
+      "absolute_no_action_drift": {
+        "free": {
+          "curve_diff": 2.9182738238379274e-06,
+          "fraction_diff": 0.0,
+          "mae": 9.504457314809164e-06,
+          "max_abs": 4.8488378524780273e-05,
+          "rmse": 1.442381603256737e-05
+        },
+        "free_replicate": {
+          "curve_diff": 2.9182738238379274e-06,
+          "fraction_diff": 0.0,
+          "mae": 9.504457314809164e-06,
+          "max_abs": 4.8488378524780273e-05,
+          "rmse": 1.442381603256737e-05
+        },
+        "hidden_armed": {
+          "curve_diff": 3.619809008766073e-06,
+          "fraction_diff": 0.0,
+          "mae": 9.649122754732767e-06,
+          "max_abs": 4.881620407104492e-05,
+          "rmse": 1.4614730552120901e-05
+        },
+        "hidden_unarmed": {
+          "curve_diff": 2.9182738238379274e-06,
+          "fraction_diff": 0.0,
+          "mae": 9.504457314809164e-06,
+          "max_abs": 4.8488378524780273e-05,
+          "rmse": 1.442381603256737e-05
+        }
+      },
+      "evaluation_steps": 20,
+      "goal_parity": {
+        "free_replicate": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "immediate_arm_jump": {
+        "anchor_error": 0.0,
+        "curve_diff": 0.0,
+        "fraction_diff": 0.0,
+        "mae": 0.0,
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "pre_arm": {
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "runtime_state": {
+        "free_body_count": 0,
+        "free_constraint_count": 0,
+        "free_hook_error": "None",
+        "free_replicate_hook_error": "None",
+        "hidden_armed_body_count": 0,
+        "hidden_armed_constraint_count": 1,
+        "hidden_armed_hook_error": "None",
+        "hidden_armed_released": false,
+        "hidden_contact_applied": true,
+        "hidden_unarmed_constraint_count": 0,
+        "hidden_unarmed_contact_applied": false,
+        "hidden_unarmed_hook_error": "None",
+        "hidden_unarmed_released": false
+      },
+      "same_horizon": {
+        "common_evolution_parity": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "excess_motion_difference": {
+          "mae": 3.1758099794387817e-06,
+          "max_abs": 1.4841556549072266e-05,
+          "rmse": 4.4993878770947225e-06
+        },
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "curve_diff": 7.015351849281454e-07,
+          "fraction_diff": 0.0,
+          "mae": 3.1758099794387817e-06,
+          "max_abs": 1.4841556549072266e-05,
+          "rmse": 4.4993878770947225e-06
+        },
+        "unarmed_excess_motion": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "seed": 312001,
+      "settle_steps": {
+        "free_a": 610,
+        "free_b": 610,
+        "hidden_armed": 610,
+        "hidden_unarmed": 610
+      },
+      "velocity": {
+        "common_evolution_parity": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_reproducibility": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "mae": 5.6159050403200204e-05,
+          "max_abs": 0.0002513479948902386,
+          "rmse": 8.220078742460052e-05
+        }
+      }
+    },
+    {
+      "absolute_no_action_drift": {
+        "free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_replicate": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "evaluation_steps": 0,
+      "goal_parity": {
+        "free_replicate": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "immediate_arm_jump": {
+        "anchor_error": 0.0,
+        "curve_diff": 0.0,
+        "fraction_diff": 0.0,
+        "mae": 0.0,
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "pre_arm": {
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "runtime_state": {
+        "free_body_count": 0,
+        "free_constraint_count": 0,
+        "free_hook_error": "None",
+        "free_replicate_hook_error": "None",
+        "hidden_armed_body_count": 0,
+        "hidden_armed_constraint_count": 1,
+        "hidden_armed_hook_error": "None",
+        "hidden_armed_released": false,
+        "hidden_contact_applied": true,
+        "hidden_unarmed_constraint_count": 0,
+        "hidden_unarmed_contact_applied": false,
+        "hidden_unarmed_hook_error": "None",
+        "hidden_unarmed_released": false
+      },
+      "same_horizon": {
+        "common_evolution_parity": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "excess_motion_difference": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "unarmed_excess_motion": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "seed": 312002,
+      "settle_steps": {
+        "free_a": 610,
+        "free_b": 610,
+        "hidden_armed": 610,
+        "hidden_unarmed": 610
+      },
+      "velocity": {
+        "common_evolution_parity": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_reproducibility": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      }
+    },
+    {
+      "absolute_no_action_drift": {
+        "free": {
+          "curve_diff": 4.3445435704732305e-07,
+          "fraction_diff": 0.0,
+          "mae": 8.520825455586115e-07,
+          "max_abs": 5.550682544708252e-06,
+          "rmse": 1.3984780425460675e-06
+        },
+        "free_replicate": {
+          "curve_diff": 4.3445435704732305e-07,
+          "fraction_diff": 0.0,
+          "mae": 8.520825455586115e-07,
+          "max_abs": 5.550682544708252e-06,
+          "rmse": 1.3984780425460675e-06
+        },
+        "hidden_armed": {
+          "curve_diff": 7.571913356752696e-07,
+          "fraction_diff": 0.0,
+          "mae": 1.1870482315619786e-06,
+          "max_abs": 8.77678394317627e-06,
+          "rmse": 1.9841639664081737e-06
+        },
+        "hidden_unarmed": {
+          "curve_diff": 4.3445435704732305e-07,
+          "fraction_diff": 0.0,
+          "mae": 8.520825455586115e-07,
+          "max_abs": 5.550682544708252e-06,
+          "rmse": 1.3984780425460675e-06
+        }
+      },
+      "evaluation_steps": 1,
+      "goal_parity": {
+        "free_replicate": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "immediate_arm_jump": {
+        "anchor_error": 0.0,
+        "curve_diff": 0.0,
+        "fraction_diff": 0.0,
+        "mae": 0.0,
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "pre_arm": {
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "runtime_state": {
+        "free_body_count": 0,
+        "free_constraint_count": 0,
+        "free_hook_error": "None",
+        "free_replicate_hook_error": "None",
+        "hidden_armed_body_count": 0,
+        "hidden_armed_constraint_count": 1,
+        "hidden_armed_hook_error": "None",
+        "hidden_armed_released": false,
+        "hidden_contact_applied": true,
+        "hidden_unarmed_constraint_count": 0,
+        "hidden_unarmed_contact_applied": false,
+        "hidden_unarmed_hook_error": "None",
+        "hidden_unarmed_released": false
+      },
+      "same_horizon": {
+        "common_evolution_parity": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "excess_motion_difference": {
+          "mae": 7.723768552144369e-07,
+          "max_abs": 3.6656856536865234e-06,
+          "rmse": 1.2864780035279125e-06
+        },
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "curve_diff": 3.227369786279466e-07,
+          "fraction_diff": 0.0,
+          "mae": 7.723768552144369e-07,
+          "max_abs": 3.6656856536865234e-06,
+          "rmse": 1.2864780035279125e-06
+        },
+        "unarmed_excess_motion": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "seed": 312002,
+      "settle_steps": {
+        "free_a": 610,
+        "free_b": 610,
+        "hidden_armed": 610,
+        "hidden_unarmed": 610
+      },
+      "velocity": {
+        "common_evolution_parity": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_reproducibility": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "mae": 0.00015941857168242122,
+          "max_abs": 0.0010200097458437085,
+          "rmse": 0.00028847028730411505
+        }
+      }
+    },
+    {
+      "absolute_no_action_drift": {
+        "free": {
+          "curve_diff": 1.4117783351808022e-06,
+          "fraction_diff": 0.0,
+          "mae": 5.61013196905454e-06,
+          "max_abs": 2.5741755962371826e-05,
+          "rmse": 7.935255502869792e-06
+        },
+        "free_replicate": {
+          "curve_diff": 1.4117783351808022e-06,
+          "fraction_diff": 0.0,
+          "mae": 5.61013196905454e-06,
+          "max_abs": 2.5741755962371826e-05,
+          "rmse": 7.935255502869792e-06
+        },
+        "hidden_armed": {
+          "curve_diff": 2.1338545545101367e-06,
+          "fraction_diff": 0.0,
+          "mae": 6.444752216339111e-06,
+          "max_abs": 3.279000520706177e-05,
+          "rmse": 1.0460331440254726e-05
+        },
+        "hidden_unarmed": {
+          "curve_diff": 1.4117783351808022e-06,
+          "fraction_diff": 0.0,
+          "mae": 5.61013196905454e-06,
+          "max_abs": 2.5741755962371826e-05,
+          "rmse": 7.935255502869792e-06
+        }
+      },
+      "evaluation_steps": 5,
+      "goal_parity": {
+        "free_replicate": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "immediate_arm_jump": {
+        "anchor_error": 0.0,
+        "curve_diff": 0.0,
+        "fraction_diff": 0.0,
+        "mae": 0.0,
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "pre_arm": {
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "runtime_state": {
+        "free_body_count": 0,
+        "free_constraint_count": 0,
+        "free_hook_error": "None",
+        "free_replicate_hook_error": "None",
+        "hidden_armed_body_count": 0,
+        "hidden_armed_constraint_count": 1,
+        "hidden_armed_hook_error": "None",
+        "hidden_armed_released": false,
+        "hidden_contact_applied": true,
+        "hidden_unarmed_constraint_count": 0,
+        "hidden_unarmed_contact_applied": false,
+        "hidden_unarmed_hook_error": "None",
+        "hidden_unarmed_released": false
+      },
+      "same_horizon": {
+        "common_evolution_parity": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "excess_motion_difference": {
+          "mae": 3.53731835881869e-06,
+          "max_abs": 1.903623342514038e-05,
+          "rmse": 5.9165884036906366e-06
+        },
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "curve_diff": 7.220762193293345e-07,
+          "fraction_diff": 0.0,
+          "mae": 3.53731835881869e-06,
+          "max_abs": 1.903623342514038e-05,
+          "rmse": 5.9165884036906366e-06
+        },
+        "unarmed_excess_motion": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "seed": 312002,
+      "settle_steps": {
+        "free_a": 610,
+        "free_b": 610,
+        "hidden_armed": 610,
+        "hidden_unarmed": 610
+      },
+      "velocity": {
+        "common_evolution_parity": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_reproducibility": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "mae": 0.0003344023000442478,
+          "max_abs": 0.001763632993970532,
+          "rmse": 0.0004860257440361971
+        }
+      }
+    },
+    {
+      "absolute_no_action_drift": {
+        "free": {
+          "curve_diff": 1.1893005808177523e-05,
+          "fraction_diff": 0.0,
+          "mae": 2.5659721965591114e-05,
+          "max_abs": 0.00012720376253128052,
+          "rmse": 3.741584678043974e-05
+        },
+        "free_replicate": {
+          "curve_diff": 1.1893005808177523e-05,
+          "fraction_diff": 0.0,
+          "mae": 2.5659721965591114e-05,
+          "max_abs": 0.00012720376253128052,
+          "rmse": 3.741584678043974e-05
+        },
+        "hidden_armed": {
+          "curve_diff": 1.1610473761360443e-05,
+          "fraction_diff": 0.0,
+          "mae": 2.2875067467490833e-05,
+          "max_abs": 0.00012534111738204956,
+          "rmse": 3.629826463284343e-05
+        },
+        "hidden_unarmed": {
+          "curve_diff": 1.1893005808177523e-05,
+          "fraction_diff": 0.0,
+          "mae": 2.5659721965591114e-05,
+          "max_abs": 0.00012720376253128052,
+          "rmse": 3.741584678043974e-05
+        }
+      },
+      "evaluation_steps": 20,
+      "goal_parity": {
+        "free_replicate": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "immediate_arm_jump": {
+        "anchor_error": 0.0,
+        "curve_diff": 0.0,
+        "fraction_diff": 0.0,
+        "mae": 0.0,
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "pre_arm": {
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "runtime_state": {
+        "free_body_count": 0,
+        "free_constraint_count": 0,
+        "free_hook_error": "None",
+        "free_replicate_hook_error": "None",
+        "hidden_armed_body_count": 0,
+        "hidden_armed_constraint_count": 1,
+        "hidden_armed_hook_error": "None",
+        "hidden_armed_released": false,
+        "hidden_contact_applied": true,
+        "hidden_unarmed_constraint_count": 0,
+        "hidden_unarmed_contact_applied": false,
+        "hidden_unarmed_hook_error": "None",
+        "hidden_unarmed_released": false
+      },
+      "same_horizon": {
+        "common_evolution_parity": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "excess_motion_difference": {
+          "mae": 6.685809542735417e-06,
+          "max_abs": 4.07099723815918e-05,
+          "rmse": 1.0971073245303432e-05
+        },
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "curve_diff": 2.8253204681708e-07,
+          "fraction_diff": 0.0,
+          "mae": 6.685809542735417e-06,
+          "max_abs": 4.07099723815918e-05,
+          "rmse": 1.0971073245303432e-05
+        },
+        "unarmed_excess_motion": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "seed": 312002,
+      "settle_steps": {
+        "free_a": 610,
+        "free_b": 610,
+        "hidden_armed": 610,
+        "hidden_unarmed": 610
+      },
+      "velocity": {
+        "common_evolution_parity": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_reproducibility": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "mae": 0.00023963653127603537,
+          "max_abs": 0.001344734919257462,
+          "rmse": 0.00036892753704969173
+        }
+      }
+    },
+    {
+      "absolute_no_action_drift": {
+        "free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_replicate": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "evaluation_steps": 0,
+      "goal_parity": {
+        "free_replicate": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "immediate_arm_jump": {
+        "anchor_error": 0.0,
+        "curve_diff": 0.0,
+        "fraction_diff": 0.0,
+        "mae": 0.0,
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "pre_arm": {
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "runtime_state": {
+        "free_body_count": 0,
+        "free_constraint_count": 0,
+        "free_hook_error": "None",
+        "free_replicate_hook_error": "None",
+        "hidden_armed_body_count": 0,
+        "hidden_armed_constraint_count": 1,
+        "hidden_armed_hook_error": "None",
+        "hidden_armed_released": false,
+        "hidden_contact_applied": true,
+        "hidden_unarmed_constraint_count": 0,
+        "hidden_unarmed_contact_applied": false,
+        "hidden_unarmed_hook_error": "None",
+        "hidden_unarmed_released": false
+      },
+      "same_horizon": {
+        "common_evolution_parity": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "excess_motion_difference": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "unarmed_excess_motion": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "seed": 312003,
+      "settle_steps": {
+        "free_a": 610,
+        "free_b": 610,
+        "hidden_armed": 610,
+        "hidden_unarmed": 610
+      },
+      "velocity": {
+        "common_evolution_parity": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_reproducibility": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      }
+    },
+    {
+      "absolute_no_action_drift": {
+        "free": {
+          "curve_diff": 2.8094850251167425e-06,
+          "fraction_diff": 0.0,
+          "mae": 2.4301310380299887e-06,
+          "max_abs": 1.3560056686401367e-05,
+          "rmse": 4.363382131671984e-06
+        },
+        "free_replicate": {
+          "curve_diff": 2.8094850251167425e-06,
+          "fraction_diff": 0.0,
+          "mae": 2.4301310380299887e-06,
+          "max_abs": 1.3560056686401367e-05,
+          "rmse": 4.363382131671984e-06
+        },
+        "hidden_armed": {
+          "curve_diff": 1.8486152985885962e-06,
+          "fraction_diff": 0.0,
+          "mae": 2.3270646731058755e-06,
+          "max_abs": 1.5139579772949219e-05,
+          "rmse": 4.381942290034699e-06
+        },
+        "hidden_unarmed": {
+          "curve_diff": 2.8094850251167425e-06,
+          "fraction_diff": 0.0,
+          "mae": 2.4301310380299887e-06,
+          "max_abs": 1.3560056686401367e-05,
+          "rmse": 4.363382131671984e-06
+        }
+      },
+      "evaluation_steps": 1,
+      "goal_parity": {
+        "free_replicate": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "immediate_arm_jump": {
+        "anchor_error": 0.0,
+        "curve_diff": 0.0,
+        "fraction_diff": 0.0,
+        "mae": 0.0,
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "pre_arm": {
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "runtime_state": {
+        "free_body_count": 0,
+        "free_constraint_count": 0,
+        "free_hook_error": "None",
+        "free_replicate_hook_error": "None",
+        "hidden_armed_body_count": 0,
+        "hidden_armed_constraint_count": 1,
+        "hidden_armed_hook_error": "None",
+        "hidden_armed_released": false,
+        "hidden_contact_applied": true,
+        "hidden_unarmed_constraint_count": 0,
+        "hidden_unarmed_contact_applied": false,
+        "hidden_unarmed_hook_error": "None",
+        "hidden_unarmed_released": false
+      },
+      "same_horizon": {
+        "common_evolution_parity": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "excess_motion_difference": {
+          "mae": 5.165735880533854e-07,
+          "max_abs": 6.9141387939453125e-06,
+          "rmse": 1.2325551425647901e-06
+        },
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "curve_diff": 9.608697265281463e-07,
+          "fraction_diff": 0.0,
+          "mae": 5.165735880533854e-07,
+          "max_abs": 6.9141387939453125e-06,
+          "rmse": 1.2325551425647901e-06
+        },
+        "unarmed_excess_motion": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "seed": 312003,
+      "settle_steps": {
+        "free_a": 610,
+        "free_b": 610,
+        "hidden_armed": 610,
+        "hidden_unarmed": 610
+      },
+      "velocity": {
+        "common_evolution_parity": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_reproducibility": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "mae": 9.621127370549074e-05,
+          "max_abs": 0.0016595984052401036,
+          "rmse": 0.0002458406171058927
+        }
+      }
+    },
+    {
+      "absolute_no_action_drift": {
+        "free": {
+          "curve_diff": 2.2347341910242124e-06,
+          "fraction_diff": 0.0,
+          "mae": 5.7406723499298096e-06,
+          "max_abs": 3.555417060852051e-05,
+          "rmse": 1.029468948914712e-05
+        },
+        "free_replicate": {
+          "curve_diff": 2.2347341910242124e-06,
+          "fraction_diff": 0.0,
+          "mae": 5.7406723499298096e-06,
+          "max_abs": 3.555417060852051e-05,
+          "rmse": 1.029468948914712e-05
+        },
+        "hidden_armed": {
+          "curve_diff": 1.7437610393324782e-06,
+          "fraction_diff": 0.0,
+          "mae": 7.4375420808792114e-06,
+          "max_abs": 4.795193672180176e-05,
+          "rmse": 1.3653559096157818e-05
+        },
+        "hidden_unarmed": {
+          "curve_diff": 2.2347341910242124e-06,
+          "fraction_diff": 0.0,
+          "mae": 5.7406723499298096e-06,
+          "max_abs": 3.555417060852051e-05,
+          "rmse": 1.029468948914712e-05
+        }
+      },
+      "evaluation_steps": 5,
+      "goal_parity": {
+        "free_replicate": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "immediate_arm_jump": {
+        "anchor_error": 0.0,
+        "curve_diff": 0.0,
+        "fraction_diff": 0.0,
+        "mae": 0.0,
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "pre_arm": {
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "runtime_state": {
+        "free_body_count": 0,
+        "free_constraint_count": 0,
+        "free_hook_error": "None",
+        "free_replicate_hook_error": "None",
+        "hidden_armed_body_count": 0,
+        "hidden_armed_constraint_count": 1,
+        "hidden_armed_hook_error": "None",
+        "hidden_armed_released": false,
+        "hidden_contact_applied": true,
+        "hidden_unarmed_constraint_count": 0,
+        "hidden_unarmed_contact_applied": false,
+        "hidden_unarmed_hook_error": "None",
+        "hidden_unarmed_released": false
+      },
+      "same_horizon": {
+        "common_evolution_parity": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "excess_motion_difference": {
+          "mae": 2.989545464515686e-06,
+          "max_abs": 2.0503997802734375e-05,
+          "rmse": 5.7800196985938e-06
+        },
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "curve_diff": 3.978495230356691e-06,
+          "fraction_diff": 0.0,
+          "mae": 2.989545464515686e-06,
+          "max_abs": 2.0503997802734375e-05,
+          "rmse": 5.7800196985938e-06
+        },
+        "unarmed_excess_motion": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "seed": 312003,
+      "settle_steps": {
+        "free_a": 610,
+        "free_b": 610,
+        "hidden_armed": 610,
+        "hidden_unarmed": 610
+      },
+      "velocity": {
+        "common_evolution_parity": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_reproducibility": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "mae": 0.00024525759880273453,
+          "max_abs": 0.0013513116355170496,
+          "rmse": 0.00041906239729721866
+        }
+      }
+    },
+    {
+      "absolute_no_action_drift": {
+        "free": {
+          "curve_diff": 1.3895445453993016e-07,
+          "fraction_diff": 0.0,
+          "mae": 1.376122236251831e-05,
+          "max_abs": 0.00011515617370605469,
+          "rmse": 2.4774749351840386e-05
+        },
+        "free_replicate": {
+          "curve_diff": 1.3895445453993016e-07,
+          "fraction_diff": 0.0,
+          "mae": 1.376122236251831e-05,
+          "max_abs": 0.00011515617370605469,
+          "rmse": 2.4774749351840386e-05
+        },
+        "hidden_armed": {
+          "curve_diff": 8.385041269287977e-06,
+          "fraction_diff": 0.0,
+          "mae": 1.706741750240326e-05,
+          "max_abs": 0.00011876225471496582,
+          "rmse": 3.154580429289194e-05
+        },
+        "hidden_unarmed": {
+          "curve_diff": 1.3895445453993016e-07,
+          "fraction_diff": 0.0,
+          "mae": 1.376122236251831e-05,
+          "max_abs": 0.00011515617370605469,
+          "rmse": 2.4774749351840386e-05
+        }
+      },
+      "evaluation_steps": 20,
+      "goal_parity": {
+        "free_replicate": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "immediate_arm_jump": {
+        "anchor_error": 0.0,
+        "curve_diff": 0.0,
+        "fraction_diff": 0.0,
+        "mae": 0.0,
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "pre_arm": {
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "runtime_state": {
+        "free_body_count": 0,
+        "free_constraint_count": 0,
+        "free_hook_error": "None",
+        "free_replicate_hook_error": "None",
+        "hidden_armed_body_count": 0,
+        "hidden_armed_constraint_count": 1,
+        "hidden_armed_hook_error": "None",
+        "hidden_armed_released": false,
+        "hidden_contact_applied": true,
+        "hidden_unarmed_constraint_count": 0,
+        "hidden_unarmed_contact_applied": false,
+        "hidden_unarmed_hook_error": "None",
+        "hidden_unarmed_released": false
+      },
+      "same_horizon": {
+        "common_evolution_parity": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "excess_motion_difference": {
+          "mae": 1.0835006833076477e-05,
+          "max_abs": 7.724761962890625e-05,
+          "rmse": 2.159991506016806e-05
+        },
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "curve_diff": 8.523995723827907e-06,
+          "fraction_diff": 0.0,
+          "mae": 1.0835006833076477e-05,
+          "max_abs": 7.724761962890625e-05,
+          "rmse": 2.159991506016806e-05
+        },
+        "unarmed_excess_motion": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "seed": 312003,
+      "settle_steps": {
+        "free_a": 610,
+        "free_b": 610,
+        "hidden_armed": 610,
+        "hidden_unarmed": 610
+      },
+      "velocity": {
+        "common_evolution_parity": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_reproducibility": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "mae": 0.00028581971272460355,
+          "max_abs": 0.0016085869283415377,
+          "rmse": 0.00046171873058782766
+        }
+      }
+    },
+    {
+      "absolute_no_action_drift": {
+        "free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_replicate": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "evaluation_steps": 0,
+      "goal_parity": {
+        "free_replicate": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "immediate_arm_jump": {
+        "anchor_error": 0.0,
+        "curve_diff": 0.0,
+        "fraction_diff": 0.0,
+        "mae": 0.0,
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "pre_arm": {
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "runtime_state": {
+        "free_body_count": 0,
+        "free_constraint_count": 0,
+        "free_hook_error": "None",
+        "free_replicate_hook_error": "None",
+        "hidden_armed_body_count": 0,
+        "hidden_armed_constraint_count": 1,
+        "hidden_armed_hook_error": "None",
+        "hidden_armed_released": false,
+        "hidden_contact_applied": true,
+        "hidden_unarmed_constraint_count": 0,
+        "hidden_unarmed_contact_applied": false,
+        "hidden_unarmed_hook_error": "None",
+        "hidden_unarmed_released": false
+      },
+      "same_horizon": {
+        "common_evolution_parity": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "excess_motion_difference": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "unarmed_excess_motion": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "seed": 312500,
+      "settle_steps": {
+        "free_a": 640,
+        "free_b": 640,
+        "hidden_armed": 640,
+        "hidden_unarmed": 640
+      },
+      "velocity": {
+        "common_evolution_parity": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_reproducibility": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      }
+    },
+    {
+      "absolute_no_action_drift": {
+        "free": {
+          "curve_diff": 1.0529638616012943e-06,
+          "fraction_diff": 0.0,
+          "mae": 1.2802580992380779e-06,
+          "max_abs": 6.794929504394531e-06,
+          "rmse": 2.035440802625735e-06
+        },
+        "free_replicate": {
+          "curve_diff": 1.0529638616012943e-06,
+          "fraction_diff": 0.0,
+          "mae": 1.2802580992380779e-06,
+          "max_abs": 6.794929504394531e-06,
+          "rmse": 2.035440802625735e-06
+        },
+        "hidden_armed": {
+          "curve_diff": 9.748710474051514e-07,
+          "fraction_diff": 0.0,
+          "mae": 1.2001643578211467e-06,
+          "max_abs": 6.616115570068359e-06,
+          "rmse": 1.8778049933196855e-06
+        },
+        "hidden_unarmed": {
+          "curve_diff": 1.0529638616012943e-06,
+          "fraction_diff": 0.0,
+          "mae": 1.2802580992380779e-06,
+          "max_abs": 6.794929504394531e-06,
+          "rmse": 2.035440802625735e-06
+        }
+      },
+      "evaluation_steps": 1,
+      "goal_parity": {
+        "free_replicate": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "immediate_arm_jump": {
+        "anchor_error": 0.0,
+        "curve_diff": 0.0,
+        "fraction_diff": 0.0,
+        "mae": 0.0,
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "pre_arm": {
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "runtime_state": {
+        "free_body_count": 0,
+        "free_constraint_count": 0,
+        "free_hook_error": "None",
+        "free_replicate_hook_error": "None",
+        "hidden_armed_body_count": 0,
+        "hidden_armed_constraint_count": 1,
+        "hidden_armed_hook_error": "None",
+        "hidden_armed_released": false,
+        "hidden_contact_applied": true,
+        "hidden_unarmed_constraint_count": 0,
+        "hidden_unarmed_contact_applied": false,
+        "hidden_unarmed_hook_error": "None",
+        "hidden_unarmed_released": false
+      },
+      "same_horizon": {
+        "common_evolution_parity": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "excess_motion_difference": {
+          "mae": 5.128482977549235e-07,
+          "max_abs": 3.635883331298828e-06,
+          "rmse": 9.457640739139621e-07
+        },
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "curve_diff": 7.809281419614289e-08,
+          "fraction_diff": 0.0,
+          "mae": 5.128482977549235e-07,
+          "max_abs": 3.635883331298828e-06,
+          "rmse": 9.457640739139621e-07
+        },
+        "unarmed_excess_motion": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "seed": 312500,
+      "settle_steps": {
+        "free_a": 640,
+        "free_b": 640,
+        "hidden_armed": 640,
+        "hidden_unarmed": 640
+      },
+      "velocity": {
+        "common_evolution_parity": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_reproducibility": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "mae": 0.00010872055823875194,
+          "max_abs": 0.0008796421498118434,
+          "rmse": 0.00020504507983462196
+        }
+      }
+    },
+    {
+      "absolute_no_action_drift": {
+        "free": {
+          "curve_diff": 2.2997446856003884e-06,
+          "fraction_diff": 0.0,
+          "mae": 7.970258593559265e-06,
+          "max_abs": 3.947317600250244e-05,
+          "rmse": 1.2967684338654535e-05
+        },
+        "free_replicate": {
+          "curve_diff": 2.2997446856003884e-06,
+          "fraction_diff": 0.0,
+          "mae": 7.970258593559265e-06,
+          "max_abs": 3.947317600250244e-05,
+          "rmse": 1.2967684338654535e-05
+        },
+        "hidden_armed": {
+          "curve_diff": 1.0923002380491126e-06,
+          "fraction_diff": 0.0,
+          "mae": 7.754812637964884e-06,
+          "max_abs": 4.07099723815918e-05,
+          "rmse": 1.3087588660357022e-05
+        },
+        "hidden_unarmed": {
+          "curve_diff": 2.2997446856003884e-06,
+          "fraction_diff": 0.0,
+          "mae": 7.970258593559265e-06,
+          "max_abs": 3.947317600250244e-05,
+          "rmse": 1.2967684338654535e-05
+        }
+      },
+      "evaluation_steps": 5,
+      "goal_parity": {
+        "free_replicate": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "immediate_arm_jump": {
+        "anchor_error": 0.0,
+        "curve_diff": 0.0,
+        "fraction_diff": 0.0,
+        "mae": 0.0,
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "pre_arm": {
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "runtime_state": {
+        "free_body_count": 0,
+        "free_constraint_count": 0,
+        "free_hook_error": "None",
+        "free_replicate_hook_error": "None",
+        "hidden_armed_body_count": 0,
+        "hidden_armed_constraint_count": 1,
+        "hidden_armed_hook_error": "None",
+        "hidden_armed_released": false,
+        "hidden_contact_applied": true,
+        "hidden_unarmed_constraint_count": 0,
+        "hidden_unarmed_contact_applied": false,
+        "hidden_unarmed_hook_error": "None",
+        "hidden_unarmed_released": false
+      },
+      "same_horizon": {
+        "common_evolution_parity": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "excess_motion_difference": {
+          "mae": 2.0911296208699546e-06,
+          "max_abs": 1.6689300537109375e-05,
+          "rmse": 3.6115006715672216e-06
+        },
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "curve_diff": 1.2074444475512758e-06,
+          "fraction_diff": 0.0,
+          "mae": 2.0911296208699546e-06,
+          "max_abs": 1.6689300537109375e-05,
+          "rmse": 3.6115006715672216e-06
+        },
+        "unarmed_excess_motion": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "seed": 312500,
+      "settle_steps": {
+        "free_a": 640,
+        "free_b": 640,
+        "hidden_armed": 640,
+        "hidden_unarmed": 640
+      },
+      "velocity": {
+        "common_evolution_parity": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_reproducibility": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "mae": 0.00015015367856424037,
+          "max_abs": 0.0009005430620163679,
+          "rmse": 0.00024525253809082066
+        }
+      }
+    },
+    {
+      "absolute_no_action_drift": {
+        "free": {
+          "curve_diff": 9.467078327262193e-06,
+          "fraction_diff": 0.0,
+          "mae": 3.4269255896409355e-05,
+          "max_abs": 0.0001887977123260498,
+          "rmse": 5.702754269861202e-05
+        },
+        "free_replicate": {
+          "curve_diff": 9.467078327262193e-06,
+          "fraction_diff": 0.0,
+          "mae": 3.4269255896409355e-05,
+          "max_abs": 0.0001887977123260498,
+          "rmse": 5.702754269861202e-05
+        },
+        "hidden_armed": {
+          "curve_diff": 1.1570746197547138e-06,
+          "fraction_diff": 0.0,
+          "mae": 3.467438121636709e-05,
+          "max_abs": 0.0002072155475616455,
+          "rmse": 6.108605172649337e-05
+        },
+        "hidden_unarmed": {
+          "curve_diff": 9.467078327262193e-06,
+          "fraction_diff": 0.0,
+          "mae": 3.4269255896409355e-05,
+          "max_abs": 0.0001887977123260498,
+          "rmse": 5.702754269861202e-05
+        }
+      },
+      "evaluation_steps": 20,
+      "goal_parity": {
+        "free_replicate": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "immediate_arm_jump": {
+        "anchor_error": 0.0,
+        "curve_diff": 0.0,
+        "fraction_diff": 0.0,
+        "mae": 0.0,
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "pre_arm": {
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "runtime_state": {
+        "free_body_count": 0,
+        "free_constraint_count": 0,
+        "free_hook_error": "None",
+        "free_replicate_hook_error": "None",
+        "hidden_armed_body_count": 0,
+        "hidden_armed_constraint_count": 1,
+        "hidden_armed_hook_error": "None",
+        "hidden_armed_released": false,
+        "hidden_contact_applied": true,
+        "hidden_unarmed_constraint_count": 0,
+        "hidden_unarmed_contact_applied": false,
+        "hidden_unarmed_hook_error": "None",
+        "hidden_unarmed_released": false
+      },
+      "same_horizon": {
+        "common_evolution_parity": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "excess_motion_difference": {
+          "mae": 1.2227954963843027e-05,
+          "max_abs": 9.663403034210205e-05,
+          "rmse": 2.4289071486875617e-05
+        },
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "curve_diff": 8.31000370750748e-06,
+          "fraction_diff": 0.0,
+          "mae": 1.2227954963843027e-05,
+          "max_abs": 9.663403034210205e-05,
+          "rmse": 2.4289071486875617e-05
+        },
+        "unarmed_excess_motion": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "seed": 312500,
+      "settle_steps": {
+        "free_a": 640,
+        "free_b": 640,
+        "hidden_armed": 640,
+        "hidden_unarmed": 640
+      },
+      "velocity": {
+        "common_evolution_parity": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_reproducibility": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "mae": 0.0003194382310185675,
+          "max_abs": 0.0030155202402966097,
+          "rmse": 0.0005811336930787409
+        }
+      }
+    },
+    {
+      "absolute_no_action_drift": {
+        "free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_replicate": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "evaluation_steps": 0,
+      "goal_parity": {
+        "free_replicate": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "immediate_arm_jump": {
+        "anchor_error": 0.0,
+        "curve_diff": 0.0,
+        "fraction_diff": 0.0,
+        "mae": 0.0,
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "pre_arm": {
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "runtime_state": {
+        "free_body_count": 0,
+        "free_constraint_count": 0,
+        "free_hook_error": "None",
+        "free_replicate_hook_error": "None",
+        "hidden_armed_body_count": 0,
+        "hidden_armed_constraint_count": 1,
+        "hidden_armed_hook_error": "None",
+        "hidden_armed_released": false,
+        "hidden_contact_applied": true,
+        "hidden_unarmed_constraint_count": 0,
+        "hidden_unarmed_contact_applied": false,
+        "hidden_unarmed_hook_error": "None",
+        "hidden_unarmed_released": false
+      },
+      "same_horizon": {
+        "common_evolution_parity": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "excess_motion_difference": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "unarmed_excess_motion": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "seed": 312501,
+      "settle_steps": {
+        "free_a": 610,
+        "free_b": 610,
+        "hidden_armed": 610,
+        "hidden_unarmed": 610
+      },
+      "velocity": {
+        "common_evolution_parity": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_reproducibility": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      }
+    },
+    {
+      "absolute_no_action_drift": {
+        "free": {
+          "curve_diff": 5.000911697961713e-07,
+          "fraction_diff": 0.0,
+          "mae": 1.5272138019402821e-06,
+          "max_abs": 9.171664714813232e-06,
+          "rmse": 2.417189806913526e-06
+        },
+        "free_replicate": {
+          "curve_diff": 5.000911697961713e-07,
+          "fraction_diff": 0.0,
+          "mae": 1.5272138019402821e-06,
+          "max_abs": 9.171664714813232e-06,
+          "rmse": 2.417189806913526e-06
+        },
+        "hidden_armed": {
+          "curve_diff": 2.584492421707496e-07,
+          "fraction_diff": 0.0,
+          "mae": 1.9481716056664786e-06,
+          "max_abs": 9.320676326751709e-06,
+          "rmse": 3.0380400945408326e-06
+        },
+        "hidden_unarmed": {
+          "curve_diff": 5.000911697961713e-07,
+          "fraction_diff": 0.0,
+          "mae": 1.5272138019402821e-06,
+          "max_abs": 9.171664714813232e-06,
+          "rmse": 2.417189806913526e-06
+        }
+      },
+      "evaluation_steps": 1,
+      "goal_parity": {
+        "free_replicate": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "immediate_arm_jump": {
+        "anchor_error": 0.0,
+        "curve_diff": 0.0,
+        "fraction_diff": 0.0,
+        "mae": 0.0,
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "pre_arm": {
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "runtime_state": {
+        "free_body_count": 0,
+        "free_constraint_count": 0,
+        "free_hook_error": "None",
+        "free_replicate_hook_error": "None",
+        "hidden_armed_body_count": 0,
+        "hidden_armed_constraint_count": 1,
+        "hidden_armed_hook_error": "None",
+        "hidden_armed_released": false,
+        "hidden_contact_applied": true,
+        "hidden_unarmed_constraint_count": 0,
+        "hidden_unarmed_contact_applied": false,
+        "hidden_unarmed_hook_error": "None",
+        "hidden_unarmed_released": false
+      },
+      "same_horizon": {
+        "common_evolution_parity": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "excess_motion_difference": {
+          "mae": 1.0337680578231812e-06,
+          "max_abs": 8.27014446258545e-06,
+          "rmse": 1.9004768449470988e-06
+        },
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "curve_diff": 7.585404119669209e-07,
+          "fraction_diff": 0.0,
+          "mae": 1.0337680578231812e-06,
+          "max_abs": 8.27014446258545e-06,
+          "rmse": 1.9004768449470988e-06
+        },
+        "unarmed_excess_motion": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "seed": 312501,
+      "settle_steps": {
+        "free_a": 610,
+        "free_b": 610,
+        "hidden_armed": 610,
+        "hidden_unarmed": 610
+      },
+      "velocity": {
+        "common_evolution_parity": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_reproducibility": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "mae": 0.00020260083657003887,
+          "max_abs": 0.0019857222796417773,
+          "rmse": 0.0004005860036722668
+        }
+      }
+    },
+    {
+      "absolute_no_action_drift": {
+        "free": {
+          "curve_diff": 4.8139985503962285e-06,
+          "fraction_diff": 0.0,
+          "mae": 1.1114558825890223e-05,
+          "max_abs": 6.357580423355103e-05,
+          "rmse": 1.7647774792201116e-05
+        },
+        "free_replicate": {
+          "curve_diff": 4.8139985503962285e-06,
+          "fraction_diff": 0.0,
+          "mae": 1.1114558825890223e-05,
+          "max_abs": 6.357580423355103e-05,
+          "rmse": 1.7647774792201116e-05
+        },
+        "hidden_armed": {
+          "curve_diff": 4.446745787981682e-06,
+          "fraction_diff": 0.0,
+          "mae": 1.1695238451162973e-05,
+          "max_abs": 6.669014692306519e-05,
+          "rmse": 2.0148185311348004e-05
+        },
+        "hidden_unarmed": {
+          "curve_diff": 4.8139985503962285e-06,
+          "fraction_diff": 0.0,
+          "mae": 1.1114558825890223e-05,
+          "max_abs": 6.357580423355103e-05,
+          "rmse": 1.7647774792201116e-05
+        }
+      },
+      "evaluation_steps": 5,
+      "goal_parity": {
+        "free_replicate": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "immediate_arm_jump": {
+        "anchor_error": 0.0,
+        "curve_diff": 0.0,
+        "fraction_diff": 0.0,
+        "mae": 0.0,
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "pre_arm": {
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "runtime_state": {
+        "free_body_count": 0,
+        "free_constraint_count": 0,
+        "free_hook_error": "None",
+        "free_replicate_hook_error": "None",
+        "hidden_armed_body_count": 0,
+        "hidden_armed_constraint_count": 1,
+        "hidden_armed_hook_error": "None",
+        "hidden_armed_released": false,
+        "hidden_contact_applied": true,
+        "hidden_unarmed_constraint_count": 0,
+        "hidden_unarmed_contact_applied": false,
+        "hidden_unarmed_hook_error": "None",
+        "hidden_unarmed_released": false
+      },
+      "same_horizon": {
+        "common_evolution_parity": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "excess_motion_difference": {
+          "mae": 4.896428436040878e-06,
+          "max_abs": 3.7007033824920654e-05,
+          "rmse": 9.348976477080607e-06
+        },
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "curve_diff": 3.6725276241454663e-07,
+          "fraction_diff": 0.0,
+          "mae": 4.896428436040878e-06,
+          "max_abs": 3.7007033824920654e-05,
+          "rmse": 9.348976477080607e-06
+        },
+        "unarmed_excess_motion": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "seed": 312501,
+      "settle_steps": {
+        "free_a": 610,
+        "free_b": 610,
+        "hidden_armed": 610,
+        "hidden_unarmed": 610
+      },
+      "velocity": {
+        "common_evolution_parity": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_reproducibility": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "mae": 0.0007121634352253005,
+          "max_abs": 0.005683271505404264,
+          "rmse": 0.0014556658408934622
+        }
+      }
+    },
+    {
+      "absolute_no_action_drift": {
+        "free": {
+          "curve_diff": 6.014478157023023e-07,
+          "fraction_diff": 0.0,
+          "mae": 3.650318831205368e-05,
+          "max_abs": 0.00025819242000579834,
+          "rmse": 6.352838667362439e-05
+        },
+        "free_replicate": {
+          "curve_diff": 6.014478157023023e-07,
+          "fraction_diff": 0.0,
+          "mae": 3.650318831205368e-05,
+          "max_abs": 0.00025819242000579834,
+          "rmse": 6.352838667362439e-05
+        },
+        "hidden_armed": {
+          "curve_diff": 5.582246249587197e-06,
+          "fraction_diff": 0.0,
+          "mae": 3.801348308722178e-05,
+          "max_abs": 0.00026060640811920166,
+          "rmse": 6.659560154299594e-05
+        },
+        "hidden_unarmed": {
+          "curve_diff": 6.014478157023023e-07,
+          "fraction_diff": 0.0,
+          "mae": 3.650318831205368e-05,
+          "max_abs": 0.00025819242000579834,
+          "rmse": 6.352838667362439e-05
+        }
+      },
+      "evaluation_steps": 20,
+      "goal_parity": {
+        "free_replicate": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "immediate_arm_jump": {
+        "anchor_error": 0.0,
+        "curve_diff": 0.0,
+        "fraction_diff": 0.0,
+        "mae": 0.0,
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "pre_arm": {
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "runtime_state": {
+        "free_body_count": 0,
+        "free_constraint_count": 0,
+        "free_hook_error": "None",
+        "free_replicate_hook_error": "None",
+        "hidden_armed_body_count": 0,
+        "hidden_armed_constraint_count": 1,
+        "hidden_armed_hook_error": "None",
+        "hidden_armed_released": false,
+        "hidden_contact_applied": true,
+        "hidden_unarmed_constraint_count": 0,
+        "hidden_unarmed_contact_applied": false,
+        "hidden_unarmed_hook_error": "None",
+        "hidden_unarmed_released": false
+      },
+      "same_horizon": {
+        "common_evolution_parity": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "excess_motion_difference": {
+          "mae": 1.1970599492390951e-05,
+          "max_abs": 6.936490535736084e-05,
+          "rmse": 2.1966457359432857e-05
+        },
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "curve_diff": 6.1836940652894995e-06,
+          "fraction_diff": 0.0,
+          "mae": 1.1970599492390951e-05,
+          "max_abs": 6.936490535736084e-05,
+          "rmse": 2.1966457359432857e-05
+        },
+        "unarmed_excess_motion": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "seed": 312501,
+      "settle_steps": {
+        "free_a": 610,
+        "free_b": 610,
+        "hidden_armed": 610,
+        "hidden_unarmed": 610
+      },
+      "velocity": {
+        "common_evolution_parity": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_reproducibility": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "mae": 0.00020273165483944113,
+          "max_abs": 0.0009380001683894079,
+          "rmse": 0.0003056183057412741
+        }
+      }
+    },
+    {
+      "absolute_no_action_drift": {
+        "free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_replicate": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "evaluation_steps": 0,
+      "goal_parity": {
+        "free_replicate": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "immediate_arm_jump": {
+        "anchor_error": 0.0,
+        "curve_diff": 0.0,
+        "fraction_diff": 0.0,
+        "mae": 0.0,
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "pre_arm": {
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "runtime_state": {
+        "free_body_count": 0,
+        "free_constraint_count": 0,
+        "free_hook_error": "None",
+        "free_replicate_hook_error": "None",
+        "hidden_armed_body_count": 0,
+        "hidden_armed_constraint_count": 1,
+        "hidden_armed_hook_error": "None",
+        "hidden_armed_released": false,
+        "hidden_contact_applied": true,
+        "hidden_unarmed_constraint_count": 0,
+        "hidden_unarmed_contact_applied": false,
+        "hidden_unarmed_hook_error": "None",
+        "hidden_unarmed_released": false
+      },
+      "same_horizon": {
+        "common_evolution_parity": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "excess_motion_difference": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "unarmed_excess_motion": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "seed": 312502,
+      "settle_steps": {
+        "free_a": 610,
+        "free_b": 610,
+        "hidden_armed": 610,
+        "hidden_unarmed": 610
+      },
+      "velocity": {
+        "common_evolution_parity": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_reproducibility": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      }
+    },
+    {
+      "absolute_no_action_drift": {
+        "free": {
+          "curve_diff": 2.4920894039007213e-07,
+          "fraction_diff": 0.0,
+          "mae": 1.280878980954488e-06,
+          "max_abs": 5.602836608886719e-06,
+          "rmse": 1.868066250088275e-06
+        },
+        "free_replicate": {
+          "curve_diff": 2.4920894039007213e-07,
+          "fraction_diff": 0.0,
+          "mae": 1.280878980954488e-06,
+          "max_abs": 5.602836608886719e-06,
+          "rmse": 1.868066250088275e-06
+        },
+        "hidden_armed": {
+          "curve_diff": 7.181787151661762e-07,
+          "fraction_diff": 0.0,
+          "mae": 1.5130887428919475e-06,
+          "max_abs": 5.424022674560547e-06,
+          "rmse": 2.1563264022753364e-06
+        },
+        "hidden_unarmed": {
+          "curve_diff": 2.4920894039007213e-07,
+          "fraction_diff": 0.0,
+          "mae": 1.280878980954488e-06,
+          "max_abs": 5.602836608886719e-06,
+          "rmse": 1.868066250088275e-06
+        }
+      },
+      "evaluation_steps": 1,
+      "goal_parity": {
+        "free_replicate": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "immediate_arm_jump": {
+        "anchor_error": 0.0,
+        "curve_diff": 0.0,
+        "fraction_diff": 0.0,
+        "mae": 0.0,
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "pre_arm": {
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "runtime_state": {
+        "free_body_count": 0,
+        "free_constraint_count": 0,
+        "free_hook_error": "None",
+        "free_replicate_hook_error": "None",
+        "hidden_armed_body_count": 0,
+        "hidden_armed_constraint_count": 1,
+        "hidden_armed_hook_error": "None",
+        "hidden_armed_released": false,
+        "hidden_contact_applied": true,
+        "hidden_unarmed_constraint_count": 0,
+        "hidden_unarmed_contact_applied": false,
+        "hidden_unarmed_hook_error": "None",
+        "hidden_unarmed_released": false
+      },
+      "same_horizon": {
+        "common_evolution_parity": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "excess_motion_difference": {
+          "mae": 7.313986619313558e-07,
+          "max_abs": 3.904104232788086e-06,
+          "rmse": 1.2986684706683517e-06
+        },
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "curve_diff": 4.68969774776104e-07,
+          "fraction_diff": 0.0,
+          "mae": 7.313986619313558e-07,
+          "max_abs": 3.904104232788086e-06,
+          "rmse": 1.2986684706683517e-06
+        },
+        "unarmed_excess_motion": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "seed": 312502,
+      "settle_steps": {
+        "free_a": 610,
+        "free_b": 610,
+        "hidden_armed": 610,
+        "hidden_unarmed": 610
+      },
+      "velocity": {
+        "common_evolution_parity": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_reproducibility": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "mae": 0.00013509992326198194,
+          "max_abs": 0.0009333121961390134,
+          "rmse": 0.00026749025444614195
+        }
+      }
+    },
+    {
+      "absolute_no_action_drift": {
+        "free": {
+          "curve_diff": 1.5504089745099758e-06,
+          "fraction_diff": 0.0,
+          "mae": 4.744778076807658e-06,
+          "max_abs": 2.4378299713134766e-05,
+          "rmse": 6.5453679182875464e-06
+        },
+        "free_replicate": {
+          "curve_diff": 1.5504089745099758e-06,
+          "fraction_diff": 0.0,
+          "mae": 4.744778076807658e-06,
+          "max_abs": 2.4378299713134766e-05,
+          "rmse": 6.5453679182875464e-06
+        },
+        "hidden_armed": {
+          "curve_diff": 1.5316542316227977e-06,
+          "fraction_diff": 0.0,
+          "mae": 4.645437002182007e-06,
+          "max_abs": 2.6404857635498047e-05,
+          "rmse": 6.961848982240531e-06
+        },
+        "hidden_unarmed": {
+          "curve_diff": 1.5504089745099758e-06,
+          "fraction_diff": 0.0,
+          "mae": 4.744778076807658e-06,
+          "max_abs": 2.4378299713134766e-05,
+          "rmse": 6.5453679182875464e-06
+        }
+      },
+      "evaluation_steps": 5,
+      "goal_parity": {
+        "free_replicate": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "immediate_arm_jump": {
+        "anchor_error": 0.0,
+        "curve_diff": 0.0,
+        "fraction_diff": 0.0,
+        "mae": 0.0,
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "pre_arm": {
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "runtime_state": {
+        "free_body_count": 0,
+        "free_constraint_count": 0,
+        "free_hook_error": "None",
+        "free_replicate_hook_error": "None",
+        "hidden_armed_body_count": 0,
+        "hidden_armed_constraint_count": 1,
+        "hidden_armed_hook_error": "None",
+        "hidden_armed_released": false,
+        "hidden_contact_applied": true,
+        "hidden_unarmed_constraint_count": 0,
+        "hidden_unarmed_contact_applied": false,
+        "hidden_unarmed_hook_error": "None",
+        "hidden_unarmed_released": false
+      },
+      "same_horizon": {
+        "common_evolution_parity": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "excess_motion_difference": {
+          "mae": 2.462416887283325e-06,
+          "max_abs": 1.2993812561035156e-05,
+          "rmse": 3.912167368714995e-06
+        },
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "curve_diff": 1.8754742887178155e-08,
+          "fraction_diff": 0.0,
+          "mae": 2.462416887283325e-06,
+          "max_abs": 1.2993812561035156e-05,
+          "rmse": 3.912167368714995e-06
+        },
+        "unarmed_excess_motion": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "seed": 312502,
+      "settle_steps": {
+        "free_a": 610,
+        "free_b": 610,
+        "hidden_armed": 610,
+        "hidden_unarmed": 610
+      },
+      "velocity": {
+        "common_evolution_parity": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_reproducibility": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "mae": 0.00018249966048323863,
+          "max_abs": 0.0007280040154000744,
+          "rmse": 0.00027321156599137463
+        }
+      }
+    },
+    {
+      "absolute_no_action_drift": {
+        "free": {
+          "curve_diff": 3.7432405205241326e-06,
+          "fraction_diff": 0.0,
+          "mae": 2.047481636206309e-05,
+          "max_abs": 9.959936141967773e-05,
+          "rmse": 2.799443237375981e-05
+        },
+        "free_replicate": {
+          "curve_diff": 3.7432405205241326e-06,
+          "fraction_diff": 0.0,
+          "mae": 2.047481636206309e-05,
+          "max_abs": 9.959936141967773e-05,
+          "rmse": 2.799443237375981e-05
+        },
+        "hidden_armed": {
+          "curve_diff": 1.1672636977596434e-06,
+          "fraction_diff": 0.0,
+          "mae": 2.2931024432182312e-05,
+          "max_abs": 0.00011014938354492188,
+          "rmse": 3.261053761689311e-05
+        },
+        "hidden_unarmed": {
+          "curve_diff": 3.7432405205241326e-06,
+          "fraction_diff": 0.0,
+          "mae": 2.047481636206309e-05,
+          "max_abs": 9.959936141967773e-05,
+          "rmse": 2.799443237375981e-05
+        }
+      },
+      "evaluation_steps": 20,
+      "goal_parity": {
+        "free_replicate": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "immediate_arm_jump": {
+        "anchor_error": 0.0,
+        "curve_diff": 0.0,
+        "fraction_diff": 0.0,
+        "mae": 0.0,
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "pre_arm": {
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "runtime_state": {
+        "free_body_count": 0,
+        "free_constraint_count": 0,
+        "free_hook_error": "None",
+        "free_replicate_hook_error": "None",
+        "hidden_armed_body_count": 0,
+        "hidden_armed_constraint_count": 1,
+        "hidden_armed_hook_error": "None",
+        "hidden_armed_released": false,
+        "hidden_contact_applied": true,
+        "hidden_unarmed_constraint_count": 0,
+        "hidden_unarmed_contact_applied": false,
+        "hidden_unarmed_hook_error": "None",
+        "hidden_unarmed_released": false
+      },
+      "same_horizon": {
+        "common_evolution_parity": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "excess_motion_difference": {
+          "mae": 8.239100376764933e-06,
+          "max_abs": 4.935264587402344e-05,
+          "rmse": 1.395988043200962e-05
+        },
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "curve_diff": 4.910504218283776e-06,
+          "fraction_diff": 0.0,
+          "mae": 8.239100376764933e-06,
+          "max_abs": 4.935264587402344e-05,
+          "rmse": 1.395988043200962e-05
+        },
+        "unarmed_excess_motion": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "seed": 312502,
+      "settle_steps": {
+        "free_a": 610,
+        "free_b": 610,
+        "hidden_armed": 610,
+        "hidden_unarmed": 610
+      },
+      "velocity": {
+        "common_evolution_parity": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_reproducibility": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "mae": 0.0002892831406820938,
+          "max_abs": 0.001522718113847077,
+          "rmse": 0.00043516911953491577
+        }
+      }
+    },
+    {
+      "absolute_no_action_drift": {
+        "free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_replicate": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "evaluation_steps": 0,
+      "goal_parity": {
+        "free_replicate": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "immediate_arm_jump": {
+        "anchor_error": 0.0,
+        "curve_diff": 0.0,
+        "fraction_diff": 0.0,
+        "mae": 0.0,
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "pre_arm": {
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "runtime_state": {
+        "free_body_count": 0,
+        "free_constraint_count": 0,
+        "free_hook_error": "None",
+        "free_replicate_hook_error": "None",
+        "hidden_armed_body_count": 0,
+        "hidden_armed_constraint_count": 1,
+        "hidden_armed_hook_error": "None",
+        "hidden_armed_released": false,
+        "hidden_contact_applied": true,
+        "hidden_unarmed_constraint_count": 0,
+        "hidden_unarmed_contact_applied": false,
+        "hidden_unarmed_hook_error": "None",
+        "hidden_unarmed_released": false
+      },
+      "same_horizon": {
+        "common_evolution_parity": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "excess_motion_difference": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "unarmed_excess_motion": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "seed": 312503,
+      "settle_steps": {
+        "free_a": 610,
+        "free_b": 610,
+        "hidden_armed": 610,
+        "hidden_unarmed": 610
+      },
+      "velocity": {
+        "common_evolution_parity": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_reproducibility": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      }
+    },
+    {
+      "absolute_no_action_drift": {
+        "free": {
+          "curve_diff": 4.079180032801749e-07,
+          "fraction_diff": 0.0,
+          "mae": 1.1855736374855042e-06,
+          "max_abs": 6.616115570068359e-06,
+          "rmse": 1.886190422078477e-06
+        },
+        "free_replicate": {
+          "curve_diff": 4.079180032801749e-07,
+          "fraction_diff": 0.0,
+          "mae": 1.1855736374855042e-06,
+          "max_abs": 6.616115570068359e-06,
+          "rmse": 1.886190422078477e-06
+        },
+        "hidden_armed": {
+          "curve_diff": 1.0058222003547779e-08,
+          "fraction_diff": 0.0,
+          "mae": 1.1213123798370361e-06,
+          "max_abs": 5.781650543212891e-06,
+          "rmse": 1.6917084269245387e-06
+        },
+        "hidden_unarmed": {
+          "curve_diff": 4.079180032801749e-07,
+          "fraction_diff": 0.0,
+          "mae": 1.1855736374855042e-06,
+          "max_abs": 6.616115570068359e-06,
+          "rmse": 1.886190422078477e-06
+        }
+      },
+      "evaluation_steps": 1,
+      "goal_parity": {
+        "free_replicate": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "immediate_arm_jump": {
+        "anchor_error": 0.0,
+        "curve_diff": 0.0,
+        "fraction_diff": 0.0,
+        "mae": 0.0,
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "pre_arm": {
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "runtime_state": {
+        "free_body_count": 0,
+        "free_constraint_count": 0,
+        "free_hook_error": "None",
+        "free_replicate_hook_error": "None",
+        "hidden_armed_body_count": 0,
+        "hidden_armed_constraint_count": 1,
+        "hidden_armed_hook_error": "None",
+        "hidden_armed_released": false,
+        "hidden_contact_applied": true,
+        "hidden_unarmed_constraint_count": 0,
+        "hidden_unarmed_contact_applied": false,
+        "hidden_unarmed_hook_error": "None",
+        "hidden_unarmed_released": false
+      },
+      "same_horizon": {
+        "common_evolution_parity": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "excess_motion_difference": {
+          "mae": 5.324060718218485e-07,
+          "max_abs": 3.5762786865234375e-06,
+          "rmse": 9.259650987646352e-07
+        },
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "curve_diff": 4.179762252837227e-07,
+          "fraction_diff": 0.0,
+          "mae": 5.324060718218485e-07,
+          "max_abs": 3.5762786865234375e-06,
+          "rmse": 9.259650987646352e-07
+        },
+        "unarmed_excess_motion": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "seed": 312503,
+      "settle_steps": {
+        "free_a": 610,
+        "free_b": 610,
+        "hidden_armed": 610,
+        "hidden_unarmed": 610
+      },
+      "velocity": {
+        "common_evolution_parity": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_reproducibility": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "mae": 0.00011035946813346224,
+          "max_abs": 0.0008643881374155171,
+          "rmse": 0.000198298956379818
+        }
+      }
+    },
+    {
+      "absolute_no_action_drift": {
+        "free": {
+          "curve_diff": 1.7504096653728207e-06,
+          "fraction_diff": 0.0,
+          "mae": 6.564582387606303e-06,
+          "max_abs": 3.826618194580078e-05,
+          "rmse": 1.1345954092471783e-05
+        },
+        "free_replicate": {
+          "curve_diff": 1.7504096653728207e-06,
+          "fraction_diff": 0.0,
+          "mae": 6.564582387606303e-06,
+          "max_abs": 3.826618194580078e-05,
+          "rmse": 1.1345954092471783e-05
+        },
+        "hidden_armed": {
+          "curve_diff": 3.572724563919577e-07,
+          "fraction_diff": 0.0,
+          "mae": 6.319334109624227e-06,
+          "max_abs": 3.3915042877197266e-05,
+          "rmse": 1.0552636432456405e-05
+        },
+        "hidden_unarmed": {
+          "curve_diff": 1.7504096653728207e-06,
+          "fraction_diff": 0.0,
+          "mae": 6.564582387606303e-06,
+          "max_abs": 3.826618194580078e-05,
+          "rmse": 1.1345954092471783e-05
+        }
+      },
+      "evaluation_steps": 5,
+      "goal_parity": {
+        "free_replicate": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "immediate_arm_jump": {
+        "anchor_error": 0.0,
+        "curve_diff": 0.0,
+        "fraction_diff": 0.0,
+        "mae": 0.0,
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "pre_arm": {
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "runtime_state": {
+        "free_body_count": 0,
+        "free_constraint_count": 0,
+        "free_hook_error": "None",
+        "free_replicate_hook_error": "None",
+        "hidden_armed_body_count": 0,
+        "hidden_armed_constraint_count": 1,
+        "hidden_armed_hook_error": "None",
+        "hidden_armed_released": false,
+        "hidden_contact_applied": true,
+        "hidden_unarmed_constraint_count": 0,
+        "hidden_unarmed_contact_applied": false,
+        "hidden_unarmed_hook_error": "None",
+        "hidden_unarmed_released": false
+      },
+      "same_horizon": {
+        "common_evolution_parity": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "excess_motion_difference": {
+          "mae": 2.1805365880330405e-06,
+          "max_abs": 1.728534698486328e-05,
+          "rmse": 3.990131988372948e-06
+        },
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "curve_diff": 1.393137208980863e-06,
+          "fraction_diff": 0.0,
+          "mae": 2.1805365880330405e-06,
+          "max_abs": 1.728534698486328e-05,
+          "rmse": 3.990131988372948e-06
+        },
+        "unarmed_excess_motion": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "seed": 312503,
+      "settle_steps": {
+        "free_a": 610,
+        "free_b": 610,
+        "hidden_armed": 610,
+        "hidden_unarmed": 610
+      },
+      "velocity": {
+        "common_evolution_parity": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_reproducibility": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "mae": 0.00020820975538211114,
+          "max_abs": 0.0019132795569021255,
+          "rmse": 0.0003995852290540786
+        }
+      }
+    },
+    {
+      "absolute_no_action_drift": {
+        "free": {
+          "curve_diff": 8.09327979978125e-06,
+          "fraction_diff": 0.0,
+          "mae": 2.8021012743314106e-05,
+          "max_abs": 0.0001481175422668457,
+          "rmse": 4.825862073677145e-05
+        },
+        "free_replicate": {
+          "curve_diff": 8.09327979978125e-06,
+          "fraction_diff": 0.0,
+          "mae": 2.8021012743314106e-05,
+          "max_abs": 0.0001481175422668457,
+          "rmse": 4.825862073677145e-05
+        },
+        "hidden_armed": {
+          "curve_diff": 3.903910991405121e-06,
+          "fraction_diff": 0.0,
+          "mae": 2.734611431757609e-05,
+          "max_abs": 0.0001569986343383789,
+          "rmse": 4.957021687782606e-05
+        },
+        "hidden_unarmed": {
+          "curve_diff": 8.09327979978125e-06,
+          "fraction_diff": 0.0,
+          "mae": 2.8021012743314106e-05,
+          "max_abs": 0.0001481175422668457,
+          "rmse": 4.825862073677145e-05
+        }
+      },
+      "evaluation_steps": 20,
+      "goal_parity": {
+        "free_replicate": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "immediate_arm_jump": {
+        "anchor_error": 0.0,
+        "curve_diff": 0.0,
+        "fraction_diff": 0.0,
+        "mae": 0.0,
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "pre_arm": {
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_armed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "hidden_unarmed_vs_free": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "runtime_state": {
+        "free_body_count": 0,
+        "free_constraint_count": 0,
+        "free_hook_error": "None",
+        "free_replicate_hook_error": "None",
+        "hidden_armed_body_count": 0,
+        "hidden_armed_constraint_count": 1,
+        "hidden_armed_hook_error": "None",
+        "hidden_armed_released": false,
+        "hidden_contact_applied": true,
+        "hidden_unarmed_constraint_count": 0,
+        "hidden_unarmed_contact_applied": false,
+        "hidden_unarmed_hook_error": "None",
+        "hidden_unarmed_released": false
+      },
+      "same_horizon": {
+        "common_evolution_parity": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "excess_motion_difference": {
+          "mae": 1.7751629153887432e-05,
+          "max_abs": 0.00017020106315612793,
+          "rmse": 3.776247622561682e-05
+        },
+        "free_reproducibility": {
+          "curve_diff": 0.0,
+          "fraction_diff": 0.0,
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "curve_diff": 1.1997190791186371e-05,
+          "fraction_diff": 0.0,
+          "mae": 1.7751629153887432e-05,
+          "max_abs": 0.00017020106315612793,
+          "rmse": 3.776247622561682e-05
+        },
+        "unarmed_excess_motion": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "seed": 312503,
+      "settle_steps": {
+        "free_a": 610,
+        "free_b": 610,
+        "hidden_armed": 610,
+        "hidden_unarmed": 610
+      },
+      "velocity": {
+        "common_evolution_parity": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "free_reproducibility": {
+          "mae": 0.0,
+          "max_abs": 0.0,
+          "rmse": 0.0
+        },
+        "paired_visible_difference": {
+          "mae": 0.0007413028697137571,
+          "max_abs": 0.007403461582725868,
+          "rmse": 0.0015212666683854495
+        }
+      }
+    }
+  ],
+  "issues": [
+    {
+      "detail": {
+        "mae": 0.00015941857168242122,
+        "max_abs": 0.0010200097458437085,
+        "rmse": 0.00028847028730411505,
+        "seed": 312002,
+        "steps": 1
+      },
+      "level": "WARN",
+      "name": "paired_velocity_difference_large"
+    },
+    {
+      "detail": {
+        "mae": 0.0003344023000442478,
+        "max_abs": 0.001763632993970532,
+        "rmse": 0.0004860257440361971,
+        "seed": 312002,
+        "steps": 5
+      },
+      "level": "WARN",
+      "name": "paired_velocity_difference_large"
+    },
+    {
+      "detail": {
+        "mae": 0.00023963653127603537,
+        "max_abs": 0.001344734919257462,
+        "rmse": 0.00036892753704969173,
+        "seed": 312002,
+        "steps": 20
+      },
+      "level": "WARN",
+      "name": "paired_velocity_difference_large"
+    },
+    {
+      "detail": {
+        "mae": 9.621127370549074e-05,
+        "max_abs": 0.0016595984052401036,
+        "rmse": 0.0002458406171058927,
+        "seed": 312003,
+        "steps": 1
+      },
+      "level": "WARN",
+      "name": "paired_velocity_difference_large"
+    },
+    {
+      "detail": {
+        "mae": 0.00024525759880273453,
+        "max_abs": 0.0013513116355170496,
+        "rmse": 0.00041906239729721866,
+        "seed": 312003,
+        "steps": 5
+      },
+      "level": "WARN",
+      "name": "paired_velocity_difference_large"
+    },
+    {
+      "detail": {
+        "excess_motion": {
+          "mae": 1.0835006833076477e-05,
+          "max_abs": 7.724761962890625e-05,
+          "rmse": 2.159991506016806e-05
+        },
+        "same_horizon": {
+          "curve_diff": 8.523995723827907e-06,
+          "fraction_diff": 0.0,
+          "mae": 1.0835006833076477e-05,
+          "max_abs": 7.724761962890625e-05,
+          "rmse": 2.159991506016806e-05
+        },
+        "seed": 312003,
+        "steps": 20
+      },
+      "level": "FAIL",
+      "name": "latent_constraint_no_action_visible_leak"
+    },
+    {
+      "detail": {
+        "mae": 0.00028581971272460355,
+        "max_abs": 0.0016085869283415377,
+        "rmse": 0.00046171873058782766,
+        "seed": 312003,
+        "steps": 20
+      },
+      "level": "WARN",
+      "name": "paired_velocity_difference_large"
+    },
+    {
+      "detail": {
+        "excess_motion": {
+          "mae": 1.2227954963843027e-05,
+          "max_abs": 9.663403034210205e-05,
+          "rmse": 2.4289071486875617e-05
+        },
+        "same_horizon": {
+          "curve_diff": 8.31000370750748e-06,
+          "fraction_diff": 0.0,
+          "mae": 1.2227954963843027e-05,
+          "max_abs": 9.663403034210205e-05,
+          "rmse": 2.4289071486875617e-05
+        },
+        "seed": 312500,
+        "steps": 20
+      },
+      "level": "FAIL",
+      "name": "latent_constraint_no_action_visible_leak"
+    },
+    {
+      "detail": {
+        "mae": 0.0003194382310185675,
+        "max_abs": 0.0030155202402966097,
+        "rmse": 0.0005811336930787409,
+        "seed": 312500,
+        "steps": 20
+      },
+      "level": "WARN",
+      "name": "paired_velocity_difference_large"
+    },
+    {
+      "detail": {
+        "mae": 0.00020260083657003887,
+        "max_abs": 0.0019857222796417773,
+        "rmse": 0.0004005860036722668,
+        "seed": 312501,
+        "steps": 1
+      },
+      "level": "WARN",
+      "name": "paired_velocity_difference_large"
+    },
+    {
+      "detail": {
+        "mae": 0.0007121634352253005,
+        "max_abs": 0.005683271505404264,
+        "rmse": 0.0014556658408934622,
+        "seed": 312501,
+        "steps": 5
+      },
+      "level": "WARN",
+      "name": "paired_velocity_difference_large"
+    },
+    {
+      "detail": {
+        "excess_motion": {
+          "mae": 1.1970599492390951e-05,
+          "max_abs": 6.936490535736084e-05,
+          "rmse": 2.1966457359432857e-05
+        },
+        "same_horizon": {
+          "curve_diff": 6.1836940652894995e-06,
+          "fraction_diff": 0.0,
+          "mae": 1.1970599492390951e-05,
+          "max_abs": 6.936490535736084e-05,
+          "rmse": 2.1966457359432857e-05
+        },
+        "seed": 312501,
+        "steps": 20
+      },
+      "level": "FAIL",
+      "name": "latent_constraint_no_action_visible_leak"
+    },
+    {
+      "detail": {
+        "mae": 0.0002892831406820938,
+        "max_abs": 0.001522718113847077,
+        "rmse": 0.00043516911953491577,
+        "seed": 312502,
+        "steps": 20
+      },
+      "level": "WARN",
+      "name": "paired_velocity_difference_large"
+    },
+    {
+      "detail": {
+        "mae": 0.00020820975538211114,
+        "max_abs": 0.0019132795569021255,
+        "rmse": 0.0003995852290540786,
+        "seed": 312503,
+        "steps": 5
+      },
+      "level": "WARN",
+      "name": "paired_velocity_difference_large"
+    },
+    {
+      "detail": {
+        "excess_motion": {
+          "mae": 1.7751629153887432e-05,
+          "max_abs": 0.00017020106315612793,
+          "rmse": 3.776247622561682e-05
+        },
+        "same_horizon": {
+          "curve_diff": 1.1997190791186371e-05,
+          "fraction_diff": 0.0,
+          "mae": 1.7751629153887432e-05,
+          "max_abs": 0.00017020106315612793,
+          "rmse": 3.776247622561682e-05
+        },
+        "seed": 312503,
+        "steps": 20
+      },
+      "level": "FAIL",
+      "name": "latent_constraint_no_action_visible_leak"
+    },
+    {
+      "detail": {
+        "mae": 0.0007413028697137571,
+        "max_abs": 0.007403461582725868,
+        "rmse": 0.0015212666683854495,
+        "seed": 312503,
+        "steps": 20
+      },
+      "level": "WARN",
+      "name": "paired_velocity_difference_large"
+    }
+  ],
+  "maxima": {
+    "common_evolution_max_abs": 0.0,
+    "excess_motion_max_abs": 0.00017020106315612793,
+    "free_reproducibility_max_abs": 0.0,
+    "paired_velocity_max_abs": 0.007403461582725868,
+    "paired_visible_max_abs": 0.00017020106315612793
+  },
+  "query_local_snapshot_allowed": false,
+  "root_cause": "phase312d_r21_latent_constraint_no_action_visible_leak_supported",
+  "scope": "phase3_12d_r21_paired_horizon_audit_no_phase4_no_cps",
+  "thresholds": {
+    "anchor_threshold": 1e-07,
+    "causal_divergence_threshold": 0.003,
+    "common_mae": 1e-07,
+    "common_max": 1e-06,
+    "curve_threshold": 1e-05,
+    "fraction_threshold": 1e-09,
+    "goal_actionable_threshold": 0.003,
+    "immediate_mae": 1e-07,
+    "immediate_max": 1e-06,
+    "paired_mae": 1e-05,
+    "paired_max": 0.0001,
+    "pre_arm_mae": 1e-08,
+    "pre_arm_max": 1e-07,
+    "repro_mae": 1e-08,
+    "repro_max": 1e-07,
+    "velocity_warn_max": 0.001
+  },
+  "verdict": "FAIL"
+}

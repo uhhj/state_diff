@@ -1,0 +1,65 @@
+{
+  "checks": {
+    "exists_phase3_12d_r21_paired_horizon_audit_py": true,
+    "exists_phase3_12d_r21_run_sh": true,
+    "exists_phase3_12d_r21_static_selftest_py": true,
+    "exists_phase3_12d_r2_analyze_py": true,
+    "exists_phase3_12d_r2_common_py": true,
+    "exists_phase3_12d_r2_environment_audit_py": true,
+    "exists_phase3_12d_r2_postprocess_py": true,
+    "exists_phase3_12d_r2_query_local_snapshot_py": true,
+    "forbidden_modules_not_loaded": true,
+    "import_numpy": true,
+    "import_phase3_12d_r21_paired_horizon_audit": true,
+    "import_phase3_12d_r2_analyze": true,
+    "import_phase3_12d_r2_common": true,
+    "import_phase3_12d_r2_environment_audit": true,
+    "import_phase3_12d_r2_query_local_snapshot": true,
+    "import_pybullet": true,
+    "import_ravens_environment": true,
+    "import_ravens_tasks": true,
+    "import_scipy": true,
+    "import_torch": true,
+    "r21_runner_does_not_patch_submodule": true,
+    "r2_common_exports_post_arm_velocity": true,
+    "r2_common_exports_post_arm_xy": true,
+    "r2_common_exports_pre_arm_xy": true,
+    "r2_common_uses_direct_physics_steps": true,
+    "r2_historical_absolute_drift_comparator_present": true,
+    "r2_query_matrix_was_blocked": true,
+    "r2_runner_hardcodes_old_environment_audit": true,
+    "r2_summary_exists": true,
+    "r2_summary_failed": true,
+    "running_in_coord_bimanual": true,
+    "submodule_clean": true
+  },
+  "conda_env": "coord_bimanual",
+  "decision": "WARN is expected for the historical r2 comparator. Any FAIL blocks r2.1.",
+  "git": {
+    "branch": "Experiment1",
+    "head": "faf8df5b7cdf5105c8b01c546e0eb7d6c60f11de",
+    "origin_experiment1": "faf8df5b7cdf5105c8b01c546e0eb7d6c60f11de",
+    "status": "M ccda_phase3/data_io.py\n M ccda_phase3/rollout.py\n?? checkpoints/\n?? reports/phase3_12_workers/\n?? reports/phase3_12b_workers/\n?? reports/phase3_12c_reset_workers/\n?? reports/phase3_12c_rollout_workers/\n?? reports/phase3_12d_candidate_effects.csv\n?? reports/phase3_12d_candidate_oracle_report.md\n?? reports/phase3_12d_candidate_oracle_summary.json\n?? reports/phase3_12d_candidate_progress.json\n?? reports/phase3_12d_no_phase4_confirmation.md\n?? reports/phase3_12d_preflight_report.md\n?? reports/phase3_12d_preflight_summary.json\n?? reports/phase3_12d_query_headroom.csv\n?? reports/phase3_12d_query_manifest.json\n?? reports/phase3_12d_r21_base_preflight_report.md\n?? reports/phase3_12d_r21_base_preflight_summary.json\n?? reports/phase3_12d_r21_start.md\n?? reports/phase3_12d_r2_comparator_correction.md\n?? reports/phase3_12d_runtime_config.md\n?? reports/phase3_12d_source_summary.csv\n?? reports/phase3_12d_start.md\n?? reports/phase3_12d_workers/\n?? scripts/phase3_12d_analyze.py\n?? scripts/phase3_12d_collect_queries.py\n?? scripts/phase3_12d_common.py\n?? scripts/phase3_12d_execute_candidates.py\n?? scripts/phase3_12d_preflight.py\n?? scripts/phase3_12d_r21_paired_horizon_audit.py\n?? scripts/phase3_12d_r21_preflight.py\n?? scripts/phase3_12d_r21_run.sh\n?? scripts/phase3_12d_r21_static_selftest.py\n?? scripts/phase3_12d_run.sh",
+    "submodule": "e5525384af4af5bd0a02c3d1fd33ae84323d44e2 external/deformable-ravens (heads/ccda-cable)",
+    "submodule_status": ""
+  },
+  "issues": [
+    {
+      "detail": "Historical r2 report cannot establish condition-specific excess drift.",
+      "level": "WARN",
+      "name": "r2_post_arm_gate_compares_hidden_horizon_to_free_t0"
+    },
+    {
+      "detail": "The original runner re-executes the historical comparator and will block again.",
+      "level": "WARN",
+      "name": "do_not_run_original_r2_runner_for_r21"
+    }
+  ],
+  "python": "/miniforge3/envs/coord_bimanual/bin/python",
+  "r2_summary": {
+    "query_local_snapshot_allowed": false,
+    "root_cause": "phase312d_r2_paired_visible_arming_or_causal_semantics_failed",
+    "verdict": "FAIL"
+  },
+  "verdict": "WARN"
+}
