@@ -1,0 +1,112 @@
+{
+  "breakaway_physics_probe": {
+    "force": 15.0,
+    "hook_error": "None",
+    "max_displacement": 0.04568465496034095,
+    "max_steps": 2400,
+    "release_loop_step": 15,
+    "released_before_reward": true,
+    "seed": 312000,
+    "task_release_physics_step": 15,
+    "threshold": 0.045
+  },
+  "breakaway_thread_dispatch_probe": {
+    "force": 15.0,
+    "hook_error": "None",
+    "release_iteration": 14,
+    "released_before_reward": true,
+    "seed": 312000,
+    "task_release_physics_step": 17
+  },
+  "goal_action_probe": [
+    {
+      "dense_gain": 0.21190641880597183,
+      "done": false,
+      "fraction_gain": 0.41666666666666663,
+      "hook_error": "None",
+      "ordered_gain": 0.14109743804889213,
+      "reward": 0.41666666666666663,
+      "seed": 312000
+    },
+    {
+      "dense_gain": 0.5588300738961061,
+      "done": false,
+      "fraction_gain": 0.125,
+      "hook_error": "None",
+      "ordered_gain": 0.3323620523837182,
+      "reward": 0.125,
+      "seed": 312500
+    }
+  ],
+  "issues": [
+    {
+      "detail": "This is a controlled latent constraint, not a geometrically modeled pin contact.",
+      "level": "WARN",
+      "name": "breakaway_is_world_anchor_approximation"
+    },
+    {
+      "detail": [
+        {
+          "bead_xy_mae": 0.014443553885193791,
+          "bead_xy_max_abs": 0.04151817682833325,
+          "curve_diff": 0.06794890565290679,
+          "fraction_diff": 0.16666666666666666,
+          "seed": 312000
+        },
+        {
+          "bead_xy_mae": 0.014917961860883315,
+          "bead_xy_max_abs": 0.0551197642055381,
+          "curve_diff": 0.15999356497453,
+          "fraction_diff": 0.0,
+          "seed": 312500
+        }
+      ],
+      "level": "FAIL",
+      "name": "hidden_condition_changes_initial_visible_geometry_too_much"
+    }
+  ],
+  "query_local_snapshot_allowed": false,
+  "root_cause": "phase312d_r1_environment_semantics_or_task_actionability_failed",
+  "scope": "environment semantics audit before Phase3.12d-r1",
+  "snapshot_constraint_probe": {
+    "active_constraint_id": 26,
+    "fallback": {
+      "existing": false,
+      "new_id": 26,
+      "old_id": 25,
+      "recreated": true,
+      "required": true
+    },
+    "original_constraint_id": 25,
+    "pass": true,
+    "restored_by_pybullet": false,
+    "seed": 312000
+  },
+  "source_checks": {
+    "base_cable_is_bead_chain": true,
+    "environment_has_physics_hook_dispatch": true,
+    "hidden_geometry_is_collision_only": true,
+    "task_has_physics_step_hook": true,
+    "task_logs_release_physics_step": true,
+    "task_still_checks_breakaway_from_reward": true,
+    "task_tracks_physics_steps": true,
+    "task_uses_world_point_constraint": true
+  },
+  "verdict": "FAIL",
+  "visible_pair_probe": [
+    {
+      "bead_xy_mae": 0.014443553885193791,
+      "bead_xy_max_abs": 0.04151817682833325,
+      "curve_diff": 0.06794890565290679,
+      "fraction_diff": 0.16666666666666666,
+      "seed": 312000
+    },
+    {
+      "bead_xy_mae": 0.014917961860883315,
+      "bead_xy_max_abs": 0.0551197642055381,
+      "curve_diff": 0.15999356497453,
+      "fraction_diff": 0.0,
+      "seed": 312500
+    }
+  ]
+}
