@@ -1,0 +1,49 @@
+{
+  "deterministic_reset": {
+    "explicit_rng_seeding": true,
+    "initial_round_decimals": 7,
+    "max_settle_steps": 2400,
+    "min_settle_steps": 540,
+    "selector_independent_pair_group": true,
+    "static_check_interval": 10,
+    "static_checks_required": 8,
+    "wall_clock_settle_disabled": true
+  },
+  "failed": 0,
+  "matrix": {
+    "conditions": [
+      "free",
+      "hidden_breakaway_pin",
+      "hidden_high_friction"
+    ],
+    "expected_rows": 96,
+    "max_steps": 16,
+    "samples_per_step": 32,
+    "selectors": [
+      "ddpm_mean",
+      "condition_nearest_upper",
+      "proxy_state_motion_nn",
+      "proxy_combined_topk_action_geom"
+    ],
+    "top_k": 64,
+    "visible_seeds": [
+      312000,
+      312001,
+      312002,
+      312003,
+      312500,
+      312501,
+      312502,
+      312503
+    ]
+  },
+  "num_rows_written": 96,
+  "ok": 96,
+  "out_csv": "reports/phase3_12c_reset_integrity_rows.csv",
+  "out_step_csv": "reports/phase3_12c_reset_unused_steps.csv",
+  "progress_json": "reports/phase3_12c_reset_integrity_progress.json",
+  "scope": "phase3_12c_matched_reset_no_phase4_no_cps",
+  "stage": "reset",
+  "status": "completed",
+  "timeout": 0
+}

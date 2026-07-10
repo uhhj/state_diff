@@ -1,0 +1,21 @@
+{
+  "completed": 96,
+  "failed": 0,
+  "finished_at": "2026-07-10T12:10:29+0800",
+  "last_row": {
+    "condition": "hidden_high_friction",
+    "delta_fraction": "",
+    "failure_reason": "",
+    "initial_fraction": 0.0,
+    "selector": "proxy_combined_topk_action_geom",
+    "status": "ok",
+    "visible_seed": 312503
+  },
+  "ok": 96,
+  "scope": "phase3_12c_matched_reset_no_phase4_no_cps",
+  "stage": "reset",
+  "started_at": "2026-07-10T12:04:11+0800",
+  "status": "completed",
+  "timeout": 0,
+  "total_specs": 96
+}
