@@ -1,0 +1,83 @@
+{
+  "checks": {
+    "import_ccda_phase3_data_io": true,
+    "import_ccda_phase3_observation_contract": true,
+    "import_ccda_phase3_rollout": true,
+    "import_numpy": true,
+    "import_phase3_12d_r22_analyze_observation_leakage": true,
+    "import_phase3_12d_r22_collect_observation_leakage": true,
+    "import_phase3_12d_r22_integrity": true,
+    "import_phase3_12d_r2_environment_audit": true,
+    "import_pybullet": true,
+    "import_torch": true,
+    "legacy_state_dim_135": true,
+    "main_branch_experiment1": true,
+    "main_worktree_clean": false,
+    "proposed_model_x_dim_303": true,
+    "proposed_state_dim_87": true,
+    "r22_collector_reuse_api_available": true,
+    "r22_data_exists": true,
+    "r22_expected_root_cause": true,
+    "r22_model_x_repeats_single_state": true,
+    "r22_summary_exists": true,
+    "submodule_clean": true,
+    "task_logs_pybullet_base_velocity": true,
+    "tensorflow_not_loaded": true,
+    "windows_exists": true
+  },
+  "collection_allowed": true,
+  "dimensions": {
+    "position_proprio_paper_x_dim": 261,
+    "position_proprio_state_action_x_dim": 303,
+    "position_proprio_state_dim": 87,
+    "privileged_paper_x_dim": 405,
+    "privileged_state_action_x_dim": 447,
+    "privileged_state_dim": 135
+  },
+  "hashes": {
+    "ccda_phase3/observation_contract.py": "f1bcf24d380272cee87870a684df22483acde146e9986568bcd5ab3b7ec9b625",
+    "external/deformable-ravens/ravens/tasks/ccda_hidden_contact_cable.py": "5e35b093701476d3f7e6d7bd029c2004e3ec961a40b617a295afe423c47e1625",
+    "scripts/phase3_12d_r22_analyze_observation_leakage.py": "332a388b2dd690327086cf3d6f7ff808cb760c36a0ac84d503d23403e1202e09",
+    "scripts/phase3_12d_r22_collect_observation_leakage.py": "62f64fe0b71f2d3bb6a26c64ba0186c9aeeb48b4c2eb84829a25fa4818c5ec1e"
+  },
+  "issues": [
+    {
+      "detail": "?? ccda_phase3/observation_contract.py\n?? checkpoints/\n?? reports/phase3_12_workers/\n?? reports/phase3_12b_workers/\n?? reports/phase3_12c_reset_workers/\n?? reports/phase3_12c_rollout_workers/\n?? reports/phase3_12d_candidate_effects.csv\n?? reports/phase3_12d_candidate_oracle_report.md\n?? reports/phase3_12d_candidate_oracle_summary.json\n?? reports/phase3_12d_candidate_progress.json\n?? reports/phase3_12d_no_phase4_confirmation.md\n?? reports/phase3_12d_preflight_report.md\n?? reports/phase3_12d_preflight_summary.json\n?? reports/phase3_12d_query_headroom.csv\n?? reports/phase3_12d_query_manifest.json\n?? reports/phase3_12d_r23_preflight_report.md\n?? reports/phase3_12d_r23_preflight_summary.json\n?? reports/phase3_12d_r23_start.md\n?? reports/phase3_12d_runtime_config.md\n?? reports/phase3_12d_source_summary.csv\n?? reports/phase3_12d_start.md\n?? reports/phase3_12d_workers/\n?? scripts/phase3_12d_analyze.py\n?? scripts/phase3_12d_collect_queries.py\n?? scripts/phase3_12d_common.py\n?? scripts/phase3_12d_execute_candidates.py\n?? scripts/phase3_12d_preflight.py\n?? scripts/phase3_12d_r23_analyze_observation_contract.py\n?? scripts/phase3_12d_r23_collect_trajectory_observations.py\n?? scripts/phase3_12d_r23_preflight.py\n?? scripts/phase3_12d_r23_run.sh\n?? scripts/phase3_12d_run.sh\n?? tests/test_phase3_12d_r23_observation_contract.py",
+      "level": "WARN",
+      "name": "main_worktree_contains_preserved_changes"
+    },
+    {
+      "detail": "pad_history([state], th) repeats one state",
+      "level": "WARN",
+      "name": "r22_model_x_is_not_real_causal_history"
+    },
+    {
+      "detail": "bead velocity comes directly from PyBullet getBaseVelocity",
+      "level": "WARN",
+      "name": "simulator_bead_velocity_is_privileged_state"
+    }
+  ],
+  "main_branch": "Experiment1",
+  "main_head": "6c4a886c2633016d8dcbb8130d75b8842b022fcd",
+  "main_status": "?? ccda_phase3/observation_contract.py\n?? checkpoints/\n?? reports/phase3_12_workers/\n?? reports/phase3_12b_workers/\n?? reports/phase3_12c_reset_workers/\n?? reports/phase3_12c_rollout_workers/\n?? reports/phase3_12d_candidate_effects.csv\n?? reports/phase3_12d_candidate_oracle_report.md\n?? reports/phase3_12d_candidate_oracle_summary.json\n?? reports/phase3_12d_candidate_progress.json\n?? reports/phase3_12d_no_phase4_confirmation.md\n?? reports/phase3_12d_preflight_report.md\n?? reports/phase3_12d_preflight_summary.json\n?? reports/phase3_12d_query_headroom.csv\n?? reports/phase3_12d_query_manifest.json\n?? reports/phase3_12d_r23_preflight_report.md\n?? reports/phase3_12d_r23_preflight_summary.json\n?? reports/phase3_12d_r23_start.md\n?? reports/phase3_12d_runtime_config.md\n?? reports/phase3_12d_source_summary.csv\n?? reports/phase3_12d_start.md\n?? reports/phase3_12d_workers/\n?? scripts/phase3_12d_analyze.py\n?? scripts/phase3_12d_collect_queries.py\n?? scripts/phase3_12d_common.py\n?? scripts/phase3_12d_execute_candidates.py\n?? scripts/phase3_12d_preflight.py\n?? scripts/phase3_12d_r23_analyze_observation_contract.py\n?? scripts/phase3_12d_r23_collect_trajectory_observations.py\n?? scripts/phase3_12d_r23_preflight.py\n?? scripts/phase3_12d_r23_run.sh\n?? scripts/phase3_12d_run.sh\n?? tests/test_phase3_12d_r23_observation_contract.py",
+  "python": "/miniforge3/envs/coord_bimanual/bin/python",
+  "r22_summary": {
+    "backend": null,
+    "root_cause": "phase312d_r22_latent_condition_observably_leaked",
+    "verdict": "FAIL"
+  },
+  "reused_function_signatures": {
+    "capture_track": "(root: 'Path', runtime: 'Any', tasks: 'Any', Environment: 'Any', args: 'argparse.Namespace', track: 'str', condition: 'str', armed: 'bool', seed: 'int', horizons: 'List[int]') -> 'List[Dict[str, Any]]'",
+    "discover_used_seeds": "(root: 'Path', windows_path: 'Path') -> 'Set[int]'",
+    "rows_to_arrays": "(rows: 'List[Dict[str, Any]]', main_head: 'str', submodule_head: 'str') -> 'Dict[str, np.ndarray]'"
+  },
+  "scope": {
+    "candidate_matrix": false,
+    "cps": false,
+    "model_training": false,
+    "phase4": false,
+    "submodule_changes": false
+  },
+  "submodule_head": "e5525384af4af5bd0a02c3d1fd33ae84323d44e2",
+  "verdict": "WARN"
+}
