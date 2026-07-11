@@ -1,0 +1,37 @@
+{
+  "checks": {
+    "action_codec_exists": true,
+    "dedicated_tests_pass": true,
+    "heldout_raw_source_exists": true,
+    "idm_checkpoint_report_exists": true,
+    "main_branch_experiment1": true,
+    "no_phase4_or_cps_scope": true,
+    "r21_report_exists": true,
+    "r21_root_cause_expected": true,
+    "shared_state_safety_helper": true,
+    "state_checkpoint_exists": true,
+    "strict_json_rejects_nonfinite": true,
+    "strict_visible_seed_parser": true,
+    "submodule_clean": true,
+    "tensorflow_not_loaded": true,
+    "torch_linear_fallback_available": true,
+    "train_raw_source_exists": true,
+    "windows_exist": true
+  },
+  "classifier_backend": "torch_1.12.1.post200_linear_bce",
+  "collection_allowed": true,
+  "failures": [],
+  "python": "/miniforge3/envs/coord_bimanual/bin/python",
+  "scope": "diagnostic observation leakage only; no Phase4, CPS, candidate matrix, DDPM, or IDM training",
+  "verdict": "WARN",
+  "warnings": [
+    {
+      "detail": "M ccda_phase3/data_io.py\n M ccda_phase3/rollout.py\n?? checkpoints/\n?? reports/phase3_12_workers/\n?? reports/phase3_12b_workers/\n?? reports/phase3_12c_reset_workers/\n?? reports/phase3_12c_rollout_workers/\n?? reports/phase3_12d_candidate_effects.csv\n?? reports/phase3_12d_candidate_oracle_report.md\n?? reports/phase3_12d_candidate_oracle_summary.json\n?? reports/phase3_12d_candidate_progress.json\n?? reports/phase3_12d_no_phase4_confirmation.md\n?? reports/phase3_12d_preflight_report.md\n?? reports/phase3_12d_preflight_summary.json\n?? reports/phase3_12d_query_headroom.csv\n?? reports/phase3_12d_query_manifest.json\n?? reports/phase3_12d_r22_bootstrap_metrics.csv\n?? reports/phase3_12d_r22_control_summary.csv\n?? reports/phase3_12d_r22_dataset_distribution.csv\n?? reports/phase3_12d_r22_distance_summary.csv\n?? reports/phase3_12d_r22_duplicate_windows.csv\n?? reports/phase3_12d_r22_feature_health.csv\n?? reports/phase3_12d_r22_fold_metrics.csv\n?? reports/phase3_12d_r22_no_phase4_confirmation.md\n?? reports/phase3_12d_r22_observation_leakage_report.md\n?? reports/phase3_12d_r22_observation_leakage_summary.json\n?? reports/phase3_12d_r22_predictions.csv\n?? reports/phase3_12d_r22_preflight_report.md\n?? reports/phase3_12d_r22_preflight_summary.json\n?? reports/phase3_12d_r22_repo_data_audit_report.md\n?? reports/phase3_12d_r22_repo_data_audit_summary.json\n?? reports/phase3_12d_r22_repo_discovery.json\n?? reports/phase3_12d_r22_source_reconstruction.csv\n?? reports/phase3_12d_r22_split_overlap.csv\n?? reports/phase3_12d_r22_start.md\n?? reports/phase3_12d_runtime_config.md\n?? reports/phase3_12d_source_summary.csv\n?? reports/phase3_12d_start.md\n?? reports/phase3_12d_workers/\n?? scripts/phase3_12d_analyze.py\n?? scripts/phase3_12d_collect_queries.py\n?? scripts/phase3_12d_common.py\n?? scripts/phase3_12d_execute_candidates.py\n?? scripts/phase3_12d_preflight.py\n?? scripts/phase3_12d_r22_analyze_observation_leakage.py\n?? scripts/phase3_12d_r22_collect_observation_leakage.py\n?? scripts/phase3_12d_r22_integrity.py\n?? scripts/phase3_12d_r22_preflight.py\n?? scripts/phase3_12d_r22_repo_data_audit.py\n?? scripts/phase3_12d_r22_run.sh\n?? scripts/phase3_12d_run.sh\n?? tests/test_ccda_phase3_state_safety.py\n?? tests/test_ccda_phase3_visible_seed.py\n?? tests/test_phase3_12d_r22_integrity.py",
+      "name": "main_worktree_contains_preserved_local_changes"
+    },
+    {
+      "detail": "existing windows/checkpoints are a bridge diagnostic only",
+      "name": "legacy_environment_semantics"
+    }
+  ]
+}

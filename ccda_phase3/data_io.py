@@ -1,5 +1,6 @@
 import json
 import pickle
+import re
 from collections import Counter
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Tuple
@@ -34,6 +35,7 @@ FORBIDDEN_METADATA_NOT_IN_X = [
 ]
 ROBOT_PROXY_MAX_JOINTS = 16
 ROBOT_PROXY_DIM = ROBOT_PROXY_MAX_JOINTS * 2 + 3 + 4
+_VISIBLE_SEED_PATTERN = re.compile(r"(?:^|_)seed_(?P<seed>[0-9]+)$")
 
 
 def normalize_conditions(conditions: Optional[Iterable[str]] = None) -> List[str]:
@@ -101,18 +103,63 @@ def extract_robot_pose_proxy(info: Any) -> Tuple[np.ndarray, str]:
     return out, source
 
 
-def state_from_info(info: Any, prev_xy: Optional[np.ndarray] = None, dt: float = 1.0) -> Tuple[np.ndarray, str, int]:
+def finite_velocity_or_difference(
+    xy: np.ndarray,
+    velocity: np.ndarray,
+    *,
+    prev_xy: Optional[np.ndarray] = None,
+    dt: float = 1.0,
+) -> np.ndarray:
+    """Return finite XY velocity with identical offline/live semantics."""
+    xy_array = np.asarray(xy, dtype=np.float32)
+    if (
+        xy_array.ndim != 2
+        or xy_array.shape[1] != 2
+        or not np.all(np.isfinite(xy_array))
+    ):
+        raise ValueError(f"xy must be finite [N,2], got shape={xy_array.shape}")
+
+    velocity_array = np.asarray(velocity, dtype=np.float32)
+    if (
+        velocity_array.shape == xy_array.shape
+        and np.all(np.isfinite(velocity_array))
+    ):
+        return velocity_array.astype(np.float32, copy=True)
+
+    if prev_xy is not None:
+        previous = np.asarray(prev_xy, dtype=np.float32)
+        if previous.shape == xy_array.shape and np.all(np.isfinite(previous)):
+            result = (xy_array - previous) / max(float(dt), 1e-6)
+            if np.all(np.isfinite(result)):
+                return result.astype(np.float32, copy=False)
+
+    return np.zeros_like(xy_array, dtype=np.float32)
+
+
+def state_from_info(
+    info: Any,
+    prev_xy: Optional[np.ndarray] = None,
+    dt: float = 1.0,
+) -> Tuple[np.ndarray, str, int]:
     xy = extract_bead_xy(info)
-    vel = extract_bead_vel_xy(info)
     if xy.size == 0:
         raise ValueError("missing bead_positions")
-    if vel.shape != xy.shape or not np.any(np.isfinite(vel)):
-        if prev_xy is not None and prev_xy.shape == xy.shape:
-            vel = (xy - prev_xy) / max(float(dt), 1e-6)
-        else:
-            vel = np.zeros_like(xy)
+
+    vel = finite_velocity_or_difference(
+        xy,
+        extract_bead_vel_xy(info),
+        prev_xy=prev_xy,
+        dt=dt,
+    )
     robot, source = extract_robot_pose_proxy(info)
-    state = np.concatenate([xy.reshape(-1), vel.reshape(-1), robot], axis=0).astype(np.float32)
+    if not np.all(np.isfinite(robot)):
+        raise ValueError("non-finite robot_pose_proxy")
+
+    state = np.concatenate(
+        [xy.reshape(-1), vel.reshape(-1), robot], axis=0
+    ).astype(np.float32)
+    if not np.all(np.isfinite(state)):
+        raise ValueError("state_from_info produced non-finite state")
     return state, source, int(xy.shape[0])
 
 
@@ -131,13 +178,23 @@ def parse_ep_len(file_name: str) -> int:
 
 
 def visible_seed_from_extras(ex: Dict[str, Any]) -> int:
-    value = ex.get("ccda_visible_seed", -1)
+    explicit = ex.get("ccda_visible_seed", None)
+    if explicit not in (None, ""):
+        try:
+            seed = int(explicit)
+        except (TypeError, ValueError, OverflowError):
+            seed = -1
+        if seed >= 0:
+            return seed
+
+    group = str(ex.get("ccda_pair_group", "")).strip()
+    match = _VISIBLE_SEED_PATTERN.search(group)
+    if match is None:
+        return -1
     try:
-        return int(value)
-    except Exception:
-        group = str(ex.get("ccda_pair_group", ""))
-        digits = "".join(ch for ch in group if ch.isdigit())
-        return int(digits) if digits else -1
+        return int(match.group("seed"))
+    except (TypeError, ValueError, OverflowError):
+        return -1
 
 
 def load_episode(condition: str, condition_dir: Path, file_name: str, codec: Optional[ActionCodec] = None, condition_to_id: Optional[Dict[str, int]] = None) -> Dict[str, Any]:
