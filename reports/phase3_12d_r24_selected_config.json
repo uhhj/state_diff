@@ -1,0 +1,47 @@
+{
+  "bead_ratio": 0.45,
+  "breakaway_extension": 0.03,
+  "breakaway_force": 3.0,
+  "config_sha256": "f3e89b4288103e24fe8df205d2c8bbcca1f7569f7863957fa8f13b28654b9c3d",
+  "frozen_for_confirmation": true,
+  "main_commit": "0184eb65495f7cec2f3527f077003f808e7b0e94",
+  "max_tension": 4.0,
+  "parameter_sweep_csv_sha256": "252d50c3a0f2eb6b7dc14b2b7a999bf45264da025582234786d1de5eb5c6ebf2",
+  "pilot_seeds": [
+    315000,
+    315001
+  ],
+  "probes": {
+    "breakaway": {
+      "coast_steps": 20,
+      "force_steps": 120,
+      "force_x": 8.0
+    },
+    "engagement": {
+      "coast_steps": 40,
+      "force_steps": 120,
+      "force_x": 7.0
+    },
+    "no_action_steps": 240,
+    "sub_deadband": {
+      "coast_steps": 40,
+      "force_steps": 20,
+      "force_x": 0.05
+    }
+  },
+  "radial_damping": 0.1,
+  "selection_rule": [
+    "slack_distance descending",
+    "spring_stiffness ascending",
+    "radial_damping ascending",
+    "max_tension ascending"
+  ],
+  "slack_distance": 0.015,
+  "source_hashes": {
+    "external/deformable-ravens/ravens/environment.py": "0376700f95ee4312fc873bef244df7fdd3606ddbee88018dd2b63eb69a5e615f",
+    "external/deformable-ravens/ravens/tasks/ccda_hidden_contact_cable.py": "9070bba74e1380148a7a3c95759d399194d62e66d3893c4977bed58850131e26",
+    "external/deformable-ravens/ravens/tasks/ccda_slack_breakaway.py": "8f96ee995d6f01c1a777386688e689e0ecb6c4527a7f29ed3d24321638ba5440"
+  },
+  "spring_stiffness": 50.0,
+  "submodule_commit": "e5525384af4af5bd0a02c3d1fd33ae84323d44e2"
+}

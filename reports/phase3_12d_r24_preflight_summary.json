@@ -1,0 +1,39 @@
+{
+  "checks": {
+    "condition_registered": true,
+    "goals_has_gates": true,
+    "helper_import": true,
+    "hook_error_field": true,
+    "main_branch": true,
+    "main_head": true,
+    "old_source_baseline_recorded": true,
+    "posthook_after_step": true,
+    "prehook_before_step": true,
+    "r23_root_cause": true,
+    "scope_is_environment_only": true,
+    "state_schema_not_activated": true,
+    "submodule_baseline": true,
+    "submodule_branch": true,
+    "submodule_import_smoke": true,
+    "submodule_only_expected_patch": true,
+    "tensorflow_not_loaded": true,
+    "v2_no_body_constraint_calls": true
+  },
+  "failed_checks": [],
+  "main_head": "0184eb65495f7cec2f3527f077003f808e7b0e94",
+  "parameter_sweep_allowed": true,
+  "scope": {
+    "candidate_matrix": false,
+    "cps": false,
+    "phase4": false,
+    "training": false
+  },
+  "source_sha256_after": {
+    "external/deformable-ravens/ravens/environment.py": "0376700f95ee4312fc873bef244df7fdd3606ddbee88018dd2b63eb69a5e615f",
+    "external/deformable-ravens/ravens/tasks/ccda_hidden_contact_cable.py": "9070bba74e1380148a7a3c95759d399194d62e66d3893c4977bed58850131e26",
+    "external/deformable-ravens/ravens/tasks/ccda_slack_breakaway.py": "8f96ee995d6f01c1a777386688e689e0ecb6c4527a7f29ed3d24321638ba5440"
+  },
+  "submodule_head": "e5525384af4af5bd0a02c3d1fd33ae84323d44e2",
+  "submodule_status": "M ravens/environment.py\n M ravens/tasks/ccda_hidden_contact_cable.py\n?? ravens/tasks/ccda_slack_breakaway.py",
+  "verdict": "PASS"
+}
