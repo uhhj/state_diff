@@ -2,7 +2,7 @@
 
 > Repository: `uhhj/state_diff`, branch `Experiment1`
 > Simulation submodule: `uhhj/deformable-ravens`, branch `ccda-cable`
-> Current research checkpoint: Phase3.12d-r2.3 completed
+> Current research checkpoint: Phase3.12d-r2.4 completed / PASS
 > Current formal decision: **do not run Phase4/CPS yet**
 
 ---
@@ -187,6 +187,8 @@ CPS development is blocked until:
 
 ## Phase3.12d-r2.4 — Versioned slack-breakaway environment
 
+Status: **COMPLETED / PASS**
+
 ### Goal
 
 Create a new condition:
@@ -235,7 +237,20 @@ Failure variants must identify whether the problem is:
 
 ## Phase 3.13 — State-v2 dataset regeneration
 
-Starts only after Phase3.12d-r2.4 passes.
+Current phase: **Phase3.13 Formal State-v2 Dataset Regeneration**.
+
+Formal task and observation contract:
+
+```text
+task: ccda-slack-cable-v2
+conditions: free / hidden_slack_breakaway_pin_v2
+schema: ccda_state_v2_position_proprio
+state_dim: 87
+paper_x_dim: 261
+state_action_x_dim: 303
+```
+
+Legacy production assets are removed from the branch tip only after migration smoke validation. Git history remains intact.
 
 ### Goal
 
@@ -400,7 +415,7 @@ No result may silently reuse an artifact produced under a different environment 
 ### Next formal artifact
 
 ```text
-Phase3.12d-r2.4 slack-breakaway-v2 environment audit
+Phase3.13 state-v2 formal paired dataset and audit
 ```
 
 ---
@@ -408,11 +423,11 @@ Phase3.12d-r2.4 slack-breakaway-v2 environment audit
 ## 9. Current decision
 
 ```text
-Environment redesign: required
-State-v2 activation: not yet
-Dataset regeneration: blocked on r2.4
+Environment redesign: completed / PASS
+State-v2 activation: Phase3.13 in progress
+Dataset regeneration: Phase3.13 in progress
 Candidate matrix: blocked
 Phase4/CPS: blocked
 ```
 
-The immediate next task is to implement and audit the versioned unilateral slack-breakaway condition without altering the historical rigid condition.
+Phase3.14 remains blocked until the Phase3.13 full dataset audit passes. The immediate task is the formal state-v2 paired dataset regeneration and legacy branch-tip purge.

@@ -1,0 +1,124 @@
+{
+  "candidate_matrix": false,
+  "canonicalization_pass": true,
+  "codec": {
+    "pass": true,
+    "roundtrip_max_error": 0.0,
+    "summary": {
+      "class": "ExecutableActionCodec",
+      "dim": 14,
+      "num_camera_config_paths": 0,
+      "num_param_paths": 14,
+      "num_paths": 14,
+      "paths": [
+        "params/pose0/0/0",
+        "params/pose0/0/1",
+        "params/pose0/0/2",
+        "params/pose0/1/0",
+        "params/pose0/1/1",
+        "params/pose0/1/2",
+        "params/pose0/1/3",
+        "params/pose1/0/0",
+        "params/pose1/0/1",
+        "params/pose1/0/2",
+        "params/pose1/1/0",
+        "params/pose1/1/1",
+        "params/pose1/1/2",
+        "params/pose1/1/3"
+      ]
+    }
+  },
+  "cps": false,
+  "engagement_coverage_pass": true,
+  "formal_conditions": [
+    "free",
+    "hidden_slack_breakaway_pin_v2"
+  ],
+  "formal_task": "ccda-slack-cable-v2",
+  "future_divergence_pass": true,
+  "future_divergence_rates": {
+    "test": 0.9702048417132216,
+    "train": 0.9628543499511242,
+    "val": 0.980544747081712
+  },
+  "hidden_engagement_rate": 1.0,
+  "hidden_release_rate": 0.9821428571428571,
+  "hiddenness": [
+    {
+      "balanced_accuracy": 0.5033112582781457,
+      "feature": "paper_x",
+      "paired_accuracy": 0.5,
+      "paired_rows": 906,
+      "roc_auc": 0.5065762222904453,
+      "roc_auc_ci_high": 0.5151237257540137,
+      "roc_auc_ci_low": 0.500004938271605
+    },
+    {
+      "balanced_accuracy": 0.5033112582781457,
+      "feature": "state_action_x",
+      "paired_accuracy": 0.5,
+      "paired_rows": 906,
+      "roc_auc": 0.5065762222904453,
+      "roc_auc_ci_high": 0.5151237257540137,
+      "roc_auc_ci_low": 0.500004938271605
+    }
+  ],
+  "hiddenness_pass": true,
+  "model_training": false,
+  "phase4": false,
+  "root_cause": "phase313_state_v2_dataset_supported",
+  "scale_expected": {
+    "test": 128,
+    "train": 256,
+    "val": 64
+  },
+  "scale_pass": true,
+  "schema_checks": {
+    "action_14": true,
+    "all_finite": true,
+    "final_state_87": true,
+    "future_4x87": true,
+    "no_object_arrays": true,
+    "paper_x_261": true,
+    "state_action_x_303": true
+  },
+  "smoke": false,
+  "source_reconstruction_max_abs": 0.0,
+  "source_reconstruction_pass": true,
+  "split_distribution": [
+    {
+      "episodes": 512,
+      "split": "train",
+      "visible_seeds": 256,
+      "windows": 2340
+    },
+    {
+      "episodes": 128,
+      "split": "val",
+      "visible_seeds": 64,
+      "windows": 578
+    },
+    {
+      "episodes": 256,
+      "split": "test",
+      "visible_seeds": 128,
+      "windows": 1206
+    }
+  ],
+  "split_overlap": {
+    "train_test_groups": 0,
+    "train_test_hashes": 0,
+    "train_test_seeds": 0,
+    "train_test_sources": 0,
+    "train_val_groups": 0,
+    "train_val_hashes": 0,
+    "train_val_seeds": 0,
+    "train_val_sources": 0,
+    "val_test_groups": 0,
+    "val_test_hashes": 0,
+    "val_test_seeds": 0,
+    "val_test_sources": 0
+  },
+  "split_pass": true,
+  "verdict": "PASS"
+}

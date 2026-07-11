@@ -1,9 +1,0 @@
-numpy OK 1.23.3
-torch OK 1.12.1.post200
-pybullet OK unknown
-meshcat OK unknown
-transformations OK 2020.1.1
-zmq OK 26.2.0
-tornado OK unknown
-pyngrok OK 8.1.2
-umsgpack OK 2.8.0

@@ -1,4 +1,0 @@
-comparison,max_auc,max_auc_ci_low,result
-free_a_vs_free_b,0.5,0.5,PASS
-free_a_vs_hidden_unarmed,0.5,0.5,PASS
-horizon0_free_a_vs_hidden_armed,0.5,0.5,PASS

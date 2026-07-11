@@ -1,9 +1,0 @@
-split,condition,windows,visible_seeds,source_files
-heldout,free,47,30,30
-heldout,hidden_breakaway_pin,47,30,30
-heldout,hidden_high_friction,47,30,30
-heldout,hidden_pin,47,30,30
-train,free,192,100,100
-train,hidden_breakaway_pin,192,100,100
-train,hidden_high_friction,192,100,100
-train,hidden_pin,192,100,100

@@ -1,0 +1,63 @@
+{
+  "active_processes": [],
+  "conda_env": "coord_bimanual",
+  "current_state_dimensions": {
+    "legacy_state_v1": 135,
+    "paper_x_v2": 261,
+    "state_action_x_v2": 303,
+    "state_v2": 87
+  },
+  "dependencies": {
+    "numpy": "1.23.3",
+    "pybullet": "unknown",
+    "scipy": "1.9.1",
+    "torch": "1.12.1.post200"
+  },
+  "history_rewrite": false,
+  "legacy_local_inventory": {
+    "bytes": 396583422,
+    "file_count": 3272
+  },
+  "legacy_tracked_candidate_count": 1634,
+  "main_branch": "Experiment1",
+  "main_head": "b9721c5332018a2699841a810397683a0e6930a3",
+  "main_remote_head": "b9721c5332018a2699841a810397683a0e6930a3",
+  "main_status": "?? checkpoints/\n?? reports/phase3_12_workers/\n?? reports/phase3_12b_workers/\n?? reports/phase3_12c_reset_workers/\n?? reports/phase3_12c_rollout_workers/\n?? reports/phase3_12d_candidate_effects.csv\n?? reports/phase3_12d_candidate_oracle_report.md\n?? reports/phase3_12d_candidate_oracle_summary.json\n?? reports/phase3_12d_candidate_progress.json\n?? reports/phase3_12d_no_phase4_confirmation.md\n?? reports/phase3_12d_preflight_report.md\n?? reports/phase3_12d_preflight_summary.json\n?? reports/phase3_12d_query_headroom.csv\n?? reports/phase3_12d_query_manifest.json\n?? reports/phase3_12d_runtime_config.md\n?? reports/phase3_12d_source_summary.csv\n?? reports/phase3_12d_start.md\n?? reports/phase3_12d_workers/\n?? scripts/phase3_12d_analyze.py\n?? scripts/phase3_12d_collect_queries.py\n?? scripts/phase3_12d_common.py\n?? scripts/phase3_12d_execute_candidates.py\n?? scripts/phase3_12d_preflight.py\n?? scripts/phase3_12d_run.sh",
+  "python": "3.9.15",
+  "python_executable": "/miniforge3/envs/coord_bimanual/bin/python",
+  "r24_summary_sha256": "e3f001abdfbcede4abfe26b526188beebebb4df6ae1870192249148605aff02e",
+  "selected_config_sha256": "ddab0855a88920c84717ae961976b241f65265f876c68385c8836817c03fb9ef",
+  "submodule_branch": "ccda-cable",
+  "submodule_head": "d30d4862fdf88c85f2c13fe01376f2a8e28f0303",
+  "submodule_remote_head": "d30d4862fdf88c85f2c13fe01376f2a8e28f0303",
+  "submodule_status": "",
+  "task_registry": [
+    "aligning",
+    "bag-alone-open",
+    "bag-color-goal",
+    "bag-items-easy",
+    "bag-items-hard",
+    "cable",
+    "cable-line-notarget",
+    "cable-ring",
+    "cable-ring-notarget",
+    "cable-shape",
+    "cable-shape-notarget",
+    "cloth-cover",
+    "cloth-flat",
+    "cloth-flat-notarget",
+    "hanoi",
+    "hidden-contact-cable-line",
+    "insertion",
+    "insertion-goal",
+    "insertion-translation",
+    "kitting",
+    "packing",
+    "palletizing",
+    "pushing",
+    "sorting",
+    "stacking",
+    "sweeping"
+  ],
+  "timestamp_utc": "2026-07-11T11:44:47.034343+00:00"
+}

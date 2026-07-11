@@ -1,0 +1,18 @@
+{
+  "checks": {
+    "free_24_beads": true,
+    "free_no_hidden_geometry": true,
+    "free_no_velocity_field": true,
+    "hidden_slack_breakaway_pin_v2_24_beads": true,
+    "hidden_slack_breakaway_pin_v2_no_hidden_geometry": true,
+    "hidden_slack_breakaway_pin_v2_no_velocity_field": true,
+    "paired_initial_geometry_exact": true,
+    "task_registered": true
+  },
+  "conditions": [
+    "free",
+    "hidden_slack_breakaway_pin_v2"
+  ],
+  "task": "ccda-slack-cable-v2",
+  "verdict": "PASS"
+}

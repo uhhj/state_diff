@@ -1,4 +1,0 @@
-/data/state_diff2/scripts/phase3_policy_rollout.py:104: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
-  import pkg_resources
-
-{"condition": "hidden_high_friction", "failure": "", "final_fraction": 0.125, "future_match": 0.0, "future_source": "global_input_retrieval", "idm_policy": "phase39b_xy_only_high_weight", "status": "ok"}
