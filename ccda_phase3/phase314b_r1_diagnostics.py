@@ -449,9 +449,14 @@ def load_selected_model(
     )
     model.load_state_dict(state, strict=True)
     model.eval()
+    checkpoint_metadata = {
+        key: value
+        for key, value in checkpoint.items()
+        if key not in {"model_state_dict", "ema_state_dict"}
+    }
     return model, condition_z, {
         "selection": selection,
-        "checkpoint": checkpoint,
+        "checkpoint": checkpoint_metadata,
         "checkpoint_path": str(checkpoint_path),
         "checkpoint_sha256": actual,
         "weights": "ema" if use_ema else "raw",
