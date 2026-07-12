@@ -19,7 +19,7 @@ def csv_write(p,rows):
 def eval_pool(model,xz,rows,target,fstd,active,physical,frozen,device,k,seed):
  config=REPAIR_CONFIGS['v_prediction_cosine']; z=sample_future_z(model=model,scheduler=make_repair_scheduler(config),config=config,condition_z=torch.from_numpy(xz[rows]).float().to(device),active_mask=torch.from_numpy(active).to(device),num_samples=k,seed=seed,num_inference_steps=100,row_batch_size=128).numpy().astype(np.float32); raw=fstd.inverse(z); m=evaluate_validation_pool(z,raw,target[rows],physical,float(frozen['prediction_reference_contract']['final_ordered_rmse_threshold']),float(frozen['prediction_reference_contract']['nearest_index_inversion_threshold'])); return m,z,raw
 def partial(model,xz,yz,target,rows,fstd,active,device,t,seed):
- c=REPAIR_CONFIGS['v_prediction_cosine']; z=partial_denoise(model=model,scheduler=make_repair_scheduler(c),config=c,clean_z=torch.from_numpy(yz[rows]).float().to(device),condition_z=torch.from_numpy(xz[rows]).float().to(device),active_mask=torch.from_numpy(active).to(device),start_timestep=t,seed=seed).numpy(); raw=fstd.inverse(z); p=raw[:,-1,:48].reshape(-1,24,2); q=target[rows,-1,:48].reshape(-1,24,2); return float(np.mean(np.sqrt(np.mean((p-q)**2,axis=(1,2)))))
+ c=REPAIR_CONFIGS['v_prediction_cosine']; z=partial_denoise(model=model,scheduler=make_repair_scheduler(c),config=c,clean_z=torch.from_numpy(yz[rows]).float().to(device),condition_z=torch.from_numpy(xz[rows]).float().to(device),active_mask=torch.from_numpy(active).to(device),start_timestep=t,seed=seed).detach().cpu().numpy(); raw=fstd.inverse(z); p=raw[:,-1,:48].reshape(-1,24,2); q=target[rows,-1,:48].reshape(-1,24,2); return float(np.mean(np.sqrt(np.mean((p-q)**2,axis=(1,2)))))
 def moderate(m,t99):
  c=m['calibrated']; checks={'finite':m['finite'],'sample':c['sample_validity_rate']>=.50,'query':c['query_has_valid_candidate_rate']>=.75,'coordinate':c['coordinate_validity_rate']>=.80,'segment':c['segment_score_validity_rate']>=.50,'chain':c['chain_score_validity_rate']>=.50,'quaternion':c['quaternion_validity_rate']>=.95,'stretch_fraction':m['gross_stretch_fraction']<=.05,'compression_fraction':m['gross_compression_fraction']<=.05,'stretch_p95':m['segment_stretch_p95']<=8,'permutation':m['permutation_gap']<=.05,'ordered_support':m['ordered_support_rate']>=.50,'diversity':m['pool_diversity']>=.001,'z99':m['z_abs_p99']<=10,'zmax':m['z_abs_max']<=50,'t99':t99<=.35}; return {'pass':all(checks.values()),'checks':checks}
 def formal_gate(m,t10,t99,improvement_ci):
@@ -32,7 +32,7 @@ def main():
  for cname in configs:
   gc=GEOMETRY_CONFIGS[cname]
   for seed in seeds:
-   seed_all(seed);model=build_denoiser('mlp_ddpm',condition_dim=261).to(device);opt=torch.optim.AdamW(model.parameters(),lr=3e-4,weight_decay=1e-4);ema=ExponentialMovingAverage(model,.999);scheduler=make_repair_scheduler(config);pg=torch.Generator().manual_seed(seed);dg=torch.Generator(device=device).manual_seed(seed+100000);best=None;bestkey=None;stale=0
+   seed_all(seed);model=build_denoiser('mlp_ddpm',condition_dim=261).to(device);opt=torch.optim.AdamW(model.parameters(),lr=3e-4,weight_decay=1e-4);ema=ExponentialMovingAverage(model,decay=.999);scheduler=make_repair_scheduler(config);pg=torch.Generator().manual_seed(seed);dg=torch.Generator(device=device).manual_seed(seed+100000);best=None;bestkey=None;stale=0
    for epoch in range(1,a.max_epochs+1):
     model.train();perm=torch.randperm(len(tr),generator=pg); accum={}
     for start in range(0,len(tr),a.batch_size):
