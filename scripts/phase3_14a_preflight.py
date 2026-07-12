@@ -27,6 +27,14 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", default="/data/state_diff2")
     parser.add_argument(
+        "--skip-provenance-refresh",
+        action="store_true",
+        help=(
+            "Use the already-refreshed provenance report. The runner uses "
+            "this after refreshing provenance while the worktree is clean."
+        ),
+    )
+    parser.add_argument(
         "--cache",
         default=(
             "data/phase3_14_cache/"
@@ -51,16 +59,17 @@ def main() -> None:
     args = parser.parse_args()
 
     root = Path(args.root).resolve()
-    subprocess.run(
-        [
-            sys.executable,
-            "scripts/phase3_14_provenance_gate.py",
-            "--root",
-            str(root),
-        ],
-        cwd=str(root),
-        check=True,
-    )
+    if not args.skip_provenance_refresh:
+        subprocess.run(
+            [
+                sys.executable,
+                "scripts/phase3_14_provenance_gate.py",
+                "--root",
+                str(root),
+            ],
+            cwd=str(root),
+            check=True,
+        )
     provenance = strict_json_load(
         root / "reports/phase3_14_provenance_gate_summary.json"
     )

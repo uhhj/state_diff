@@ -37,17 +37,26 @@ pytest -q \
 git diff --check
 git -C external/deformable-ravens status --short
 
+python scripts/phase3_14_provenance_gate.py \
+  --root "$ROOT"
+
 CACHE_ARGS=()
 if [[ "${PHASE314A_REPLACE_CACHE:-0}" == "1" ]]; then
   CACHE_ARGS+=(--replace)
 fi
 
-python scripts/phase3_14a_build_training_cache.py \
-  --root "$ROOT" \
-  "${CACHE_ARGS[@]}"
+CACHE_PATH="$ROOT/data/phase3_14_cache/phase3_14a_training_cache.npz"
+if [[ -e "$CACHE_PATH" && "${PHASE314A_REPLACE_CACHE:-0}" != "1" ]]; then
+  echo "[Phase3.14a] immutable cache exists; preflight will verify it"
+else
+  python scripts/phase3_14a_build_training_cache.py \
+    --root "$ROOT" \
+    "${CACHE_ARGS[@]}"
+fi
 
 python scripts/phase3_14a_preflight.py \
-  --root "$ROOT"
+  --root "$ROOT" \
+  --skip-provenance-refresh
 
 python scripts/phase3_14a_train_deterministic.py \
   --root "$ROOT" \
