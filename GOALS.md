@@ -2,8 +2,8 @@
 
 > Repository: `uhhj/state_diff`, branch `Experiment1`
 > Simulation submodule: `uhhj/deformable-ravens`, branch `ccda-cable`
-> Current research checkpoint: Phase3.14b-r1.1 completed / PASS
-> Current formal decision: **Phase3.14b-r2 targeted objective/schedule repair is next; Phase3.14c and Phase4/CPS remain blocked**
+> Current research checkpoint: Phase3.14b-r2 targeted objective/schedule repair
+> Current formal decision: **Phase3.14b-r2 is current; Phase3.14c and Phase4/CPS remain blocked**
 
 ---
 
@@ -434,9 +434,9 @@ Phase3.14b: FAIL
 Root cause: phase314b_candidate_physical_validity_failed
 Phase3.14b-r1.1: COMPLETED / PASS
 Root cause: phase314b_r1_cosine_epsilon_terminal_snr_instability_supported
-Phase3.14b-r2: NEXT - Targeted Objective/Schedule Repair
+Phase3.14b-r2: CURRENT - Targeted Objective/Schedule Repair
 Phase3.14c IDM: BLOCKED
 Phase4/CPS: BLOCKED
 ```
 
-Phase3.13-r1 regenerated, audited, and atomically promoted the formal dataset under Commit A. Phase3.14a established the immutable training cache and passed the deterministic future learnability gate. Phase3.14b completed its full DDPM matrix but failed candidate physical validity. Phase3.14b-r1.1 proved exact Diffusers 0.11.1 scheduler equivalence and localized the failure to cosine epsilon terminal-SNR instability. Phase3.14b-r2 is next; Phase3.14c IDM and Phase4/CPS remain blocked.
+Phase3.13-r1 regenerated, audited, and atomically promoted the formal dataset under Commit A. Phase3.14a established the immutable training cache and passed the deterministic future learnability gate. Phase3.14b completed its full DDPM matrix but failed candidate physical validity. Phase3.14b-r1.1 proved exact Diffusers 0.11.1 scheduler equivalence and localized the failure to cosine epsilon terminal-SNR instability. Phase3.14b-r2 now tests the targeted MLP paper-state objective/schedule repair matrix. Phase3.14c IDM and Phase4/CPS remain blocked pending its validation and conditional test gates.
