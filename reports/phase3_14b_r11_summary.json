@@ -1,0 +1,40 @@
+{
+  "candidate_execution": false,
+  "cps": false,
+  "ddpm_retraining": false,
+  "evidence": {
+    "ema_and_raw_both_fail": true,
+    "exact_scheduler_equivalence_pass": true,
+    "high_timestep_x0_error_dominates": true,
+    "legacy_algebraic_difference_nonzero": true,
+    "partial_t99_much_worse_than_t10": true,
+    "posterior_noise_not_primary": true,
+    "standardization_contract_pass": true,
+    "terminal_amplification_large": true,
+    "true_epsilon_oracle_pass": true
+  },
+  "gates": {
+    "ema_high_bin_pred_x0_mse": 15637.2998046875,
+    "ema_high_to_low_x0_mse_ratio": 330273.72914144763,
+    "ema_low_bin_pred_x0_mse": 0.047346483916044235,
+    "ema_partial_t10_chamfer": 0.017152230022475123,
+    "ema_partial_t99_chamfer": 21.53482037782669,
+    "ema_posterior_mean_final_chamfer": 23.118656396865845,
+    "ema_stochastic_final_chamfer": 23.318753480911255,
+    "exact_pred_x0_allclose": true,
+    "exact_prev_allclose": true,
+    "exact_prev_max_abs": 0.0,
+    "exact_prev_max_relative_rms": 0.0,
+    "legacy_prev_max_abs": 4.553794860839844e-05,
+    "raw_posterior_mean_final_chamfer": 22.853984236717224,
+    "raw_stochastic_final_chamfer": 23.153687596321106,
+    "scheduler_true_epsilon_x0_max_abs": 0.0002416372299194336,
+    "standardization_roundtrip_max_abs": 2.384185791015625e-07,
+    "terminal_x0_error_amplification": 2029.2114580785008
+  },
+  "idm": false,
+  "next_step": "Phase3.14b-r2 targeted objective/schedule repair using only MLP-DDPM paper_state before any full-matrix rerun.",
+  "phase4": false,
+  "root_cause": "phase314b_r1_cosine_epsilon_terminal_snr_instability_supported",
+  "verdict": "PASS"
+}
