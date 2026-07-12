@@ -1,0 +1,13 @@
+{
+  "candidate_execution": false,
+  "cps": false,
+  "formal_test_read": false,
+  "formal_test_run": false,
+  "idm": false,
+  "next_step": "GPU pilot",
+  "phase4": false,
+  "pilot": null,
+  "root_cause": "phase314b_r22_stage1_supported",
+  "validation": null,
+  "verdict": "PASS"
+}

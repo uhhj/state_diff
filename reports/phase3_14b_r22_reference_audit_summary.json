@@ -1,0 +1,78 @@
+{
+  "deterministic_input_variant": "state_action",
+  "formal_test_read": false,
+  "references": [
+    {
+      "calibrated_validity": 0.9761904761904762,
+      "chain_validity": 0.9781746031746031,
+      "coordinate_validity": 1.0,
+      "final_ordered_rmse": 0.0,
+      "gross_compression_fraction": 0.0,
+      "gross_stretch_fraction": 0.0,
+      "nearest_inversion": 0.0,
+      "quaternion_validity": 1.0,
+      "reference": "train_fit_gt",
+      "rows": 504,
+      "segment_validity": 0.9801587301587301,
+      "trajectory_ordered_rmse": 0.0
+    },
+    {
+      "calibrated_validity": 0.9879032258064516,
+      "chain_validity": 0.9939516129032258,
+      "coordinate_validity": 1.0,
+      "final_ordered_rmse": 0.0,
+      "gross_compression_fraction": 0.0,
+      "gross_stretch_fraction": 0.0,
+      "nearest_inversion": 0.0,
+      "quaternion_validity": 1.0,
+      "reference": "train_calibration_gt",
+      "rows": 496,
+      "segment_validity": 0.9939516129032258,
+      "trajectory_ordered_rmse": 0.0
+    },
+    {
+      "calibrated_validity": 0.9705882352941176,
+      "chain_validity": 0.9705882352941176,
+      "coordinate_validity": 1.0,
+      "final_ordered_rmse": 0.0,
+      "gross_compression_fraction": 0.0,
+      "gross_stretch_fraction": 0.0,
+      "nearest_inversion": 0.0,
+      "quaternion_validity": 1.0,
+      "reference": "validation_gt",
+      "rows": 102,
+      "segment_validity": 1.0,
+      "trajectory_ordered_rmse": 0.0
+    },
+    {
+      "calibrated_validity": 1.0,
+      "chain_validity": 1.0,
+      "coordinate_validity": 1.0,
+      "final_ordered_rmse": 0.21262794733047485,
+      "gross_compression_fraction": 0.0,
+      "gross_stretch_fraction": 0.00042625745950554135,
+      "nearest_inversion": 0.0937766410912191,
+      "quaternion_validity": 1.0,
+      "reference": "validation_last_repeat",
+      "rows": 102,
+      "segment_validity": 1.0,
+      "trajectory_ordered_rmse": 0.22649261355400085
+    },
+    {
+      "calibrated_validity": 0.0,
+      "chain_validity": 0.0,
+      "coordinate_validity": 1.0,
+      "final_ordered_rmse": 0.12232068926095963,
+      "gross_compression_fraction": 0.28005115089514065,
+      "gross_stretch_fraction": 0.00031969309462915604,
+      "nearest_inversion": 0.07587382779198636,
+      "quaternion_validity": 1.0,
+      "reference": "validation_deterministic_mlp",
+      "rows": 102,
+      "segment_validity": 1.0,
+      "trajectory_ordered_rmse": 0.12986482679843903
+    }
+  ],
+  "root_cause": "phase314b_r22_reference_audit_supported",
+  "verdict": "PASS"
+}
