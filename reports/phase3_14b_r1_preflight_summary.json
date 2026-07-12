@@ -1,0 +1,36 @@
+{
+  "cache_sha256": "3cc512f650557c81c3b81f4f128a5b55360b77d3f664fdd6607666936285fbe8",
+  "candidate_execution": false,
+  "checkpoint_bound_source_sha256": {
+    "ccda_phase3/phase314b_contract.py": "6174809a04ee581403ccd26aeb42ab49168cf662504d2318a37c111198dec519",
+    "ccda_phase3/phase314b_diffusion.py": "9c146188a19b044705ad0ec146ca12afa71b76a72a2afd182eb65639ec983b4e",
+    "ccda_phase3/phase314b_metrics.py": "2a052fc5e7938c7d8572627cebfcfb57189c05d50fd7cccbe294695eb3c3f5cf",
+    "ccda_phase3/phase314b_models.py": "db8ff101114934854f6e9cf32aeab6f7ae0063949fc95d00a674544cde9041f6",
+    "scripts/phase3_14b_analyze.py": "286e3ed7b78a1ba42477cdb8e74c7eaeacfa868fa6c6d4349237587e1d50814b",
+    "scripts/phase3_14b_eval_ddpm.py": "5bde2e996d35a6541ad900712b11f080c71fb605a69558e84da3cb20fd1ee3cc",
+    "scripts/phase3_14b_preflight.py": "a0650a090743cce4b311c47e41ac848835b2cf4c783809006386586e0308c488",
+    "scripts/phase3_14b_run.sh": "6b95e89ceadee3f20c10c7b96e612defe4774c6bd14ebb7f300365e693f3450c",
+    "scripts/phase3_14b_train_ddpm.py": "3c0bcf218f025ebcc84a74475ec0a66180b7cebff4dcefed59f40a59d39f8ff7"
+  },
+  "checkpoint_sha256": "28d876028d46d9efc71ae70c16b44a6933806654784538a366b95c89275d8e2a",
+  "condition_shape": [
+    4256,
+    261
+  ],
+  "cps": false,
+  "cuda_available": false,
+  "device": "cpu",
+  "ema_loaded": true,
+  "idm": false,
+  "phase4": false,
+  "raw_loaded": true,
+  "root_cause": "phase314b_r1_preflight_supported",
+  "selected_family": "mlp_ddpm",
+  "selected_input": "paper_state",
+  "selected_seed": 31421,
+  "submodule_clean": true,
+  "submodule_commit": "633a88752445cf5d6776ed374fdbbdb35f93050c",
+  "torch_version": "1.12.1.post200",
+  "training": false,
+  "verdict": "PASS"
+}
