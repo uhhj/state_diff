@@ -64,6 +64,10 @@ PILOT_CONFIGS = (
 DIRECT_TIMESTEPS = (0, 10, 25, 50, 75, 90, 99)
 TRACE_TIMESTEPS = (99, 90, 75, 50, 25, 10, 0)
 GRADIENT_TIMESTEPS = (10, 50, 90, 99)
+EXPECTED_PAIRED_CONDITIONS = (
+    "free",
+    "hidden_slack_breakaway_pin_v2",
+)
 
 R23_SOURCE_PATHS = (
     "ccda_phase3/phase314b_r23_diagnostics.py",
@@ -212,6 +216,132 @@ def require_repository_state(root: Path, *, require_clean: bool = True) -> Dict[
         "r22_verdict": final_summary["verdict"],
         "r22_root_cause": final_summary["root_cause"],
         "formal_test_read": False,
+    }
+
+
+def select_balanced_paired_rows(
+    arrays: Mapping[str, np.ndarray],
+    candidate_rows: np.ndarray,
+    row_count: int,
+) -> np.ndarray:
+    """Select deterministic complete free/hidden pairs.
+
+    row_count is the number of returned rows, not the number of distinct
+    visible seeds. Each selected visible seed contributes exactly two rows:
+    one free row and one hidden-slack-breakaway-v2 row.
+    """
+    requested = int(row_count)
+    if requested <= 0:
+        raise ValueError("row_count must be positive")
+    if requested % len(EXPECTED_PAIRED_CONDITIONS) != 0:
+        raise ValueError(
+            "row_count must be divisible by the number of paired conditions"
+        )
+
+    rows = np.asarray(candidate_rows, dtype=np.int64)
+    if rows.ndim != 1:
+        raise ValueError("candidate_rows must be one-dimensional")
+    if len(np.unique(rows)) != len(rows):
+        raise ValueError("candidate_rows contains duplicate row indices")
+
+    visible_seed = np.asarray(arrays["visible_seed"])
+    condition_name = np.asarray(arrays["condition_name"]).astype(str)
+    pair_key = np.asarray(arrays["pair_key"]).astype(str)
+
+    expected = set(EXPECTED_PAIRED_CONDITIONS)
+    grouped: Dict[tuple[int, str], Dict[str, int]] = {}
+
+    for row in rows.tolist():
+        seed = int(visible_seed[row])
+        key = str(pair_key[row])
+        condition = str(condition_name[row])
+        if condition not in expected:
+            continue
+
+        bucket = grouped.setdefault((seed, key), {})
+        if condition in bucket:
+            raise RuntimeError(
+                "duplicate condition row for "
+                f"visible_seed={seed}, pair_key={key}, condition={condition}"
+            )
+        bucket[condition] = int(row)
+
+    eligible = []
+    used_seeds = set()
+    for (seed, key), bucket in sorted(
+        grouped.items(),
+        key=lambda item: (item[0][0], item[0][1]),
+    ):
+        if set(bucket) != expected:
+            continue
+        if seed in used_seeds:
+            continue
+        eligible.append((seed, key, bucket))
+        used_seeds.add(seed)
+
+    required_pairs = requested // len(EXPECTED_PAIRED_CONDITIONS)
+    if len(eligible) < required_pairs:
+        raise RuntimeError(
+            "not enough complete distinct-visible-seed pairs: "
+            f"requested_rows={requested}, "
+            f"required_pairs={required_pairs}, "
+            f"available_pairs={len(eligible)}"
+        )
+
+    selected = []
+    for _, _, bucket in eligible[:required_pairs]:
+        selected.extend(
+            int(bucket[condition])
+            for condition in EXPECTED_PAIRED_CONDITIONS
+        )
+
+    result = np.asarray(selected, dtype=np.int64)
+    if result.shape != (requested,):
+        raise RuntimeError(
+            f"paired selection shape mismatch: {result.shape} != {(requested,)}"
+        )
+    if len(np.unique(result)) != requested:
+        raise RuntimeError("paired selection contains duplicate rows")
+
+    selected_conditions = condition_name[result]
+    for condition in EXPECTED_PAIRED_CONDITIONS:
+        count = int(np.sum(selected_conditions == condition))
+        if count != required_pairs:
+            raise RuntimeError(
+                f"condition balance failure for {condition}: "
+                f"{count} != {required_pairs}"
+            )
+
+    selected_seed_count = len(set(visible_seed[result].astype(int).tolist()))
+    if selected_seed_count != required_pairs:
+        raise RuntimeError(
+            "paired selection visible-seed count mismatch: "
+            f"{selected_seed_count} != {required_pairs}"
+        )
+
+    return result
+
+
+def paired_selection_metadata(
+    arrays: Mapping[str, np.ndarray],
+    rows: np.ndarray,
+) -> Dict[str, Any]:
+    selected = np.asarray(rows, dtype=np.int64)
+    conditions = np.asarray(arrays["condition_name"]).astype(str)[selected]
+    seeds = np.asarray(arrays["visible_seed"])[selected].astype(int)
+    pair_keys = np.asarray(arrays["pair_key"]).astype(str)[selected]
+
+    return {
+        "row_count": int(len(selected)),
+        "complete_pair_count": int(
+            len(selected) // len(EXPECTED_PAIRED_CONDITIONS)
+        ),
+        "distinct_visible_seed_count": int(len(set(seeds.tolist()))),
+        "distinct_pair_key_count": int(len(set(pair_keys.tolist()))),
+        "condition_counts": {
+            condition: int(np.sum(conditions == condition))
+            for condition in EXPECTED_PAIRED_CONDITIONS
+        },
     }
 
 

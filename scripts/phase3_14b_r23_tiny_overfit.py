@@ -31,7 +31,9 @@ from ccda_phase3.phase314b_r23_diagnostics import (
     direct_x0_prediction,
     failure_decomposition,
     load_verified_inputs,
+    paired_selection_metadata,
     require_repository_state,
+    select_balanced_paired_rows,
     source_sha256,
     write_json_once,
 )
@@ -44,22 +46,6 @@ def seed_all(seed: int) -> None:
     torch.cuda.manual_seed_all(seed)
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
-
-
-def select_tiny_rows(arrays, train: np.ndarray, count: int) -> np.ndarray:
-    rows = []
-    seen = set()
-    for row in train.tolist():
-        visible_seed = int(arrays["visible_seed"][row])
-        if visible_seed in seen:
-            continue
-        seen.add(visible_seed)
-        rows.append(row)
-        if len(rows) == count:
-            break
-    if len(rows) != count:
-        raise RuntimeError("not enough train visible seeds for tiny set")
-    return np.asarray(rows, dtype=np.int64)
 
 
 def run_control(
@@ -261,7 +247,11 @@ def main() -> None:
     arrays, _, x_raw, x_standardizer, train, _, _, _ = (
         load_verified_inputs(root)
     )
-    tiny_rows = select_tiny_rows(arrays, train, args.tiny_rows)
+    tiny_rows = select_balanced_paired_rows(
+        arrays,
+        train,
+        args.tiny_rows,
+    )
     if np.any(np.asarray(arrays["split_name"][tiny_rows]).astype(str) != "train"):
         raise RuntimeError("tiny overfit received non-train rows")
 
@@ -321,9 +311,22 @@ def main() -> None:
         "root_cause": "phase314b_r23_tiny_overfit_controls_completed",
         "device": str(device),
         "gpu_name": torch.cuda.get_device_name(0),
+        "sampling_contract": {
+            "argument_semantics": "actual_rows",
+            "selection_unit": "complete_visible_seed_pair",
+            "tiny": paired_selection_metadata(arrays, tiny_rows),
+        },
         "tiny_row_count": int(len(tiny_rows)),
         "tiny_rows": tiny_rows.tolist(),
         "visible_seeds": arrays["visible_seed"][tiny_rows].tolist(),
+        "condition_names": (
+            np.asarray(arrays["condition_name"])
+            .astype(str)[tiny_rows]
+            .tolist()
+        ),
+        "pair_keys": (
+            np.asarray(arrays["pair_key"]).astype(str)[tiny_rows].tolist()
+        ),
         "split_names": arrays["split_name"][tiny_rows].astype(str).tolist(),
         "runs": runs,
         "source_sha256": source_sha256(root),

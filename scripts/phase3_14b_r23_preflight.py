@@ -20,6 +20,10 @@ from ccda_phase3.phase314b_r22_contract import load_self_hashed_json
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", default="/data/state_diff2")
+    parser.add_argument(
+        "--output",
+        default="reports/phase3_14b_r23_preflight_summary.json",
+    )
     args = parser.parse_args()
     root = Path(args.root).resolve()
 
@@ -60,6 +64,29 @@ def main() -> None:
             ),
         },
         "checkpoints": checkpoints,
+        "sampling_contract": {
+            "argument_semantics": "actual_rows",
+            "selection_unit": "complete_visible_seed_pair",
+            "expected_conditions": [
+                "free",
+                "hidden_slack_breakaway_pin_v2",
+            ],
+            "requested": {
+                "validation_rows": 64,
+                "trace_rows": 16,
+                "gradient_rows": 32,
+                "tiny_rows": 16,
+            },
+        },
+        "resume_of": {
+            "blocked_root_cause": (
+                "phase314b_r23_checkpoint_diagnosis_"
+                "insufficient_distinct_validation_seeds"
+            ),
+            "blocked_report_commit": (
+                "d10d6fa296d0768e7392867aa5bb736fc4b1d56b"
+            ),
+        },
         "source_sha256": source_sha256(root),
         "formal_test_read": False,
         "formal_training": False,
@@ -68,10 +95,10 @@ def main() -> None:
         "phase4": False,
         "cps": False,
     }
-    write_json_once(
-        root / "reports/phase3_14b_r23_preflight_summary.json",
-        report,
-    )
+    output = Path(args.output)
+    if not output.is_absolute():
+        output = root / output
+    write_json_once(output, report)
 
 
 if __name__ == "__main__":

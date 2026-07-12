@@ -22,9 +22,18 @@ def main() -> None:
     root = Path(args.root).resolve()
     repository = require_repository_state(root, require_clean=False)
 
-    preflight = strict_json_load(
+    resume_preflight_path = (
+        root / "reports/phase3_14b_r23_resume_preflight_summary.json"
+    )
+    original_preflight_path = (
         root / "reports/phase3_14b_r23_preflight_summary.json"
     )
+    preflight_path = (
+        resume_preflight_path
+        if resume_preflight_path.is_file()
+        else original_preflight_path
+    )
+    preflight = strict_json_load(preflight_path)
     checkpoint = strict_json_load(
         root / "reports/phase3_14b_r23_checkpoint_diagnosis_summary.json"
     )
@@ -47,6 +56,11 @@ def main() -> None:
         ),
         "root_cause": classification["root_cause"],
         "next_stage": classification["next_stage"],
+        "preflight_report": str(preflight_path.relative_to(root)),
+        "sampling_contract": checkpoint["sampling_contract"],
+        "resumed_after_blocked_sampling_contract": (
+            preflight_path == resume_preflight_path
+        ),
         "repository": repository,
         "evidence": {
             "scheduler_parity_max_abs": checkpoint[

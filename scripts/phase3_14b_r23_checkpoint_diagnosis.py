@@ -20,6 +20,7 @@ from ccda_phase3.phase314b_r22_geometry import (
 )
 from ccda_phase3.phase314b_r23_diagnostics import (
     DIRECT_TIMESTEPS,
+    EXPECTED_PAIRED_CONDITIONS,
     GRADIENT_TIMESTEPS,
     PHASE,
     PILOT_CONFIGS,
@@ -30,9 +31,11 @@ from ccda_phase3.phase314b_r23_diagnostics import (
     load_ema_model,
     load_pilot_runs,
     load_verified_inputs,
+    paired_selection_metadata,
     posterior_mean_trace,
     require_repository_state,
     scheduler_x0_parity,
+    select_balanced_paired_rows,
     source_sha256,
     verify_checkpoint,
     write_csv_once,
@@ -47,26 +50,6 @@ def seed_all(seed: int) -> None:
     torch.cuda.manual_seed_all(seed)
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
-
-
-def _rows_by_visible_seed(
-    arrays,
-    rows: np.ndarray,
-    limit: int,
-) -> np.ndarray:
-    selected = []
-    seen = set()
-    for row in rows.tolist():
-        visible_seed = int(arrays["visible_seed"][row])
-        if visible_seed in seen:
-            continue
-        seen.add(visible_seed)
-        selected.append(row)
-        if len(selected) >= int(limit):
-            break
-    if len(selected) < int(limit):
-        raise RuntimeError("not enough distinct visible seeds")
-    return np.asarray(selected, dtype=np.int64)
 
 
 def main() -> None:
@@ -88,17 +71,27 @@ def main() -> None:
     arrays, _, x_raw, x_standardizer, train, _, _, validation = (
         load_verified_inputs(root)
     )
-    validation_rows = _rows_by_visible_seed(
+    validation_rows = select_balanced_paired_rows(
         arrays,
         validation,
         args.validation_rows,
     )
-    trace_rows = validation_rows[: args.trace_rows]
-    gradient_rows_index = _rows_by_visible_seed(
+    trace_rows = select_balanced_paired_rows(
+        arrays,
+        validation_rows,
+        args.trace_rows,
+    )
+    gradient_rows_index = select_balanced_paired_rows(
         arrays,
         train,
         args.gradient_rows,
     )
+    if len(validation_rows) != args.validation_rows:
+        raise RuntimeError("validation row request was not satisfied exactly")
+    if len(trace_rows) != args.trace_rows:
+        raise RuntimeError("trace row request was not satisfied exactly")
+    if len(gradient_rows_index) != args.gradient_rows:
+        raise RuntimeError("gradient row request was not satisfied exactly")
 
     x_z = x_standardizer.transform(x_raw)
     y_raw = np.asarray(arrays["y_state"], dtype=np.float32)
@@ -307,6 +300,23 @@ def main() -> None:
         "root_cause": "phase314b_r23_checkpoint_diagnosis_completed",
         "device": str(device),
         "gpu_name": torch.cuda.get_device_name(0),
+        "sampling_contract": {
+            "argument_semantics": "actual_rows",
+            "selection_unit": "complete_visible_seed_pair",
+            "expected_conditions": list(EXPECTED_PAIRED_CONDITIONS),
+            "validation": paired_selection_metadata(
+                arrays,
+                validation_rows,
+            ),
+            "trace": paired_selection_metadata(
+                arrays,
+                trace_rows,
+            ),
+            "gradient": paired_selection_metadata(
+                arrays,
+                gradient_rows_index,
+            ),
+        },
         "validation_row_count": int(len(validation_rows)),
         "trace_row_count": int(len(trace_rows)),
         "gradient_row_count": int(len(gradient_rows_index)),

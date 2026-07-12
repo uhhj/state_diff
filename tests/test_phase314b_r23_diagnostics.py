@@ -1,14 +1,18 @@
 from __future__ import annotations
 
 import numpy as np
+import pytest
 import torch
 
 from ccda_phase3.phase314b_r21_geometry import CalibratedGeometryContract
 from ccda_phase3.phase314b_r22_geometry import GeometryNormalizers
 from ccda_phase3.phase314b_r23_diagnostics import (
+    EXPECTED_PAIRED_CONDITIONS,
     classify_diagnosis,
     diagnostic_tail_components,
     failure_decomposition,
+    paired_selection_metadata,
+    select_balanced_paired_rows,
 )
 
 
@@ -114,3 +118,111 @@ def test_classifier_prefers_scale_failure_when_tail_control_overfits() -> None:
     assert result["root_cause"] == (
         "phase314b_r23_ordered_scale_and_mean_reduction_failure_supported"
     )
+
+
+def make_paired_selection_arrays(seed_count: int = 51):
+    conditions = np.asarray(EXPECTED_PAIRED_CONDITIONS)
+    return {
+        "visible_seed": np.repeat(
+            np.arange(seed_count, dtype=np.int64),
+            len(conditions),
+        ),
+        "condition_name": np.tile(conditions, seed_count),
+        "pair_key": np.repeat(
+            np.asarray([f"pair-{i:03d}" for i in range(seed_count)]),
+            len(conditions),
+        ),
+        "split_name": np.full(
+            seed_count * len(conditions),
+            "val",
+        ),
+    }
+
+
+def test_select_balanced_paired_rows_treats_64_as_rows() -> None:
+    arrays = make_paired_selection_arrays(51)
+    candidates = np.arange(102, dtype=np.int64)
+
+    selected = select_balanced_paired_rows(
+        arrays,
+        candidates,
+        64,
+    )
+    metadata = paired_selection_metadata(arrays, selected)
+
+    assert len(selected) == 64
+    assert metadata["complete_pair_count"] == 32
+    assert metadata["distinct_visible_seed_count"] == 32
+    assert metadata["distinct_pair_key_count"] == 32
+    assert metadata["condition_counts"] == {
+        "free": 32,
+        "hidden_slack_breakaway_pin_v2": 32,
+    }
+
+
+def test_select_balanced_paired_rows_supports_trace_subset() -> None:
+    arrays = make_paired_selection_arrays(51)
+    candidates = np.arange(102, dtype=np.int64)
+
+    validation = select_balanced_paired_rows(
+        arrays,
+        candidates,
+        64,
+    )
+    trace = select_balanced_paired_rows(
+        arrays,
+        validation,
+        16,
+    )
+    metadata = paired_selection_metadata(arrays, trace)
+
+    assert len(trace) == 16
+    assert metadata["complete_pair_count"] == 8
+    assert metadata["distinct_visible_seed_count"] == 8
+
+
+def test_select_balanced_paired_rows_rejects_odd_count() -> None:
+    arrays = make_paired_selection_arrays(51)
+    candidates = np.arange(102, dtype=np.int64)
+
+    with pytest.raises(ValueError, match="divisible"):
+        select_balanced_paired_rows(arrays, candidates, 63)
+
+
+def test_select_balanced_paired_rows_rejects_insufficient_pairs() -> None:
+    arrays = make_paired_selection_arrays(10)
+    candidates = np.arange(20, dtype=np.int64)
+
+    with pytest.raises(RuntimeError, match="not enough complete"):
+        select_balanced_paired_rows(arrays, candidates, 22)
+
+
+def test_select_balanced_paired_rows_uses_one_pair_per_seed() -> None:
+    arrays = make_paired_selection_arrays(4)
+
+    arrays = {
+        key: np.concatenate(
+            [
+                value,
+                (
+                    np.asarray([0, 0], dtype=np.int64)
+                    if key == "visible_seed"
+                    else np.asarray(EXPECTED_PAIRED_CONDITIONS)
+                    if key == "condition_name"
+                    else np.asarray(["pair-extra", "pair-extra"])
+                    if key == "pair_key"
+                    else np.asarray(["train", "train"])
+                ),
+            ]
+        )
+        for key, value in arrays.items()
+    }
+
+    candidates = np.arange(len(arrays["visible_seed"]), dtype=np.int64)
+    selected = select_balanced_paired_rows(
+        arrays,
+        candidates,
+        8,
+    )
+
+    assert len(set(arrays["visible_seed"][selected].tolist())) == 4
