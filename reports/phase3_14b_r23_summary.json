@@ -1,0 +1,94 @@
+{
+  "candidate_execution": false,
+  "cps": false,
+  "evidence": {
+    "familywise_tail_signature": {
+      "segment_element_score_p95_t50": 300.9498779296872,
+      "segment_family_score_p95_t50": 604.801708984375,
+      "supported": false
+    },
+    "ordered_weighted_to_v_gradient_ratio_median": 0.001317453590263096,
+    "reverse_accumulation_signature": {
+      "supported": false,
+      "truth_noised_t0_segment_failure": 0.0,
+      "truth_noised_t99_segment_failure": 0.1875
+    },
+    "scheduler_parity_max_abs": 0.0,
+    "tiny_overfit_gates": {
+      "r22_exact_fixed": false,
+      "r22_exact_random": false,
+      "tail_control_fixed": false,
+      "tail_control_random": false
+    }
+  },
+  "formal_test_read": false,
+  "formal_training": false,
+  "idm": false,
+  "meaning_of_pass": "diagnostic evidence chain completed; candidate geometry remains unrepaired and no configuration is selected",
+  "next_stage": "debug model/optimizer on train-only tiny set",
+  "phase": "phase3_14b_r23",
+  "phase4": false,
+  "preflight_report": "reports/phase3_14b_r23_resume_preflight_summary.json",
+  "repository": {
+    "base_failure_commit": "a54cdd20d88f5eb00ebe25e8d4a20c28fe7d6e7f",
+    "branch": "Experiment1",
+    "cache_sha256": "3cc512f650557c81c3b81f4f128a5b55360b77d3f664fdd6607666936285fbe8",
+    "formal_test_read": false,
+    "frozen_contract_sha256": "fa2725ca40da2499008360f13d291d2ce8694e6393910b0522fe800f4f37cdcc",
+    "main_commit": "3d8572702965ea5b3764263897e71ef7ea6b520a",
+    "r22_root_cause": "phase314b_r22_no_pilot_geometry_repair",
+    "r22_verdict": "FAIL",
+    "submodule_commit": "633a88752445cf5d6776ed374fdbbdb35f93050c"
+  },
+  "resumed_after_blocked_sampling_contract": true,
+  "root_cause": "phase314b_r23_tiny_overfit_capacity_or_implementation_failure",
+  "sampling_contract": {
+    "argument_semantics": "actual_rows",
+    "expected_conditions": [
+      "free",
+      "hidden_slack_breakaway_pin_v2"
+    ],
+    "gradient": {
+      "complete_pair_count": 16,
+      "condition_counts": {
+        "free": 16,
+        "hidden_slack_breakaway_pin_v2": 16
+      },
+      "distinct_pair_key_count": 16,
+      "distinct_visible_seed_count": 16,
+      "row_count": 32
+    },
+    "selection_unit": "complete_visible_seed_pair",
+    "trace": {
+      "complete_pair_count": 8,
+      "condition_counts": {
+        "free": 8,
+        "hidden_slack_breakaway_pin_v2": 8
+      },
+      "distinct_pair_key_count": 8,
+      "distinct_visible_seed_count": 8,
+      "row_count": 16
+    },
+    "validation": {
+      "complete_pair_count": 32,
+      "condition_counts": {
+        "free": 32,
+        "hidden_slack_breakaway_pin_v2": 32
+      },
+      "distinct_pair_key_count": 32,
+      "distinct_visible_seed_count": 32,
+      "row_count": 64
+    }
+  },
+  "selected_configuration": null,
+  "source_sha256": {
+    "ccda_phase3/phase314b_r23_diagnostics.py": "a56f7914c2b3b8cdbea7d11c1b6b3db906abf1bba862dac5ca627e27fa63ba68",
+    "scripts/phase3_14b_r23_checkpoint_diagnosis.py": "682822820acccd750983711d38f23ff5fbd1b1f59bec00b3ed16f20eec9ab8b0",
+    "scripts/phase3_14b_r23_finalize.py": "ab192a185ea9c49d12e2ccbd3fb5a9398737d85d5240515822e4e9cdf52fc9d4",
+    "scripts/phase3_14b_r23_preflight.py": "03e9d52da67ab4f5f577aff8b06188098fc14d7be0b91b058cc5aa456b7847c5",
+    "scripts/phase3_14b_r23_run.sh": "e362b53797e61c663135e9623e8f002d09f351a1441105cb3c2678a566961ce9",
+    "scripts/phase3_14b_r23_tiny_overfit.py": "ef81cba2a141f3a555859ecee55f9ec419f321046dd0804625bc6c4014fed149",
+    "tests/test_phase314b_r23_diagnostics.py": "e9226837224251ab20b301e5d3cfa68d417a5c9d4e67cddbad5c7935ec5a73d2"
+  },
+  "verdict": "PASS"
+}

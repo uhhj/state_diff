@@ -1,0 +1,84 @@
+{
+  "candidate_execution": false,
+  "checkpoints": {
+    "edge_length": {
+      "best_epoch": 750,
+      "path": "checkpoints/phase3_14b_r22/pilot/edge_length/seed_31440/best.pt",
+      "sha256": "f50c530b2dcabe1aaf3dfd370317b93dcd57bfe5ecae82f04403e34c20f08ffd",
+      "training_seed": 31440
+    },
+    "ordered_edge": {
+      "best_epoch": 750,
+      "path": "checkpoints/phase3_14b_r22/pilot/ordered_edge/seed_31440/best.pt",
+      "sha256": "4a238644e9d6184e47b8c3907c6251da068c4da5e159034e2b05df3537645a64",
+      "training_seed": 31440
+    },
+    "ordered_edge_temporal": {
+      "best_epoch": 750,
+      "path": "checkpoints/phase3_14b_r22/pilot/ordered_edge_temporal/seed_31440/best.pt",
+      "sha256": "97d37c01e61c62e0ed9abb9151de134510024b119edd48dd32da6bf47630ed79",
+      "training_seed": 31440
+    },
+    "v_baseline_replay": {
+      "best_epoch": 750,
+      "path": "checkpoints/phase3_14b_r22/pilot/v_baseline_replay/seed_31440/best.pt",
+      "sha256": "f1e1ebeb712dd8173f556621e6d2b2188d48e862090a192b49c40527e8e02412",
+      "training_seed": 31440
+    }
+  },
+  "cps": false,
+  "dataset": {
+    "calibration_rows": 496,
+    "fit_rows": 504,
+    "manifest_schema": null,
+    "train_rows": 1000,
+    "train_visible_seed_count": 192,
+    "validation_rows": 102,
+    "validation_visible_seed_count": 51
+  },
+  "formal_test_read": false,
+  "formal_training": false,
+  "idm": false,
+  "phase": "phase3_14b_r23",
+  "phase4": false,
+  "repository": {
+    "base_failure_commit": "a54cdd20d88f5eb00ebe25e8d4a20c28fe7d6e7f",
+    "branch": "Experiment1",
+    "cache_sha256": "3cc512f650557c81c3b81f4f128a5b55360b77d3f664fdd6607666936285fbe8",
+    "formal_test_read": false,
+    "frozen_contract_sha256": "fa2725ca40da2499008360f13d291d2ce8694e6393910b0522fe800f4f37cdcc",
+    "main_commit": "3d8572702965ea5b3764263897e71ef7ea6b520a",
+    "r22_root_cause": "phase314b_r22_no_pilot_geometry_repair",
+    "r22_verdict": "FAIL",
+    "submodule_commit": "633a88752445cf5d6776ed374fdbbdb35f93050c"
+  },
+  "resume_of": {
+    "blocked_report_commit": "d10d6fa296d0768e7392867aa5bb736fc4b1d56b",
+    "blocked_root_cause": "phase314b_r23_checkpoint_diagnosis_insufficient_distinct_validation_seeds"
+  },
+  "root_cause": "phase314b_r23_preflight_passed",
+  "sampling_contract": {
+    "argument_semantics": "actual_rows",
+    "expected_conditions": [
+      "free",
+      "hidden_slack_breakaway_pin_v2"
+    ],
+    "requested": {
+      "gradient_rows": 32,
+      "tiny_rows": 16,
+      "trace_rows": 16,
+      "validation_rows": 64
+    },
+    "selection_unit": "complete_visible_seed_pair"
+  },
+  "source_sha256": {
+    "ccda_phase3/phase314b_r23_diagnostics.py": "a56f7914c2b3b8cdbea7d11c1b6b3db906abf1bba862dac5ca627e27fa63ba68",
+    "scripts/phase3_14b_r23_checkpoint_diagnosis.py": "682822820acccd750983711d38f23ff5fbd1b1f59bec00b3ed16f20eec9ab8b0",
+    "scripts/phase3_14b_r23_finalize.py": "ab192a185ea9c49d12e2ccbd3fb5a9398737d85d5240515822e4e9cdf52fc9d4",
+    "scripts/phase3_14b_r23_preflight.py": "03e9d52da67ab4f5f577aff8b06188098fc14d7be0b91b058cc5aa456b7847c5",
+    "scripts/phase3_14b_r23_run.sh": "e362b53797e61c663135e9623e8f002d09f351a1441105cb3c2678a566961ce9",
+    "scripts/phase3_14b_r23_tiny_overfit.py": "ef81cba2a141f3a555859ecee55f9ec419f321046dd0804625bc6c4014fed149",
+    "tests/test_phase314b_r23_diagnostics.py": "e9226837224251ab20b301e5d3cfa68d417a5c9d4e67cddbad5c7935ec5a73d2"
+  },
+  "verdict": "PASS"
+}
