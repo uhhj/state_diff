@@ -4,10 +4,16 @@
   "formal_test_read": false,
   "formal_test_run": false,
   "idm": false,
-  "next_step": "GPU pilot",
+  "next_step": "pilot geometry repair diagnosis",
   "phase4": false,
-  "pilot": null,
-  "root_cause": "phase314b_r22_stage1_supported",
+  "pilot": {
+    "formal_test_read": false,
+    "root_cause": "phase314b_r22_no_pilot_geometry_repair",
+    "selected_config": null,
+    "selected_run": null,
+    "verdict": "FAIL"
+  },
+  "root_cause": "phase314b_r22_no_pilot_geometry_repair",
   "validation": null,
-  "verdict": "PASS"
+  "verdict": "FAIL"
 }
