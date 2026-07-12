@@ -1,0 +1,127 @@
+{
+  "branch_eligible_queries": 200,
+  "cache_sha256": "3cc512f650557c81c3b81f4f128a5b55360b77d3f664fdd6607666936285fbe8",
+  "candidate_execution": false,
+  "cps": false,
+  "deterministic_error": 0.12089403784716303,
+  "diversity": 28.75381879830506,
+  "gate_values": {
+    "best16_vs_deterministic_ci_low": -10.70471022296516,
+    "best16_vs_k1_ci_low": 14.793536238589333,
+    "both_branch_support_rate_k16": 0.0,
+    "both_branch_support_rate_k32": 0.0,
+    "finite_samples": true,
+    "physical_sample_validity_rate_k16": 0.0,
+    "query_has_valid_candidate_rate_k16": 0.0
+  },
+  "idm_training": false,
+  "improvement_vs_deterministic": {
+    "ci_high": -9.959581602652312,
+    "ci_low": -10.70471022296516,
+    "groups": 103,
+    "mean": -10.324112668335076
+  },
+  "improvement_vs_k1": {
+    "ci_high": 18.38671372793253,
+    "ci_low": 14.793536238589333,
+    "groups": 103,
+    "mean": 16.552312744473948
+  },
+  "k_metrics": [
+    {
+      "k": 1,
+      "mean_best_of_k_final_chamfer": 26.99731945065619,
+      "median_best_of_k_final_chamfer": 24.51616382598877
+    },
+    {
+      "k": 4,
+      "mean_best_of_k_final_chamfer": 15.778962237163654,
+      "median_best_of_k_final_chamfer": 15.236910820007324
+    },
+    {
+      "k": 8,
+      "mean_best_of_k_final_chamfer": 12.58570989127298,
+      "median_best_of_k_final_chamfer": 12.466299057006836
+    },
+    {
+      "k": 16,
+      "mean_best_of_k_final_chamfer": 10.44500670618224,
+      "median_best_of_k_final_chamfer": 10.260382175445557
+    },
+    {
+      "k": 32,
+      "mean_best_of_k_final_chamfer": 8.729906971014818,
+      "median_best_of_k_final_chamfer": 8.633248805999756
+    }
+  ],
+  "phase4": false,
+  "root_cause": "phase314b_candidate_physical_validity_failed",
+  "sample_mean_error": 4.78526611698484,
+  "sample_pool_file": "data/phase3_14b_eval/selected_test_sample_pool.npz",
+  "sample_pool_sha256": "e8fe3458b63b00ff1da0a73c95a5442e2e7ca3cbf0be49c49fb882f54d963a3d",
+  "sample_pool_shape": [
+    32,
+    206,
+    4,
+    87
+  ],
+  "selected_model": {
+    "all_run_count": 12,
+    "best_epoch": 750,
+    "cache_sha256": "3cc512f650557c81c3b81f4f128a5b55360b77d3f664fdd6607666936285fbe8",
+    "checkpoint": "checkpoints/phase3_14b/ddpm/mlp_ddpm/paper_state/seed_31421/best.pt",
+    "checkpoint_sha256": "28d876028d46d9efc71ae70c16b44a6933806654784538a366b95c89275d8e2a",
+    "clip_sample": false,
+    "condition_dim": 261,
+    "cps": false,
+    "ema_decay": 0.999,
+    "full_horizon_training_only": true,
+    "future_active_mask_used": true,
+    "future_shape": [
+      4,
+      87
+    ],
+    "idm_training": false,
+    "input_variant": "paper_state",
+    "model_family": "mlp_ddpm",
+    "parameter_count": 1081692,
+    "phase": "phase3_14b",
+    "phase4": false,
+    "scheduler": {
+      "beta_schedule": "squaredcos_cap_v2",
+      "class": "DDPMScheduler",
+      "clip_sample": false,
+      "num_train_timesteps": 100,
+      "prediction_type": "epsilon",
+      "thresholding": false,
+      "variance_type": "fixed_small"
+    },
+    "selection_metric": "best_of_8_final_xy_chamfer",
+    "selection_split": "val",
+    "selection_subset": "full_horizon_pre_engagement_paired",
+    "selection_value": 12.069217247121474,
+    "selection_version": "phase3_14b_val_selection_v1",
+    "source_sha256": {
+      "ccda_phase3/phase314b_contract.py": "6174809a04ee581403ccd26aeb42ab49168cf662504d2318a37c111198dec519",
+      "ccda_phase3/phase314b_diffusion.py": "9c146188a19b044705ad0ec146ca12afa71b76a72a2afd182eb65639ec983b4e",
+      "ccda_phase3/phase314b_metrics.py": "2a052fc5e7938c7d8572627cebfcfb57189c05d50fd7cccbe294695eb3c3f5cf",
+      "ccda_phase3/phase314b_models.py": "db8ff101114934854f6e9cf32aeab6f7ae0063949fc95d00a674544cde9041f6",
+      "scripts/phase3_14b_analyze.py": "286e3ed7b78a1ba42477cdb8e74c7eaeacfa868fa6c6d4349237587e1d50814b",
+      "scripts/phase3_14b_eval_ddpm.py": "5bde2e996d35a6541ad900712b11f080c71fb605a69558e84da3cb20fd1ee3cc",
+      "scripts/phase3_14b_preflight.py": "a0650a090743cce4b311c47e41ac848835b2cf4c783809006386586e0308c488",
+      "scripts/phase3_14b_run.sh": "6b95e89ceadee3f20c10c7b96e612defe4774c6bd14ebb7f300365e693f3450c",
+      "scripts/phase3_14b_train_ddpm.py": "3c0bcf218f025ebcc84a74475ec0a66180b7cebff4dcefed59f40a59d39f8ff7"
+    },
+    "test_used_for_selection": false,
+    "thresholding": false,
+    "training_seed": 31421,
+    "val_metrics": {
+      "best_of_k_final_chamfer": 12.069217247121474,
+      "k1_final_chamfer": 27.5532129091375,
+      "pool_diversity": 28.843653690915147
+    }
+  },
+  "test_pair_keys": 103,
+  "test_query_rows": 206,
+  "verdict": "FAIL"
+}

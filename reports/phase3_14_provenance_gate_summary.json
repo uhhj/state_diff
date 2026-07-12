@@ -18,8 +18,8 @@
     "raw_merkle_root": "bb5ba41993c3bf64bd6d345624caf8c96d69d74184b30eadbab815fcbf8692d5",
     "root_cause": "phase313_r1_provenance_locked_dataset_supported",
     "source_lock": {
-      "exact_heads": true,
-      "main_commit_current": "fddb315d47dd17066e009fa00ed5dd1e72c77768",
+      "exact_heads": false,
+      "main_commit_current": "8b709a789b3a8602ede30857ca34387a4d0e40b6",
       "main_commit_locked": "fddb315d47dd17066e009fa00ed5dd1e72c77768",
       "main_source_hashes_match": true,
       "submodule_commit": "633a88752445cf5d6776ed374fdbbdb35f93050c",
