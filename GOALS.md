@@ -2,8 +2,8 @@
 
 > Repository: `uhhj/state_diff`, branch `Experiment1`
 > Simulation submodule: `uhhj/deformable-ravens`, branch `ccda-cable`
-> Current research checkpoint: Phase3.14b-r2.1 completed / PASS
-> Current formal decision: **Phase3.14b-r2.2 is next; formal test, Phase3.14c, and Phase4/CPS remain blocked**
+> Current research checkpoint: Phase3.14b-r2.2 frozen contract and ordered-geometry repair
+> Current formal decision: **Phase3.14b-r2.2 is current; formal test, Phase3.14c, and Phase4/CPS remain blocked**
 
 ---
 
@@ -438,7 +438,7 @@ Phase3.14b-r2: FAIL
 Root cause: phase314b_r2_no_stable_configuration
 Phase3.14b-r2.1: COMPLETED / PASS
 Root cause: phase314b_r21_contract_miscalibration_and_ordered_geometry_failure_supported
-Next: Phase3.14b-r2.2 Train-only family-wise validity contract + v-prediction ordered-cable geometry repair
+Current: Phase3.14b-r2.2 Train-only family-wise validity contract + v-prediction ordered-cable geometry repair
 Formal test: BLOCKED / unread
 Phase3.14c IDM: BLOCKED
 Phase4/CPS: BLOCKED
