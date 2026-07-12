@@ -1,5 +1,5 @@
 {
-  "artifact_sha256": "93abaac20f6619ed3255ae68ca327b4b4c8071dd5f17e82694c82560571512e2",
+  "artifact_sha256": "fa2725ca40da2499008360f13d291d2ce8694e6393910b0522fe800f4f37cdcc",
   "formal_test_read": false,
   "reference_coverage": {
     "calibration_gt": 0.9879032258064516,
