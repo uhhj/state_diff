@@ -5,12 +5,12 @@
   "calibration_rows": 496,
   "candidate_execution": false,
   "cps": false,
-  "cuda_available": false,
+  "cuda_available": true,
   "diffusers_version": "0.11.1",
   "fit_rows": 504,
   "formal_test_read": false,
   "idm": false,
-  "main_commit": "6242c096c491e03e19ca1cd9158cccdcd0502eaf",
+  "main_commit": "d0f9473e4b5b07ba121181016e2f780dd88284ec",
   "phase4": false,
   "root_cause": "phase314b_r22_preflight_supported",
   "source_sha256": {
@@ -26,7 +26,7 @@
     "scripts/phase3_14b_r22_stage1_contract.sh": "17b3ec309548972ffebe6c24e0a5dff4afad183b4fe0834b7e3ab482e700dfd2",
     "scripts/phase3_14b_r22_stage2_pilot.sh": "4e121da73c58473089da43cc7921e245911d7d705ed412d1a67d1da811810985",
     "scripts/phase3_14b_r22_stage3_formal.sh": "16a1daaa2c6013b3f1d550ab6f65464a6685e9e2266048d04b950d5a7c366167",
-    "scripts/phase3_14b_r22_train.py": "1d72c9ebfd701b3684dade4487d64eaef7e2f66ed9a2d8715e31aa49ecfe68e6"
+    "scripts/phase3_14b_r22_train.py": "37f37fb7b63a145c4b3607d24eab97be491f4722b97b8e700532843d4c51b1bf"
   },
   "submodule_commit": "633a88752445cf5d6776ed374fdbbdb35f93050c",
   "torch_version": "1.12.1.post200",
