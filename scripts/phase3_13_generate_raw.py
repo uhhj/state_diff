@@ -29,7 +29,14 @@ def git(cwd: Path, *args: str) -> str:
 
 def strict_dump(path: Path, payload: Dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(payload, indent=2, sort_keys=True, allow_nan=False) + "\n")
+    text = json.dumps(payload, indent=2, sort_keys=True, allow_nan=False)
+    temporary = path.with_suffix(path.suffix + ".tmp")
+    with temporary.open("w", encoding="utf-8") as handle:
+        handle.write(text)
+        handle.write("\n")
+        handle.flush()
+        os.fsync(handle.fileno())
+    os.replace(temporary, path)
 
 
 def action_sha(actions: List[Dict[str, Any]]) -> tuple[str, List[np.ndarray]]:
@@ -142,8 +149,12 @@ def generate_seed(payload: Dict[str, Any]) -> int:
         directory = output / split / condition
         directory.mkdir(parents=True, exist_ok=True)
         path = directory / f"seed_{seed}.pkl"
-        with path.open("wb") as handle:
+        temporary_episode = path.with_suffix(path.suffix + ".tmp")
+        with temporary_episode.open("wb") as handle:
             pickle.dump(episode, handle, protocol=pickle.HIGHEST_PROTOCOL)
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temporary_episode, path)
         strict_dump(directory / f"seed_{seed}.manifest.json", manifest)
     return seed
 
@@ -181,6 +192,12 @@ def main() -> None:
     split_dir = output / args.split
     if args.fresh and split_dir.exists():
         shutil.rmtree(split_dir)
+    orphan_temporary = sorted(output.glob("**/*.tmp"))
+    if orphan_temporary:
+        raise SystemExit(
+            "orphan temporary files exist: "
+            + ", ".join(str(path) for path in orphan_temporary[:10])
+        )
     selected = list(range(args.seed_start, args.seed_start + args.num_seeds))
     overlap = set(selected).intersection(existing_seeds(output))
     if overlap:

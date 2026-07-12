@@ -2,7 +2,7 @@
 
 > Repository: `uhhj/state_diff`, branch `Experiment1`
 > Simulation submodule: `uhhj/deformable-ravens`, branch `ccda-cable`
-> Current research checkpoint: Phase3.13 completed / PASS
+> Current research checkpoint: Phase3.13-r1 provenance-locked regeneration
 > Current formal decision: **do not run Phase4/CPS yet**
 
 ---
@@ -426,10 +426,11 @@ Phase3.13 state-v2 formal paired dataset and audit
 Environment redesign: completed / PASS
 Phase3.13 state-v2 activation: completed / PASS
 Formal dataset: 448 visible seeds / 896 episodes / 4124 windows
-Phase3.14: CURRENT
-Phase3.14 gate: phase314_candidate_set_actionable_headroom_supported
-Phase3.14 status: blocked by phase314_data_provenance_failed
-Phase4/CPS: blocked on actionable candidate-set headroom
+Phase3.13 scientific/data audit: completed / PASS
+Phase3.14: BLOCKED by invalid formal artifact provenance
+Current: Phase3.13-r1 Provenance-Locked Regeneration
+Phase3.13-r1 required gate: phase313_r1_provenance_locked_dataset_supported
+Phase4/CPS: BLOCKED
 ```
 
-Phase3.13 passed, but Phase3.14 cannot train until the formal dataset provenance lock passes. After provenance is repaired, Phase3.14 must establish actionable candidate-set headroom before Phase4/CPS can begin.
+Phase3.13-r1 must regenerate, audit, and atomically promote the formal dataset under an immutable source lock. Phase3.14 training remains blocked until provenance reauthorization passes.

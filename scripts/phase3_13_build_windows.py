@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import subprocess
 from pathlib import Path
 from typing import Any, Dict, List
@@ -25,7 +26,14 @@ def sha(path: Path) -> str:
 
 def strict_dump(path: Path, payload: Dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(payload, indent=2, sort_keys=True, allow_nan=False) + "\n")
+    text = json.dumps(payload, indent=2, sort_keys=True, allow_nan=False)
+    temporary = path.with_suffix(path.suffix + ".tmp")
+    with temporary.open("w", encoding="utf-8") as handle:
+        handle.write(text)
+        handle.write("\n")
+        handle.flush()
+        os.fsync(handle.fileno())
+    os.replace(temporary, path)
 
 
 def strings(values: List[str]) -> np.ndarray:
@@ -65,7 +73,9 @@ def main() -> None:
     if codec is None:
         raise SystemExit("no action codec")
     template = output / "action_template.pkl"
-    save_action_template(template, codec)
+    temporary_template = output / ".action_template.tmp.pkl"
+    save_action_template(temporary_template, codec)
+    os.replace(temporary_template, template)
     arrays = {
         "paper_x": np.stack([row["paper_x"] for row in rows]).astype(np.float32),
         "state_action_x": np.stack([row["state_action_x"] for row in rows]).astype(np.float32),
@@ -94,12 +104,24 @@ def main() -> None:
     if any(value.dtype.kind == "O" for value in arrays.values()):
         raise RuntimeError("object array detected")
     npz = output / "phase3_13_windows.npz"
-    np.savez_compressed(npz, **arrays)
-    with np.load(npz, allow_pickle=False) as checked:
+    temporary_npz = output / ".phase3_13_windows.tmp.npz"
+    np.savez_compressed(temporary_npz, **arrays)
+    with np.load(temporary_npz, allow_pickle=False) as checked:
         if set(checked.files) != set(arrays):
-            raise RuntimeError("saved NPZ key mismatch")
+            raise RuntimeError("temporary NPZ key mismatch")
+    os.replace(temporary_npz, npz)
     split_counts = {split: int(np.sum(arrays["split_name"] == split)) for split in ("train", "val", "test")}
     seed_ranges = {split: sorted(set(arrays["visible_seed"][arrays["split_name"] == split].tolist())) for split in split_counts}
+    manifest_path = (root / args.manifest).resolve()
+    dataset_root = manifest_path.parent
+    npz_resolved = npz.resolve()
+    template_resolved = template.resolve()
+    if dataset_root not in npz_resolved.parents:
+        raise RuntimeError("windows are outside manifest dataset root")
+    if dataset_root not in template_resolved.parents:
+        raise RuntimeError("template is outside manifest dataset root")
+    window_relative = npz_resolved.relative_to(dataset_root).as_posix()
+    template_relative = template_resolved.relative_to(dataset_root).as_posix()
     manifest = {
         "schema_version": SCHEMA_VERSION,
         "environment_version": ENVIRONMENT_VERSION,
@@ -110,15 +132,16 @@ def main() -> None:
         "split_window_counts": split_counts,
         "main_commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=root, text=True).strip(),
         "submodule_commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=root / "external/deformable-ravens", text=True).strip(),
-        "window_npz": str(npz), "window_npz_sha256": sha(npz),
-        "action_template": str(template), "action_template_sha256": sha(template),
+        "artifact_path_base": "manifest_parent",
+        "window_npz": window_relative, "window_npz_sha256": sha(npz),
+        "action_template": template_relative, "action_template_sha256": sha(template),
         "source_code_sha256": {str(path.relative_to(root)): sha(path) for path in [root / "ccda_phase3/schema_v2.py", root / "ccda_phase3/data_io.py", Path(__file__).resolve()]},
         "robot_proxy_sources": sources,
         "input_canonicalization": False,
         "contains_simulator_bead_velocity": False,
         "object_dtype_count": 0,
     }
-    strict_dump(root / args.manifest, manifest)
+    strict_dump(manifest_path, manifest)
     print(json.dumps(manifest, indent=2, sort_keys=True, allow_nan=False))
 
 
