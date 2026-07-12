@@ -1,0 +1,13 @@
+{
+  "candidate_support_started": false,
+  "cps": false,
+  "dataset_lock": "FAIL",
+  "ddpm_started": false,
+  "idm_started": false,
+  "phase4": false,
+  "query_local_started": false,
+  "required_action": "Stop Phase3.14. Re-run formal Phase3.13 generation only after the explicit regeneration gate is enabled.",
+  "root_cause": "phase314_data_provenance_failed",
+  "training_started": false,
+  "verdict": "FAIL"
+}

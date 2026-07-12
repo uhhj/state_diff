@@ -2,7 +2,7 @@
 
 > Repository: `uhhj/state_diff`, branch `Experiment1`
 > Simulation submodule: `uhhj/deformable-ravens`, branch `ccda-cable`
-> Current research checkpoint: Phase3.12d-r2.4 completed / PASS
+> Current research checkpoint: Phase3.13 completed / PASS
 > Current formal decision: **do not run Phase4/CPS yet**
 
 ---
@@ -237,7 +237,7 @@ Failure variants must identify whether the problem is:
 
 ## Phase 3.13 — State-v2 dataset regeneration
 
-Current phase: **Phase3.13 Formal State-v2 Dataset Regeneration**.
+Current phase: **Phase3.14 State-v2 Baseline Retraining and Candidate-Set Headroom Audit**.
 
 Formal task and observation contract:
 
@@ -424,10 +424,12 @@ Phase3.13 state-v2 formal paired dataset and audit
 
 ```text
 Environment redesign: completed / PASS
-State-v2 activation: Phase3.13 in progress
-Dataset regeneration: Phase3.13 in progress
-Candidate matrix: blocked
-Phase4/CPS: blocked
+Phase3.13 state-v2 activation: completed / PASS
+Formal dataset: 448 visible seeds / 896 episodes / 4124 windows
+Phase3.14: CURRENT
+Phase3.14 gate: phase314_candidate_set_actionable_headroom_supported
+Phase3.14 status: blocked by phase314_data_provenance_failed
+Phase4/CPS: blocked on actionable candidate-set headroom
 ```
 
-Phase3.14 remains blocked until the Phase3.13 full dataset audit passes. The immediate task is the formal state-v2 paired dataset regeneration and legacy branch-tip purge.
+Phase3.13 passed, but Phase3.14 cannot train until the formal dataset provenance lock passes. After provenance is repaired, Phase3.14 must establish actionable candidate-set headroom before Phase4/CPS can begin.

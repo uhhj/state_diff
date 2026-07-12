@@ -1,0 +1,14 @@
+{
+  "dataset_lock_verdict": "FAIL",
+  "main_branch": "Experiment1",
+  "main_head": "c2f38b8373ac17a47e53a78086ec66d0d3d5f2e0",
+  "main_remote_head": "c2f38b8373ac17a47e53a78086ec66d0d3d5f2e0",
+  "main_status": "M GOALS.md\n?? reports/phase3_14_dataset_lock.json\n?? reports/phase3_14_provenance_blocked.md\n?? reports/phase3_14_repo_discovery.json\n?? reports/phase3_14_start.md",
+  "python": "3.9.15 | packaged by conda-forge | (main, Nov 22 2022, 08:45:29) \n[GCC 10.4.0]",
+  "python_executable": "/miniforge3/envs/coord_bimanual/bin/python",
+  "root_cause": "phase314_data_provenance_failed",
+  "submodule_branch": "ccda-cable",
+  "submodule_head": "633a88752445cf5d6776ed374fdbbdb35f93050c",
+  "submodule_status": "",
+  "timestamp_utc": "2026-07-12T02:11:16.709903+00:00"
+}

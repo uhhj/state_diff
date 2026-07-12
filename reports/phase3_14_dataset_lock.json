@@ -1,0 +1,57 @@
+{
+  "all_source_hashes_match": false,
+  "current_final_commits": {
+    "main": "c2f38b8373ac17a47e53a78086ec66d0d3d5f2e0",
+    "submodule": "633a88752445cf5d6776ed374fdbbdb35f93050c"
+  },
+  "files": {
+    "action_template": {
+      "path": "data/phase3_state_v2_slack/windows/action_template.pkl",
+      "sha256": "96d83b2fd74cc5309b7fa315100d739bf6b64d4ce8178200e1a19e3f76bcae52"
+    },
+    "manifest": {
+      "path": "data/phase3_state_v2_slack/manifest.json",
+      "sha256": "d3e2c3de2eaeb7a5480109bb970e98e7941a5e5f6b066995f955faf5102d2285"
+    },
+    "phase3_13_audit": {
+      "path": "reports/phase3_13_dataset_audit_summary.json",
+      "sha256": "0c079cbf2e8f9a2feb0c60e4f2a0f0cd04db22e137a9f798fe2a88ab2dcaafdc"
+    },
+    "windows": {
+      "path": "data/phase3_state_v2_slack/windows/phase3_13_windows.npz",
+      "sha256": "40c109da5aa4a115fa43e700ac854f0edbecffe15cd0043350bcacdf9679c951"
+    }
+  },
+  "formal_training_allowed": false,
+  "lock_version": "phase3_14_dataset_lock_v1",
+  "manifest_windows_hash_matches": true,
+  "phase3_13_audit_verdict": "PASS",
+  "phase3_13_root_cause": "phase313_state_v2_dataset_supported",
+  "provenance_attested_by_content_hash": false,
+  "raw_file_count": 1795,
+  "raw_merkle_root": "b1bb9fea6001e74fa144e7d1d66956311291b9799e365238f7e580df53976143",
+  "recorded_generator_commits": {
+    "main": "b9721c5332018a2699841a810397683a0e6930a3",
+    "submodule": "d30d4862fdf88c85f2c13fe01376f2a8e28f0303"
+  },
+  "required_action": "Stop Phase3.14. Re-run formal Phase3.13 generation only after the explicit regeneration gate is enabled.",
+  "root_cause": "phase314_data_provenance_failed",
+  "source_hashes": {
+    "ccda_phase3/data_io.py": {
+      "current": "7466ff461b17b160ba72d3965566daf83ade66e8cf7a632b4afbd346730237cf",
+      "match": true,
+      "recorded": "7466ff461b17b160ba72d3965566daf83ade66e8cf7a632b4afbd346730237cf"
+    },
+    "ccda_phase3/schema_v2.py": {
+      "current": "e1594460477e4b96e3899509d4b145d36691c4a26818ad938b530372a2588c2b",
+      "match": false,
+      "recorded": "facb13e5c82b2a8ec8b22b343fdce0a22bb75618a44e3054cae360284f78385f"
+    },
+    "scripts/phase3_13_build_windows.py": {
+      "current": "acb34adb81a112340f71c63acf10bfc0636641f0d3c9b7401500fabd7146a849",
+      "match": true,
+      "recorded": "acb34adb81a112340f71c63acf10bfc0636641f0d3c9b7401500fabd7146a849"
+    }
+  },
+  "verdict": "FAIL"
+}
