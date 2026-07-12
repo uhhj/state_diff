@@ -1,0 +1,20 @@
+{
+  "candidate_execution": false,
+  "command": "python scripts/phase3_14b_r23_checkpoint_diagnosis.py --root /data/state_diff2 --device cuda --validation-rows 64 --trace-rows 16 --gradient-rows 32",
+  "exception": "RuntimeError: not enough distinct visible seeds",
+  "formal_test_read": false,
+  "formal_training": false,
+  "idm": false,
+  "last_successful_gate": "phase314b_r23_preflight_passed",
+  "phase": "phase3_14b_r23",
+  "phase4": false,
+  "root_cause": "phase314b_r23_checkpoint_diagnosis_insufficient_distinct_validation_seeds",
+  "stage_completed": false,
+  "tiny_overfit_run": false,
+  "validation_request": {
+    "available_rows": 102,
+    "available_visible_seeds": 51,
+    "requested_validation_rows": 64
+  },
+  "verdict": "BLOCKED"
+}
