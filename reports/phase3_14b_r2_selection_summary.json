@@ -1,0 +1,38 @@
+{
+  "cache_sha256": "3cc512f650557c81c3b81f4f128a5b55360b77d3f664fdd6607666936285fbe8",
+  "configurations": {
+    "epsilon_cosine_cap_0p5": {
+      "eligible": false,
+      "median_stable_best8": null,
+      "median_stable_k1": null,
+      "run_count": 3,
+      "stable_run_count": 0,
+      "stable_seeds": []
+    },
+    "sample_cosine": {
+      "eligible": false,
+      "median_stable_best8": null,
+      "median_stable_k1": null,
+      "run_count": 3,
+      "stable_run_count": 0,
+      "stable_seeds": []
+    },
+    "v_prediction_cosine": {
+      "eligible": false,
+      "median_stable_best8": null,
+      "median_stable_k1": null,
+      "run_count": 3,
+      "stable_run_count": 0,
+      "stable_seeds": []
+    }
+  },
+  "cps": false,
+  "idm": false,
+  "minimum_stable_seeds": 2,
+  "phase4": false,
+  "root_cause": "phase314b_r2_no_stable_configuration",
+  "selected_model": null,
+  "test_evaluation_allowed": false,
+  "test_used_for_selection": false,
+  "verdict": "FAIL"
+}

@@ -1,0 +1,15 @@
+{
+  "candidate_action_execution": false,
+  "cps": false,
+  "idm_training": false,
+  "next_step": "Diagnose the Phase3.14b-r2 objective/schedule repair failure",
+  "phase4": false,
+  "preflight": "phase314b_r2_preflight_supported",
+  "root_cause": "phase314b_r2_no_stable_configuration",
+  "selected_model": null,
+  "selection": "phase314b_r2_no_stable_configuration",
+  "smoke": "phase314b_r2_runtime_smoke_supported",
+  "test": null,
+  "training": "phase314b_r2_training_completed",
+  "verdict": "FAIL"
+}

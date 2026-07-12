@@ -1,0 +1,51 @@
+{
+  "configs": {
+    "epsilon_cosine_cap_0p5": {
+      "losses": [
+        0.9802961945533752,
+        1.0040639638900757
+      ],
+      "sample_abs_max": 252.91848754882812,
+      "sample_shape": [
+        2,
+        4,
+        4,
+        87
+      ]
+    },
+    "sample_cosine": {
+      "losses": [
+        0.8700434565544128,
+        0.8650712370872498
+      ],
+      "sample_abs_max": 0.09264481067657471,
+      "sample_shape": [
+        2,
+        4,
+        4,
+        87
+      ]
+    },
+    "v_prediction_cosine": {
+      "losses": [
+        0.9709165692329407,
+        0.9281044602394104
+      ],
+      "sample_abs_max": 3.400045156478882,
+      "sample_shape": [
+        2,
+        4,
+        4,
+        87
+      ]
+    }
+  },
+  "cps": false,
+  "device": "cuda",
+  "formal_training": false,
+  "idm": false,
+  "phase4": false,
+  "root_cause": "phase314b_r2_runtime_smoke_supported",
+  "test_used": false,
+  "verdict": "PASS"
+}
