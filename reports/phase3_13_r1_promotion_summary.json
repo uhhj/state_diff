@@ -1,0 +1,11 @@
+{
+  "cps": false,
+  "formal_root": "/data/state_diff2/data/phase3_state_v2_slack",
+  "old_manifest_sha256": "d3e2c3de2eaeb7a5480109bb970e98e7941a5e5f6b066995f955faf5102d2285",
+  "phase4": false,
+  "quarantine": "/data/state_diff2/data/phase3_state_v2_slack_invalid_provenance_d3e2c3de2eae",
+  "quarantine_deleted": false,
+  "rollback_available": true,
+  "root_cause": "phase313_r1_provenance_locked_dataset_promoted",
+  "verdict": "PASS"
+}

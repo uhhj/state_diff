@@ -1,0 +1,67 @@
+{
+  "exact_heads_required_during_generation": true,
+  "formal_contract": {
+    "action_dim": 14,
+    "conditions": [
+      "free",
+      "hidden_slack_breakaway_pin_v2"
+    ],
+    "contains_simulator_bead_velocity": false,
+    "environment_version": "ccda_hidden_slack_breakaway_v2",
+    "input_canonicalization": false,
+    "paper_x_dim": 261,
+    "schema_version": "ccda_state_v2_position_proprio",
+    "state_action_x_dim": 303,
+    "state_dim": 87,
+    "task": "ccda-slack-cable-v2",
+    "tf": 4,
+    "th": 3
+  },
+  "lock_version": "phase313_r1_source_lock_v1",
+  "main_branch": "Experiment1",
+  "main_commit": "fddb315d47dd17066e009fa00ed5dd1e72c77768",
+  "main_source_sha256": {
+    "ccda_phase3/action_codec.py": "6fcb4da261e27f7766f4897480fd4327d21bd2265abbe86e21af80b867b021d0",
+    "ccda_phase3/data_io.py": "7466ff461b17b160ba72d3965566daf83ade66e8cf7a632b4afbd346730237cf",
+    "ccda_phase3/provenance_v2.py": "040a7410b76531cb9433186fc1056855643842fd88a284c236db680ae4130c39",
+    "ccda_phase3/schema_v2.py": "e1594460477e4b96e3899509d4b145d36691c4a26818ad938b530372a2588c2b",
+    "scripts/phase3_13_audit_dataset.py": "78e89d332d79e17b18baedfced1fdc76adf23a5731642e72ae6c9b9dd50b6dea",
+    "scripts/phase3_13_build_windows.py": "478348583eff05d34bc6a3dbb986dca851f6aea8c1388aabc795ad13f4209a54",
+    "scripts/phase3_13_generate_raw.py": "f9e5713b4c3ef29049ef2b42234b06586bb4164f42fcffa2341e98f5ee3990ea",
+    "scripts/phase3_13_r1_create_source_lock.py": "30afc4f68fdea794a09b6c3f316a6473b75de50df5968e330d4ad255573ab05e",
+    "scripts/phase3_13_r1_regenerate.py": "119e633c84f9e18ed3f28361e3b64feb721db499a7b86b1f6a4429ed48ed0047",
+    "scripts/phase3_13_r1_verify.py": "afb634028366708855b9fd30d991048d35f42d4cacb935a7a9de069d8dfa87b3",
+    "scripts/phase3_13_runtime.py": "567dccae6aa67484344bfc6283fa296efe6688510935159cb12db91b05e0e26d"
+  },
+  "report_only_descendant_commit_allowed_after_generation": true,
+  "runtime": {
+    "executable": "/miniforge3/envs/coord_bimanual/bin/python",
+    "numpy": "1.23.3",
+    "pybullet": "unknown",
+    "python": "3.9.15 | packaged by conda-forge | (main, Nov 22 2022, 08:45:29) \n[GCC 10.4.0]",
+    "scipy": "1.9.1",
+    "torch": "1.12.1.post200"
+  },
+  "splits": {
+    "test": {
+      "num_seeds": 128,
+      "seed_start": 420000
+    },
+    "train": {
+      "num_seeds": 256,
+      "seed_start": 400000
+    },
+    "val": {
+      "num_seeds": 64,
+      "seed_start": 410000
+    }
+  },
+  "submodule_branch": "ccda-cable",
+  "submodule_commit": "633a88752445cf5d6776ed374fdbbdb35f93050c",
+  "submodule_source_sha256": {
+    "ravens/environment.py": "c1093f1ce5c612de68af5baa6249664e56f2986633bc5fd569be9cf1d2865312",
+    "ravens/tasks/__init__.py": "6472e63da31bd2943531d8c1ef4a67caaa61bfe638be8456e33ff0997f812ab1",
+    "ravens/tasks/ccda_slack_breakaway.py": "8f96ee995d6f01c1a777386688e689e0ecb6c4527a7f29ed3d24321638ba5440",
+    "ravens/tasks/ccda_slack_cable_v2.py": "a29a6446da1d36c3788f0dffc5d624352083301d49b80e5b0493f72d4683d070"
+  }
+}

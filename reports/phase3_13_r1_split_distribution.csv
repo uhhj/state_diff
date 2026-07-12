@@ -1,0 +1,4 @@
+episodes,split,visible_seeds,windows
+512,train,256,2440
+128,val,64,608
+256,test,128,1208

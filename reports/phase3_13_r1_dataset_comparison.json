@@ -1,0 +1,227 @@
+{
+  "array_comparison": {
+    "all_arrays_exact": false,
+    "all_dtypes_match": false,
+    "all_shapes_match": false,
+    "rows": [
+      {
+        "dtype_match": true,
+        "exact_equal": false,
+        "key": "condition_name",
+        "max_abs": null,
+        "new_sha256": "77b33ad14dcfde40b45ea3ab0a0536554f9933ba8da47a6779a618590b766e03",
+        "old_sha256": "b0d3edc16aa5a2f792b9175fb1e50eab16dd53f89f126c0359bff18121643e05",
+        "present_new": true,
+        "present_old": true,
+        "shape_match": false
+      },
+      {
+        "dtype_match": true,
+        "exact_equal": false,
+        "key": "engagement_step",
+        "max_abs": null,
+        "new_sha256": "ddd2a7a88ba424cd104a5ab1fe02ca47969b6659cd69cce6ed460e124a82eec9",
+        "old_sha256": "7d0376eb646c5f6ab9749a3c18065ebf9f7ea2e843d9037d8f233be69fd68699",
+        "present_new": true,
+        "present_old": true,
+        "shape_match": false
+      },
+      {
+        "dtype_match": true,
+        "exact_equal": false,
+        "key": "final_fraction",
+        "max_abs": null,
+        "new_sha256": "ed26d3c0ea3149472d730bc788ab39cc5740c4dbb93fb1c5d4fa5dfce877c4bd",
+        "old_sha256": "e375fb116778b4cace0dfd5292dfe56c0b8e1336d7c898f5338ff3b57bb1b5b8",
+        "present_new": true,
+        "present_old": true,
+        "shape_match": false
+      },
+      {
+        "dtype_match": true,
+        "exact_equal": false,
+        "key": "pair_group",
+        "max_abs": null,
+        "new_sha256": "cf42cfb150279413cae2b5357997f6a80d14eea002cd649d0401ed2baa81c073",
+        "old_sha256": "6d2d13405e6353e595f0b3c955add6929bb34a565c0f96f60e6e76bd88c9c043",
+        "present_new": true,
+        "present_old": true,
+        "shape_match": false
+      },
+      {
+        "dtype_match": true,
+        "exact_equal": false,
+        "key": "paper_x",
+        "max_abs": null,
+        "new_sha256": "125a27ae2e9ae3ff0c1d72c63057c6b6173e54068b163f05a1b5a031d3c0d3b4",
+        "old_sha256": "b3d531e9074b1748a38980c395d6bad7dd1fe417156c674eddf49a9b4c7e2e1a",
+        "present_new": true,
+        "present_old": true,
+        "shape_match": false
+      },
+      {
+        "dtype_match": true,
+        "exact_equal": false,
+        "key": "pre_engagement",
+        "max_abs": null,
+        "new_sha256": "c3ba391c9f62d1536fc30275fcef7057b9e708c926d03d7c8dc7653b414db8e8",
+        "old_sha256": "cf16a1c1eba83d8026eeb63d28ecd30694235f523c1b76c8e59bd8b55aab5876",
+        "present_new": true,
+        "present_old": true,
+        "shape_match": false
+      },
+      {
+        "dtype_match": true,
+        "exact_equal": false,
+        "key": "release_step",
+        "max_abs": null,
+        "new_sha256": "dd067527b643b77e7e42e8e29b246132c4f0652c0c21005a5b1e7c5720d32243",
+        "old_sha256": "a351158866717774554ae3ba6f36fc0142bf34c0b099490d5e52bc032a5002d8",
+        "present_new": true,
+        "present_old": true,
+        "shape_match": false
+      },
+      {
+        "dtype_match": false,
+        "exact_equal": false,
+        "key": "source_file",
+        "max_abs": null,
+        "new_sha256": "1d1214c5e1fc49e5502e480903aab70522435ad9e6ee9b9db150f461da6c2d16",
+        "old_sha256": "5256312da542e68327896b512f1dcfcbf3f93c9287d292ae93d11d72f1a49579",
+        "present_new": true,
+        "present_old": true,
+        "shape_match": false
+      },
+      {
+        "dtype_match": true,
+        "exact_equal": false,
+        "key": "split_name",
+        "max_abs": null,
+        "new_sha256": "d867fa1ecee7270e8650aafacc49ac575c5d839ab14f645fbe64d8c0152c7485",
+        "old_sha256": "a8b280e727b0de409897f90f5057be81b7abb117a573b0e6f841ab24cc5aba5b",
+        "present_new": true,
+        "present_old": true,
+        "shape_match": false
+      },
+      {
+        "dtype_match": true,
+        "exact_equal": false,
+        "key": "state_action_x",
+        "max_abs": null,
+        "new_sha256": "d8140161a99fd9f511d787ca427f19873e78891bd7bb2edd2815df096611fba4",
+        "old_sha256": "5376a6bacb9f203187e6d38018a1db78cf3459098a9dc7eb19ca571fbe39c672",
+        "present_new": true,
+        "present_old": true,
+        "shape_match": false
+      },
+      {
+        "dtype_match": true,
+        "exact_equal": false,
+        "key": "success",
+        "max_abs": null,
+        "new_sha256": "adc4f86545efd4742d03e800a29c6b6f36d0fa3bedf81aa4f82c7cc71f40c245",
+        "old_sha256": "16d424215b4a65f019155ab83d36d056f6170d0bd3c901541dc62498e6997ba7",
+        "present_new": true,
+        "present_old": true,
+        "shape_match": false
+      },
+      {
+        "dtype_match": true,
+        "exact_equal": false,
+        "key": "visible_seed",
+        "max_abs": null,
+        "new_sha256": "d0c5e7feb184141f16a49acfee819f413bfead97481349c7076f65d0f804bb09",
+        "old_sha256": "daa3124de530c85ef9f49c627d1db9d2b8a2a8d7f0924092d0f60425ad484b9e",
+        "present_new": true,
+        "present_old": true,
+        "shape_match": false
+      },
+      {
+        "dtype_match": true,
+        "exact_equal": false,
+        "key": "window_t",
+        "max_abs": null,
+        "new_sha256": "1f60a4a40dea62dd683fdbc2e492a32f4ddbfcecafe1178cae3c4af39f50bb7c",
+        "old_sha256": "4a81d6fef00de97d78a0acdb13b95c5912dd80ceb0eeb9b8db1747f8678b8cb2",
+        "present_new": true,
+        "present_old": true,
+        "shape_match": false
+      },
+      {
+        "dtype_match": true,
+        "exact_equal": false,
+        "key": "y_action",
+        "max_abs": null,
+        "new_sha256": "36e27054b43f14a74ccc5d6cf1f001dd73c4592bbe5f09c035bcd5186ff8886b",
+        "old_sha256": "bcd74b6add973a5b31f5d0e7263bfbc7523de5fe261efe42f41211ff7b6ac5be",
+        "present_new": true,
+        "present_old": true,
+        "shape_match": false
+      },
+      {
+        "dtype_match": true,
+        "exact_equal": false,
+        "key": "y_final_state",
+        "max_abs": null,
+        "new_sha256": "9521546f9768717349c4b1cf73b5d6a553d0bfe3935c75b86ba315cad15c4ba8",
+        "old_sha256": "2956ff080e4324af5bfdb1de1ff04404211900e4bb1d8c7de40d0e1130ad6b79",
+        "present_new": true,
+        "present_old": true,
+        "shape_match": false
+      },
+      {
+        "dtype_match": true,
+        "exact_equal": false,
+        "key": "y_state",
+        "max_abs": null,
+        "new_sha256": "14e7dd479295ada0af311e2d60ffdb3e6ff08047cf40ab2aa9a198480e798694",
+        "old_sha256": "abe3edca6b67d5ea046befbf63175e3bbbd1be1497c6704d5acb5449795d62ce",
+        "present_new": true,
+        "present_old": true,
+        "shape_match": false
+      }
+    ]
+  },
+  "new": {
+    "action_template_sha256": "4275b76fd321322dcfc9d715f92e496e268a584513340f4d0b4d4a1963c5d495",
+    "main_commit": "fddb315d47dd17066e009fa00ed5dd1e72c77768",
+    "manifest_sha256": "50d0d8efe1a200a575be0137bf246c0eae97542b317985100e4a6af06b915e70",
+    "raw_file_count": 1795,
+    "raw_merkle_root": "bb5ba41993c3bf64bd6d345624caf8c96d69d74184b30eadbab815fcbf8692d5",
+    "root": "/data/state_diff2/data/phase3_state_v2_slack_r1_staging",
+    "source_code_sha256": {
+      "ccda_phase3/data_io.py": "7466ff461b17b160ba72d3965566daf83ade66e8cf7a632b4afbd346730237cf",
+      "ccda_phase3/schema_v2.py": "e1594460477e4b96e3899509d4b145d36691c4a26818ad938b530372a2588c2b",
+      "scripts/phase3_13_build_windows.py": "478348583eff05d34bc6a3dbb986dca851f6aea8c1388aabc795ad13f4209a54"
+    },
+    "split_window_counts": {
+      "test": 1208,
+      "train": 2440,
+      "val": 608
+    },
+    "submodule_commit": "633a88752445cf5d6776ed374fdbbdb35f93050c",
+    "windows_sha256": "4190b6c754c89000cd9a2521e6f41e72bf89e7d94d05e9db836f9cfd3814d22f"
+  },
+  "new_dataset_preferred": true,
+  "old": {
+    "action_template_sha256": "96d83b2fd74cc5309b7fa315100d739bf6b64d4ce8178200e1a19e3f76bcae52",
+    "main_commit": "b9721c5332018a2699841a810397683a0e6930a3",
+    "manifest_sha256": "d3e2c3de2eaeb7a5480109bb970e98e7941a5e5f6b066995f955faf5102d2285",
+    "raw_file_count": 1795,
+    "raw_merkle_root": "369e221c776fd7bb339b1da29401fbc0740220a9d894c56201d718ef237def4f",
+    "root": "/data/state_diff2/data/phase3_state_v2_slack",
+    "source_code_sha256": {
+      "ccda_phase3/data_io.py": "7466ff461b17b160ba72d3965566daf83ade66e8cf7a632b4afbd346730237cf",
+      "ccda_phase3/schema_v2.py": "facb13e5c82b2a8ec8b22b343fdce0a22bb75618a44e3054cae360284f78385f",
+      "scripts/phase3_13_build_windows.py": "acb34adb81a112340f71c63acf10bfc0636641f0d3c9b7401500fabd7146a849"
+    },
+    "split_window_counts": {
+      "test": 1206,
+      "train": 2340,
+      "val": 578
+    },
+    "submodule_commit": "d30d4862fdf88c85f2c13fe01376f2a8e28f0303",
+    "windows_sha256": "40c109da5aa4a115fa43e700ac854f0edbecffe15cd0043350bcacdf9679c951"
+  },
+  "reason": "The old artifact lacks strict source provenance. The new artifact is authoritative whenever its full Phase3.13 audit and provenance gate pass."
+}

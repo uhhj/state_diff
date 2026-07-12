@@ -1,0 +1,23 @@
+{
+  "candidate_execution_started": false,
+  "cps": false,
+  "main_branch": "Experiment1",
+  "main_head": "dca1262c56ac9de68609b68e5e1aa9736600248f",
+  "main_remote_head": "dca1262c56ac9de68609b68e5e1aa9736600248f",
+  "main_status": "M GOALS.md\n M scripts/phase3_13_build_windows.py\n M scripts/phase3_13_generate_raw.py\n?? ccda_phase3/provenance_v2.py\n?? scripts/phase3_13_r1_compare.py\n?? scripts/phase3_13_r1_create_source_lock.py\n?? scripts/phase3_13_r1_promote.py\n?? scripts/phase3_13_r1_regenerate.py\n?? scripts/phase3_13_r1_run.sh\n?? scripts/phase3_13_r1_verify.py\n?? scripts/phase3_14_provenance_gate.py\n?? tests/test_phase3_13_r1_provenance.py",
+  "old_dataset": {
+    "action_template_sha256": "96d83b2fd74cc5309b7fa315100d739bf6b64d4ce8178200e1a19e3f76bcae52",
+    "current_schema_hash": "e1594460477e4b96e3899509d4b145d36691c4a26818ad938b530372a2588c2b",
+    "episode_count": 896,
+    "manifest_sha256": "d3e2c3de2eaeb7a5480109bb970e98e7941a5e5f6b066995f955faf5102d2285",
+    "raw_file_count": 1795,
+    "raw_merkle_root": "369e221c776fd7bb339b1da29401fbc0740220a9d894c56201d718ef237def4f",
+    "recorded_schema_hash": "facb13e5c82b2a8ec8b22b343fdce0a22bb75618a44e3054cae360284f78385f",
+    "windows_sha256": "40c109da5aa4a115fa43e700ac854f0edbecffe15cd0043350bcacdf9679c951"
+  },
+  "phase4": false,
+  "submodule_head": "633a88752445cf5d6776ed374fdbbdb35f93050c",
+  "submodule_status": "",
+  "timestamp_utc": "2026-07-12T02:29:52.292082+00:00",
+  "training_started": false
+}

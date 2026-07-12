@@ -1,0 +1,24 @@
+{
+  "action_template_hash_matches_manifest": true,
+  "all_source_hashes_match": true,
+  "cps": false,
+  "formal_training_allowed": true,
+  "generator_main_commit": "fddb315d47dd17066e009fa00ed5dd1e72c77768",
+  "generator_submodule_commit": "633a88752445cf5d6776ed374fdbbdb35f93050c",
+  "phase313_audit_pass": true,
+  "phase4": false,
+  "raw_file_count": 1795,
+  "raw_merkle_root": "bb5ba41993c3bf64bd6d345624caf8c96d69d74184b30eadbab815fcbf8692d5",
+  "root_cause": "phase313_r1_provenance_locked_dataset_supported",
+  "source_lock": {
+    "exact_heads": true,
+    "main_commit_current": "fddb315d47dd17066e009fa00ed5dd1e72c77768",
+    "main_commit_locked": "fddb315d47dd17066e009fa00ed5dd1e72c77768",
+    "main_source_hashes_match": true,
+    "submodule_commit": "633a88752445cf5d6776ed374fdbbdb35f93050c",
+    "submodule_source_hashes_match": true,
+    "tracked_worktrees_clean": true
+  },
+  "verdict": "PASS",
+  "windows_hash_matches_manifest": true
+}
