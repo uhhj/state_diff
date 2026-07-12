@@ -2,8 +2,8 @@
 
 > Repository: `uhhj/state_diff`, branch `Experiment1`
 > Simulation submodule: `uhhj/deformable-ravens`, branch `ccda-cable`
-> Current research checkpoint: Phase3.14a completed / PASS
-> Current formal decision: **Phase3.14b is next; Phase4/CPS remains blocked**
+> Current research checkpoint: Phase3.14b DDPM candidate-support audit
+> Current formal decision: **Phase3.14b is current; Phase3.14c and Phase4/CPS remain blocked**
 
 ---
 
@@ -430,8 +430,9 @@ Phase3.13-r1: COMPLETED / PASS
 Phase3.14 provenance: PASS / phase314_data_provenance_supported
 Phase3.14a: COMPLETED / PASS
 Gate: phase314a_state_v2_future_learnability_supported
-Phase3.14b: NEXT - MLP-DDPM + Temporal-U-Net-DDPM
+Phase3.14b: CURRENT - MLP-DDPM + Temporal-U-Net-DDPM
+Phase3.14c: BLOCKED on phase314b_ddpm_candidate_support_supported
 Phase4/CPS: BLOCKED
 ```
 
-Phase3.13-r1 regenerated, audited, and atomically promoted the formal dataset under Commit A. Phase3.14a established the immutable training cache and passed the deterministic future learnability gate. Phase3.14b is next; Phase4/CPS remains blocked.
+Phase3.13-r1 regenerated, audited, and atomically promoted the formal dataset under Commit A. Phase3.14a established the immutable training cache and passed the deterministic future learnability gate. Phase3.14b now audits DDPM candidate support; Phase3.14c and Phase4/CPS remain blocked.
