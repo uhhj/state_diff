@@ -1,0 +1,99 @@
+{
+  "cache_manifest_sha256": "3cc512f650557c81c3b81f4f128a5b55360b77d3f664fdd6607666936285fbe8",
+  "cache_sha256": "3cc512f650557c81c3b81f4f128a5b55360b77d3f664fdd6607666936285fbe8",
+  "calibration_rows": 496,
+  "candidate_execution": false,
+  "checkpoint_bound_source_sha256": {
+    "ccda_phase3/phase314b_r2_contract.py": "aa92c4a851c3183e5aa4758169bd1b83412ef6e60c67541cce9deb1274b33283",
+    "ccda_phase3/phase314b_r2_diffusion.py": "417af4ebc17517ec0f4c403e45fcc69b01ffe76f8d85f3cf090479d73a5ea3ba",
+    "ccda_phase3/phase314b_r2_metrics.py": "1d0beaf4890ad4209042d10a4279c7f87c0e0c107a683fa842ff15f84dcc14ce",
+    "scripts/phase3_14b_r2_analyze.py": "34cbb691d9fee96ab7eeb43ed2b948c003689e653056240ac9e4294d400df071",
+    "scripts/phase3_14b_r2_eval.py": "f7752e18e4a77f8f3676d9c9bf6914ad69a3ec64dd2ba605638b32826c43e97c",
+    "scripts/phase3_14b_r2_preflight.py": "6e93e5d6bca2a8fc427208f5ddcdd1cacb3734f3e1b86384f7439742b2968e4e",
+    "scripts/phase3_14b_r2_run.sh": "e43418bbc6ca28b395fa4b22f4ced467693bc5986a23ea5bf6943b66dcb2b42a",
+    "scripts/phase3_14b_r2_select.py": "4b5aa9a96731689a1f2971c340a5916e0f5a7e0b264e3d20c2b755fda1744609",
+    "scripts/phase3_14b_r2_smoke.py": "c84af652ca7bc24699423323540477c1a559c185d287dd20af346f20ba930c3f",
+    "scripts/phase3_14b_r2_train.py": "19d049d19d75ae3a30c91152c494a8cfb9a6fff6cd5287bcff4d659e623aa9d4"
+  },
+  "checkpoint_verification": {
+    "count": 9,
+    "runs": [
+      {
+        "checkpoint": "checkpoints/phase3_14b_r2/epsilon_cosine_cap_0p5/seed_31431/best.pt",
+        "checkpoint_sha256": "af6086e94a80a4073d21aa933fd8c47636ea0c607e659acb27844b108b7560c3",
+        "repair_config": "epsilon_cosine_cap_0p5",
+        "training_seed": 31431
+      },
+      {
+        "checkpoint": "checkpoints/phase3_14b_r2/epsilon_cosine_cap_0p5/seed_31432/best.pt",
+        "checkpoint_sha256": "90910b234491dd84e936c5178295ac34e205332ddc39f053c6b38864b9f82e6f",
+        "repair_config": "epsilon_cosine_cap_0p5",
+        "training_seed": 31432
+      },
+      {
+        "checkpoint": "checkpoints/phase3_14b_r2/epsilon_cosine_cap_0p5/seed_31433/best.pt",
+        "checkpoint_sha256": "e4b6c6959dbfec15fe07bd0ad1183116aa4afd99c2a8d62249f09e08cb4a7ebe",
+        "repair_config": "epsilon_cosine_cap_0p5",
+        "training_seed": 31433
+      },
+      {
+        "checkpoint": "checkpoints/phase3_14b_r2/sample_cosine/seed_31431/best.pt",
+        "checkpoint_sha256": "7b354bafdc67ef1ef4d56d9700c93b7213a46edc13630522408d4fb7b445ee18",
+        "repair_config": "sample_cosine",
+        "training_seed": 31431
+      },
+      {
+        "checkpoint": "checkpoints/phase3_14b_r2/sample_cosine/seed_31432/best.pt",
+        "checkpoint_sha256": "9d1696a6a809424187f7e447060d21134620dacb89ecdb2fda63ed07b685d88d",
+        "repair_config": "sample_cosine",
+        "training_seed": 31432
+      },
+      {
+        "checkpoint": "checkpoints/phase3_14b_r2/sample_cosine/seed_31433/best.pt",
+        "checkpoint_sha256": "7d7e31fcc48afae25cd172e35467a5a325602c69258f094924177b44905abfbe",
+        "repair_config": "sample_cosine",
+        "training_seed": 31433
+      },
+      {
+        "checkpoint": "checkpoints/phase3_14b_r2/v_prediction_cosine/seed_31431/best.pt",
+        "checkpoint_sha256": "50aa1ea3f58d93237bd036653d2c6d264858e2a25ca31bee53e0ba735da4ef91",
+        "repair_config": "v_prediction_cosine",
+        "training_seed": 31431
+      },
+      {
+        "checkpoint": "checkpoints/phase3_14b_r2/v_prediction_cosine/seed_31432/best.pt",
+        "checkpoint_sha256": "5194a5252cf4ca1a7a3c1be2e7280ed4fa7b1cde05acb8c226eb2a960f4687d1",
+        "repair_config": "v_prediction_cosine",
+        "training_seed": 31432
+      },
+      {
+        "checkpoint": "checkpoints/phase3_14b_r2/v_prediction_cosine/seed_31433/best.pt",
+        "checkpoint_sha256": "c5b5c73e145528e2184825cb41fc861be9b589e4ba9e79d46e36202d9159078e",
+        "repair_config": "v_prediction_cosine",
+        "training_seed": 31433
+      }
+    ]
+  },
+  "cps": false,
+  "fit_rows": 504,
+  "formal_test_artifacts_present": false,
+  "idm": false,
+  "main_tracked_worktree_clean_before_report": true,
+  "phase4": false,
+  "r21_source_sha256": {
+    "ccda_phase3/phase314b_r21_contract.py": "1f1601bfcfc4da203a42f170141188a58101b286b4287b193b28c1ef6efc5bdc",
+    "ccda_phase3/phase314b_r21_geometry.py": "c62b8840c2b415751f4da3562657668efa4a3878ac2fbd6b8cca609f4b402b59",
+    "scripts/phase3_14b_r21_analyze.py": "04a6cbd0047dd359f8e7fe1d3cfd463125586aa751898071ba1a35b881842a2b",
+    "scripts/phase3_14b_r21_audit.py": "b1e2816f219f09d431e55beb838a3f428a59c85173343da6d0102b490f3cb243",
+    "scripts/phase3_14b_r21_preflight.py": "db93ec12f85ac0a63c3e37f87015c4abb904b7fac0458a7bbf2773547144fabc",
+    "scripts/phase3_14b_r21_run.sh": "734214ecd8e66fbc66ad851eb63ec6dd7b1d8ab24a0b84fc92b8836ee8f9d4a3"
+  },
+  "root_cause": "phase314b_r21_preflight_supported",
+  "submodule_clean": true,
+  "submodule_commit": "633a88752445cf5d6776ed374fdbbdb35f93050c",
+  "test_read": false,
+  "train_rows": 1000,
+  "training": false,
+  "validation_rows": 102,
+  "verdict": "PASS"
+}

@@ -2,8 +2,8 @@
 
 > Repository: `uhhj/state_diff`, branch `Experiment1`
 > Simulation submodule: `uhhj/deformable-ravens`, branch `ccda-cable`
-> Current research checkpoint: Phase3.14b-r2.1 validity calibration and ordered-cable geometry audit
-> Current formal decision: **Phase3.14b-r2.1 is current; formal test, Phase3.14c, and Phase4/CPS remain blocked**
+> Current research checkpoint: Phase3.14b-r2.1 completed / PASS
+> Current formal decision: **Phase3.14b-r2.2 is next; formal test, Phase3.14c, and Phase4/CPS remain blocked**
 
 ---
 
@@ -436,10 +436,12 @@ Phase3.14b-r1.1: COMPLETED / PASS
 Root cause: phase314b_r1_cosine_epsilon_terminal_snr_instability_supported
 Phase3.14b-r2: FAIL
 Root cause: phase314b_r2_no_stable_configuration
-Current: Phase3.14b-r2.1 Validity-Contract Calibration and Ordered-Cable Geometry Audit
+Phase3.14b-r2.1: COMPLETED / PASS
+Root cause: phase314b_r21_contract_miscalibration_and_ordered_geometry_failure_supported
+Next: Phase3.14b-r2.2 Train-only family-wise validity contract + v-prediction ordered-cable geometry repair
 Formal test: BLOCKED / unread
 Phase3.14c IDM: BLOCKED
 Phase4/CPS: BLOCKED
 ```
 
-Phase3.13-r1 regenerated, audited, and atomically promoted the formal dataset under Commit A. Phase3.14a established the immutable training cache and passed the deterministic future learnability gate. Phase3.14b completed its full DDPM matrix but failed candidate physical validity. Phase3.14b-r1.1 proved exact Diffusers 0.11.1 scheduler equivalence and localized the failure to cosine epsilon terminal-SNR instability. Phase3.14b-r2 completed all nine validation runs but no configuration reached the 2-of-3 stable-seed gate. Formal test was not run. Phase3.14b-r2.1 now separates validity-contract miscalibration from ordered-cable geometry failure using validation only. Formal test, Phase3.14c IDM, and Phase4/CPS remain blocked.
+Phase3.13-r1 regenerated, audited, and atomically promoted the formal dataset under Commit A. Phase3.14a established the immutable training cache and passed the deterministic future learnability gate. Phase3.14b completed its full DDPM matrix but failed candidate physical validity. Phase3.14b-r1.1 proved exact Diffusers 0.11.1 scheduler equivalence and localized the failure to cosine epsilon terminal-SNR instability. Phase3.14b-r2 completed all nine validation runs but no configuration reached the 2-of-3 stable-seed gate. Formal test was not run. Phase3.14b-r2.1 confirmed both strict-contract miscalibration and genuine ordered-cable geometry failure. Phase3.14b-r2.2 is next; formal test, Phase3.14c IDM, and Phase4/CPS remain blocked.
