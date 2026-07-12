@@ -1,0 +1,2519 @@
+{
+  "cache_sha256": "3cc512f650557c81c3b81f4f128a5b55360b77d3f664fdd6607666936285fbe8",
+  "candidate_execution": false,
+  "cps": false,
+  "ddpm_training": false,
+  "device": "cpu",
+  "idm_training": false,
+  "learnability_gate": {
+    "actual_pre_engagement_improvement": 0.4087555463021751,
+    "overall_non_degrading": true,
+    "required_pre_engagement_improvement": 0.05,
+    "supported": true
+  },
+  "models": [
+    {
+      "input_variant": "paper_state",
+      "metrics": {
+        "test": {
+          "subsets": {
+            "all": {
+              "bead_xy_mse": 0.01815454661846161,
+              "final_xy_chamfer": {
+                "ci_high": 0.07718951485522554,
+                "ci_low": 0.06449569253579693,
+                "groups": 128,
+                "mean": 0.07054792878334004
+              },
+              "full_state_mse": 0.03194623813033104,
+              "robot_proxy_mse": 0.048920631408691406,
+              "rows": 1208,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.07193504528347211,
+                "ci_low": 0.05982753207870804,
+                "groups": 128,
+                "mean": 0.06568337961341493
+              },
+              "visible_seeds": 128
+            },
+            "free": {
+              "bead_xy_mse": 0.018480030819773674,
+              "final_xy_chamfer": {
+                "ci_high": 0.08127883791614436,
+                "ci_low": 0.06873032516194115,
+                "groups": 128,
+                "mean": 0.07484158364684315
+              },
+              "full_state_mse": 0.02278663031756878,
+              "robot_proxy_mse": 0.028087066486477852,
+              "rows": 604,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.07583172498633356,
+                "ci_low": 0.06378175378072928,
+                "groups": 128,
+                "mean": 0.06968767141982939
+              },
+              "visible_seeds": 128
+            },
+            "hidden_v2": {
+              "bead_xy_mse": 0.017829062417149544,
+              "final_xy_chamfer": {
+                "ci_high": 0.0732765304254327,
+                "ci_low": 0.05965346509064244,
+                "groups": 128,
+                "mean": 0.06625427391983693
+              },
+              "full_state_mse": 0.04110585153102875,
+              "robot_proxy_mse": 0.0697542056441307,
+              "rows": 604,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.0681839245044905,
+                "ci_low": 0.05548202799411427,
+                "groups": 128,
+                "mean": 0.06167908780700046
+              },
+              "visible_seeds": 128
+            },
+            "pre_engagement": {
+              "bead_xy_mse": 0.027033880352973938,
+              "final_xy_chamfer": {
+                "ci_high": 0.11339806491339752,
+                "ci_low": 0.09486378497834519,
+                "groups": 128,
+                "mean": 0.1039031491869626
+              },
+              "full_state_mse": 0.028012169525027275,
+              "robot_proxy_mse": 0.029216226190328598,
+              "rows": 733,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.1062554115217992,
+                "ci_low": 0.08843031228269253,
+                "groups": 128,
+                "mean": 0.09712199435212325
+              },
+              "visible_seeds": 128
+            },
+            "pre_engagement_free": {
+              "bead_xy_mse": 0.018480030819773674,
+              "final_xy_chamfer": {
+                "ci_high": 0.0811921719154844,
+                "ci_low": 0.06883750924270345,
+                "groups": 128,
+                "mean": 0.07484158364684315
+              },
+              "full_state_mse": 0.02278663031756878,
+              "robot_proxy_mse": 0.028087066486477852,
+              "rows": 604,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.07590544922544014,
+                "ci_low": 0.0640060201204614,
+                "groups": 128,
+                "mean": 0.06968767141982939
+              },
+              "visible_seeds": 128
+            },
+            "pre_engagement_hidden_v2": {
+              "bead_xy_mse": 0.05761205777525902,
+              "final_xy_chamfer": {
+                "ci_high": 0.2654642620116703,
+                "ci_low": 0.21485962138322065,
+                "groups": 128,
+                "mean": 0.23997435528178548
+              },
+              "full_state_mse": 0.04669235646724701,
+              "robot_proxy_mse": 0.03325271978974342,
+              "rows": 129,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.25060898091590694,
+                "ci_low": 0.2023029256389381,
+                "groups": 128,
+                "mean": 0.22557417304286353
+              },
+              "visible_seeds": 128
+            }
+          }
+        },
+        "val": {
+          "subsets": {
+            "all": {
+              "bead_xy_mse": 0.016589786857366562,
+              "final_xy_chamfer": {
+                "ci_high": 0.07857240895303882,
+                "ci_low": 0.06165019216368478,
+                "groups": 64,
+                "mean": 0.0696492235449374
+              },
+              "full_state_mse": 0.03344235569238663,
+              "robot_proxy_mse": 0.054183974862098694,
+              "rows": 608,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.07399123621682914,
+                "ci_low": 0.05763246345343574,
+                "groups": 64,
+                "mean": 0.06531351725005308
+              },
+              "visible_seeds": 64
+            },
+            "free": {
+              "bead_xy_mse": 0.017173876985907555,
+              "final_xy_chamfer": {
+                "ci_high": 0.08392124192789158,
+                "ci_low": 0.06593482159440493,
+                "groups": 64,
+                "mean": 0.07434560205039911
+              },
+              "full_state_mse": 0.027666868641972542,
+              "robot_proxy_mse": 0.04058132320642471,
+              "rows": 304,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.0778836852983131,
+                "ci_low": 0.06133600322567618,
+                "groups": 64,
+                "mean": 0.06923173750180174
+              },
+              "visible_seeds": 64
+            },
+            "hidden_v2": {
+              "bead_xy_mse": 0.016005702316761017,
+              "final_xy_chamfer": {
+                "ci_high": 0.07397036815210294,
+                "ci_low": 0.05687134734026202,
+                "groups": 64,
+                "mean": 0.06495284503947567
+              },
+              "full_state_mse": 0.03921784833073616,
+              "robot_proxy_mse": 0.06778663396835327,
+              "rows": 304,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.06998778669651781,
+                "ci_low": 0.0537436556055357,
+                "groups": 64,
+                "mean": 0.06139529699830441
+              },
+              "visible_seeds": 64
+            },
+            "pre_engagement": {
+              "bead_xy_mse": 0.024769725278019905,
+              "final_xy_chamfer": {
+                "ci_high": 0.11467117839510253,
+                "ci_low": 0.0891387446176795,
+                "groups": 64,
+                "mean": 0.10155738617607352
+              },
+              "full_state_mse": 0.031516630202531815,
+              "robot_proxy_mse": 0.039820510894060135,
+              "rows": 368,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.10886664376617246,
+                "ci_low": 0.08404267302282943,
+                "groups": 64,
+                "mean": 0.09575356601966299
+              },
+              "visible_seeds": 64
+            },
+            "pre_engagement_free": {
+              "bead_xy_mse": 0.017173876985907555,
+              "final_xy_chamfer": {
+                "ci_high": 0.08370940748907534,
+                "ci_low": 0.06608470916461372,
+                "groups": 64,
+                "mean": 0.07434560205039911
+              },
+              "full_state_mse": 0.027666868641972542,
+              "robot_proxy_mse": 0.04058132320642471,
+              "rows": 304,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.07840831684441497,
+                "ci_low": 0.06136065457368462,
+                "groups": 64,
+                "mean": 0.06923173750180174
+              },
+              "visible_seeds": 64
+            },
+            "pre_engagement_hidden_v2": {
+              "bead_xy_mse": 0.052468378096818924,
+              "final_xy_chamfer": {
+                "ci_high": 0.26627560374327003,
+                "ci_low": 0.19704348428931553,
+                "groups": 64,
+                "mean": 0.23081336077302694
+              },
+              "full_state_mse": 0.045554980635643005,
+              "robot_proxy_mse": 0.03704618290066719,
+              "rows": 64,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.2553589975166687,
+                "ci_low": 0.18971235965072994,
+                "groups": 64,
+                "mean": 0.22173225147950387
+              },
+              "visible_seeds": 64
+            }
+          }
+        }
+      },
+      "model": "last_state_repeat",
+      "quaternion_max_norm_error": 0.0,
+      "selection_source": "not_trained",
+      "training_seed": null
+    },
+    {
+      "input_variant": "paper_state",
+      "metrics": {
+        "test": {
+          "subsets": {
+            "all": {
+              "bead_xy_mse": 0.11856947094202042,
+              "final_xy_chamfer": {
+                "ci_high": 0.2406989324059081,
+                "ci_low": 0.1947001981472623,
+                "groups": 128,
+                "mean": 0.21707913830648778
+              },
+              "full_state_mse": 0.0873475894331932,
+              "robot_proxy_mse": 0.048920631408691406,
+              "rows": 1208,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.17137683062111736,
+                "ci_low": 0.13874849115228213,
+                "groups": 128,
+                "mean": 0.15464181690857218
+              },
+              "visible_seeds": 128
+            },
+            "free": {
+              "bead_xy_mse": 0.12085901200771332,
+              "final_xy_chamfer": {
+                "ci_high": 0.24838062162683144,
+                "ci_low": 0.2015163828601975,
+                "groups": 128,
+                "mean": 0.22422552753983077
+              },
+              "full_state_mse": 0.0792715921998024,
+              "robot_proxy_mse": 0.028087066486477852,
+              "rows": 604,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.1770084115236354,
+                "ci_low": 0.14435049619302398,
+                "groups": 128,
+                "mean": 0.16047148537755507
+              },
+              "visible_seeds": 128
+            },
+            "hidden_v2": {
+              "bead_xy_mse": 0.11627993732690811,
+              "final_xy_chamfer": {
+                "ci_high": 0.2342980654827567,
+                "ci_low": 0.18670621980807134,
+                "groups": 128,
+                "mean": 0.20993274907314477
+              },
+              "full_state_mse": 0.09542357921600342,
+              "robot_proxy_mse": 0.0697542056441307,
+              "rows": 604,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.16591337975685586,
+                "ci_low": 0.13256120146398648,
+                "groups": 128,
+                "mean": 0.14881214843958923
+              },
+              "visible_seeds": 128
+            },
+            "pre_engagement": {
+              "bead_xy_mse": 0.10705011337995529,
+              "final_xy_chamfer": {
+                "ci_high": 0.25052169268912494,
+                "ci_low": 0.2048844301324728,
+                "groups": 128,
+                "mean": 0.2270782133430944
+              },
+              "full_state_mse": 0.0721590667963028,
+              "robot_proxy_mse": 0.029216226190328598,
+              "rows": 733,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.18968089501734636,
+                "ci_low": 0.1551863645341222,
+                "groups": 128,
+                "mean": 0.17198653589611598
+              },
+              "visible_seeds": 128
+            },
+            "pre_engagement_free": {
+              "bead_xy_mse": 0.12085901200771332,
+              "final_xy_chamfer": {
+                "ci_high": 0.2475099002319864,
+                "ci_low": 0.20233501859768138,
+                "groups": 128,
+                "mean": 0.22422552753983077
+              },
+              "full_state_mse": 0.0792715921998024,
+              "robot_proxy_mse": 0.028087066486477852,
+              "rows": 604,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.17763238968540007,
+                "ci_low": 0.14476466544327227,
+                "groups": 128,
+                "mean": 0.16047148537755507
+              },
+              "visible_seeds": 128
+            },
+            "pre_engagement_hidden_v2": {
+              "bead_xy_mse": 0.05768626928329468,
+              "final_xy_chamfer": {
+                "ci_high": 0.26596859739600826,
+                "ci_low": 0.21546919662434832,
+                "groups": 128,
+                "mean": 0.2404349747785302
+              },
+              "full_state_mse": 0.046733297407627106,
+              "robot_proxy_mse": 0.03325271978974342,
+              "rows": 129,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.2507943250933171,
+                "ci_low": 0.2029528373780443,
+                "groups": 128,
+                "mean": 0.22590196623108338
+              },
+              "visible_seeds": 128
+            }
+          }
+        },
+        "val": {
+          "subsets": {
+            "all": {
+              "bead_xy_mse": 0.10857817530632019,
+              "final_xy_chamfer": {
+                "ci_high": 0.23814812296209495,
+                "ci_low": 0.1839649370507835,
+                "groups": 64,
+                "mean": 0.2106960006976402
+              },
+              "full_state_mse": 0.08419457077980042,
+              "robot_proxy_mse": 0.054183974862098694,
+              "rows": 608,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.17088176078940429,
+                "ci_low": 0.13260883071943064,
+                "groups": 64,
+                "mean": 0.1512583092037701
+              },
+              "visible_seeds": 64
+            },
+            "free": {
+              "bead_xy_mse": 0.11048959940671921,
+              "final_xy_chamfer": {
+                "ci_high": 0.246529301048737,
+                "ci_low": 0.19066810898714162,
+                "groups": 64,
+                "mean": 0.21766137311198308
+              },
+              "full_state_mse": 0.07915140688419342,
+              "robot_proxy_mse": 0.04058132320642471,
+              "rows": 304,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.17678259571291263,
+                "ci_low": 0.13724388347895447,
+                "groups": 64,
+                "mean": 0.15654596051082767
+              },
+              "visible_seeds": 64
+            },
+            "hidden_v2": {
+              "bead_xy_mse": 0.10666675120592117,
+              "final_xy_chamfer": {
+                "ci_high": 0.23061406069766546,
+                "ci_low": 0.1778099373901231,
+                "groups": 64,
+                "mean": 0.2037306282832973
+              },
+              "full_state_mse": 0.08923773467540741,
+              "robot_proxy_mse": 0.06778663396835327,
+              "rows": 304,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.16588347724076888,
+                "ci_low": 0.12713158522901455,
+                "groups": 64,
+                "mean": 0.14597065789671249
+              },
+              "visible_seeds": 64
+            },
+            "pre_engagement": {
+              "bead_xy_mse": 0.09800265729427338,
+              "final_xy_chamfer": {
+                "ci_high": 0.24807527217866535,
+                "ci_low": 0.192049264938296,
+                "groups": 64,
+                "mean": 0.21994867531390375
+              },
+              "full_state_mse": 0.07192101329565048,
+              "robot_proxy_mse": 0.039820510894060135,
+              "rows": 368,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.19006490165430184,
+                "ci_low": 0.14709703134462035,
+                "groups": 64,
+                "mean": 0.1678827067662496
+              },
+              "visible_seeds": 64
+            },
+            "pre_engagement_free": {
+              "bead_xy_mse": 0.11048959940671921,
+              "final_xy_chamfer": {
+                "ci_high": 0.24570621371684995,
+                "ci_low": 0.19047516361680364,
+                "groups": 64,
+                "mean": 0.21766137311198308
+              },
+              "full_state_mse": 0.07915140688419342,
+              "robot_proxy_mse": 0.04058132320642471,
+              "rows": 304,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.17691280050253516,
+                "ci_low": 0.13761880851184277,
+                "groups": 64,
+                "mean": 0.15654596051082767
+              },
+              "visible_seeds": 64
+            },
+            "pre_engagement_hidden_v2": {
+              "bead_xy_mse": 0.052468378096818924,
+              "final_xy_chamfer": {
+                "ci_high": 0.26627560374327003,
+                "ci_low": 0.19704348428931553,
+                "groups": 64,
+                "mean": 0.23081336077302694
+              },
+              "full_state_mse": 0.045554980635643005,
+              "robot_proxy_mse": 0.03704618290066719,
+              "rows": 64,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.2553589975166687,
+                "ci_low": 0.18971235965072994,
+                "groups": 64,
+                "mean": 0.22173225147950387
+              },
+              "visible_seeds": 64
+            }
+          }
+        }
+      },
+      "model": "xy_constant_velocity_robot_hold",
+      "quaternion_max_norm_error": 0.0,
+      "selection_source": "not_trained",
+      "training_seed": null
+    },
+    {
+      "checkpoint": "checkpoints/phase3_14a/deterministic/ridge_paper_state.npz",
+      "checkpoint_sha256": "a50d4f0f310e5d188a311ce64017db121e0166cd5b771b3120a61a33e63b1959",
+      "input_variant": "paper_state",
+      "metrics": {
+        "test": {
+          "subsets": {
+            "all": {
+              "bead_xy_mse": 0.22028589248657227,
+              "final_xy_chamfer": {
+                "ci_high": 0.09654267073234564,
+                "ci_low": 0.05895336473567922,
+                "groups": 128,
+                "mean": 0.07277043376986049
+              },
+              "full_state_mse": 4.765289306640625,
+              "robot_proxy_mse": 10.359138488769531,
+              "rows": 1208,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.11710320234012017,
+                "ci_low": 0.05510090502055003,
+                "groups": 128,
+                "mean": 0.07634696093476948
+              },
+              "visible_seeds": 128
+            },
+            "free": {
+              "bead_xy_mse": 0.43274185061454773,
+              "final_xy_chamfer": {
+                "ci_high": 0.1279838716844414,
+                "ci_low": 0.05706844287144211,
+                "groups": 128,
+                "mean": 0.08172824647468792
+              },
+              "full_state_mse": 9.499096870422363,
+              "robot_proxy_mse": 20.657686233520508,
+              "rows": 604,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.17392911398308752,
+                "ci_low": 0.05266949594078769,
+                "groups": 128,
+                "mean": 0.09330794331116528
+              },
+              "visible_seeds": 128
+            },
+            "hidden_v2": {
+              "bead_xy_mse": 0.007829951122403145,
+              "final_xy_chamfer": {
+                "ci_high": 0.0691771133426478,
+                "ci_low": 0.058944721370614295,
+                "groups": 128,
+                "mean": 0.06381262106503305
+              },
+              "full_state_mse": 0.03148263320326805,
+              "robot_proxy_mse": 0.060593631118535995,
+              "rows": 604,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.06332436398171305,
+                "ci_low": 0.055756225011917175,
+                "groups": 128,
+                "mean": 0.05938597855837368
+              },
+              "visible_seeds": 128
+            },
+            "pre_engagement": {
+              "bead_xy_mse": 0.34229761362075806,
+              "final_xy_chamfer": {
+                "ci_high": 0.12872796576263942,
+                "ci_low": 0.0685123107607564,
+                "groups": 128,
+                "mean": 0.09037902348358463
+              },
+              "full_state_mse": 7.427911758422852,
+              "robot_proxy_mse": 16.14866828918457,
+              "rows": 733,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.16577572447969297,
+                "ci_low": 0.06400154781638626,
+                "groups": 128,
+                "mean": 0.09859790501507484
+              },
+              "visible_seeds": 128
+            },
+            "pre_engagement_free": {
+              "bead_xy_mse": 0.43274185061454773,
+              "final_xy_chamfer": {
+                "ci_high": 0.1273384768231671,
+                "ci_low": 0.05715106343994301,
+                "groups": 128,
+                "mean": 0.08172824647468792
+              },
+              "full_state_mse": 9.499096870422363,
+              "robot_proxy_mse": 20.657686233520508,
+              "rows": 604,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.1744514812557462,
+                "ci_low": 0.052795353070133874,
+                "groups": 128,
+                "mean": 0.09330794331116528
+              },
+              "visible_seeds": 128
+            },
+            "pre_engagement_hidden_v2": {
+              "bead_xy_mse": 0.018978828564286232,
+              "final_xy_chamfer": {
+                "ci_high": 0.14810282573421565,
+                "ci_low": 0.1158294277191047,
+                "groups": 128,
+                "mean": 0.13088343676555064
+              },
+              "full_state_mse": 0.023871952667832375,
+              "robot_proxy_mse": 0.029894262552261353,
+              "rows": 129,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.13533992298625724,
+                "ci_low": 0.11258393306268756,
+                "groups": 128,
+                "mean": 0.12336640787679096
+              },
+              "visible_seeds": 128
+            }
+          }
+        },
+        "val": {
+          "subsets": {
+            "all": {
+              "bead_xy_mse": 0.6190640926361084,
+              "final_xy_chamfer": {
+                "ci_high": 0.1508181189305383,
+                "ci_low": 0.060537151781076486,
+                "groups": 64,
+                "mean": 0.09278373046790396
+              },
+              "full_state_mse": 12.060175895690918,
+              "robot_proxy_mse": 26.141536712646484,
+              "rows": 608,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.20635013893721235,
+                "ci_low": 0.0563001307351226,
+                "groups": 64,
+                "mean": 0.10779462111110517
+              },
+              "visible_seeds": 64
+            },
+            "free": {
+              "bead_xy_mse": 1.229910969734192,
+              "final_xy_chamfer": {
+                "ci_high": 0.22702768185581831,
+                "ci_low": 0.05871659934081169,
+                "groups": 64,
+                "mean": 0.11641080175698
+              },
+              "full_state_mse": 24.086668014526367,
+              "robot_proxy_mse": 52.218055725097656,
+              "rows": 304,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.34934347245414293,
+                "ci_low": 0.05415638334846199,
+                "groups": 64,
+                "mean": 0.1515020505543553
+              },
+              "visible_seeds": 64
+            },
+            "hidden_v2": {
+              "bead_xy_mse": 0.008217222057282925,
+              "final_xy_chamfer": {
+                "ci_high": 0.07983312773793318,
+                "ci_low": 0.05988387245804293,
+                "groups": 64,
+                "mean": 0.06915665917882793
+              },
+              "full_state_mse": 0.03368164598941803,
+              "robot_proxy_mse": 0.06502248346805573,
+              "rows": 304,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.07246933768158341,
+                "ci_low": 0.056614472820499785,
+                "groups": 64,
+                "mean": 0.06408719166785504
+              },
+              "visible_seeds": 64
+            },
+            "pre_engagement": {
+              "bead_xy_mse": 0.9692472815513611,
+              "final_xy_chamfer": {
+                "ci_high": 0.21247581733895554,
+                "ci_low": 0.06987027426823197,
+                "groups": 64,
+                "mean": 0.1197896370380793
+              },
+              "full_state_mse": 18.908496856689453,
+              "robot_proxy_mse": 40.98756790161133,
+              "rows": 368,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.3099308352439299,
+                "ci_low": 0.06496483007811066,
+                "groups": 64,
+                "mean": 0.14729137702016634
+              },
+              "visible_seeds": 64
+            },
+            "pre_engagement_free": {
+              "bead_xy_mse": 1.229910969734192,
+              "final_xy_chamfer": {
+                "ci_high": 0.22632846021743924,
+                "ci_low": 0.058633802782408574,
+                "groups": 64,
+                "mean": 0.11641080175698
+              },
+              "full_state_mse": 24.086668014526367,
+              "robot_proxy_mse": 52.218055725097656,
+              "rows": 304,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.34912011931812914,
+                "ci_low": 0.05429258424133867,
+                "groups": 64,
+                "mean": 0.1515020505543553
+              },
+              "visible_seeds": 64
+            },
+            "pre_engagement_hidden_v2": {
+              "bead_xy_mse": 0.01872379146516323,
+              "final_xy_chamfer": {
+                "ci_high": 0.16248547496434185,
+                "ci_low": 0.11392505239418824,
+                "groups": 64,
+                "mean": 0.13583910462330095
+              },
+              "full_state_mse": 0.026031261309981346,
+              "robot_proxy_mse": 0.03502507135272026,
+              "rows": 64,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.14616770510244048,
+                "ci_low": 0.11059833233205911,
+                "groups": 64,
+                "mean": 0.12729067773276861
+              },
+              "visible_seeds": 64
+            }
+          }
+        }
+      },
+      "model": "ridge",
+      "quaternion_max_norm_error": 0.0,
+      "selection_source": "fixed_l2_validation_reported",
+      "training_seed": null
+    },
+    {
+      "checkpoint": "checkpoints/phase3_14a/deterministic/ridge_state_action.npz",
+      "checkpoint_sha256": "295ccf013201cbb8f37f7b265a04130ba91a1dd98974a5a6768f1a82f7ccd465",
+      "input_variant": "state_action",
+      "metrics": {
+        "test": {
+          "subsets": {
+            "all": {
+              "bead_xy_mse": 0.138698548078537,
+              "final_xy_chamfer": {
+                "ci_high": 0.08966068713696763,
+                "ci_low": 0.056437852739598345,
+                "groups": 128,
+                "mean": 0.06874706844039051
+              },
+              "full_state_mse": 4.466342449188232,
+              "robot_proxy_mse": 9.792672157287598,
+              "rows": 1208,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.09624697846600189,
+                "ci_low": 0.0526337494265766,
+                "groups": 128,
+                "mean": 0.0677923493588867
+              },
+              "visible_seeds": 128
+            },
+            "free": {
+              "bead_xy_mse": 0.2701725959777832,
+              "final_xy_chamfer": {
+                "ci_high": 0.11796829022808526,
+                "ci_low": 0.05462450608402191,
+                "groups": 128,
+                "mean": 0.07668308672627792
+              },
+              "full_state_mse": 8.901684761047363,
+              "robot_proxy_mse": 19.52507972717285,
+              "rows": 604,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.1352063480311219,
+                "ci_low": 0.050599970454151696,
+                "groups": 128,
+                "mean": 0.07922075395956768
+              },
+              "visible_seeds": 128
+            },
+            "hidden_v2": {
+              "bead_xy_mse": 0.007224509958177805,
+              "final_xy_chamfer": {
+                "ci_high": 0.06561583090902627,
+                "ci_low": 0.05632295240273487,
+                "groups": 128,
+                "mean": 0.06081105015450312
+              },
+              "full_state_mse": 0.03100053034722805,
+              "robot_proxy_mse": 0.06026332825422287,
+              "rows": 604,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.05981304533182444,
+                "ci_low": 0.0531163761917816,
+                "groups": 128,
+                "mean": 0.05636394475820572
+              },
+              "visible_seeds": 128
+            },
+            "pre_engagement": {
+              "bead_xy_mse": 0.21503151953220367,
+              "final_xy_chamfer": {
+                "ci_high": 0.1196079297742802,
+                "ci_low": 0.06655691017470329,
+                "groups": 128,
+                "mean": 0.08587794707285044
+              },
+              "full_state_mse": 6.960897445678711,
+              "robot_proxy_mse": 15.263497352600098,
+              "rows": 733,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.1335554101397264,
+                "ci_low": 0.06223190534283746,
+                "groups": 128,
+                "mean": 0.08673505747667293
+              },
+              "visible_seeds": 128
+            },
+            "pre_engagement_free": {
+              "bead_xy_mse": 0.2701725959777832,
+              "final_xy_chamfer": {
+                "ci_high": 0.11719532741038965,
+                "ci_low": 0.05470890964169154,
+                "groups": 128,
+                "mean": 0.07668308672627792
+              },
+              "full_state_mse": 8.901684761047363,
+              "robot_proxy_mse": 19.52507972717285,
+              "rows": 604,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.13563529848145345,
+                "ci_low": 0.05065062075539936,
+                "groups": 128,
+                "mean": 0.07922075395956768
+              },
+              "visible_seeds": 128
+            },
+            "pre_engagement_hidden_v2": {
+              "bead_xy_mse": 0.017914006486535072,
+              "final_xy_chamfer": {
+                "ci_high": 0.14293074223751318,
+                "ci_low": 0.11594437657415059,
+                "groups": 128,
+                "mean": 0.12892985133122103
+              },
+              "full_state_mse": 0.022997908294200897,
+              "robot_proxy_mse": 0.029255013912916183,
+              "rows": 129,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.1318085226770406,
+                "ci_low": 0.11256813888139591,
+                "groups": 128,
+                "mean": 0.12191830805288652
+              },
+              "visible_seeds": 128
+            }
+          }
+        },
+        "val": {
+          "subsets": {
+            "all": {
+              "bead_xy_mse": 0.3686865270137787,
+              "final_xy_chamfer": {
+                "ci_high": 0.13264221459901407,
+                "ci_low": 0.05731762632716157,
+                "groups": 64,
+                "mean": 0.08387120109661114
+              },
+              "full_state_mse": 11.186249732971191,
+              "robot_proxy_mse": 24.500185012817383,
+              "rows": 608,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.1563803714293506,
+                "ci_low": 0.05319813063150276,
+                "groups": 64,
+                "mean": 0.08902810649286902
+              },
+              "visible_seeds": 64
+            },
+            "free": {
+              "bead_xy_mse": 0.7301120758056641,
+              "final_xy_chamfer": {
+                "ci_high": 0.19537807545306762,
+                "ci_low": 0.05557383689408636,
+                "groups": 64,
+                "mean": 0.10332797396787148
+              },
+              "full_state_mse": 22.339317321777344,
+              "robot_proxy_mse": 48.93526840209961,
+              "rows": 304,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.2520404452641585,
+                "ci_low": 0.05115807766697887,
+                "groups": 64,
+                "mean": 0.11769982171181097
+              },
+              "visible_seeds": 64
+            },
+            "hidden_v2": {
+              "bead_xy_mse": 0.007261017803102732,
+              "final_xy_chamfer": {
+                "ci_high": 0.07259553023240456,
+                "ci_low": 0.057064091907156556,
+                "groups": 64,
+                "mean": 0.06441442822535082
+              },
+              "full_state_mse": 0.033187780529260635,
+              "robot_proxy_mse": 0.0650976374745369,
+              "rows": 304,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.06763151718592153,
+                "ci_low": 0.05385804228421406,
+                "groups": 64,
+                "mean": 0.060356391273927064
+              },
+              "visible_seeds": 64
+            },
+            "pre_engagement": {
+              "bead_xy_mse": 0.5767412185668945,
+              "final_xy_chamfer": {
+                "ci_high": 0.18551572080529047,
+                "ci_low": 0.06660337273855535,
+                "groups": 64,
+                "mean": 0.10798491931991125
+              },
+              "full_state_mse": 17.536941528320312,
+              "robot_proxy_mse": 38.411041259765625,
+              "rows": 368,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.22909261447571308,
+                "ci_low": 0.06228139770889052,
+                "groups": 64,
+                "mean": 0.11891138786987816
+              },
+              "visible_seeds": 64
+            },
+            "pre_engagement_free": {
+              "bead_xy_mse": 0.7301120758056641,
+              "final_xy_chamfer": {
+                "ci_high": 0.19484479710695965,
+                "ci_low": 0.055392173160851176,
+                "groups": 64,
+                "mean": 0.10332797396787148
+              },
+              "full_state_mse": 22.339317321777344,
+              "robot_proxy_mse": 48.93526840209961,
+              "rows": 304,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.2515446377537772,
+                "ci_low": 0.05124894306808838,
+                "groups": 64,
+                "mean": 0.11769982171181097
+              },
+              "visible_seeds": 64
+            },
+            "pre_engagement_hidden_v2": {
+              "bead_xy_mse": 0.017466643825173378,
+              "final_xy_chamfer": {
+                "ci_high": 0.1509161510533886,
+                "ci_low": 0.11101215130547644,
+                "groups": 64,
+                "mean": 0.13010540974210016
+              },
+              "full_state_mse": 0.024838276207447052,
+              "robot_proxy_mse": 0.03391105309128761,
+              "rows": 64,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.14064178509324846,
+                "ci_low": 0.10954996749915152,
+                "groups": 64,
+                "mean": 0.12466632712069745
+              },
+              "visible_seeds": 64
+            }
+          }
+        }
+      },
+      "model": "ridge",
+      "quaternion_max_norm_error": 0.0,
+      "selection_source": "fixed_l2_validation_reported",
+      "training_seed": null
+    },
+    {
+      "best_epoch": 180,
+      "checkpoint": "checkpoints/phase3_14a/deterministic/mlp_paper_state_seed31401.pt",
+      "checkpoint_sha256": "14fe282b16aa44d85d719858f86c194fc2225f8989177812957ba7b7a3b0bef8",
+      "input_variant": "paper_state",
+      "metrics": {
+        "test": {
+          "subsets": {
+            "all": {
+              "bead_xy_mse": 0.008435016497969627,
+              "final_xy_chamfer": {
+                "ci_high": 0.049305763861997615,
+                "ci_low": 0.04149964693895339,
+                "groups": 128,
+                "mean": 0.045064622672761956
+              },
+              "full_state_mse": 0.02659277617931366,
+              "robot_proxy_mse": 0.04894077777862549,
+              "rows": 1208,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.049360944542978215,
+                "ci_low": 0.04100001450248077,
+                "groups": 128,
+                "mean": 0.04473287812961604
+              },
+              "visible_seeds": 128
+            },
+            "free": {
+              "bead_xy_mse": 0.010531855747103691,
+              "final_xy_chamfer": {
+                "ci_high": 0.05189150238477892,
+                "ci_low": 0.04019063497525662,
+                "groups": 128,
+                "mean": 0.045158096033284155
+              },
+              "full_state_mse": 0.023976344615221024,
+              "robot_proxy_mse": 0.040523409843444824,
+              "rows": 604,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.0531128756362281,
+                "ci_low": 0.040126138770621406,
+                "groups": 128,
+                "mean": 0.04543589260851889
+              },
+              "visible_seeds": 128
+            },
+            "hidden_v2": {
+              "bead_xy_mse": 0.006338176783174276,
+              "final_xy_chamfer": {
+                "ci_high": 0.04814968973130918,
+                "ci_low": 0.04202288982220677,
+                "groups": 128,
+                "mean": 0.04497114931223976
+              },
+              "full_state_mse": 0.029209202155470848,
+              "robot_proxy_mse": 0.05735815688967705,
+              "rows": 604,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.04710428365158275,
+                "ci_low": 0.04126962711572543,
+                "groups": 128,
+                "mean": 0.04402986365071319
+              },
+              "visible_seeds": 128
+            },
+            "pre_engagement": {
+              "bead_xy_mse": 0.012182802893221378,
+              "final_xy_chamfer": {
+                "ci_high": 0.06521887525155366,
+                "ci_low": 0.05301947965092747,
+                "groups": 128,
+                "mean": 0.058617901407044995
+              },
+              "full_state_mse": 0.023769710212945938,
+              "robot_proxy_mse": 0.03803052008152008,
+              "rows": 733,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.06590184391458792,
+                "ci_low": 0.05303078600595433,
+                "groups": 128,
+                "mean": 0.05867249398019416
+              },
+              "visible_seeds": 128
+            },
+            "pre_engagement_free": {
+              "bead_xy_mse": 0.010531855747103691,
+              "final_xy_chamfer": {
+                "ci_high": 0.051950025246870486,
+                "ci_low": 0.04018073024606314,
+                "groups": 128,
+                "mean": 0.045158096033284155
+              },
+              "full_state_mse": 0.023976344615221024,
+              "robot_proxy_mse": 0.040523409843444824,
+              "rows": 604,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.053310140271850597,
+                "ci_low": 0.0401041737059633,
+                "groups": 128,
+                "mean": 0.04543589260851889
+              },
+              "visible_seeds": 128
+            },
+            "pre_engagement_hidden_v2": {
+              "bead_xy_mse": 0.018084587529301643,
+              "final_xy_chamfer": {
+                "ci_high": 0.13219075410495398,
+                "ci_low": 0.11133923762326324,
+                "groups": 128,
+                "mean": 0.12163900563767714
+              },
+              "full_state_mse": 0.023031027987599373,
+              "robot_proxy_mse": 0.029118958860635757,
+              "rows": 129,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.13069117033706687,
+                "ci_low": 0.11102501399125131,
+                "groups": 128,
+                "mean": 0.12064851900726287
+              },
+              "visible_seeds": 128
+            }
+          }
+        },
+        "val": {
+          "subsets": {
+            "all": {
+              "bead_xy_mse": 0.009317957796156406,
+              "final_xy_chamfer": {
+                "ci_high": 0.05573175402375702,
+                "ci_low": 0.041617317055844996,
+                "groups": 64,
+                "mean": 0.04811268361548795
+              },
+              "full_state_mse": 0.03582189232110977,
+              "robot_proxy_mse": 0.06844212859869003,
+              "rows": 608,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.05375065172573749,
+                "ci_low": 0.04066334640788639,
+                "groups": 64,
+                "mean": 0.0466581773274045
+              },
+              "visible_seeds": 64
+            },
+            "free": {
+              "bead_xy_mse": 0.012144503183662891,
+              "final_xy_chamfer": {
+                "ci_high": 0.060667150169616574,
+                "ci_low": 0.04013673882324053,
+                "groups": 64,
+                "mean": 0.04860118031348592
+              },
+              "full_state_mse": 0.04028494283556938,
+              "robot_proxy_mse": 0.07491933554410934,
+              "rows": 304,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.058566863055844263,
+                "ci_low": 0.039245144829117944,
+                "groups": 64,
+                "mean": 0.04721955396222224
+              },
+              "visible_seeds": 64
+            },
+            "hidden_v2": {
+              "bead_xy_mse": 0.006491412874311209,
+              "final_xy_chamfer": {
+                "ci_high": 0.05448330314332951,
+                "ci_low": 0.04154574297843196,
+                "groups": 64,
+                "mean": 0.047624186917489986
+              },
+              "full_state_mse": 0.03135884925723076,
+              "robot_proxy_mse": 0.06196492537856102,
+              "rows": 304,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.0520083914451021,
+                "ci_low": 0.04086730544584851,
+                "groups": 64,
+                "mean": 0.046096800692586766
+              },
+              "visible_seeds": 64
+            },
+            "pre_engagement": {
+              "bead_xy_mse": 0.013389171101152897,
+              "final_xy_chamfer": {
+                "ci_high": 0.07295958433567858,
+                "ci_low": 0.05263792381153295,
+                "groups": 64,
+                "mean": 0.06181071671712941
+              },
+              "full_state_mse": 0.037057630717754364,
+              "robot_proxy_mse": 0.06618805229663849,
+              "rows": 368,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.07029870438901918,
+                "ci_low": 0.051883369018578665,
+                "groups": 64,
+                "mean": 0.060152466967259025
+              },
+              "visible_seeds": 64
+            },
+            "pre_engagement_free": {
+              "bead_xy_mse": 0.012144503183662891,
+              "final_xy_chamfer": {
+                "ci_high": 0.060902275445874614,
+                "ci_low": 0.040144362436418356,
+                "groups": 64,
+                "mean": 0.04860118031348592
+              },
+              "full_state_mse": 0.04028494283556938,
+              "robot_proxy_mse": 0.07491933554410934,
+              "rows": 304,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.058817712622036895,
+                "ci_low": 0.0393559717159936,
+                "groups": 64,
+                "mean": 0.04721955396222224
+              },
+              "visible_seeds": 64
+            },
+            "pre_engagement_hidden_v2": {
+              "bead_xy_mse": 0.01792791485786438,
+              "final_xy_chamfer": {
+                "ci_high": 0.14273376384517178,
+                "ci_low": 0.10703033138343017,
+                "groups": 64,
+                "mean": 0.124556014634436
+              },
+              "full_state_mse": 0.025289075449109077,
+              "robot_proxy_mse": 0.03434896096587181,
+              "rows": 64,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.13766307954168344,
+                "ci_low": 0.10574404445869731,
+                "groups": 64,
+                "mean": 0.12158380374118374
+              },
+              "visible_seeds": 64
+            }
+          }
+        }
+      },
+      "model": "deterministic_mlp",
+      "quaternion_max_norm_error": 8.593421936035156,
+      "selection_source": "validation_pre_engagement_final_xy_chamfer",
+      "selection_value": 0.06181071671712941,
+      "training_seed": 31401
+    },
+    {
+      "best_epoch": 120,
+      "checkpoint": "checkpoints/phase3_14a/deterministic/mlp_paper_state_seed31402.pt",
+      "checkpoint_sha256": "405da41c61e7dd9620c4c14d1a132a19fc5a924c1fd498643adbdf3b8a8b604b",
+      "input_variant": "paper_state",
+      "metrics": {
+        "test": {
+          "subsets": {
+            "all": {
+              "bead_xy_mse": 0.007663342170417309,
+              "final_xy_chamfer": {
+                "ci_high": 0.04893671101264408,
+                "ci_low": 0.04128927766504921,
+                "groups": 128,
+                "mean": 0.04486214323663184
+              },
+              "full_state_mse": 0.02664298005402088,
+              "robot_proxy_mse": 0.050002530217170715,
+              "rows": 1208,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.048050281776536724,
+                "ci_low": 0.040959059687439334,
+                "groups": 128,
+                "mean": 0.04421551919924008
+              },
+              "visible_seeds": 128
+            },
+            "free": {
+              "bead_xy_mse": 0.009107891470193863,
+              "final_xy_chamfer": {
+                "ci_high": 0.05179768508803747,
+                "ci_low": 0.04013577094442541,
+                "groups": 128,
+                "mean": 0.045026039188135636
+              },
+              "full_state_mse": 0.02460693009197712,
+              "robot_proxy_mse": 0.04368266463279724,
+              "rows": 604,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.05065284607559419,
+                "ci_low": 0.0400769957122799,
+                "groups": 128,
+                "mean": 0.044543303823559574
+              },
+              "visible_seeds": 128
+            },
+            "hidden_v2": {
+              "bead_xy_mse": 0.0062187896110117435,
+              "final_xy_chamfer": {
+                "ci_high": 0.04783773351453286,
+                "ci_low": 0.04181731420930869,
+                "groups": 128,
+                "mean": 0.044698247285128036
+              },
+              "full_state_mse": 0.028679031878709793,
+              "robot_proxy_mse": 0.05632239952683449,
+              "rows": 604,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.04681015968996044,
+                "ci_low": 0.04116467826486304,
+                "groups": 128,
+                "mean": 0.04388773457492058
+              },
+              "visible_seeds": 128
+            },
+            "pre_engagement": {
+              "bead_xy_mse": 0.011001812294125557,
+              "final_xy_chamfer": {
+                "ci_high": 0.06498576896932548,
+                "ci_low": 0.05314422804152062,
+                "groups": 128,
+                "mean": 0.05852036039747735
+              },
+              "full_state_mse": 0.024172935634851456,
+              "robot_proxy_mse": 0.04038354381918907,
+              "rows": 733,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.06373997816283561,
+                "ci_low": 0.052926220135387614,
+                "groups": 128,
+                "mean": 0.0578524105468631
+              },
+              "visible_seeds": 128
+            },
+            "pre_engagement_free": {
+              "bead_xy_mse": 0.009107891470193863,
+              "final_xy_chamfer": {
+                "ci_high": 0.05154662741581962,
+                "ci_low": 0.040193963029296176,
+                "groups": 128,
+                "mean": 0.045026039188135636
+              },
+              "full_state_mse": 0.02460693009197712,
+              "robot_proxy_mse": 0.04368266463279724,
+              "rows": 604,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.05070865498491918,
+                "ci_low": 0.0400046439501363,
+                "groups": 128,
+                "mean": 0.044543303823559574
+              },
+              "visible_seeds": 128
+            },
+            "pre_engagement_hidden_v2": {
+              "bead_xy_mse": 0.017772171646356583,
+              "final_xy_chamfer": {
+                "ci_high": 0.13216679695320915,
+                "ci_low": 0.11149374147053234,
+                "groups": 128,
+                "mean": 0.12170307365672071
+              },
+              "full_state_mse": 0.022621488198637962,
+              "robot_proxy_mse": 0.028589874505996704,
+              "rows": 129,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.13009306555792258,
+                "ci_low": 0.11058486044618993,
+                "groups": 128,
+                "mean": 0.12016791799550909
+              },
+              "visible_seeds": 128
+            }
+          }
+        },
+        "val": {
+          "subsets": {
+            "all": {
+              "bead_xy_mse": 0.0097054997459054,
+              "final_xy_chamfer": {
+                "ci_high": 0.055806814051296214,
+                "ci_low": 0.041899310708481685,
+                "groups": 64,
+                "mean": 0.04830884914324423
+              },
+              "full_state_mse": 0.034199006855487823,
+              "robot_proxy_mse": 0.0643448531627655,
+              "rows": 608,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.055308253879623584,
+                "ci_low": 0.04105155078455315,
+                "groups": 64,
+                "mean": 0.04742579474999761
+              },
+              "visible_seeds": 64
+            },
+            "free": {
+              "bead_xy_mse": 0.013030357658863068,
+              "final_xy_chamfer": {
+                "ci_high": 0.060549751377661,
+                "ci_low": 0.04034452657654758,
+                "groups": 64,
+                "mean": 0.04880098733089031
+              },
+              "full_state_mse": 0.03814730793237686,
+              "robot_proxy_mse": 0.06906046718358994,
+              "rows": 304,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.06226362868176277,
+                "ci_low": 0.03994645443673825,
+                "groups": 64,
+                "mean": 0.0486164282627757
+              },
+              "visible_seeds": 64
+            },
+            "hidden_v2": {
+              "bead_xy_mse": 0.006380641832947731,
+              "final_xy_chamfer": {
+                "ci_high": 0.05459476514010492,
+                "ci_low": 0.041788439163991324,
+                "groups": 64,
+                "mean": 0.04781671095559815
+              },
+              "full_state_mse": 0.030250702053308487,
+              "robot_proxy_mse": 0.05962924286723137,
+              "rows": 304,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.05216642304881252,
+                "ci_low": 0.040805366405313834,
+                "groups": 64,
+                "mean": 0.04623516123721952
+              },
+              "visible_seeds": 64
+            },
+            "pre_engagement": {
+              "bead_xy_mse": 0.01399474497884512,
+              "final_xy_chamfer": {
+                "ci_high": 0.07228365934658641,
+                "ci_low": 0.05278109412016343,
+                "groups": 64,
+                "mean": 0.061630399061275806
+              },
+              "full_state_mse": 0.03531748801469803,
+              "robot_proxy_mse": 0.06156085059046745,
+              "rows": 368,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.07273794547070711,
+                "ci_low": 0.0519410654109691,
+                "groups": 64,
+                "mean": 0.061066447472156775
+              },
+              "visible_seeds": 64
+            },
+            "pre_engagement_free": {
+              "bead_xy_mse": 0.013030357658863068,
+              "final_xy_chamfer": {
+                "ci_high": 0.06044796812646853,
+                "ci_low": 0.04045910724858054,
+                "groups": 64,
+                "mean": 0.04880098733089031
+              },
+              "full_state_mse": 0.03814730793237686,
+              "robot_proxy_mse": 0.06906046718358994,
+              "rows": 304,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.0620614649324408,
+                "ci_low": 0.039722260383592604,
+                "groups": 64,
+                "mean": 0.0486164282627757
+              },
+              "visible_seeds": 64
+            },
+            "pre_engagement_hidden_v2": {
+              "bead_xy_mse": 0.017511436715722084,
+              "final_xy_chamfer": {
+                "ci_high": 0.1402730559784686,
+                "ci_low": 0.10557514776010066,
+                "groups": 64,
+                "mean": 0.12257010478060693
+              },
+              "full_state_mse": 0.02499839849770069,
+              "robot_proxy_mse": 0.0342131182551384,
+              "rows": 64,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.13621565261758706,
+                "ci_low": 0.10493874796538875,
+                "groups": 64,
+                "mean": 0.12020403871671684
+              },
+              "visible_seeds": 64
+            }
+          }
+        }
+      },
+      "model": "deterministic_mlp",
+      "quaternion_max_norm_error": 7.631007194519043,
+      "selection_source": "validation_pre_engagement_final_xy_chamfer",
+      "selection_value": 0.061630399061275806,
+      "training_seed": 31402
+    },
+    {
+      "best_epoch": 120,
+      "checkpoint": "checkpoints/phase3_14a/deterministic/mlp_paper_state_seed31403.pt",
+      "checkpoint_sha256": "351b9630236a37de68c9d8c8ff52030e3f5e89d1d5a8daefde047592b485414c",
+      "input_variant": "paper_state",
+      "metrics": {
+        "test": {
+          "subsets": {
+            "all": {
+              "bead_xy_mse": 0.006876758299767971,
+              "final_xy_chamfer": {
+                "ci_high": 0.04782556570589386,
+                "ci_low": 0.041054729139733744,
+                "groups": 128,
+                "mean": 0.044269116722210775
+              },
+              "full_state_mse": 0.024883775040507317,
+              "robot_proxy_mse": 0.04704625904560089,
+              "rows": 1208,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.047183178389337915,
+                "ci_low": 0.04076526723197621,
+                "groups": 128,
+                "mean": 0.0437773090775539
+              },
+              "visible_seeds": 128
+            },
+            "free": {
+              "bead_xy_mse": 0.007531892042607069,
+              "final_xy_chamfer": {
+                "ci_high": 0.04890818682805967,
+                "ci_low": 0.039504231936765485,
+                "groups": 128,
+                "mean": 0.04367286007734176
+              },
+              "full_state_mse": 0.02104746364057064,
+              "robot_proxy_mse": 0.03768201544880867,
+              "rows": 604,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.048674444633726624,
+                "ci_low": 0.03959841773555646,
+                "groups": 128,
+                "mean": 0.043577916385201435
+              },
+              "visible_seeds": 128
+            },
+            "hidden_v2": {
+              "bead_xy_mse": 0.006221625488251448,
+              "final_xy_chamfer": {
+                "ci_high": 0.048042444124542984,
+                "ci_low": 0.04192966941854574,
+                "groups": 128,
+                "mean": 0.04486537336707978
+              },
+              "full_state_mse": 0.028720086440443993,
+              "robot_proxy_mse": 0.05641051009297371,
+              "rows": 604,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.04687727712143644,
+                "ci_low": 0.04125982393479945,
+                "groups": 128,
+                "mean": 0.04397670176990637
+              },
+              "visible_seeds": 128
+            },
+            "pre_engagement": {
+              "bead_xy_mse": 0.009758250787854195,
+              "final_xy_chamfer": {
+                "ci_high": 0.06284158566449784,
+                "ci_low": 0.05256179042968593,
+                "groups": 128,
+                "mean": 0.05736664754413526
+              },
+              "full_state_mse": 0.021370474249124527,
+              "robot_proxy_mse": 0.035662438720464706,
+              "rows": 733,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.0621989328541222,
+                "ci_low": 0.05253304029034481,
+                "groups": 128,
+                "mean": 0.05703697873796359
+              },
+              "visible_seeds": 128
+            },
+            "pre_engagement_free": {
+              "bead_xy_mse": 0.007531892042607069,
+              "final_xy_chamfer": {
+                "ci_high": 0.04892481550747285,
+                "ci_low": 0.03951648224972992,
+                "groups": 128,
+                "mean": 0.04367286007734176
+              },
+              "full_state_mse": 0.02104746364057064,
+              "robot_proxy_mse": 0.03768201544880867,
+              "rows": 604,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.04864859901687693,
+                "ci_low": 0.03955358594100706,
+                "groups": 128,
+                "mean": 0.043577916385201435
+              },
+              "visible_seeds": 128
+            },
+            "pre_engagement_hidden_v2": {
+              "bead_xy_mse": 0.01771700754761696,
+              "final_xy_chamfer": {
+                "ci_high": 0.1320108245617438,
+                "ci_low": 0.11165089320185322,
+                "groups": 128,
+                "mean": 0.12148329583826915
+              },
+              "full_state_mse": 0.022525155916810036,
+              "robot_proxy_mse": 0.028442874550819397,
+              "rows": 129,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.12969158866429398,
+                "ci_low": 0.11033881858372652,
+                "groups": 128,
+                "mean": 0.12005460401756318
+              },
+              "visible_seeds": 128
+            }
+          }
+        },
+        "val": {
+          "subsets": {
+            "all": {
+              "bead_xy_mse": 0.008565874770283699,
+              "final_xy_chamfer": {
+                "ci_high": 0.05467026644404733,
+                "ci_low": 0.041445214764930745,
+                "groups": 64,
+                "mean": 0.04757307069743738
+              },
+              "full_state_mse": 0.03520003706216812,
+              "robot_proxy_mse": 0.06798055022954941,
+              "rows": 608,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.05289804054126824,
+                "ci_low": 0.0406954778282014,
+                "groups": 64,
+                "mean": 0.04643475912132744
+              },
+              "visible_seeds": 64
+            },
+            "free": {
+              "bead_xy_mse": 0.010726824402809143,
+              "final_xy_chamfer": {
+                "ci_high": 0.05807761598948642,
+                "ci_low": 0.03959962592125948,
+                "groups": 64,
+                "mean": 0.04735348081234597
+              },
+              "full_state_mse": 0.040116291493177414,
+              "robot_proxy_mse": 0.07628793269395828,
+              "rows": 304,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.05673787852043162,
+                "ci_low": 0.039216405043004804,
+                "groups": 64,
+                "mean": 0.04650218319594595
+              },
+              "visible_seeds": 64
+            },
+            "hidden_v2": {
+              "bead_xy_mse": 0.00640492420643568,
+              "final_xy_chamfer": {
+                "ci_high": 0.05449168624547191,
+                "ci_low": 0.0417864374765517,
+                "groups": 64,
+                "mean": 0.04779266058252879
+              },
+              "full_state_mse": 0.030283793807029724,
+              "robot_proxy_mse": 0.059673164039850235,
+              "rows": 304,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.05241370520099903,
+                "ci_low": 0.040887194178323996,
+                "groups": 64,
+                "mean": 0.046367335046708924
+              },
+              "visible_seeds": 64
+            },
+            "pre_engagement": {
+              "bead_xy_mse": 0.012211166322231293,
+              "final_xy_chamfer": {
+                "ci_high": 0.07056090195171212,
+                "ci_low": 0.051937757045203314,
+                "groups": 64,
+                "mean": 0.06062622168278524
+              },
+              "full_state_mse": 0.036880578845739365,
+              "robot_proxy_mse": 0.06724292039871216,
+              "rows": 368,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.06863952758598037,
+                "ci_low": 0.0518893300083698,
+                "groups": 64,
+                "mean": 0.059510876332132145
+              },
+              "visible_seeds": 64
+            },
+            "pre_engagement_free": {
+              "bead_xy_mse": 0.010726824402809143,
+              "final_xy_chamfer": {
+                "ci_high": 0.05784783607687799,
+                "ci_low": 0.03968591243110896,
+                "groups": 64,
+                "mean": 0.04735348081234597
+              },
+              "full_state_mse": 0.040116291493177414,
+              "robot_proxy_mse": 0.07628793269395828,
+              "rows": 304,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.056433344460535814,
+                "ci_low": 0.039336071013592065,
+                "groups": 64,
+                "mean": 0.04650218319594595
+              },
+              "visible_seeds": 64
+            },
+            "pre_engagement_hidden_v2": {
+              "bead_xy_mse": 0.01762389950454235,
+              "final_xy_chamfer": {
+                "ci_high": 0.14145073547406353,
+                "ci_low": 0.10644198773952666,
+                "groups": 64,
+                "mean": 0.12367174081737176
+              },
+              "full_state_mse": 0.025081388652324677,
+              "robot_proxy_mse": 0.03425983712077141,
+              "rows": 64,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.1365570941423357,
+                "ci_low": 0.10614889864979583,
+                "groups": 64,
+                "mean": 0.12130216872901656
+              },
+              "visible_seeds": 64
+            }
+          }
+        }
+      },
+      "model": "deterministic_mlp",
+      "quaternion_max_norm_error": 5.719692230224609,
+      "selection_source": "validation_pre_engagement_final_xy_chamfer",
+      "selection_value": 0.06062622168278524,
+      "training_seed": 31403
+    },
+    {
+      "best_epoch": 30,
+      "checkpoint": "checkpoints/phase3_14a/deterministic/mlp_state_action_seed31401.pt",
+      "checkpoint_sha256": "1bf61d00901688c5f19b99e69c4adb4fa5660982cf41e2885b4ca2779c75790f",
+      "input_variant": "state_action",
+      "metrics": {
+        "test": {
+          "subsets": {
+            "all": {
+              "bead_xy_mse": 0.006836608052253723,
+              "final_xy_chamfer": {
+                "ci_high": 0.04817122353470585,
+                "ci_low": 0.0412667383712176,
+                "groups": 128,
+                "mean": 0.04450259810939604
+              },
+              "full_state_mse": 0.025020571425557137,
+              "robot_proxy_mse": 0.047400832176208496,
+              "rows": 1208,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.04740892550119505,
+                "ci_low": 0.0409550681105347,
+                "groups": 128,
+                "mean": 0.0440090108560627
+              },
+              "visible_seeds": 128
+            },
+            "free": {
+              "bead_xy_mse": 0.007432510145008564,
+              "final_xy_chamfer": {
+                "ci_high": 0.05002577550061762,
+                "ci_low": 0.040623399698791564,
+                "groups": 128,
+                "mean": 0.0447762329825231
+              },
+              "full_state_mse": 0.02183399349451065,
+              "robot_proxy_mse": 0.03955890238285065,
+              "rows": 604,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.04900178396351906,
+                "ci_low": 0.04058727561626913,
+                "groups": 128,
+                "mean": 0.04440379279362918
+              },
+              "visible_seeds": 128
+            },
+            "hidden_v2": {
+              "bead_xy_mse": 0.00624070642516017,
+              "final_xy_chamfer": {
+                "ci_high": 0.0475160731381461,
+                "ci_low": 0.041295311841263685,
+                "groups": 128,
+                "mean": 0.04422896323626898
+              },
+              "full_state_mse": 0.028207145631313324,
+              "robot_proxy_mse": 0.05524275824427605,
+              "rows": 604,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.046747692858168606,
+                "ci_low": 0.040767002599608755,
+                "groups": 128,
+                "mean": 0.04361422891849621
+              },
+              "visible_seeds": 128
+            },
+            "pre_engagement": {
+              "bead_xy_mse": 0.009680654853582382,
+              "final_xy_chamfer": {
+                "ci_high": 0.06382400081388209,
+                "ci_low": 0.05348492085424122,
+                "groups": 128,
+                "mean": 0.058428560716505346
+              },
+              "full_state_mse": 0.02193150296807289,
+              "robot_proxy_mse": 0.03700947389006615,
+              "rows": 733,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.06298864115999749,
+                "ci_low": 0.053346441070301405,
+                "groups": 128,
+                "mean": 0.05787496899573109
+              },
+              "visible_seeds": 128
+            },
+            "pre_engagement_free": {
+              "bead_xy_mse": 0.007432510145008564,
+              "final_xy_chamfer": {
+                "ci_high": 0.04999990557926075,
+                "ci_low": 0.040589323404549994,
+                "groups": 128,
+                "mean": 0.0447762329825231
+              },
+              "full_state_mse": 0.02183399349451065,
+              "robot_proxy_mse": 0.03955890238285065,
+              "rows": 604,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.04919924569108624,
+                "ci_low": 0.04060281958330004,
+                "groups": 128,
+                "mean": 0.04440379279362918
+              },
+              "visible_seeds": 128
+            },
+            "pre_engagement_hidden_v2": {
+              "bead_xy_mse": 0.017717288807034492,
+              "final_xy_chamfer": {
+                "ci_high": 0.13295652575640793,
+                "ci_low": 0.1119217181498243,
+                "groups": 128,
+                "mean": 0.12235108747096486
+              },
+              "full_state_mse": 0.022280070930719376,
+              "robot_proxy_mse": 0.02789580263197422,
+              "rows": 129,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.1309321256930923,
+                "ci_low": 0.11101302891232383,
+                "groups": 128,
+                "mean": 0.12094931338386711
+              },
+              "visible_seeds": 128
+            }
+          }
+        },
+        "val": {
+          "subsets": {
+            "all": {
+              "bead_xy_mse": 0.009630418382585049,
+              "final_xy_chamfer": {
+                "ci_high": 0.05442013711446782,
+                "ci_low": 0.04092880833355312,
+                "groups": 64,
+                "mean": 0.047158770413309535
+              },
+              "full_state_mse": 0.034370359033346176,
+              "robot_proxy_mse": 0.06481950730085373,
+              "rows": 608,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.054263810751312536,
+                "ci_low": 0.0407127062102821,
+                "groups": 64,
+                "mean": 0.04672895494092556
+              },
+              "visible_seeds": 64
+            },
+            "free": {
+              "bead_xy_mse": 0.012956589460372925,
+              "final_xy_chamfer": {
+                "ci_high": 0.0599405041334828,
+                "ci_low": 0.04000508818210347,
+                "groups": 64,
+                "mean": 0.0482766362133828
+              },
+              "full_state_mse": 0.040260206907987595,
+              "robot_proxy_mse": 0.07386466860771179,
+              "rows": 304,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.060513390862301314,
+                "ci_low": 0.03974497158371316,
+                "groups": 64,
+                "mean": 0.048210311936201296
+              },
+              "visible_seeds": 64
+            },
+            "hidden_v2": {
+              "bead_xy_mse": 0.006304245442152023,
+              "final_xy_chamfer": {
+                "ci_high": 0.05192160836020388,
+                "ci_low": 0.04078423372236513,
+                "groups": 64,
+                "mean": 0.04604090461323626
+              },
+              "full_state_mse": 0.028480498120188713,
+              "robot_proxy_mse": 0.05577436089515686,
+              "rows": 304,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.05051283899659713,
+                "ci_low": 0.04047846640449456,
+                "groups": 64,
+                "mean": 0.04524759794564983
+              },
+              "visible_seeds": 64
+            },
+            "pre_engagement": {
+              "bead_xy_mse": 0.01394244097173214,
+              "final_xy_chamfer": {
+                "ci_high": 0.0719081998257739,
+                "ci_low": 0.052251579129788166,
+                "groups": 64,
+                "mean": 0.06125942719138592
+              },
+              "full_state_mse": 0.03698397055268288,
+              "robot_proxy_mse": 0.06534278392791748,
+              "rows": 368,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.07170126536363791,
+                "ci_low": 0.052126244836163425,
+                "groups": 64,
+                "mean": 0.060836329258049576
+              },
+              "visible_seeds": 64
+            },
+            "pre_engagement_free": {
+              "bead_xy_mse": 0.012956589460372925,
+              "final_xy_chamfer": {
+                "ci_high": 0.06016778574877299,
+                "ci_low": 0.03996706219167044,
+                "groups": 64,
+                "mean": 0.0482766362133828
+              },
+              "full_state_mse": 0.040260206907987595,
+              "robot_proxy_mse": 0.07386466860771179,
+              "rows": 304,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.06083380457525221,
+                "ci_low": 0.03972327724711185,
+                "groups": 64,
+                "mean": 0.048210311936201296
+              },
+              "visible_seeds": 64
+            },
+            "pre_engagement_hidden_v2": {
+              "bead_xy_mse": 0.017537401989102364,
+              "final_xy_chamfer": {
+                "ci_high": 0.14012289133679587,
+                "ci_low": 0.10605446334375301,
+                "groups": 64,
+                "mean": 0.12292768433690071
+              },
+              "full_state_mse": 0.025037003681063652,
+              "robot_proxy_mse": 0.03426728397607803,
+              "rows": 64,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.1369299132323552,
+                "ci_low": 0.1049772103252811,
+                "groups": 64,
+                "mean": 0.12080991153682892
+              },
+              "visible_seeds": 64
+            }
+          }
+        }
+      },
+      "model": "deterministic_mlp",
+      "quaternion_max_norm_error": 5.1808905601501465,
+      "selection_source": "validation_pre_engagement_final_xy_chamfer",
+      "selection_value": 0.06125942719138592,
+      "training_seed": 31401
+    },
+    {
+      "best_epoch": 105,
+      "checkpoint": "checkpoints/phase3_14a/deterministic/mlp_state_action_seed31402.pt",
+      "checkpoint_sha256": "ba2754b8e0171bba9910afc80ac4ffac38723ebdd6b945b04ba93aaa9abef901",
+      "input_variant": "state_action",
+      "metrics": {
+        "test": {
+          "subsets": {
+            "all": {
+              "bead_xy_mse": 0.007339999545365572,
+              "final_xy_chamfer": {
+                "ci_high": 0.04630628486138146,
+                "ci_low": 0.03957438301510465,
+                "groups": 128,
+                "mean": 0.04279430935179371
+              },
+              "full_state_mse": 0.025719663128256798,
+              "robot_proxy_mse": 0.04834078997373581,
+              "rows": 1208,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.04635014930615405,
+                "ci_low": 0.03953605919095661,
+                "groups": 128,
+                "mean": 0.04268738247445686
+              },
+              "visible_seeds": 128
+            },
+            "free": {
+              "bead_xy_mse": 0.008561049588024616,
+              "final_xy_chamfer": {
+                "ci_high": 0.04821419116223724,
+                "ci_low": 0.03894431113401547,
+                "groups": 128,
+                "mean": 0.043041027108645255
+              },
+              "full_state_mse": 0.02295626513659954,
+              "robot_proxy_mse": 0.04067346081137657,
+              "rows": 604,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.04874964686631655,
+                "ci_low": 0.03896524545612082,
+                "groups": 128,
+                "mean": 0.04309206642788705
+              },
+              "visible_seeds": 128
+            },
+            "hidden_v2": {
+              "bead_xy_mse": 0.006118951831012964,
+              "final_xy_chamfer": {
+                "ci_high": 0.045788005024113974,
+                "ci_low": 0.0396299892603185,
+                "groups": 128,
+                "mean": 0.04254759159494216
+              },
+              "full_state_mse": 0.028483059257268906,
+              "robot_proxy_mse": 0.05600811168551445,
+              "rows": 604,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.04528253569751365,
+                "ci_low": 0.03950476187841471,
+                "groups": 128,
+                "mean": 0.04228269852102666
+              },
+              "visible_seeds": 128
+            },
+            "pre_engagement": {
+              "bead_xy_mse": 0.010610892437398434,
+              "final_xy_chamfer": {
+                "ci_high": 0.062342779576470816,
+                "ci_low": 0.0520854107694013,
+                "groups": 128,
+                "mean": 0.05690072623550343
+              },
+              "full_state_mse": 0.022844891995191574,
+              "robot_proxy_mse": 0.03790212422609329,
+              "rows": 733,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.062269444760018854,
+                "ci_low": 0.05199820426537889,
+                "groups": 128,
+                "mean": 0.05675707598832632
+              },
+              "visible_seeds": 128
+            },
+            "pre_engagement_free": {
+              "bead_xy_mse": 0.008561049588024616,
+              "final_xy_chamfer": {
+                "ci_high": 0.048114861429186626,
+                "ci_low": 0.03894687835390884,
+                "groups": 128,
+                "mean": 0.043041027108645255
+              },
+              "full_state_mse": 0.02295626513659954,
+              "robot_proxy_mse": 0.04067346081137657,
+              "rows": 604,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.0487133669872542,
+                "ci_low": 0.038867208614846355,
+                "groups": 128,
+                "mean": 0.04309206642788705
+              },
+              "visible_seeds": 128
+            },
+            "pre_engagement_hidden_v2": {
+              "bead_xy_mse": 0.017938636243343353,
+              "final_xy_chamfer": {
+                "ci_high": 0.13238886521806797,
+                "ci_low": 0.11160667288228111,
+                "groups": 128,
+                "mean": 0.12179420121707195
+              },
+              "full_state_mse": 0.022446749731898308,
+              "robot_proxy_mse": 0.027995189651846886,
+              "rows": 129,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.1307469613098571,
+                "ci_low": 0.11104010589076853,
+                "groups": 128,
+                "mean": 0.12073898121704965
+              },
+              "visible_seeds": 128
+            }
+          }
+        },
+        "val": {
+          "subsets": {
+            "all": {
+              "bead_xy_mse": 0.009347135201096535,
+              "final_xy_chamfer": {
+                "ci_high": 0.05296700104057359,
+                "ci_low": 0.03977882025361733,
+                "groups": 64,
+                "mean": 0.04592026530467832
+              },
+              "full_state_mse": 0.036208488047122955,
+              "robot_proxy_mse": 0.0692686215043068,
+              "rows": 608,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.05308281628535098,
+                "ci_low": 0.039410614872716916,
+                "groups": 64,
+                "mean": 0.045559901350459675
+              },
+              "visible_seeds": 64
+            },
+            "free": {
+              "bead_xy_mse": 0.012494360096752644,
+              "final_xy_chamfer": {
+                "ci_high": 0.05833423052269996,
+                "ci_low": 0.03862830776758346,
+                "groups": 64,
+                "mean": 0.046875169244901226
+              },
+              "full_state_mse": 0.04276721924543381,
+              "robot_proxy_mse": 0.08002611994743347,
+              "rows": 304,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.060092616570563646,
+                "ci_low": 0.038525582948617486,
+                "groups": 64,
+                "mean": 0.04702765843856532
+              },
+              "visible_seeds": 64
+            },
+            "hidden_v2": {
+              "bead_xy_mse": 0.006199911702424288,
+              "final_xy_chamfer": {
+                "ci_high": 0.050640115848515944,
+                "ci_low": 0.03973288672962589,
+                "groups": 64,
+                "mean": 0.044965361364455406
+              },
+              "full_state_mse": 0.029649768024683,
+              "robot_proxy_mse": 0.058511119335889816,
+              "rows": 304,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.04943416681310506,
+                "ci_low": 0.03919504476247189,
+                "groups": 64,
+                "mean": 0.04409214426235402
+              },
+              "visible_seeds": 64
+            },
+            "pre_engagement": {
+              "bead_xy_mse": 0.013593798503279686,
+              "final_xy_chamfer": {
+                "ci_high": 0.07048042244501108,
+                "ci_low": 0.05129161859635093,
+                "groups": 64,
+                "mean": 0.060045241308651624
+              },
+              "full_state_mse": 0.03897763788700104,
+              "robot_proxy_mse": 0.07021929323673248,
+              "rows": 368,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.07118153360572967,
+                "ci_low": 0.05082756438895026,
+                "groups": 64,
+                "mean": 0.05981301820345149
+              },
+              "visible_seeds": 64
+            },
+            "pre_engagement_free": {
+              "bead_xy_mse": 0.012494360096752644,
+              "final_xy_chamfer": {
+                "ci_high": 0.05822369830956845,
+                "ci_low": 0.03878765554338042,
+                "groups": 64,
+                "mean": 0.046875169244901226
+              },
+              "full_state_mse": 0.04276721924543381,
+              "robot_proxy_mse": 0.08002611994743347,
+              "rows": 304,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.05992709986390524,
+                "ci_low": 0.038337961400344095,
+                "groups": 64,
+                "mean": 0.04702765843856532
+              },
+              "visible_seeds": 64
+            },
+            "pre_engagement_hidden_v2": {
+              "bead_xy_mse": 0.017602959647774696,
+              "final_xy_chamfer": {
+                "ci_high": 0.1402664113265928,
+                "ci_low": 0.10572744871024042,
+                "groups": 64,
+                "mean": 0.12260308361146599
+              },
+              "full_state_mse": 0.02515874244272709,
+              "robot_proxy_mse": 0.03445816785097122,
+              "rows": 64,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.13671684525052114,
+                "ci_low": 0.10522162361685332,
+                "groups": 64,
+                "mean": 0.12054347708666077
+              },
+              "visible_seeds": 64
+            }
+          }
+        }
+      },
+      "model": "deterministic_mlp",
+      "quaternion_max_norm_error": 6.820336818695068,
+      "selection_source": "validation_pre_engagement_final_xy_chamfer",
+      "selection_value": 0.060045241308651624,
+      "training_seed": 31402
+    },
+    {
+      "best_epoch": 60,
+      "checkpoint": "checkpoints/phase3_14a/deterministic/mlp_state_action_seed31403.pt",
+      "checkpoint_sha256": "d7f2dfe970ba6e201b6cfb43a13473a415d78122d41419968333f19b29834a3d",
+      "input_variant": "state_action",
+      "metrics": {
+        "test": {
+          "subsets": {
+            "all": {
+              "bead_xy_mse": 0.006826664321124554,
+              "final_xy_chamfer": {
+                "ci_high": 0.04728470313188664,
+                "ci_low": 0.04022428777370161,
+                "groups": 128,
+                "mean": 0.0434823989970702
+              },
+              "full_state_mse": 0.025459833443164825,
+              "robot_proxy_mse": 0.04839295893907547,
+              "rows": 1208,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.04676505705368487,
+                "ci_low": 0.03997521567472892,
+                "groups": 128,
+                "mean": 0.04313010871695626
+              },
+              "visible_seeds": 128
+            },
+            "free": {
+              "bead_xy_mse": 0.007597035262733698,
+              "final_xy_chamfer": {
+                "ci_high": 0.04968510916574694,
+                "ci_low": 0.039618654313399136,
+                "groups": 128,
+                "mean": 0.04400225066570627
+              },
+              "full_state_mse": 0.022839298471808434,
+              "robot_proxy_mse": 0.041599009186029434,
+              "rows": 604,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.04941581308996006,
+                "ci_low": 0.03953986633752021,
+                "groups": 128,
+                "mean": 0.04376095558189536
+              },
+              "visible_seeds": 128
+            },
+            "hidden_v2": {
+              "bead_xy_mse": 0.0060562933795154095,
+              "final_xy_chamfer": {
+                "ci_high": 0.04609457989168425,
+                "ci_low": 0.040061574889422594,
+                "groups": 128,
+                "mean": 0.042962547328434145
+              },
+              "full_state_mse": 0.02808036282658577,
+              "robot_proxy_mse": 0.055186908692121506,
+              "rows": 604,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.04552332155390557,
+                "ci_low": 0.039733271254203846,
+                "groups": 128,
+                "mean": 0.042499261852017155
+              },
+              "visible_seeds": 128
+            },
+            "pre_engagement": {
+              "bead_xy_mse": 0.009784199297428131,
+              "final_xy_chamfer": {
+                "ci_high": 0.06356841441982565,
+                "ci_low": 0.05272891908992377,
+                "groups": 128,
+                "mean": 0.05773074256820353
+              },
+              "full_state_mse": 0.02269475907087326,
+              "robot_proxy_mse": 0.03858467936515808,
+              "rows": 733,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.06290717371759638,
+                "ci_low": 0.0525634433552597,
+                "groups": 128,
+                "mean": 0.057313250930627904
+              },
+              "visible_seeds": 128
+            },
+            "pre_engagement_free": {
+              "bead_xy_mse": 0.007597035262733698,
+              "final_xy_chamfer": {
+                "ci_high": 0.04973591527618391,
+                "ci_low": 0.03964234789673335,
+                "groups": 128,
+                "mean": 0.04400225066570627
+              },
+              "full_state_mse": 0.022839298471808434,
+              "robot_proxy_mse": 0.041599009186029434,
+              "rows": 604,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.04944354940642973,
+                "ci_low": 0.039474616531353805,
+                "groups": 128,
+                "mean": 0.04376095558189536
+              },
+              "visible_seeds": 128
+            },
+            "pre_engagement_hidden_v2": {
+              "bead_xy_mse": 0.017602846026420593,
+              "final_xy_chamfer": {
+                "ci_high": 0.1328849182063497,
+                "ci_low": 0.11175348993990786,
+                "groups": 128,
+                "mean": 0.12200988294888837
+              },
+              "full_state_mse": 0.022178061306476593,
+              "robot_proxy_mse": 0.02780909836292267,
+              "rows": 129,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.13069312109173903,
+                "ci_low": 0.1108561689241643,
+                "groups": 128,
+                "mean": 0.12076740899756165
+              },
+              "visible_seeds": 128
+            }
+          }
+        },
+        "val": {
+          "subsets": {
+            "all": {
+              "bead_xy_mse": 0.008569497615098953,
+              "final_xy_chamfer": {
+                "ci_high": 0.05394524630541552,
+                "ci_low": 0.04008131209443095,
+                "groups": 64,
+                "mean": 0.046317587762850485
+              },
+              "full_state_mse": 0.03259618207812309,
+              "robot_proxy_mse": 0.062167488038539886,
+              "rows": 608,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.05238896126886195,
+                "ci_low": 0.03975372482952382,
+                "groups": 64,
+                "mean": 0.045520013042844594
+              },
+              "visible_seeds": 64
+            },
+            "free": {
+              "bead_xy_mse": 0.010996569879353046,
+              "final_xy_chamfer": {
+                "ci_high": 0.06125274291633035,
+                "ci_low": 0.03898674136206916,
+                "groups": 64,
+                "mean": 0.047844712567319606
+              },
+              "full_state_mse": 0.03627968952059746,
+              "robot_proxy_mse": 0.06739739328622818,
+              "rows": 304,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.05865448407932324,
+                "ci_low": 0.038746208471900044,
+                "groups": 64,
+                "mean": 0.04680639134823108
+              },
+              "visible_seeds": 64
+            },
+            "hidden_v2": {
+              "bead_xy_mse": 0.006142426747828722,
+              "final_xy_chamfer": {
+                "ci_high": 0.05025667189886492,
+                "ci_low": 0.039731883749163185,
+                "groups": 64,
+                "mean": 0.044790462958381363
+              },
+              "full_state_mse": 0.028912672773003578,
+              "robot_proxy_mse": 0.05693758279085159,
+              "rows": 304,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.04938650321642076,
+                "ci_low": 0.03941622912050082,
+                "groups": 64,
+                "mean": 0.0442336347374581
+              },
+              "visible_seeds": 64
+            },
+            "pre_engagement": {
+              "bead_xy_mse": 0.012370076030492783,
+              "final_xy_chamfer": {
+                "ci_high": 0.07225098920993735,
+                "ci_low": 0.05133554952907725,
+                "groups": 64,
+                "mean": 0.06073498339189783
+              },
+              "full_state_mse": 0.03383428230881691,
+              "robot_proxy_mse": 0.06025177240371704,
+              "rows": 368,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.07005503063871267,
+                "ci_low": 0.05146608132749931,
+                "groups": 64,
+                "mean": 0.05964781224674485
+              },
+              "visible_seeds": 64
+            },
+            "pre_engagement_free": {
+              "bead_xy_mse": 0.010996569879353046,
+              "final_xy_chamfer": {
+                "ci_high": 0.0608695327736852,
+                "ci_low": 0.03907046483446836,
+                "groups": 64,
+                "mean": 0.047844712567319606
+              },
+              "full_state_mse": 0.03627968952059746,
+              "robot_proxy_mse": 0.06739739328622818,
+              "rows": 304,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.05824630947933976,
+                "ci_low": 0.038824022702807215,
+                "groups": 64,
+                "mean": 0.04680639134823108
+              },
+              "visible_seeds": 64
+            },
+            "pre_engagement_hidden_v2": {
+              "bead_xy_mse": 0.017378639429807663,
+              "final_xy_chamfer": {
+                "ci_high": 0.13905975183515693,
+                "ci_low": 0.10532371339722886,
+                "groups": 64,
+                "mean": 0.12196376980864443
+              },
+              "full_state_mse": 0.02491697296500206,
+              "robot_proxy_mse": 0.03419492021203041,
+              "rows": 64,
+              "trajectory_xy_chamfer": {
+                "ci_high": 0.13621187560578013,
+                "ci_low": 0.10531340119390128,
+                "groups": 64,
+                "mean": 0.12064456151468525
+              },
+              "visible_seeds": 64
+            }
+          }
+        }
+      },
+      "model": "deterministic_mlp",
+      "quaternion_max_norm_error": 6.477176189422607,
+      "selection_source": "validation_pre_engagement_final_xy_chamfer",
+      "selection_value": 0.06073498339189783,
+      "training_seed": 31403
+    }
+  ],
+  "phase4": false,
+  "root_cause": "phase314a_state_v2_future_learnability_supported",
+  "selection": {
+    "cache_sha256": "3cc512f650557c81c3b81f4f128a5b55360b77d3f664fdd6607666936285fbe8",
+    "checkpoint": "checkpoints/phase3_14a/deterministic/mlp_state_action_seed31402.pt",
+    "checkpoint_sha256": "ba2754b8e0171bba9910afc80ac4ffac38723ebdd6b945b04ba93aaa9abef901",
+    "input_variant": "state_action",
+    "overall_non_degrading": true,
+    "relative_improvement": 0.4087555463021751,
+    "repeat_reference": 0.10155738617607352,
+    "selected_model": "deterministic_mlp",
+    "selection_metric": "final_xy_chamfer",
+    "selection_split": "val",
+    "selection_subset": "pre_engagement",
+    "selection_value": 0.060045241308651624,
+    "selection_version": "phase3_14a_val_selection_v1",
+    "test_not_used_for_selection": true,
+    "training_seed": 31402
+  },
+  "training_seeds": [
+    31401,
+    31402,
+    31403
+  ],
+  "verdict": "PASS"
+}

@@ -1,0 +1,48 @@
+{
+  "action_quaternion": {
+    "pose0": {
+      "max_abs_norm_error": 0.0,
+      "max_norm": 1.0,
+      "min_norm": 1.0
+    },
+    "pose1": {
+      "max_abs_norm_error": 0.0,
+      "max_norm": 1.0,
+      "min_norm": 1.0
+    }
+  },
+  "cache_sha256": "3cc512f650557c81c3b81f4f128a5b55360b77d3f664fdd6607666936285fbe8",
+  "candidate_execution": false,
+  "cps": false,
+  "ddpm_training": false,
+  "deterministic_training_allowed": true,
+  "formal_provenance": "phase314_data_provenance_supported",
+  "future_padding_fraction": 0.30439379699248126,
+  "idm_training": false,
+  "pair_keys": 2128,
+  "phase4": false,
+  "root_cause": "phase314a_training_cache_preflight_supported",
+  "rows": 4256,
+  "source_path_relink": {
+    "policy": "formal_root/raw/<split>/<condition>/<basename>",
+    "rows": 4256,
+    "sidecars_verified": true,
+    "unique_sources": 896
+  },
+  "split_rows": {
+    "test": 1208,
+    "train": 2440,
+    "val": 608
+  },
+  "split_visible_seeds": {
+    "test": 128,
+    "train": 256,
+    "val": 64
+  },
+  "state_quaternion": {
+    "max_abs_norm_error": 0.0,
+    "max_norm": 1.0,
+    "min_norm": 1.0
+  },
+  "verdict": "PASS"
+}

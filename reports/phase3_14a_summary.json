@@ -1,0 +1,30 @@
+{
+  "cache_gate": "phase314a_immutable_training_cache_supported",
+  "candidate_execution": false,
+  "cps": false,
+  "ddpm_training": false,
+  "deterministic_gate": "phase314a_state_v2_future_learnability_supported",
+  "idm_training": false,
+  "next_step": "Phase3.14b MLP-DDPM and Temporal-U-Net-DDPM",
+  "phase4": false,
+  "preflight_gate": "phase314a_training_cache_preflight_supported",
+  "root_cause": "phase314a_state_v2_future_learnability_supported",
+  "selected_model": {
+    "cache_sha256": "3cc512f650557c81c3b81f4f128a5b55360b77d3f664fdd6607666936285fbe8",
+    "checkpoint": "checkpoints/phase3_14a/deterministic/mlp_state_action_seed31402.pt",
+    "checkpoint_sha256": "ba2754b8e0171bba9910afc80ac4ffac38723ebdd6b945b04ba93aaa9abef901",
+    "input_variant": "state_action",
+    "overall_non_degrading": true,
+    "relative_improvement": 0.4087555463021751,
+    "repeat_reference": 0.10155738617607352,
+    "selected_model": "deterministic_mlp",
+    "selection_metric": "final_xy_chamfer",
+    "selection_split": "val",
+    "selection_subset": "pre_engagement",
+    "selection_value": 0.060045241308651624,
+    "selection_version": "phase3_14a_val_selection_v1",
+    "test_not_used_for_selection": true,
+    "training_seed": 31402
+  },
+  "verdict": "PASS"
+}
