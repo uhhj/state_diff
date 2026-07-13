@@ -486,13 +486,16 @@ Phase3.14c IDM: BLOCKED
 Candidate execution: BLOCKED
 Phase4/CPS: BLOCKED
 
-Phase3.14b-r2.4.2: BLOCKED
-Meaning: preflight passed, but the supplied train-only pilot stopped during direct-prior seed-stability summarization; factorized and paired stages were not completed
-Root cause: phase314b_r242_execution_failed
-Exact blocker: summarize_seed_stability expected run["aggregate"], but train_prior_seed_control returned no top-level aggregate field
-Corrected r2.4.1 classifier-precedence check: PASS
+Phase3.14b-r2.4.2: COMPLETED / PASS
+Meaning: train-only factorized frozen-prior/width pilot completed after three implementation blocks; PASS does not imply formal model repair
+Root cause: phase314b_r242_prior_gradient_isolation_supported
+Secondary mechanism: None
+Train-only recommendation: frozen_p512_r512
+Direct-prior stability: width 512 = 1/3, width 1024 = 1/3; neither reached the 2-of-3 stability gate
+Unique-free advancing variants: frozen_p512_r512, frozen_p1024_r512, frozen_p512_r1024, frozen_p1024_r1024, decoupled_p1024_r512
+Paired low/mid passing variants: frozen_p512_r512, frozen_p1024_r512, decoupled_p1024_r512
 Selected configuration: None
-Next: correct the supplied direct-prior result-schema contract and rerun static validation before the pilot
+Next: run a separate train-only ordered-geometry pilot using the factorized frozen/decoupled prior recipe; formal validation remains blocked
 Formal test: UNREAD / BLOCKED
 Formal training: BLOCKED
 Phase3.14c IDM: BLOCKED
@@ -500,4 +503,4 @@ Candidate execution: BLOCKED
 Phase4/CPS: BLOCKED
 ```
 
-Phase3.13-r1 regenerated, audited, and atomically promoted the formal dataset under Commit A. Phase3.14a established the immutable training cache and passed the deterministic future learnability gate. Phase3.14b completed its full DDPM matrix but failed candidate physical validity. Phase3.14b-r1.1 proved exact Diffusers 0.11.1 scheduler equivalence and localized the failure to cosine epsilon terminal-SNR instability. Phase3.14b-r2 completed all nine validation runs but no configuration reached the 2-of-3 stable-seed gate. Formal test was not run. Phase3.14b-r2.1 confirmed both strict-contract miscalibration and genuine ordered-cable geometry failure. Phase3.14b-r2.2 completed its validation-only GPU pilot, but no geometry-loss configuration passed the frozen moderate gate. Phase3.14b-r2.3 resumed after correcting the paired-row sampling contract and completed its initial diagnostic evidence chain. Phase3.14b-r2.3.1 then corrected the fixed-noise replay contract and invalidated the earlier generic capacity conclusion. Phase3.14b-r2.3.2 isolated the remaining one-row random-noise failure and supported a noisy-input skip-path deficiency. Phase3.14b-r2.4 resumed after correcting only the FakeScheduler test fixture. Its analytic oracle and one-row residual-v gate passed, but the same model failed the unique-free-16 gate. Phase3.14b-r2.4.1 then proved runtime source alignment and condition identifiability, found that width 512 passed through eight rows but missed the all-source gate at sixteen rows, and showed width 1024 passed all sixteen rows. Phase3.14b-r2.4.2 verified the corrected r2.4.1 classifier-precedence interpretation in preflight, but the supplied pilot stopped before factorized training because its direct-prior run result did not satisfy the seed-stability summary schema. No configuration was selected. Formal test remained unread; formal training, Phase3.14c IDM, candidate execution, and Phase4/CPS remain blocked.
+Phase3.13-r1 regenerated, audited, and atomically promoted the formal dataset under Commit A. Phase3.14a established the immutable training cache and passed the deterministic future learnability gate. Phase3.14b completed its full DDPM matrix but failed candidate physical validity. Phase3.14b-r1.1 proved exact Diffusers 0.11.1 scheduler equivalence and localized the failure to cosine epsilon terminal-SNR instability. Phase3.14b-r2 completed all nine validation runs but no configuration reached the 2-of-3 stable-seed gate. Formal test was not run. Phase3.14b-r2.1 confirmed both strict-contract miscalibration and genuine ordered-cable geometry failure. Phase3.14b-r2.2 completed its validation-only GPU pilot, but no geometry-loss configuration passed the frozen moderate gate. Phase3.14b-r2.3 resumed after correcting the paired-row sampling contract and completed its initial diagnostic evidence chain. Phase3.14b-r2.3.1 then corrected the fixed-noise replay contract and invalidated the earlier generic capacity conclusion. Phase3.14b-r2.3.2 isolated the remaining one-row random-noise failure and supported a noisy-input skip-path deficiency. Phase3.14b-r2.4 resumed after correcting only the FakeScheduler test fixture. Its analytic oracle and one-row residual-v gate passed, but the same model failed the unique-free-16 gate. Phase3.14b-r2.4.1 then proved runtime source alignment and condition identifiability, found that width 512 passed through eight rows but missed the all-source gate at sixteen rows, and showed width 1024 passed all sixteen rows. Phase3.14b-r2.4.2 completed after three implementation-schema blocks. Its train-only factorized pilot supports prior-gradient isolation, recommends `frozen_p512_r512` for the next train-only ordered-geometry pilot, and selected no formal configuration. Formal test remained unread; formal training, Phase3.14c IDM, candidate execution, and Phase4/CPS remain blocked.
