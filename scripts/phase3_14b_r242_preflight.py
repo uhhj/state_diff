@@ -1,0 +1,138 @@
+#!/usr/bin/env python3
+"""Preflight for Phase3.14b-r2.4.2 train-only frozen-prior pilot."""
+
+from __future__ import annotations
+
+import argparse
+import json
+from pathlib import Path
+
+from ccda_phase3.phase314b_r23_diagnostics import (
+    require_repository_state,
+    write_json_once,
+)
+from ccda_phase3.phase314b_r241_multirow import dependency_sha256 as r241_dependency_sha256
+from ccda_phase3.phase314b_r242_frozen_prior import (
+    BASE_COMMIT,
+    EXPECTED_CACHE_SHA256,
+    EXPECTED_CONTRACT_SHA256,
+    EXPECTED_R23_TINY_SHA256,
+    EXPECTED_R241_MODULE_SHA256,
+    EXPECTED_R241_ROOT_CAUSE,
+    EXPECTED_R24_MODULE_SHA256,
+    EXPECTED_SUBMODULE_COMMIT,
+    PHASE,
+    corrected_r241_interpretation,
+    git_output,
+    sha256_file,
+    source_sha256,
+)
+
+
+def load_json(path: Path):
+    with path.open("r", encoding="utf-8") as stream:
+        return json.load(stream)
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--root", default="/data/state_diff2")
+    args = parser.parse_args()
+
+    root = Path(args.root).resolve()
+    repository = require_repository_state(root, require_clean=True)
+    if repository["branch"] != "Experiment1":
+        raise RuntimeError("r2.4.2 requires Experiment1")
+    if repository["submodule_commit"] != EXPECTED_SUBMODULE_COMMIT:
+        raise RuntimeError("submodule commit mismatch")
+    if repository["cache_sha256"] != EXPECTED_CACHE_SHA256:
+        raise RuntimeError("cache SHA mismatch")
+    if repository["frozen_contract_sha256"] != EXPECTED_CONTRACT_SHA256:
+        raise RuntimeError("frozen contract SHA mismatch")
+
+    subprocess_result = git_output(
+        root,
+        "merge-base",
+        "--is-ancestor",
+        BASE_COMMIT,
+        "HEAD",
+    )
+    if subprocess_result:
+        # git merge-base --is-ancestor emits no stdout on success.
+        raise RuntimeError("unexpected merge-base output")
+
+    r241_summary_path = root / "reports/phase3_14b_r241_summary.json"
+    r241_summary = load_json(r241_summary_path)
+    if r241_summary.get("root_cause") != EXPECTED_R241_ROOT_CAUSE:
+        raise RuntimeError("unexpected r2.4.1 root cause")
+    if r241_summary.get("selected_configuration") is not None:
+        raise RuntimeError("r2.4.1 unexpectedly selected a configuration")
+    if bool(r241_summary.get("validation_targets_used")):
+        raise RuntimeError("r2.4.1 used validation targets")
+    if bool(r241_summary.get("formal_test_read")):
+        raise RuntimeError("r2.4.1 read formal test")
+
+    module_hash = sha256_file(
+        root / "ccda_phase3/phase314b_r241_multirow.py"
+    )
+    if module_hash != EXPECTED_R241_MODULE_SHA256:
+        raise RuntimeError(
+            "r2.4.1 module SHA mismatch: "
+            f"{module_hash} != {EXPECTED_R241_MODULE_SHA256}"
+        )
+    r24_hash = sha256_file(
+        root / "ccda_phase3/phase314b_r24_noisy_skip.py"
+    )
+    if r24_hash != EXPECTED_R24_MODULE_SHA256:
+        raise RuntimeError("r2.4 module SHA mismatch")
+
+    historical_tiny = sha256_file(
+        root / "reports/phase3_14b_r23_tiny_overfit_summary.json"
+    )
+    if historical_tiny != EXPECTED_R23_TINY_SHA256:
+        raise RuntimeError("historical r2.3 tiny report changed")
+
+    corrected = corrected_r241_interpretation(r241_summary)
+    if not corrected["classifier_precedence_bug_supported"]:
+        raise RuntimeError(
+            "r2.4.1 evidence no longer supports classifier-precedence audit"
+        )
+
+    report = {
+        "phase": PHASE,
+        "verdict": "PASS",
+        "meaning": (
+            "immutable evidence and corrected r2.4.1 interpretation verified"
+        ),
+        "repository": repository,
+        "base_commit": BASE_COMMIT,
+        "main_head": git_output(root, "rev-parse", "HEAD"),
+        "submodule_commit": EXPECTED_SUBMODULE_COMMIT,
+        "cache_sha256": EXPECTED_CACHE_SHA256,
+        "frozen_contract_sha256": EXPECTED_CONTRACT_SHA256,
+        "historical_r23_tiny_sha256": historical_tiny,
+        "r24_module_sha256": r24_hash,
+        "r241_module_sha256": module_hash,
+        "r241_corrected_interpretation": corrected,
+        "r241_dependency_sha256": r241_dependency_sha256(root),
+        "r242_source_sha256": source_sha256(root),
+        "validation_targets_used": False,
+        "formal_test_read": False,
+        "formal_training": False,
+        "candidate_eligible": False,
+        "selected_configuration": None,
+        "checkpoint_saved": False,
+        "idm": False,
+        "candidate_execution": False,
+        "phase4": False,
+        "cps": False,
+    }
+    write_json_once(
+        root / "reports/phase3_14b_r242_preflight_summary.json",
+        report,
+    )
+    print(json.dumps(report, indent=2, sort_keys=True))
+
+
+if __name__ == "__main__":
+    main()
