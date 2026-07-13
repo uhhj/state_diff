@@ -1,0 +1,160 @@
+{
+  "cache_sha256": "3cc512f650557c81c3b81f4f128a5b55360b77d3f664fdd6607666936285fbe8",
+  "candidate_eligible": false,
+  "candidate_execution": false,
+  "checkpoint_saved": false,
+  "condition_identifiability": {
+    "centered_rank": 15,
+    "condition_dim": 261,
+    "condition_target_pairwise_distance_correlation": 0.16531569322701092,
+    "duplicate_target_conflicts": [],
+    "exact_duplicate_conflict": false,
+    "exact_duplicate_group_count": 0,
+    "nearest_condition_l2": {
+      "max": 15.707364090791415,
+      "min": 2.274855349165994,
+      "p50": 7.208249718275276,
+      "p95": 14.264701750135435
+    },
+    "nearest_target_ordered_rmse": {
+      "max": 0.22800195109426352,
+      "min": 0.10514504781058157,
+      "p50": 0.12135574454350546,
+      "p95": 0.2114896726921487
+    },
+    "pairwise_condition_l2": {
+      "max": 49.13242935108981,
+      "min": 2.274855349165994,
+      "p50": 23.68317131502344,
+      "p95": 38.10752300061535
+    },
+    "pass": true,
+    "row_count": 16
+  },
+  "cps": false,
+  "diffusion_variants": {
+    "balanced_anchor_prior": {
+      "aggregate_gate": false,
+      "all_source_gate": false,
+      "condition_effect": true,
+      "ordered_rmse_p95": 0.022585285593778807,
+      "pass": false,
+      "prior_drift_ratio": 1962.9399317012003,
+      "sampling_relative_range": 0.0,
+      "source_pass_fraction": 0.125,
+      "z_mse": 0.015086232237990112
+    },
+    "balanced_frozen_prior": {
+      "aggregate_gate": true,
+      "all_source_gate": true,
+      "condition_effect": true,
+      "ordered_rmse_p95": 0.000535458454624915,
+      "pass": true,
+      "prior_drift_ratio": 1.0,
+      "sampling_relative_range": 0.0,
+      "source_pass_fraction": 1.0,
+      "z_mse": 6.100627014849927e-06
+    },
+    "balanced_joint_fresh_optimizer": {
+      "aggregate_gate": false,
+      "all_source_gate": false,
+      "condition_effect": true,
+      "ordered_rmse_p95": 0.016841734431342934,
+      "pass": false,
+      "prior_drift_ratio": 562.596066937161,
+      "sampling_relative_range": 0.0,
+      "source_pass_fraction": 0.125,
+      "z_mse": 0.008079643803808089
+    },
+    "current_joint_random_reused_optimizer": {
+      "aggregate_gate": false,
+      "all_source_gate": false,
+      "condition_effect": true,
+      "ordered_rmse_p95": 0.06506623821266186,
+      "pass": false,
+      "prior_drift_ratio": 47707.999508363355,
+      "sampling_relative_range": 0.013125,
+      "source_pass_fraction": 0.125,
+      "z_mse": 0.05982398581295029
+    },
+    "random_anchor_prior": {
+      "aggregate_gate": false,
+      "all_source_gate": false,
+      "condition_effect": true,
+      "ordered_rmse_p95": 0.11149312599730297,
+      "pass": false,
+      "prior_drift_ratio": 8010.62005218745,
+      "sampling_relative_range": 0.019125,
+      "source_pass_fraction": 0.0,
+      "z_mse": 0.11327179554791665
+    }
+  },
+  "direct_controls": {
+    "rows_16_width_1024": {
+      "aggregate_gate": true,
+      "all_source_gate": true,
+      "ordered_rmse_p95": 1.7121384830770803e-08,
+      "pass": true,
+      "z_mse": 9.941908116729048e-15
+    },
+    "rows_16_width_512": {
+      "aggregate_gate": true,
+      "all_source_gate": false,
+      "ordered_rmse_p95": 0.0010958279513252193,
+      "pass": false,
+      "z_mse": 3.1331631627617615e-05
+    },
+    "rows_2_width_512": {
+      "aggregate_gate": true,
+      "all_source_gate": true,
+      "ordered_rmse_p95": 5.9434475527151016e-05,
+      "pass": true,
+      "z_mse": 1.6239707735076636e-07
+    },
+    "rows_4_width_512": {
+      "aggregate_gate": true,
+      "all_source_gate": true,
+      "ordered_rmse_p95": 1.7831675665990576e-08,
+      "pass": true,
+      "z_mse": 1.6132541236056714e-14
+    },
+    "rows_8_width_512": {
+      "aggregate_gate": true,
+      "all_source_gate": true,
+      "ordered_rmse_p95": 0.0003414539665122265,
+      "pass": true,
+      "z_mse": 6.995528078245797e-06
+    }
+  },
+  "formal_test_read": false,
+  "formal_training": false,
+  "frozen_contract_sha256": "fa2725ca40da2499008360f13d291d2ce8694e6393910b0522fe800f4f37cdcc",
+  "historical_r23_tiny_sha256": "d370bef927af6dd0f3f5f94171482889dbadbbf5cf28c7f410567e5b25c886b2",
+  "idm": false,
+  "meaning": "train-only conditioned multirow/source-batching diagnosis completed; no formal model repair",
+  "next_stage": "run an additive train-only wider condition-encoder pilot",
+  "phase": "phase3_14b_r241",
+  "phase4": false,
+  "repository": {
+    "base_failure_commit": "a54cdd20d88f5eb00ebe25e8d4a20c28fe7d6e7f",
+    "branch": "Experiment1",
+    "cache_sha256": "3cc512f650557c81c3b81f4f128a5b55360b77d3f664fdd6607666936285fbe8",
+    "formal_test_read": false,
+    "frozen_contract_sha256": "fa2725ca40da2499008360f13d291d2ce8694e6393910b0522fe800f4f37cdcc",
+    "main_commit": "08e7bb57a5e43111d8aa257fe1a890c812fae27e",
+    "r22_root_cause": "phase314b_r22_no_pilot_geometry_repair",
+    "r22_verdict": "FAIL",
+    "submodule_commit": "633a88752445cf5d6776ed374fdbbdb35f93050c"
+  },
+  "root_cause": "phase314b_r241_condition_encoder_width_limit_supported",
+  "selected_configuration": null,
+  "source_alignment": {
+    "clean_raw_max_abs": 0.0,
+    "clean_z_max_abs": 0.0,
+    "condition_max_abs": 0.0,
+    "pass": true
+  },
+  "train_only_debug_recommendation": "condition_width_1024",
+  "validation_targets_used": false,
+  "verdict": "PASS"
+}
