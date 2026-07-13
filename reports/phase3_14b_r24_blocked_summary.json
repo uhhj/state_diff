@@ -1,0 +1,20 @@
+{
+  "candidate_eligible": false,
+  "candidate_execution": false,
+  "checkpoint_saved": false,
+  "cps": false,
+  "failing_test": "tests/test_phase314b_r24_noisy_skip.py::test_analytic_formula_oracle_passes",
+  "formal_test_read": false,
+  "formal_training": false,
+  "idm": false,
+  "implementation_commit": null,
+  "phase": "phase3_14b_r24",
+  "phase4": false,
+  "root_cause": "phase314b_r24_supplied_fake_scheduler_missing_get_velocity",
+  "selected_configuration": null,
+  "static_test_result": {
+    "failed": 1,
+    "passed": 38
+  },
+  "verdict": "BLOCKED"
+}
