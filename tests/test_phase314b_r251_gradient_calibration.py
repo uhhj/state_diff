@@ -7,13 +7,17 @@ import ccda_phase3.phase314b_r251_gradient_calibration as r251
 
 from ccda_phase3.phase314b_r251_gradient_calibration import (
     CALIBRATED_GEOMETRY_OBJECTIVES,
+    EXPECTED_PAIRED_ROWS,
+    PAIRED_INVERSION_SCHEMA,
     TARGET_GRADIENT_RATIOS,
     CalibratedGeometryObjective,
     GradientCalibrationSpec,
+    assert_canonical_paired_row_contract,
     calibrated_multiplier_from_gradient_norms,
     classify_pilot,
     compare_calibrated_to_control,
     gradient_tracking_gate,
+    paired_nearest_index_audit,
     paired_reverse_pool_metrics_with_inversion,
     strip_runtime_objects,
     tensor_state_sha256,
@@ -186,10 +190,7 @@ def test_compare_requires_inversion_preservation() -> None:
     assert not result["pass"]
 
 
-def test_paired_reverse_metric_emits_nearest_inversion(monkeypatch) -> None:
-    pool = np.zeros((2, 1, 4, 87), dtype=np.float32)
-    targets = np.zeros((1, 2, 4, 87), dtype=np.float32)
-    targets[:, 1, :, 1] = 0.1
+def _identity_reverse_dependencies(monkeypatch) -> None:
     monkeypatch.setattr(
         r251,
         "torch_inverse_standardize",
@@ -205,11 +206,25 @@ def test_paired_reverse_metric_emits_nearest_inversion(monkeypatch) -> None:
             "segment_score_p95": 1.0,
         },
     )
-    monkeypatch.setattr(
-        r251,
-        "nearest_index_metrics",
-        lambda sample, target: {"nearest_inversion": 2.0},
-    )
+
+
+def test_paired_reverse_metric_batches_nearest_index_inputs(monkeypatch) -> None:
+    pool = np.zeros((2, 1, 4, 87), dtype=np.float32)
+    targets = np.zeros((1, 2, 4, 87), dtype=np.float32)
+    targets[:, 1, :, :48] = 0.1
+    _identity_reverse_dependencies(monkeypatch)
+    observed = {}
+
+    def fake_nearest(sample, target):
+        observed["sample_shape"] = sample.shape
+        observed["target_shape"] = target.shape
+        count = sample.shape[0]
+        return {
+            "nearest_inversion": np.full(count, 0.25, dtype=np.float64),
+            "nearest_unique_fraction": np.full(count, 0.75, dtype=np.float64),
+        }
+
+    monkeypatch.setattr(r251, "nearest_index_metrics", fake_nearest)
     result = paired_reverse_pool_metrics_with_inversion(
         pool_z=r251.torch.from_numpy(pool),
         paired_target_raw=r251.torch.from_numpy(targets),
@@ -217,9 +232,120 @@ def test_paired_reverse_metric_emits_nearest_inversion(monkeypatch) -> None:
         future_scale=r251.torch.ones(4, 87),
         physical_contract=object(),
     )
-    assert result["nearest_inversion_mean"] == pytest.approx(2.0)
-    assert result["nearest_inversion_p95"] == pytest.approx(2.0)
-    assert result["nearest_inversion_max"] == pytest.approx(2.0)
+    assert observed["sample_shape"] == (2, 4, 87)
+    assert observed["target_shape"] == (2, 4, 87)
+    assert result["schema"] == PAIRED_INVERSION_SCHEMA
+    assert result["batched_item_count"] == 2
+    assert result["nearest_inversion_mean"] == pytest.approx(0.25)
+    assert result["nearest_inversion_p95"] == pytest.approx(0.25)
+    assert result["nearest_inversion_max"] == pytest.approx(0.25)
+    assert result["nearest_unique_fraction_mean"] == pytest.approx(0.75)
+    assert result["nearest_unique_fraction_p05"] == pytest.approx(0.75)
+
+
+def test_paired_reverse_metric_real_nearest_index_integration(monkeypatch) -> None:
+    pool = np.zeros((2, 2, 4, 87), dtype=np.float32)
+    targets = np.zeros((2, 2, 4, 87), dtype=np.float32)
+    targets[:, 1, :, :48] = 0.1
+    _identity_reverse_dependencies(monkeypatch)
+    result = paired_reverse_pool_metrics_with_inversion(
+        pool_z=r251.torch.from_numpy(pool),
+        paired_target_raw=r251.torch.from_numpy(targets),
+        future_mean=r251.torch.zeros(4, 87),
+        future_scale=r251.torch.ones(4, 87),
+        physical_contract=object(),
+    )
+    assert result["batched_item_count"] == 4
+    assert 0.0 <= result["nearest_inversion_mean"] <= 1.0
+    assert 0.0 <= result["nearest_inversion_p95"] <= 1.0
+    assert 0.0 <= result["nearest_unique_fraction_min"] <= 1.0
+
+
+def test_paired_nearest_index_audit_selects_one_target_per_candidate(monkeypatch) -> None:
+    raw = np.zeros((2, 2, 4, 87), dtype=np.float32)
+    targets = np.zeros((2, 2, 4, 87), dtype=np.float32)
+    targets[:, 1] = 3.0
+    branch = np.asarray([[0, 1], [1, 0]], dtype=np.int64)
+    captured = {}
+
+    def fake_nearest(sample, target):
+        captured["target"] = target.copy()
+        count = sample.shape[0]
+        return {
+            "nearest_inversion": np.zeros(count, dtype=np.float64),
+            "nearest_unique_fraction": np.ones(count, dtype=np.float64),
+        }
+
+    monkeypatch.setattr(r251, "nearest_index_metrics", fake_nearest)
+    result = paired_nearest_index_audit(
+        pool_raw=raw,
+        paired_target_raw=targets,
+        nearest_branch=branch,
+    )
+    assert captured["target"].shape == (4, 4, 87)
+    assert np.all(captured["target"][[0, 3]] == 0.0)
+    assert np.all(captured["target"][[1, 2]] == 3.0)
+    assert result["batched_item_count"] == 4
+
+
+def test_paired_nearest_index_audit_rejects_bad_branch_shape() -> None:
+    with pytest.raises(ValueError, match="nearest_branch"):
+        paired_nearest_index_audit(
+            pool_raw=np.zeros((2, 1, 4, 87), dtype=np.float32),
+            paired_target_raw=np.zeros((1, 2, 4, 87), dtype=np.float32),
+            nearest_branch=np.zeros((2, 2), dtype=np.int64),
+        )
+
+
+def test_as_future_batch_accepts_singleton_and_rejects_invalid() -> None:
+    singleton = r251._as_future_batch(
+        np.zeros((4, 87), dtype=np.float32),
+        name="singleton",
+    )
+    assert singleton.shape == (1, 4, 87)
+    with pytest.raises(ValueError, match="must be"):
+        r251._as_future_batch(np.zeros((4, 86), dtype=np.float32), name="bad")
+    invalid = np.zeros((4, 87), dtype=np.float32)
+    invalid[0, 0] = np.nan
+    with pytest.raises(ValueError, match="finite"):
+        r251._as_future_batch(invalid, name="nan")
+
+
+def _paired_contract_arrays() -> dict:
+    size = max(EXPECTED_PAIRED_ROWS) + 1
+    condition = np.full(size, "other", dtype=object)
+    visible_seed = np.full(size, -1, dtype=np.int64)
+    pair_key = np.full(size, "", dtype=object)
+    for pair_index in range(8):
+        free_row = EXPECTED_PAIRED_ROWS[2 * pair_index]
+        hidden_row = EXPECTED_PAIRED_ROWS[2 * pair_index + 1]
+        condition[free_row] = "free"
+        condition[hidden_row] = "hidden_slack_breakaway_pin_v2"
+        visible_seed[[free_row, hidden_row]] = 400000 + pair_index
+        pair_key[[free_row, hidden_row]] = f"pair-{pair_index}"
+    return {
+        "condition_name": condition,
+        "visible_seed": visible_seed,
+        "pair_key": pair_key,
+    }
+
+
+def test_canonical_paired_row_contract_accepts_1256_row() -> None:
+    result = assert_canonical_paired_row_contract(
+        _paired_contract_arrays(),
+        EXPECTED_PAIRED_ROWS,
+    )
+    assert result["pass"]
+    assert result["observed_rows"][11] == 1256
+    assert result["distinct_row_count"] == 16
+    assert result["distinct_visible_seed_count"] == 8
+
+
+def test_canonical_paired_row_contract_rejects_reported_duplicate_1263() -> None:
+    wrong = list(EXPECTED_PAIRED_ROWS)
+    wrong[11] = 1263
+    with pytest.raises(RuntimeError, match="identity mismatch"):
+        assert_canonical_paired_row_contract(_paired_contract_arrays(), wrong)
 
 
 def _unique(pass_value: bool = True) -> dict:

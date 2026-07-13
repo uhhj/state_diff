@@ -14,7 +14,9 @@ from ccda_phase3.phase314b_r251_gradient_calibration import (
     CALIBRATED_GEOMETRY_OBJECTIVES,
     EXPECTED_CACHE_SHA256,
     EXPECTED_CONTRACT_SHA256,
+    EXPECTED_PAIRED_ROWS,
     EXPECTED_SUBMODULE_COMMIT,
+    PAIRED_INVERSION_SCHEMA,
     PHASE,
     assert_only_allowed_worktree_paths,
     source_sha256,
@@ -123,7 +125,11 @@ def compact_paired(value: Mapping[str, Any]) -> Dict[str, Any]:
         "reverse_best_ordered_rmse_mean": None,
         "reverse_k1_ordered_rmse_mean": None,
         "reverse_segment_score_p95": None,
+        "reverse_nearest_inversion_mean": None,
         "reverse_nearest_inversion_p95": None,
+        "reverse_nearest_inversion_max": None,
+        "reverse_nearest_unique_fraction_mean": None,
+        "reverse_nearest_unique_fraction_p05": None,
         "reverse_pool_diversity": None,
         "both_branch_support_rate": None,
         "two_branch_occupancy_rate": None,
@@ -156,8 +162,20 @@ def compact_paired(value: Mapping[str, Any]) -> Dict[str, Any]:
                 "reverse_segment_score_p95": float(
                     calibrated["segment_score_p95"]
                 ),
+                "reverse_nearest_inversion_mean": float(
+                    reverse["nearest_inversion_mean"]
+                ),
                 "reverse_nearest_inversion_p95": float(
                     reverse["nearest_inversion_p95"]
+                ),
+                "reverse_nearest_inversion_max": float(
+                    reverse["nearest_inversion_max"]
+                ),
+                "reverse_nearest_unique_fraction_mean": float(
+                    reverse["nearest_unique_fraction_mean"]
+                ),
+                "reverse_nearest_unique_fraction_p05": float(
+                    reverse["nearest_unique_fraction_p05"]
                 ),
                 "reverse_pool_diversity": float(reverse["pool_diversity"]),
                 "both_branch_support_rate": float(
@@ -244,7 +262,11 @@ def markdown_report(summary: Mapping[str, Any]) -> str:
                 _fmt(value["reverse_sample_validity_rate"]),
                 _fmt(value["reverse_query_has_valid_candidate_rate"]),
                 _fmt(value["reverse_best_ordered_rmse_mean"]),
-                _fmt(value["reverse_nearest_inversion_p95"]),
+                "{}/{}/{}".format(
+                    _fmt(value["reverse_nearest_inversion_mean"]),
+                    _fmt(value["reverse_nearest_inversion_p95"]),
+                    _fmt(value["reverse_nearest_inversion_max"]),
+                ),
                 _fmt(value["both_branch_support_rate"]),
                 str(value["comparison_to_control_pass"]).lower(),
             )
@@ -302,12 +324,24 @@ def main() -> None:
         raise RuntimeError("source changed after preflight")
     if pilot.get("source_sha256") != current_source:
         raise RuntimeError("pilot source provenance mismatch")
+    resume = preflight.get("resume")
+    if not isinstance(resume, Mapping) or resume.get("generation") != 1:
+        raise RuntimeError("Resume1 preflight provenance missing")
+    if pilot.get("resume") != resume:
+        raise RuntimeError("pilot Resume1 provenance mismatch")
     if pilot.get("phase") != PHASE or pilot.get("verdict") != "PASS":
         raise RuntimeError("pilot did not complete")
     if pilot.get("selected_configuration") is not None:
         raise RuntimeError("train-only pilot selected a formal configuration")
     if pilot.get("paired_nearest_inversion_instrumented") is not True:
         raise RuntimeError("paired nearest-index inversion was not instrumented")
+    if pilot.get("paired_nearest_inversion_schema") != PAIRED_INVERSION_SCHEMA:
+        raise RuntimeError("paired nearest-index inversion schema mismatch")
+    paired_contract = pilot.get("dataset", {}).get("paired_row_contract", {})
+    if paired_contract.get("pass") is not True:
+        raise RuntimeError("paired-row contract did not pass")
+    if paired_contract.get("observed_rows") != list(EXPECTED_PAIRED_ROWS):
+        raise RuntimeError("paired-row identity changed")
 
     boundary = {
         "validation_targets_used": False,
@@ -324,6 +358,28 @@ def main() -> None:
     for key, expected in boundary.items():
         if pilot.get(key) != expected:
             raise RuntimeError(f"pilot boundary mismatch for {key}")
+
+    required_reverse_fields = (
+        "schema",
+        "batched_item_count",
+        "nearest_inversion_mean",
+        "nearest_inversion_p95",
+        "nearest_inversion_max",
+        "nearest_unique_fraction_mean",
+        "nearest_unique_fraction_p05",
+        "nearest_unique_fraction_min",
+    )
+    for name, value in pilot.get("paired_variants", {}).items():
+        reverse = value.get("reverse_metrics", {}) if isinstance(value, Mapping) else {}
+        if not reverse:
+            continue
+        missing = [field for field in required_reverse_fields if field not in reverse]
+        if missing:
+            raise RuntimeError(
+                f"paired reverse metrics missing for {name}: {', '.join(missing)}"
+            )
+        if reverse.get("schema") != PAIRED_INVERSION_SCHEMA:
+            raise RuntimeError(f"paired inversion schema mismatch for {name}")
 
     expected_names = [objective.name for objective in CALIBRATED_GEOMETRY_OBJECTIVES]
     if list(pilot["unique_free_variants"]) != expected_names:
@@ -348,6 +404,7 @@ def main() -> None:
         "meaning": "train-only geometry-gradient calibration completed; no formal selection",
         "repository": repository,
         "preflight_report": preflight_relative,
+        "resume": dict(resume),
         "pilot_report": pilot_relative,
         "source_sha256": current_source,
         "cache_sha256": EXPECTED_CACHE_SHA256,
@@ -359,6 +416,8 @@ def main() -> None:
         "unique_advancing_variants": pilot["unique_advancing_variants"],
         "paired_variants": paired_compact,
         "paired_nearest_inversion_instrumented": True,
+        "paired_nearest_inversion_schema": PAIRED_INVERSION_SCHEMA,
+        "paired_row_contract": paired_contract,
         "root_cause": pilot["root_cause"],
         "next_stage": pilot["next_stage"],
         "train_only_recommendation": recommendation,

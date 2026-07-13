@@ -38,12 +38,15 @@ from ccda_phase3.phase314b_r251_gradient_calibration import (
     COMMON_REVERSE_SEED,
     COMMON_UNIQUE_PRIOR_SEED,
     COMMON_UNIQUE_TRAINING_SEED,
+    EXPECTED_UNIQUE_ROWS,
     FULL_REVERSE_K,
     PAIRED_EVAL_TIMESTEPS,
     PAIRED_GEOMETRY_TIMESTEP_MAX,
     PHASE,
+    PAIRED_INVERSION_SCHEMA,
     UNIQUE_EVAL_TIMESTEPS,
     GradientCalibrationSpec,
+    assert_canonical_paired_row_contract,
     assert_only_allowed_worktree_paths,
     classify_pilot,
     compare_calibrated_to_control,
@@ -115,6 +118,11 @@ def main() -> None:
         raise RuntimeError("r2.5.1 preflight did not pass")
     if preflight.get("r251_source_sha256") != source_sha256(root):
         raise RuntimeError("r2.5.1 source changed after preflight")
+    resume = preflight.get("resume")
+    if not isinstance(resume, dict) or resume.get("generation") != 1:
+        raise RuntimeError("r2.5.1 Resume1 provenance is missing")
+    if resume.get("correction") != "paired_reverse_singleton_batch_contract":
+        raise RuntimeError("r2.5.1 Resume1 correction contract mismatch")
 
     arrays, manifest, x_raw, x_standardizer, train, fit, _, validation = load_verified_inputs(root)
     split = np.asarray(arrays["split_name"]).astype(str)
@@ -126,11 +134,16 @@ def main() -> None:
         condition="free",
         row_count=16,
     )
+    if tuple(int(value) for value in unique_rows.tolist()) != EXPECTED_UNIQUE_ROWS:
+        raise RuntimeError(
+            "unique-free row identity mismatch: "
+            f"{unique_rows.tolist()} != {list(EXPECTED_UNIQUE_ROWS)}"
+        )
     paired_rows = select_balanced_paired_rows(arrays, train, 16)
+    paired_row_contract = assert_canonical_paired_row_contract(arrays, paired_rows)
+    if preflight.get("paired_row_contract") != paired_row_contract:
+        raise RuntimeError("paired-row contract changed after preflight")
     condition_names = np.asarray(arrays["condition_name"]).astype(str)[paired_rows]
-    expected = ["free", "hidden_slack_breakaway_pin_v2"] * 8
-    if condition_names.tolist() != expected:
-        raise RuntimeError("paired-row condition order is not canonical")
 
     x_z = x_standardizer.transform(x_raw).astype(np.float32)
     y_raw = np.asarray(arrays["y_state"], dtype=np.float32)
@@ -385,6 +398,7 @@ def main() -> None:
         "device": str(device),
         "gpu_name": torch.cuda.get_device_name(0),
         "preflight_report": preflight_relative,
+        "resume": resume,
         "source_sha256": source_sha256(root),
         "frozen_contract_sha256": frozen["artifact_sha256"],
         "geometry_scales": scales.to_json(),
@@ -400,6 +414,7 @@ def main() -> None:
             "paired_conditions": condition_names.tolist(),
             "paired_pair_keys": pair_key[paired_rows].tolist(),
             "paired_input_max_abs_difference": pair_input_difference,
+            "paired_row_contract": paired_row_contract,
         },
         "evaluation": {
             "noise_seeds": list(noise_seeds),
@@ -442,6 +457,7 @@ def main() -> None:
         "unique_advancing_variants": advancing_names,
         "paired_variants": paired_results,
         "paired_nearest_inversion_instrumented": True,
+        "paired_nearest_inversion_schema": PAIRED_INVERSION_SCHEMA,
         "validation_targets_used": False,
         "formal_test_read": False,
         "formal_training": False,

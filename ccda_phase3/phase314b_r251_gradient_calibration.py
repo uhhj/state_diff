@@ -54,6 +54,7 @@ from ccda_phase3.schema_v2 import DEFAULT_TF, STATE_DIM
 PHASE = "phase3_14b_r251"
 BASE_REPORT_COMMIT = "9d40e0264fc2bc1f1d5576b9d9833aedd426ea98"
 BASE_IMPLEMENTATION_COMMIT = "88de2de2b5b88729c7e2d126493a3c3677f9b141"
+BASE_BLOCKED_REPORT_COMMIT = "d396e9e23ad429c9b6a7a1db874107657f91d65e"
 EXPECTED_SUBMODULE_COMMIT = "633a88752445cf5d6776ed374fdbbdb35f93050c"
 EXPECTED_CACHE_SHA256 = (
     "3cc512f650557c81c3b81f4f128a5b55360b77d3f664fdd6607666936285fbe8"
@@ -64,6 +65,18 @@ EXPECTED_CONTRACT_SHA256 = (
 EXPECTED_R25_ROOT_CAUSE = "phase314b_r25_geometry_gradient_scaling_failed"
 EXPECTED_R25_RECOMMENDATION = None
 EXPECTED_PAIRED_CONDITIONS = ("free", "hidden_slack_breakaway_pin_v2")
+EXPECTED_UNIQUE_ROWS = (6, 10, 19, 25, 31, 36, 43, 49, 55, 59, 65, 69, 74, 81, 88, 92)
+EXPECTED_PAIRED_ROWS = (
+    6, 1226,
+    10, 1230,
+    19, 1239,
+    25, 1245,
+    31, 1251,
+    36, 1256,
+    43, 1263,
+    49, 1269,
+)
+PAIRED_INVERSION_SCHEMA = "phase314b_r251_paired_reverse_batched_inversion_v2"
 
 COMMON_UNIQUE_TRAINING_SEED = 101000
 COMMON_PAIRED_TRAINING_SEED = 102000
@@ -1051,6 +1064,182 @@ def train_calibrated_geometry_variant(
     return result
 
 
+def assert_canonical_paired_row_contract(
+    arrays: Mapping[str, np.ndarray],
+    paired_rows: Sequence[int],
+) -> Dict[str, Any]:
+    """Verify the immutable paired-row identity and metadata contract.
+
+    Row identifiers are audit metadata only. They are never exposed to the
+    model. The exact assertion prevents a copied/reporting typo from silently
+    becoming a different train-only dataset selection.
+    """
+    rows = np.asarray(paired_rows, dtype=np.int64)
+    expected_rows = np.asarray(EXPECTED_PAIRED_ROWS, dtype=np.int64)
+    if rows.shape != expected_rows.shape:
+        raise RuntimeError(
+            f"paired-row shape mismatch: {rows.shape} != {expected_rows.shape}"
+        )
+    if not np.array_equal(rows, expected_rows):
+        raise RuntimeError(
+            "paired-row identity mismatch: "
+            f"observed={rows.tolist()} expected={expected_rows.tolist()}"
+        )
+    if len(np.unique(rows)) != len(rows):
+        raise RuntimeError("paired-row contract contains duplicate row indices")
+
+    condition = np.asarray(arrays["condition_name"]).astype(str)[rows]
+    visible_seed = np.asarray(arrays["visible_seed"]).astype(np.int64)[rows]
+    pair_key = np.asarray(arrays["pair_key"]).astype(str)[rows]
+    expected_conditions = np.asarray(EXPECTED_PAIRED_CONDITIONS * 8, dtype=str)
+    if not np.array_equal(condition, expected_conditions):
+        raise RuntimeError(
+            "paired-row condition order mismatch: "
+            f"observed={condition.tolist()} expected={expected_conditions.tolist()}"
+        )
+
+    pair_records: List[Dict[str, Any]] = []
+    for pair_index in range(8):
+        begin = 2 * pair_index
+        row_pair = rows[begin : begin + 2]
+        seed_pair = visible_seed[begin : begin + 2]
+        key_pair = pair_key[begin : begin + 2]
+        if seed_pair[0] != seed_pair[1]:
+            raise RuntimeError(
+                f"paired visible-seed mismatch at pair {pair_index}: {seed_pair.tolist()}"
+            )
+        if key_pair[0] != key_pair[1]:
+            raise RuntimeError(
+                f"paired pair-key mismatch at pair {pair_index}: {key_pair.tolist()}"
+            )
+        pair_records.append(
+            {
+                "pair_index": int(pair_index),
+                "rows": row_pair.astype(int).tolist(),
+                "visible_seed": int(seed_pair[0]),
+                "pair_key": str(key_pair[0]),
+                "conditions": condition[begin : begin + 2].tolist(),
+            }
+        )
+
+    pair_seeds = [record["visible_seed"] for record in pair_records]
+    pair_keys = [record["pair_key"] for record in pair_records]
+    if len(set(pair_seeds)) != 8:
+        raise RuntimeError("paired-row contract does not contain eight distinct seeds")
+    if len(set(pair_keys)) != 8:
+        raise RuntimeError("paired-row contract does not contain eight distinct pair keys")
+
+    return {
+        "pass": True,
+        "expected_rows": expected_rows.astype(int).tolist(),
+        "observed_rows": rows.astype(int).tolist(),
+        "distinct_row_count": int(len(np.unique(rows))),
+        "distinct_visible_seed_count": int(len(set(pair_seeds))),
+        "distinct_pair_key_count": int(len(set(pair_keys))),
+        "pairs": pair_records,
+        "model_input_use": False,
+    }
+
+
+def _as_future_batch(value: np.ndarray, *, name: str) -> np.ndarray:
+    """Normalize one future or a future batch to finite [N,4,87]."""
+    array = np.asarray(value, dtype=np.float32)
+    if array.ndim == 2:
+        array = array[None, ...]
+    if array.ndim != 3 or array.shape[1:] != (DEFAULT_TF, STATE_DIM):
+        raise ValueError(
+            f"{name} must be [4,87] or [N,4,87], got {array.shape}"
+        )
+    if not np.isfinite(array).all():
+        raise ValueError(f"{name} must be finite")
+    return array
+
+
+def paired_nearest_index_audit(
+    *,
+    pool_raw: np.ndarray,
+    paired_target_raw: np.ndarray,
+    nearest_branch: np.ndarray,
+) -> Dict[str, Any]:
+    """Compute nearest-index metrics in one explicit batched call.
+
+    ``nearest_index_metrics`` has a strict [N,4,87] contract. The previous
+    r2.5.1 implementation iterated over singleton [4,87] tensors and therefore
+    failed at runtime. This adapter constructs the selected target batch and
+    calls the canonical metric exactly once.
+    """
+    raw = np.asarray(pool_raw, dtype=np.float32)
+    target = np.asarray(paired_target_raw, dtype=np.float32)
+    branch = np.asarray(nearest_branch, dtype=np.int64)
+    if raw.ndim != 4 or raw.shape[2:] != (DEFAULT_TF, STATE_DIM):
+        raise ValueError("pool_raw must be [K,P,4,87]")
+    if target.ndim != 4 or target.shape[1:] != (2, DEFAULT_TF, STATE_DIM):
+        raise ValueError("paired_target_raw must be [P,2,4,87]")
+    if branch.shape != raw.shape[:2]:
+        raise ValueError(
+            f"nearest_branch must be [K,P], got {branch.shape} for {raw.shape[:2]}"
+        )
+    if raw.shape[1] != target.shape[0]:
+        raise ValueError("pool query count and pair count differ")
+    if not np.isfinite(raw).all() or not np.isfinite(target).all():
+        raise ValueError("paired inversion inputs must be finite")
+    if np.any((branch < 0) | (branch > 1)):
+        raise ValueError("nearest_branch values must be zero or one")
+
+    sample_count, query_count = branch.shape
+    query_index = np.broadcast_to(
+        np.arange(query_count, dtype=np.int64)[None, :],
+        branch.shape,
+    )
+    selected_target = target[query_index, branch]
+    prediction_batch = _as_future_batch(
+        raw.reshape(sample_count * query_count, DEFAULT_TF, STATE_DIM),
+        name="paired prediction batch",
+    )
+    target_batch = _as_future_batch(
+        selected_target.reshape(sample_count * query_count, DEFAULT_TF, STATE_DIM),
+        name="paired selected-target batch",
+    )
+    metric = nearest_index_metrics(prediction_batch, target_batch)
+    inversion = np.asarray(metric["nearest_inversion"], dtype=np.float64).reshape(-1)
+    unique_fraction = np.asarray(
+        metric["nearest_unique_fraction"], dtype=np.float64
+    ).reshape(-1)
+    expected_count = sample_count * query_count
+    if inversion.shape != (expected_count,):
+        raise RuntimeError(
+            "nearest inversion result shape mismatch: "
+            f"{inversion.shape} != {(expected_count,)}"
+        )
+    if unique_fraction.shape != (expected_count,):
+        raise RuntimeError(
+            "nearest unique-fraction result shape mismatch: "
+            f"{unique_fraction.shape} != {(expected_count,)}"
+        )
+    if not np.isfinite(inversion).all() or not np.isfinite(unique_fraction).all():
+        raise RuntimeError("paired nearest-index metrics are non-finite")
+    if np.any((inversion < 0) | (inversion > 1)):
+        raise RuntimeError("paired nearest inversion lies outside [0,1]")
+    if np.any((unique_fraction < 0) | (unique_fraction > 1)):
+        raise RuntimeError("paired nearest unique fraction lies outside [0,1]")
+
+    inversion = inversion.reshape(sample_count, query_count)
+    unique_fraction = unique_fraction.reshape(sample_count, query_count)
+    return {
+        "schema": PAIRED_INVERSION_SCHEMA,
+        "batched_item_count": int(expected_count),
+        "nearest_inversion_mean": float(np.mean(inversion)),
+        "nearest_inversion_p95": float(np.percentile(inversion, 95)),
+        "nearest_inversion_max": float(np.max(inversion)),
+        "nearest_unique_fraction_mean": float(np.mean(unique_fraction)),
+        "nearest_unique_fraction_p05": float(np.percentile(unique_fraction, 5)),
+        "nearest_unique_fraction_min": float(np.min(unique_fraction)),
+        "_nearest_inversion": inversion,
+        "_nearest_unique_fraction": unique_fraction,
+        "_selected_target_batch": selected_target,
+    }
+
+
 def paired_reverse_pool_metrics_with_inversion(
     *,
     pool_z: torch.Tensor,
@@ -1059,17 +1248,29 @@ def paired_reverse_pool_metrics_with_inversion(
     future_scale: torch.Tensor,
     physical_contract,
 ) -> Dict[str, Any]:
-    """Evaluate K paired-query samples and emit the missing inversion metric."""
-    if pool_z.ndim != 4:
+    """Evaluate K paired-query samples with batched nearest-index metrics."""
+    if pool_z.ndim != 4 or tuple(pool_z.shape[2:]) != (DEFAULT_TF, STATE_DIM):
         raise ValueError("pool_z must be [K,P,4,87]")
     targets = paired_target_raw
-    if targets.ndim != 4 or targets.shape[1:] != (2, DEFAULT_TF, STATE_DIM):
+    if targets.ndim != 4 or tuple(targets.shape[1:]) != (
+        2,
+        DEFAULT_TF,
+        STATE_DIM,
+    ):
         raise ValueError("paired_target_raw must be [P,2,4,87]")
     if pool_z.shape[1] != targets.shape[0]:
         raise ValueError("pool query count and pair count differ")
+    if not bool(torch.isfinite(pool_z).all()):
+        raise ValueError("pool_z must be finite")
+    if not bool(torch.isfinite(targets).all()):
+        raise ValueError("paired_target_raw must be finite")
+
     pool_raw_tensor = torch_inverse_standardize(pool_z, future_mean, future_scale)
     raw = pool_raw_tensor.detach().cpu().numpy().astype(np.float32)
     target = targets.detach().cpu().numpy().astype(np.float32)
+    if not np.isfinite(raw).all():
+        raise RuntimeError("inverse-standardized reverse pool is non-finite")
+
     validity = calibrated_validity(raw, physical_contract)
     prediction_xy = raw[..., -1, :48].reshape(raw.shape[0], raw.shape[1], 24, 2)
     target_xy = target[..., -1, :48].reshape(target.shape[0], 2, 24, 2)
@@ -1081,29 +1282,20 @@ def paired_reverse_pool_metrics_with_inversion(
     )
     nearest_branch = np.argmin(ordered, axis=2)
     nearest_branch_error = np.min(ordered, axis=2)
-    inversion = np.empty(nearest_branch.shape, dtype=np.float64)
-    for sample_index in range(raw.shape[0]):
-        for query_index in range(raw.shape[1]):
-            branch_index = int(nearest_branch[sample_index, query_index])
-            metric = nearest_index_metrics(
-                raw[sample_index, query_index],
-                target[query_index, branch_index],
-            )
-            inversion[sample_index, query_index] = float(metric["nearest_inversion"])
-    if not np.isfinite(inversion).all():
-        raise RuntimeError("paired nearest-index inversion is non-finite")
+    inversion_audit = paired_nearest_index_audit(
+        pool_raw=raw,
+        paired_target_raw=target,
+        nearest_branch=nearest_branch,
+    )
     best = np.min(nearest_branch_error, axis=0)
-    return {
+    result = {
         "sample_count": int(raw.shape[0]),
         "query_count": int(raw.shape[1]),
-        "finite": bool(np.isfinite(raw).all()),
+        "finite": True,
         "best_ordered_rmse_mean": float(np.mean(best)),
         "best_ordered_rmse_p95": float(np.percentile(best, 95)),
         "k1_ordered_rmse_mean": float(np.mean(nearest_branch_error[0])),
         "pool_diversity": float(np.mean(np.std(raw[..., :48], axis=0))),
-        "nearest_inversion_mean": float(np.mean(inversion)),
-        "nearest_inversion_p95": float(np.percentile(inversion, 95)),
-        "nearest_inversion_max": float(np.max(inversion)),
         "calibrated": {
             key: value
             for key, value in validity.items()
@@ -1112,9 +1304,13 @@ def paired_reverse_pool_metrics_with_inversion(
         "_pool_raw": raw,
         "_ordered_error_by_branch": ordered,
         "_nearest_branch": nearest_branch,
-        "_nearest_inversion": inversion,
         "_valid_mask": validity["sample_valid_mask"],
     }
+    for key, value in inversion_audit.items():
+        if key == "_selected_target_batch":
+            continue
+        result[key] = value
+    return result
 
 
 def compare_calibrated_to_control(
