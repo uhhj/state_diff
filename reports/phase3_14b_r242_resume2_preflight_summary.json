@@ -1,0 +1,82 @@
+{
+  "base_commit": "17eb4c51fb97534d49a2211ae43f97d489418254",
+  "cache_sha256": "3cc512f650557c81c3b81f4f128a5b55360b77d3f664fdd6607666936285fbe8",
+  "candidate_eligible": false,
+  "candidate_execution": false,
+  "checkpoint_saved": false,
+  "cps": false,
+  "formal_test_read": false,
+  "formal_training": false,
+  "frozen_contract_sha256": "fa2725ca40da2499008360f13d291d2ce8694e6393910b0522fe800f4f37cdcc",
+  "historical_r23_tiny_sha256": "d370bef927af6dd0f3f5f94171482889dbadbbf5cf28c7f410567e5b25c886b2",
+  "idm": false,
+  "main_head": "8d34a9e6edc0c6b26c28c2c64c81b858b2a975fd",
+  "meaning": "immutable evidence and corrected r2.4.1 interpretation verified",
+  "phase": "phase3_14b_r242",
+  "phase4": false,
+  "r241_corrected_interpretation": {
+    "balanced_frozen_prior_drift_ratio": 1.0,
+    "balanced_frozen_prior_pass": true,
+    "classifier_precedence_bug_supported": true,
+    "corrected_primary_hypothesis": "x0_prior_gradient_coupling_and_drift",
+    "historical_root_cause": "phase314b_r241_condition_encoder_width_limit_supported",
+    "joint_variants_failed": true,
+    "joint_variants_severe_drift": true,
+    "secondary_hypothesis": "single_seed_condition_width_sensitivity",
+    "width_1024_direct_pass": true,
+    "width_512_direct_pass": false
+  },
+  "r241_dependency_sha256": {
+    "ccda_phase3/phase314b_models.py": "db8ff101114934854f6e9cf32aeab6f7ae0063949fc95d00a674544cde9041f6",
+    "ccda_phase3/phase314b_r22_geometry.py": "e2d3fcb5630677910642561a9f604623ca6c0ea3663943cd19becfc483919371",
+    "ccda_phase3/phase314b_r231_controls.py": "c16bfbfa3ae0b7b27c25ee79cf298c76c3d5511a545af228a898869d96098d35",
+    "ccda_phase3/phase314b_r232_controls.py": "7d661167115249c77e52b6e8646cb05d2b28f8ce334f01f775078d7fd84dd27c",
+    "ccda_phase3/phase314b_r24_noisy_skip.py": "f8ccac7ef82297c12fe152a48532fcb5a938e12e0eb0faca6914a27a6e37d307",
+    "ccda_phase3/phase314b_r2_contract.py": "aa92c4a851c3183e5aa4758169bd1b83412ef6e60c67541cce9deb1274b33283",
+    "ccda_phase3/phase314b_r2_diffusion.py": "417af4ebc17517ec0f4c403e45fcc69b01ffe76f8d85f3cf090479d73a5ea3ba",
+    "ccda_phase3/schema_v2.py": "e1594460477e4b96e3899509d4b145d36691c4a26818ad938b530372a2588c2b"
+  },
+  "r241_module_sha256": "883a7eb8637294a9613911310cc89774c16ca1085d3edfe7570e797b9082422a",
+  "r242_source_sha256": {
+    "ccda_phase3/phase314b_r242_frozen_prior.py": "feb9a28c3af3dea9be8073f997839179f90993e23fee2acfd6b56eb4e9b5f797",
+    "scripts/phase3_14b_r242_finalize.py": "12adf9abb0af8740b04b0e8f726b2205eb8cab7ca8bba8ee08da0dfc606d4cbe",
+    "scripts/phase3_14b_r242_preflight.py": "e4487a5835731676aef46265c67a526a78c7cf90fb9cf837256b735975981378",
+    "scripts/phase3_14b_r242_run.sh": "6eb568c80fc99288b2e5507e256709377846588b256dbbb221de680d425d08d2",
+    "scripts/phase3_14b_r242_run_pilot.py": "bf24518a893907384828296c54446809090daab7ed6f5106f0555945f8e22abf",
+    "tests/test_phase314b_r242_frozen_prior.py": "1cde15f9e5251d9c3cb506738fd1afa0c671fba369500a48d5659cdc2ab14463"
+  },
+  "r24_module_sha256": "f8ccac7ef82297c12fe152a48532fcb5a938e12e0eb0faca6914a27a6e37d307",
+  "repository": {
+    "base_failure_commit": "a54cdd20d88f5eb00ebe25e8d4a20c28fe7d6e7f",
+    "branch": "Experiment1",
+    "cache_sha256": "3cc512f650557c81c3b81f4f128a5b55360b77d3f664fdd6607666936285fbe8",
+    "formal_test_read": false,
+    "frozen_contract_sha256": "fa2725ca40da2499008360f13d291d2ce8694e6393910b0522fe800f4f37cdcc",
+    "main_commit": "8d34a9e6edc0c6b26c28c2c64c81b858b2a975fd",
+    "r22_root_cause": "phase314b_r22_no_pilot_geometry_repair",
+    "r22_verdict": "FAIL",
+    "submodule_commit": "633a88752445cf5d6776ed374fdbbdb35f93050c"
+  },
+  "result_schema_contract": {
+    "flat_ordered_rmse_alias_forbidden": true,
+    "ordered_rmse_p95_path": "metrics.ordered_rmse.p95",
+    "prior_seed_run": "phase314b_r242_prior_seed_nested_metrics_v2",
+    "prior_seed_stability": "phase314b_r242_prior_seed_stability_nested_metrics_v2",
+    "reconstruction_metrics": "phase314b_target_reconstruction_nested_quantiles_v1",
+    "single_hidden_dim_required": true,
+    "three_distinct_seeds_required": true
+  },
+  "resume": {
+    "blocked_report": "reports/phase3_14b_r242_resume_blocked_summary.json",
+    "blocked_report_commit": "833e8fb921b3d62737b6e053e73751f2972c7968",
+    "blocked_root_cause": "phase314b_r242_execution_failed",
+    "correction": "nested_reconstruction_metric_consumer_schema",
+    "correction_commit": null,
+    "enabled": true,
+    "generation": 2
+  },
+  "selected_configuration": null,
+  "submodule_commit": "633a88752445cf5d6776ed374fdbbdb35f93050c",
+  "validation_targets_used": false,
+  "verdict": "PASS"
+}
