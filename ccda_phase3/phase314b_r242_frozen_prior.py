@@ -70,10 +70,19 @@ EXPECTED_R23_TINY_SHA256 = (
 )
 R242_IMPLEMENTATION_COMMIT = "5fee448dfbb082ecc2b92e40b8f9700d53f699dd"
 R242_BLOCKED_REPORT_COMMIT = "45dc27f952e1f635d7d4be3d2affc9d6cb9ea7d2"
+R242_SCHEMA_CORRECTION_COMMIT = "e298456c516b16b15b94cb5963bdce33bed17e3f"
+R242_RESUME_BLOCKED_REPORT_COMMIT = (
+    "833e8fb921b3d62737b6e053e73751f2972c7968"
+)
 EXPECTED_R242_BLOCKED_ROOT_CAUSE = "phase314b_r242_execution_failed"
-PRIOR_SEED_RUN_SCHEMA_VERSION = "phase314b_r242_prior_seed_flat_v1"
+RECONSTRUCTION_METRICS_SCHEMA_VERSION = (
+    "phase314b_target_reconstruction_nested_quantiles_v1"
+)
+PRIOR_SEED_RUN_SCHEMA_VERSION = (
+    "phase314b_r242_prior_seed_nested_metrics_v2"
+)
 PRIOR_SEED_STABILITY_SCHEMA_VERSION = (
-    "phase314b_r242_prior_seed_stability_v1"
+    "phase314b_r242_prior_seed_stability_nested_metrics_v2"
 )
 
 SOURCE_PATHS = (
@@ -828,16 +837,81 @@ def train_prior_seed_control(
     }
 
 
+def reconstruction_metric_quantile(
+    metrics: Mapping[str, Any],
+    metric_name: str,
+    quantile: str,
+) -> float:
+    """Read one canonical nested reconstruction metric quantile.
+
+    ``target_reconstruction_metrics`` stores quantiles under
+    ``metrics[metric_name][quantile]``.  Flat aliases such as
+    ``ordered_rmse_p95`` are rejected so producer and consumers cannot drift
+    silently again.
+    """
+    if not isinstance(metrics, Mapping):
+        raise TypeError("reconstruction metrics must be a mapping")
+    if not metric_name or not quantile:
+        raise ValueError("metric_name and quantile are required")
+
+    flat_alias = f"{metric_name}_{quantile}"
+    if flat_alias in metrics:
+        raise ValueError(
+            f"flat reconstruction metric alias is forbidden: {flat_alias}"
+        )
+    group = metrics.get(metric_name)
+    if not isinstance(group, Mapping):
+        raise ValueError(
+            f"reconstruction metrics missing nested group {metric_name}"
+        )
+    if quantile not in group:
+        raise ValueError(
+            f"reconstruction metric {metric_name} missing {quantile}"
+        )
+    value = float(group[quantile])
+    if not math.isfinite(value) or value < 0:
+        raise ValueError(
+            f"reconstruction metric {metric_name}.{quantile} must be "
+            "finite and nonnegative"
+        )
+    return value
+
+
+def compact_reconstruction_metrics(
+    metrics: Mapping[str, Any],
+) -> Dict[str, float]:
+    """Normalize the reconstruction fields used by reports and stability."""
+    if not isinstance(metrics, Mapping):
+        raise TypeError("reconstruction metrics must be a mapping")
+    if "z_mse" not in metrics:
+        raise ValueError("reconstruction metrics missing z_mse")
+    z_mse = float(metrics["z_mse"])
+    if not math.isfinite(z_mse) or z_mse < 0:
+        raise ValueError("reconstruction z_mse must be finite and nonnegative")
+    return {
+        "z_mse": z_mse,
+        "ordered_rmse_p95": reconstruction_metric_quantile(
+            metrics,
+            "ordered_rmse",
+            "p95",
+        ),
+        "segment_relative_error_p95": reconstruction_metric_quantile(
+            metrics,
+            "segment_relative_error",
+            "p95",
+        ),
+        "chain_relative_error_p95": reconstruction_metric_quantile(
+            metrics,
+            "chain_relative_error",
+            "p95",
+        ),
+    }
+
+
 def _prior_seed_run_summary(
     run: Mapping[str, Any],
 ) -> Dict[str, Any]:
-    """Validate and normalize one direct-prior seed result.
-
-    ``train_prior_seed_control`` intentionally flattens the output of
-    ``_prior_metrics`` into the top-level result.  A nested ``aggregate`` key
-    therefore indicates the obsolete test-fixture schema that caused the
-    original r2.4.2 execution block.
-    """
+    """Validate and normalize one direct-prior seed result."""
     if not isinstance(run, Mapping):
         raise TypeError("prior seed run must be a mapping")
     if "aggregate" in run:
@@ -862,25 +936,11 @@ def _prior_seed_run_summary(
             + ", ".join(missing)
         )
 
-    metrics = run["metrics"]
-    if not isinstance(metrics, Mapping):
-        raise TypeError("prior seed run metrics must be a mapping")
-    for key in ("z_mse", "ordered_rmse_p95"):
-        if key not in metrics:
-            raise ValueError(f"prior seed run metrics missing {key}")
-
+    compact = compact_reconstruction_metrics(run["metrics"])
     hidden_dim = int(run["hidden_dim"])
     seed = int(run["seed"])
-    z_mse = float(metrics["z_mse"])
-    ordered_rmse_p95 = float(metrics["ordered_rmse_p95"])
     if hidden_dim <= 0:
         raise ValueError("prior seed run hidden_dim must be positive")
-    if not math.isfinite(z_mse) or z_mse < 0:
-        raise ValueError("prior seed run z_mse must be finite and nonnegative")
-    if not math.isfinite(ordered_rmse_p95) or ordered_rmse_p95 < 0:
-        raise ValueError(
-            "prior seed run ordered_rmse_p95 must be finite and nonnegative"
-        )
 
     run_pass = bool(run["pass"])
     expected_pass = bool(
@@ -892,11 +952,12 @@ def _prior_seed_run_summary(
         )
 
     return {
+        "schema_version": PRIOR_SEED_RUN_SCHEMA_VERSION,
+        "metrics_schema_version": RECONSTRUCTION_METRICS_SCHEMA_VERSION,
         "hidden_dim": hidden_dim,
         "seed": seed,
         "pass": run_pass,
-        "z_mse": z_mse,
-        "ordered_rmse_p95": ordered_rmse_p95,
+        **compact,
     }
 
 

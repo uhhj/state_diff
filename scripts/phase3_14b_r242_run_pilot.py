@@ -32,6 +32,8 @@ from ccda_phase3.phase314b_r242_frozen_prior import (
     LOW_MID_TIMESTEPS,
     PHASE,
     PRIOR_SEED_RUN_SCHEMA_VERSION,
+    PRIOR_SEED_STABILITY_SCHEMA_VERSION,
+    RECONSTRUCTION_METRICS_SCHEMA_VERSION,
     PriorFitSpec,
     ResidualTrainSpec,
     assert_only_allowed_worktree_paths,
@@ -143,6 +145,20 @@ def main() -> None:
     schema_contract = preflight.get("result_schema_contract", {})
     if schema_contract.get("prior_seed_run") != PRIOR_SEED_RUN_SCHEMA_VERSION:
         raise RuntimeError("preflight prior-seed schema contract mismatch")
+    if schema_contract.get("prior_seed_stability") != (
+        PRIOR_SEED_STABILITY_SCHEMA_VERSION
+    ):
+        raise RuntimeError("preflight prior-seed stability contract mismatch")
+    if schema_contract.get("reconstruction_metrics") != (
+        RECONSTRUCTION_METRICS_SCHEMA_VERSION
+    ):
+        raise RuntimeError("preflight reconstruction-metrics contract mismatch")
+    if schema_contract.get("ordered_rmse_p95_path") != (
+        "metrics.ordered_rmse.p95"
+    ):
+        raise RuntimeError("preflight ordered-RMSE path contract mismatch")
+    if not bool(schema_contract.get("flat_ordered_rmse_alias_forbidden")):
+        raise RuntimeError("preflight must forbid flat ordered-RMSE aliases")
     corrected = preflight["r241_corrected_interpretation"]
     if not corrected["classifier_precedence_bug_supported"]:
         raise RuntimeError("preflight interpretation gate failed")
@@ -396,6 +412,8 @@ def main() -> None:
         "resumed_after_schema_block": bool(
             preflight.get("resume", {}).get("enabled")
         ),
+        "resume": preflight.get("resume", {}),
+        "result_schema_contract": schema_contract,
         "r241_corrected_interpretation": corrected_r241_interpretation(
             load_json(root / "reports/phase3_14b_r241_summary.json")
         ),

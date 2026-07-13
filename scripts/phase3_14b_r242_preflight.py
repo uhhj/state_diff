@@ -24,8 +24,11 @@ from ccda_phase3.phase314b_r242_frozen_prior import (
     PHASE,
     PRIOR_SEED_RUN_SCHEMA_VERSION,
     PRIOR_SEED_STABILITY_SCHEMA_VERSION,
+    RECONSTRUCTION_METRICS_SCHEMA_VERSION,
     EXPECTED_R242_BLOCKED_ROOT_CAUSE,
     R242_BLOCKED_REPORT_COMMIT,
+    R242_SCHEMA_CORRECTION_COMMIT,
+    R242_RESUME_BLOCKED_REPORT_COMMIT,
     corrected_r241_interpretation,
     git_output,
     sha256_file,
@@ -78,23 +81,75 @@ def main() -> None:
     except ValueError as exc:
         raise RuntimeError("preflight output must remain inside repository") from exc
 
-    resume_mode = output.name == "phase3_14b_r242_resume_preflight_summary.json"
+    resume_specs = {
+        "phase3_14b_r242_resume_preflight_summary.json": {
+            "generation": 1,
+            "blocked_report_commit": R242_BLOCKED_REPORT_COMMIT,
+            "blocked_report": "reports/phase3_14b_r242_blocked_summary.json",
+            "correction_commit": R242_SCHEMA_CORRECTION_COMMIT,
+            "correction": "direct_prior_top_level_result_schema",
+        },
+        "phase3_14b_r242_resume2_preflight_summary.json": {
+            "generation": 2,
+            "blocked_report_commit": R242_RESUME_BLOCKED_REPORT_COMMIT,
+            "blocked_report": (
+                "reports/phase3_14b_r242_resume_blocked_summary.json"
+            ),
+            "correction_commit": None,
+            "correction": "nested_reconstruction_metric_consumer_schema",
+        },
+    }
+    resume_spec = resume_specs.get(output.name)
+    resume_mode = resume_spec is not None
+    if output.name not in {
+        "phase3_14b_r242_preflight_summary.json",
+        *resume_specs.keys(),
+    }:
+        raise RuntimeError("unsupported r2.4.2 preflight output name")
+
     if resume_mode:
         blocked_ancestor = git_output(
             root,
             "merge-base",
             "--is-ancestor",
-            R242_BLOCKED_REPORT_COMMIT,
+            resume_spec["blocked_report_commit"],
             "HEAD",
         )
         if blocked_ancestor:
             raise RuntimeError("unexpected blocked-commit merge-base output")
-        blocked_path = root / "reports/phase3_14b_r242_blocked_summary.json"
+        correction_commit = resume_spec.get("correction_commit")
+        if correction_commit is not None:
+            correction_ancestor = git_output(
+                root,
+                "merge-base",
+                "--is-ancestor",
+                correction_commit,
+                "HEAD",
+            )
+            if correction_ancestor:
+                raise RuntimeError(
+                    "unexpected correction-commit merge-base output"
+                )
+        blocked_path = root / resume_spec["blocked_report"]
         blocked = load_json(blocked_path)
         if blocked.get("verdict") != "BLOCKED":
             raise RuntimeError("historical r2.4.2 blocked verdict mismatch")
         if blocked.get("root_cause") != EXPECTED_R242_BLOCKED_ROOT_CAUSE:
             raise RuntimeError("historical r2.4.2 blocked root cause mismatch")
+        if resume_spec["generation"] == 2:
+            mismatch = blocked.get("schema_mismatch")
+            expected_mismatch = {
+                "consumer_expected": "metrics.ordered_rmse_p95",
+                "producer_emitted": "metrics.ordered_rmse.p95",
+            }
+            if mismatch != expected_mismatch:
+                raise RuntimeError(
+                    "resume2 blocked report schema mismatch evidence changed"
+                )
+            if blocked.get("failure_stage") != (
+                "direct_prior_width_512_seed_stability_summary"
+            ):
+                raise RuntimeError("resume2 failure stage mismatch")
         for key in (
             "validation_targets_used",
             "formal_test_read",
@@ -169,19 +224,31 @@ def main() -> None:
         "result_schema_contract": {
             "prior_seed_run": PRIOR_SEED_RUN_SCHEMA_VERSION,
             "prior_seed_stability": PRIOR_SEED_STABILITY_SCHEMA_VERSION,
+            "reconstruction_metrics": RECONSTRUCTION_METRICS_SCHEMA_VERSION,
+            "ordered_rmse_p95_path": "metrics.ordered_rmse.p95",
+            "flat_ordered_rmse_alias_forbidden": True,
             "three_distinct_seeds_required": True,
             "single_hidden_dim_required": True,
         },
         "resume": {
             "enabled": resume_mode,
+            "generation": (
+                int(resume_spec["generation"]) if resume_mode else 0
+            ),
             "blocked_report_commit": (
-                R242_BLOCKED_REPORT_COMMIT if resume_mode else None
+                resume_spec["blocked_report_commit"] if resume_mode else None
+            ),
+            "blocked_report": (
+                resume_spec["blocked_report"] if resume_mode else None
             ),
             "blocked_root_cause": (
                 EXPECTED_R242_BLOCKED_ROOT_CAUSE if resume_mode else None
             ),
+            "correction_commit": (
+                resume_spec.get("correction_commit") if resume_mode else None
+            ),
             "correction": (
-                "direct_prior_flat_result_schema" if resume_mode else None
+                resume_spec["correction"] if resume_mode else None
             ),
         },
         "validation_targets_used": False,

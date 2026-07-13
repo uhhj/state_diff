@@ -5,15 +5,28 @@ ROOT="${1:-/data/state_diff2}"
 cd "${ROOT}"
 
 ORIGINAL_BLOCKED_JSON="reports/phase3_14b_r242_blocked_summary.json"
-if [[ -f "${ORIGINAL_BLOCKED_JSON}" ]]; then
+RESUME1_BLOCKED_JSON="reports/phase3_14b_r242_resume_blocked_summary.json"
+
+if [[ -f "${RESUME1_BLOCKED_JSON}" ]]; then
+  PREFLIGHT_JSON="reports/phase3_14b_r242_resume2_preflight_summary.json"
+  BLOCKED_JSON="reports/phase3_14b_r242_resume2_blocked_summary.json"
+  BLOCKED_MD="reports/phase3_14b_r242_resume2_blocked_report.md"
+elif [[ -f "${ORIGINAL_BLOCKED_JSON}" ]]; then
   PREFLIGHT_JSON="reports/phase3_14b_r242_resume_preflight_summary.json"
-  BLOCKED_JSON="reports/phase3_14b_r242_resume_blocked_summary.json"
+  BLOCKED_JSON="${RESUME1_BLOCKED_JSON}"
   BLOCKED_MD="reports/phase3_14b_r242_resume_blocked_report.md"
 else
   PREFLIGHT_JSON="reports/phase3_14b_r242_preflight_summary.json"
   BLOCKED_JSON="${ORIGINAL_BLOCKED_JSON}"
   BLOCKED_MD="reports/phase3_14b_r242_blocked_report.md"
 fi
+
+for path in "${PREFLIGHT_JSON}" "${BLOCKED_JSON}" "${BLOCKED_MD}"; do
+  if [[ -e "${path}" ]]; then
+    echo "Refusing to overwrite existing r2.4.2 resume artifact: ${path}" >&2
+    exit 2
+  fi
+done
 
 on_error() {
   local exit_code="$?"

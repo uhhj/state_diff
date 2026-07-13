@@ -9,7 +9,11 @@ from pathlib import Path
 from typing import Any, Dict
 
 from ccda_phase3.phase314b_r23_diagnostics import write_json_once
-from ccda_phase3.phase314b_r242_frozen_prior import PHASE
+from ccda_phase3.phase314b_r242_frozen_prior import (
+    PHASE,
+    RECONSTRUCTION_METRICS_SCHEMA_VERSION,
+    reconstruction_metric_quantile,
+)
 
 
 def load_json(path: Path) -> Dict[str, Any]:
@@ -45,6 +49,19 @@ def main() -> None:
         raise RuntimeError("r2.4.2 pilot did not complete")
     if pilot.get("preflight_report") != preflight_relative:
         raise RuntimeError("pilot/preflight provenance mismatch")
+    if pilot.get("source_sha256") != preflight.get("r242_source_sha256"):
+        raise RuntimeError("pilot/preflight source SHA mismatch")
+    if pilot.get("resume") != preflight.get("resume"):
+        raise RuntimeError("pilot/preflight resume provenance mismatch")
+    schema_contract = preflight.get("result_schema_contract", {})
+    if schema_contract.get("reconstruction_metrics") != (
+        RECONSTRUCTION_METRICS_SCHEMA_VERSION
+    ):
+        raise RuntimeError("reconstruction metrics schema contract mismatch")
+    if schema_contract.get("ordered_rmse_p95_path") != (
+        "metrics.ordered_rmse.p95"
+    ):
+        raise RuntimeError("ordered RMSE metric path contract mismatch")
     for key in (
         "validation_targets_used",
         "formal_test_read",
@@ -79,10 +96,10 @@ def main() -> None:
             "z_mse": float(
                 value["evaluations"]["true"]["aggregate"]["metrics"]["z_mse"]
             ),
-            "ordered_rmse_p95": float(
-                value["evaluations"]["true"]["aggregate"]["metrics"][
-                    "ordered_rmse_p95"
-                ]
+            "ordered_rmse_p95": reconstruction_metric_quantile(
+                value["evaluations"]["true"]["aggregate"]["metrics"],
+                "ordered_rmse",
+                "p95",
             ),
             "condition_effect": bool(
                 value["condition_effect"]["condition_effect_supported"]
@@ -104,10 +121,10 @@ def main() -> None:
             "z_mse": float(
                 value["evaluations"]["true"]["aggregate"]["metrics"]["z_mse"]
             ),
-            "ordered_rmse_p95": float(
-                value["evaluations"]["true"]["aggregate"]["metrics"][
-                    "ordered_rmse_p95"
-                ]
+            "ordered_rmse_p95": reconstruction_metric_quantile(
+                value["evaluations"]["true"]["aggregate"]["metrics"],
+                "ordered_rmse",
+                "p95",
             ),
             "own_target_closer_fraction": float(
                 value["paired_branch_audit"][
@@ -142,9 +159,8 @@ def main() -> None:
         "resumed_after_schema_block": bool(
             pilot.get("resumed_after_schema_block")
         ),
-        "result_schema_contract": preflight.get(
-            "result_schema_contract"
-        ),
+        "result_schema_contract": schema_contract,
+        "resume": preflight.get("resume", {}),
         "r241_corrected_interpretation": pilot[
             "r241_corrected_interpretation"
         ],

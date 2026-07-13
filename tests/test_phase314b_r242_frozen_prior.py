@@ -10,11 +10,15 @@ from ccda_phase3.phase314b_r242_frozen_prior import (
     FactorizedVariant,
     PRIOR_SEED_RUN_SCHEMA_VERSION,
     PRIOR_SEED_STABILITY_SCHEMA_VERSION,
+    RECONSTRUCTION_METRICS_SCHEMA_VERSION,
+    compact_reconstruction_metrics,
+    reconstruction_metric_quantile,
     classify_pilot,
     corrected_r241_interpretation,
     paired_branch_audit,
     summarize_seed_stability,
 )
+from ccda_phase3.phase314b_r231_controls import target_reconstruction_metrics
 from ccda_phase3.schema_v2 import DEFAULT_TF, STATE_DIM
 
 
@@ -211,12 +215,14 @@ def make_prior_seed_run(
         "all_source_gate_pass": passed,
         "metrics": {
             "z_mse": z_mse,
-            "ordered_rmse_p95": ordered_rmse_p95,
+            "ordered_rmse": {"p95": ordered_rmse_p95},
+            "segment_relative_error": {"p95": 1.0e-3},
+            "chain_relative_error": {"p95": 1.0e-3},
         },
     }
 
 
-def test_seed_stability_requires_two_of_three_flat_runs() -> None:
+def test_seed_stability_requires_two_of_three_nested_metric_runs() -> None:
     runs = [
         make_prior_seed_run(seed=95101, passed=True, z_mse=1.0e-5),
         make_prior_seed_run(seed=95102, passed=False, z_mse=2.0e-5),
@@ -250,6 +256,78 @@ def test_seed_stability_rejects_obsolete_nested_schema() -> None:
     }
     with pytest.raises(ValueError, match="obsolete nested aggregate"):
         summarize_seed_stability([obsolete, obsolete, obsolete])
+
+
+def test_reconstruction_metric_quantile_reads_canonical_nested_path() -> None:
+    metrics = make_prior_seed_run(seed=95101, passed=True)["metrics"]
+    assert reconstruction_metric_quantile(
+        metrics,
+        "ordered_rmse",
+        "p95",
+    ) == pytest.approx(1.0e-3)
+
+
+def test_reconstruction_metric_quantile_rejects_flat_alias() -> None:
+    metrics = make_prior_seed_run(seed=95101, passed=True)["metrics"]
+    metrics["ordered_rmse_p95"] = 1.0e-3
+    with pytest.raises(ValueError, match="flat reconstruction metric alias"):
+        reconstruction_metric_quantile(metrics, "ordered_rmse", "p95")
+
+
+def test_reconstruction_metric_quantile_rejects_missing_group() -> None:
+    metrics = make_prior_seed_run(seed=95101, passed=True)["metrics"]
+    metrics.pop("ordered_rmse")
+    with pytest.raises(ValueError, match="missing nested group"):
+        reconstruction_metric_quantile(metrics, "ordered_rmse", "p95")
+
+
+def test_reconstruction_metric_quantile_rejects_missing_quantile() -> None:
+    metrics = make_prior_seed_run(seed=95101, passed=True)["metrics"]
+    metrics["ordered_rmse"] = {}
+    with pytest.raises(ValueError, match="missing p95"):
+        reconstruction_metric_quantile(metrics, "ordered_rmse", "p95")
+
+
+@pytest.mark.parametrize("value", [float("nan"), float("inf"), -1.0])
+def test_reconstruction_metric_quantile_rejects_invalid_values(value: float) -> None:
+    metrics = make_prior_seed_run(seed=95101, passed=True)["metrics"]
+    metrics["ordered_rmse"]["p95"] = value
+    with pytest.raises(ValueError, match="finite and nonnegative"):
+        reconstruction_metric_quantile(metrics, "ordered_rmse", "p95")
+
+
+def test_compact_metrics_accept_real_target_reconstruction_schema() -> None:
+    predicted_z = torch.zeros(2, DEFAULT_TF, STATE_DIM)
+    target_z = torch.zeros_like(predicted_z)
+    predicted_raw = torch.zeros_like(predicted_z)
+    target_raw = torch.zeros_like(predicted_z)
+    active = torch.ones(DEFAULT_TF, STATE_DIM, dtype=torch.bool)
+    metrics = target_reconstruction_metrics(
+        predicted_z=predicted_z,
+        target_z=target_z,
+        predicted_raw=predicted_raw,
+        target_raw=target_raw,
+        active_mask=active,
+    )
+    compact = compact_reconstruction_metrics(metrics)
+    assert compact["z_mse"] == pytest.approx(0.0)
+    assert compact["ordered_rmse_p95"] == pytest.approx(0.0)
+    assert compact["segment_relative_error_p95"] == pytest.approx(0.0)
+    assert compact["chain_relative_error_p95"] == pytest.approx(0.0)
+
+
+def test_seed_stability_accepts_real_producer_metric_schema() -> None:
+    runs = [
+        make_prior_seed_run(seed=95101, passed=True),
+        make_prior_seed_run(seed=95102, passed=True),
+        make_prior_seed_run(seed=95103, passed=False),
+    ]
+    result = summarize_seed_stability(runs)
+    assert result["schema_version"] == PRIOR_SEED_STABILITY_SCHEMA_VERSION
+    assert result["per_seed"][0]["metrics_schema_version"] == (
+        RECONSTRUCTION_METRICS_SCHEMA_VERSION
+    )
+    assert result["pass_count"] == 2
 
 
 def test_seed_stability_requires_exactly_three_runs() -> None:
