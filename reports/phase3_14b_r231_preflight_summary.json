@@ -1,0 +1,47 @@
+{
+  "candidate_execution": false,
+  "cps": false,
+  "dataset": {
+    "calibration_rows": 496,
+    "fit_rows": 504,
+    "manifest_schema": null,
+    "train_rows": 1000,
+    "validation_rows_present_but_not_used": 102
+  },
+  "device": "cuda",
+  "formal_test_read": false,
+  "formal_training": false,
+  "gpu_name": "NVIDIA GeForce RTX 4080 SUPER",
+  "idm": false,
+  "phase": "phase3_14b_r231",
+  "phase4": false,
+  "r23": {
+    "commit": "19e6d4eececd1abc51264449bd32db70df899b1d",
+    "old_fixed_control_contract_error": "fixed-noise training was gated with newly sampled evaluation noise",
+    "old_tiny_report_sha256": "d370bef927af6dd0f3f5f94171482889dbadbbf5cf28c7f410567e5b25c886b2",
+    "root_cause": "phase314b_r23_tiny_overfit_capacity_or_implementation_failure",
+    "verdict": "PASS"
+  },
+  "repository": {
+    "base_failure_commit": "a54cdd20d88f5eb00ebe25e8d4a20c28fe7d6e7f",
+    "branch": "Experiment1",
+    "cache_sha256": "3cc512f650557c81c3b81f4f128a5b55360b77d3f664fdd6607666936285fbe8",
+    "formal_test_read": false,
+    "frozen_contract_sha256": "fa2725ca40da2499008360f13d291d2ce8694e6393910b0522fe800f4f37cdcc",
+    "main_commit": "dea70b7f59ca8943bb9d7be74cb329a1eb6b7a86",
+    "r22_root_cause": "phase314b_r22_no_pilot_geometry_repair",
+    "r22_verdict": "FAIL",
+    "submodule_commit": "633a88752445cf5d6776ed374fdbbdb35f93050c"
+  },
+  "root_cause": "phase314b_r231_preflight_passed",
+  "source_sha256": {
+    "ccda_phase3/phase314b_r231_controls.py": "c16bfbfa3ae0b7b27c25ee79cf298c76c3d5511a545af228a898869d96098d35",
+    "scripts/phase3_14b_r231_finalize.py": "d0ad7e1ce3c14569f2407b2d4366344c270f3b8051e6a1bbd3fc2c670c7466f5",
+    "scripts/phase3_14b_r231_preflight.py": "cd4fd621ba855932ad73f3d72d9b91f30e4ec66225965c007a4f661e2e7468e4",
+    "scripts/phase3_14b_r231_run.sh": "d167790dfe47d59fb4918065fe9c1f69f549a95d68a68faa8cd8402ab818a7c4",
+    "scripts/phase3_14b_r231_run_controls.py": "b26c831b66436bab4c626d6249977d6c42c871b05ea07b10b7158f955fdc0e35",
+    "tests/test_phase314b_r231_controls.py": "9866cdae64e2ede1eb96bd42c1974fca0f6453393354e1d6083639019d3ac462"
+  },
+  "validation_read_by_controls": false,
+  "verdict": "PASS"
+}

@@ -1,0 +1,74 @@
+{
+  "candidate_execution": false,
+  "checkpoint_saved": false,
+  "control_gates": {
+    "direct_one_row": true,
+    "direct_unique_free_16": true,
+    "fixed_one_row_v_only_exact_replay": true,
+    "fixed_pairs_r22_geometry_exact_replay": true,
+    "fixed_pairs_v_only_adam_exact_replay": true,
+    "fixed_pairs_v_only_adamw_exact_replay": true,
+    "fixed_pairs_v_only_wide_exact_replay": true,
+    "random_one_row_t50": false,
+    "random_paired_16_t50_diagnostic_only": false,
+    "random_unique_free_16_t50": false
+  },
+  "cps": false,
+  "formal_test_read": false,
+  "formal_training": false,
+  "historical_r23": {
+    "capacity_conclusion_invalidated": true,
+    "fixed_control_contract_error": "fixed-noise training was gated with newly sampled evaluation noise",
+    "root_cause": "phase314b_r23_tiny_overfit_capacity_or_implementation_failure"
+  },
+  "idm": false,
+  "meaning": "tiny-control evaluation contract corrected and train-only isolation completed; no model repair",
+  "next_stage": "debug timestep/noise coverage and denoiser conditioning on one train row",
+  "pair_ambiguity": {
+    "exact_input_equal_fraction": 1.0,
+    "input_l2": {
+      "max": 0.0,
+      "median": 0.0,
+      "min": 0.0,
+      "p95": 0.0
+    },
+    "input_max_abs": {
+      "max": 0.0,
+      "median": 0.0,
+      "min": 0.0,
+      "p95": 0.0
+    },
+    "pair_count": 8,
+    "target_ordered_rmse": {
+      "max": 0.04184963868949513,
+      "median": 0.006412464560293967,
+      "min": 0.0021110453073438997,
+      "p95": 0.0399989816743307
+    }
+  },
+  "phase": "phase3_14b_r231",
+  "phase4": false,
+  "repository": {
+    "base_failure_commit": "a54cdd20d88f5eb00ebe25e8d4a20c28fe7d6e7f",
+    "branch": "Experiment1",
+    "cache_sha256": "3cc512f650557c81c3b81f4f128a5b55360b77d3f664fdd6607666936285fbe8",
+    "formal_test_read": false,
+    "frozen_contract_sha256": "fa2725ca40da2499008360f13d291d2ce8694e6393910b0522fe800f4f37cdcc",
+    "main_commit": "dea70b7f59ca8943bb9d7be74cb329a1eb6b7a86",
+    "r22_root_cause": "phase314b_r22_no_pilot_geometry_repair",
+    "r22_verdict": "FAIL",
+    "submodule_commit": "633a88752445cf5d6776ed374fdbbdb35f93050c"
+  },
+  "root_cause": "phase314b_r231_random_noise_single_row_optimization_failure",
+  "selected_configuration": null,
+  "source_sha256": {
+    "ccda_phase3/phase314b_r231_controls.py": "c16bfbfa3ae0b7b27c25ee79cf298c76c3d5511a545af228a898869d96098d35",
+    "scripts/phase3_14b_r231_finalize.py": "d0ad7e1ce3c14569f2407b2d4366344c270f3b8051e6a1bbd3fc2c670c7466f5",
+    "scripts/phase3_14b_r231_preflight.py": "cd4fd621ba855932ad73f3d72d9b91f30e4ec66225965c007a4f661e2e7468e4",
+    "scripts/phase3_14b_r231_run.sh": "d167790dfe47d59fb4918065fe9c1f69f549a95d68a68faa8cd8402ab818a7c4",
+    "scripts/phase3_14b_r231_run_controls.py": "b26c831b66436bab4c626d6249977d6c42c871b05ea07b10b7158f955fdc0e35",
+    "tests/test_phase314b_r231_controls.py": "9866cdae64e2ede1eb96bd42c1974fca0f6453393354e1d6083639019d3ac462"
+  },
+  "validation_rows_used_by_controls": false,
+  "verdict": "PASS"
+}
