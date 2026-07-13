@@ -1,0 +1,21 @@
+{
+  "candidate_execution": false,
+  "candidate_selected": false,
+  "checkpoint_saved": false,
+  "cps": false,
+  "exact_exception": "Traceback (most recent call last):\n  File \"/data/state_diff2/scripts/phase3_14b_r253_finalize.py\", line 499, in <module>\n    main()\n  File \"/data/state_diff2/scripts/phase3_14b_r253_finalize.py\", line 411, in main\n    raise RuntimeError(f\"r2.5.2 one-step reproduction failed: {name}\")\nRuntimeError: r2.5.2 one-step reproduction failed: v_only_frozen_control\n",
+  "exit_code": 1,
+  "formal_test_read": false,
+  "formal_training": false,
+  "idm": false,
+  "line": "finalization",
+  "phase": "phase3_14b_r253",
+  "phase4": false,
+  "pilot_summary_exists": true,
+  "pilot_summary_sha256": "a6a8aa2faf739e80159af7e70cb57b0e2a4c852ab5af5c2d7ecb29ff31116c86",
+  "root_cause": "phase314b_r253_execution_failed",
+  "selected_configuration": null,
+  "train_only_recommendation": null,
+  "validation_targets_used": false,
+  "verdict": "BLOCKED"
+}

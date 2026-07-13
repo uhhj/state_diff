@@ -1,0 +1,308 @@
+{
+  "base_report_commit": "674ff08e49882de6de6f0ed977b39ef53b98fea1",
+  "candidate_eligible": false,
+  "candidate_execution": false,
+  "checkpoint_saved": false,
+  "cps": false,
+  "dataset": {
+    "manifest_schema": null,
+    "paired_row_contract": {
+      "distinct_pair_key_count": 8,
+      "distinct_row_count": 16,
+      "distinct_visible_seed_count": 8,
+      "expected_rows": [
+        6,
+        1226,
+        10,
+        1230,
+        19,
+        1239,
+        25,
+        1245,
+        31,
+        1251,
+        36,
+        1256,
+        43,
+        1263,
+        49,
+        1269
+      ],
+      "model_input_use": false,
+      "observed_rows": [
+        6,
+        1226,
+        10,
+        1230,
+        19,
+        1239,
+        25,
+        1245,
+        31,
+        1251,
+        36,
+        1256,
+        43,
+        1263,
+        49,
+        1269
+      ],
+      "pairs": [
+        {
+          "conditions": [
+            "free",
+            "hidden_slack_breakaway_pin_v2"
+          ],
+          "pair_index": 0,
+          "pair_key": "train|400002|0",
+          "rows": [
+            6,
+            1226
+          ],
+          "visible_seed": 400002
+        },
+        {
+          "conditions": [
+            "free",
+            "hidden_slack_breakaway_pin_v2"
+          ],
+          "pair_index": 1,
+          "pair_key": "train|400003|0",
+          "rows": [
+            10,
+            1230
+          ],
+          "visible_seed": 400003
+        },
+        {
+          "conditions": [
+            "free",
+            "hidden_slack_breakaway_pin_v2"
+          ],
+          "pair_index": 2,
+          "pair_key": "train|400004|0",
+          "rows": [
+            19,
+            1239
+          ],
+          "visible_seed": 400004
+        },
+        {
+          "conditions": [
+            "free",
+            "hidden_slack_breakaway_pin_v2"
+          ],
+          "pair_index": 3,
+          "pair_key": "train|400005|0",
+          "rows": [
+            25,
+            1245
+          ],
+          "visible_seed": 400005
+        },
+        {
+          "conditions": [
+            "free",
+            "hidden_slack_breakaway_pin_v2"
+          ],
+          "pair_index": 4,
+          "pair_key": "train|400007|0",
+          "rows": [
+            31,
+            1251
+          ],
+          "visible_seed": 400007
+        },
+        {
+          "conditions": [
+            "free",
+            "hidden_slack_breakaway_pin_v2"
+          ],
+          "pair_index": 5,
+          "pair_key": "train|400008|0",
+          "rows": [
+            36,
+            1256
+          ],
+          "visible_seed": 400008
+        },
+        {
+          "conditions": [
+            "free",
+            "hidden_slack_breakaway_pin_v2"
+          ],
+          "pair_index": 6,
+          "pair_key": "train|400009|0",
+          "rows": [
+            43,
+            1263
+          ],
+          "visible_seed": 400009
+        },
+        {
+          "conditions": [
+            "free",
+            "hidden_slack_breakaway_pin_v2"
+          ],
+          "pair_index": 7,
+          "pair_key": "train|400010|0",
+          "rows": [
+            49,
+            1269
+          ],
+          "visible_seed": 400010
+        }
+      ],
+      "pass": true
+    },
+    "paired_rows": [
+      6,
+      1226,
+      10,
+      1230,
+      19,
+      1239,
+      25,
+      1245,
+      31,
+      1251,
+      36,
+      1256,
+      43,
+      1263,
+      49,
+      1269
+    ],
+    "train_row_count": 1000,
+    "validation_rows_verified_but_not_used": 102
+  },
+  "dependency_sha256": {
+    "ccda_phase3/phase314b_r231_controls.py": "c16bfbfa3ae0b7b27c25ee79cf298c76c3d5511a545af228a898869d96098d35",
+    "ccda_phase3/phase314b_r242_frozen_prior.py": "058a32b077d282b2b9062ca24e0270ed3dc7bb482dd72df0c25b310778611571",
+    "ccda_phase3/phase314b_r251_gradient_calibration.py": "4114db7f4f1135fe3f49f15203f85de235243d41d401636f57cb2a10f65e21e7",
+    "ccda_phase3/phase314b_r252_transport_attribution.py": "191ef9164fc32d62e25196bb1a5542e46220142a1c82fc4b4a8e1444c55368bf",
+    "reports/phase3_14b_r252_pilot_summary.json": "e9c943ae5f53978271dbe38ea38be4675843e09f9fd2107c83df67150964fce5",
+    "reports/phase3_14b_r252_report.md": "0a6302b5c5c83fe9ddd47ee625969fe07988ff7266590640cbe464f4827aa37a",
+    "reports/phase3_14b_r252_summary.json": "101b6121d72fd4cac908a0a1286957ae90fa9133f653e4ab9c5c0c0de4f7f91d",
+    "scripts/phase3_14b_r252_finalize.py": "911791bd6115c9f2457b78537dead44b4b783fdf6dc29b1099a496276d60286a",
+    "scripts/phase3_14b_r252_run_pilot.py": "29b41fd532522aed37464b7c9969d2dd19eaf4f590ca624691b20543e67c09f2"
+  },
+  "diagnostic_objective_order": [
+    "v_only_frozen_control",
+    "ordered_mean_raw_g100",
+    "ordered_cvar_contract_g010"
+  ],
+  "formal_test_read": false,
+  "formal_training": false,
+  "frozen_prediction_reference_contract": {
+    "nearest_index_inversion_threshold": 0.21739130434782608,
+    "reference": "train_calibration_last_repeat"
+  },
+  "historical_paths_unchanged": [
+    "ccda_phase3/phase314b_r252_transport_attribution.py",
+    "scripts/phase3_14b_r252_preflight.py",
+    "scripts/phase3_14b_r252_run_pilot.py",
+    "scripts/phase3_14b_r252_finalize.py",
+    "scripts/phase3_14b_r252_run.sh",
+    "tests/test_phase314b_r252_transport_attribution.py",
+    "reports/phase3_14b_r252_preflight_summary.json",
+    "reports/phase3_14b_r252_pilot_summary.json",
+    "reports/phase3_14b_r252_summary.json",
+    "reports/phase3_14b_r252_report.md"
+  ],
+  "idm": false,
+  "meaning": "train-only exact-reconstruction / branch-transport gate-separation preflight",
+  "phase": "phase3_14b_r253",
+  "phase4": false,
+  "r252_contract": {
+    "root_cause": "phase314b_r252_composite_one_step_gate_conflation_supported",
+    "selected_configuration": null,
+    "shared_prior_sha256": "083278d6b0710ddc3863d822978973f29842bc757edf73ff03a93bb154f5665d",
+    "supported_mechanisms": [
+      "composite_gate_conflation",
+      "per_timestep_gradient_miscalibration"
+    ],
+    "train_only_recommendation": null,
+    "variants": {
+      "ordered_cvar_contract_g010": {
+        "branch_audit_pass": true,
+        "composite_one_step_pass": false,
+        "denoising_result_pass": false,
+        "endpoint": {
+          "best_ordered_rmse_mean": 0.001244956161826849,
+          "both_branch_support_rate": 1.0,
+          "nearest_inversion_p95": 0.0,
+          "sample_validity_rate": 1.0,
+          "valid_query_rate": 1.0
+        },
+        "legacy_delta_cosine_p50": 0.9901642102863615,
+        "legacy_own_target_closer_fraction": 0.9973958333333334,
+        "legacy_separation_ratio_p50": 1.0101735147958135,
+        "reconstruction_aggregate_gate_pass": false,
+        "reconstruction_all_source_gate_pass": false
+      },
+      "ordered_mean_raw_g100": {
+        "branch_audit_pass": true,
+        "composite_one_step_pass": false,
+        "denoising_result_pass": false,
+        "endpoint": {
+          "best_ordered_rmse_mean": 0.0011491426266729832,
+          "both_branch_support_rate": 1.0,
+          "nearest_inversion_p95": 0.0,
+          "sample_validity_rate": 1.0,
+          "valid_query_rate": 1.0
+        },
+        "legacy_delta_cosine_p50": 0.9976069643118557,
+        "legacy_own_target_closer_fraction": 0.9869791666666666,
+        "legacy_separation_ratio_p50": 1.0187478627870559,
+        "reconstruction_aggregate_gate_pass": false,
+        "reconstruction_all_source_gate_pass": false
+      },
+      "v_only_frozen_control": {
+        "branch_audit_pass": true,
+        "composite_one_step_pass": false,
+        "denoising_result_pass": false,
+        "endpoint": {
+          "best_ordered_rmse_mean": 0.001513182302005589,
+          "both_branch_support_rate": 0.75,
+          "nearest_inversion_p95": 0.28913043478260836,
+          "sample_validity_rate": 0.796875,
+          "valid_query_rate": 1.0
+        },
+        "legacy_delta_cosine_p50": 0.9457176311353408,
+        "legacy_own_target_closer_fraction": 0.9947916666666666,
+        "legacy_separation_ratio_p50": 0.9767303703590315,
+        "reconstruction_aggregate_gate_pass": false,
+        "reconstruction_all_source_gate_pass": false
+      }
+    }
+  },
+  "repository": {
+    "base_failure_commit": "a54cdd20d88f5eb00ebe25e8d4a20c28fe7d6e7f",
+    "branch": "Experiment1",
+    "cache_sha256": "3cc512f650557c81c3b81f4f128a5b55360b77d3f664fdd6607666936285fbe8",
+    "formal_test_read": false,
+    "frozen_contract_sha256": "fa2725ca40da2499008360f13d291d2ce8694e6393910b0522fe800f4f37cdcc",
+    "main_commit": "7a628a85e015b26e354703a64ae0b9792dfe85ca",
+    "r22_root_cause": "phase314b_r22_no_pilot_geometry_repair",
+    "r22_verdict": "FAIL",
+    "submodule_commit": "633a88752445cf5d6776ed374fdbbdb35f93050c"
+  },
+  "schemas": {
+    "gate_separation": "phase314b_r253_gate_separation_v1",
+    "historical_reproduction": "phase314b_r253_r252_one_step_reproduction_v1",
+    "reconstruction_decomposition": "phase314b_r253_reconstruction_decomposition_v1",
+    "synthetic_controls": "phase314b_r253_synthetic_gate_controls_v1"
+  },
+  "selected_configuration": null,
+  "source_sha256": {
+    "ccda_phase3/phase314b_r253_gate_separation.py": "9feace03b2f93db1a15353c14cbd1000135c5f2c25dd069259556aabf952f015",
+    "scripts/phase3_14b_r253_finalize.py": "70c428fa88bc3d0520405d70645a3b39465efc8f0c8d866382c5b2d23d1bb783",
+    "scripts/phase3_14b_r253_preflight.py": "76e25a5a0f985d4b70d4619b7df9c4a9f8e3d69015e9b753d9c63a0fdfa953df",
+    "scripts/phase3_14b_r253_run.sh": "6080127c5ba5c583b455c5456e6d5bd5d0b425b8d3d6053b10eab37ee0f5ecbf",
+    "scripts/phase3_14b_r253_run_pilot.py": "bbce3ac275612edcb76d7317233b42e33a5944c7de5f13757e5f702d7acef021",
+    "tests/test_phase314b_r253_gate_separation.py": "0f3fc4be0b6fe46d80c72d2d433a6cfa3a15958e527d8d17975bbe31677f6674"
+  },
+  "validation_targets_used": false,
+  "verdict": "PASS"
+}
