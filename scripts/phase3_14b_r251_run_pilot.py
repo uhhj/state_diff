@@ -43,10 +43,12 @@ from ccda_phase3.phase314b_r251_gradient_calibration import (
     PAIRED_EVAL_TIMESTEPS,
     PAIRED_GEOMETRY_TIMESTEP_MAX,
     PHASE,
+    OBJECTIVE_MATRIX_SCHEMA,
     PAIRED_INVERSION_SCHEMA,
     UNIQUE_EVAL_TIMESTEPS,
     GradientCalibrationSpec,
     assert_canonical_paired_row_contract,
+    calibrated_objective_names,
     assert_only_allowed_worktree_paths,
     classify_pilot,
     compare_calibrated_to_control,
@@ -54,6 +56,9 @@ from ccda_phase3.phase314b_r251_gradient_calibration import (
     paired_reverse_pool_metrics_with_inversion,
     source_sha256,
     strip_runtime_objects,
+    validate_and_order_objective_mapping,
+    validate_advancing_objective_order,
+    validate_explicit_objective_order,
     train_calibrated_geometry_variant,
 )
 from ccda_phase3.phase314b_r2_contract import REPAIR_CONFIGS
@@ -119,10 +124,19 @@ def main() -> None:
     if preflight.get("r251_source_sha256") != source_sha256(root):
         raise RuntimeError("r2.5.1 source changed after preflight")
     resume = preflight.get("resume")
-    if not isinstance(resume, dict) or resume.get("generation") != 1:
-        raise RuntimeError("r2.5.1 Resume1 provenance is missing")
-    if resume.get("correction") != "paired_reverse_singleton_batch_contract":
-        raise RuntimeError("r2.5.1 Resume1 correction contract mismatch")
+    if not isinstance(resume, dict) or resume.get("generation") != 2:
+        raise RuntimeError("r2.5.1 Resume2 provenance is missing")
+    if resume.get("correction") != "json_object_order_not_semantic_objective_contract":
+        raise RuntimeError("r2.5.1 Resume2 correction contract mismatch")
+    expected_names = calibrated_objective_names()
+    objective_contract = preflight.get("objective_matrix_contract", {})
+    if objective_contract.get("schema") != OBJECTIVE_MATRIX_SCHEMA:
+        raise RuntimeError("r2.5.1 objective-matrix schema mismatch")
+    validate_explicit_objective_order(
+        objective_contract.get("objective_order"),
+        expected_names=expected_names,
+        name="preflight objective_order",
+    )
 
     arrays, manifest, x_raw, x_standardizer, train, fit, _, validation = load_verified_inputs(root)
     split = np.asarray(arrays["split_name"]).astype(str)
@@ -380,14 +394,38 @@ def main() -> None:
                     control={"reverse_metrics": control["reverse_metrics"]},
                 )
 
-    unique_results = {
+    unique_serialized = {
         name: strip_runtime_objects(value)
         for name, value in unique_runtime.items()
     }
-    paired_results = {
+    unique_results = validate_and_order_objective_mapping(
+        unique_serialized,
+        expected_names=expected_names,
+        name="unique_free_variants",
+    )
+    advancing_names = list(
+        validate_advancing_objective_order(
+            advancing_names,
+            expected_names=expected_names,
+            unique_variants=unique_results,
+        )
+    )
+    paired_expected_names = tuple(
+        name for name in expected_names if name in set(advancing_names)
+    )
+    paired_serialized = {
         name: strip_runtime_objects(value)
         for name, value in paired_runtime.items()
     }
+    paired_results = (
+        validate_and_order_objective_mapping(
+            paired_serialized,
+            expected_names=paired_expected_names,
+            name="paired_variants",
+        )
+        if paired_expected_names
+        else {}
+    )
     visible_seed = np.asarray(arrays["visible_seed"]).astype(np.int64)
     pair_key = np.asarray(arrays["pair_key"]).astype(str)
     report: Dict[str, Any] = {
@@ -438,6 +476,9 @@ def main() -> None:
             "batching": "balanced",
             "prediction_type": "v_prediction",
         },
+        "objective_matrix_schema": OBJECTIVE_MATRIX_SCHEMA,
+        "objective_order": list(expected_names),
+        "paired_objective_order": list(paired_expected_names),
         "gradient_calibration_contract": {
             "method": "fixed multiplier from actual residual-gradient norms",
             "formula": "lambda = target_ratio / median(||grad Lgeo|| / ||grad Lv||)",

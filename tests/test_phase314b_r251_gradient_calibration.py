@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import json
+
 import numpy as np
 import pytest
 
@@ -8,11 +10,13 @@ import ccda_phase3.phase314b_r251_gradient_calibration as r251
 from ccda_phase3.phase314b_r251_gradient_calibration import (
     CALIBRATED_GEOMETRY_OBJECTIVES,
     EXPECTED_PAIRED_ROWS,
+    OBJECTIVE_MATRIX_SCHEMA,
     PAIRED_INVERSION_SCHEMA,
     TARGET_GRADIENT_RATIOS,
     CalibratedGeometryObjective,
     GradientCalibrationSpec,
     assert_canonical_paired_row_contract,
+    calibrated_objective_names,
     calibrated_multiplier_from_gradient_norms,
     classify_pilot,
     compare_calibrated_to_control,
@@ -21,6 +25,9 @@ from ccda_phase3.phase314b_r251_gradient_calibration import (
     paired_reverse_pool_metrics_with_inversion,
     strip_runtime_objects,
     tensor_state_sha256,
+    validate_advancing_objective_order,
+    validate_and_order_objective_mapping,
+    validate_explicit_objective_order,
 )
 
 
@@ -441,3 +448,115 @@ def test_classifier_reports_nonstationary_gradient() -> None:
     }
     result = classify_pilot(report)
     assert result["root_cause"] == "phase314b_r251_geometry_gradient_nonstationarity_supported"
+
+
+
+def test_objective_matrix_schema_is_explicit_v2() -> None:
+    assert OBJECTIVE_MATRIX_SCHEMA == "phase314b_r251_explicit_objective_order_v2"
+    assert calibrated_objective_names() == tuple(
+        objective.name for objective in CALIBRATED_GEOMETRY_OBJECTIVES
+    )
+
+
+def test_sorted_json_object_order_does_not_change_objective_membership() -> None:
+    expected = calibrated_objective_names()
+    semantic = {name: {"pass": True} for name in expected}
+    reloaded = json.loads(json.dumps(semantic, sort_keys=True))
+    assert tuple(reloaded) != expected
+    ordered = validate_and_order_objective_mapping(
+        reloaded,
+        expected_names=expected,
+        name="unique_free_variants",
+    )
+    assert tuple(ordered) == expected
+
+
+def test_objective_mapping_rejects_missing_member() -> None:
+    expected = calibrated_objective_names()
+    values = {name: {} for name in expected[:-1]}
+    with pytest.raises(RuntimeError, match="membership changed"):
+        validate_and_order_objective_mapping(
+            values,
+            expected_names=expected,
+            name="unique_free_variants",
+        )
+
+
+def test_objective_mapping_rejects_unexpected_member() -> None:
+    expected = calibrated_objective_names()
+    values = {name: {} for name in expected}
+    values["unexpected"] = {}
+    with pytest.raises(RuntimeError, match="unexpected"):
+        validate_and_order_objective_mapping(
+            values,
+            expected_names=expected,
+            name="unique_free_variants",
+        )
+
+
+def test_explicit_objective_order_must_match_semantic_order() -> None:
+    expected = calibrated_objective_names()
+    validate_explicit_objective_order(
+        list(expected),
+        expected_names=expected,
+    )
+    wrong = list(expected)
+    wrong[1], wrong[2] = wrong[2], wrong[1]
+    with pytest.raises(RuntimeError, match="objective_order changed"):
+        validate_explicit_objective_order(
+            wrong,
+            expected_names=expected,
+        )
+
+
+def test_explicit_objective_order_rejects_mapping() -> None:
+    expected = calibrated_objective_names()
+    with pytest.raises(TypeError, match="JSON array"):
+        validate_explicit_objective_order(
+            {name: index for index, name in enumerate(expected)},
+            expected_names=expected,
+        )
+
+
+def test_advancing_objectives_are_derived_in_semantic_order() -> None:
+    expected = calibrated_objective_names()
+    unique = {
+        name: {"pass": name in {expected[0], expected[2], expected[7]}}
+        for name in expected
+    }
+    observed = [expected[0], expected[2], expected[7]]
+    result = validate_advancing_objective_order(
+        observed,
+        expected_names=expected,
+        unique_variants=unique,
+    )
+    assert result == tuple(observed)
+
+
+def test_advancing_objectives_reject_sorted_but_semantically_wrong_order() -> None:
+    expected = calibrated_objective_names()
+    passing = [expected[0], expected[2], expected[7]]
+    unique = {
+        name: {"pass": name in set(passing)}
+        for name in expected
+    }
+    wrong = sorted(passing)
+    if wrong == passing:
+        wrong = [passing[1], passing[0], passing[2]]
+    with pytest.raises(RuntimeError, match="order changed"):
+        validate_advancing_objective_order(
+            wrong,
+            expected_names=expected,
+            unique_variants=unique,
+        )
+
+
+def test_advancing_objectives_must_match_unique_pass_gates() -> None:
+    expected = calibrated_objective_names()
+    unique = {name: {"pass": name == expected[0]} for name in expected}
+    with pytest.raises(RuntimeError, match="does not match unique pass gates"):
+        validate_advancing_objective_order(
+            [expected[0], expected[1]],
+            expected_names=expected,
+            unique_variants=unique,
+        )

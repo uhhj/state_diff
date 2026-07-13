@@ -16,10 +16,16 @@ from ccda_phase3.phase314b_r251_gradient_calibration import (
     EXPECTED_CONTRACT_SHA256,
     EXPECTED_PAIRED_ROWS,
     EXPECTED_SUBMODULE_COMMIT,
+    OBJECTIVE_MATRIX_SCHEMA,
     PAIRED_INVERSION_SCHEMA,
     PHASE,
     assert_only_allowed_worktree_paths,
+    calibrated_objective_names,
+    classify_pilot,
     source_sha256,
+    validate_advancing_objective_order,
+    validate_and_order_objective_mapping,
+    validate_explicit_objective_order,
 )
 
 
@@ -295,7 +301,7 @@ def main() -> None:
     parser.add_argument("--root", default="/data/state_diff2")
     parser.add_argument(
         "--preflight-report",
-        default="reports/phase3_14b_r251_preflight_summary.json",
+        default="reports/phase3_14b_r251_resume2_preflight_summary.json",
     )
     parser.add_argument(
         "--pilot-report",
@@ -325,10 +331,12 @@ def main() -> None:
     if pilot.get("source_sha256") != current_source:
         raise RuntimeError("pilot source provenance mismatch")
     resume = preflight.get("resume")
-    if not isinstance(resume, Mapping) or resume.get("generation") != 1:
-        raise RuntimeError("Resume1 preflight provenance missing")
+    if not isinstance(resume, Mapping) or resume.get("generation") != 2:
+        raise RuntimeError("Resume2 preflight provenance missing")
+    if resume.get("correction") != "json_object_order_not_semantic_objective_contract":
+        raise RuntimeError("Resume2 correction provenance mismatch")
     if pilot.get("resume") != resume:
-        raise RuntimeError("pilot Resume1 provenance mismatch")
+        raise RuntimeError("pilot Resume2 provenance mismatch")
     if pilot.get("phase") != PHASE or pilot.get("verdict") != "PASS":
         raise RuntimeError("pilot did not complete")
     if pilot.get("selected_configuration") is not None:
@@ -337,6 +345,7 @@ def main() -> None:
         raise RuntimeError("paired nearest-index inversion was not instrumented")
     if pilot.get("paired_nearest_inversion_schema") != PAIRED_INVERSION_SCHEMA:
         raise RuntimeError("paired nearest-index inversion schema mismatch")
+
     paired_contract = pilot.get("dataset", {}).get("paired_row_contract", {})
     if paired_contract.get("pass") is not True:
         raise RuntimeError("paired-row contract did not pass")
@@ -359,6 +368,67 @@ def main() -> None:
         if pilot.get(key) != expected:
             raise RuntimeError(f"pilot boundary mismatch for {key}")
 
+    expected_names = calibrated_objective_names()
+    if pilot.get("objective_matrix_schema") != OBJECTIVE_MATRIX_SCHEMA:
+        raise RuntimeError("pilot objective-matrix schema mismatch")
+    preflight_contract = preflight.get("objective_matrix_contract", {})
+    if preflight_contract.get("schema") != OBJECTIVE_MATRIX_SCHEMA:
+        raise RuntimeError("preflight objective-matrix schema mismatch")
+    validate_explicit_objective_order(
+        preflight_contract.get("objective_order"),
+        expected_names=expected_names,
+        name="preflight objective_order",
+    )
+    validate_explicit_objective_order(
+        pilot.get("objective_order"),
+        expected_names=expected_names,
+        name="pilot objective_order",
+    )
+
+    unique_values = validate_and_order_objective_mapping(
+        pilot.get("unique_free_variants", {}),
+        expected_names=expected_names,
+        name="unique_free_variants",
+    )
+    advancing_names = validate_advancing_objective_order(
+        pilot.get("unique_advancing_variants"),
+        expected_names=expected_names,
+        unique_variants=unique_values,
+    )
+    paired_expected_names = tuple(
+        name for name in expected_names if name in set(advancing_names)
+    )
+    if list(pilot.get("paired_objective_order", [])) != list(paired_expected_names):
+        raise RuntimeError(
+            "paired_objective_order changed: "
+            f"expected={list(paired_expected_names)}, "
+            f"observed={pilot.get('paired_objective_order')}"
+        )
+    paired_values = (
+        validate_and_order_objective_mapping(
+            pilot.get("paired_variants", {}),
+            expected_names=paired_expected_names,
+            name="paired_variants",
+        )
+        if paired_expected_names
+        else {}
+    )
+
+    objective_by_name = {
+        objective.name: objective for objective in CALIBRATED_GEOMETRY_OBJECTIVES
+    }
+    for name, value in unique_values.items():
+        objective = value.get("geometry_objective", {})
+        expected = objective_by_name[name]
+        if objective.get("name") != name:
+            raise RuntimeError(f"unique variant internal name mismatch for {name}")
+        if objective.get("family") != expected.family:
+            raise RuntimeError(f"unique variant family mismatch for {name}")
+        if float(objective.get("target_gradient_ratio", -1.0)) != float(
+            expected.target_gradient_ratio
+        ):
+            raise RuntimeError(f"unique variant target-ratio mismatch for {name}")
+
     required_reverse_fields = (
         "schema",
         "batched_item_count",
@@ -369,7 +439,7 @@ def main() -> None:
         "nearest_unique_fraction_p05",
         "nearest_unique_fraction_min",
     )
-    for name, value in pilot.get("paired_variants", {}).items():
+    for name, value in paired_values.items():
         reverse = value.get("reverse_metrics", {}) if isinstance(value, Mapping) else {}
         if not reverse:
             continue
@@ -380,17 +450,27 @@ def main() -> None:
             )
         if reverse.get("schema") != PAIRED_INVERSION_SCHEMA:
             raise RuntimeError(f"paired inversion schema mismatch for {name}")
+        if int(reverse.get("batched_item_count", -1)) != 128:
+            raise RuntimeError(f"paired inversion batch count mismatch for {name}")
 
-    expected_names = [objective.name for objective in CALIBRATED_GEOMETRY_OBJECTIVES]
-    if list(pilot["unique_free_variants"]) != expected_names:
-        raise RuntimeError("unique objective matrix/order changed")
+    recomputed = classify_pilot(
+        {
+            "unique_free_variants": unique_values,
+            "paired_variants": paired_values,
+        }
+    )
+    for key in ("root_cause", "next_stage", "train_only_recommendation"):
+        if pilot.get(key) != recomputed.get(key):
+            raise RuntimeError(
+                f"pilot classifier output mismatch for {key}: "
+                f"{pilot.get(key)!r} != {recomputed.get(key)!r}"
+            )
+
     unique_compact = {
-        name: compact_unique(value)
-        for name, value in pilot["unique_free_variants"].items()
+        name: compact_unique(unique_values[name]) for name in expected_names
     }
     paired_compact = {
-        name: compact_paired(value)
-        for name, value in pilot["paired_variants"].items()
+        name: compact_paired(paired_values[name]) for name in paired_expected_names
     }
     recommendation = pilot.get("train_only_recommendation")
     if recommendation == "v_only_frozen_control":
@@ -411,9 +491,12 @@ def main() -> None:
         "frozen_contract_sha256": EXPECTED_CONTRACT_SHA256,
         "fixed_model_contract": pilot["fixed_model_contract"],
         "geometry_scales": pilot["geometry_scales"],
+        "objective_matrix_schema": OBJECTIVE_MATRIX_SCHEMA,
+        "objective_order": list(expected_names),
+        "paired_objective_order": list(paired_expected_names),
         "gradient_calibration_contract": pilot["gradient_calibration_contract"],
         "unique_free_variants": unique_compact,
-        "unique_advancing_variants": pilot["unique_advancing_variants"],
+        "unique_advancing_variants": list(advancing_names),
         "paired_variants": paired_compact,
         "paired_nearest_inversion_instrumented": True,
         "paired_nearest_inversion_schema": PAIRED_INVERSION_SCHEMA,

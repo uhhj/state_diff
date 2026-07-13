@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Preflight for Phase3.14b-r2.5.1 Resume1.
+"""Preflight for Phase3.14b-r2.5.1 Resume2.
 
-Resume1 preserves the original blocked evidence and verifies the corrected
-batched nearest-index contract before any train-only GPU execution.
+Resume2 preserves the original and Resume1 blocked evidence, proves that the
+latest block was caused only by treating JSON-object key order as a semantic
+objective-matrix contract, and restarts the complete train-only pilot.
 """
 
 from __future__ import annotations
@@ -24,6 +25,8 @@ from ccda_phase3.phase314b_r23_diagnostics import (
 from ccda_phase3.phase314b_r251_gradient_calibration import (
     BASE_BLOCKED_REPORT_COMMIT,
     BASE_REPORT_COMMIT,
+    BASE_RESUME1_BLOCKED_REPORT_COMMIT,
+    BASE_RESUME1_CORRECTION_COMMIT,
     CALIBRATED_GEOMETRY_OBJECTIVES,
     EXPECTED_CACHE_SHA256,
     EXPECTED_CONTRACT_SHA256,
@@ -31,16 +34,21 @@ from ccda_phase3.phase314b_r251_gradient_calibration import (
     EXPECTED_R25_RECOMMENDATION,
     EXPECTED_R25_ROOT_CAUSE,
     EXPECTED_SUBMODULE_COMMIT,
+    OBJECTIVE_MATRIX_SCHEMA,
     PAIRED_INVERSION_SCHEMA,
     PHASE,
     assert_canonical_paired_row_contract,
+    calibrated_objective_names,
     source_sha256,
 )
 
 ORIGINAL_PREFLIGHT = "reports/phase3_14b_r251_preflight_summary.json"
 ORIGINAL_BLOCKED_JSON = "reports/phase3_14b_r251_blocked_summary.json"
 ORIGINAL_BLOCKED_MD = "reports/phase3_14b_r251_blocked_report.md"
-RESUME_PREFLIGHT = "reports/phase3_14b_r251_resume_preflight_summary.json"
+RESUME1_PREFLIGHT = "reports/phase3_14b_r251_resume_preflight_summary.json"
+RESUME1_BLOCKED_JSON = "reports/phase3_14b_r251_resume_blocked_summary.json"
+RESUME1_BLOCKED_MD = "reports/phase3_14b_r251_resume_blocked_report.md"
+RESUME2_PREFLIGHT = "reports/phase3_14b_r251_resume2_preflight_summary.json"
 
 
 def load_json(path: Path) -> Dict[str, Any]:
@@ -74,29 +82,43 @@ def require_mapping_boundary(
             )
 
 
+def require_unchanged_at_commit(
+    root: Path,
+    commit: str,
+    paths: tuple[str, ...],
+    *,
+    name: str,
+) -> None:
+    if not git_success(root, "diff", "--quiet", commit, "--", *paths):
+        raise RuntimeError(f"{name} changed after {commit}")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", default="/data/state_diff2")
-    parser.add_argument("--resume-generation", type=int, default=1)
-    parser.add_argument("--output", default=RESUME_PREFLIGHT)
+    parser.add_argument("--resume-generation", type=int, default=2)
+    parser.add_argument("--output", default=RESUME2_PREFLIGHT)
     args = parser.parse_args()
 
-    if int(args.resume_generation) != 1:
-        raise RuntimeError("this corrected source authorizes Resume1 only")
+    if int(args.resume_generation) != 2:
+        raise RuntimeError("this corrected source authorizes Resume2 only")
 
     root = Path(args.root).resolve()
     repository = require_repository_state(root, require_clean=True)
     if repository["branch"] != "Experiment1":
-        raise RuntimeError("r2.5.1 Resume1 requires Experiment1")
+        raise RuntimeError("r2.5.1 Resume2 requires Experiment1")
     if repository["submodule_commit"] != EXPECTED_SUBMODULE_COMMIT:
         raise RuntimeError("DeformableRavens submodule commit mismatch")
     if repository["cache_sha256"] != EXPECTED_CACHE_SHA256:
         raise RuntimeError("immutable cache SHA mismatch")
     if repository["frozen_contract_sha256"] != EXPECTED_CONTRACT_SHA256:
         raise RuntimeError("frozen contract SHA mismatch")
+
     for commit, label in (
         (BASE_REPORT_COMMIT, "r2.5 final report"),
-        (BASE_BLOCKED_REPORT_COMMIT, "r2.5.1 blocked report"),
+        (BASE_BLOCKED_REPORT_COMMIT, "r2.5.1 original blocked report"),
+        (BASE_RESUME1_CORRECTION_COMMIT, "r2.5.1 Resume1 correction"),
+        (BASE_RESUME1_BLOCKED_REPORT_COMMIT, "r2.5.1 Resume1 blocked report"),
     ):
         if not git_success(root, "merge-base", "--is-ancestor", commit, "HEAD"):
             raise RuntimeError(f"{label} commit is not an ancestor")
@@ -113,23 +135,36 @@ def main() -> None:
         "reports/phase3_14b_r25_summary.json",
         "reports/phase3_14b_r25_report.md",
     )
-    if not git_success(root, "diff", "--quiet", BASE_REPORT_COMMIT, "--", *historical_r25):
-        raise RuntimeError("historical r2.5 evidence changed after final report")
+    require_unchanged_at_commit(
+        root,
+        BASE_REPORT_COMMIT,
+        historical_r25,
+        name="historical r2.5 evidence",
+    )
 
-    blocked_evidence = (
+    original_evidence = (
         ORIGINAL_PREFLIGHT,
         ORIGINAL_BLOCKED_JSON,
         ORIGINAL_BLOCKED_MD,
     )
-    if not git_success(
+    require_unchanged_at_commit(
         root,
-        "diff",
-        "--quiet",
         BASE_BLOCKED_REPORT_COMMIT,
-        "--",
-        *blocked_evidence,
-    ):
-        raise RuntimeError("original r2.5.1 blocked evidence changed")
+        original_evidence,
+        name="original r2.5.1 blocked evidence",
+    )
+
+    resume1_evidence = (
+        RESUME1_PREFLIGHT,
+        RESUME1_BLOCKED_JSON,
+        RESUME1_BLOCKED_MD,
+    )
+    require_unchanged_at_commit(
+        root,
+        BASE_RESUME1_BLOCKED_REPORT_COMMIT,
+        resume1_evidence,
+        name="Resume1 blocked evidence",
+    )
 
     r25 = load_json(root / "reports/phase3_14b_r25_summary.json")
     require_mapping_boundary(
@@ -155,9 +190,9 @@ def main() -> None:
     if original_preflight.get("verdict") != "PASS":
         raise RuntimeError("original r2.5.1 preflight did not pass")
 
-    blocked = load_json(root / ORIGINAL_BLOCKED_JSON)
+    original_blocked = load_json(root / ORIGINAL_BLOCKED_JSON)
     require_mapping_boundary(
-        blocked,
+        original_blocked,
         {
             "phase": PHASE,
             "verdict": "BLOCKED",
@@ -174,31 +209,75 @@ def main() -> None:
             "phase4": False,
             "cps": False,
         },
-        name="r2.5.1 blocked report",
+        name="original r2.5.1 blocked report",
     )
-    exception = str(blocked.get("exact_exception_tail", ""))
-    required_fragments = (
+    original_exception = str(original_blocked.get("exact_exception_tail", ""))
+    for fragment in (
         "paired_reverse_pool_metrics_with_inversion",
         "nearest_index_metrics",
         "future must be finite [N,4,87]",
+    ):
+        if fragment not in original_exception:
+            raise RuntimeError(
+                f"original blocked exception contract missing fragment: {fragment}"
+            )
+
+    resume1_preflight = load_json(root / RESUME1_PREFLIGHT)
+    resume1 = resume1_preflight.get("resume")
+    if not isinstance(resume1, Mapping) or resume1.get("generation") != 1:
+        raise RuntimeError("Resume1 preflight provenance is invalid")
+    if resume1_preflight.get("paired_inversion_contract", {}).get("schema") != PAIRED_INVERSION_SCHEMA:
+        raise RuntimeError("Resume1 paired inversion schema mismatch")
+
+    resume1_blocked = load_json(root / RESUME1_BLOCKED_JSON)
+    require_mapping_boundary(
+        resume1_blocked,
+        {
+            "phase": PHASE,
+            "verdict": "BLOCKED",
+            "root_cause": "phase314b_r251_execution_failed",
+            "resume_generation": 1,
+            "stage": "finalize",
+            "validation_targets_used": False,
+            "formal_test_read": False,
+            "formal_training": False,
+            "candidate_eligible": False,
+            "selected_configuration": None,
+            "checkpoint_saved": False,
+            "idm": False,
+            "candidate_execution": False,
+            "phase4": False,
+            "cps": False,
+        },
+        name="Resume1 blocked report",
     )
-    missing_fragments = [value for value in required_fragments if value not in exception]
-    if missing_fragments:
+    resume1_exception = str(resume1_blocked.get("exact_exception_tail", ""))
+    required_resume1_fragments = (
+        "phase3_14b_r251_finalize.py",
+        "unique objective matrix/order changed",
+    )
+    missing = [value for value in required_resume1_fragments if value not in resume1_exception]
+    if missing:
         raise RuntimeError(
-            "original blocked exception contract mismatch: "
-            + ", ".join(missing_fragments)
+            "Resume1 blocked exception contract mismatch: " + ", ".join(missing)
         )
 
+    # The Resume1 pilot summary was not committed. A clean worktree means there
+    # is no cryptographically retained runtime artifact that can be finalized.
+    # Resume2 therefore restarts from pilot_start rather than reconstructing a
+    # report from logs or user-provided tables.
     forbidden_existing = (
         "reports/phase3_14b_r251_pilot_summary.json",
         "reports/phase3_14b_r251_summary.json",
         "reports/phase3_14b_r251_report.md",
-        "reports/phase3_14b_r251_resume_blocked_summary.json",
-        "reports/phase3_14b_r251_resume_blocked_report.md",
+        "reports/phase3_14b_r251_resume2_blocked_summary.json",
+        "reports/phase3_14b_r251_resume2_blocked_report.md",
     )
     existing = [value for value in forbidden_existing if (root / value).exists()]
     if existing:
-        raise RuntimeError("unexpected r2.5.1 Resume1 artifacts already exist: " + ", ".join(existing))
+        raise RuntimeError(
+            "unexpected r2.5.1 Resume2 artifacts already exist: " + ", ".join(existing)
+        )
 
     arrays, manifest, _, _, train, fit, calibration, validation = load_verified_inputs(root)
     split = np.asarray(arrays["split_name"]).astype(str)
@@ -215,36 +294,46 @@ def main() -> None:
         output_relative = output.relative_to(root).as_posix()
     except ValueError as exc:
         raise RuntimeError("preflight output must remain inside repository") from exc
-    if output_relative != RESUME_PREFLIGHT:
+    if output_relative != RESUME2_PREFLIGHT:
         raise RuntimeError(
-            f"Resume1 preflight must use {RESUME_PREFLIGHT}, got {output_relative}"
+            f"Resume2 preflight must use {RESUME2_PREFLIGHT}, got {output_relative}"
         )
 
+    objective_order = list(calibrated_objective_names())
     report = {
         "phase": PHASE,
         "verdict": "PASS",
         "meaning": (
-            "r2.5.1 singleton nearest-index rank defect verified and corrected; "
-            "train-only boundaries preserved"
+            "Resume1 JSON-object ordering defect verified; Resume2 binds the "
+            "objective matrix to an explicit ordered array and exact key membership"
         ),
         "repository": repository,
         "base_report_commit": BASE_REPORT_COMMIT,
         "base_blocked_report_commit": BASE_BLOCKED_REPORT_COMMIT,
+        "base_resume1_correction_commit": BASE_RESUME1_CORRECTION_COMMIT,
+        "base_resume1_blocked_report_commit": BASE_RESUME1_BLOCKED_REPORT_COMMIT,
         "cache_sha256": EXPECTED_CACHE_SHA256,
         "frozen_contract_sha256": EXPECTED_CONTRACT_SHA256,
         "resume": {
             "enabled": True,
-            "generation": 1,
-            "blocked_report_commit": BASE_BLOCKED_REPORT_COMMIT,
-            "blocked_report": ORIGINAL_BLOCKED_JSON,
-            "correction": "paired_reverse_singleton_batch_contract",
+            "generation": 2,
+            "blocked_report_commit": BASE_RESUME1_BLOCKED_REPORT_COMMIT,
+            "blocked_report": RESUME1_BLOCKED_JSON,
+            "correction": "json_object_order_not_semantic_objective_contract",
             "restart_from": "pilot_start",
             "partial_runtime_results_reused": False,
+        },
+        "objective_matrix_contract": {
+            "schema": OBJECTIVE_MATRIX_SCHEMA,
+            "objective_order": objective_order,
+            "mapping_membership_must_match": True,
+            "json_object_iteration_order_semantic": False,
+            "explicit_json_array_order_required": True,
+            "sort_keys_serialization_supported": True,
         },
         "paired_inversion_contract": {
             "schema": PAIRED_INVERSION_SCHEMA,
             "canonical_metric_input": "[N,4,87]",
-            "singleton_input_forbidden": True,
             "vectorized_candidate_query_batch": True,
         },
         "paired_row_contract": paired_contract,

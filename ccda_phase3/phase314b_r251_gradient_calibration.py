@@ -55,6 +55,8 @@ PHASE = "phase3_14b_r251"
 BASE_REPORT_COMMIT = "9d40e0264fc2bc1f1d5576b9d9833aedd426ea98"
 BASE_IMPLEMENTATION_COMMIT = "88de2de2b5b88729c7e2d126493a3c3677f9b141"
 BASE_BLOCKED_REPORT_COMMIT = "d396e9e23ad429c9b6a7a1db874107657f91d65e"
+BASE_RESUME1_CORRECTION_COMMIT = "f52c6fb65eee698c4922837e179d3df3cba64f63"
+BASE_RESUME1_BLOCKED_REPORT_COMMIT = "3dd00a024731a33c6fe89d3d7757f1e00643fa33"
 EXPECTED_SUBMODULE_COMMIT = "633a88752445cf5d6776ed374fdbbdb35f93050c"
 EXPECTED_CACHE_SHA256 = (
     "3cc512f650557c81c3b81f4f128a5b55360b77d3f664fdd6607666936285fbe8"
@@ -77,6 +79,7 @@ EXPECTED_PAIRED_ROWS = (
     49, 1269,
 )
 PAIRED_INVERSION_SCHEMA = "phase314b_r251_paired_reverse_batched_inversion_v2"
+OBJECTIVE_MATRIX_SCHEMA = "phase314b_r251_explicit_objective_order_v2"
 
 COMMON_UNIQUE_TRAINING_SEED = 101000
 COMMON_PAIRED_TRAINING_SEED = 102000
@@ -207,6 +210,97 @@ def _objective_matrix() -> Tuple[CalibratedGeometryObjective, ...]:
 
 
 CALIBRATED_GEOMETRY_OBJECTIVES = _objective_matrix()
+
+
+def calibrated_objective_names() -> Tuple[str, ...]:
+    """Return the immutable semantic order of the objective matrix."""
+    names = tuple(objective.name for objective in CALIBRATED_GEOMETRY_OBJECTIVES)
+    if len(names) != len(set(names)):
+        raise RuntimeError("calibrated objective names are not unique")
+    return names
+
+
+def validate_and_order_objective_mapping(
+    values: Mapping[str, Any],
+    *,
+    expected_names: Sequence[str],
+    name: str,
+) -> Dict[str, Any]:
+    """Validate mapping membership without treating JSON key order as semantic.
+
+    ``write_json_once`` intentionally serializes JSON with ``sort_keys=True``.
+    Therefore a JSON object cannot preserve the experiment's semantic order.
+    The order is carried by an explicit JSON array and this helper reconstructs
+    a canonical ordered mapping after validating exact membership.
+    """
+    if not isinstance(values, Mapping):
+        raise TypeError(f"{name} must be a mapping")
+    expected = tuple(str(value) for value in expected_names)
+    if not expected:
+        raise ValueError(f"{name} expected_names must not be empty")
+    if len(expected) != len(set(expected)):
+        raise ValueError(f"{name} expected_names contain duplicates")
+    observed = tuple(str(value) for value in values.keys())
+    if len(observed) != len(set(observed)):
+        raise ValueError(f"{name} contains duplicate keys")
+    missing = sorted(set(expected) - set(observed))
+    unexpected = sorted(set(observed) - set(expected))
+    if missing or unexpected:
+        raise RuntimeError(
+            f"{name} membership changed: missing={missing}, unexpected={unexpected}"
+        )
+    return {objective_name: values[objective_name] for objective_name in expected}
+
+
+def validate_explicit_objective_order(
+    value: Any,
+    *,
+    expected_names: Sequence[str],
+    name: str = "objective_order",
+) -> Tuple[str, ...]:
+    """Validate the explicit JSON-array order used as the semantic contract."""
+    if not isinstance(value, list):
+        raise TypeError(f"{name} must be a JSON array")
+    observed = tuple(str(item) for item in value)
+    expected = tuple(str(item) for item in expected_names)
+    if observed != expected:
+        raise RuntimeError(
+            f"{name} changed: expected={list(expected)}, observed={list(observed)}"
+        )
+    return observed
+
+
+def validate_advancing_objective_order(
+    value: Any,
+    *,
+    expected_names: Sequence[str],
+    unique_variants: Mapping[str, Any],
+) -> Tuple[str, ...]:
+    """Validate that advancing names are the ordered subset whose unique gate passed."""
+    if not isinstance(value, list):
+        raise TypeError("unique_advancing_variants must be a JSON array")
+    expected = tuple(str(item) for item in expected_names)
+    observed = tuple(str(item) for item in value)
+    if len(observed) != len(set(observed)):
+        raise RuntimeError("unique_advancing_variants contains duplicates")
+    unknown = sorted(set(observed) - set(expected))
+    if unknown:
+        raise RuntimeError(f"unique_advancing_variants contains unknown names: {unknown}")
+    semantic_subset = tuple(name for name in expected if name in set(observed))
+    if observed != semantic_subset:
+        raise RuntimeError(
+            "unique_advancing_variants order changed: "
+            f"expected={list(semantic_subset)}, observed={list(observed)}"
+        )
+    pass_subset = tuple(
+        name for name in expected if bool(unique_variants.get(name, {}).get("pass"))
+    )
+    if observed != pass_subset:
+        raise RuntimeError(
+            "unique_advancing_variants does not match unique pass gates: "
+            f"expected={list(pass_subset)}, observed={list(observed)}"
+        )
+    return observed
 
 
 @dataclass(frozen=True)

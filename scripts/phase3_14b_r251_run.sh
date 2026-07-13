@@ -5,18 +5,27 @@ ROOT="${1:-/data/state_diff2}"
 ORIGINAL_PREFLIGHT="reports/phase3_14b_r251_preflight_summary.json"
 ORIGINAL_BLOCKED_JSON="reports/phase3_14b_r251_blocked_summary.json"
 ORIGINAL_BLOCKED_MD="reports/phase3_14b_r251_blocked_report.md"
-PREFLIGHT="reports/phase3_14b_r251_resume_preflight_summary.json"
+RESUME1_PREFLIGHT="reports/phase3_14b_r251_resume_preflight_summary.json"
+RESUME1_BLOCKED_JSON="reports/phase3_14b_r251_resume_blocked_summary.json"
+RESUME1_BLOCKED_MD="reports/phase3_14b_r251_resume_blocked_report.md"
+PREFLIGHT="reports/phase3_14b_r251_resume2_preflight_summary.json"
 PILOT="reports/phase3_14b_r251_pilot_summary.json"
 SUMMARY="reports/phase3_14b_r251_summary.json"
 REPORT="reports/phase3_14b_r251_report.md"
-BLOCKED_JSON="reports/phase3_14b_r251_resume_blocked_summary.json"
-BLOCKED_MD="reports/phase3_14b_r251_resume_blocked_report.md"
+BLOCKED_JSON="reports/phase3_14b_r251_resume2_blocked_summary.json"
+BLOCKED_MD="reports/phase3_14b_r251_resume2_blocked_report.md"
 
 cd "${ROOT}"
 
-for path in "${ORIGINAL_PREFLIGHT}" "${ORIGINAL_BLOCKED_JSON}" "${ORIGINAL_BLOCKED_MD}"; do
+for path in \
+  "${ORIGINAL_PREFLIGHT}" \
+  "${ORIGINAL_BLOCKED_JSON}" \
+  "${ORIGINAL_BLOCKED_MD}" \
+  "${RESUME1_PREFLIGHT}" \
+  "${RESUME1_BLOCKED_JSON}" \
+  "${RESUME1_BLOCKED_MD}"; do
   if [[ ! -f "${path}" ]]; then
-    echo "Required original blocked evidence is missing: ${path}" >&2
+    echo "Required historical blocked evidence is missing: ${path}" >&2
     exit 1
   fi
 done
@@ -34,6 +43,7 @@ write_blocked() {
     "${traceback_file}" \
     "${BLOCKED_JSON}" \
     "${BLOCKED_MD}" <<'PY'
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -48,17 +58,28 @@ md_path = (root / sys.argv[7]).resolve()
 for path in (json_path, md_path):
     path.relative_to(root)
     if path.exists():
-        raise SystemExit(f"refusing to overwrite existing Resume1 blocked report: {path}")
+        raise SystemExit(f"refusing to overwrite existing Resume2 blocked report: {path}")
 traceback = traceback_path.read_text(encoding="utf-8", errors="replace")[-16000:]
+pilot_path = root / "reports/phase3_14b_r251_pilot_summary.json"
+pilot_present = pilot_path.is_file()
+pilot_sha256 = None
+if pilot_present:
+    digest = hashlib.sha256()
+    with pilot_path.open("rb") as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(chunk)
+    pilot_sha256 = digest.hexdigest()
 report = {
     "phase": "phase3_14b_r251",
     "verdict": "BLOCKED",
     "root_cause": "phase314b_r251_execution_failed",
-    "resume_generation": 1,
+    "resume_generation": 2,
     "exit_code": exit_code,
     "stage": stage,
     "command": command_text,
     "exact_exception_tail": traceback,
+    "pilot_report_present": pilot_present,
+    "pilot_report_sha256": pilot_sha256,
     "validation_targets_used": False,
     "formal_test_read": False,
     "formal_training": False,
@@ -75,12 +96,14 @@ json_path.write_text(
     encoding="utf-8",
 )
 md_path.write_text(
-    "# Phase3.14b-r2.5.1 Resume1 Blocked Report\n\n"
+    "# Phase3.14b-r2.5.1 Resume2 Blocked Report\n\n"
     "- Verdict: `BLOCKED`\n"
     "- Root cause: `phase314b_r251_execution_failed`\n"
-    "- Resume generation: `1`\n"
+    "- Resume generation: `2`\n"
     f"- Exit code: `{exit_code}`\n"
-    f"- Stage: `{stage}`\n\n"
+    f"- Stage: `{stage}`\n"
+    f"- Pilot report present: `{pilot_present}`\n"
+    f"- Pilot report SHA256: `{pilot_sha256}`\n\n"
     "## Command\n\n```text\n" + command_text + "\n```\n\n"
     "## Exact exception tail\n\n```text\n" + traceback + "\n```\n\n"
     "Formal test, formal training, IDM, candidate execution, Phase4 and CPS "
@@ -109,7 +132,7 @@ run_stage() {
 
 for path in "${PREFLIGHT}" "${PILOT}" "${SUMMARY}" "${REPORT}" "${BLOCKED_JSON}" "${BLOCKED_MD}"; do
   if [[ -e "${path}" ]]; then
-    echo "Refusing to overwrite existing Resume1 artifact: ${path}" >&2
+    echo "Refusing to overwrite existing Resume2 artifact: ${path}" >&2
     exit 1
   fi
 done
@@ -117,7 +140,7 @@ done
 run_stage preflight \
   python scripts/phase3_14b_r251_preflight.py \
     --root "${ROOT}" \
-    --resume-generation 1 \
+    --resume-generation 2 \
     --output "${PREFLIGHT}"
 
 run_stage pilot \
