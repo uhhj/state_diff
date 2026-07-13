@@ -31,6 +31,7 @@ from ccda_phase3.phase314b_r242_frozen_prior import (
     HIGH_TIMESTEPS,
     LOW_MID_TIMESTEPS,
     PHASE,
+    PRIOR_SEED_RUN_SCHEMA_VERSION,
     PriorFitSpec,
     ResidualTrainSpec,
     assert_only_allowed_worktree_paths,
@@ -100,6 +101,10 @@ def pair_ids_for_rows(
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", default="/data/state_diff2")
+    parser.add_argument(
+        "--preflight-report",
+        default="reports/phase3_14b_r242_preflight_summary.json",
+    )
     parser.add_argument("--prior-steps", type=int, default=5000)
     parser.add_argument("--residual-steps", type=int, default=8000)
     parser.add_argument("--paired-residual-steps", type=int, default=8000)
@@ -115,18 +120,29 @@ def main() -> None:
     args = parser.parse_args()
 
     root = Path(args.root).resolve()
+    preflight_path = Path(args.preflight_report)
+    if not preflight_path.is_absolute():
+        preflight_path = root / preflight_path
+    preflight_path = preflight_path.resolve()
+    try:
+        preflight_relative = preflight_path.relative_to(root).as_posix()
+    except ValueError as exc:
+        raise RuntimeError("preflight report must remain inside repository") from exc
+
     repository = require_repository_state(root, require_clean=False)
-    assert_only_allowed_worktree_paths(
-        root,
-        ("reports/phase3_14b_r242_preflight_summary.json",),
-    )
+    assert_only_allowed_worktree_paths(root, (preflight_relative,))
     if not torch.cuda.is_available():
         raise RuntimeError("r2.4.2 pilot requires CUDA")
     device = torch.device("cuda")
 
-    preflight = load_json(
-        root / "reports/phase3_14b_r242_preflight_summary.json"
-    )
+    preflight = load_json(preflight_path)
+    if preflight.get("verdict") != "PASS":
+        raise RuntimeError("r2.4.2 preflight did not pass")
+    if preflight.get("r242_source_sha256") != source_sha256(root):
+        raise RuntimeError("r2.4.2 source changed after preflight")
+    schema_contract = preflight.get("result_schema_contract", {})
+    if schema_contract.get("prior_seed_run") != PRIOR_SEED_RUN_SCHEMA_VERSION:
+        raise RuntimeError("preflight prior-seed schema contract mismatch")
     corrected = preflight["r241_corrected_interpretation"]
     if not corrected["classifier_precedence_bug_supported"]:
         raise RuntimeError("preflight interpretation gate failed")
@@ -376,6 +392,10 @@ def main() -> None:
             "paired_gate_timesteps": list(LOW_MID_TIMESTEPS),
             "paired_diagnostic_timesteps": list(HIGH_TIMESTEPS),
         },
+        "preflight_report": preflight_relative,
+        "resumed_after_schema_block": bool(
+            preflight.get("resume", {}).get("enabled")
+        ),
         "r241_corrected_interpretation": corrected_r241_interpretation(
             load_json(root / "reports/phase3_14b_r241_summary.json")
         ),

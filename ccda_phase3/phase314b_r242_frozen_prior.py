@@ -68,6 +68,13 @@ EXPECTED_R24_MODULE_SHA256 = (
 EXPECTED_R23_TINY_SHA256 = (
     "d370bef927af6dd0f3f5f94171482889dbadbbf5cf28c7f410567e5b25c886b2"
 )
+R242_IMPLEMENTATION_COMMIT = "5fee448dfbb082ecc2b92e40b8f9700d53f699dd"
+R242_BLOCKED_REPORT_COMMIT = "45dc27f952e1f635d7d4be3d2affc9d6cb9ea7d2"
+EXPECTED_R242_BLOCKED_ROOT_CAUSE = "phase314b_r242_execution_failed"
+PRIOR_SEED_RUN_SCHEMA_VERSION = "phase314b_r242_prior_seed_flat_v1"
+PRIOR_SEED_STABILITY_SCHEMA_VERSION = (
+    "phase314b_r242_prior_seed_stability_v1"
+)
 
 SOURCE_PATHS = (
     "ccda_phase3/phase314b_r242_frozen_prior.py",
@@ -809,6 +816,7 @@ def train_prior_seed_control(
         future_scale=future_scale,
     )
     return {
+        "schema_version": PRIOR_SEED_RUN_SCHEMA_VERSION,
         "hidden_dim": int(hidden_dim),
         "seed": int(seed),
         "spec": asdict(spec),
@@ -820,28 +828,111 @@ def train_prior_seed_control(
     }
 
 
+def _prior_seed_run_summary(
+    run: Mapping[str, Any],
+) -> Dict[str, Any]:
+    """Validate and normalize one direct-prior seed result.
+
+    ``train_prior_seed_control`` intentionally flattens the output of
+    ``_prior_metrics`` into the top-level result.  A nested ``aggregate`` key
+    therefore indicates the obsolete test-fixture schema that caused the
+    original r2.4.2 execution block.
+    """
+    if not isinstance(run, Mapping):
+        raise TypeError("prior seed run must be a mapping")
+    if "aggregate" in run:
+        raise ValueError(
+            "prior seed run uses obsolete nested aggregate schema"
+        )
+    if run.get("schema_version") != PRIOR_SEED_RUN_SCHEMA_VERSION:
+        raise ValueError("unexpected prior seed run schema_version")
+
+    required = (
+        "hidden_dim",
+        "seed",
+        "pass",
+        "gate_pass",
+        "all_source_gate_pass",
+        "metrics",
+    )
+    missing = [key for key in required if key not in run]
+    if missing:
+        raise ValueError(
+            "prior seed run is missing required fields: "
+            + ", ".join(missing)
+        )
+
+    metrics = run["metrics"]
+    if not isinstance(metrics, Mapping):
+        raise TypeError("prior seed run metrics must be a mapping")
+    for key in ("z_mse", "ordered_rmse_p95"):
+        if key not in metrics:
+            raise ValueError(f"prior seed run metrics missing {key}")
+
+    hidden_dim = int(run["hidden_dim"])
+    seed = int(run["seed"])
+    z_mse = float(metrics["z_mse"])
+    ordered_rmse_p95 = float(metrics["ordered_rmse_p95"])
+    if hidden_dim <= 0:
+        raise ValueError("prior seed run hidden_dim must be positive")
+    if not math.isfinite(z_mse) or z_mse < 0:
+        raise ValueError("prior seed run z_mse must be finite and nonnegative")
+    if not math.isfinite(ordered_rmse_p95) or ordered_rmse_p95 < 0:
+        raise ValueError(
+            "prior seed run ordered_rmse_p95 must be finite and nonnegative"
+        )
+
+    run_pass = bool(run["pass"])
+    expected_pass = bool(
+        run["gate_pass"] and run["all_source_gate_pass"]
+    )
+    if run_pass != expected_pass:
+        raise ValueError(
+            "prior seed run pass field is inconsistent with gate fields"
+        )
+
+    return {
+        "hidden_dim": hidden_dim,
+        "seed": seed,
+        "pass": run_pass,
+        "z_mse": z_mse,
+        "ordered_rmse_p95": ordered_rmse_p95,
+    }
+
+
 def summarize_seed_stability(
     runs: Sequence[Mapping[str, Any]],
 ) -> Dict[str, Any]:
-    if not runs:
-        raise ValueError("at least one run is required")
-    passes = [bool(run["pass"]) for run in runs]
-    z_values = [
-        float(run["aggregate"]["metrics"]["z_mse"])
-        for run in runs
-    ]
-    ordered_values = [
-        float(run["aggregate"]["metrics"]["ordered_rmse_p95"])
-        for run in runs
-    ]
+    """Summarize the required three-seed direct-prior stability audit."""
+    if len(runs) != 3:
+        raise ValueError("direct-prior stability requires exactly three runs")
+
+    normalized = [_prior_seed_run_summary(run) for run in runs]
+    hidden_dims = {item["hidden_dim"] for item in normalized}
+    if len(hidden_dims) != 1:
+        raise ValueError("direct-prior stability mixes hidden dimensions")
+    seeds = [item["seed"] for item in normalized]
+    if len(set(seeds)) != len(seeds):
+        raise ValueError("direct-prior stability contains duplicate seeds")
+
+    passes = [item["pass"] for item in normalized]
+    z_values = [item["z_mse"] for item in normalized]
+    ordered_values = [item["ordered_rmse_p95"] for item in normalized]
+    ordered_runs = sorted(normalized, key=lambda item: item["seed"])
+    pass_count = int(sum(passes))
+
     return {
-        "seed_count": int(len(runs)),
-        "pass_count": int(sum(passes)),
-        "stable_2_of_3": bool(sum(passes) >= 2),
+        "schema_version": PRIOR_SEED_STABILITY_SCHEMA_VERSION,
+        "hidden_dim": int(next(iter(hidden_dims))),
+        "seeds": [int(item["seed"]) for item in ordered_runs],
+        "seed_count": int(len(normalized)),
+        "pass_count": pass_count,
+        "stable_2_of_3": bool(pass_count >= 2),
         "z_mse_median": float(np.median(z_values)),
         "z_mse_max": float(np.max(z_values)),
         "ordered_rmse_p95_median": float(np.median(ordered_values)),
         "ordered_rmse_p95_max": float(np.max(ordered_values)),
+        "per_seed": ordered_runs,
     }
 
 

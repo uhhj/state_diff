@@ -20,12 +20,21 @@ def load_json(path: Path) -> Dict[str, Any]:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", default="/data/state_diff2")
+    parser.add_argument(
+        "--preflight-report",
+        default="reports/phase3_14b_r242_preflight_summary.json",
+    )
     args = parser.parse_args()
     root = Path(args.root).resolve()
 
-    preflight_path = (
-        root / "reports/phase3_14b_r242_preflight_summary.json"
-    )
+    preflight_path = Path(args.preflight_report)
+    if not preflight_path.is_absolute():
+        preflight_path = root / preflight_path
+    preflight_path = preflight_path.resolve()
+    try:
+        preflight_relative = preflight_path.relative_to(root).as_posix()
+    except ValueError as exc:
+        raise RuntimeError("preflight report must remain inside repository") from exc
     pilot_path = root / "reports/phase3_14b_r242_pilot_summary.json"
     preflight = load_json(preflight_path)
     pilot = load_json(pilot_path)
@@ -34,6 +43,8 @@ def main() -> None:
         raise RuntimeError("r2.4.2 preflight did not pass")
     if pilot.get("verdict") != "PASS":
         raise RuntimeError("r2.4.2 pilot did not complete")
+    if pilot.get("preflight_report") != preflight_relative:
+        raise RuntimeError("pilot/preflight provenance mismatch")
     for key in (
         "validation_targets_used",
         "formal_test_read",
@@ -127,6 +138,13 @@ def main() -> None:
             "train_only_recommendation"
         ),
         "selected_configuration": None,
+        "preflight_report": preflight_relative,
+        "resumed_after_schema_block": bool(
+            pilot.get("resumed_after_schema_block")
+        ),
+        "result_schema_contract": preflight.get(
+            "result_schema_contract"
+        ),
         "r241_corrected_interpretation": pilot[
             "r241_corrected_interpretation"
         ],

@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import copy
-
 import numpy as np
 import pytest
 import torch
@@ -10,6 +8,8 @@ from ccda_phase3.phase314b_r241_multirow import LabeledTupleBank
 from ccda_phase3.phase314b_r242_frozen_prior import (
     FactorizedAnalyticX0SkipDenoiser,
     FactorizedVariant,
+    PRIOR_SEED_RUN_SCHEMA_VERSION,
+    PRIOR_SEED_STABILITY_SCHEMA_VERSION,
     classify_pilot,
     corrected_r241_interpretation,
     paired_branch_audit,
@@ -194,25 +194,119 @@ def test_corrected_r241_interpretation_rejects_missing_frozen_pass() -> None:
     assert not result["classifier_precedence_bug_supported"]
 
 
-def test_seed_stability_requires_two_of_three() -> None:
-    template = {
+def make_prior_seed_run(
+    *,
+    seed: int,
+    passed: bool,
+    hidden_dim: int = 512,
+    z_mse: float = 1.0e-5,
+    ordered_rmse_p95: float = 1.0e-3,
+):
+    return {
+        "schema_version": PRIOR_SEED_RUN_SCHEMA_VERSION,
+        "hidden_dim": hidden_dim,
+        "seed": seed,
+        "pass": passed,
+        "gate_pass": passed,
+        "all_source_gate_pass": passed,
+        "metrics": {
+            "z_mse": z_mse,
+            "ordered_rmse_p95": ordered_rmse_p95,
+        },
+    }
+
+
+def test_seed_stability_requires_two_of_three_flat_runs() -> None:
+    runs = [
+        make_prior_seed_run(seed=95101, passed=True, z_mse=1.0e-5),
+        make_prior_seed_run(seed=95102, passed=False, z_mse=2.0e-5),
+        make_prior_seed_run(seed=95103, passed=True, z_mse=3.0e-5),
+    ]
+    result = summarize_seed_stability(runs)
+
+    assert result["schema_version"] == PRIOR_SEED_STABILITY_SCHEMA_VERSION
+    assert result["hidden_dim"] == 512
+    assert result["seeds"] == [95101, 95102, 95103]
+    assert result["pass_count"] == 2
+    assert result["stable_2_of_3"]
+    assert result["z_mse_median"] == pytest.approx(2.0e-5)
+    assert len(result["per_seed"]) == 3
+
+
+def test_seed_stability_rejects_obsolete_nested_schema() -> None:
+    obsolete = {
+        "schema_version": PRIOR_SEED_RUN_SCHEMA_VERSION,
+        "hidden_dim": 512,
+        "seed": 95101,
+        "pass": True,
+        "gate_pass": True,
+        "all_source_gate_pass": True,
         "aggregate": {
             "metrics": {
                 "z_mse": 1.0e-5,
                 "ordered_rmse_p95": 1.0e-3,
             }
-        }
+        },
     }
+    with pytest.raises(ValueError, match="obsolete nested aggregate"):
+        summarize_seed_stability([obsolete, obsolete, obsolete])
+
+
+def test_seed_stability_requires_exactly_three_runs() -> None:
     runs = [
-        {**copy.deepcopy(template), "pass": True},
-        {**copy.deepcopy(template), "pass": False},
-        {**copy.deepcopy(template), "pass": True},
+        make_prior_seed_run(seed=95101, passed=True),
+        make_prior_seed_run(seed=95102, passed=True),
     ]
-    result = summarize_seed_stability(runs)
+    with pytest.raises(ValueError, match="exactly three"):
+        summarize_seed_stability(runs)
 
-    assert result["pass_count"] == 2
-    assert result["stable_2_of_3"]
 
+def test_seed_stability_rejects_duplicate_seeds() -> None:
+    runs = [
+        make_prior_seed_run(seed=95101, passed=True),
+        make_prior_seed_run(seed=95101, passed=True),
+        make_prior_seed_run(seed=95103, passed=True),
+    ]
+    with pytest.raises(ValueError, match="duplicate seeds"):
+        summarize_seed_stability(runs)
+
+
+def test_seed_stability_rejects_mixed_hidden_dims() -> None:
+    runs = [
+        make_prior_seed_run(seed=95101, passed=True, hidden_dim=512),
+        make_prior_seed_run(seed=95102, passed=True, hidden_dim=1024),
+        make_prior_seed_run(seed=95103, passed=True, hidden_dim=512),
+    ]
+    with pytest.raises(ValueError, match="mixes hidden dimensions"):
+        summarize_seed_stability(runs)
+
+
+def test_seed_stability_rejects_inconsistent_pass_fields() -> None:
+    run = make_prior_seed_run(seed=95101, passed=True)
+    run["gate_pass"] = False
+    with pytest.raises(ValueError, match="inconsistent"):
+        summarize_seed_stability(
+            [
+                run,
+                make_prior_seed_run(seed=95102, passed=True),
+                make_prior_seed_run(seed=95103, passed=True),
+            ]
+        )
+
+
+def test_seed_stability_rejects_nonfinite_metrics() -> None:
+    with pytest.raises(ValueError, match="z_mse"):
+        summarize_seed_stability(
+            [
+                make_prior_seed_run(
+                    seed=95101,
+                    passed=True,
+                    z_mse=float("nan"),
+                ),
+                make_prior_seed_run(seed=95102, passed=True),
+                make_prior_seed_run(seed=95103, passed=True),
+            ]
+        )
 
 def test_paired_branch_audit_passes_exact_predictions() -> None:
     batch = 2

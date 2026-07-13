@@ -22,6 +22,10 @@ from ccda_phase3.phase314b_r242_frozen_prior import (
     EXPECTED_R24_MODULE_SHA256,
     EXPECTED_SUBMODULE_COMMIT,
     PHASE,
+    PRIOR_SEED_RUN_SCHEMA_VERSION,
+    PRIOR_SEED_STABILITY_SCHEMA_VERSION,
+    EXPECTED_R242_BLOCKED_ROOT_CAUSE,
+    R242_BLOCKED_REPORT_COMMIT,
     corrected_r241_interpretation,
     git_output,
     sha256_file,
@@ -37,6 +41,10 @@ def load_json(path: Path):
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", default="/data/state_diff2")
+    parser.add_argument(
+        "--output",
+        default="reports/phase3_14b_r242_preflight_summary.json",
+    )
     args = parser.parse_args()
 
     root = Path(args.root).resolve()
@@ -60,6 +68,48 @@ def main() -> None:
     if subprocess_result:
         # git merge-base --is-ancestor emits no stdout on success.
         raise RuntimeError("unexpected merge-base output")
+
+    output = Path(args.output)
+    if not output.is_absolute():
+        output = root / output
+    output = output.resolve()
+    try:
+        output.relative_to(root)
+    except ValueError as exc:
+        raise RuntimeError("preflight output must remain inside repository") from exc
+
+    resume_mode = output.name == "phase3_14b_r242_resume_preflight_summary.json"
+    if resume_mode:
+        blocked_ancestor = git_output(
+            root,
+            "merge-base",
+            "--is-ancestor",
+            R242_BLOCKED_REPORT_COMMIT,
+            "HEAD",
+        )
+        if blocked_ancestor:
+            raise RuntimeError("unexpected blocked-commit merge-base output")
+        blocked_path = root / "reports/phase3_14b_r242_blocked_summary.json"
+        blocked = load_json(blocked_path)
+        if blocked.get("verdict") != "BLOCKED":
+            raise RuntimeError("historical r2.4.2 blocked verdict mismatch")
+        if blocked.get("root_cause") != EXPECTED_R242_BLOCKED_ROOT_CAUSE:
+            raise RuntimeError("historical r2.4.2 blocked root cause mismatch")
+        for key in (
+            "validation_targets_used",
+            "formal_test_read",
+            "formal_training",
+            "candidate_eligible",
+            "checkpoint_saved",
+            "idm",
+            "candidate_execution",
+            "phase4",
+            "cps",
+        ):
+            if bool(blocked.get(key)):
+                raise RuntimeError(
+                    f"historical blocked report violates boundary: {key}"
+                )
 
     r241_summary_path = root / "reports/phase3_14b_r241_summary.json"
     r241_summary = load_json(r241_summary_path)
@@ -116,6 +166,24 @@ def main() -> None:
         "r241_corrected_interpretation": corrected,
         "r241_dependency_sha256": r241_dependency_sha256(root),
         "r242_source_sha256": source_sha256(root),
+        "result_schema_contract": {
+            "prior_seed_run": PRIOR_SEED_RUN_SCHEMA_VERSION,
+            "prior_seed_stability": PRIOR_SEED_STABILITY_SCHEMA_VERSION,
+            "three_distinct_seeds_required": True,
+            "single_hidden_dim_required": True,
+        },
+        "resume": {
+            "enabled": resume_mode,
+            "blocked_report_commit": (
+                R242_BLOCKED_REPORT_COMMIT if resume_mode else None
+            ),
+            "blocked_root_cause": (
+                EXPECTED_R242_BLOCKED_ROOT_CAUSE if resume_mode else None
+            ),
+            "correction": (
+                "direct_prior_flat_result_schema" if resume_mode else None
+            ),
+        },
         "validation_targets_used": False,
         "formal_test_read": False,
         "formal_training": False,
@@ -127,10 +195,7 @@ def main() -> None:
         "phase4": False,
         "cps": False,
     }
-    write_json_once(
-        root / "reports/phase3_14b_r242_preflight_summary.json",
-        report,
-    )
+    write_json_once(output, report)
     print(json.dumps(report, indent=2, sort_keys=True))
 
 

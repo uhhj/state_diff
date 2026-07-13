@@ -4,8 +4,16 @@ set -euo pipefail
 ROOT="${1:-/data/state_diff2}"
 cd "${ROOT}"
 
-BLOCKED_JSON="reports/phase3_14b_r242_blocked_summary.json"
-BLOCKED_MD="reports/phase3_14b_r242_blocked_report.md"
+ORIGINAL_BLOCKED_JSON="reports/phase3_14b_r242_blocked_summary.json"
+if [[ -f "${ORIGINAL_BLOCKED_JSON}" ]]; then
+  PREFLIGHT_JSON="reports/phase3_14b_r242_resume_preflight_summary.json"
+  BLOCKED_JSON="reports/phase3_14b_r242_resume_blocked_summary.json"
+  BLOCKED_MD="reports/phase3_14b_r242_resume_blocked_report.md"
+else
+  PREFLIGHT_JSON="reports/phase3_14b_r242_preflight_summary.json"
+  BLOCKED_JSON="${ORIGINAL_BLOCKED_JSON}"
+  BLOCKED_MD="reports/phase3_14b_r242_blocked_report.md"
+fi
 
 on_error() {
   local exit_code="$?"
@@ -81,10 +89,12 @@ PY
 trap 'on_error "${LINENO}" "${BASH_COMMAND}"' ERR
 
 python scripts/phase3_14b_r242_preflight.py \
-  --root "${ROOT}"
+  --root "${ROOT}" \
+  --output "${PREFLIGHT_JSON}"
 
 python scripts/phase3_14b_r242_run_pilot.py \
   --root "${ROOT}" \
+  --preflight-report "${PREFLIGHT_JSON}" \
   --prior-steps 5000 \
   --residual-steps 8000 \
   --paired-residual-steps 8000 \
@@ -95,4 +105,5 @@ python scripts/phase3_14b_r242_run_pilot.py \
   --evaluation-noises 8
 
 python scripts/phase3_14b_r242_finalize.py \
-  --root "${ROOT}"
+  --root "${ROOT}" \
+  --preflight-report "${PREFLIGHT_JSON}"
