@@ -1,0 +1,19 @@
+{
+  "candidate_eligible": false,
+  "candidate_execution": false,
+  "checkpoint_saved": false,
+  "command": "python scripts/phase3_14b_r251_run_pilot.py --root /data/state_diff2 --preflight-report reports/phase3_14b_r251_preflight_summary.json --prior-steps 5000 --residual-steps 8000 --batch-size 64 --prior-learning-rate 1e-3 --residual-learning-rate 1e-3 --evaluation-noises 8 --reverse-samples 16 --calibration-batches 8",
+  "cps": false,
+  "exact_exception_tail": "/miniforge3/envs/coord_bimanual/lib/python3.9/site-packages/wandb/apis/public.py:2997: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.\n  from pkg_resources import parse_version\nTraceback (most recent call last):\n  File \"/data/state_diff2/scripts/phase3_14b_r251_run_pilot.py\", line 479, in <module>\n    main()\n  File \"/data/state_diff2/scripts/phase3_14b_r251_run_pilot.py\", line 319, in main\n    reverse_metrics_raw = paired_reverse_pool_metrics_with_inversion(\n  File \"/data/state_diff2/ccda_phase3/phase314b_r251_gradient_calibration.py\", line 1088, in paired_reverse_pool_metrics_with_inversion\n    metric = nearest_index_metrics(\n  File \"/data/state_diff2/ccda_phase3/phase314b_r22_geometry.py\", line 52, in nearest_index_metrics\n    p=ordered_xy(_future(pred))[:,-1]; t=ordered_xy(_future(target))[:,-1]; d=((p[:,:,None]-t[:,None])**2).sum(-1); idx=d.argmin(-1); inv=np.mean(np.diff(idx,axis=1)<0,axis=1); return {'nearest_inversion':inv,'nearest_unique_fraction':np.asarray([len(np.unique(x))/24 for x in idx])}\n  File \"/data/state_diff2/ccda_phase3/phase314b_r22_geometry.py\", line 21, in _future\n    if a.ndim!=3 or a.shape[1:]!=(4,87) or not np.isfinite(a).all(): raise ValueError(f'{name} must be finite [N,4,87]')\nValueError: future must be finite [N,4,87]\n",
+  "exit_code": 1,
+  "formal_test_read": false,
+  "formal_training": false,
+  "idm": false,
+  "phase": "phase3_14b_r251",
+  "phase4": false,
+  "root_cause": "phase314b_r251_execution_failed",
+  "selected_configuration": null,
+  "stage": "pilot",
+  "validation_targets_used": false,
+  "verdict": "BLOCKED"
+}

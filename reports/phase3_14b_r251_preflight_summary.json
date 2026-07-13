@@ -1,0 +1,114 @@
+{
+  "base_report_commit": "9d40e0264fc2bc1f1d5576b9d9833aedd426ea98",
+  "cache_sha256": "3cc512f650557c81c3b81f4f128a5b55360b77d3f664fdd6607666936285fbe8",
+  "calibrated_objectives": [
+    {
+      "family": "v_only",
+      "name": "v_only_frozen_control",
+      "selectable": false,
+      "target_gradient_ratio": 0.0
+    },
+    {
+      "family": "ordered_mean_raw",
+      "name": "ordered_mean_raw_g010",
+      "selectable": true,
+      "target_gradient_ratio": 0.1
+    },
+    {
+      "family": "ordered_mean_raw",
+      "name": "ordered_mean_raw_g050",
+      "selectable": true,
+      "target_gradient_ratio": 0.5
+    },
+    {
+      "family": "ordered_mean_raw",
+      "name": "ordered_mean_raw_g100",
+      "selectable": true,
+      "target_gradient_ratio": 1.0
+    },
+    {
+      "family": "ordered_cvar_raw",
+      "name": "ordered_cvar_raw_g010",
+      "selectable": true,
+      "target_gradient_ratio": 0.1
+    },
+    {
+      "family": "ordered_cvar_raw",
+      "name": "ordered_cvar_raw_g050",
+      "selectable": true,
+      "target_gradient_ratio": 0.5
+    },
+    {
+      "family": "ordered_cvar_raw",
+      "name": "ordered_cvar_raw_g100",
+      "selectable": true,
+      "target_gradient_ratio": 1.0
+    },
+    {
+      "family": "ordered_cvar_contract",
+      "name": "ordered_cvar_contract_g010",
+      "selectable": true,
+      "target_gradient_ratio": 0.1
+    },
+    {
+      "family": "ordered_cvar_contract",
+      "name": "ordered_cvar_contract_g050",
+      "selectable": true,
+      "target_gradient_ratio": 0.5
+    },
+    {
+      "family": "ordered_cvar_contract",
+      "name": "ordered_cvar_contract_g100",
+      "selectable": true,
+      "target_gradient_ratio": 1.0
+    }
+  ],
+  "candidate_eligible": false,
+  "candidate_execution": false,
+  "checkpoint_saved": false,
+  "cps": false,
+  "dataset": {
+    "calibration_rows": 496,
+    "fit_rows": 504,
+    "manifest_schema": null,
+    "train_rows": 1000,
+    "validation_rows_verified_but_not_used": 102
+  },
+  "formal_test_read": false,
+  "formal_training": false,
+  "frozen_contract_sha256": "fa2725ca40da2499008360f13d291d2ce8694e6393910b0522fe800f4f37cdcc",
+  "idm": false,
+  "meaning": "r2.5 gradient-scaling failure and train-only boundaries verified",
+  "phase": "phase3_14b_r251",
+  "phase4": false,
+  "r251_source_sha256": {
+    "ccda_phase3/phase314b_r251_gradient_calibration.py": "e0c444cd4b82a594b62f23e298d25f67eea61fd688a4854308bd12249d1c726c",
+    "scripts/phase3_14b_r251_finalize.py": "e94bf7bf3e87fc415e418b04775a4b614c5b439ff3f901ec8d29d560b534eb45",
+    "scripts/phase3_14b_r251_preflight.py": "77dcc89e30493871b2c90356c5c20e552eceed6bb59fd29d166b25a40daaa5d8",
+    "scripts/phase3_14b_r251_run.sh": "c8088ab560f46af0523f2889fc968f346c8258e6dc03070a6641b051d26d66b9",
+    "scripts/phase3_14b_r251_run_pilot.py": "ee383399f942e93544e612f276fccb4b6c730a50b4b17322414b35ef824f0af6",
+    "tests/test_phase314b_r251_gradient_calibration.py": "a70ddd459ed013ce09d9db9cd7403e425b2cbd49a5f3c0e84a8e95bf7e2b6119"
+  },
+  "r25_active_gradient_ratios": {
+    "ordered_cvar_contract": 28.81406191849238,
+    "ordered_cvar_raw": 67.422060806387,
+    "ordered_mean_raw": 30.193274184738573
+  },
+  "r25_paired_nearest_inversion_instrumentation_gap": true,
+  "r25_root_cause": "phase314b_r25_geometry_gradient_scaling_failed",
+  "r25_train_only_recommendation": null,
+  "repository": {
+    "base_failure_commit": "a54cdd20d88f5eb00ebe25e8d4a20c28fe7d6e7f",
+    "branch": "Experiment1",
+    "cache_sha256": "3cc512f650557c81c3b81f4f128a5b55360b77d3f664fdd6607666936285fbe8",
+    "formal_test_read": false,
+    "frozen_contract_sha256": "fa2725ca40da2499008360f13d291d2ce8694e6393910b0522fe800f4f37cdcc",
+    "main_commit": "107412f47c92964fefe7a873c01391c33ce8aa87",
+    "r22_root_cause": "phase314b_r22_no_pilot_geometry_repair",
+    "r22_verdict": "FAIL",
+    "submodule_commit": "633a88752445cf5d6776ed374fdbbdb35f93050c"
+  },
+  "selected_configuration": null,
+  "validation_targets_used": false,
+  "verdict": "PASS"
+}
