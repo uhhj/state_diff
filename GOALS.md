@@ -459,11 +459,15 @@ Root cause: phase314b_r232_noisy_input_skip_path_deficiency_supported
 Selected configuration: None
 Next: design a train-only residual/noisy-skip denoiser pilot; formal validation remains blocked
 
-Phase3.14b-r2.4: BLOCKED
-Meaning: supplied additive implementation failed the mandatory static test gate; pilot training was not started
-Root cause: phase314b_r24_supplied_fake_scheduler_missing_get_velocity
+Phase3.14b-r2.4: COMPLETED / PASS
+Meaning: train-only timestep-conditioned noisy-skip pilot completed; no formal model repair and no candidate selection
+Root cause: phase314b_r24_conditioned_multirow_generalization_failed
+Analytic formula oracle: PASS
+One-row gate: analytic_x0_skip_residual_v PASS; all other variants FAIL
+Unique-free-16 gate: analytic_x0_skip_residual_v FAIL
+Paired-16 gate: not started after the unique-free-16 failure
 Selected configuration: None
-Next: correct the supplied FakeScheduler test fixture contract and rerun static validation
+Next: debug condition capacity and source-row batching on unique-free train rows
 Formal test: BLOCKED / unread
 Formal training: BLOCKED
 Phase3.14c IDM: BLOCKED
@@ -471,4 +475,4 @@ Candidate execution: BLOCKED
 Phase4/CPS: BLOCKED
 ```
 
-Phase3.13-r1 regenerated, audited, and atomically promoted the formal dataset under Commit A. Phase3.14a established the immutable training cache and passed the deterministic future learnability gate. Phase3.14b completed its full DDPM matrix but failed candidate physical validity. Phase3.14b-r1.1 proved exact Diffusers 0.11.1 scheduler equivalence and localized the failure to cosine epsilon terminal-SNR instability. Phase3.14b-r2 completed all nine validation runs but no configuration reached the 2-of-3 stable-seed gate. Formal test was not run. Phase3.14b-r2.1 confirmed both strict-contract miscalibration and genuine ordered-cable geometry failure. Phase3.14b-r2.2 completed its validation-only GPU pilot, but no geometry-loss configuration passed the frozen moderate gate. Phase3.14b-r2.3 resumed after correcting the paired-row sampling contract and completed its initial diagnostic evidence chain. Phase3.14b-r2.3.1 then corrected the fixed-noise replay contract and invalidated the earlier generic capacity conclusion. Phase3.14b-r2.3.2 isolated the remaining one-row random-noise failure and supported a noisy-input skip-path deficiency. Phase3.14b-r2.4 was blocked before implementation commit because the supplied FakeScheduler test fixture omitted the get_velocity API required by the supplied oracle. No pilot training ran. Formal test remained unread; formal training, Phase3.14c IDM, candidate execution, and Phase4/CPS remain blocked.
+Phase3.13-r1 regenerated, audited, and atomically promoted the formal dataset under Commit A. Phase3.14a established the immutable training cache and passed the deterministic future learnability gate. Phase3.14b completed its full DDPM matrix but failed candidate physical validity. Phase3.14b-r1.1 proved exact Diffusers 0.11.1 scheduler equivalence and localized the failure to cosine epsilon terminal-SNR instability. Phase3.14b-r2 completed all nine validation runs but no configuration reached the 2-of-3 stable-seed gate. Formal test was not run. Phase3.14b-r2.1 confirmed both strict-contract miscalibration and genuine ordered-cable geometry failure. Phase3.14b-r2.2 completed its validation-only GPU pilot, but no geometry-loss configuration passed the frozen moderate gate. Phase3.14b-r2.3 resumed after correcting the paired-row sampling contract and completed its initial diagnostic evidence chain. Phase3.14b-r2.3.1 then corrected the fixed-noise replay contract and invalidated the earlier generic capacity conclusion. Phase3.14b-r2.3.2 isolated the remaining one-row random-noise failure and supported a noisy-input skip-path deficiency. Phase3.14b-r2.4 resumed after correcting only the FakeScheduler test fixture. Its analytic oracle and one-row residual-v gate passed, but the same model failed the unique-free-16 gate, supporting a conditioned multirow generalization or source-row batching failure. Paired-16 was not started and no configuration was selected. Formal test remained unread; formal training, Phase3.14c IDM, candidate execution, and Phase4/CPS remain blocked.

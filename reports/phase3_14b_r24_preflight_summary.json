@@ -1,0 +1,61 @@
+{
+  "cache_sha256": "3cc512f650557c81c3b81f4f128a5b55360b77d3f664fdd6607666936285fbe8",
+  "dataset": {
+    "schema_version": null,
+    "total_cache_rows": 4256,
+    "train_rows": 1000,
+    "validation_rows_verified_but_not_used": 102
+  },
+  "dependency_sha256": {
+    "ccda_phase3/phase314a_contract.py": "0bcc573005455e1ad31eb1c031112b556c3181bfc0b4f07169129975d3e351b1",
+    "ccda_phase3/phase314b_contract.py": "6174809a04ee581403ccd26aeb42ab49168cf662504d2318a37c111198dec519",
+    "ccda_phase3/phase314b_models.py": "db8ff101114934854f6e9cf32aeab6f7ae0063949fc95d00a674544cde9041f6",
+    "ccda_phase3/phase314b_r22_geometry.py": "e2d3fcb5630677910642561a9f604623ca6c0ea3663943cd19becfc483919371",
+    "ccda_phase3/phase314b_r231_controls.py": "c16bfbfa3ae0b7b27c25ee79cf298c76c3d5511a545af228a898869d96098d35",
+    "ccda_phase3/phase314b_r232_controls.py": "7d661167115249c77e52b6e8646cb05d2b28f8ce334f01f775078d7fd84dd27c",
+    "ccda_phase3/phase314b_r23_diagnostics.py": "a56f7914c2b3b8cdbea7d11c1b6b3db906abf1bba862dac5ca627e27fa63ba68",
+    "ccda_phase3/phase314b_r2_contract.py": "aa92c4a851c3183e5aa4758169bd1b83412ef6e60c67541cce9deb1274b33283",
+    "ccda_phase3/phase314b_r2_diffusion.py": "417af4ebc17517ec0f4c403e45fcc69b01ffe76f8d85f3cf090479d73a5ea3ba",
+    "ccda_phase3/schema_v2.py": "e1594460477e4b96e3899509d4b145d36691c4a26818ad938b530372a2588c2b"
+  },
+  "frozen_contract_sha256": "fa2725ca40da2499008360f13d291d2ce8694e6393910b0522fe800f4f37cdcc",
+  "head": "5d845e5bd05142b0229c7409473a60299565e00d",
+  "historical_r23_tiny_sha256": "d370bef927af6dd0f3f5f94171482889dbadbbf5cf28c7f410567e5b25c886b2",
+  "phase": "phase3_14b_r24",
+  "r232_root_cause": "phase314b_r232_noisy_input_skip_path_deficiency_supported",
+  "repository": {
+    "base_failure_commit": "a54cdd20d88f5eb00ebe25e8d4a20c28fe7d6e7f",
+    "branch": "Experiment1",
+    "cache_sha256": "3cc512f650557c81c3b81f4f128a5b55360b77d3f664fdd6607666936285fbe8",
+    "formal_test_read": false,
+    "frozen_contract_sha256": "fa2725ca40da2499008360f13d291d2ce8694e6393910b0522fe800f4f37cdcc",
+    "main_commit": "5d845e5bd05142b0229c7409473a60299565e00d",
+    "r22_root_cause": "phase314b_r22_no_pilot_geometry_repair",
+    "r22_verdict": "FAIL",
+    "submodule_commit": "633a88752445cf5d6776ed374fdbbdb35f93050c"
+  },
+  "required_base_commit": "2c525b315426e5b7b05c87f4f79307de890d3837",
+  "root_cause": "phase314b_r24_preflight_passed",
+  "scope": {
+    "candidate_execution": false,
+    "checkpoint_saved": false,
+    "cps": false,
+    "formal_candidate_selected": false,
+    "formal_test_read": false,
+    "formal_training": false,
+    "idm": false,
+    "phase4": false,
+    "train_only_pilot": true,
+    "validation_targets_used": false
+  },
+  "source_sha256": {
+    "ccda_phase3/phase314b_r24_noisy_skip.py": "f8ccac7ef82297c12fe152a48532fcb5a938e12e0eb0faca6914a27a6e37d307",
+    "scripts/phase3_14b_r24_finalize.py": "8ed5e472bb261a84fc9c933b75db69f6d1b75163975a15887cc7029f752566cd",
+    "scripts/phase3_14b_r24_preflight.py": "6ddb75712d2b6f301520aa07716ea26fc32b5e1a0bba5d1ddb4ebbffa1c171c3",
+    "scripts/phase3_14b_r24_run.sh": "fc5cd4b1d59919b54e5f7fcebea86e86a96ce74dcc3f2da8f40bc78ad244574d",
+    "scripts/phase3_14b_r24_run_pilot.py": "866b9ae041d123ce44e04dc180f48bb4b07c48422980bce51afb67aae77ea8c5",
+    "tests/test_phase314b_r24_noisy_skip.py": "5b2afe00f981d80b0a8ebfc894dc767e75714016582e54f52be78889e2db2408"
+  },
+  "submodule_commit": "633a88752445cf5d6776ed374fdbbdb35f93050c",
+  "verdict": "PASS"
+}
