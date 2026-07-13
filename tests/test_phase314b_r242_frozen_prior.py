@@ -1,17 +1,28 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 import numpy as np
 import pytest
 import torch
 
 from ccda_phase3.phase314b_r241_multirow import LabeledTupleBank
 from ccda_phase3.phase314b_r242_frozen_prior import (
+    EVALUATION_RESULT_SCHEMA_VERSION,
     FactorizedAnalyticX0SkipDenoiser,
     FactorizedVariant,
+    PRIOR_RESULT_SCHEMA_VERSION,
     PRIOR_SEED_RUN_SCHEMA_VERSION,
     PRIOR_SEED_STABILITY_SCHEMA_VERSION,
     RECONSTRUCTION_METRICS_SCHEMA_VERSION,
+    _condition_effect,
+    _prior_metrics,
     compact_reconstruction_metrics,
+    compute_prior_drift_ratio,
+    evaluation_result_metrics,
+    evaluation_result_z_mse,
+    prior_result_metrics,
+    prior_result_z_mse,
     reconstruction_metric_quantile,
     classify_pilot,
     corrected_r241_interpretation,
@@ -208,6 +219,7 @@ def make_prior_seed_run(
 ):
     return {
         "schema_version": PRIOR_SEED_RUN_SCHEMA_VERSION,
+        "prior_result_schema_version": PRIOR_RESULT_SCHEMA_VERSION,
         "hidden_dim": hidden_dim,
         "seed": seed,
         "pass": passed,
@@ -314,6 +326,131 @@ def test_compact_metrics_accept_real_target_reconstruction_schema() -> None:
     assert compact["ordered_rmse_p95"] == pytest.approx(0.0)
     assert compact["segment_relative_error_p95"] == pytest.approx(0.0)
     assert compact["chain_relative_error_p95"] == pytest.approx(0.0)
+
+
+def make_evaluation_result(z_mse: float) -> dict:
+    metrics = {
+        "z_mse": z_mse,
+        "ordered_rmse": {"p95": 1.0e-3},
+        "segment_relative_error": {"p95": 1.0e-3},
+        "chain_relative_error": {"p95": 1.0e-3},
+    }
+    return {
+        "evaluation_result_schema_version": (
+            EVALUATION_RESULT_SCHEMA_VERSION
+        ),
+        "aggregate": {
+            "metrics": metrics,
+            "gate_pass": True,
+        },
+    }
+
+
+def test_prior_result_metrics_reads_top_level_producer_schema() -> None:
+    run = make_prior_seed_run(seed=95101, passed=True)
+    assert prior_result_metrics(run)["z_mse"] == pytest.approx(1.0e-5)
+    assert prior_result_z_mse(run) == pytest.approx(1.0e-5)
+
+
+def test_prior_result_metrics_rejects_obsolete_aggregate_wrapper() -> None:
+    run = make_prior_seed_run(seed=95101, passed=True)
+    run["aggregate"] = {"metrics": run.pop("metrics")}
+    with pytest.raises(ValueError, match="obsolete aggregate wrapper"):
+        prior_result_metrics(run)
+
+
+def test_prior_result_metrics_requires_schema_marker() -> None:
+    run = make_prior_seed_run(seed=95101, passed=True)
+    run.pop("prior_result_schema_version")
+    with pytest.raises(ValueError, match="schema version"):
+        prior_result_metrics(run)
+
+
+def test_evaluation_result_metrics_reads_aggregate_schema() -> None:
+    result = make_evaluation_result(2.0e-5)
+    assert evaluation_result_metrics(result)["z_mse"] == pytest.approx(
+        2.0e-5
+    )
+    assert evaluation_result_z_mse(result) == pytest.approx(2.0e-5)
+
+
+def test_evaluation_result_metrics_rejects_top_level_prior_layout() -> None:
+    result = make_prior_seed_run(seed=95101, passed=True)
+    with pytest.raises(ValueError, match="evaluation result schema"):
+        evaluation_result_metrics(result)
+
+
+def test_compute_prior_drift_ratio_uses_top_level_metrics() -> None:
+    warmup = make_prior_seed_run(
+        seed=95101,
+        passed=True,
+        z_mse=2.0e-5,
+    )
+    post = make_prior_seed_run(
+        seed=95101,
+        passed=False,
+        z_mse=1.0e-4,
+    )
+    assert compute_prior_drift_ratio(warmup, post) == pytest.approx(5.0)
+
+
+def test_condition_effect_uses_evaluation_aggregate_schema() -> None:
+    result = _condition_effect(
+        {
+            "true": make_evaluation_result(1.0e-4),
+            "zero": make_evaluation_result(2.0e-4),
+            "permuted": make_evaluation_result(3.0e-4),
+        }
+    )
+    assert result["condition_effect_supported"]
+    assert result["true_z_mse"] == pytest.approx(1.0e-4)
+
+
+def test_real_prior_metrics_producer_has_no_aggregate_wrapper() -> None:
+    torch.manual_seed(11)
+    model = make_model()
+    condition = torch.randn(2, 7)
+    clean_z = torch.randn(2, DEFAULT_TF, STATE_DIM)
+    clean_raw = clean_z.clone()
+    active = torch.ones(DEFAULT_TF, STATE_DIM, dtype=torch.bool)
+    result = _prior_metrics(
+        model=model,
+        condition_z=condition,
+        clean_z=clean_z,
+        clean_raw=clean_raw,
+        active_mask=active,
+        future_mean=torch.zeros(DEFAULT_TF, STATE_DIM),
+        future_scale=torch.ones(DEFAULT_TF, STATE_DIM),
+    )
+    assert result["prior_result_schema_version"] == (
+        PRIOR_RESULT_SCHEMA_VERSION
+    )
+    assert "aggregate" not in result
+    assert prior_result_metrics(result) is result["metrics"]
+
+
+def test_source_files_forbid_obsolete_prior_aggregate_consumer() -> None:
+    module_source = Path(
+        "ccda_phase3/phase314b_r242_frozen_prior.py"
+    ).read_text(encoding="utf-8")
+    finalizer_source = Path(
+        "scripts/phase3_14b_r242_finalize.py"
+    ).read_text(encoding="utf-8")
+    forbidden = (
+        'prior_after_warmup["aggregate"]',
+        'prior_after_diffusion["aggregate"]',
+    )
+    for token in forbidden:
+        assert token not in module_source
+        assert token not in finalizer_source
+
+
+def test_resume3_paths_are_present_in_wrapper() -> None:
+    source = Path("scripts/phase3_14b_r242_run.sh").read_text(
+        encoding="utf-8"
+    )
+    assert "phase3_14b_r242_resume3_preflight_summary.json" in source
+    assert "phase3_14b_r242_resume3_blocked_summary.json" in source
 
 
 def test_seed_stability_accepts_real_producer_metric_schema() -> None:

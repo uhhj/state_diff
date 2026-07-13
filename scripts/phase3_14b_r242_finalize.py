@@ -10,8 +10,12 @@ from typing import Any, Dict
 
 from ccda_phase3.phase314b_r23_diagnostics import write_json_once
 from ccda_phase3.phase314b_r242_frozen_prior import (
+    EVALUATION_RESULT_SCHEMA_VERSION,
     PHASE,
+    PRIOR_RESULT_SCHEMA_VERSION,
     RECONSTRUCTION_METRICS_SCHEMA_VERSION,
+    evaluation_result_metrics,
+    evaluation_result_z_mse,
     reconstruction_metric_quantile,
 )
 
@@ -58,6 +62,18 @@ def main() -> None:
         RECONSTRUCTION_METRICS_SCHEMA_VERSION
     ):
         raise RuntimeError("reconstruction metrics schema contract mismatch")
+    if schema_contract.get("prior_result") != PRIOR_RESULT_SCHEMA_VERSION:
+        raise RuntimeError("prior result schema contract mismatch")
+    if schema_contract.get("evaluation_result") != (
+        EVALUATION_RESULT_SCHEMA_VERSION
+    ):
+        raise RuntimeError("evaluation result schema contract mismatch")
+    if schema_contract.get("prior_metrics_path") != "metrics":
+        raise RuntimeError("prior metrics path contract mismatch")
+    if schema_contract.get("evaluation_metrics_path") != (
+        "aggregate.metrics"
+    ):
+        raise RuntimeError("evaluation metrics path contract mismatch")
     if schema_contract.get("ordered_rmse_p95_path") != (
         "metrics.ordered_rmse.p95"
     ):
@@ -93,11 +109,13 @@ def main() -> None:
             "source_pass_fraction": float(
                 value["evaluations"]["true"]["source_pass_fraction"]
             ),
-            "z_mse": float(
-                value["evaluations"]["true"]["aggregate"]["metrics"]["z_mse"]
+            "z_mse": evaluation_result_z_mse(
+                value["evaluations"]["true"]
             ),
             "ordered_rmse_p95": reconstruction_metric_quantile(
-                value["evaluations"]["true"]["aggregate"]["metrics"],
+                evaluation_result_metrics(
+                    value["evaluations"]["true"]
+                ),
                 "ordered_rmse",
                 "p95",
             ),
@@ -118,11 +136,13 @@ def main() -> None:
                 and value["paired_branch_audit"]["pass"]
             ),
             "prior_drift_ratio": float(value["prior_drift_ratio"]),
-            "z_mse": float(
-                value["evaluations"]["true"]["aggregate"]["metrics"]["z_mse"]
+            "z_mse": evaluation_result_z_mse(
+                value["evaluations"]["true"]
             ),
             "ordered_rmse_p95": reconstruction_metric_quantile(
-                value["evaluations"]["true"]["aggregate"]["metrics"],
+                evaluation_result_metrics(
+                    value["evaluations"]["true"]
+                ),
                 "ordered_rmse",
                 "p95",
             ),

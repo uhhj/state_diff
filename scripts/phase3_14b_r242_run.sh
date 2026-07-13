@@ -6,8 +6,13 @@ cd "${ROOT}"
 
 ORIGINAL_BLOCKED_JSON="reports/phase3_14b_r242_blocked_summary.json"
 RESUME1_BLOCKED_JSON="reports/phase3_14b_r242_resume_blocked_summary.json"
+RESUME2_BLOCKED_JSON="reports/phase3_14b_r242_resume2_blocked_summary.json"
 
-if [[ -f "${RESUME1_BLOCKED_JSON}" ]]; then
+if [[ -f "${RESUME2_BLOCKED_JSON}" ]]; then
+  PREFLIGHT_JSON="reports/phase3_14b_r242_resume3_preflight_summary.json"
+  BLOCKED_JSON="reports/phase3_14b_r242_resume3_blocked_summary.json"
+  BLOCKED_MD="reports/phase3_14b_r242_resume3_blocked_report.md"
+elif [[ -f "${RESUME1_BLOCKED_JSON}" ]]; then
   PREFLIGHT_JSON="reports/phase3_14b_r242_resume2_preflight_summary.json"
   BLOCKED_JSON="reports/phase3_14b_r242_resume2_blocked_summary.json"
   BLOCKED_MD="reports/phase3_14b_r242_resume2_blocked_report.md"

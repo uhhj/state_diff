@@ -22,6 +22,8 @@ from ccda_phase3.phase314b_r242_frozen_prior import (
     EXPECTED_R24_MODULE_SHA256,
     EXPECTED_SUBMODULE_COMMIT,
     PHASE,
+    EVALUATION_RESULT_SCHEMA_VERSION,
+    PRIOR_RESULT_SCHEMA_VERSION,
     PRIOR_SEED_RUN_SCHEMA_VERSION,
     PRIOR_SEED_STABILITY_SCHEMA_VERSION,
     RECONSTRUCTION_METRICS_SCHEMA_VERSION,
@@ -29,6 +31,8 @@ from ccda_phase3.phase314b_r242_frozen_prior import (
     R242_BLOCKED_REPORT_COMMIT,
     R242_SCHEMA_CORRECTION_COMMIT,
     R242_RESUME_BLOCKED_REPORT_COMMIT,
+    R242_NESTED_SCHEMA_CORRECTION_COMMIT,
+    R242_RESUME2_BLOCKED_REPORT_COMMIT,
     corrected_r241_interpretation,
     git_output,
     sha256_file,
@@ -95,8 +99,17 @@ def main() -> None:
             "blocked_report": (
                 "reports/phase3_14b_r242_resume_blocked_summary.json"
             ),
-            "correction_commit": None,
+            "correction_commit": R242_NESTED_SCHEMA_CORRECTION_COMMIT,
             "correction": "nested_reconstruction_metric_consumer_schema",
+        },
+        "phase3_14b_r242_resume3_preflight_summary.json": {
+            "generation": 3,
+            "blocked_report_commit": R242_RESUME2_BLOCKED_REPORT_COMMIT,
+            "blocked_report": (
+                "reports/phase3_14b_r242_resume2_blocked_summary.json"
+            ),
+            "correction_commit": None,
+            "correction": "prior_result_aggregate_wrapper_removal",
         },
     }
     resume_spec = resume_specs.get(output.name)
@@ -150,6 +163,15 @@ def main() -> None:
                 "direct_prior_width_512_seed_stability_summary"
             ):
                 raise RuntimeError("resume2 failure stage mismatch")
+        if resume_spec["generation"] == 3:
+            if blocked.get("exception_type") != "KeyError":
+                raise RuntimeError("resume3 exception type mismatch")
+            if blocked.get("exception_message") != "'aggregate'":
+                raise RuntimeError("resume3 exception message mismatch")
+            if blocked.get("failure_stage") != (
+                "unique_free_first_factorized_variant_prior_drift"
+            ):
+                raise RuntimeError("resume3 failure stage mismatch")
         for key in (
             "validation_targets_used",
             "formal_test_read",
@@ -225,6 +247,11 @@ def main() -> None:
             "prior_seed_run": PRIOR_SEED_RUN_SCHEMA_VERSION,
             "prior_seed_stability": PRIOR_SEED_STABILITY_SCHEMA_VERSION,
             "reconstruction_metrics": RECONSTRUCTION_METRICS_SCHEMA_VERSION,
+            "prior_result": PRIOR_RESULT_SCHEMA_VERSION,
+            "evaluation_result": EVALUATION_RESULT_SCHEMA_VERSION,
+            "prior_metrics_path": "metrics",
+            "evaluation_metrics_path": "aggregate.metrics",
+            "obsolete_prior_aggregate_wrapper_forbidden": True,
             "ordered_rmse_p95_path": "metrics.ordered_rmse.p95",
             "flat_ordered_rmse_alias_forbidden": True,
             "three_distinct_seeds_required": True,

@@ -30,7 +30,9 @@ from ccda_phase3.phase314b_r242_frozen_prior import (
     FACTORIAL_VARIANTS,
     HIGH_TIMESTEPS,
     LOW_MID_TIMESTEPS,
+    EVALUATION_RESULT_SCHEMA_VERSION,
     PHASE,
+    PRIOR_RESULT_SCHEMA_VERSION,
     PRIOR_SEED_RUN_SCHEMA_VERSION,
     PRIOR_SEED_STABILITY_SCHEMA_VERSION,
     RECONSTRUCTION_METRICS_SCHEMA_VERSION,
@@ -153,12 +155,37 @@ def main() -> None:
         RECONSTRUCTION_METRICS_SCHEMA_VERSION
     ):
         raise RuntimeError("preflight reconstruction-metrics contract mismatch")
+    if schema_contract.get("prior_result") != PRIOR_RESULT_SCHEMA_VERSION:
+        raise RuntimeError("preflight prior-result schema mismatch")
+    if schema_contract.get("evaluation_result") != (
+        EVALUATION_RESULT_SCHEMA_VERSION
+    ):
+        raise RuntimeError("preflight evaluation-result schema mismatch")
+    if schema_contract.get("prior_metrics_path") != "metrics":
+        raise RuntimeError("preflight prior metrics path mismatch")
+    if schema_contract.get("evaluation_metrics_path") != (
+        "aggregate.metrics"
+    ):
+        raise RuntimeError("preflight evaluation metrics path mismatch")
+    if not bool(
+        schema_contract.get("obsolete_prior_aggregate_wrapper_forbidden")
+    ):
+        raise RuntimeError("preflight must forbid prior aggregate wrappers")
     if schema_contract.get("ordered_rmse_p95_path") != (
         "metrics.ordered_rmse.p95"
     ):
         raise RuntimeError("preflight ordered-RMSE path contract mismatch")
     if not bool(schema_contract.get("flat_ordered_rmse_alias_forbidden")):
         raise RuntimeError("preflight must forbid flat ordered-RMSE aliases")
+    resume = preflight.get("resume", {})
+    resume2_blocked = (
+        root / "reports/phase3_14b_r242_resume2_blocked_summary.json"
+    )
+    if resume2_blocked.is_file() and int(resume.get("generation", -1)) != 3:
+        raise RuntimeError(
+            "resume2 block exists; r2.4.2 pilot requires resume generation 3"
+        )
+
     corrected = preflight["r241_corrected_interpretation"]
     if not corrected["classifier_precedence_bug_supported"]:
         raise RuntimeError("preflight interpretation gate failed")

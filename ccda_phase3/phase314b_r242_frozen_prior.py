@@ -74,15 +74,27 @@ R242_SCHEMA_CORRECTION_COMMIT = "e298456c516b16b15b94cb5963bdce33bed17e3f"
 R242_RESUME_BLOCKED_REPORT_COMMIT = (
     "833e8fb921b3d62737b6e053e73751f2972c7968"
 )
+R242_NESTED_SCHEMA_CORRECTION_COMMIT = (
+    "8d34a9e6edc0c6b26c28c2c64c81b858b2a975fd"
+)
+R242_RESUME2_BLOCKED_REPORT_COMMIT = (
+    "aace697fc102b07f72fd8b3e6baa845f815904d0"
+)
 EXPECTED_R242_BLOCKED_ROOT_CAUSE = "phase314b_r242_execution_failed"
 RECONSTRUCTION_METRICS_SCHEMA_VERSION = (
     "phase314b_target_reconstruction_nested_quantiles_v1"
 )
+PRIOR_RESULT_SCHEMA_VERSION = (
+    "phase314b_r242_prior_result_top_level_metrics_v1"
+)
+EVALUATION_RESULT_SCHEMA_VERSION = (
+    "phase314b_r242_evaluation_aggregate_metrics_v1"
+)
 PRIOR_SEED_RUN_SCHEMA_VERSION = (
-    "phase314b_r242_prior_seed_nested_metrics_v2"
+    "phase314b_r242_prior_seed_nested_metrics_v3"
 )
 PRIOR_SEED_STABILITY_SCHEMA_VERSION = (
-    "phase314b_r242_prior_seed_stability_nested_metrics_v2"
+    "phase314b_r242_prior_seed_stability_nested_metrics_v3"
 )
 
 SOURCE_PATHS = (
@@ -687,6 +699,9 @@ def evaluate_factorized_bank(
             **item,
         }
     return {
+        "evaluation_result_schema_version": (
+            EVALUATION_RESULT_SCHEMA_VERSION
+        ),
         "row_count": int(bank.row_count),
         "v_target_mse": v_target_mse,
         "aggregate": aggregate,
@@ -753,6 +768,7 @@ def _prior_metrics(
         gate=DIRECT_REGRESSION_GATE,
     )
     return {
+        "prior_result_schema_version": PRIOR_RESULT_SCHEMA_VERSION,
         **aggregate,
         **by_source,
         "pass": bool(
@@ -908,6 +924,80 @@ def compact_reconstruction_metrics(
     }
 
 
+def prior_result_metrics(
+    result: Mapping[str, Any],
+) -> Mapping[str, Any]:
+    """Return canonical top-level metrics from a direct-prior result.
+
+    Direct-prior producers intentionally emit ``metrics`` at the result top
+    level.  An ``aggregate`` wrapper belongs only to denoiser evaluation
+    results and is rejected here to prevent another producer/consumer drift.
+    """
+    if not isinstance(result, Mapping):
+        raise TypeError("prior result must be a mapping")
+    if "aggregate" in result:
+        raise ValueError(
+            "prior result uses obsolete aggregate wrapper"
+        )
+    if result.get("prior_result_schema_version") != (
+        PRIOR_RESULT_SCHEMA_VERSION
+    ):
+        raise ValueError("unexpected prior result schema version")
+    metrics = result.get("metrics")
+    if not isinstance(metrics, Mapping):
+        raise ValueError("prior result missing top-level metrics mapping")
+    compact_reconstruction_metrics(metrics)
+    return metrics
+
+
+def evaluation_result_metrics(
+    result: Mapping[str, Any],
+) -> Mapping[str, Any]:
+    """Return canonical metrics from a denoiser evaluation result."""
+    if not isinstance(result, Mapping):
+        raise TypeError("evaluation result must be a mapping")
+    if result.get("evaluation_result_schema_version") != (
+        EVALUATION_RESULT_SCHEMA_VERSION
+    ):
+        raise ValueError("unexpected evaluation result schema version")
+    aggregate = result.get("aggregate")
+    if not isinstance(aggregate, Mapping):
+        raise ValueError("evaluation result missing aggregate mapping")
+    metrics = aggregate.get("metrics")
+    if not isinstance(metrics, Mapping):
+        raise ValueError("evaluation result missing aggregate.metrics")
+    compact_reconstruction_metrics(metrics)
+    return metrics
+
+
+def prior_result_z_mse(result: Mapping[str, Any]) -> float:
+    value = float(prior_result_metrics(result)["z_mse"])
+    if not math.isfinite(value) or value < 0:
+        raise ValueError("prior result z_mse must be finite and nonnegative")
+    return value
+
+
+def evaluation_result_z_mse(result: Mapping[str, Any]) -> float:
+    value = float(evaluation_result_metrics(result)["z_mse"])
+    if not math.isfinite(value) or value < 0:
+        raise ValueError(
+            "evaluation result z_mse must be finite and nonnegative"
+        )
+    return value
+
+
+def compute_prior_drift_ratio(
+    prior_after_warmup: Mapping[str, Any],
+    prior_after_diffusion: Mapping[str, Any],
+) -> float:
+    warmup = prior_result_z_mse(prior_after_warmup)
+    post = prior_result_z_mse(prior_after_diffusion)
+    value = float(post / max(warmup, 1.0e-12))
+    if not math.isfinite(value) or value < 0:
+        raise ValueError("prior drift ratio must be finite and nonnegative")
+    return value
+
+
 def _prior_seed_run_summary(
     run: Mapping[str, Any],
 ) -> Dict[str, Any]:
@@ -922,6 +1012,7 @@ def _prior_seed_run_summary(
         raise ValueError("unexpected prior seed run schema_version")
 
     required = (
+        "prior_result_schema_version",
         "hidden_dim",
         "seed",
         "pass",
@@ -936,7 +1027,9 @@ def _prior_seed_run_summary(
             + ", ".join(missing)
         )
 
-    compact = compact_reconstruction_metrics(run["metrics"])
+    compact = compact_reconstruction_metrics(
+        prior_result_metrics(run)
+    )
     hidden_dim = int(run["hidden_dim"])
     seed = int(run["seed"])
     if hidden_dim <= 0:
@@ -1000,14 +1093,15 @@ def summarize_seed_stability(
 def _condition_effect(
     evaluations: Mapping[str, Mapping[str, Any]],
 ) -> Dict[str, Any]:
-    true_value = float(
-        evaluations["true"]["aggregate"]["metrics"]["z_mse"]
-    )
-    zero_value = float(
-        evaluations["zero"]["aggregate"]["metrics"]["z_mse"]
-    )
-    permuted_value = float(
-        evaluations["permuted"]["aggregate"]["metrics"]["z_mse"]
+    required = {"true", "zero", "permuted"}
+    if set(evaluations) != required:
+        raise ValueError(
+            "condition ablation must contain true, zero and permuted"
+        )
+    true_value = evaluation_result_z_mse(evaluations["true"])
+    zero_value = evaluation_result_z_mse(evaluations["zero"])
+    permuted_value = evaluation_result_z_mse(
+        evaluations["permuted"]
     )
     denominator = max(true_value, 1.0e-12)
     return {
@@ -1317,14 +1411,9 @@ def train_factorized_variant(
     }
     condition_effect = _condition_effect(evaluations_raw)
 
-    warmup_z = float(
-        prior_after_warmup["aggregate"]["metrics"]["z_mse"]
-    )
-    post_z = float(
-        prior_after_diffusion["aggregate"]["metrics"]["z_mse"]
-    )
-    prior_drift_ratio = float(
-        post_z / max(warmup_z, 1.0e-12)
+    prior_drift_ratio = compute_prior_drift_ratio(
+        prior_after_warmup,
+        prior_after_diffusion,
     )
     true_evaluation = evaluations_raw["true"]
     result = {
