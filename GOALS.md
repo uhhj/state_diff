@@ -2,8 +2,8 @@
 
 > Repository: `uhhj/state_diff`, branch `Experiment1`
 > Simulation submodule: `uhhj/deformable-ravens`, branch `ccda-cable`
-> Current research checkpoint: Phase3.14b-r2.3.1 corrected train-only tiny-control audit
-> Current formal decision: **Phase3.14b-r2.3.1 diagnostic correction completed; formal test, formal training, Phase3.14c, candidate execution, and Phase4/CPS remain blocked**
+> Current research checkpoint: Phase3.14b-r2.3.2 single-row random-noise denoiser isolation
+> Current formal decision: **Phase3.14b-r2.3.2 diagnostic completed; formal test, formal training, Phase3.14c, candidate execution, and Phase4/CPS remain blocked**
 
 ---
 
@@ -452,6 +452,12 @@ Meaning: Corrected train-only tiny-control contract; no model repair and no cand
 Root cause: phase314b_r231_random_noise_single_row_optimization_failure
 Selected configuration: None
 Next: debug timestep/noise coverage and denoiser conditioning on one train row
+
+Phase3.14b-r2.3.2: COMPLETED / PASS
+Meaning: Train-only single-row random-noise denoiser isolation completed; no model repair and no candidate selection
+Root cause: phase314b_r232_noisy_input_skip_path_deficiency_supported
+Selected configuration: None
+Next: design a train-only residual/noisy-skip denoiser pilot; formal validation remains blocked
 Formal test: BLOCKED / unread
 Formal training: BLOCKED
 Phase3.14c IDM: BLOCKED
@@ -459,4 +465,4 @@ Candidate execution: BLOCKED
 Phase4/CPS: BLOCKED
 ```
 
-Phase3.13-r1 regenerated, audited, and atomically promoted the formal dataset under Commit A. Phase3.14a established the immutable training cache and passed the deterministic future learnability gate. Phase3.14b completed its full DDPM matrix but failed candidate physical validity. Phase3.14b-r1.1 proved exact Diffusers 0.11.1 scheduler equivalence and localized the failure to cosine epsilon terminal-SNR instability. Phase3.14b-r2 completed all nine validation runs but no configuration reached the 2-of-3 stable-seed gate. Formal test was not run. Phase3.14b-r2.1 confirmed both strict-contract miscalibration and genuine ordered-cable geometry failure. Phase3.14b-r2.2 completed its validation-only GPU pilot, but no geometry-loss configuration passed the frozen moderate gate. Phase3.14b-r2.3 resumed after correcting the paired-row sampling contract and completed its initial diagnostic evidence chain. Phase3.14b-r2.3.1 then corrected the fixed-noise replay contract and invalidated the earlier generic capacity conclusion: direct regression and exact fixed-tuple replay controls passed, while random-noise denoising failed even for one train row. Formal test remained unread; formal training, Phase3.14c IDM, candidate execution, and Phase4/CPS remain blocked.
+Phase3.13-r1 regenerated, audited, and atomically promoted the formal dataset under Commit A. Phase3.14a established the immutable training cache and passed the deterministic future learnability gate. Phase3.14b completed its full DDPM matrix but failed candidate physical validity. Phase3.14b-r1.1 proved exact Diffusers 0.11.1 scheduler equivalence and localized the failure to cosine epsilon terminal-SNR instability. Phase3.14b-r2 completed all nine validation runs but no configuration reached the 2-of-3 stable-seed gate. Formal test was not run. Phase3.14b-r2.1 confirmed both strict-contract miscalibration and genuine ordered-cable geometry failure. Phase3.14b-r2.2 completed its validation-only GPU pilot, but no geometry-loss configuration passed the frozen moderate gate. Phase3.14b-r2.3 resumed after correcting the paired-row sampling contract and completed its initial diagnostic evidence chain. Phase3.14b-r2.3.1 then corrected the fixed-noise replay contract and invalidated the earlier generic capacity conclusion. Phase3.14b-r2.3.2 isolated the remaining one-row random-noise failure: scheduler and timestep embedding passed, while explicit noisy-input pathways outperformed the dense baseline on the finite noise bank, supporting a noisy-input skip-path deficiency. Formal test remained unread; formal training, Phase3.14c IDM, candidate execution, and Phase4/CPS remain blocked.

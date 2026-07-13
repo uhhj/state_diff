@@ -1,0 +1,79 @@
+{
+  "cache_sha256": "3cc512f650557c81c3b81f4f128a5b55360b77d3f664fdd6607666936285fbe8",
+  "candidate_eligible": false,
+  "candidate_execution": false,
+  "checkpoint_saved": false,
+  "cps": false,
+  "formal_test_read": false,
+  "formal_training": false,
+  "frozen_contract_sha256": "fa2725ca40da2499008360f13d291d2ce8694e6393910b0522fe800f4f37cdcc",
+  "gates": {
+    "cartesian_baseline": {
+      "heldout_cartesian": false,
+      "seen_cartesian": true
+    },
+    "cartesian_residual": {
+      "heldout_cartesian": false,
+      "seen_cartesian": false
+    },
+    "fixed_noise_all_t_baseline": {
+      "seen_timestep_bank": true
+    },
+    "fixed_noise_all_t_residual": {
+      "seen_timestep_bank": true
+    },
+    "fixed_t50_baseline": {
+      "heldout_noise_bank": false,
+      "seen_noise_bank": false
+    },
+    "fixed_t50_residual": {
+      "heldout_noise_bank": false,
+      "seen_noise_bank": true
+    },
+    "fixed_t50_time_affine": {
+      "heldout_noise_bank": true,
+      "seen_noise_bank": true
+    },
+    "stream_baseline": {
+      "heldout": false
+    },
+    "stream_residual": {
+      "heldout": false
+    }
+  },
+  "historical_r23_tiny_sha256": "d370bef927af6dd0f3f5f94171482889dbadbbf5cf28c7f410567e5b25c886b2",
+  "idm": false,
+  "meaning": "train-only diagnostic completed; no model repair",
+  "next_stage": "design a train-only residual/noisy-skip denoiser pilot; formal validation remains blocked",
+  "oracle_parity": {
+    "pass": true,
+    "v_target_max_abs": 2.1457672119140625e-06,
+    "x0_reconstruction_max_abs": 4.76837158203125e-07
+  },
+  "phase": "phase3_14b_r232",
+  "phase4": false,
+  "repository": {
+    "base_failure_commit": "a54cdd20d88f5eb00ebe25e8d4a20c28fe7d6e7f",
+    "branch": "Experiment1",
+    "cache_sha256": "3cc512f650557c81c3b81f4f128a5b55360b77d3f664fdd6607666936285fbe8",
+    "formal_test_read": false,
+    "frozen_contract_sha256": "fa2725ca40da2499008360f13d291d2ce8694e6393910b0522fe800f4f37cdcc",
+    "main_commit": "77173fb7da04c6792d8cb2965573d096eea24beb",
+    "r22_root_cause": "phase314b_r22_no_pilot_geometry_repair",
+    "r22_verdict": "FAIL",
+    "submodule_commit": "633a88752445cf5d6776ed374fdbbdb35f93050c"
+  },
+  "root_cause": "phase314b_r232_noisy_input_skip_path_deficiency_supported",
+  "selected_configuration": null,
+  "timestep_embedding_audit": {
+    "centered_rank": 99,
+    "exact_duplicate": false,
+    "maximum_off_diagonal_cosine": 0.9706182683267102,
+    "minimum_pairwise_l2": 1.9392941280891993,
+    "pass": true,
+    "time_dim": 128,
+    "timestep_count": 100
+  },
+  "validation_targets_used": false,
+  "verdict": "PASS"
+}
