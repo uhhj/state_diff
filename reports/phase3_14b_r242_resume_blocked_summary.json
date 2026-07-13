@@ -1,0 +1,31 @@
+{
+  "candidate_eligible": false,
+  "candidate_execution": false,
+  "checkpoint_saved": false,
+  "cps": false,
+  "exit_code": 1,
+  "exception_message": "prior seed run metrics missing ordered_rmse_p95",
+  "exception_type": "ValueError",
+  "failure_stage": "direct_prior_width_512_seed_stability_summary",
+  "failing_command": "python scripts/phase3_14b_r242_run_pilot.py --root \"${ROOT}\" --preflight-report \"${PREFLIGHT_JSON}\" --prior-steps 5000 --residual-steps 8000 --paired-residual-steps 8000 --batch-size 64 --prior-learning-rate 1e-3 --residual-learning-rate 1e-3 --decoupled-prior-learning-rate 1e-4 --evaluation-noises 8",
+  "formal_test_read": false,
+  "formal_training": false,
+  "idm": false,
+  "line_number": 95,
+  "phase": "phase3_14b_r242",
+  "phase4": false,
+  "root_cause": "phase314b_r242_execution_failed",
+  "schema_mismatch": {
+    "consumer_expected": "metrics.ordered_rmse_p95",
+    "producer_emitted": "metrics.ordered_rmse.p95"
+  },
+  "selected_configuration": null,
+  "stages_not_run": [
+    "direct_prior_width_1024",
+    "unique_prior_factorized_residual",
+    "paired_frozen_prior_residual",
+    "finalization"
+  ],
+  "validation_targets_used": false,
+  "verdict": "BLOCKED"
+}
