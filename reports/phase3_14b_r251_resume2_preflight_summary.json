@@ -1,0 +1,291 @@
+{
+  "base_blocked_report_commit": "d396e9e23ad429c9b6a7a1db874107657f91d65e",
+  "base_report_commit": "9d40e0264fc2bc1f1d5576b9d9833aedd426ea98",
+  "base_resume1_blocked_report_commit": "3dd00a024731a33c6fe89d3d7757f1e00643fa33",
+  "base_resume1_correction_commit": "f52c6fb65eee698c4922837e179d3df3cba64f63",
+  "cache_sha256": "3cc512f650557c81c3b81f4f128a5b55360b77d3f664fdd6607666936285fbe8",
+  "calibrated_objectives": [
+    {
+      "family": "v_only",
+      "name": "v_only_frozen_control",
+      "selectable": false,
+      "target_gradient_ratio": 0.0
+    },
+    {
+      "family": "ordered_mean_raw",
+      "name": "ordered_mean_raw_g010",
+      "selectable": true,
+      "target_gradient_ratio": 0.1
+    },
+    {
+      "family": "ordered_mean_raw",
+      "name": "ordered_mean_raw_g050",
+      "selectable": true,
+      "target_gradient_ratio": 0.5
+    },
+    {
+      "family": "ordered_mean_raw",
+      "name": "ordered_mean_raw_g100",
+      "selectable": true,
+      "target_gradient_ratio": 1.0
+    },
+    {
+      "family": "ordered_cvar_raw",
+      "name": "ordered_cvar_raw_g010",
+      "selectable": true,
+      "target_gradient_ratio": 0.1
+    },
+    {
+      "family": "ordered_cvar_raw",
+      "name": "ordered_cvar_raw_g050",
+      "selectable": true,
+      "target_gradient_ratio": 0.5
+    },
+    {
+      "family": "ordered_cvar_raw",
+      "name": "ordered_cvar_raw_g100",
+      "selectable": true,
+      "target_gradient_ratio": 1.0
+    },
+    {
+      "family": "ordered_cvar_contract",
+      "name": "ordered_cvar_contract_g010",
+      "selectable": true,
+      "target_gradient_ratio": 0.1
+    },
+    {
+      "family": "ordered_cvar_contract",
+      "name": "ordered_cvar_contract_g050",
+      "selectable": true,
+      "target_gradient_ratio": 0.5
+    },
+    {
+      "family": "ordered_cvar_contract",
+      "name": "ordered_cvar_contract_g100",
+      "selectable": true,
+      "target_gradient_ratio": 1.0
+    }
+  ],
+  "candidate_eligible": false,
+  "candidate_execution": false,
+  "checkpoint_saved": false,
+  "cps": false,
+  "dataset": {
+    "calibration_rows": 496,
+    "fit_rows": 504,
+    "manifest_schema": null,
+    "train_rows": 1000,
+    "validation_rows_verified_but_not_used": 102
+  },
+  "formal_test_read": false,
+  "formal_training": false,
+  "frozen_contract_sha256": "fa2725ca40da2499008360f13d291d2ce8694e6393910b0522fe800f4f37cdcc",
+  "idm": false,
+  "meaning": "Resume1 JSON-object ordering defect verified; Resume2 binds the objective matrix to an explicit ordered array and exact key membership",
+  "objective_matrix_contract": {
+    "explicit_json_array_order_required": true,
+    "json_object_iteration_order_semantic": false,
+    "mapping_membership_must_match": true,
+    "objective_order": [
+      "v_only_frozen_control",
+      "ordered_mean_raw_g010",
+      "ordered_mean_raw_g050",
+      "ordered_mean_raw_g100",
+      "ordered_cvar_raw_g010",
+      "ordered_cvar_raw_g050",
+      "ordered_cvar_raw_g100",
+      "ordered_cvar_contract_g010",
+      "ordered_cvar_contract_g050",
+      "ordered_cvar_contract_g100"
+    ],
+    "schema": "phase314b_r251_explicit_objective_order_v2",
+    "sort_keys_serialization_supported": true
+  },
+  "paired_inversion_contract": {
+    "canonical_metric_input": "[N,4,87]",
+    "schema": "phase314b_r251_paired_reverse_batched_inversion_v2",
+    "vectorized_candidate_query_batch": true
+  },
+  "paired_row_contract": {
+    "distinct_pair_key_count": 8,
+    "distinct_row_count": 16,
+    "distinct_visible_seed_count": 8,
+    "expected_rows": [
+      6,
+      1226,
+      10,
+      1230,
+      19,
+      1239,
+      25,
+      1245,
+      31,
+      1251,
+      36,
+      1256,
+      43,
+      1263,
+      49,
+      1269
+    ],
+    "model_input_use": false,
+    "observed_rows": [
+      6,
+      1226,
+      10,
+      1230,
+      19,
+      1239,
+      25,
+      1245,
+      31,
+      1251,
+      36,
+      1256,
+      43,
+      1263,
+      49,
+      1269
+    ],
+    "pairs": [
+      {
+        "conditions": [
+          "free",
+          "hidden_slack_breakaway_pin_v2"
+        ],
+        "pair_index": 0,
+        "pair_key": "train|400002|0",
+        "rows": [
+          6,
+          1226
+        ],
+        "visible_seed": 400002
+      },
+      {
+        "conditions": [
+          "free",
+          "hidden_slack_breakaway_pin_v2"
+        ],
+        "pair_index": 1,
+        "pair_key": "train|400003|0",
+        "rows": [
+          10,
+          1230
+        ],
+        "visible_seed": 400003
+      },
+      {
+        "conditions": [
+          "free",
+          "hidden_slack_breakaway_pin_v2"
+        ],
+        "pair_index": 2,
+        "pair_key": "train|400004|0",
+        "rows": [
+          19,
+          1239
+        ],
+        "visible_seed": 400004
+      },
+      {
+        "conditions": [
+          "free",
+          "hidden_slack_breakaway_pin_v2"
+        ],
+        "pair_index": 3,
+        "pair_key": "train|400005|0",
+        "rows": [
+          25,
+          1245
+        ],
+        "visible_seed": 400005
+      },
+      {
+        "conditions": [
+          "free",
+          "hidden_slack_breakaway_pin_v2"
+        ],
+        "pair_index": 4,
+        "pair_key": "train|400007|0",
+        "rows": [
+          31,
+          1251
+        ],
+        "visible_seed": 400007
+      },
+      {
+        "conditions": [
+          "free",
+          "hidden_slack_breakaway_pin_v2"
+        ],
+        "pair_index": 5,
+        "pair_key": "train|400008|0",
+        "rows": [
+          36,
+          1256
+        ],
+        "visible_seed": 400008
+      },
+      {
+        "conditions": [
+          "free",
+          "hidden_slack_breakaway_pin_v2"
+        ],
+        "pair_index": 6,
+        "pair_key": "train|400009|0",
+        "rows": [
+          43,
+          1263
+        ],
+        "visible_seed": 400009
+      },
+      {
+        "conditions": [
+          "free",
+          "hidden_slack_breakaway_pin_v2"
+        ],
+        "pair_index": 7,
+        "pair_key": "train|400010|0",
+        "rows": [
+          49,
+          1269
+        ],
+        "visible_seed": 400010
+      }
+    ],
+    "pass": true
+  },
+  "phase": "phase3_14b_r251",
+  "phase4": false,
+  "r251_source_sha256": {
+    "ccda_phase3/phase314b_r251_gradient_calibration.py": "4114db7f4f1135fe3f49f15203f85de235243d41d401636f57cb2a10f65e21e7",
+    "scripts/phase3_14b_r251_finalize.py": "cc9131efc0a55deafbe16b4dc825e3beff849110177c9b42c8b9f93613e4c717",
+    "scripts/phase3_14b_r251_preflight.py": "9f492cc1449a0cea284daaca17033202a0d9dd25f5dbec275e8a3efbcc6f97f3",
+    "scripts/phase3_14b_r251_run.sh": "e4e493305dfa894bb501fcd75ba3d4e859582cfd10c95b482a70bdede6f424cb",
+    "scripts/phase3_14b_r251_run_pilot.py": "c5aee5bd3ff2961d5d961e2e457e8a55fcc3bdcd94855b21497b075ba7a7effb",
+    "tests/test_phase314b_r251_gradient_calibration.py": "11516ecbb2ce9672514728d16b1c912e3f5c128f645fe3b3282c0090b3cf87b7"
+  },
+  "repository": {
+    "base_failure_commit": "a54cdd20d88f5eb00ebe25e8d4a20c28fe7d6e7f",
+    "branch": "Experiment1",
+    "cache_sha256": "3cc512f650557c81c3b81f4f128a5b55360b77d3f664fdd6607666936285fbe8",
+    "formal_test_read": false,
+    "frozen_contract_sha256": "fa2725ca40da2499008360f13d291d2ce8694e6393910b0522fe800f4f37cdcc",
+    "main_commit": "fd4b07b173bf88844d7ac8678bf9d957974135da",
+    "r22_root_cause": "phase314b_r22_no_pilot_geometry_repair",
+    "r22_verdict": "FAIL",
+    "submodule_commit": "633a88752445cf5d6776ed374fdbbdb35f93050c"
+  },
+  "resume": {
+    "blocked_report": "reports/phase3_14b_r251_resume_blocked_summary.json",
+    "blocked_report_commit": "3dd00a024731a33c6fe89d3d7757f1e00643fa33",
+    "correction": "json_object_order_not_semantic_objective_contract",
+    "enabled": true,
+    "generation": 2,
+    "partial_runtime_results_reused": false,
+    "restart_from": "pilot_start"
+  },
+  "selected_configuration": null,
+  "validation_targets_used": false,
+  "verdict": "PASS"
+}
