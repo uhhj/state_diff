@@ -1,0 +1,20 @@
+{
+  "candidate_eligible": false,
+  "candidate_execution": false,
+  "checkpoint_saved": false,
+  "command": "python scripts/phase3_14b_r251_finalize.py --root /data/state_diff2 --preflight-report reports/phase3_14b_r251_resume_preflight_summary.json --pilot-report reports/phase3_14b_r251_pilot_summary.json",
+  "cps": false,
+  "exact_exception_tail": "Traceback (most recent call last):\n  File \"/data/state_diff2/scripts/phase3_14b_r251_finalize.py\", line 436, in <module>\n    main()\n  File \"/data/state_diff2/scripts/phase3_14b_r251_finalize.py\", line 386, in main\n    raise RuntimeError(\"unique objective matrix/order changed\")\nRuntimeError: unique objective matrix/order changed\n",
+  "exit_code": 1,
+  "formal_test_read": false,
+  "formal_training": false,
+  "idm": false,
+  "phase": "phase3_14b_r251",
+  "phase4": false,
+  "resume_generation": 1,
+  "root_cause": "phase314b_r251_execution_failed",
+  "selected_configuration": null,
+  "stage": "finalize",
+  "validation_targets_used": false,
+  "verdict": "BLOCKED"
+}
