@@ -1,0 +1,275 @@
+{
+  "base_report_commit": "45ce0e388d325882a49d63db94e5fa5bf30cf82e",
+  "candidate_eligible": false,
+  "candidate_execution": false,
+  "checkpoint_saved": false,
+  "cps": false,
+  "dataset": {
+    "manifest_schema": null,
+    "paired_row_contract": {
+      "distinct_pair_key_count": 8,
+      "distinct_row_count": 16,
+      "distinct_visible_seed_count": 8,
+      "expected_rows": [
+        6,
+        1226,
+        10,
+        1230,
+        19,
+        1239,
+        25,
+        1245,
+        31,
+        1251,
+        36,
+        1256,
+        43,
+        1263,
+        49,
+        1269
+      ],
+      "model_input_use": false,
+      "observed_rows": [
+        6,
+        1226,
+        10,
+        1230,
+        19,
+        1239,
+        25,
+        1245,
+        31,
+        1251,
+        36,
+        1256,
+        43,
+        1263,
+        49,
+        1269
+      ],
+      "pairs": [
+        {
+          "conditions": [
+            "free",
+            "hidden_slack_breakaway_pin_v2"
+          ],
+          "pair_index": 0,
+          "pair_key": "train|400002|0",
+          "rows": [
+            6,
+            1226
+          ],
+          "visible_seed": 400002
+        },
+        {
+          "conditions": [
+            "free",
+            "hidden_slack_breakaway_pin_v2"
+          ],
+          "pair_index": 1,
+          "pair_key": "train|400003|0",
+          "rows": [
+            10,
+            1230
+          ],
+          "visible_seed": 400003
+        },
+        {
+          "conditions": [
+            "free",
+            "hidden_slack_breakaway_pin_v2"
+          ],
+          "pair_index": 2,
+          "pair_key": "train|400004|0",
+          "rows": [
+            19,
+            1239
+          ],
+          "visible_seed": 400004
+        },
+        {
+          "conditions": [
+            "free",
+            "hidden_slack_breakaway_pin_v2"
+          ],
+          "pair_index": 3,
+          "pair_key": "train|400005|0",
+          "rows": [
+            25,
+            1245
+          ],
+          "visible_seed": 400005
+        },
+        {
+          "conditions": [
+            "free",
+            "hidden_slack_breakaway_pin_v2"
+          ],
+          "pair_index": 4,
+          "pair_key": "train|400007|0",
+          "rows": [
+            31,
+            1251
+          ],
+          "visible_seed": 400007
+        },
+        {
+          "conditions": [
+            "free",
+            "hidden_slack_breakaway_pin_v2"
+          ],
+          "pair_index": 5,
+          "pair_key": "train|400008|0",
+          "rows": [
+            36,
+            1256
+          ],
+          "visible_seed": 400008
+        },
+        {
+          "conditions": [
+            "free",
+            "hidden_slack_breakaway_pin_v2"
+          ],
+          "pair_index": 6,
+          "pair_key": "train|400009|0",
+          "rows": [
+            43,
+            1263
+          ],
+          "visible_seed": 400009
+        },
+        {
+          "conditions": [
+            "free",
+            "hidden_slack_breakaway_pin_v2"
+          ],
+          "pair_index": 7,
+          "pair_key": "train|400010|0",
+          "rows": [
+            49,
+            1269
+          ],
+          "visible_seed": 400010
+        }
+      ],
+      "pass": true
+    },
+    "paired_rows": [
+      6,
+      1226,
+      10,
+      1230,
+      19,
+      1239,
+      25,
+      1245,
+      31,
+      1251,
+      36,
+      1256,
+      43,
+      1263,
+      49,
+      1269
+    ],
+    "train_row_count": 1000,
+    "validation_rows_verified_but_not_used": 102
+  },
+  "dependency_sha256": {
+    "ccda_phase3/phase314b_r242_frozen_prior.py": "058a32b077d282b2b9062ca24e0270ed3dc7bb482dd72df0c25b310778611571",
+    "ccda_phase3/phase314b_r251_gradient_calibration.py": "4114db7f4f1135fe3f49f15203f85de235243d41d401636f57cb2a10f65e21e7",
+    "ccda_phase3/phase314b_r25_ordered_geometry.py": "6d102674eebe6d28ac1321b7b575e0ebb71c6358a6ae239186fdc0b1b934050c",
+    "reports/phase3_14b_r251_pilot_summary.json": "67fb772de5266d7cf14bae696cd80706546904d8f344f92cce3dc729292c7c3c",
+    "reports/phase3_14b_r251_report.md": "5f9ad2c07f3304c28d80975ecb3bc425a33940d618555d45eb0283819a2117ab",
+    "reports/phase3_14b_r251_summary.json": "136f30c011cb0a2111c88ec473c454773bd498c6eec67ad806584b639b640855",
+    "scripts/phase3_14b_r251_finalize.py": "cc9131efc0a55deafbe16b4dc825e3beff849110177c9b42c8b9f93613e4c717",
+    "scripts/phase3_14b_r251_run_pilot.py": "c5aee5bd3ff2961d5d961e2e457e8a55fcc3bdcd94855b21497b075ba7a7effb"
+  },
+  "diagnostic_objective_order": [
+    "v_only_frozen_control",
+    "ordered_mean_raw_g100",
+    "ordered_cvar_contract_g010"
+  ],
+  "formal_test_read": false,
+  "formal_training": false,
+  "historical_paths_unchanged": [
+    "ccda_phase3/phase314b_r251_gradient_calibration.py",
+    "scripts/phase3_14b_r251_preflight.py",
+    "scripts/phase3_14b_r251_run_pilot.py",
+    "scripts/phase3_14b_r251_finalize.py",
+    "scripts/phase3_14b_r251_run.sh",
+    "tests/test_phase314b_r251_gradient_calibration.py",
+    "reports/phase3_14b_r251_pilot_summary.json",
+    "reports/phase3_14b_r251_summary.json",
+    "reports/phase3_14b_r251_report.md"
+  ],
+  "idm": false,
+  "meaning": "train-only paired one-step and reverse-trajectory attribution preflight",
+  "phase": "phase3_14b_r252",
+  "phase4": false,
+  "r251_contract": {
+    "expected_endpoints": {
+      "ordered_cvar_contract_g010": {
+        "both_branch_support_rate": 1.0,
+        "comparison_to_control_pass": true,
+        "one_step_branch_pass": true,
+        "one_step_pass": false,
+        "reverse_best_ordered_rmse_mean": 0.001244956161826849,
+        "reverse_nearest_inversion_p95": 0.0,
+        "reverse_query_has_valid_candidate_rate": 1.0,
+        "reverse_sample_validity_rate": 1.0
+      },
+      "ordered_mean_raw_g100": {
+        "both_branch_support_rate": 1.0,
+        "comparison_to_control_pass": true,
+        "one_step_branch_pass": true,
+        "one_step_pass": false,
+        "reverse_best_ordered_rmse_mean": 0.0011491426266729832,
+        "reverse_nearest_inversion_p95": 0.0,
+        "reverse_query_has_valid_candidate_rate": 1.0,
+        "reverse_sample_validity_rate": 1.0
+      },
+      "v_only_frozen_control": {
+        "both_branch_support_rate": 0.75,
+        "comparison_to_control_pass": true,
+        "one_step_branch_pass": true,
+        "one_step_pass": false,
+        "reverse_best_ordered_rmse_mean": 0.001513182302005589,
+        "reverse_nearest_inversion_p95": 0.28913043478260836,
+        "reverse_query_has_valid_candidate_rate": 1.0,
+        "reverse_sample_validity_rate": 0.796875
+      }
+    },
+    "root_cause": "phase314b_r251_paired_low_mid_geometry_transport_failed",
+    "selected_configuration": null,
+    "train_only_recommendation": null
+  },
+  "repository": {
+    "base_failure_commit": "a54cdd20d88f5eb00ebe25e8d4a20c28fe7d6e7f",
+    "branch": "Experiment1",
+    "cache_sha256": "3cc512f650557c81c3b81f4f128a5b55360b77d3f664fdd6607666936285fbe8",
+    "formal_test_read": false,
+    "frozen_contract_sha256": "fa2725ca40da2499008360f13d291d2ce8694e6393910b0522fe800f4f37cdcc",
+    "main_commit": "3ec513ec4bbde6c8017dfbb4694cc9824129b063",
+    "r22_root_cause": "phase314b_r22_no_pilot_geometry_repair",
+    "r22_verdict": "FAIL",
+    "submodule_commit": "633a88752445cf5d6776ed374fdbbdb35f93050c"
+  },
+  "schemas": {
+    "attribution": "phase314b_r252_paired_transport_attribution_v1",
+    "per_timestep_gradient": "phase314b_r252_per_timestep_gradient_v1",
+    "trajectory": "phase314b_r252_predicted_x0_trajectory_v1"
+  },
+  "selected_configuration": null,
+  "source_sha256": {
+    "ccda_phase3/phase314b_r252_transport_attribution.py": "191ef9164fc32d62e25196bb1a5542e46220142a1c82fc4b4a8e1444c55368bf",
+    "scripts/phase3_14b_r252_finalize.py": "911791bd6115c9f2457b78537dead44b4b783fdf6dc29b1099a496276d60286a",
+    "scripts/phase3_14b_r252_preflight.py": "7dbf34dedb121ce2dcab396ce7ded70745bea48633c801c211ad641336745c0a",
+    "scripts/phase3_14b_r252_run.sh": "4b8d75eaa3459e87fdc07f18b06812ff0622085cf74b38077101d25b70400b99",
+    "scripts/phase3_14b_r252_run_pilot.py": "29b41fd532522aed37464b7c9969d2dd19eaf4f590ca624691b20543e67c09f2",
+    "tests/test_phase314b_r252_transport_attribution.py": "bbd16b17f3f6a6660ee9f9cc1d85f2c6d63d6b9d1f1611df6edb06ac661ccfca"
+  },
+  "validation_targets_used": false,
+  "verdict": "PASS"
+}

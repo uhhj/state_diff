@@ -1,0 +1,690 @@
+{
+  "base_report_commit": "45ce0e388d325882a49d63db94e5fa5bf30cf82e",
+  "cache_sha256": "3cc512f650557c81c3b81f4f128a5b55360b77d3f664fdd6607666936285fbe8",
+  "candidate_eligible": false,
+  "candidate_execution": false,
+  "checkpoint_saved": false,
+  "cps": false,
+  "fixed_contract": {
+    "diagnostic_objective_order": [
+      "v_only_frozen_control",
+      "ordered_mean_raw_g100",
+      "ordered_cvar_contract_g010"
+    ],
+    "evaluation_noise_seeds": [
+      99000,
+      99001,
+      99002,
+      99003,
+      99004,
+      99005,
+      99006,
+      99007
+    ],
+    "model": "frozen_p512_r512",
+    "paired_prior_seed": 102000,
+    "paired_timesteps": [
+      10,
+      25,
+      50
+    ],
+    "paired_training_seed": 102000,
+    "reverse_k": 16,
+    "reverse_seed": 103000,
+    "reverse_steps": 100,
+    "trajectory_timesteps": [
+      99,
+      90,
+      75,
+      50,
+      25,
+      10,
+      0
+    ]
+  },
+  "formal_test_read": false,
+  "formal_training": false,
+  "frozen_contract_sha256": "fa2725ca40da2499008360f13d291d2ce8694e6393910b0522fe800f4f37cdcc",
+  "geometry_scales": {
+    "chain_floor_m": 0.3103383034467697,
+    "charbonnier_eps": 0.001,
+    "edge_vector_m": 0.01414456870406866,
+    "ordered_xy_m": 0.01,
+    "segment_floor_m": 0.013996273186057806
+  },
+  "idm": false,
+  "meaning": "train-only paired one-step and reverse-trajectory attribution completed",
+  "next_stage": "separate exact reconstruction and branch-transport gates without changing training",
+  "phase": "phase3_14b_r252",
+  "phase4": false,
+  "pilot_report": "reports/phase3_14b_r252_pilot_summary.json",
+  "preflight_report": "reports/phase3_14b_r252_preflight_summary.json",
+  "repository": {
+    "base_failure_commit": "a54cdd20d88f5eb00ebe25e8d4a20c28fe7d6e7f",
+    "branch": "Experiment1",
+    "cache_sha256": "3cc512f650557c81c3b81f4f128a5b55360b77d3f664fdd6607666936285fbe8",
+    "formal_test_read": false,
+    "frozen_contract_sha256": "fa2725ca40da2499008360f13d291d2ce8694e6393910b0522fe800f4f37cdcc",
+    "main_commit": "3ec513ec4bbde6c8017dfbb4694cc9824129b063",
+    "r22_root_cause": "phase314b_r22_no_pilot_geometry_repair",
+    "r22_verdict": "FAIL",
+    "submodule_commit": "633a88752445cf5d6776ed374fdbbdb35f93050c"
+  },
+  "root_cause": "phase314b_r252_composite_one_step_gate_conflation_supported",
+  "selected_configuration": null,
+  "shared_prior": {
+    "prior_history": [
+      {
+        "gradient_norm": 0.15506909679808115,
+        "loss": 1.0709795951843262,
+        "step": 1
+      },
+      {
+        "gradient_norm": 0.12218048216341933,
+        "loss": 0.17529290914535522,
+        "step": 250
+      },
+      {
+        "gradient_norm": 0.009798588678882713,
+        "loss": 0.17493990063667297,
+        "step": 500
+      },
+      {
+        "gradient_norm": 0.005119355271203263,
+        "loss": 0.1749356985092163,
+        "step": 750
+      },
+      {
+        "gradient_norm": 0.029106887120098148,
+        "loss": 0.17497970163822174,
+        "step": 1000
+      },
+      {
+        "gradient_norm": 0.007669239224967235,
+        "loss": 0.17493964731693268,
+        "step": 1250
+      },
+      {
+        "gradient_norm": 0.02628994222957281,
+        "loss": 0.1749669760465622,
+        "step": 1500
+      },
+      {
+        "gradient_norm": 0.039091855258276784,
+        "loss": 0.1749906688928604,
+        "step": 1750
+      },
+      {
+        "gradient_norm": 0.0081287454777762,
+        "loss": 0.17494158446788788,
+        "step": 2000
+      },
+      {
+        "gradient_norm": 0.0035555930441441533,
+        "loss": 0.174935445189476,
+        "step": 2250
+      },
+      {
+        "gradient_norm": 0.04818684625736525,
+        "loss": 0.1750488430261612,
+        "step": 2500
+      },
+      {
+        "gradient_norm": 0.07659833209546399,
+        "loss": 0.1755552589893341,
+        "step": 2750
+      },
+      {
+        "gradient_norm": 0.005939009010683693,
+        "loss": 0.17493705451488495,
+        "step": 3000
+      },
+      {
+        "gradient_norm": 0.001708853157161845,
+        "loss": 0.17493511736392975,
+        "step": 3250
+      },
+      {
+        "gradient_norm": 0.002828658299364438,
+        "loss": 0.1749371886253357,
+        "step": 3500
+      },
+      {
+        "gradient_norm": 0.017862905673248372,
+        "loss": 0.1749666929244995,
+        "step": 3750
+      },
+      {
+        "gradient_norm": 0.016383443137588077,
+        "loss": 0.17495200037956238,
+        "step": 4000
+      },
+      {
+        "gradient_norm": 0.02226311324634087,
+        "loss": 0.17496256530284882,
+        "step": 4250
+      },
+      {
+        "gradient_norm": 0.014751886478640258,
+        "loss": 0.17497438192367554,
+        "step": 4500
+      },
+      {
+        "gradient_norm": 0.011463462454622129,
+        "loss": 0.17495399713516235,
+        "step": 4750
+      },
+      {
+        "gradient_norm": 0.0014237966906311458,
+        "loss": 0.1749352067708969,
+        "step": 5000
+      }
+    ],
+    "prior_state_sha256": "083278d6b0710ddc3863d822978973f29842bc757edf73ff03a93bb154f5665d",
+    "prior_z_mse": 0.17493517696857452,
+    "seed": 102000,
+    "state_tensor_count": 6
+  },
+  "source_sha256": {
+    "ccda_phase3/phase314b_r252_transport_attribution.py": "191ef9164fc32d62e25196bb1a5542e46220142a1c82fc4b4a8e1444c55368bf",
+    "scripts/phase3_14b_r252_finalize.py": "911791bd6115c9f2457b78537dead44b4b783fdf6dc29b1099a496276d60286a",
+    "scripts/phase3_14b_r252_preflight.py": "7dbf34dedb121ce2dcab396ce7ded70745bea48633c801c211ad641336745c0a",
+    "scripts/phase3_14b_r252_run.sh": "4b8d75eaa3459e87fdc07f18b06812ff0622085cf74b38077101d25b70400b99",
+    "scripts/phase3_14b_r252_run_pilot.py": "29b41fd532522aed37464b7c9969d2dd19eaf4f590ca624691b20543e67c09f2",
+    "tests/test_phase314b_r252_transport_attribution.py": "bbd16b17f3f6a6660ee9f9cc1d85f2c6d63d6b9d1f1611df6edb06ac661ccfca"
+  },
+  "supported_mechanisms": [
+    "composite_gate_conflation",
+    "per_timestep_gradient_miscalibration"
+  ],
+  "train_only_recommendation": null,
+  "validation_targets_used": false,
+  "variants": {
+    "ordered_cvar_contract_g010": {
+      "branch_audit_pass": true,
+      "calibration_pass": true,
+      "composite_one_step_pass": false,
+      "condition_effect_pass": true,
+      "denoising_result_pass": false,
+      "endpoint": {
+        "best_ordered_rmse_mean": 0.001244956161826849,
+        "both_branch_support_rate": 1.0,
+        "branch_support_pass": true,
+        "k1_ordered_rmse_mean": 0.0014108787290751934,
+        "nearest_inversion_max": 0.0,
+        "nearest_inversion_mean": 0.0,
+        "nearest_inversion_p95": 0.0,
+        "sample_validity_rate": 1.0,
+        "two_branch_occupancy_rate": 1.0,
+        "valid_query_rate": 1.0
+      },
+      "endpoint_comparison_to_control": {
+        "best_ordered_rmse_ratio": 0.8227403665617619,
+        "inversion_preserved": true,
+        "nearest_inversion_p95_ratio": 0.0,
+        "ordered_preserved": true,
+        "pass": true,
+        "sample_validity_delta": 0.203125,
+        "segment_score_p95_ratio": 0.006714637797882119,
+        "tail_improved": true
+      },
+      "family": "ordered_cvar_contract",
+      "global_gradient_tracking_pass": true,
+      "legacy_delta_cosine_p50": 0.9901642102863615,
+      "legacy_own_target_closer_fraction": 0.9973958333333334,
+      "legacy_separation_ratio_p50": 1.0101735147958135,
+      "per_timestep": {
+        "10": {
+          "expected_forward_alpha": 0.9832174777984619,
+          "forward_alpha_max_abs_error": 7.663127351564825e-07,
+          "gradient_ratio_median": 0.06442120531962306,
+          "gradient_ratio_p95": 0.06731404675348139,
+          "gradient_tracking_pass": true,
+          "legacy_gate_pass": true,
+          "model_delta_cosine_p50": 0.9939125798695295,
+          "model_separation_ratio_p50": 1.0054216614081324,
+          "noisy_separation_ratio_p50": 0.9832174996801029,
+          "own_target_closer_fraction": 1.0,
+          "required_residual_delta_rms_p50": 4.000562898951724,
+          "residual_delta_cosine_p50": 0.9995970252379485,
+          "residual_delta_gain_p50": 0.9808753694664099
+        },
+        "25": {
+          "expected_forward_alpha": 0.9141228199005127,
+          "forward_alpha_max_abs_error": 8.788407718229863e-07,
+          "gradient_ratio_median": 0.14281735453024413,
+          "gradient_ratio_p95": 0.15361085067589214,
+          "gradient_tracking_pass": true,
+          "legacy_gate_pass": true,
+          "model_delta_cosine_p50": 0.99218500812205,
+          "model_separation_ratio_p50": 0.9994746259532703,
+          "noisy_separation_ratio_p50": 0.9141227897208093,
+          "own_target_closer_fraction": 1.0,
+          "required_residual_delta_rms_p50": 1.8001590022539709,
+          "residual_delta_cosine_p50": 0.999663986316834,
+          "residual_delta_gain_p50": 0.9658887511471279
+        },
+        "50": {
+          "expected_forward_alpha": 0.6915667653083801,
+          "forward_alpha_max_abs_error": 8.592123907913418e-07,
+          "gradient_ratio_median": 0.2553405662593544,
+          "gradient_ratio_p95": 0.27733640764515227,
+          "gradient_tracking_pass": true,
+          "legacy_gate_pass": true,
+          "model_delta_cosine_p50": 0.9834167926999503,
+          "model_separation_ratio_p50": 1.020807986799706,
+          "noisy_separation_ratio_p50": 0.6915667577415492,
+          "own_target_closer_fraction": 0.9921875,
+          "required_residual_delta_rms_p50": 1.010437597710104,
+          "residual_delta_cosine_p50": 0.9991464016821374,
+          "residual_delta_gain_p50": 0.9767178435590612
+        }
+      },
+      "per_timestep_gradient_final_pass": true,
+      "per_timestep_gradient_initial_pass": false,
+      "pipeline_controls_pass": true,
+      "r251_endpoint_reproduction_pass": true,
+      "reconstruction_aggregate_gate_pass": false,
+      "reconstruction_all_source_gate_pass": false,
+      "target_gradient_ratio": 0.1,
+      "training_completed": true,
+      "trajectory_attribution": {
+        "best_ordered_rmse_ratio_to_t99": 0.2080887491074482,
+        "endpoint_branch_support_pass": true,
+        "endpoint_valid_query_pass": true,
+        "first_branch_support_timestep": 90,
+        "first_valid_query_timestep": 90,
+        "inversion_p95_delta_from_t99": -0.043478260869565216,
+        "validity_delta_from_t99": 0.4453125
+      },
+      "trajectory_checkpoints": {
+        "0": {
+          "best_ordered_rmse_mean": 0.0012447212357074022,
+          "both_branch_support_rate": 1.0,
+          "branch_support_pass": true,
+          "nearest_inversion_p95": 0.0,
+          "sample_validity_rate": 1.0,
+          "two_branch_occupancy_rate": 1.0,
+          "valid_query_rate": 1.0
+        },
+        "10": {
+          "best_ordered_rmse_mean": 0.0005822987295687199,
+          "both_branch_support_rate": 0.875,
+          "branch_support_pass": true,
+          "nearest_inversion_p95": 0.043478260869565216,
+          "sample_validity_rate": 1.0,
+          "two_branch_occupancy_rate": 1.0,
+          "valid_query_rate": 1.0
+        },
+        "25": {
+          "best_ordered_rmse_mean": 0.0006456183036789298,
+          "both_branch_support_rate": 0.875,
+          "branch_support_pass": true,
+          "nearest_inversion_p95": 0.043478260869565216,
+          "sample_validity_rate": 0.9921875,
+          "two_branch_occupancy_rate": 1.0,
+          "valid_query_rate": 1.0
+        },
+        "50": {
+          "best_ordered_rmse_mean": 0.0008470136672258377,
+          "both_branch_support_rate": 0.875,
+          "branch_support_pass": true,
+          "nearest_inversion_p95": 0.043478260869565216,
+          "sample_validity_rate": 0.9609375,
+          "two_branch_occupancy_rate": 1.0,
+          "valid_query_rate": 1.0
+        },
+        "75": {
+          "best_ordered_rmse_mean": 0.001187017885968089,
+          "both_branch_support_rate": 0.875,
+          "branch_support_pass": true,
+          "nearest_inversion_p95": 0.043478260869565216,
+          "sample_validity_rate": 0.9140625,
+          "two_branch_occupancy_rate": 1.0,
+          "valid_query_rate": 1.0
+        },
+        "90": {
+          "best_ordered_rmse_mean": 0.0018438592087477446,
+          "both_branch_support_rate": 0.875,
+          "branch_support_pass": true,
+          "nearest_inversion_p95": 0.043478260869565216,
+          "sample_validity_rate": 0.6953125,
+          "two_branch_occupancy_rate": 1.0,
+          "valid_query_rate": 1.0
+        },
+        "99": {
+          "best_ordered_rmse_mean": 0.00598281342536211,
+          "both_branch_support_rate": 0.5,
+          "branch_support_pass": false,
+          "nearest_inversion_p95": 0.043478260869565216,
+          "sample_validity_rate": 0.5546875,
+          "two_branch_occupancy_rate": 0.875,
+          "valid_query_rate": 0.75
+        }
+      }
+    },
+    "ordered_mean_raw_g100": {
+      "branch_audit_pass": true,
+      "calibration_pass": true,
+      "composite_one_step_pass": false,
+      "condition_effect_pass": true,
+      "denoising_result_pass": false,
+      "endpoint": {
+        "best_ordered_rmse_mean": 0.0011491426266729832,
+        "both_branch_support_rate": 1.0,
+        "branch_support_pass": true,
+        "k1_ordered_rmse_mean": 0.0013036805903539062,
+        "nearest_inversion_max": 0.043478260869565216,
+        "nearest_inversion_mean": 0.001358695652173913,
+        "nearest_inversion_p95": 0.0,
+        "sample_validity_rate": 1.0,
+        "two_branch_occupancy_rate": 1.0,
+        "valid_query_rate": 1.0
+      },
+      "endpoint_comparison_to_control": {
+        "best_ordered_rmse_ratio": 0.7594211385831677,
+        "inversion_preserved": true,
+        "nearest_inversion_p95_ratio": 0.0,
+        "ordered_preserved": true,
+        "pass": true,
+        "sample_validity_delta": 0.203125,
+        "segment_score_p95_ratio": 0.008008202964140914,
+        "tail_improved": true
+      },
+      "family": "ordered_mean_raw",
+      "global_gradient_tracking_pass": true,
+      "legacy_delta_cosine_p50": 0.9976069643118557,
+      "legacy_own_target_closer_fraction": 0.9869791666666666,
+      "legacy_separation_ratio_p50": 1.0187478627870559,
+      "per_timestep": {
+        "10": {
+          "expected_forward_alpha": 0.9832174777984619,
+          "forward_alpha_max_abs_error": 7.663127351564825e-07,
+          "gradient_ratio_median": 0.929478134437999,
+          "gradient_ratio_p95": 0.9549463453064406,
+          "gradient_tracking_pass": true,
+          "legacy_gate_pass": true,
+          "model_delta_cosine_p50": 0.9979782427822219,
+          "model_separation_ratio_p50": 1.001210818207925,
+          "noisy_separation_ratio_p50": 0.9832174996801029,
+          "own_target_closer_fraction": 1.0,
+          "required_residual_delta_rms_p50": 4.000562898951724,
+          "residual_delta_cosine_p50": 0.9997562576560457,
+          "residual_delta_gain_p50": 1.0156898093729392
+        },
+        "25": {
+          "expected_forward_alpha": 0.9141228199005127,
+          "forward_alpha_max_abs_error": 8.788407718229863e-07,
+          "gradient_ratio_median": 1.8526617700688788,
+          "gradient_ratio_p95": 1.9004109255483086,
+          "gradient_tracking_pass": true,
+          "legacy_gate_pass": true,
+          "model_delta_cosine_p50": 0.9975317163292363,
+          "model_separation_ratio_p50": 1.028811086923739,
+          "noisy_separation_ratio_p50": 0.9141227897208093,
+          "own_target_closer_fraction": 1.0,
+          "required_residual_delta_rms_p50": 1.8001590022539709,
+          "residual_delta_cosine_p50": 0.9994860570972537,
+          "residual_delta_gain_p50": 1.0032492461589537
+        },
+        "50": {
+          "expected_forward_alpha": 0.6915667653083801,
+          "forward_alpha_max_abs_error": 8.592123907913418e-07,
+          "gradient_ratio_median": 4.004362627216288,
+          "gradient_ratio_p95": 4.090849488181659,
+          "gradient_tracking_pass": false,
+          "legacy_gate_pass": true,
+          "model_delta_cosine_p50": 0.9958861861880735,
+          "model_separation_ratio_p50": 1.0388357942015083,
+          "noisy_separation_ratio_p50": 0.6915667577415492,
+          "own_target_closer_fraction": 0.9609375,
+          "required_residual_delta_rms_p50": 1.010437597710104,
+          "residual_delta_cosine_p50": 0.9987025772746724,
+          "residual_delta_gain_p50": 0.9824927476300389
+        }
+      },
+      "per_timestep_gradient_final_pass": false,
+      "per_timestep_gradient_initial_pass": false,
+      "pipeline_controls_pass": true,
+      "r251_endpoint_reproduction_pass": true,
+      "reconstruction_aggregate_gate_pass": false,
+      "reconstruction_all_source_gate_pass": false,
+      "target_gradient_ratio": 1.0,
+      "training_completed": true,
+      "trajectory_attribution": {
+        "best_ordered_rmse_ratio_to_t99": 0.16379179602395386,
+        "endpoint_branch_support_pass": true,
+        "endpoint_valid_query_pass": true,
+        "first_branch_support_timestep": 90,
+        "first_valid_query_timestep": 90,
+        "inversion_p95_delta_from_t99": -0.043478260869565216,
+        "validity_delta_from_t99": 0.421875
+      },
+      "trajectory_checkpoints": {
+        "0": {
+          "best_ordered_rmse_mean": 0.0011491406476125121,
+          "both_branch_support_rate": 1.0,
+          "branch_support_pass": true,
+          "nearest_inversion_p95": 0.0,
+          "sample_validity_rate": 1.0,
+          "two_branch_occupancy_rate": 1.0,
+          "valid_query_rate": 1.0
+        },
+        "10": {
+          "best_ordered_rmse_mean": 0.0005771089345216751,
+          "both_branch_support_rate": 1.0,
+          "branch_support_pass": true,
+          "nearest_inversion_p95": 0.0,
+          "sample_validity_rate": 1.0,
+          "two_branch_occupancy_rate": 1.0,
+          "valid_query_rate": 1.0
+        },
+        "25": {
+          "best_ordered_rmse_mean": 0.0005149386124685407,
+          "both_branch_support_rate": 0.875,
+          "branch_support_pass": true,
+          "nearest_inversion_p95": 0.0,
+          "sample_validity_rate": 1.0,
+          "two_branch_occupancy_rate": 1.0,
+          "valid_query_rate": 1.0
+        },
+        "50": {
+          "best_ordered_rmse_mean": 0.0006301223766058683,
+          "both_branch_support_rate": 0.875,
+          "branch_support_pass": true,
+          "nearest_inversion_p95": 0.043478260869565216,
+          "sample_validity_rate": 0.9609375,
+          "two_branch_occupancy_rate": 1.0,
+          "valid_query_rate": 1.0
+        },
+        "75": {
+          "best_ordered_rmse_mean": 0.001346417237073183,
+          "both_branch_support_rate": 0.875,
+          "branch_support_pass": true,
+          "nearest_inversion_p95": 0.043478260869565216,
+          "sample_validity_rate": 0.9296875,
+          "two_branch_occupancy_rate": 1.0,
+          "valid_query_rate": 1.0
+        },
+        "90": {
+          "best_ordered_rmse_mean": 0.0012480290606617928,
+          "both_branch_support_rate": 0.875,
+          "branch_support_pass": true,
+          "nearest_inversion_p95": 0.043478260869565216,
+          "sample_validity_rate": 0.78125,
+          "two_branch_occupancy_rate": 1.0,
+          "valid_query_rate": 1.0
+        },
+        "99": {
+          "best_ordered_rmse_mean": 0.007015874143689871,
+          "both_branch_support_rate": 0.25,
+          "branch_support_pass": false,
+          "nearest_inversion_p95": 0.043478260869565216,
+          "sample_validity_rate": 0.578125,
+          "two_branch_occupancy_rate": 1.0,
+          "valid_query_rate": 0.75
+        }
+      }
+    },
+    "v_only_frozen_control": {
+      "branch_audit_pass": true,
+      "calibration_pass": true,
+      "composite_one_step_pass": false,
+      "condition_effect_pass": true,
+      "denoising_result_pass": false,
+      "endpoint": {
+        "best_ordered_rmse_mean": 0.001513182302005589,
+        "both_branch_support_rate": 0.75,
+        "branch_support_pass": true,
+        "k1_ordered_rmse_mean": 0.005904550198465586,
+        "nearest_inversion_max": 0.391304347826087,
+        "nearest_inversion_mean": 0.04653532608695651,
+        "nearest_inversion_p95": 0.28913043478260836,
+        "sample_validity_rate": 0.796875,
+        "two_branch_occupancy_rate": 1.0,
+        "valid_query_rate": 1.0
+      },
+      "endpoint_comparison_to_control": {
+        "inversion_preserved": true,
+        "ordered_preserved": true,
+        "pass": true,
+        "tail_improved": false
+      },
+      "family": "v_only",
+      "global_gradient_tracking_pass": true,
+      "legacy_delta_cosine_p50": 0.9457176311353408,
+      "legacy_own_target_closer_fraction": 0.9947916666666666,
+      "legacy_separation_ratio_p50": 0.9767303703590315,
+      "per_timestep": {
+        "10": {
+          "expected_forward_alpha": 0.9832174777984619,
+          "forward_alpha_max_abs_error": 7.663127351564825e-07,
+          "gradient_ratio_median": 0.0,
+          "gradient_ratio_p95": 0.0,
+          "gradient_tracking_pass": true,
+          "legacy_gate_pass": true,
+          "model_delta_cosine_p50": 0.9793667581849355,
+          "model_separation_ratio_p50": 0.9777409656220926,
+          "noisy_separation_ratio_p50": 0.9832174996801029,
+          "own_target_closer_fraction": 1.0,
+          "required_residual_delta_rms_p50": 4.000562898951724,
+          "residual_delta_cosine_p50": 0.9994623666420013,
+          "residual_delta_gain_p50": 0.9793813985511397
+        },
+        "25": {
+          "expected_forward_alpha": 0.9141228199005127,
+          "forward_alpha_max_abs_error": 8.788407718229863e-07,
+          "gradient_ratio_median": 0.0,
+          "gradient_ratio_p95": 0.0,
+          "gradient_tracking_pass": true,
+          "legacy_gate_pass": true,
+          "model_delta_cosine_p50": 0.9349315582295779,
+          "model_separation_ratio_p50": 0.9513862145358791,
+          "noisy_separation_ratio_p50": 0.9141227897208093,
+          "own_target_closer_fraction": 1.0,
+          "required_residual_delta_rms_p50": 1.8001590022539709,
+          "residual_delta_cosine_p50": 0.9987971700978866,
+          "residual_delta_gain_p50": 0.9437196828976969
+        },
+        "50": {
+          "expected_forward_alpha": 0.6915667653083801,
+          "forward_alpha_max_abs_error": 8.592123907913418e-07,
+          "gradient_ratio_median": 0.0,
+          "gradient_ratio_p95": 0.0,
+          "gradient_tracking_pass": true,
+          "legacy_gate_pass": true,
+          "model_delta_cosine_p50": 0.924820117097672,
+          "model_separation_ratio_p50": 0.9903042367058,
+          "noisy_separation_ratio_p50": 0.6915667577415492,
+          "own_target_closer_fraction": 0.984375,
+          "required_residual_delta_rms_p50": 1.010437597710104,
+          "residual_delta_cosine_p50": 0.9977452159502567,
+          "residual_delta_gain_p50": 0.9402575082481568
+        }
+      },
+      "per_timestep_gradient_final_pass": true,
+      "per_timestep_gradient_initial_pass": true,
+      "pipeline_controls_pass": true,
+      "r251_endpoint_reproduction_pass": true,
+      "reconstruction_aggregate_gate_pass": false,
+      "reconstruction_all_source_gate_pass": false,
+      "target_gradient_ratio": 0.0,
+      "training_completed": true,
+      "trajectory_attribution": {
+        "best_ordered_rmse_ratio_to_t99": 0.24810699678025488,
+        "endpoint_branch_support_pass": true,
+        "endpoint_valid_query_pass": true,
+        "first_branch_support_timestep": 90,
+        "first_valid_query_timestep": 90,
+        "inversion_p95_delta_from_t99": 0.24565217391304314,
+        "validity_delta_from_t99": 0.25
+      },
+      "trajectory_checkpoints": {
+        "0": {
+          "best_ordered_rmse_mean": 0.0015131677500903606,
+          "both_branch_support_rate": 0.75,
+          "branch_support_pass": true,
+          "nearest_inversion_p95": 0.28913043478260836,
+          "sample_validity_rate": 0.796875,
+          "two_branch_occupancy_rate": 1.0,
+          "valid_query_rate": 1.0
+        },
+        "10": {
+          "best_ordered_rmse_mean": 0.0011063719866797328,
+          "both_branch_support_rate": 0.875,
+          "branch_support_pass": true,
+          "nearest_inversion_p95": 0.07173913043478224,
+          "sample_validity_rate": 0.78125,
+          "two_branch_occupancy_rate": 1.0,
+          "valid_query_rate": 1.0
+        },
+        "25": {
+          "best_ordered_rmse_mean": 0.0011433667968958616,
+          "both_branch_support_rate": 0.875,
+          "branch_support_pass": true,
+          "nearest_inversion_p95": 0.043478260869565216,
+          "sample_validity_rate": 0.796875,
+          "two_branch_occupancy_rate": 1.0,
+          "valid_query_rate": 1.0
+        },
+        "50": {
+          "best_ordered_rmse_mean": 0.0015368692111223936,
+          "both_branch_support_rate": 0.875,
+          "branch_support_pass": true,
+          "nearest_inversion_p95": 0.11521739130434745,
+          "sample_validity_rate": 0.75,
+          "two_branch_occupancy_rate": 1.0,
+          "valid_query_rate": 1.0
+        },
+        "75": {
+          "best_ordered_rmse_mean": 0.0016356047708541155,
+          "both_branch_support_rate": 0.875,
+          "branch_support_pass": true,
+          "nearest_inversion_p95": 0.043478260869565216,
+          "sample_validity_rate": 0.7265625,
+          "two_branch_occupancy_rate": 1.0,
+          "valid_query_rate": 1.0
+        },
+        "90": {
+          "best_ordered_rmse_mean": 0.0018321889219805598,
+          "both_branch_support_rate": 0.75,
+          "branch_support_pass": true,
+          "nearest_inversion_p95": 0.043478260869565216,
+          "sample_validity_rate": 0.609375,
+          "two_branch_occupancy_rate": 1.0,
+          "valid_query_rate": 1.0
+        },
+        "99": {
+          "best_ordered_rmse_mean": 0.0060989102348685265,
+          "both_branch_support_rate": 0.125,
+          "branch_support_pass": false,
+          "nearest_inversion_p95": 0.043478260869565216,
+          "sample_validity_rate": 0.546875,
+          "two_branch_occupancy_rate": 0.75,
+          "valid_query_rate": 0.75
+        }
+      }
+    }
+  },
+  "verdict": "PASS"
+}
