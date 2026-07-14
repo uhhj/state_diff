@@ -9,7 +9,7 @@ import shutil
 import subprocess
 import sys
 from pathlib import Path
-from typing import Any, Dict, List, Mapping
+from typing import Any, Dict, List, Mapping, Sequence
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 if str(REPOSITORY_ROOT) not in sys.path:
@@ -60,7 +60,12 @@ def fsync_directory(path: Path) -> None:
         os.close(descriptor)
 
 
-def assert_repository_contract(root: Path, test_gate_path: Path) -> Dict[str, Any]:
+def assert_repository_contract(
+    root: Path,
+    test_gate_path: Path,
+    *,
+    allowed_untracked_paths: Sequence[str] = (),
+) -> Dict[str, Any]:
     if git(root, "branch", "--show-current") != "Experiment1":
         raise RuntimeError("Stage C requires Experiment1")
     ancestor = subprocess.run(
@@ -85,6 +90,19 @@ def assert_repository_contract(root: Path, test_gate_path: Path) -> Dict[str, An
         if line.strip()
     ]
     allowed = {test_gate_path.relative_to(root).as_posix()}
+    for value in allowed_untracked_paths:
+        candidate = Path(value)
+        candidate = (
+            candidate.resolve()
+            if candidate.is_absolute()
+            else (root / candidate).resolve()
+        )
+        try:
+            allowed.add(candidate.relative_to(root).as_posix())
+        except ValueError as exc:
+            raise RuntimeError(
+                f"allowed worktree path is outside repository: {candidate}"
+            ) from exc
     unexpected: List[str] = []
     for line in status:
         path = line[3:].strip()
@@ -204,18 +222,48 @@ def main() -> None:
         default="/miniforge3/envs/coord_bimanual/bin/python",
     )
     parser.add_argument("--cache-root", default=FINAL_CACHE_ROOT)
+    parser.add_argument(
+        "--attribution-report",
+        default=ATTRIBUTION_REPORT,
+    )
+    parser.add_argument(
+        "--summary-report",
+        default=SUMMARY_REPORT,
+    )
+    parser.add_argument(
+        "--markdown-report",
+        default=MARKDOWN_REPORT,
+    )
+    parser.add_argument(
+        "--allowed-untracked-path",
+        action="append",
+        default=[],
+    )
     args = parser.parse_args()
     root = Path(args.root).resolve()
-    final_cache_root = (root / args.cache_root).resolve()
+
+    def resolve_output(value: str) -> Path:
+        candidate = Path(value)
+        return (
+            candidate.resolve()
+            if candidate.is_absolute()
+            else (root / candidate).resolve()
+        )
+
+    final_cache_root = resolve_output(args.cache_root)
     test_gate_path = root / TEST_GATE
-    attribution_path = root / ATTRIBUTION_REPORT
-    summary_path = root / SUMMARY_REPORT
-    markdown_path = root / MARKDOWN_REPORT
+    attribution_path = resolve_output(args.attribution_report)
+    summary_path = resolve_output(args.summary_report)
+    markdown_path = resolve_output(args.markdown_report)
     for output in (final_cache_root, attribution_path, summary_path, markdown_path):
         if output.exists():
             raise FileExistsError(f"refusing to overwrite Stage C output: {output}")
 
-    repository = assert_repository_contract(root, test_gate_path)
+    repository = assert_repository_contract(
+        root,
+        test_gate_path,
+        allowed_untracked_paths=args.allowed_untracked_path,
+    )
     test_gate = validate_test_gate(root, test_gate_path)
     stage_b_inputs = validate_stage_b_artifacts(root)
     environment = deterministic_environment()
@@ -342,7 +390,7 @@ def main() -> None:
             "phase314b_r255_stagec_state_v3_cache_materialized_and_byte_reproducible"
         ),
         "cache": cache_section,
-        "attribution_report": ATTRIBUTION_REPORT,
+        "attribution_report": attribution_path.relative_to(root).as_posix(),
         "attribution_report_sha256": sha256_file(attribution_path),
         "attribution_workers_exact": attribution_workers_exact,
         "attribution": attribution,
