@@ -1,0 +1,124 @@
+{
+  "artifacts": {
+    "action_template": "data/phase3_state_v3_slack/action_template.pkl",
+    "action_template_sha256": "4275b76fd321322dcfc9d715f92e496e268a584513340f4d0b4d4a1963c5d495",
+    "data_root": "data/phase3_state_v3_slack",
+    "dataset": "data/phase3_state_v3_slack/migrated/phase3_14b_r255_stageb_dataset.npz",
+    "dataset_sha256": "17a872d72dceadca1151821dbb5fd62982bf5ff1585852c05688b14d49d78b69",
+    "manifest": "data/phase3_state_v3_slack/manifest.json",
+    "manifest_sha256": "a61daf1e168fcf30fa52359b65fc1b93439e6cf284bdadb1f7006ad096b1af8e",
+    "windows": "data/phase3_state_v3_slack/windows/phase3_14b_r255_stageb_windows.npz",
+    "windows_sha256": "0e55ae7e777536838e8ac70d33d830abc83b1940a42d97fd9b74081fce187319"
+  },
+  "candidate_execution": false,
+  "checkpoint_saved": false,
+  "controlled_joint_indices": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "counts": {
+    "action_records": 4256,
+    "episode_pairs": 448,
+    "episodes": 896,
+    "state_dim": 67,
+    "state_records": 5152,
+    "windows": 4256
+  },
+  "cps": false,
+  "determinism": {
+    "exact": true,
+    "file_count": 4,
+    "file_sha256": {
+      "action_template.pkl": "4275b76fd321322dcfc9d715f92e496e268a584513340f4d0b4d4a1963c5d495",
+      "manifest.json": "a61daf1e168fcf30fa52359b65fc1b93439e6cf284bdadb1f7006ad096b1af8e",
+      "migrated/phase3_14b_r255_stageb_dataset.npz": "17a872d72dceadca1151821dbb5fd62982bf5ff1585852c05688b14d49d78b69",
+      "windows/phase3_14b_r255_stageb_windows.npz": "0e55ae7e777536838e8ac70d33d830abc83b1940a42d97fd9b74081fce187319"
+    }
+  },
+  "diffusion_training": false,
+  "ee_tip_link": 12,
+  "ee_tip_link_name": "tool_tip",
+  "idm": false,
+  "legacy_cache_modified": false,
+  "legacy_equivalence": {
+    "action_history_max_abs": 0.0,
+    "cable_and_action_exact": true,
+    "cable_final_max_abs": 0.0,
+    "cable_future_max_abs": 0.0,
+    "cable_history_max_abs": 0.0,
+    "canonical_source_exact": true,
+    "metadata_exact": {
+      "condition_name": true,
+      "final_fraction": true,
+      "pair_group": true,
+      "pre_engagement": true,
+      "split_name": true,
+      "success": true,
+      "visible_seed": true,
+      "window_t": true
+    },
+    "rows": 4256,
+    "target_action_max_abs": 0.0,
+    "zero_step_metadata_corrections": {
+      "engagement_step": 0,
+      "release_step": 0
+    }
+  },
+  "legacy_raw_modified": false,
+  "legacy_windows_modified": false,
+  "new_cache_written": false,
+  "new_state_v3_dataset_written": true,
+  "new_state_v3_windows_written": true,
+  "phase": "Phase3.14b-r2.5.5 Stage B",
+  "phase4": false,
+  "prediction_tensor_persisted": false,
+  "promotion_verification": {
+    "exact": true,
+    "file_count": 4,
+    "file_sha256": {
+      "action_template.pkl": "4275b76fd321322dcfc9d715f92e496e268a584513340f4d0b4d4a1963c5d495",
+      "manifest.json": "a61daf1e168fcf30fa52359b65fc1b93439e6cf284bdadb1f7006ad096b1af8e",
+      "migrated/phase3_14b_r255_stageb_dataset.npz": "17a872d72dceadca1151821dbb5fd62982bf5ff1585852c05688b14d49d78b69",
+      "windows/phase3_14b_r255_stageb_windows.npz": "0e55ae7e777536838e8ac70d33d830abc83b1940a42d97fd9b74081fce187319"
+    }
+  },
+  "repository": {
+    "base_evidence_commit": "9f9e9f98e678d435ace3c297acb917ac727a0d7d",
+    "branch": "Experiment1",
+    "implementation_head": "b6bef1f12d6051b0cf51d5e15f5ae27fd248f0d4",
+    "legacy_cache_sha256": "3cc512f650557c81c3b81f4f128a5b55360b77d3f664fdd6607666936285fbe8",
+    "submodule_commit": "633a88752445cf5d6776ed374fdbbdb35f93050c",
+    "test_gate_sha256": "f8580964ab6f55c4bd6f9bcd888491d10eda38722f7b7fc58b7b030a7342ae94"
+  },
+  "required_next_path": "BUILD_NEW_STATE_V3_CACHE_AND_RERUN_ROBOT_PROXY_ATTRIBUTION",
+  "reverse_sampling": false,
+  "robot_proxy_attribution_interpretable": false,
+  "root_cause": "phase314b_r255_stageb_state_v3_dataset_materialized_and_byte_reproducible",
+  "schema": "phase314b_r255_stageb_materialization_summary_v1",
+  "scientific_status": "BLOCKED",
+  "selected_configuration": null,
+  "split_isolation": {
+    "train_test_pair_group_overlap": 0,
+    "train_test_source_file_overlap": 0,
+    "train_test_visible_seed_overlap": 0,
+    "train_val_pair_group_overlap": 0,
+    "train_val_source_file_overlap": 0,
+    "train_val_visible_seed_overlap": 0,
+    "val_test_pair_group_overlap": 0,
+    "val_test_source_file_overlap": 0,
+    "val_test_visible_seed_overlap": 0
+  },
+  "submodule_modified": false,
+  "train_only_recommendation": null,
+  "verdict": "PASS",
+  "weights_persisted": false,
+  "window_pair_audit": {
+    "invalid_pairs": {},
+    "pair_window_count": 2128,
+    "rows_per_pair": 2
+  }
+}
