@@ -1,0 +1,377 @@
+{
+  "audit_spec": {
+    "historical_final_loss_relative": 0.005,
+    "historical_loss_curve_p95_relative": 0.01,
+    "historical_prior_z_mse_relative": 0.005,
+    "repeat_count": 3,
+    "same_device_parameter_max_abs": 1e-06,
+    "same_device_parameter_rmse": 1e-07,
+    "same_device_prediction_max_abs": 1e-06,
+    "same_device_prediction_rmse": 1e-07,
+    "same_device_prior_z_mse_abs": 1e-08,
+    "same_device_prior_z_mse_relative": 1e-06
+  },
+  "base_commits": {
+    "r253_final_report": "c35c374f61f9b4dc2ca4cdaa76b12ddda71be994",
+    "r254_blocked_report": "d75988089ae6ba5e3fe65e44fae28eadcf02cfdc",
+    "r254_implementation": "d315ac52f193eb6c0d5fc195b2cfa229dc7391e1"
+  },
+  "blocked_contract": {
+    "failed_stage": "pilot",
+    "mismatch_signature_verified": true,
+    "pilot_summary_exists": false,
+    "root_cause": "phase314b_r254_execution_failed",
+    "verdict": "BLOCKED"
+  },
+  "candidate_execution": false,
+  "checkpoint_saved": false,
+  "cps": false,
+  "dataset": {
+    "paired_row_contract": {
+      "distinct_pair_key_count": 8,
+      "distinct_row_count": 16,
+      "distinct_visible_seed_count": 8,
+      "expected_rows": [
+        6,
+        1226,
+        10,
+        1230,
+        19,
+        1239,
+        25,
+        1245,
+        31,
+        1251,
+        36,
+        1256,
+        43,
+        1263,
+        49,
+        1269
+      ],
+      "model_input_use": false,
+      "observed_rows": [
+        6,
+        1226,
+        10,
+        1230,
+        19,
+        1239,
+        25,
+        1245,
+        31,
+        1251,
+        36,
+        1256,
+        43,
+        1263,
+        49,
+        1269
+      ],
+      "pairs": [
+        {
+          "conditions": [
+            "free",
+            "hidden_slack_breakaway_pin_v2"
+          ],
+          "pair_index": 0,
+          "pair_key": "train|400002|0",
+          "rows": [
+            6,
+            1226
+          ],
+          "visible_seed": 400002
+        },
+        {
+          "conditions": [
+            "free",
+            "hidden_slack_breakaway_pin_v2"
+          ],
+          "pair_index": 1,
+          "pair_key": "train|400003|0",
+          "rows": [
+            10,
+            1230
+          ],
+          "visible_seed": 400003
+        },
+        {
+          "conditions": [
+            "free",
+            "hidden_slack_breakaway_pin_v2"
+          ],
+          "pair_index": 2,
+          "pair_key": "train|400004|0",
+          "rows": [
+            19,
+            1239
+          ],
+          "visible_seed": 400004
+        },
+        {
+          "conditions": [
+            "free",
+            "hidden_slack_breakaway_pin_v2"
+          ],
+          "pair_index": 3,
+          "pair_key": "train|400005|0",
+          "rows": [
+            25,
+            1245
+          ],
+          "visible_seed": 400005
+        },
+        {
+          "conditions": [
+            "free",
+            "hidden_slack_breakaway_pin_v2"
+          ],
+          "pair_index": 4,
+          "pair_key": "train|400007|0",
+          "rows": [
+            31,
+            1251
+          ],
+          "visible_seed": 400007
+        },
+        {
+          "conditions": [
+            "free",
+            "hidden_slack_breakaway_pin_v2"
+          ],
+          "pair_index": 5,
+          "pair_key": "train|400008|0",
+          "rows": [
+            36,
+            1256
+          ],
+          "visible_seed": 400008
+        },
+        {
+          "conditions": [
+            "free",
+            "hidden_slack_breakaway_pin_v2"
+          ],
+          "pair_index": 6,
+          "pair_key": "train|400009|0",
+          "rows": [
+            43,
+            1263
+          ],
+          "visible_seed": 400009
+        },
+        {
+          "conditions": [
+            "free",
+            "hidden_slack_breakaway_pin_v2"
+          ],
+          "pair_index": 7,
+          "pair_key": "train|400010|0",
+          "rows": [
+            49,
+            1269
+          ],
+          "visible_seed": 400010
+        }
+      ],
+      "pass": true
+    },
+    "paired_rows": [
+      6,
+      1226,
+      10,
+      1230,
+      19,
+      1239,
+      25,
+      1245,
+      31,
+      1251,
+      36,
+      1256,
+      43,
+      1263,
+      49,
+      1269
+    ]
+  },
+  "environment": {
+    "cuda_available": true,
+    "cuda_runtime": "11.2",
+    "cuda_visible_devices": null,
+    "gpu_capability": [
+      8,
+      9
+    ],
+    "gpu_name": "NVIDIA GeForce RTX 4090",
+    "numpy_version": "1.23.3",
+    "python_no_user_site": "1",
+    "python_version": "3.9.15",
+    "requested_python": "/miniforge3/envs/coord_bimanual/bin/python",
+    "resolved_python": "/miniforge3/envs/coord_bimanual/bin/python3.9",
+    "sys_no_user_site": true,
+    "torch_version": "1.12.1.post200"
+  },
+  "formal_test_read": false,
+  "formal_training": false,
+  "historical_prior": {
+    "device": "cuda",
+    "gpu_name": "NVIDIA GeForce RTX 4080 SUPER",
+    "pilot_sha256": "a6a8aa2faf739e80159af7e70cb57b0e2a4c852ab5af5c2d7ecb29ff31116c86",
+    "prior_history": [
+      {
+        "gradient_norm": 0.15506909679808115,
+        "loss": 1.0709795951843262,
+        "step": 1
+      },
+      {
+        "gradient_norm": 0.12218048216341933,
+        "loss": 0.17529290914535522,
+        "step": 250
+      },
+      {
+        "gradient_norm": 0.009798588678882713,
+        "loss": 0.17493990063667297,
+        "step": 500
+      },
+      {
+        "gradient_norm": 0.005119355271203263,
+        "loss": 0.1749356985092163,
+        "step": 750
+      },
+      {
+        "gradient_norm": 0.029106887120098148,
+        "loss": 0.17497970163822174,
+        "step": 1000
+      },
+      {
+        "gradient_norm": 0.007669239224967235,
+        "loss": 0.17493964731693268,
+        "step": 1250
+      },
+      {
+        "gradient_norm": 0.02628994222957281,
+        "loss": 0.1749669760465622,
+        "step": 1500
+      },
+      {
+        "gradient_norm": 0.039091855258276784,
+        "loss": 0.1749906688928604,
+        "step": 1750
+      },
+      {
+        "gradient_norm": 0.0081287454777762,
+        "loss": 0.17494158446788788,
+        "step": 2000
+      },
+      {
+        "gradient_norm": 0.0035555930441441533,
+        "loss": 0.174935445189476,
+        "step": 2250
+      },
+      {
+        "gradient_norm": 0.04818684625736525,
+        "loss": 0.1750488430261612,
+        "step": 2500
+      },
+      {
+        "gradient_norm": 0.07659833209546399,
+        "loss": 0.1755552589893341,
+        "step": 2750
+      },
+      {
+        "gradient_norm": 0.005939009010683693,
+        "loss": 0.17493705451488495,
+        "step": 3000
+      },
+      {
+        "gradient_norm": 0.001708853157161845,
+        "loss": 0.17493511736392975,
+        "step": 3250
+      },
+      {
+        "gradient_norm": 0.002828658299364438,
+        "loss": 0.1749371886253357,
+        "step": 3500
+      },
+      {
+        "gradient_norm": 0.017862905673248372,
+        "loss": 0.1749666929244995,
+        "step": 3750
+      },
+      {
+        "gradient_norm": 0.016383443137588077,
+        "loss": 0.17495200037956238,
+        "step": 4000
+      },
+      {
+        "gradient_norm": 0.02226311324634087,
+        "loss": 0.17496256530284882,
+        "step": 4250
+      },
+      {
+        "gradient_norm": 0.014751886478640258,
+        "loss": 0.17497438192367554,
+        "step": 4500
+      },
+      {
+        "gradient_norm": 0.011463462454622129,
+        "loss": 0.17495399713516235,
+        "step": 4750
+      },
+      {
+        "gradient_norm": 0.0014237966906311458,
+        "loss": 0.1749352067708969,
+        "step": 5000
+      }
+    ],
+    "prior_state_sha256": "083278d6b0710ddc3863d822978973f29842bc757edf73ff03a93bb154f5665d",
+    "prior_z_mse": 0.17493517696857452,
+    "seed": 102000,
+    "state_tensor_count": 6
+  },
+  "idm": false,
+  "immutable_r254_sha256": {
+    "ccda_phase3/phase314b_r254_robot_proxy_attribution.py": "181f4f6b0f29aae850cb47b2deb2c2528ef392072f56a015543315b5688b9811",
+    "reports/phase3_14b_r254_blocked_report.md": "a7a3499c39e5f171bbe533660d53d105721f5086098bbcd2e227e7125c1905b3",
+    "reports/phase3_14b_r254_blocked_summary.json": "9129e0c26f78cbdf6ed51531a2c6f8f216bb7d6ba56356dfc02b73aa642709c4",
+    "reports/phase3_14b_r254_preflight_summary.json": "db1efecac8b196629b5e6f711143763a8443062938e9cc87309a88dfaac493c3",
+    "scripts/phase3_14b_r254_finalize.py": "bcf1f8a9655db6d86b0af9fc5bc5ba9fadcd319d5fd327a3b57e18ed410e23c9",
+    "scripts/phase3_14b_r254_preflight.py": "17e596b55603d01e180ab1d899157f4dd3a568ca25759427984c049aa5e597f2",
+    "scripts/phase3_14b_r254_run.sh": "ece2fbe600caa3acb1728a93058304129533aa0caa78c42771e5bbf36012626b",
+    "scripts/phase3_14b_r254_run_pilot.py": "6b5fc6b7302c37e1ebeb05fc87d65d6bcbbb6604b99a10f3a9e4a185a1edf61d",
+    "tests/test_phase314b_r254_robot_proxy_attribution.py": "c421a92bac088e9978439020195054d638a48f52459fd68bc592a52cfea6ed43"
+  },
+  "phase": "phase3_14b_r254_resume1",
+  "phase4": false,
+  "repeat_run_ids": [
+    "repeat_a",
+    "repeat_b",
+    "repeat_c"
+  ],
+  "repository": {
+    "base_failure_commit": "a54cdd20d88f5eb00ebe25e8d4a20c28fe7d6e7f",
+    "branch": "Experiment1",
+    "cache_sha256": "3cc512f650557c81c3b81f4f128a5b55360b77d3f664fdd6607666936285fbe8",
+    "formal_test_read": false,
+    "frozen_contract_sha256": "fa2725ca40da2499008360f13d291d2ce8694e6393910b0522fe800f4f37cdcc",
+    "main_commit": "48f58b69fc738d52c3e8057202afdc7c188c10d6",
+    "r22_root_cause": "phase314b_r22_no_pilot_geometry_repair",
+    "r22_verdict": "FAIL",
+    "submodule_commit": "633a88752445cf5d6776ed374fdbbdb35f93050c"
+  },
+  "reverse_sampling_rerun": false,
+  "robot_proxy_attribution_run": false,
+  "source_sha256": {
+    "ccda_phase3/phase314b_r254_resume1_prior_determinism.py": "cf4c1df291a3aa695dac5a797ea5573f885ba9e7dda062be646e6537ce56c8df",
+    "scripts/phase3_14b_r254_resume1_finalize.py": "13198442e5af7015a9a1b354d7436991786c7c19003ad56150c805bc812d8c4a",
+    "scripts/phase3_14b_r254_resume1_preflight.py": "11ea96ca2ff5a46c74a4bedc56571d1fff20e64d2a37402482b6d59c89aa4382",
+    "scripts/phase3_14b_r254_resume1_prior_worker.py": "cb35fe3922a62501e0c61d2dd7af0a54ea8d97195ffe7c5ffdde4ec858fcc8b1",
+    "scripts/phase3_14b_r254_resume1_run.sh": "f4138facc7dfe892f16595f52dfb060a4f5b1f2dad14fd0319fdeb86e62a75f3",
+    "scripts/phase3_14b_r254_resume1_run_audit.py": "8ae40c3e2bda8443df39239ad8c2762697a1f93ce8def79bf14c2a35a948b9f7",
+    "tests/test_phase314b_r254_resume1_prior_determinism.py": "614393eac1a34aaf59a0aa1e84a9b6b01e91c21285179717915052885ec6f388"
+  },
+  "training_changed": false,
+  "validation_targets_used": false,
+  "verdict": "PASS"
+}

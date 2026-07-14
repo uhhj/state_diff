@@ -1,0 +1,1823 @@
+{
+  "audit_report": "reports/phase3_14b_r254_resume1_prior_audit_summary.json",
+  "candidate_eligible": false,
+  "candidate_execution": false,
+  "checkpoint_saved": false,
+  "cps": false,
+  "environment": {
+    "gpu_capability": [
+      8,
+      9
+    ],
+    "gpu_name": "NVIDIA GeForce RTX 4090",
+    "records": [
+      {
+        "cublas_workspace_config": null,
+        "cuda_available": true,
+        "cuda_matmul_allow_tf32": false,
+        "cuda_runtime": "11.2",
+        "cuda_visible_devices": null,
+        "cudnn_allow_tf32": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "cudnn_version": 8907,
+        "deterministic_algorithms_enabled": false,
+        "gpu_capability": [
+          8,
+          9
+        ],
+        "gpu_index": 0,
+        "gpu_name": "NVIDIA GeForce RTX 4090",
+        "numpy_version": "1.23.3",
+        "python_executable": "/miniforge3/envs/coord_bimanual/bin/python3.9",
+        "python_no_user_site": "1",
+        "python_version": "3.9.15",
+        "torch_version": "1.12.1.post200"
+      },
+      {
+        "cublas_workspace_config": null,
+        "cuda_available": true,
+        "cuda_matmul_allow_tf32": false,
+        "cuda_runtime": "11.2",
+        "cuda_visible_devices": null,
+        "cudnn_allow_tf32": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "cudnn_version": 8907,
+        "deterministic_algorithms_enabled": false,
+        "gpu_capability": [
+          8,
+          9
+        ],
+        "gpu_index": 0,
+        "gpu_name": "NVIDIA GeForce RTX 4090",
+        "numpy_version": "1.23.3",
+        "python_executable": "/miniforge3/envs/coord_bimanual/bin/python3.9",
+        "python_no_user_site": "1",
+        "python_version": "3.9.15",
+        "torch_version": "1.12.1.post200"
+      },
+      {
+        "cublas_workspace_config": null,
+        "cuda_available": true,
+        "cuda_matmul_allow_tf32": false,
+        "cuda_runtime": "11.2",
+        "cuda_visible_devices": null,
+        "cudnn_allow_tf32": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "cudnn_version": 8907,
+        "deterministic_algorithms_enabled": false,
+        "gpu_capability": [
+          8,
+          9
+        ],
+        "gpu_index": 0,
+        "gpu_name": "NVIDIA GeForce RTX 4090",
+        "numpy_version": "1.23.3",
+        "python_executable": "/miniforge3/envs/coord_bimanual/bin/python3.9",
+        "python_no_user_site": "1",
+        "python_version": "3.9.15",
+        "torch_version": "1.12.1.post200"
+      }
+    ],
+    "repeat_environment_identical": true
+  },
+  "formal_test_read": false,
+  "formal_training": false,
+  "functional_prior_contract_supported": true,
+  "historical_functional_fingerprint": {
+    "exact_state_sha_match_count": 0,
+    "expected_prior_state_sha256": "083278d6b0710ddc3863d822978973f29842bc757edf73ff03a93bb154f5665d",
+    "final_loss_relative_error": 0.0009288873146927251,
+    "functional_fingerprint_pass": true,
+    "history_step_match": true,
+    "loss_curve_relative_error_max": 0.0035334768260993636,
+    "loss_curve_relative_error_p50": 0.0004986558343328586,
+    "loss_curve_relative_error_p95": 0.0027320202094412932,
+    "observed_state_sha256": [
+      "8610337d4e869764c7315280056f6af9151ccf2d9872fc47d3afc9dca066e904",
+      "8610337d4e869764c7315280056f6af9151ccf2d9872fc47d3afc9dca066e904",
+      "8610337d4e869764c7315280056f6af9151ccf2d9872fc47d3afc9dca066e904"
+    ],
+    "prior_z_mse_expected": 0.17493517696857452,
+    "prior_z_mse_observed_median": 0.17507688701152802,
+    "prior_z_mse_observed_values": [
+      0.17507688701152802,
+      0.17507688701152802,
+      0.17507688701152802
+    ],
+    "prior_z_mse_relative_error": 0.0008094160535545748,
+    "rows": [
+      {
+        "expected_gradient_norm": 0.15506909679808115,
+        "expected_loss": 1.0709795951843262,
+        "gradient_relative_error": 2.1785730446819975e-08,
+        "loss_relative_error": 0.0,
+        "observed_gradient_norm_median": 0.15506910017637476,
+        "observed_loss_median": 1.0709795951843262,
+        "step": 1
+      },
+      {
+        "expected_gradient_norm": 0.12218048216341933,
+        "expected_loss": 0.17529290914535522,
+        "gradient_relative_error": 0.5957953314347377,
+        "loss_relative_error": 0.0017083899056317957,
+        "observed_gradient_norm_median": 0.04938592129800885,
+        "observed_loss_median": 0.17499344050884247,
+        "step": 250
+      },
+      {
+        "expected_gradient_norm": 0.009798588678882713,
+        "expected_loss": 0.17493990063667297,
+        "gradient_relative_error": 0.25771856957108047,
+        "loss_relative_error": 1.967629010449558e-05,
+        "observed_gradient_norm_median": 0.007273310420745677,
+        "observed_loss_median": 0.1749364584684372,
+        "step": 500
+      },
+      {
+        "expected_gradient_norm": 0.005119355271203263,
+        "expected_loss": 0.1749356985092163,
+        "gradient_relative_error": 0.794444699681649,
+        "loss_relative_error": 0.00018821411714889507,
+        "observed_gradient_norm_median": 0.024905002514042353,
+        "observed_loss_median": 0.1749686300754547,
+        "step": 750
+      },
+      {
+        "expected_gradient_norm": 0.029106887120098148,
+        "expected_loss": 0.17497970163822174,
+        "gradient_relative_error": 0.48933606507605343,
+        "loss_relative_error": 0.00043089098500640675,
+        "observed_gradient_norm_median": 0.0569981256350775,
+        "observed_loss_median": 0.175055131316185,
+        "step": 1000
+      },
+      {
+        "expected_gradient_norm": 0.007669239224967235,
+        "expected_loss": 0.17493964731693268,
+        "gradient_relative_error": 0.43747778892182987,
+        "loss_relative_error": 6.098435044469601e-05,
+        "observed_gradient_norm_median": 0.013633664722798812,
+        "observed_loss_median": 0.17495031654834747,
+        "step": 1250
+      },
+      {
+        "expected_gradient_norm": 0.02628994222957281,
+        "expected_loss": 0.1749669760465622,
+        "gradient_relative_error": 0.0715161627474755,
+        "loss_relative_error": 9.453288236890206e-06,
+        "observed_gradient_norm_median": 0.02831491639894061,
+        "observed_loss_median": 0.1749686300754547,
+        "step": 1500
+      },
+      {
+        "expected_gradient_norm": 0.039091855258276784,
+        "expected_loss": 0.1749906688928604,
+        "gradient_relative_error": 0.4724713141182282,
+        "loss_relative_error": 0.001351099337180667,
+        "observed_gradient_norm_median": 0.0741037526574203,
+        "observed_loss_median": 0.17522741854190826,
+        "step": 1750
+      },
+      {
+        "expected_gradient_norm": 0.0081287454777762,
+        "expected_loss": 0.17494158446788788,
+        "gradient_relative_error": 0.9122744194757615,
+        "loss_relative_error": 0.0027124389932706777,
+        "observed_gradient_norm_median": 0.09266106224888687,
+        "observed_loss_median": 0.17541739344596863,
+        "step": 2000
+      },
+      {
+        "expected_gradient_norm": 0.0035555930441441533,
+        "expected_loss": 0.174935445189476,
+        "gradient_relative_error": 0.9210781617770539,
+        "loss_relative_error": 0.0004986558343328586,
+        "observed_gradient_norm_median": 0.04505208094748088,
+        "observed_loss_median": 0.17502272129058838,
+        "step": 2250
+      },
+      {
+        "expected_gradient_norm": 0.04818684625736525,
+        "expected_loss": 0.1750488430261612,
+        "gradient_relative_error": 0.8873916237095159,
+        "loss_relative_error": 0.0006292494234221243,
+        "observed_gradient_norm_median": 0.005426242515601095,
+        "observed_loss_median": 0.17493869364261627,
+        "step": 2500
+      },
+      {
+        "expected_gradient_norm": 0.07659833209546399,
+        "expected_loss": 0.1755552589893341,
+        "gradient_relative_error": 0.9945964016544837,
+        "loss_relative_error": 0.0035334768260993636,
+        "observed_gradient_norm_median": 0.00041390662058035687,
+        "observed_loss_median": 0.17493493854999542,
+        "step": 2750
+      },
+      {
+        "expected_gradient_norm": 0.005939009010683693,
+        "expected_loss": 0.17493705451488495,
+        "gradient_relative_error": 0.1571369844513305,
+        "loss_relative_error": 4.2590047285174096e-07,
+        "observed_gradient_norm_median": 0.0070462327817499976,
+        "observed_loss_median": 0.17493712902069092,
+        "step": 3000
+      },
+      {
+        "expected_gradient_norm": 0.001708853157161845,
+        "expected_loss": 0.17493511736392975,
+        "gradient_relative_error": 0.9010587116895201,
+        "loss_relative_error": 0.00019613353772781467,
+        "observed_gradient_norm_median": 0.017271385751511836,
+        "observed_loss_median": 0.17496943473815918,
+        "step": 3250
+      },
+      {
+        "expected_gradient_norm": 0.002828658299364438,
+        "expected_loss": 0.1749371886253357,
+        "gradient_relative_error": 0.8753929579894177,
+        "loss_relative_error": 0.0002884216709501301,
+        "observed_gradient_norm_median": 0.022700629544871252,
+        "observed_loss_median": 0.17498765885829926,
+        "step": 3500
+      },
+      {
+        "expected_gradient_norm": 0.017862905673248372,
+        "expected_loss": 0.1749666929244995,
+        "gradient_relative_error": 0.7763987870317078,
+        "loss_relative_error": 0.002109269132593983,
+        "observed_gradient_norm_median": 0.07988733798050292,
+        "observed_loss_median": 0.17533652484416962,
+        "step": 3750
+      },
+      {
+        "expected_gradient_norm": 0.016383443137588077,
+        "expected_loss": 0.17495200037956238,
+        "gradient_relative_error": 0.4901993632723634,
+        "loss_relative_error": 7.384486446017871e-05,
+        "observed_gradient_norm_median": 0.00835228974333343,
+        "observed_loss_median": 0.1749390810728073,
+        "step": 4000
+      },
+      {
+        "expected_gradient_norm": 0.02226311324634087,
+        "expected_loss": 0.17496256530284882,
+        "gradient_relative_error": 0.6314337675068532,
+        "loss_relative_error": 0.0027320202094412932,
+        "observed_gradient_norm_median": 0.06040464720748619,
+        "observed_loss_median": 0.17544187605381012,
+        "step": 4250
+      },
+      {
+        "expected_gradient_norm": 0.014751886478640258,
+        "expected_loss": 0.17497438192367554,
+        "gradient_relative_error": 0.7238809498513767,
+        "loss_relative_error": 0.0008435834307757002,
+        "observed_gradient_norm_median": 0.05342581930040662,
+        "observed_loss_median": 0.17512211203575134,
+        "step": 4500
+      },
+      {
+        "expected_gradient_norm": 0.011463462454622129,
+        "expected_loss": 0.17495399713516235,
+        "gradient_relative_error": 0.7603092339715734,
+        "loss_relative_error": 0.000752012800217876,
+        "observed_gradient_norm_median": 0.04782604955779811,
+        "observed_loss_median": 0.1750856637954712,
+        "step": 4750
+      },
+      {
+        "expected_gradient_norm": 0.0014237966906311458,
+        "expected_loss": 0.1749352067708969,
+        "gradient_relative_error": 0.965344263613519,
+        "loss_relative_error": 0.0009288873146927251,
+        "observed_gradient_norm_median": 0.04108401203059019,
+        "observed_loss_median": 0.17509785294532776,
+        "step": 5000
+      }
+    ]
+  },
+  "historical_prior": {
+    "device": "cuda",
+    "gpu_name": "NVIDIA GeForce RTX 4080 SUPER",
+    "pilot_sha256": "a6a8aa2faf739e80159af7e70cb57b0e2a4c852ab5af5c2d7ecb29ff31116c86",
+    "prior_history": [
+      {
+        "gradient_norm": 0.15506909679808115,
+        "loss": 1.0709795951843262,
+        "step": 1
+      },
+      {
+        "gradient_norm": 0.12218048216341933,
+        "loss": 0.17529290914535522,
+        "step": 250
+      },
+      {
+        "gradient_norm": 0.009798588678882713,
+        "loss": 0.17493990063667297,
+        "step": 500
+      },
+      {
+        "gradient_norm": 0.005119355271203263,
+        "loss": 0.1749356985092163,
+        "step": 750
+      },
+      {
+        "gradient_norm": 0.029106887120098148,
+        "loss": 0.17497970163822174,
+        "step": 1000
+      },
+      {
+        "gradient_norm": 0.007669239224967235,
+        "loss": 0.17493964731693268,
+        "step": 1250
+      },
+      {
+        "gradient_norm": 0.02628994222957281,
+        "loss": 0.1749669760465622,
+        "step": 1500
+      },
+      {
+        "gradient_norm": 0.039091855258276784,
+        "loss": 0.1749906688928604,
+        "step": 1750
+      },
+      {
+        "gradient_norm": 0.0081287454777762,
+        "loss": 0.17494158446788788,
+        "step": 2000
+      },
+      {
+        "gradient_norm": 0.0035555930441441533,
+        "loss": 0.174935445189476,
+        "step": 2250
+      },
+      {
+        "gradient_norm": 0.04818684625736525,
+        "loss": 0.1750488430261612,
+        "step": 2500
+      },
+      {
+        "gradient_norm": 0.07659833209546399,
+        "loss": 0.1755552589893341,
+        "step": 2750
+      },
+      {
+        "gradient_norm": 0.005939009010683693,
+        "loss": 0.17493705451488495,
+        "step": 3000
+      },
+      {
+        "gradient_norm": 0.001708853157161845,
+        "loss": 0.17493511736392975,
+        "step": 3250
+      },
+      {
+        "gradient_norm": 0.002828658299364438,
+        "loss": 0.1749371886253357,
+        "step": 3500
+      },
+      {
+        "gradient_norm": 0.017862905673248372,
+        "loss": 0.1749666929244995,
+        "step": 3750
+      },
+      {
+        "gradient_norm": 0.016383443137588077,
+        "loss": 0.17495200037956238,
+        "step": 4000
+      },
+      {
+        "gradient_norm": 0.02226311324634087,
+        "loss": 0.17496256530284882,
+        "step": 4250
+      },
+      {
+        "gradient_norm": 0.014751886478640258,
+        "loss": 0.17497438192367554,
+        "step": 4500
+      },
+      {
+        "gradient_norm": 0.011463462454622129,
+        "loss": 0.17495399713516235,
+        "step": 4750
+      },
+      {
+        "gradient_norm": 0.0014237966906311458,
+        "loss": 0.1749352067708969,
+        "step": 5000
+      }
+    ],
+    "prior_state_sha256": "083278d6b0710ddc3863d822978973f29842bc757edf73ff03a93bb154f5665d",
+    "prior_z_mse": 0.17493517696857452,
+    "seed": 102000,
+    "state_tensor_count": 6
+  },
+  "idm": false,
+  "next_stage": "phase3_14b_r254_resume2_robot_proxy_attribution_functional_prior_contract",
+  "phase": "phase3_14b_r254_resume1",
+  "phase4": false,
+  "preflight_report": "reports/phase3_14b_r254_resume1_preflight_summary.json",
+  "repeat_evidence_report": "reports/phase3_14b_r254_resume1_prior_repeat_evidence.json",
+  "reverse_sampling_rerun": false,
+  "robot_proxy_attribution_run": false,
+  "root_cause": "phase314b_r254_resume1_cross_device_bitwise_sha_contract_overstrict",
+  "runs": [
+    {
+      "environment_after_fit": {
+        "cublas_workspace_config": null,
+        "cuda_available": true,
+        "cuda_matmul_allow_tf32": false,
+        "cuda_runtime": "11.2",
+        "cuda_visible_devices": null,
+        "cudnn_allow_tf32": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "cudnn_version": 8907,
+        "deterministic_algorithms_enabled": false,
+        "gpu_capability": [
+          8,
+          9
+        ],
+        "gpu_index": 0,
+        "gpu_name": "NVIDIA GeForce RTX 4090",
+        "numpy_version": "1.23.3",
+        "python_executable": "/miniforge3/envs/coord_bimanual/bin/python3.9",
+        "python_no_user_site": "1",
+        "python_version": "3.9.15",
+        "torch_version": "1.12.1.post200"
+      },
+      "environment_before_fit": {
+        "cublas_workspace_config": null,
+        "cuda_available": true,
+        "cuda_matmul_allow_tf32": false,
+        "cuda_runtime": "11.2",
+        "cuda_visible_devices": null,
+        "cudnn_allow_tf32": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": false,
+        "cudnn_version": 8907,
+        "deterministic_algorithms_enabled": false,
+        "gpu_capability": [
+          8,
+          9
+        ],
+        "gpu_index": 0,
+        "gpu_name": "NVIDIA GeForce RTX 4090",
+        "numpy_version": "1.23.3",
+        "python_executable": "/miniforge3/envs/coord_bimanual/bin/python3.9",
+        "python_no_user_site": "1",
+        "python_version": "3.9.15",
+        "torch_version": "1.12.1.post200"
+      },
+      "prior_history": [
+        {
+          "gradient_norm": 0.15506910017637476,
+          "loss": 1.0709795951843262,
+          "step": 1
+        },
+        {
+          "gradient_norm": 0.04938592129800885,
+          "loss": 0.17499344050884247,
+          "step": 250
+        },
+        {
+          "gradient_norm": 0.007273310420745677,
+          "loss": 0.1749364584684372,
+          "step": 500
+        },
+        {
+          "gradient_norm": 0.024905002514042353,
+          "loss": 0.1749686300754547,
+          "step": 750
+        },
+        {
+          "gradient_norm": 0.0569981256350775,
+          "loss": 0.175055131316185,
+          "step": 1000
+        },
+        {
+          "gradient_norm": 0.013633664722798812,
+          "loss": 0.17495031654834747,
+          "step": 1250
+        },
+        {
+          "gradient_norm": 0.02831491639894061,
+          "loss": 0.1749686300754547,
+          "step": 1500
+        },
+        {
+          "gradient_norm": 0.0741037526574203,
+          "loss": 0.17522741854190826,
+          "step": 1750
+        },
+        {
+          "gradient_norm": 0.09266106224888687,
+          "loss": 0.17541739344596863,
+          "step": 2000
+        },
+        {
+          "gradient_norm": 0.04505208094748088,
+          "loss": 0.17502272129058838,
+          "step": 2250
+        },
+        {
+          "gradient_norm": 0.005426242515601095,
+          "loss": 0.17493869364261627,
+          "step": 2500
+        },
+        {
+          "gradient_norm": 0.00041390662058035687,
+          "loss": 0.17493493854999542,
+          "step": 2750
+        },
+        {
+          "gradient_norm": 0.0070462327817499976,
+          "loss": 0.17493712902069092,
+          "step": 3000
+        },
+        {
+          "gradient_norm": 0.017271385751511836,
+          "loss": 0.17496943473815918,
+          "step": 3250
+        },
+        {
+          "gradient_norm": 0.022700629544871252,
+          "loss": 0.17498765885829926,
+          "step": 3500
+        },
+        {
+          "gradient_norm": 0.07988733798050292,
+          "loss": 0.17533652484416962,
+          "step": 3750
+        },
+        {
+          "gradient_norm": 0.00835228974333343,
+          "loss": 0.1749390810728073,
+          "step": 4000
+        },
+        {
+          "gradient_norm": 0.06040464720748619,
+          "loss": 0.17544187605381012,
+          "step": 4250
+        },
+        {
+          "gradient_norm": 0.05342581930040662,
+          "loss": 0.17512211203575134,
+          "step": 4500
+        },
+        {
+          "gradient_norm": 0.04782604955779811,
+          "loss": 0.1750856637954712,
+          "step": 4750
+        },
+        {
+          "gradient_norm": 0.04108401203059019,
+          "loss": 0.17509785294532776,
+          "step": 5000
+        }
+      ],
+      "prior_prediction_sha256": "70c3a6bde584ee6973190823e37548b69121ddf7fbc4c0cd5fe069a4d69ae7b9",
+      "prior_state_sha256": "8610337d4e869764c7315280056f6af9151ccf2d9872fc47d3afc9dca066e904",
+      "prior_z_mse": 0.17507688701152802,
+      "run_id": "repeat_a",
+      "state_summary": {
+        "l2_norm": 24.453484293092515,
+        "parameter_count": 575324,
+        "tensor_count": 6,
+        "tensors": [
+          {
+            "count": 512,
+            "dtype": "torch.float32",
+            "key": "0.bias",
+            "l2_norm": 1.0697350848217972,
+            "maximum": 0.11509425938129425,
+            "mean": -0.016854812169441402,
+            "minimum": -0.10932230204343796,
+            "shape": [
+              512
+            ],
+            "std": 0.04416945770149744
+          },
+          {
+            "count": 133632,
+            "dtype": "torch.float32",
+            "key": "0.weight",
+            "l2_norm": 14.431477557683015,
+            "maximum": 0.17066523432731628,
+            "mean": 0.0006488485630716267,
+            "minimum": -0.13216009736061096,
+            "shape": [
+              512,
+              261
+            ],
+            "std": 0.039472705817264676
+          },
+          {
+            "count": 512,
+            "dtype": "torch.float32",
+            "key": "2.bias",
+            "l2_norm": 0.8103266692444077,
+            "maximum": 0.0889679566025734,
+            "mean": -0.007935578850428726,
+            "minimum": -0.0968131348490715,
+            "shape": [
+              512
+            ],
+            "std": 0.03492142195183628
+          },
+          {
+            "count": 262144,
+            "dtype": "torch.float32",
+            "key": "2.weight",
+            "l2_norm": 15.857353980230627,
+            "maximum": 0.10986648499965668,
+            "mean": -0.004963121195118896,
+            "minimum": -0.18266995251178741,
+            "shape": [
+              512,
+              512
+            ],
+            "std": 0.030571141699667206
+          },
+          {
+            "count": 348,
+            "dtype": "torch.float32",
+            "key": "4.bias",
+            "l2_norm": 0.5623754604767767,
+            "maximum": 0.07765942066907883,
+            "mean": -0.006636700812468289,
+            "minimum": -0.08028247207403183,
+            "shape": [
+              348
+            ],
+            "std": 0.02940688699516941
+          },
+          {
+            "count": 178176,
+            "dtype": "torch.float32",
+            "key": "4.weight",
+            "l2_norm": 11.667580970328162,
+            "maximum": 0.1298063099384308,
+            "mean": 0.00025999479427922333,
+            "minimum": -0.1314474195241928,
+            "shape": [
+              348,
+              512
+            ],
+            "std": 0.027639934416777548
+          }
+        ]
+      }
+    },
+    {
+      "environment_after_fit": {
+        "cublas_workspace_config": null,
+        "cuda_available": true,
+        "cuda_matmul_allow_tf32": false,
+        "cuda_runtime": "11.2",
+        "cuda_visible_devices": null,
+        "cudnn_allow_tf32": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "cudnn_version": 8907,
+        "deterministic_algorithms_enabled": false,
+        "gpu_capability": [
+          8,
+          9
+        ],
+        "gpu_index": 0,
+        "gpu_name": "NVIDIA GeForce RTX 4090",
+        "numpy_version": "1.23.3",
+        "python_executable": "/miniforge3/envs/coord_bimanual/bin/python3.9",
+        "python_no_user_site": "1",
+        "python_version": "3.9.15",
+        "torch_version": "1.12.1.post200"
+      },
+      "environment_before_fit": {
+        "cublas_workspace_config": null,
+        "cuda_available": true,
+        "cuda_matmul_allow_tf32": false,
+        "cuda_runtime": "11.2",
+        "cuda_visible_devices": null,
+        "cudnn_allow_tf32": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": false,
+        "cudnn_version": 8907,
+        "deterministic_algorithms_enabled": false,
+        "gpu_capability": [
+          8,
+          9
+        ],
+        "gpu_index": 0,
+        "gpu_name": "NVIDIA GeForce RTX 4090",
+        "numpy_version": "1.23.3",
+        "python_executable": "/miniforge3/envs/coord_bimanual/bin/python3.9",
+        "python_no_user_site": "1",
+        "python_version": "3.9.15",
+        "torch_version": "1.12.1.post200"
+      },
+      "prior_history": [
+        {
+          "gradient_norm": 0.15506910017637476,
+          "loss": 1.0709795951843262,
+          "step": 1
+        },
+        {
+          "gradient_norm": 0.04938592129800885,
+          "loss": 0.17499344050884247,
+          "step": 250
+        },
+        {
+          "gradient_norm": 0.007273310420745677,
+          "loss": 0.1749364584684372,
+          "step": 500
+        },
+        {
+          "gradient_norm": 0.024905002514042353,
+          "loss": 0.1749686300754547,
+          "step": 750
+        },
+        {
+          "gradient_norm": 0.0569981256350775,
+          "loss": 0.175055131316185,
+          "step": 1000
+        },
+        {
+          "gradient_norm": 0.013633664722798812,
+          "loss": 0.17495031654834747,
+          "step": 1250
+        },
+        {
+          "gradient_norm": 0.02831491639894061,
+          "loss": 0.1749686300754547,
+          "step": 1500
+        },
+        {
+          "gradient_norm": 0.0741037526574203,
+          "loss": 0.17522741854190826,
+          "step": 1750
+        },
+        {
+          "gradient_norm": 0.09266106224888687,
+          "loss": 0.17541739344596863,
+          "step": 2000
+        },
+        {
+          "gradient_norm": 0.04505208094748088,
+          "loss": 0.17502272129058838,
+          "step": 2250
+        },
+        {
+          "gradient_norm": 0.005426242515601095,
+          "loss": 0.17493869364261627,
+          "step": 2500
+        },
+        {
+          "gradient_norm": 0.00041390662058035687,
+          "loss": 0.17493493854999542,
+          "step": 2750
+        },
+        {
+          "gradient_norm": 0.0070462327817499976,
+          "loss": 0.17493712902069092,
+          "step": 3000
+        },
+        {
+          "gradient_norm": 0.017271385751511836,
+          "loss": 0.17496943473815918,
+          "step": 3250
+        },
+        {
+          "gradient_norm": 0.022700629544871252,
+          "loss": 0.17498765885829926,
+          "step": 3500
+        },
+        {
+          "gradient_norm": 0.07988733798050292,
+          "loss": 0.17533652484416962,
+          "step": 3750
+        },
+        {
+          "gradient_norm": 0.00835228974333343,
+          "loss": 0.1749390810728073,
+          "step": 4000
+        },
+        {
+          "gradient_norm": 0.06040464720748619,
+          "loss": 0.17544187605381012,
+          "step": 4250
+        },
+        {
+          "gradient_norm": 0.05342581930040662,
+          "loss": 0.17512211203575134,
+          "step": 4500
+        },
+        {
+          "gradient_norm": 0.04782604955779811,
+          "loss": 0.1750856637954712,
+          "step": 4750
+        },
+        {
+          "gradient_norm": 0.04108401203059019,
+          "loss": 0.17509785294532776,
+          "step": 5000
+        }
+      ],
+      "prior_prediction_sha256": "70c3a6bde584ee6973190823e37548b69121ddf7fbc4c0cd5fe069a4d69ae7b9",
+      "prior_state_sha256": "8610337d4e869764c7315280056f6af9151ccf2d9872fc47d3afc9dca066e904",
+      "prior_z_mse": 0.17507688701152802,
+      "run_id": "repeat_b",
+      "state_summary": {
+        "l2_norm": 24.453484293092515,
+        "parameter_count": 575324,
+        "tensor_count": 6,
+        "tensors": [
+          {
+            "count": 512,
+            "dtype": "torch.float32",
+            "key": "0.bias",
+            "l2_norm": 1.0697350848217972,
+            "maximum": 0.11509425938129425,
+            "mean": -0.016854812169441402,
+            "minimum": -0.10932230204343796,
+            "shape": [
+              512
+            ],
+            "std": 0.04416945770149744
+          },
+          {
+            "count": 133632,
+            "dtype": "torch.float32",
+            "key": "0.weight",
+            "l2_norm": 14.431477557683015,
+            "maximum": 0.17066523432731628,
+            "mean": 0.0006488485630716267,
+            "minimum": -0.13216009736061096,
+            "shape": [
+              512,
+              261
+            ],
+            "std": 0.039472705817264676
+          },
+          {
+            "count": 512,
+            "dtype": "torch.float32",
+            "key": "2.bias",
+            "l2_norm": 0.8103266692444077,
+            "maximum": 0.0889679566025734,
+            "mean": -0.007935578850428726,
+            "minimum": -0.0968131348490715,
+            "shape": [
+              512
+            ],
+            "std": 0.03492142195183628
+          },
+          {
+            "count": 262144,
+            "dtype": "torch.float32",
+            "key": "2.weight",
+            "l2_norm": 15.857353980230627,
+            "maximum": 0.10986648499965668,
+            "mean": -0.004963121195118896,
+            "minimum": -0.18266995251178741,
+            "shape": [
+              512,
+              512
+            ],
+            "std": 0.030571141699667206
+          },
+          {
+            "count": 348,
+            "dtype": "torch.float32",
+            "key": "4.bias",
+            "l2_norm": 0.5623754604767767,
+            "maximum": 0.07765942066907883,
+            "mean": -0.006636700812468289,
+            "minimum": -0.08028247207403183,
+            "shape": [
+              348
+            ],
+            "std": 0.02940688699516941
+          },
+          {
+            "count": 178176,
+            "dtype": "torch.float32",
+            "key": "4.weight",
+            "l2_norm": 11.667580970328162,
+            "maximum": 0.1298063099384308,
+            "mean": 0.00025999479427922333,
+            "minimum": -0.1314474195241928,
+            "shape": [
+              348,
+              512
+            ],
+            "std": 0.027639934416777548
+          }
+        ]
+      }
+    },
+    {
+      "environment_after_fit": {
+        "cublas_workspace_config": null,
+        "cuda_available": true,
+        "cuda_matmul_allow_tf32": false,
+        "cuda_runtime": "11.2",
+        "cuda_visible_devices": null,
+        "cudnn_allow_tf32": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "cudnn_version": 8907,
+        "deterministic_algorithms_enabled": false,
+        "gpu_capability": [
+          8,
+          9
+        ],
+        "gpu_index": 0,
+        "gpu_name": "NVIDIA GeForce RTX 4090",
+        "numpy_version": "1.23.3",
+        "python_executable": "/miniforge3/envs/coord_bimanual/bin/python3.9",
+        "python_no_user_site": "1",
+        "python_version": "3.9.15",
+        "torch_version": "1.12.1.post200"
+      },
+      "environment_before_fit": {
+        "cublas_workspace_config": null,
+        "cuda_available": true,
+        "cuda_matmul_allow_tf32": false,
+        "cuda_runtime": "11.2",
+        "cuda_visible_devices": null,
+        "cudnn_allow_tf32": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": false,
+        "cudnn_version": 8907,
+        "deterministic_algorithms_enabled": false,
+        "gpu_capability": [
+          8,
+          9
+        ],
+        "gpu_index": 0,
+        "gpu_name": "NVIDIA GeForce RTX 4090",
+        "numpy_version": "1.23.3",
+        "python_executable": "/miniforge3/envs/coord_bimanual/bin/python3.9",
+        "python_no_user_site": "1",
+        "python_version": "3.9.15",
+        "torch_version": "1.12.1.post200"
+      },
+      "prior_history": [
+        {
+          "gradient_norm": 0.15506910017637476,
+          "loss": 1.0709795951843262,
+          "step": 1
+        },
+        {
+          "gradient_norm": 0.04938592129800885,
+          "loss": 0.17499344050884247,
+          "step": 250
+        },
+        {
+          "gradient_norm": 0.007273310420745677,
+          "loss": 0.1749364584684372,
+          "step": 500
+        },
+        {
+          "gradient_norm": 0.024905002514042353,
+          "loss": 0.1749686300754547,
+          "step": 750
+        },
+        {
+          "gradient_norm": 0.0569981256350775,
+          "loss": 0.175055131316185,
+          "step": 1000
+        },
+        {
+          "gradient_norm": 0.013633664722798812,
+          "loss": 0.17495031654834747,
+          "step": 1250
+        },
+        {
+          "gradient_norm": 0.02831491639894061,
+          "loss": 0.1749686300754547,
+          "step": 1500
+        },
+        {
+          "gradient_norm": 0.0741037526574203,
+          "loss": 0.17522741854190826,
+          "step": 1750
+        },
+        {
+          "gradient_norm": 0.09266106224888687,
+          "loss": 0.17541739344596863,
+          "step": 2000
+        },
+        {
+          "gradient_norm": 0.04505208094748088,
+          "loss": 0.17502272129058838,
+          "step": 2250
+        },
+        {
+          "gradient_norm": 0.005426242515601095,
+          "loss": 0.17493869364261627,
+          "step": 2500
+        },
+        {
+          "gradient_norm": 0.00041390662058035687,
+          "loss": 0.17493493854999542,
+          "step": 2750
+        },
+        {
+          "gradient_norm": 0.0070462327817499976,
+          "loss": 0.17493712902069092,
+          "step": 3000
+        },
+        {
+          "gradient_norm": 0.017271385751511836,
+          "loss": 0.17496943473815918,
+          "step": 3250
+        },
+        {
+          "gradient_norm": 0.022700629544871252,
+          "loss": 0.17498765885829926,
+          "step": 3500
+        },
+        {
+          "gradient_norm": 0.07988733798050292,
+          "loss": 0.17533652484416962,
+          "step": 3750
+        },
+        {
+          "gradient_norm": 0.00835228974333343,
+          "loss": 0.1749390810728073,
+          "step": 4000
+        },
+        {
+          "gradient_norm": 0.06040464720748619,
+          "loss": 0.17544187605381012,
+          "step": 4250
+        },
+        {
+          "gradient_norm": 0.05342581930040662,
+          "loss": 0.17512211203575134,
+          "step": 4500
+        },
+        {
+          "gradient_norm": 0.04782604955779811,
+          "loss": 0.1750856637954712,
+          "step": 4750
+        },
+        {
+          "gradient_norm": 0.04108401203059019,
+          "loss": 0.17509785294532776,
+          "step": 5000
+        }
+      ],
+      "prior_prediction_sha256": "70c3a6bde584ee6973190823e37548b69121ddf7fbc4c0cd5fe069a4d69ae7b9",
+      "prior_state_sha256": "8610337d4e869764c7315280056f6af9151ccf2d9872fc47d3afc9dca066e904",
+      "prior_z_mse": 0.17507688701152802,
+      "run_id": "repeat_c",
+      "state_summary": {
+        "l2_norm": 24.453484293092515,
+        "parameter_count": 575324,
+        "tensor_count": 6,
+        "tensors": [
+          {
+            "count": 512,
+            "dtype": "torch.float32",
+            "key": "0.bias",
+            "l2_norm": 1.0697350848217972,
+            "maximum": 0.11509425938129425,
+            "mean": -0.016854812169441402,
+            "minimum": -0.10932230204343796,
+            "shape": [
+              512
+            ],
+            "std": 0.04416945770149744
+          },
+          {
+            "count": 133632,
+            "dtype": "torch.float32",
+            "key": "0.weight",
+            "l2_norm": 14.431477557683015,
+            "maximum": 0.17066523432731628,
+            "mean": 0.0006488485630716267,
+            "minimum": -0.13216009736061096,
+            "shape": [
+              512,
+              261
+            ],
+            "std": 0.039472705817264676
+          },
+          {
+            "count": 512,
+            "dtype": "torch.float32",
+            "key": "2.bias",
+            "l2_norm": 0.8103266692444077,
+            "maximum": 0.0889679566025734,
+            "mean": -0.007935578850428726,
+            "minimum": -0.0968131348490715,
+            "shape": [
+              512
+            ],
+            "std": 0.03492142195183628
+          },
+          {
+            "count": 262144,
+            "dtype": "torch.float32",
+            "key": "2.weight",
+            "l2_norm": 15.857353980230627,
+            "maximum": 0.10986648499965668,
+            "mean": -0.004963121195118896,
+            "minimum": -0.18266995251178741,
+            "shape": [
+              512,
+              512
+            ],
+            "std": 0.030571141699667206
+          },
+          {
+            "count": 348,
+            "dtype": "torch.float32",
+            "key": "4.bias",
+            "l2_norm": 0.5623754604767767,
+            "maximum": 0.07765942066907883,
+            "mean": -0.006636700812468289,
+            "minimum": -0.08028247207403183,
+            "shape": [
+              348
+            ],
+            "std": 0.02940688699516941
+          },
+          {
+            "count": 178176,
+            "dtype": "torch.float32",
+            "key": "4.weight",
+            "l2_norm": 11.667580970328162,
+            "maximum": 0.1298063099384308,
+            "mean": 0.00025999479427922333,
+            "minimum": -0.1314474195241928,
+            "shape": [
+              348,
+              512
+            ],
+            "std": 0.027639934416777548
+          }
+        ]
+      }
+    }
+  ],
+  "same_device_repeats": {
+    "all_prediction_sha_exact": true,
+    "all_state_sha_exact": true,
+    "functional_equivalence_pass": true,
+    "observed_prediction_sha256": [
+      "70c3a6bde584ee6973190823e37548b69121ddf7fbc4c0cd5fe069a4d69ae7b9",
+      "70c3a6bde584ee6973190823e37548b69121ddf7fbc4c0cd5fe069a4d69ae7b9",
+      "70c3a6bde584ee6973190823e37548b69121ddf7fbc4c0cd5fe069a4d69ae7b9"
+    ],
+    "observed_state_sha256": [
+      "8610337d4e869764c7315280056f6af9151ccf2d9872fc47d3afc9dca066e904",
+      "8610337d4e869764c7315280056f6af9151ccf2d9872fc47d3afc9dca066e904",
+      "8610337d4e869764c7315280056f6af9151ccf2d9872fc47d3afc9dca066e904"
+    ],
+    "pairwise": {
+      "repeat_a__vs__repeat_b": {
+        "exact_state_sha_match": true,
+        "history": {
+          "final_loss_relative_error": 0.0,
+          "gradient_relative_error_max": 0.0,
+          "gradient_relative_error_p50": 0.0,
+          "gradient_relative_error_p95": 0.0,
+          "loss_relative_error_max": 0.0,
+          "loss_relative_error_p50": 0.0,
+          "loss_relative_error_p95": 0.0,
+          "rows": [
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 1
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 250
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 500
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 750
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 1000
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 1250
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 1500
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 1750
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 2000
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 2250
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 2500
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 2750
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 3000
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 3250
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 3500
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 3750
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 4000
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 4250
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 4500
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 4750
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 5000
+            }
+          ],
+          "step_match": true,
+          "steps": [
+            1,
+            250,
+            500,
+            750,
+            1000,
+            1250,
+            1500,
+            1750,
+            2000,
+            2250,
+            2500,
+            2750,
+            3000,
+            3250,
+            3500,
+            3750,
+            4000,
+            4250,
+            4500,
+            4750,
+            5000
+          ]
+        },
+        "history_pass": true,
+        "pass": true,
+        "prediction": {
+          "exact_equal": true,
+          "max_abs": 0.0,
+          "pass": true,
+          "relative_l2": 0.0,
+          "rmse": 0.0,
+          "shape": [
+            16,
+            4,
+            87
+          ]
+        },
+        "prior_z_mse": {
+          "absolute_error": 0.0,
+          "first": 0.17507688701152802,
+          "pass": true,
+          "relative_error": 0.0,
+          "second": 0.17507688701152802
+        },
+        "state": {
+          "exact_equal": true,
+          "functional_parameter_bound_pass": true,
+          "key_match": true,
+          "largest_tensor_differences": [
+            {
+              "key": "0.bias",
+              "max_abs": 0.0,
+              "rmse": 0.0
+            },
+            {
+              "key": "0.weight",
+              "max_abs": 0.0,
+              "rmse": 0.0
+            },
+            {
+              "key": "2.bias",
+              "max_abs": 0.0,
+              "rmse": 0.0
+            },
+            {
+              "key": "2.weight",
+              "max_abs": 0.0,
+              "rmse": 0.0
+            },
+            {
+              "key": "4.bias",
+              "max_abs": 0.0,
+              "rmse": 0.0
+            },
+            {
+              "key": "4.weight",
+              "max_abs": 0.0,
+              "rmse": 0.0
+            }
+          ],
+          "max_abs": 0.0,
+          "parameter_count": 575324,
+          "relative_l2": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "repeat_a__vs__repeat_c": {
+        "exact_state_sha_match": true,
+        "history": {
+          "final_loss_relative_error": 0.0,
+          "gradient_relative_error_max": 0.0,
+          "gradient_relative_error_p50": 0.0,
+          "gradient_relative_error_p95": 0.0,
+          "loss_relative_error_max": 0.0,
+          "loss_relative_error_p50": 0.0,
+          "loss_relative_error_p95": 0.0,
+          "rows": [
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 1
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 250
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 500
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 750
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 1000
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 1250
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 1500
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 1750
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 2000
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 2250
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 2500
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 2750
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 3000
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 3250
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 3500
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 3750
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 4000
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 4250
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 4500
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 4750
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 5000
+            }
+          ],
+          "step_match": true,
+          "steps": [
+            1,
+            250,
+            500,
+            750,
+            1000,
+            1250,
+            1500,
+            1750,
+            2000,
+            2250,
+            2500,
+            2750,
+            3000,
+            3250,
+            3500,
+            3750,
+            4000,
+            4250,
+            4500,
+            4750,
+            5000
+          ]
+        },
+        "history_pass": true,
+        "pass": true,
+        "prediction": {
+          "exact_equal": true,
+          "max_abs": 0.0,
+          "pass": true,
+          "relative_l2": 0.0,
+          "rmse": 0.0,
+          "shape": [
+            16,
+            4,
+            87
+          ]
+        },
+        "prior_z_mse": {
+          "absolute_error": 0.0,
+          "first": 0.17507688701152802,
+          "pass": true,
+          "relative_error": 0.0,
+          "second": 0.17507688701152802
+        },
+        "state": {
+          "exact_equal": true,
+          "functional_parameter_bound_pass": true,
+          "key_match": true,
+          "largest_tensor_differences": [
+            {
+              "key": "0.bias",
+              "max_abs": 0.0,
+              "rmse": 0.0
+            },
+            {
+              "key": "0.weight",
+              "max_abs": 0.0,
+              "rmse": 0.0
+            },
+            {
+              "key": "2.bias",
+              "max_abs": 0.0,
+              "rmse": 0.0
+            },
+            {
+              "key": "2.weight",
+              "max_abs": 0.0,
+              "rmse": 0.0
+            },
+            {
+              "key": "4.bias",
+              "max_abs": 0.0,
+              "rmse": 0.0
+            },
+            {
+              "key": "4.weight",
+              "max_abs": 0.0,
+              "rmse": 0.0
+            }
+          ],
+          "max_abs": 0.0,
+          "parameter_count": 575324,
+          "relative_l2": 0.0,
+          "rmse": 0.0
+        }
+      },
+      "repeat_b__vs__repeat_c": {
+        "exact_state_sha_match": true,
+        "history": {
+          "final_loss_relative_error": 0.0,
+          "gradient_relative_error_max": 0.0,
+          "gradient_relative_error_p50": 0.0,
+          "gradient_relative_error_p95": 0.0,
+          "loss_relative_error_max": 0.0,
+          "loss_relative_error_p50": 0.0,
+          "loss_relative_error_p95": 0.0,
+          "rows": [
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 1
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 250
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 500
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 750
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 1000
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 1250
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 1500
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 1750
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 2000
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 2250
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 2500
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 2750
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 3000
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 3250
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 3500
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 3750
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 4000
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 4250
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 4500
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 4750
+            },
+            {
+              "gradient_relative_error": 0.0,
+              "loss_relative_error": 0.0,
+              "step": 5000
+            }
+          ],
+          "step_match": true,
+          "steps": [
+            1,
+            250,
+            500,
+            750,
+            1000,
+            1250,
+            1500,
+            1750,
+            2000,
+            2250,
+            2500,
+            2750,
+            3000,
+            3250,
+            3500,
+            3750,
+            4000,
+            4250,
+            4500,
+            4750,
+            5000
+          ]
+        },
+        "history_pass": true,
+        "pass": true,
+        "prediction": {
+          "exact_equal": true,
+          "max_abs": 0.0,
+          "pass": true,
+          "relative_l2": 0.0,
+          "rmse": 0.0,
+          "shape": [
+            16,
+            4,
+            87
+          ]
+        },
+        "prior_z_mse": {
+          "absolute_error": 0.0,
+          "first": 0.17507688701152802,
+          "pass": true,
+          "relative_error": 0.0,
+          "second": 0.17507688701152802
+        },
+        "state": {
+          "exact_equal": true,
+          "functional_parameter_bound_pass": true,
+          "key_match": true,
+          "largest_tensor_differences": [
+            {
+              "key": "0.bias",
+              "max_abs": 0.0,
+              "rmse": 0.0
+            },
+            {
+              "key": "0.weight",
+              "max_abs": 0.0,
+              "rmse": 0.0
+            },
+            {
+              "key": "2.bias",
+              "max_abs": 0.0,
+              "rmse": 0.0
+            },
+            {
+              "key": "2.weight",
+              "max_abs": 0.0,
+              "rmse": 0.0
+            },
+            {
+              "key": "4.bias",
+              "max_abs": 0.0,
+              "rmse": 0.0
+            },
+            {
+              "key": "4.weight",
+              "max_abs": 0.0,
+              "rmse": 0.0
+            }
+          ],
+          "max_abs": 0.0,
+          "parameter_count": 575324,
+          "relative_l2": 0.0,
+          "rmse": 0.0
+        }
+      }
+    },
+    "run_ids": [
+      "repeat_a",
+      "repeat_b",
+      "repeat_c"
+    ],
+    "unique_prediction_sha256_count": 1,
+    "unique_state_sha256_count": 1
+  },
+  "selected_configuration": null,
+  "source_sha256": {
+    "ccda_phase3/phase314b_r254_resume1_prior_determinism.py": "cf4c1df291a3aa695dac5a797ea5573f885ba9e7dda062be646e6537ce56c8df",
+    "scripts/phase3_14b_r254_resume1_finalize.py": "13198442e5af7015a9a1b354d7436991786c7c19003ad56150c805bc812d8c4a",
+    "scripts/phase3_14b_r254_resume1_preflight.py": "11ea96ca2ff5a46c74a4bedc56571d1fff20e64d2a37402482b6d59c89aa4382",
+    "scripts/phase3_14b_r254_resume1_prior_worker.py": "cb35fe3922a62501e0c61d2dd7af0a54ea8d97195ffe7c5ffdde4ec858fcc8b1",
+    "scripts/phase3_14b_r254_resume1_run.sh": "f4138facc7dfe892f16595f52dfb060a4f5b1f2dad14fd0319fdeb86e62a75f3",
+    "scripts/phase3_14b_r254_resume1_run_audit.py": "8ae40c3e2bda8443df39239ad8c2762697a1f93ce8def79bf14c2a35a948b9f7",
+    "tests/test_phase314b_r254_resume1_prior_determinism.py": "614393eac1a34aaf59a0aa1e84a9b6b01e91c21285179717915052885ec6f388"
+  },
+  "train_only_recommendation": null,
+  "validation_targets_used": false,
+  "verdict": "PASS"
+}
