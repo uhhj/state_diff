@@ -1,0 +1,20 @@
+{
+  "candidate_execution": false,
+  "cps": false,
+  "diffusion_training": false,
+  "exit_code": 1,
+  "failed_command": "\"${PYTHON_BIN}\" scripts/phase3_14b_r255_stagec_build_and_audit.py --root \"${ROOT}\" --python-bin \"${PYTHON_BIN}\"",
+  "failed_line": "41",
+  "idm_training": false,
+  "legacy_state_v2_robot_proxy_attribution_interpretable": false,
+  "phase": "Phase3.14b-r2.5.5 Stage C",
+  "phase4": false,
+  "reverse_sampling": false,
+  "root_cause": "phase314b_r255_stagec_execution_failed_before_completion",
+  "schema": "phase314b_r255_stagec_blocked_v1",
+  "scientific_status": "BLOCKED",
+  "selected_configuration": null,
+  "state_v3_robot_proxy_attribution_interpretable": false,
+  "train_only_recommendation": null,
+  "verdict": "BLOCKED"
+}
