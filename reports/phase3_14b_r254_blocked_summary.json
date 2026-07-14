@@ -1,0 +1,21 @@
+{
+  "candidate_execution": false,
+  "checkpoint_saved": false,
+  "cps": false,
+  "exit_code": 1,
+  "failed_line": "162",
+  "failed_stage": "pilot",
+  "formal_test_read": false,
+  "formal_training": false,
+  "idm": false,
+  "phase": "phase3_14b_r254",
+  "phase4": false,
+  "pilot_summary_exists": false,
+  "pilot_summary_sha256": null,
+  "root_cause": "phase314b_r254_execution_failed",
+  "selected_configuration": null,
+  "traceback_tail": "{\"cuda_available\": true, \"cuda_runtime\": \"11.2\", \"gpu\": \"NVIDIA GeForce RTX 4090\", \"interpreter\": \"/miniforge3/envs/coord_bimanual/bin/python3.9\", \"numpy\": \"1.23.3\", \"python\": \"3.9.15\", \"torch\": \"1.12.1.post200\"}\nphase3_14b_r254\n{\"output\": \"/data/state_diff2/reports/phase3_14b_r254_preflight_summary.json\", \"verdict\": \"PASS\"}\n/miniforge3/envs/coord_bimanual/lib/python3.9/site-packages/wandb/apis/public.py:2997: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.\n  from pkg_resources import parse_version\nTraceback (most recent call last):\n  File \"/data/state_diff2/scripts/phase3_14b_r254_run_pilot.py\", line 515, in <module>\n    main()\n  File \"/data/state_diff2/scripts/phase3_14b_r254_run_pilot.py\", line 292, in main\n    raise RuntimeError(\"shared paired-prior SHA did not reproduce\")\nRuntimeError: shared paired-prior SHA did not reproduce",
+  "train_only_recommendation": null,
+  "validation_targets_used": false,
+  "verdict": "BLOCKED"
+}

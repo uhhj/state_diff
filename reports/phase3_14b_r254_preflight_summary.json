@@ -1,0 +1,479 @@
+{
+  "base_report_commit": "c35c374f61f9b4dc2ca4cdaa76b12ddda71be994",
+  "candidate_eligible": false,
+  "candidate_execution": false,
+  "checkpoint_saved": false,
+  "cps": false,
+  "dataset": {
+    "cable_dim": 48,
+    "fit_row_count": 504,
+    "future_steps": 4,
+    "history_steps": 3,
+    "manifest_schema": null,
+    "paired_row_contract": {
+      "distinct_pair_key_count": 8,
+      "distinct_row_count": 16,
+      "distinct_visible_seed_count": 8,
+      "expected_rows": [
+        6,
+        1226,
+        10,
+        1230,
+        19,
+        1239,
+        25,
+        1245,
+        31,
+        1251,
+        36,
+        1256,
+        43,
+        1263,
+        49,
+        1269
+      ],
+      "model_input_use": false,
+      "observed_rows": [
+        6,
+        1226,
+        10,
+        1230,
+        19,
+        1239,
+        25,
+        1245,
+        31,
+        1251,
+        36,
+        1256,
+        43,
+        1263,
+        49,
+        1269
+      ],
+      "pairs": [
+        {
+          "conditions": [
+            "free",
+            "hidden_slack_breakaway_pin_v2"
+          ],
+          "pair_index": 0,
+          "pair_key": "train|400002|0",
+          "rows": [
+            6,
+            1226
+          ],
+          "visible_seed": 400002
+        },
+        {
+          "conditions": [
+            "free",
+            "hidden_slack_breakaway_pin_v2"
+          ],
+          "pair_index": 1,
+          "pair_key": "train|400003|0",
+          "rows": [
+            10,
+            1230
+          ],
+          "visible_seed": 400003
+        },
+        {
+          "conditions": [
+            "free",
+            "hidden_slack_breakaway_pin_v2"
+          ],
+          "pair_index": 2,
+          "pair_key": "train|400004|0",
+          "rows": [
+            19,
+            1239
+          ],
+          "visible_seed": 400004
+        },
+        {
+          "conditions": [
+            "free",
+            "hidden_slack_breakaway_pin_v2"
+          ],
+          "pair_index": 3,
+          "pair_key": "train|400005|0",
+          "rows": [
+            25,
+            1245
+          ],
+          "visible_seed": 400005
+        },
+        {
+          "conditions": [
+            "free",
+            "hidden_slack_breakaway_pin_v2"
+          ],
+          "pair_index": 4,
+          "pair_key": "train|400007|0",
+          "rows": [
+            31,
+            1251
+          ],
+          "visible_seed": 400007
+        },
+        {
+          "conditions": [
+            "free",
+            "hidden_slack_breakaway_pin_v2"
+          ],
+          "pair_index": 5,
+          "pair_key": "train|400008|0",
+          "rows": [
+            36,
+            1256
+          ],
+          "visible_seed": 400008
+        },
+        {
+          "conditions": [
+            "free",
+            "hidden_slack_breakaway_pin_v2"
+          ],
+          "pair_index": 6,
+          "pair_key": "train|400009|0",
+          "rows": [
+            43,
+            1263
+          ],
+          "visible_seed": 400009
+        },
+        {
+          "conditions": [
+            "free",
+            "hidden_slack_breakaway_pin_v2"
+          ],
+          "pair_index": 7,
+          "pair_key": "train|400010|0",
+          "rows": [
+            49,
+            1269
+          ],
+          "visible_seed": 400010
+        }
+      ],
+      "pass": true
+    },
+    "paired_rows": [
+      6,
+      1226,
+      10,
+      1230,
+      19,
+      1239,
+      25,
+      1245,
+      31,
+      1251,
+      36,
+      1256,
+      43,
+      1263,
+      49,
+      1269
+    ],
+    "robot_layout": {
+      "ee_orientation": [
+        35,
+        39
+      ],
+      "ee_position": [
+        32,
+        35
+      ],
+      "joint_position": [
+        0,
+        16
+      ],
+      "joint_velocity": [
+        16,
+        32
+      ]
+    },
+    "robot_proxy_dim": 39,
+    "state_dim": 87,
+    "train_row_count": 1000,
+    "validation_rows_verified_but_not_used": 102
+  },
+  "dependency_sha256": {
+    "ccda_phase3/data_io.py": "7466ff461b17b160ba72d3965566daf83ade66e8cf7a632b4afbd346730237cf",
+    "ccda_phase3/phase314b_r252_transport_attribution.py": "191ef9164fc32d62e25196bb1a5542e46220142a1c82fc4b4a8e1444c55368bf",
+    "ccda_phase3/phase314b_r253_gate_separation.py": "9feace03b2f93db1a15353c14cbd1000135c5f2c25dd069259556aabf952f015",
+    "ccda_phase3/schema_v2.py": "e1594460477e4b96e3899509d4b145d36691c4a26818ad938b530372a2588c2b",
+    "reports/phase3_14b_r253_pilot_summary.json": "a6a8aa2faf739e80159af7e70cb57b0e2a4c852ab5af5c2d7ecb29ff31116c86",
+    "reports/phase3_14b_r253_report.md": "19c55974a11336966a2b43fbd5b171fb6e963f3c075e9630a056529ce092c19f",
+    "reports/phase3_14b_r253_summary.json": "8cbd0d2dac4180578e966479be07b5a753bdb902658bc63000cfcd6eb2bea28a",
+    "scripts/phase3_14b_r253_run_pilot.py": "bbce3ac275612edcb76d7317233b42e33a5944c7de5f13757e5f702d7acef021"
+  },
+  "diagnostic_objective_order": [
+    "v_only_frozen_control",
+    "ordered_mean_raw_g100",
+    "ordered_cvar_contract_g010"
+  ],
+  "formal_test_read": false,
+  "formal_training": false,
+  "historical_paths_unchanged": [
+    "GOALS.md",
+    "ccda_phase3/phase314b_r253_gate_separation.py",
+    "ccda_phase3/phase314b_r253_resume1_finalizer.py",
+    "ccda_phase3/phase314b_r253_resume2_finalizer.py",
+    "ccda_phase3/phase314b_r253_resume3_finalizer.py",
+    "reports/phase3_14b_r253_blocked_report.md",
+    "reports/phase3_14b_r253_blocked_summary.json",
+    "reports/phase3_14b_r253_pilot_summary.json",
+    "reports/phase3_14b_r253_preflight_summary.json",
+    "reports/phase3_14b_r253_report.md",
+    "reports/phase3_14b_r253_resume2_blocked_report.md",
+    "reports/phase3_14b_r253_resume2_blocked_summary.json",
+    "reports/phase3_14b_r253_resume3_preflight_summary.json",
+    "reports/phase3_14b_r253_resume_blocked_report.md",
+    "reports/phase3_14b_r253_resume_blocked_summary.json",
+    "reports/phase3_14b_r253_summary.json",
+    "scripts/phase3_14b_r253_finalize.py",
+    "scripts/phase3_14b_r253_preflight.py",
+    "scripts/phase3_14b_r253_resume1_finalize.py",
+    "scripts/phase3_14b_r253_resume1_preflight.py",
+    "scripts/phase3_14b_r253_resume1_run.sh",
+    "scripts/phase3_14b_r253_resume2_finalize.py",
+    "scripts/phase3_14b_r253_resume2_preflight.py",
+    "scripts/phase3_14b_r253_resume2_run.sh",
+    "scripts/phase3_14b_r253_resume3_finalize.py",
+    "scripts/phase3_14b_r253_resume3_preflight.py",
+    "scripts/phase3_14b_r253_resume3_run.sh",
+    "scripts/phase3_14b_r253_run.sh",
+    "scripts/phase3_14b_r253_run_pilot.py",
+    "tests/test_phase314b_r253_gate_separation.py",
+    "tests/test_phase314b_r253_resume1_finalizer.py",
+    "tests/test_phase314b_r253_resume2_finalizer.py",
+    "tests/test_phase314b_r253_resume3_finalizer.py"
+  ],
+  "idm": false,
+  "meaning": "train-only robot-proxy schema/predictability/action attribution preflight",
+  "phase": "phase3_14b_r254",
+  "phase4": false,
+  "r253_contract": {
+    "next_stage": "audit a separate robot-proxy trajectory-fidelity objective under the fixed cable branch-transport contract",
+    "root_cause": "phase314b_r253_robot_proxy_reconstruction_conflation_supported",
+    "selected_configuration": null,
+    "shared_prior_sha256": "083278d6b0710ddc3863d822978973f29842bc757edf73ff03a93bb154f5665d",
+    "supported_mechanisms": [
+      "exact_reconstruction_vs_branch_identity_separation",
+      "intermediate_horizon_fidelity_gap",
+      "exact_cable_fidelity_tail_gap",
+      "all_source_tail_failure",
+      "robot_proxy_reconstruction_conflation"
+    ],
+    "train_only_recommendation": null,
+    "variants": {
+      "ordered_cvar_contract_g010": {
+        "contracts": {
+          "all_earlier_horizon_cable_geometry_pass": true,
+          "branch_transport_pass": true,
+          "final_horizon_cable_geometry_pass": true,
+          "historical_composite_pass": false,
+          "historical_exact_reconstruction_pass": false,
+          "one_step_physical_pass": true,
+          "ordered_topology_pass": true,
+          "separated_branch_physical_pass": true,
+          "separated_branch_physical_topology_pass": true
+        },
+        "full_reconstruction_components": {
+          "cable_geometry_gate_pass": true,
+          "failed_components": [
+            "z_mse"
+          ],
+          "historical_exact_reconstruction_pass": false,
+          "passes": {
+            "chain_relative_error_p95": true,
+            "ordered_rmse_p95": true,
+            "segment_relative_error_p95": true,
+            "z_mse": false
+          },
+          "thresholds": {
+            "chain_relative_error_p95": 0.15,
+            "ordered_rmse_p95": 0.01,
+            "segment_relative_error_p95": 0.3,
+            "z_mse": 0.0025
+          },
+          "values": {
+            "chain_relative_error_p95": 0.024703311933278387,
+            "ordered_rmse_p95": 0.002804437935454146,
+            "segment_relative_error_p95": 0.09337699792435951,
+            "z_mse": 0.002837218107052425
+          },
+          "z_state_gate_pass": false
+        },
+        "state_group_z_metrics": {
+          "cable_active_count": 73728,
+          "cable_error_fraction": 0.07222416080139916,
+          "cable_weighted_contribution": 0.00020491569679239569,
+          "cable_z_mse": 0.00025614462099049463,
+          "full_active_count": 92160,
+          "full_z_mse": 0.002837218107052425,
+          "robot_proxy_active_count": 18432,
+          "robot_proxy_error_fraction": 0.9277758391986007,
+          "robot_proxy_weighted_contribution": 0.002632302410260029,
+          "robot_proxy_z_mse": 0.013161512051300145
+        },
+        "training_completed": true
+      },
+      "ordered_mean_raw_g100": {
+        "contracts": {
+          "all_earlier_horizon_cable_geometry_pass": true,
+          "branch_transport_pass": true,
+          "final_horizon_cable_geometry_pass": true,
+          "historical_composite_pass": false,
+          "historical_exact_reconstruction_pass": false,
+          "one_step_physical_pass": true,
+          "ordered_topology_pass": true,
+          "separated_branch_physical_pass": true,
+          "separated_branch_physical_topology_pass": true
+        },
+        "full_reconstruction_components": {
+          "cable_geometry_gate_pass": true,
+          "failed_components": [
+            "z_mse"
+          ],
+          "historical_exact_reconstruction_pass": false,
+          "passes": {
+            "chain_relative_error_p95": true,
+            "ordered_rmse_p95": true,
+            "segment_relative_error_p95": true,
+            "z_mse": false
+          },
+          "thresholds": {
+            "chain_relative_error_p95": 0.15,
+            "ordered_rmse_p95": 0.01,
+            "segment_relative_error_p95": 0.3,
+            "z_mse": 0.0025
+          },
+          "values": {
+            "chain_relative_error_p95": 0.01862114949059816,
+            "ordered_rmse_p95": 0.0021506192157128732,
+            "segment_relative_error_p95": 0.08138154813683757,
+            "z_mse": 0.005126106266632742
+          },
+          "z_state_gate_pass": false
+        },
+        "state_group_z_metrics": {
+          "cable_active_count": 73728,
+          "cable_error_fraction": 0.030343302156503674,
+          "cable_weighted_contribution": 0.0001555429913347843,
+          "cable_z_mse": 0.0001944287391684804,
+          "full_active_count": 92160,
+          "full_z_mse": 0.005126106266632742,
+          "robot_proxy_active_count": 18432,
+          "robot_proxy_error_fraction": 0.9696566978434963,
+          "robot_proxy_weighted_contribution": 0.004970563275297959,
+          "robot_proxy_z_mse": 0.024852816376489794
+        },
+        "training_completed": true
+      },
+      "v_only_frozen_control": {
+        "contracts": {
+          "all_earlier_horizon_cable_geometry_pass": false,
+          "branch_transport_pass": true,
+          "final_horizon_cable_geometry_pass": true,
+          "historical_composite_pass": false,
+          "historical_exact_reconstruction_pass": false,
+          "one_step_physical_pass": false,
+          "ordered_topology_pass": true,
+          "separated_branch_physical_pass": false,
+          "separated_branch_physical_topology_pass": false
+        },
+        "full_reconstruction_components": {
+          "cable_geometry_gate_pass": false,
+          "failed_components": [
+            "z_mse",
+            "segment_relative_error_p95"
+          ],
+          "historical_exact_reconstruction_pass": false,
+          "passes": {
+            "chain_relative_error_p95": true,
+            "ordered_rmse_p95": true,
+            "segment_relative_error_p95": false,
+            "z_mse": false
+          },
+          "thresholds": {
+            "chain_relative_error_p95": 0.15,
+            "ordered_rmse_p95": 0.01,
+            "segment_relative_error_p95": 0.3,
+            "z_mse": 0.0025
+          },
+          "values": {
+            "chain_relative_error_p95": 0.09585172452943258,
+            "ordered_rmse_p95": 0.00498878801594076,
+            "segment_relative_error_p95": 0.4049362899867515,
+            "z_mse": 0.00583997185300528
+          },
+          "z_state_gate_pass": false
+        },
+        "state_group_z_metrics": {
+          "cable_active_count": 73728,
+          "cable_error_fraction": 0.08426208800854225,
+          "cable_weighted_contribution": 0.0004920882222453406,
+          "cable_z_mse": 0.0006151102778066758,
+          "full_active_count": 92160,
+          "full_z_mse": 0.00583997185300528,
+          "robot_proxy_active_count": 18432,
+          "robot_proxy_error_fraction": 0.9157379119914577,
+          "robot_proxy_weighted_contribution": 0.005347883630759941,
+          "robot_proxy_z_mse": 0.026739418153799703
+        },
+        "training_completed": true
+      }
+    }
+  },
+  "repository": {
+    "base_failure_commit": "a54cdd20d88f5eb00ebe25e8d4a20c28fe7d6e7f",
+    "branch": "Experiment1",
+    "cache_sha256": "3cc512f650557c81c3b81f4f128a5b55360b77d3f664fdd6607666936285fbe8",
+    "formal_test_read": false,
+    "frozen_contract_sha256": "fa2725ca40da2499008360f13d291d2ce8694e6393910b0522fe800f4f37cdcc",
+    "main_commit": "d315ac52f193eb6c0d5fc195b2cfa229dc7391e1",
+    "r22_root_cause": "phase314b_r22_no_pilot_geometry_repair",
+    "r22_verdict": "FAIL",
+    "submodule_commit": "633a88752445cf5d6776ed374fdbbdb35f93050c"
+  },
+  "schemas": {
+    "action_sensitivity": "phase314b_r254_action_sensitivity_probe_v1",
+    "attribution": "phase314b_r254_robot_proxy_attribution_v1",
+    "baselines": "phase314b_r254_robot_predictability_baselines_v1",
+    "hybrid": "phase314b_r254_hybrid_counterfactual_v1",
+    "model_error": "phase314b_r254_model_robot_error_v1",
+    "robot_proxy": "phase314b_r254_robot_proxy_schema_audit_v1"
+  },
+  "selected_configuration": null,
+  "source_sha256": {
+    "ccda_phase3/phase314b_r254_robot_proxy_attribution.py": "181f4f6b0f29aae850cb47b2deb2c2528ef392072f56a015543315b5688b9811",
+    "scripts/phase3_14b_r254_finalize.py": "bcf1f8a9655db6d86b0af9fc5bc5ba9fadcd319d5fd327a3b57e18ed410e23c9",
+    "scripts/phase3_14b_r254_preflight.py": "17e596b55603d01e180ab1d899157f4dd3a568ca25759427984c049aa5e597f2",
+    "scripts/phase3_14b_r254_run.sh": "ece2fbe600caa3acb1728a93058304129533aa0caa78c42771e5bbf36012626b",
+    "scripts/phase3_14b_r254_run_pilot.py": "6b5fc6b7302c37e1ebeb05fc87d65d6bcbbb6604b99a10f3a9e4a185a1edf61d",
+    "tests/test_phase314b_r254_robot_proxy_attribution.py": "c421a92bac088e9978439020195054d638a48f52459fd68bc592a52cfea6ed43"
+  },
+  "spec": {
+    "action_conditioned_gain_min": 0.2,
+    "action_robot_incremental_gain_min": 0.05,
+    "intermittent_zero_fraction_max": 0.95,
+    "intermittent_zero_fraction_min": 0.05,
+    "minimum_models_for_mechanism": 2,
+    "model_robot_nmse_max": 0.5,
+    "quaternion_norm_error_p95_max": 0.005,
+    "quaternion_sign_ambiguity_fraction_min": 0.01,
+    "quaternion_sign_invariant_gain_min": 0.2,
+    "reproduction_absolute_tolerance": 2e-06,
+    "ridge_regularization": 0.001,
+    "simple_baseline_sufficiency_ratio": 1.05,
+    "structural_padding_zero_fraction_min": 0.999,
+    "variance_epsilon": 1e-10,
+    "zero_epsilon": 1e-08
+  },
+  "validation_targets_used": false,
+  "verdict": "PASS"
+}
