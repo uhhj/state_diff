@@ -1,0 +1,143 @@
+{
+  "candidate_execution": false,
+  "checkpoint_saved": false,
+  "cps": false,
+  "execution_contract": {
+    "formal_target_rows_may_not_be_indexed": true,
+    "functional_contract_adds_numeric_tolerance": false,
+    "isolated_worker_processes": 3,
+    "legacy_cache_loader_eagerly_materializes_full_npz": true,
+    "robot_proxy_metrics_are_gate_inputs": false,
+    "same_device_identity_uses_exact_sha": true,
+    "validation_target_rows_may_not_be_indexed": true,
+    "worker_persists_files": false
+  },
+  "formal_test_read": false,
+  "formal_training": false,
+  "idm": false,
+  "immutable_evidence_sha256": {
+    "reports/phase3_14b_r254_resume3_pilot_summary.json": "d28c4b40c16ba852a2dc3cc42cfee548defeb6aa7ed3717203690282b984f36e",
+    "reports/phase3_14b_r254_resume4_preflight_summary.json": "a7202ed03a508a96195ce871c263cd7758f706f05882e5b32ab8457fd7f4a6ac",
+    "reports/phase3_14b_r254_resume4_report.md": "04e5432a6b82099b85106e8ae9a3d3abab7b5ca7989d9c92caab09f48f37d124",
+    "reports/phase3_14b_r254_resume4_reproduction_audit_summary.json": "07b1d81e82cab82c1901883808519f7d1468a6fcdb8add7c87001362aa8bf312",
+    "reports/phase3_14b_r254_resume4_summary.json": "9772306891221208afb8e44ef54aea7098379a38cdddedb735d22b5c19af4667",
+    "reports/phase3_14b_r254_resume4_test_gate_summary.json": "39df72981d552573be7bfc4d5a0dc794fd2b244a909ace3a65cdef3bfe68f988"
+  },
+  "phase": "Phase3.14b-r2.5.4 Resume5",
+  "phase4": false,
+  "phase_id": "phase3_14b_r254_resume5",
+  "prediction_tensor_persisted": false,
+  "repository": {
+    "base_evidence_commit": "4388d8536fd619f36f13b825d67d647ce5fd718a",
+    "branch": "Experiment1",
+    "cache_sha256": "3cc512f650557c81c3b81f4f128a5b55360b77d3f664fdd6607666936285fbe8",
+    "frozen_contract_sha256": "fa2725ca40da2499008360f13d291d2ce8694e6393910b0522fe800f4f37cdcc",
+    "head": "5d96d52fb1c5a188d81bd14518808e32608dba38",
+    "submodule_commit": "633a88752445cf5d6776ed374fdbbdb35f93050c"
+  },
+  "reverse_sampling_rerun": false,
+  "runtime": {
+    "cuda_runtime": "11.2",
+    "gpu_capability": [
+      8,
+      9
+    ],
+    "gpu_name": "NVIDIA GeForce RTX 4090",
+    "torch": "1.12.1.post200"
+  },
+  "schema": "phase314b_r254_resume5_preflight_v1",
+  "selected_configuration": null,
+  "source_sha256": {
+    "ccda_phase3/phase314b_r254_resume5_residual_determinism.py": "e6b4a33194c55b702f0311251f97d25f0650184859cb9cae05a86962f97af0b3",
+    "scripts/phase3_14b_r254_resume5_blocked.py": "c7e9f22c368c3d53e50e40640f511a93eac4fd3b24984a10a8e6f6b0d5d1bf09",
+    "scripts/phase3_14b_r254_resume5_finalize.py": "1e706930dae8f8018a67eb5bd8c5bb5644860a3653a64ac1b8878f3b0ece685a",
+    "scripts/phase3_14b_r254_resume5_preflight.py": "53ab147935a3e962a34d535680986b5354f204ead1928db5f7df1092674601ad",
+    "scripts/phase3_14b_r254_resume5_run.sh": "cf06962dd5353bc855e0bc950115dd5651bd188a446ef61e25924d5d1089936a",
+    "scripts/phase3_14b_r254_resume5_run_audit.py": "77327accfb3b613bc45169d02d2d84b2cef2bb52cfd8ab918518bdb98fbea85d",
+    "scripts/phase3_14b_r254_resume5_test_gate.py": "e5fae12a9be23e0d36af9a3b166da605193127c673d449303d9c9af1d487bfa8",
+    "scripts/phase3_14b_r254_resume5_worker.py": "d3b763c0f20c9c25cefc50ebda96adba628b7bb0c641665f118d812927ae3e19",
+    "tests/test_phase314b_resume5_residual_determinism.py": "7bc71669a55ea73f37abe18e6c1c59a9bc47ee0faa6df7163b2594ff01ab3c17"
+  },
+  "spec": {
+    "batch_size": 64,
+    "calibration_batches": 8,
+    "common_prior_seed": 102000,
+    "common_training_seed": 102000,
+    "expected_gpu_name": "NVIDIA GeForce RTX 4090",
+    "prior_learning_rate": 0.001,
+    "prior_steps": 5000,
+    "repeat_count": 3,
+    "residual_learning_rate": 0.001,
+    "residual_steps": 8000
+  },
+  "test_gate": {
+    "full_repository_suite_required": false,
+    "out_of_scope_collection_baseline": [
+      {
+        "reason": "removed legacy finite_velocity_or_difference/state_from_info API",
+        "test_path": "tests/test_ccda_phase3_state_safety.py"
+      },
+      {
+        "reason": "state_diff.real_world is absent from this branch",
+        "test_path": "tests/test_single_realsense.py"
+      },
+      {
+        "reason": "state_diff.real_world is absent from this branch",
+        "test_path": "tests/test_multi_realsense.py"
+      },
+      {
+        "reason": "optional atomics dependency is absent",
+        "test_path": "tests/test_ring_buffer.py"
+      },
+      {
+        "reason": "optional atomics dependency is absent",
+        "test_path": "tests/test_shared_queue.py"
+      },
+      {
+        "reason": "robomimic image runner is absent from this branch",
+        "test_path": "tests/test_robomimic_image_runner.py"
+      },
+      {
+        "reason": "robomimic lowdim runner is absent from this branch",
+        "test_path": "tests/test_robomimic_lowdim_runner.py"
+      }
+    ],
+    "passed_test_count": 438,
+    "test_manifest_sha256": {
+      "tests/test_phase314b_r22_contract.py": "9dd1e755e367b15c3ff0ead8e98ee33876e9394b2553bdefac1da513942ca215",
+      "tests/test_phase314b_r22_gates.py": "10f8a1e3432c5a1d2df7a7c671be9914a1a40c287d87bb13c0e11b0832aa7583",
+      "tests/test_phase314b_r22_geometry.py": "c90cecbcc967130ce488e87fe5c9d8307cdcf4c65521eda2d7e918bed670d6dc",
+      "tests/test_phase314b_r22_loss.py": "e7f0dad6d26a2dd84e9db990047aa3c6c55cc98709ca83a41c822db6eda698a4",
+      "tests/test_phase314b_r231_controls.py": "9866cdae64e2ede1eb96bd42c1974fca0f6453393354e1d6083639019d3ac462",
+      "tests/test_phase314b_r232_controls.py": "d924048e77b4000b3bf3c68fa86c1aabf50fa3bf9b907cf65efcfee5cfaef2d7",
+      "tests/test_phase314b_r23_diagnostics.py": "e9226837224251ab20b301e5d3cfa68d417a5c9d4e67cddbad5c7935ec5a73d2",
+      "tests/test_phase314b_r241_multirow.py": "8c56c1d5a8705951c9a76de865ca73ac59256541b4a0ff714a1378b2348c733e",
+      "tests/test_phase314b_r242_frozen_prior.py": "3fa233443404c435cfa21d6618924b1756137ba6ebab6d74bd7f3a61fceec9e4",
+      "tests/test_phase314b_r24_noisy_skip.py": "5b2afe00f981d80b0a8ebfc894dc767e75714016582e54f52be78889e2db2408",
+      "tests/test_phase314b_r251_gradient_calibration.py": "11516ecbb2ce9672514728d16b1c912e3f5c128f645fe3b3282c0090b3cf87b7",
+      "tests/test_phase314b_r252_transport_attribution.py": "bbd16b17f3f6a6660ee9f9cc1d85f2c6d63d6b9d1f1611df6edb06ac661ccfca",
+      "tests/test_phase314b_r253_gate_separation.py": "0f3fc4be0b6fe46d80c72d2d433a6cfa3a15958e527d8d17975bbe31677f6674",
+      "tests/test_phase314b_r253_resume1_finalizer.py": "9c15102abedc221801709d459ba7dae2df83653234228c3650a8d22c47dc6796",
+      "tests/test_phase314b_r253_resume2_finalizer.py": "9129964ea65ab32301a885c34e22366e41a51ba048063cb62c80e4b9ce157544",
+      "tests/test_phase314b_r253_resume3_finalizer.py": "a0712cc811e1ced635bdc475e8ab9c202ff86527ed69dbcda50b6862a58b53ac",
+      "tests/test_phase314b_r254_resume1_prior_determinism.py": "614393eac1a34aaf59a0aa1e84a9b6b01e91c21285179717915052885ec6f388",
+      "tests/test_phase314b_r254_resume2_functional_prior.py": "6f4b1e7ac6122fc1d51682fd9c186296523fabfa9271dc7c88c305b13a8ff949",
+      "tests/test_phase314b_r254_resume3_prediction_adapter.py": "b8ac33a8411c98211b9604a69e5ce14a125ef1d33ddfb41ae300a80b98142ab2",
+      "tests/test_phase314b_r254_resume4_reproduction_audit.py": "5aa0279e0be171b047ad62a2e8e9ee3fb7bc9bfd3cdbe8f0868ba183e7506c78",
+      "tests/test_phase314b_r254_robot_proxy_attribution.py": "c421a92bac088e9978439020195054d638a48f52459fd68bc592a52cfea6ed43",
+      "tests/test_phase314b_r25_ordered_geometry.py": "5e4d9db7833cb36ae5712c382bf5f62e101e9e5a2f38673843a2ded896f9c656",
+      "tests/test_phase314b_resume5_residual_determinism.py": "7bc71669a55ea73f37abe18e6c1c59a9bc47ee0faa6df7163b2594ff01ab3c17",
+      "tests/test_phase3_14b_r21_contract.py": "8772b931bbca1ea11fd530ce0524da25a9b016746f4383d2624b6f6ec065ee54",
+      "tests/test_phase3_14b_r21_geometry.py": "a307e58ff30adcf54c33850913f545d0bc2e2998742989b37322e1e01cad09c0",
+      "tests/test_phase3_14b_r2_contract.py": "95d480477c127384df03c33c5472e8e6c9d4548acfc8237d8a7c228ab3d11431",
+      "tests/test_phase3_14b_r2_diffusion.py": "e4cb342c2bda5a6721c1c407985bc2fb74c537932a6beb695484a4d7bf52bac4",
+      "tests/test_phase3_14b_r2_metrics.py": "0759453ada9f7a4cb67961785096b37c7d0a47223349291494b7c83b3a4f2149"
+    }
+  },
+  "test_gate_report": "reports/phase3_14b_r254_resume5_test_gate_summary.json",
+  "test_gate_sha256": "068f1a26d30c5d58b20c531da2d6e1f2ddaaeb65c1991e4290b3dfc057ffbb2a",
+  "train_only_recommendation": null,
+  "validation_targets_used": false,
+  "verdict": "PASS",
+  "weights_persisted": false
+}
