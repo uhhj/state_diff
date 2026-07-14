@@ -684,6 +684,34 @@ Formal training: BLOCKED
 Phase3.14c IDM: BLOCKED
 Candidate execution: BLOCKED
 Phase4/CPS: BLOCKED
+
+Phase3.14b-r2.5.4 Resume3: BLOCKED
+Meaning: Train-only robot-proxy attribution completed its pilot under the audited functional-prior contract after reconstructing the prior prediction fingerprint from retained prior state in memory, but finalization rejected r2.5.3 contract reproduction. Robot-proxy metrics are not interpretable.
+Execution block: r2.5.3 contract reproduction failed for ordered_cvar_contract_g010; pilot evidence shows reproduction false for all three diagnostic models
+Stage: finalization after pilot completion
+Pilot SHA256: d28c4b40c16ba852a2dc3cc42cfee548defeb6aa7ed3717203690282b984f36e
+Root cause: not finalized; pilot diagnosis is phase314b_r254_r253_contract_reproduction_failed
+Supported mechanisms: not finalized
+Next: repair r2.5.3 contract reproduction
+Fresh prior state SHA exact: True
+Fresh prior prediction SHA exact: True
+Fresh prior z-MSE pass: True
+Prediction reconstructed from retained state: True
+Stochastic state restored: True
+Prediction tensor persisted: False
+Historical snapshot API changed: False
+Cable branch contract: PASS observed in pilot / NOT FINALIZED
+Ordered topology contract: PASS observed in pilot / NOT FINALIZED
+Robot-proxy attribution: RUN / NOT INTERPRETABLE
+Reverse sampling rerun: False
+Train-only recommendation: None
+Selected configuration: None
+Validation targets: UNUSED / BLOCKED
+Formal test: UNREAD / BLOCKED
+Formal training: BLOCKED
+Phase3.14c IDM: BLOCKED
+Candidate execution: BLOCKED
+Phase4/CPS: BLOCKED
 ```
 
 Phase3.13-r1 regenerated, audited, and atomically promoted the formal dataset under Commit A. Phase3.14a established the immutable training cache and passed the deterministic future learnability gate. Phase3.14b completed its full DDPM matrix but failed candidate physical validity. Phase3.14b-r1.1 proved exact Diffusers 0.11.1 scheduler equivalence and localized the failure to cosine epsilon terminal-SNR instability. Phase3.14b-r2 completed all nine validation runs but no configuration reached the 2-of-3 stable-seed gate. Formal test was not run. Phase3.14b-r2.1 confirmed both strict-contract miscalibration and genuine ordered-cable geometry failure. Phase3.14b-r2.2 completed its validation-only GPU pilot, but no geometry-loss configuration passed the frozen moderate gate. Phase3.14b-r2.3 resumed after correcting the paired-row sampling contract and completed its initial diagnostic evidence chain. Phase3.14b-r2.3.1 then corrected the fixed-noise replay contract and invalidated the earlier generic capacity conclusion. Phase3.14b-r2.3.2 isolated the remaining one-row random-noise failure and supported a noisy-input skip-path deficiency. Phase3.14b-r2.4 resumed after correcting only the FakeScheduler test fixture. Its analytic oracle and one-row residual-v gate passed, but the same model failed the unique-free-16 gate. Phase3.14b-r2.4.1 then proved runtime source alignment and condition identifiability, found that width 512 passed through eight rows but missed the all-source gate at sixteen rows, and showed width 1024 passed all sixteen rows. Phase3.14b-r2.4.2 completed after three implementation-schema blocks. Its train-only factorized pilot supports prior-gradient isolation, recommends `frozen_p512_r512` for the next train-only ordered-geometry pilot, and selected no formal configuration. Phase3.14b-r2.5 then completed the frozen-prior ordered-geometry diagnostic but found all active objective gradient ratios above the frozen upper gate, so no geometry objective advanced and no recommendation was made. Phase3.14b-r2.5.1 Resume1 corrected the paired reverse batch contract and completed the full pilot, but finalization blocked on a serialized unique objective matrix/order mismatch. Resume2 then corrected the JSON objective-order contract, reran the full train-only chain, and finalized the diagnosis `phase314b_r251_paired_low_mid_geometry_transport_failed` with no train-only recommendation or selected configuration. Phase3.14b-r2.5.2 decomposed the paired one-step and reverse trajectory evidence, supported composite-gate conflation and per-timestep gradient miscalibration, and retained no recommendation or selected configuration. Phase3.14b-r2.5.3 completed its GPU pilot but finalization blocked because the v-only one-step result did not reproduce the committed r2.5.2 contract; its pilot evidence was preserved without a finalized mechanism claim. Formal test remained unread; formal training, Phase3.14c IDM, candidate execution, and Phase4/CPS remain blocked.
