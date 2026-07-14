@@ -1,0 +1,58 @@
+{
+  "candidate_execution": false,
+  "correction": {
+    "changed_paths_since_implementation": [
+      "ccda_phase3/phase314b_r255_stagec_cache.py",
+      "reports/phase3_14b_r255_stagec_blocked_summary.json",
+      "reports/phase3_14b_r255_stagec_test_gate_summary.json",
+      "scripts/phase3_14b_r255_stagec_build_and_audit.py",
+      "scripts/phase3_14b_r255_stagec_resume1_preflight.py",
+      "scripts/phase3_14b_r255_stagec_resume1_run.sh"
+    ],
+    "correct_stage_b_summary_sha256": "af7dec74a81f65f8b351df3f4333063cc25b7723ff65fc25256e40768389447e",
+    "scientific_contract_changed": false,
+    "test_files_modified": false,
+    "test_gate_rerun": false,
+    "thresholds_modified": false,
+    "wrong_stage_a_summary_sha256": "1306eaf32acda52fcab247ee4caf0517c89e8d7a3cf6313a09f661aafff1ebc5"
+  },
+  "cps": false,
+  "diffusion_training": false,
+  "formal_test_targets_used": false,
+  "idm_training": false,
+  "phase": "Phase3.14b-r2.5.5 Stage C Resume1",
+  "phase4": false,
+  "repository": {
+    "branch": "Experiment1",
+    "head": "c4675bb712206c1ba1d211b6a7904c8776e9518e",
+    "implementation_commit": "e806f78c02938ebe08fba0be75f6ffc205d00d51",
+    "remote_experiment1": "83d8aa4bf6895a91c264c8350d95cb5878cebc9b",
+    "submodule_commit": "633a88752445cf5d6776ed374fdbbdb35f93050c",
+    "worktree_clean_before_preflight": true
+  },
+  "resume1_namespace": {
+    "attribution": "reports/phase3_14b_r255_stagec_resume1_attribution.json",
+    "blocked": "reports/phase3_14b_r255_stagec_resume1_blocked_summary.json",
+    "cache_root": "data/phase3_14_cache_v3_r255_stagec_resume1",
+    "correction_preflight": "reports/phase3_14b_r255_stagec_resume1_correction_preflight.json",
+    "markdown": "reports/phase3_14b_r255_stagec_resume1_report.md",
+    "summary": "reports/phase3_14b_r255_stagec_resume1_summary.json"
+  },
+  "retained_evidence": {
+    "blocked_path": "reports/phase3_14b_r255_stagec_blocked_summary.json",
+    "blocked_sha256": "b9cd513336e3c9c242c807560e2325e60e5b5f382eecc6b73ae4782d9a61d9a5",
+    "blocked_verdict": "BLOCKED",
+    "test_files": 30,
+    "test_gate_path": "reports/phase3_14b_r255_stagec_test_gate_summary.json",
+    "test_gate_sha256": "fb5115e4c368727a474e80230962f0cefa08ddab525806f0413a13f2c011bfcd",
+    "tests_passed": 463
+  },
+  "reverse_sampling": false,
+  "root_cause": "phase314b_r255_stagec_resume1_stageb_summary_sha_binding_corrected",
+  "schema": "phase314b_r255_stagec_resume1_correction_preflight_v1",
+  "scientific_status": "BLOCKED",
+  "selected_configuration": null,
+  "train_only_recommendation": null,
+  "validation_targets_used": false,
+  "verdict": "PASS"
+}
