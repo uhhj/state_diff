@@ -1,0 +1,1184 @@
+{
+  "comparison": {
+    "exact": true,
+    "identity_categories_exact": {
+      "final_model_sha256": true,
+      "final_optimizer_sha256": true,
+      "gradient_history_sha256": true,
+      "loss_history_sha256": true,
+      "probe_one_step_prediction_sha256": true,
+      "probe_reverse_candidate_sha256": true,
+      "source_exposure_sha256": true,
+      "train_control_prediction_sha256": true
+    },
+    "left_sha256": "f27b68abfd06f768b4684d1df57af156b69640e8a1507cbf53bfe034d5823435",
+    "right_sha256": "f27b68abfd06f768b4684d1df57af156b69640e8a1507cbf53bfe034d5823435"
+  },
+  "phase": "Phase3.14b-r2.5.6 Stage B",
+  "schema": "phase314b_r256_stageb_worker_evidence_v1",
+  "worker_count": 2,
+  "worker_result": {
+    "action_diverse_data_collection": false,
+    "candidate_execution": false,
+    "checkpoint_saved": false,
+    "cps": false,
+    "diffusion_training": true,
+    "evaluation": {
+      "branch": {
+        "pair_count": 63,
+        "pairs": [
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              false
+            ],
+            "own_branch_support": [
+              true,
+              true
+            ],
+            "pair_key": "train|400002|phase313_train_seed_400002|0"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              false
+            ],
+            "own_branch_support": [
+              true,
+              false
+            ],
+            "pair_key": "train|400012|phase313_train_seed_400012|0"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              true
+            ],
+            "own_branch_support": [
+              true,
+              true
+            ],
+            "pair_key": "train|400023|phase313_train_seed_400023|0"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              false
+            ],
+            "own_branch_support": [
+              true,
+              true
+            ],
+            "pair_key": "train|400023|phase313_train_seed_400023|1"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              true
+            ],
+            "own_branch_support": [
+              true,
+              true
+            ],
+            "pair_key": "train|400023|phase313_train_seed_400023|2"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              true
+            ],
+            "own_branch_support": [
+              true,
+              true
+            ],
+            "pair_key": "train|400023|phase313_train_seed_400023|3"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              false,
+              true
+            ],
+            "own_branch_support": [
+              false,
+              true
+            ],
+            "pair_key": "train|400023|phase313_train_seed_400023|4"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              true
+            ],
+            "own_branch_support": [
+              true,
+              true
+            ],
+            "pair_key": "train|400023|phase313_train_seed_400023|5"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              false,
+              true
+            ],
+            "own_branch_support": [
+              true,
+              true
+            ],
+            "pair_key": "train|400031|phase313_train_seed_400031|0"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              false,
+              true
+            ],
+            "own_branch_support": [
+              false,
+              true
+            ],
+            "pair_key": "train|400031|phase313_train_seed_400031|1"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              true
+            ],
+            "own_branch_support": [
+              true,
+              true
+            ],
+            "pair_key": "train|400031|phase313_train_seed_400031|2"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              false,
+              true
+            ],
+            "own_branch_support": [
+              false,
+              true
+            ],
+            "pair_key": "train|400031|phase313_train_seed_400031|3"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              false,
+              true
+            ],
+            "own_branch_support": [
+              true,
+              true
+            ],
+            "pair_key": "train|400031|phase313_train_seed_400031|4"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              false,
+              true
+            ],
+            "own_branch_support": [
+              true,
+              true
+            ],
+            "pair_key": "train|400042|phase313_train_seed_400042|0"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              false,
+              true
+            ],
+            "own_branch_support": [
+              true,
+              true
+            ],
+            "pair_key": "train|400042|phase313_train_seed_400042|1"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              false
+            ],
+            "own_branch_support": [
+              true,
+              false
+            ],
+            "pair_key": "train|400053|phase313_train_seed_400053|0"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              false,
+              true
+            ],
+            "own_branch_support": [
+              false,
+              true
+            ],
+            "pair_key": "train|400053|phase313_train_seed_400053|1"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              false
+            ],
+            "own_branch_support": [
+              true,
+              false
+            ],
+            "pair_key": "train|400065|phase313_train_seed_400065|0"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              false
+            ],
+            "own_branch_support": [
+              true,
+              false
+            ],
+            "pair_key": "train|400065|phase313_train_seed_400065|1"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              false,
+              true
+            ],
+            "own_branch_support": [
+              false,
+              true
+            ],
+            "pair_key": "train|400076|phase313_train_seed_400076|0"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              false
+            ],
+            "own_branch_support": [
+              true,
+              false
+            ],
+            "pair_key": "train|400087|phase313_train_seed_400087|0"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              false
+            ],
+            "own_branch_support": [
+              true,
+              false
+            ],
+            "pair_key": "train|400087|phase313_train_seed_400087|1"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              false
+            ],
+            "own_branch_support": [
+              true,
+              false
+            ],
+            "pair_key": "train|400087|phase313_train_seed_400087|2"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              false
+            ],
+            "own_branch_support": [
+              true,
+              false
+            ],
+            "pair_key": "train|400098|phase313_train_seed_400098|0"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              false
+            ],
+            "own_branch_support": [
+              true,
+              false
+            ],
+            "pair_key": "train|400098|phase313_train_seed_400098|1"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              false
+            ],
+            "own_branch_support": [
+              true,
+              true
+            ],
+            "pair_key": "train|400098|phase313_train_seed_400098|2"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              false,
+              true
+            ],
+            "own_branch_support": [
+              false,
+              true
+            ],
+            "pair_key": "train|400112|phase313_train_seed_400112|0"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              false
+            ],
+            "own_branch_support": [
+              true,
+              true
+            ],
+            "pair_key": "train|400120|phase313_train_seed_400120|0"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              true
+            ],
+            "own_branch_support": [
+              true,
+              true
+            ],
+            "pair_key": "train|400120|phase313_train_seed_400120|1"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              true
+            ],
+            "own_branch_support": [
+              true,
+              true
+            ],
+            "pair_key": "train|400120|phase313_train_seed_400120|2"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              true
+            ],
+            "own_branch_support": [
+              true,
+              true
+            ],
+            "pair_key": "train|400120|phase313_train_seed_400120|3"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              true
+            ],
+            "own_branch_support": [
+              true,
+              true
+            ],
+            "pair_key": "train|400120|phase313_train_seed_400120|4"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              false
+            ],
+            "own_branch_support": [
+              true,
+              false
+            ],
+            "pair_key": "train|400131|phase313_train_seed_400131|0"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              false
+            ],
+            "own_branch_support": [
+              true,
+              true
+            ],
+            "pair_key": "train|400131|phase313_train_seed_400131|1"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              true
+            ],
+            "own_branch_support": [
+              true,
+              true
+            ],
+            "pair_key": "train|400131|phase313_train_seed_400131|2"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              false,
+              true
+            ],
+            "own_branch_support": [
+              false,
+              true
+            ],
+            "pair_key": "train|400140|phase313_train_seed_400140|0"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              false
+            ],
+            "own_branch_support": [
+              true,
+              false
+            ],
+            "pair_key": "train|400149|phase313_train_seed_400149|0"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              false
+            ],
+            "own_branch_support": [
+              true,
+              false
+            ],
+            "pair_key": "train|400149|phase313_train_seed_400149|1"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              false
+            ],
+            "own_branch_support": [
+              true,
+              false
+            ],
+            "pair_key": "train|400149|phase313_train_seed_400149|2"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              false
+            ],
+            "own_branch_support": [
+              true,
+              false
+            ],
+            "pair_key": "train|400158|phase313_train_seed_400158|0"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              false
+            ],
+            "own_branch_support": [
+              true,
+              false
+            ],
+            "pair_key": "train|400158|phase313_train_seed_400158|1"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              false
+            ],
+            "own_branch_support": [
+              true,
+              false
+            ],
+            "pair_key": "train|400158|phase313_train_seed_400158|2"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              false
+            ],
+            "own_branch_support": [
+              true,
+              true
+            ],
+            "pair_key": "train|400169|phase313_train_seed_400169|0"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              false
+            ],
+            "own_branch_support": [
+              true,
+              true
+            ],
+            "pair_key": "train|400180|phase313_train_seed_400180|0"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              false
+            ],
+            "own_branch_support": [
+              true,
+              true
+            ],
+            "pair_key": "train|400193|phase313_train_seed_400193|0"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              false
+            ],
+            "own_branch_support": [
+              true,
+              false
+            ],
+            "pair_key": "train|400193|phase313_train_seed_400193|1"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              true
+            ],
+            "own_branch_support": [
+              true,
+              true
+            ],
+            "pair_key": "train|400193|phase313_train_seed_400193|2"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              false
+            ],
+            "own_branch_support": [
+              true,
+              true
+            ],
+            "pair_key": "train|400193|phase313_train_seed_400193|3"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              true
+            ],
+            "own_branch_support": [
+              true,
+              true
+            ],
+            "pair_key": "train|400206|phase313_train_seed_400206|0"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              false,
+              true
+            ],
+            "own_branch_support": [
+              false,
+              true
+            ],
+            "pair_key": "train|400206|phase313_train_seed_400206|1"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              false,
+              true
+            ],
+            "own_branch_support": [
+              false,
+              true
+            ],
+            "pair_key": "train|400206|phase313_train_seed_400206|2"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              false
+            ],
+            "own_branch_support": [
+              true,
+              false
+            ],
+            "pair_key": "train|400217|phase313_train_seed_400217|0"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              false
+            ],
+            "own_branch_support": [
+              true,
+              false
+            ],
+            "pair_key": "train|400217|phase313_train_seed_400217|1"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              false
+            ],
+            "own_branch_support": [
+              true,
+              true
+            ],
+            "pair_key": "train|400217|phase313_train_seed_400217|2"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              false
+            ],
+            "own_branch_support": [
+              true,
+              false
+            ],
+            "pair_key": "train|400227|phase313_train_seed_400227|0"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              false
+            ],
+            "own_branch_support": [
+              true,
+              false
+            ],
+            "pair_key": "train|400227|phase313_train_seed_400227|1"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              false
+            ],
+            "own_branch_support": [
+              true,
+              false
+            ],
+            "pair_key": "train|400227|phase313_train_seed_400227|2"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              false
+            ],
+            "own_branch_support": [
+              true,
+              true
+            ],
+            "pair_key": "train|400227|phase313_train_seed_400227|3"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              false,
+              true
+            ],
+            "own_branch_support": [
+              true,
+              true
+            ],
+            "pair_key": "train|400237|phase313_train_seed_400237|0"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              true
+            ],
+            "own_branch_support": [
+              true,
+              true
+            ],
+            "pair_key": "train|400237|phase313_train_seed_400237|1"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              true
+            ],
+            "own_branch_support": [
+              true,
+              true
+            ],
+            "pair_key": "train|400237|phase313_train_seed_400237|2"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              false
+            ],
+            "own_branch_support": [
+              true,
+              false
+            ],
+            "pair_key": "train|400247|phase313_train_seed_400247|0"
+          },
+          {
+            "conditions": [
+              "free",
+              "hidden_slack_breakaway_pin_v2"
+            ],
+            "mean_prediction_correct": [
+              true,
+              false
+            ],
+            "own_branch_support": [
+              true,
+              false
+            ],
+            "pair_key": "train|400247|phase313_train_seed_400247|1"
+          }
+        ],
+        "pass": false,
+        "required_support_rate": 0.75,
+        "row_mean_prediction_correct_rate": 0.6111111111111112,
+        "row_own_branch_support_rate": 0.7380952380952381
+      },
+      "diagnostic_pass": false,
+      "physical": {
+        "candidate_rate": 0.0,
+        "coordinate_rate": 0.9920634920634921,
+        "finite_rate": 1.0,
+        "maximum_intersections": 43,
+        "pass": false,
+        "required_candidate_rate": 0.95,
+        "row_any_rate": 0.0,
+        "segment_rate": 0.0,
+        "topology_rate": 0.9246031746031746
+      },
+      "probe_one_step": {
+        "prediction_sha256": "d647ac6b547a42212bbc82582fabed565f3f8340cd78a09d6c61ebb8ab6742ef",
+        "timesteps": {
+          "10": {
+            "normalized_mse": 0.01735086925327778,
+            "raw_rmse": 0.014803171532785316
+          },
+          "25": {
+            "normalized_mse": 0.02684614807367325,
+            "raw_rmse": 0.018112151649474575
+          },
+          "50": {
+            "normalized_mse": 0.04164828360080719,
+            "raw_rmse": 0.022534679138755474
+          }
+        }
+      },
+      "probe_reverse": {
+        "baseline_metrics": {
+          "constant_velocity": {
+            "normalized_mse": 18.232158660888672,
+            "raw_rmse": 0.4614514167308125
+          },
+          "last_state": {
+            "normalized_mse": 2.4742753505706787,
+            "raw_rmse": 0.1879080941405832
+          }
+        },
+        "best_baseline": "last_state",
+        "best_baseline_normalized_mse": 2.4742753505706787,
+        "best_candidate_index_sha256": "af98fca532c47c5c077e430521bcf757c43e918d728cff8b9438029e48ac475b",
+        "best_of_k_normalized_mse": 0.8413586616516113,
+        "candidate_count": 8,
+        "candidate_sha256": "1ab9f8d0026f215bf9e3b8aafeb4f8799bc1f8d329d8773e415413699a6c6d2d",
+        "generalization_pass": true,
+        "mean_prediction_normalized_mse": 1.0316135883331299,
+        "relative_improvement": 0.6599575461730416,
+        "required_improvement": 0.05
+      },
+      "required_next_path": "REPAIR_CABLE_ONLY_BRANCH_TRANSPORT_BEFORE_FORMAL_PILOT",
+      "root_cause": "phase314b_r256_stageb_cable_only_branch_support_failed",
+      "train_control": {
+        "normalized_mse": 0.003921935800462961,
+        "pass": true,
+        "prediction_sha256": "bb9b91da6eb324b24af10322ee20509ad426e54d851c194d62f71e63c68eb076",
+        "rows": 64,
+        "threshold": 0.1,
+        "timestep": 25
+      }
+    },
+    "formal_diffusion_training": false,
+    "formal_idm_training": false,
+    "formal_reverse_sampling": false,
+    "formal_test_targets_used": false,
+    "geometry_contract": {
+      "coordinate_abs_max": 1.1056327687034606,
+      "segment_lower_sha256": "2266fff9caec9ee3e4cb3e5d41f4bbb0f579d84399cf72bfa144f6d262b85857",
+      "segment_upper_sha256": "be82627bb71f88f55b98005ac7eec30d3a8059b466271620d0eb6902d3928644",
+      "target_intersection_max": 5
+    },
+    "identity": {
+      "final_model_sha256": "4a9ebcdb9d1995602a501c8820e07c0efcb757f1e3efff4ac0f2c5a4a23421d2",
+      "final_optimizer_sha256": "ff8feee0e677c2720a7807ad19984764f2d69e1e0c296a9c4056f426d2f22601",
+      "gradient_history_sha256": "e434d77c214d52b918b57ed4445d4ac990bb0fb03afd674c2e76b2a6b96d84aa",
+      "loss_history_sha256": "9f8db5bf1563f34e4c94557eb9fb729728f3e16c9beb9c49d746f9ee4eba4d4d",
+      "probe_one_step_prediction_sha256": "d647ac6b547a42212bbc82582fabed565f3f8340cd78a09d6c61ebb8ab6742ef",
+      "probe_reverse_candidate_sha256": "1ab9f8d0026f215bf9e3b8aafeb4f8799bc1f8d329d8773e415413699a6c6d2d",
+      "source_exposure_sha256": "571adb6f5b59428b74b40171169c8e9b7381075baf1deecb398971478be4393a",
+      "train_control_prediction_sha256": "bb9b91da6eb324b24af10322ee20509ad426e54d851c194d62f71e63c68eb076"
+    },
+    "immutable_inputs": {
+      "data/phase3_14_cache_v3_r256_stagea/phase3_14b_r256_stagea_cable_idm_contract.npz": "3bdcb24fc0bee2846d50c310e111a7c2c7f5dc6b7cf45391b7e5b7386a1aa272",
+      "data/phase3_14_cache_v3_r256_stagea/phase3_14b_r256_stagea_manifest.json": "1ed831fbbf5915f2e8264695d2c3845aab1bf8cb7abd98f571320dabc6255015",
+      "data/phase3_14_cache_v3_r256_stagea/phase3_14b_r256_stagea_train_audit_view.npz": "7acac27de1ced12c038d8cef3bd588c94b6ab2300bcd6d8e1f28492e73275633",
+      "reports/phase3_14b_r256_stagea_report.md": "8e82a7c1e0d52e75f50eeecd09b945f6d1a3ccad3d402813cd181e78f32cd745",
+      "reports/phase3_14b_r256_stagea_summary.json": "baa3760f75d640c64d433e63c6698abb1791788f142cb1e2857fdbe3bc3b1ccb"
+    },
+    "phase": "Phase3.14b-r2.5.6 Stage B",
+    "phase4": false,
+    "phase_id": "phase314b_r256_stageb",
+    "prediction_tensor_persisted": false,
+    "required_next_path": "REPAIR_CABLE_ONLY_BRANCH_TRANSPORT_BEFORE_FORMAL_PILOT",
+    "reverse_sampling": true,
+    "root_cause": "phase314b_r256_stageb_cable_only_branch_support_failed",
+    "runtime": {
+      "cublas_workspace_config": ":4096:8",
+      "cuda_device": "NVIDIA GeForce RTX 4080 SUPER",
+      "cuda_runtime": "11.2",
+      "cudnn_benchmark": false,
+      "cudnn_deterministic": true,
+      "deterministic_algorithms": true,
+      "numpy_seed": 104000,
+      "python_seed": 104000,
+      "torch_seed": 104000,
+      "torch_version": "1.12.1.post200"
+    },
+    "same_device_determinism_required": true,
+    "schema": "phase314b_r256_stageb_worker_result_v1",
+    "scientific_status": "BLOCKED",
+    "selected_configuration": null,
+    "source_contract_audit": {
+      "all_confirmed": true,
+      "checks": {
+        "historical_diffusion_binds_schema_v2": true,
+        "historical_models_bind_schema_v2": true,
+        "historical_r2_diffusion_binds_schema_v2": true,
+        "historical_r2_mentions_4_by_87": true
+      },
+      "source_sha256": {
+        "ccda_phase3/phase314b_diffusion.py": "9c146188a19b044705ad0ec146ca12afa71b76a72a2afd182eb65639ec983b4e",
+        "ccda_phase3/phase314b_models.py": "db8ff101114934854f6e9cf32aeab6f7ae0063949fc95d00a674544cde9041f6",
+        "ccda_phase3/phase314b_r2_diffusion.py": "417af4ebc17517ec0f4c403e45fcc69b01ffe76f8d85f3cf090479d73a5ea3ba"
+      }
+    },
+    "spec": {
+      "batch_size": 64,
+      "beta_end": 0.02,
+      "beta_start": 0.0001,
+      "branch_support_min": 0.75,
+      "group_folds": 8,
+      "learning_rate": 0.001,
+      "one_step_timesteps": [
+        10,
+        25,
+        50
+      ],
+      "physical_candidate_rate_min": 0.95,
+      "probe_fold": 0,
+      "probe_improvement_min": 0.05,
+      "residual_blocks": 4,
+      "reverse_candidates": 8,
+      "reverse_steps": 100,
+      "seed": 104000,
+      "time_embedding_dim": 32,
+      "train_control_nmse_max": 0.1,
+      "train_control_rows": 64,
+      "train_steps": 8000,
+      "train_timesteps": 100,
+      "weight_decay": 0.0,
+      "width": 512
+    },
+    "split": {
+      "group_folds": 8,
+      "group_integrity_pass": true,
+      "probe_fold": 0,
+      "probe_groups": 24,
+      "probe_rows": 126,
+      "total_groups": 192,
+      "training_groups": 168,
+      "training_rows": 874
+    },
+    "standardizers": {
+      "condition_mean_sha256": "401f7567a9feedfac97bde68dda8000cc1ce4706059e946731123296515288c3",
+      "condition_scale_sha256": "bdab62830801fdcf351170113b66cde01be256db96d78ff4d9872dd92d7d54ef",
+      "target_mean_sha256": "038570d7d011ebda29466c743cbabce43a3ec0a1233cef0a2d32b3950fe6099f",
+      "target_scale_sha256": "dd94d58a99d01c4cd021281f6ede6d8b1aa27c8527555023fb21c0489393af71"
+    },
+    "train_only": true,
+    "train_only_recommendation": null,
+    "train_view_validation": {
+      "all_horizons_valid": true,
+      "condition_dim": 243,
+      "pair_contract_pass": true,
+      "pair_keys": 500,
+      "robot_future_in_target": false,
+      "rows": 1000,
+      "target_shape": [
+        4,
+        48
+      ]
+    },
+    "training": {
+      "final_model_sha256": "4a9ebcdb9d1995602a501c8820e07c0efcb757f1e3efff4ac0f2c5a4a23421d2",
+      "final_optimizer_sha256": "ff8feee0e677c2720a7807ad19984764f2d69e1e0c296a9c4056f426d2f22601",
+      "gradient_history_sha256": "e434d77c214d52b918b57ed4445d4ac990bb0fb03afd674c2e76b2a6b96d84aa",
+      "gradient_tail_mean": 0.03144977459684015,
+      "initial_model_sha256": "4f1c102d9f39ba59544f5565b4c01fe03e073fca596aefdc822b707cd2f2c7fd",
+      "initial_optimizer_sha256": "24affb48cbe2b95a8602b7a93868e269de9e7acfd12b3c495448274788f5150f",
+      "loss_final": 0.008222192525863647,
+      "loss_first": 0.6157921552658081,
+      "loss_history_sha256": "9f8db5bf1563f34e4c94557eb9fb729728f3e16c9beb9c49d746f9ee4eba4d4d",
+      "loss_tail_mean": 0.007542229075916111,
+      "source_exposure_sha256": "571adb6f5b59428b74b40171169c8e9b7381075baf1deecb398971478be4393a",
+      "training_rows": 874,
+      "training_steps": 8000
+    },
+    "validation_targets_used": false,
+    "verdict": "PASS",
+    "weights_persisted": false
+  },
+  "workers_exact": true
+}
