@@ -1,0 +1,54 @@
+{
+  "base_evidence_commit": "a15aa9d6880767f02ff0db30486f06d625e4d0a3",
+  "candidate_lambdas": [
+    0.0,
+    0.001,
+    0.01,
+    0.1
+  ],
+  "changes_training_objective": false,
+  "classification_thresholds": {
+    "conflicting_gradient_cosine": -0.1,
+    "graph_gradient_norm_floor": 1e-12,
+    "huber_linear_fraction": 0.9,
+    "minimum_mean_excess_reduction": 0.05,
+    "rowmax_position_concentration": 0.35,
+    "substantial_mean_excess_reduction": 0.2,
+    "weak_scaled_gradient_ratio": 0.1
+  },
+  "completed_step_checkpoints": [
+    1,
+    100,
+    500,
+    2000,
+    8000
+  ],
+  "contract_sha256": "829082531e2b52298bf2bd2a5b5ccb32509c5d4b8bd430c837aa610a95a4ec22",
+  "diagnostic_batch_sha256": {
+    "condition_sha256": "5ca7ffda58eff98a35320a02607bc2cc03ad618b753c17360bb17fdb89ba8436",
+    "indices_sha256": "cbbb015f471bb4ddd80f84e6cfb49870190cd43268c98a1f7009eea7eb1fda7b",
+    "noise_sha256": "4a84224783edd595074968f358cf36437cb64c915579a2d6d237d8e9557fa362",
+    "noisy_sha256": "f06b8bf67ad034b36f29fa5b34456c9cbd17de1cab189f2eeb9cf2aef31f4fc7",
+    "target_sha256": "0677e58bcb2740a97415a49bc589047d20d23f1effcdbc7392fac6b15501b34e",
+    "timesteps_sha256": "d41ac2a4ddfecb940715679f460f295f4a30fe503f6007c160c26ef2b57210b5"
+  },
+  "diagnostic_batch_size": 64,
+  "diagnostic_timesteps": [
+    10,
+    25,
+    50,
+    75
+  ],
+  "phase": "Phase3.14b-r2.5.7 Stage B",
+  "required_next_path": "CALIBRATE_TOPK_QUADRATIC_OR_SOFTPLUS_UPPER_OBJECTIVE_ON_TRAIN_ONLY_SPLIT",
+  "root_cause": "phase314b_r257_stageb_upper_objective_huber_linear_saturation",
+  "schema": "phase314b_r257_stageb_mechanism_contract_v1",
+  "selects_new_lambda": false,
+  "top_k": [
+    1,
+    4,
+    8
+  ],
+  "uses_frozen_probe": false,
+  "uses_reverse_sampling": false
+}
