@@ -1,0 +1,231 @@
+{
+  "base_evidence_commit": "4d5773d070b99f0eccdb97c1bc9fa7c5cb3bc583",
+  "base_identity": {
+    "compatibility_sha256": "03fef5cfcfac7933bca0dfc72e67156bb260d50ae7f2f1f6a6375a34c90ad7ec",
+    "observation_sha256": "a20b4f68cbbe7ab1dd6f04d35887e99971706658b6113fd8dfd97d1e9849707e",
+    "stagea_calibration_sha256": "2460d4bbb4faf379c3021b6ed87b517575f1b7e1c33773440d7348f817de27db",
+    "stagea_contract_file_sha256": "f995aca77f7a9e19bbf02dc658d180efc9a7622c59751327e047de2d893b4aa5",
+    "stagea_contract_sha256": "73cb8412498aa5c65c01fc123c35ee72eb8da9c6c543d31227118dd8bffc693b",
+    "stagea_selection_sha256": "62e2800808620dc48858dec5105f97fca71ac25a5ca987242ae5dc2a9cc71a4f",
+    "stagec_calibration_sha256": "fb91d29c84cedccf8f72458f08c2f213bbbc542663593094c0ab651701a052f0",
+    "stagec_control_sha256": "dee61b8e31455eeb0e7e0eceae5c1500e3ce57ca8bd42989378d9f76fd779ae7",
+    "worker_sha256": "c71590b7557da309cc02b3fc9e6c4387f815eb7800d4307f76ce84d238c13149"
+  },
+  "cold_main_worker_context": {
+    "checked": true,
+    "purpose": "environment and operation probes run in disposable child processes",
+    "torch_cuda_is_initialized": false
+  },
+  "contract_sha256": "2322d276e57deae59135e0170920d6c9b2df3aeab040dbe58daf73db2adde684",
+  "control_capture": {
+    "byte_exact_to_reference": true,
+    "calibration_byte_exact": true,
+    "calibration_numerical_equivalence": {
+      "atol": 1e-06,
+      "difference_count": 0,
+      "differences": [],
+      "maximum_absolute_difference": 0.0,
+      "maximum_relative_difference": 0.0,
+      "pass": true,
+      "recorded_difference_count": 0,
+      "records_truncated": false,
+      "rtol": 0.005
+    },
+    "candidate_order": [
+      "topk8_r0p25",
+      "topk8_r0p50",
+      "topk8_r1p00",
+      "topk16_r0p25",
+      "topk16_r0p50",
+      "topk16_r1p00"
+    ],
+    "candidate_selection_thresholds_relaxed": false,
+    "capture_method": "frozen_stagec_helpers_portable_numeric_replay",
+    "control_byte_exact": true,
+    "control_numerical_equivalence": {
+      "atol": 1e-06,
+      "difference_count": 0,
+      "differences": [],
+      "maximum_absolute_difference": 0.0,
+      "maximum_relative_difference": 0.0,
+      "pass": true,
+      "recorded_difference_count": 0,
+      "records_truncated": false,
+      "rtol": 0.01
+    },
+    "frozen_probe_accessed": false,
+    "hardware_sensitive_sha_fields_are_observations": true,
+    "observed_calibration_sha256": "fb91d29c84cedccf8f72458f08c2f213bbbc542663593094c0ab651701a052f0",
+    "observed_control_sha256": "dee61b8e31455eeb0e7e0eceae5c1500e3ce57ca8bd42989378d9f76fd779ae7",
+    "reference_calibration_sha256": "fb91d29c84cedccf8f72458f08c2f213bbbc542663593094c0ab651701a052f0",
+    "reference_control_sha256": "dee61b8e31455eeb0e7e0eceae5c1500e3ce57ca8bd42989378d9f76fd779ae7",
+    "reference_environment": "Resume4 RTX-3090 evidence",
+    "reference_equivalence_pass": true,
+    "stagec_nonzero_candidate_training_count": 0
+  },
+  "direct_x0_oracle_rule": "optimize only frozen K16 upper quadratic loss on the predicted normalized x0 tensor; project every row into a fixed normalized RMS ball around the control; target is evaluation-only",
+  "environment": {
+    "compatibility": {
+      "cuda_available": true,
+      "deterministic_runtime": {
+        "cublas_workspace_config": ":4096:8",
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms_enabled": true,
+        "python_hash_seed": "0",
+        "thread_counts": {
+          "MKL_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1",
+          "VECLIB_MAXIMUM_THREADS": "1"
+        }
+      },
+      "numpy_version": "1.23.3",
+      "python_implementation": "CPython",
+      "python_version": [
+        3,
+        9,
+        15
+      ],
+      "required_operation_pass": true,
+      "required_operation_schema": "r258_stagea_forward_two_grad_block_projection_optimizer_step_and_100row_checkpoint_v1",
+      "schema": "phase314b_r258_stagea_portable_compatibility_v1",
+      "torch_cuda_version": "11.2",
+      "torch_version": "1.12.1.post200"
+    },
+    "compatibility_pass": true,
+    "compatibility_sha256": "03fef5cfcfac7933bca0dfc72e67156bb260d50ae7f2f1f6a6375a34c90ad7ec",
+    "hardware_observation": {
+      "compute_capability": [
+        8,
+        9
+      ],
+      "cuda_device_count": 1,
+      "cuda_device_index": 0,
+      "cuda_visible_devices": null,
+      "cudnn_version": 8907,
+      "hostname": "gpu-kvm",
+      "multi_processor_count": 80,
+      "nvidia_smi": {
+        "available": true,
+        "driver_version": "580.119.02",
+        "memory_total_mib": "32760",
+        "name": "NVIDIA GeForce RTX 4080 SUPER",
+        "pci_bus_id": "00000000:06:00.0",
+        "uuid": "GPU-967fe8de-dd96-13c3-65b5-7be87ed12fb0"
+      },
+      "schema": "phase314b_r258_stagea_hardware_observation_v1",
+      "torch_device_name": "NVIDIA GeForce RTX 4080 SUPER",
+      "total_memory_bytes": 33794359296
+    },
+    "observation_sha256": "26e55eab01957ee3711cabaf1499774f140237e4ec24241d723db6a36f949ab0",
+    "required_operation_dry_run": {
+      "artifact_persisted": false,
+      "batch_size": 64,
+      "calibration_batch_size": 100,
+      "checkpoint_diffusion_gradient_unchanged": true,
+      "checkpoint_post_projection_violation_count": 0,
+      "diffusion_gradient_unchanged": true,
+      "diffusion_loss": 0.45872825384140015,
+      "frozen_probe_accessed": false,
+      "geometry_loss": 8.823638916015625,
+      "gradient_norm": 1.7317224740982056,
+      "initial_model_sha256": "4f1c102d9f39ba59544f5565b4c01fe03e073fca596aefdc822b707cd2f2c7fd",
+      "pass": true,
+      "peak_memory_allocated_bytes": 219641344,
+      "peak_memory_reserved_bytes": 243269632,
+      "post_projection_violation_count": 0,
+      "projection_mode": "blockwise",
+      "schema": "r258_stagea_forward_two_grad_block_projection_optimizer_step_and_100row_checkpoint_v1",
+      "timestep_cutoff": 50,
+      "top_k": 16
+    },
+    "schema": "phase314b_r258_stagea_portable_environment_v1"
+  },
+  "geometry_objective_changed": false,
+  "model_architecture_changed": false,
+  "new_model_candidate_trained": false,
+  "output_head_rule": "frozen-hidden exact linear least-squares displacement fit; model weights are not modified",
+  "phase": "Phase3.14b-r2.5.8 Stage B",
+  "reachability_spec": {
+    "geometry_gradient_target_cosine_nonnegative": 0.0,
+    "norm_epsilon": 1e-12,
+    "numerical_tolerance": 1e-06,
+    "oracle_checkpoints": [
+      0,
+      1,
+      8,
+      32,
+      128,
+      256
+    ],
+    "oracle_collapse_fraction_max": 0.05,
+    "oracle_fidelity_ratio_max": 1.2,
+    "oracle_historical_valid_min": 0.9,
+    "oracle_learning_rate_scale": 0.25,
+    "oracle_lower_pass_min": 0.9,
+    "oracle_min_learning_rate": 0.001,
+    "oracle_radii": [
+      0.025,
+      0.05,
+      0.1,
+      0.2,
+      0.4,
+      0.8
+    ],
+    "oracle_steps": 256,
+    "output_head_explained_high": 0.9,
+    "output_head_rcond": 1e-10,
+    "output_head_relative_update_max": 1.0,
+    "tangent_explained_high": 0.75,
+    "tangent_explained_low": 0.25,
+    "tangent_krylov_iterations": 8,
+    "tangent_krylov_min_improvement": 0.0001,
+    "tangent_relative_epsilons": [
+      0.0001,
+      0.0003,
+      0.001
+    ],
+    "tangent_response_stability_cosine_min": 0.95,
+    "tangent_rows": 32,
+    "target_line_grid_points": 101,
+    "target_line_physical_valid_min": 0.9,
+    "timesteps": [
+      10,
+      25,
+      50
+    ],
+    "top_k": 16
+  },
+  "required_next_path": "REDESIGN_BALANCED_LOWER_UPPER_SEGMENT_GEOMETRY_OBJECTIVE_BEFORE_MODEL_REPAIR",
+  "root_cause": "phase314b_r258_stageb_upper_only_direct_x0_oracle_uses_nonphysical_or_fidelity_shortcut",
+  "runs_reverse_sampling": false,
+  "schema": "phase314b_r258_stageb_reachability_contract_v1",
+  "selected_configuration": null,
+  "selection_sha256": "ed716f7fca55c2b222f6363908f50f89a981a821751f2bddbb7f24ea9df6a443",
+  "source_logic_audit": {
+    "all_confirmed": true,
+    "checks": {
+      "direct_x0_residual_parameterization": true,
+      "historical_physical_validity_tracks_lower_and_upper": true,
+      "topk_quadratic_is_k16_compatible": true,
+      "upper_objective_has_no_lower_penalty": true,
+      "upper_objective_is_one_sided": true,
+      "upper_objective_uses_raw_ordered_xy": true
+    },
+    "geometry_objective_changed": false,
+    "identified_risk": "one-sided upper-only geometry descent can shorten segments without an explicit lower/collapse constraint",
+    "model_architecture_changed": false,
+    "new_model_candidate_trained": false,
+    "source_sha256": {
+      "ccda_phase3/phase314b_r256_stageb_cable_diffusion.py": "13613c38ab6e3d3d1cc114cd0f708f2b3845be20f8568f0b95ab00082954bc90",
+      "ccda_phase3/phase314b_r257_stagea_upper_objective.py": "0dd950ddc3c5532c6dd72cb0ace579878f7d1ebb8b6922bf878225dabbcdf99d",
+      "ccda_phase3/phase314b_r257_stagec_topk_quadratic.py": "3063c07c0239cb8cb700a024bba4c409c1104c04eeba33f85089ed47e2d547d4"
+    }
+  },
+  "tangent_rule": "VJP direction J^T d followed by deterministic central finite-difference output response for global and nine frozen parameter blocks",
+  "target_line_rule": "x(alpha)=control+alpha*(ground_truth-control), alpha in 101-point [0,1] grid; target is train-only diagnostic evidence and is never used for model selection",
+  "trains_full_stageb_model": false,
+  "uses_frozen_probe": false
+}
