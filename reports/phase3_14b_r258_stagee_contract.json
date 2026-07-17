@@ -1,0 +1,403 @@
+{
+  "base_evidence_commit": "61be1c377eeda6da4c25e21399e160beb9a33249",
+  "base_identity": {
+    "contract_sha256": "3bfb7f19a1f2d37ee8e7f2f202c2a304396ee1b611932ca2012d841b4540f6e4",
+    "required_next_path": "CALIBRATE_SURROGATE_GUIDED_CONSTRAINED_DIRECT_X0_INTEGRATOR",
+    "root_cause": "phase314b_r258_staged_grouped_cv_direction_signal_does_not_form_valid_state_transition",
+    "selection_sha256": "3f78083f8038b283648b03717a95ee00b5851abf69ab3ee256959b180b0f8dba",
+    "worker_sha256": "0d9cd32cb8724d9e90c7c29a826e2e12e66937efccb7123320b5fbf037430c4f"
+  },
+  "cold_main_worker_context": {
+    "checked": true,
+    "purpose": "environment and operation probes run in disposable child processes",
+    "torch_cuda_is_initialized": false
+  },
+  "constrained_integrator_spec": {
+    "coordinate_tolerance": 1e-06,
+    "correction_ratio_p95_max": 2.0,
+    "fallback_rate_max": 0.1,
+    "grouped_cv_folds": 6,
+    "mean_retention_min": 0.35,
+    "objective_train_noise_seed_offset": 8801,
+    "observable_feasible_rate_min": 0.9,
+    "permutation_cosine_max": 0.1,
+    "permutation_margin_min": 0.1,
+    "permutation_seed": 151117,
+    "projection_only_all_timestep_forbidden": true,
+    "scale_grid": [
+      0.25,
+      0.5,
+      0.75,
+      1.0,
+      1.25,
+      1.5,
+      2.0
+    ],
+    "segment_tolerance": 2.5e-06,
+    "standardizer_epsilon": 1e-12,
+    "timesteps": [
+      10,
+      25,
+      50
+    ]
+  },
+  "contract_sha256": "dfa66bc374871521195d6ffca57e047316b0294d37209b57c1f9493b826f8560",
+  "control_capture": {
+    "byte_exact_to_reference": true,
+    "calibration_byte_exact": true,
+    "calibration_numerical_equivalence": {
+      "atol": 1e-06,
+      "difference_count": 0,
+      "differences": [],
+      "maximum_absolute_difference": 0.0,
+      "maximum_relative_difference": 0.0,
+      "pass": true,
+      "recorded_difference_count": 0,
+      "records_truncated": false,
+      "rtol": 0.005
+    },
+    "candidate_order": [
+      "topk8_r0p25",
+      "topk8_r0p50",
+      "topk8_r1p00",
+      "topk16_r0p25",
+      "topk16_r0p50",
+      "topk16_r1p00"
+    ],
+    "candidate_selection_thresholds_relaxed": false,
+    "capture_method": "frozen_stagec_helpers_portable_numeric_replay",
+    "control_byte_exact": true,
+    "control_numerical_equivalence": {
+      "atol": 1e-06,
+      "difference_count": 0,
+      "differences": [],
+      "maximum_absolute_difference": 0.0,
+      "maximum_relative_difference": 0.0,
+      "pass": true,
+      "recorded_difference_count": 0,
+      "records_truncated": false,
+      "rtol": 0.01
+    },
+    "frozen_probe_accessed": false,
+    "hardware_sensitive_sha_fields_are_observations": true,
+    "observed_calibration_sha256": "fb91d29c84cedccf8f72458f08c2f213bbbc542663593094c0ab651701a052f0",
+    "observed_control_sha256": "dee61b8e31455eeb0e7e0eceae5c1500e3ce57ca8bd42989378d9f76fd779ae7",
+    "reference_calibration_sha256": "fb91d29c84cedccf8f72458f08c2f213bbbc542663593094c0ab651701a052f0",
+    "reference_control_sha256": "dee61b8e31455eeb0e7e0eceae5c1500e3ce57ca8bd42989378d9f76fd779ae7",
+    "reference_environment": "Resume4 RTX-3090 evidence",
+    "reference_equivalence_pass": true,
+    "stagec_nonzero_candidate_training_count": 0
+  },
+  "diffusion_model_candidate_trained": false,
+  "direction_source_ids": [
+    "centered_ridge_a10",
+    "centered_rridge_k32_a10",
+    "segment_rridge_k32_a10"
+  ],
+  "direction_surrogate_spec": {
+    "condition_baseline_margin_min": 0.05,
+    "global_baseline_margin_min": 0.1,
+    "grouped_cv_folds": 6,
+    "holdout_condition_cosine_min": 0.15,
+    "holdout_mean_cosine_min": 0.2,
+    "holdout_nonnegative_rate_min": 0.65,
+    "objective_train_noise_seed_offset": 8801,
+    "oof_condition_cosine_min": 0.2,
+    "oof_fold_cosine_min": 0.1,
+    "oof_mean_cosine_min": 0.25,
+    "oof_nonnegative_rate_min": 0.7,
+    "permutation_cosine_max": 0.1,
+    "permutation_margin_min": 0.1,
+    "permutation_seed": 99173,
+    "ridge_jitter": 1e-10,
+    "scale_grid": [
+      0.5,
+      0.75,
+      1.0,
+      1.25,
+      1.5,
+      2.0
+    ],
+    "standardizer_epsilon": 1e-12,
+    "state_collapse_fraction_max": 0.05,
+    "state_fidelity_ratio_max": 0.95,
+    "state_lower_pass_min": 0.9,
+    "state_movement_cosine_min": 0.25,
+    "state_physical_valid_min": 0.9,
+    "state_stretch_fraction_max": 0.05,
+    "state_target_distance_reduction_min": 0.05,
+    "timesteps": [
+      10,
+      25,
+      50
+    ],
+    "translation_offset_xy": [
+      0.375,
+      -0.625
+    ],
+    "translation_tolerance": 1e-06
+  },
+  "environment": {
+    "compatibility": {
+      "cuda_available": true,
+      "deterministic_runtime": {
+        "cublas_workspace_config": ":4096:8",
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms_enabled": true,
+        "python_hash_seed": "0",
+        "thread_counts": {
+          "MKL_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1",
+          "VECLIB_MAXIMUM_THREADS": "1"
+        }
+      },
+      "numpy_version": "1.23.3",
+      "python_implementation": "CPython",
+      "python_version": [
+        3,
+        9,
+        15
+      ],
+      "required_operation_pass": true,
+      "required_operation_schema": "r258_stagea_forward_two_grad_block_projection_optimizer_step_and_100row_checkpoint_v1",
+      "schema": "phase314b_r258_stagea_portable_compatibility_v1",
+      "torch_cuda_version": "11.2",
+      "torch_version": "1.12.1.post200"
+    },
+    "compatibility_pass": true,
+    "compatibility_sha256": "03fef5cfcfac7933bca0dfc72e67156bb260d50ae7f2f1f6a6375a34c90ad7ec",
+    "hardware_observation": {
+      "compute_capability": [
+        8,
+        6
+      ],
+      "cuda_device_count": 1,
+      "cuda_device_index": 0,
+      "cuda_visible_devices": null,
+      "cudnn_version": 8907,
+      "hostname": "gpu-kvm",
+      "multi_processor_count": 82,
+      "nvidia_smi": {
+        "available": true,
+        "driver_version": "580.119.02",
+        "memory_total_mib": "24576",
+        "name": "NVIDIA GeForce RTX 3090",
+        "pci_bus_id": "00000000:06:00.0",
+        "uuid": "GPU-adcc919c-07ab-edfa-0ad3-263505f8c2ab"
+      },
+      "schema": "phase314b_r258_stagea_hardware_observation_v1",
+      "torch_device_name": "NVIDIA GeForce RTX 3090",
+      "total_memory_bytes": 25296044032
+    },
+    "observation_sha256": "d66c7a0cf73112dfdbe2c2d82f8e5bd5deb8278b38d650484c141c18edafd005",
+    "required_operation_dry_run": {
+      "artifact_persisted": false,
+      "batch_size": 64,
+      "calibration_batch_size": 100,
+      "checkpoint_diffusion_gradient_unchanged": true,
+      "checkpoint_post_projection_violation_count": 0,
+      "diffusion_gradient_unchanged": true,
+      "diffusion_loss": 0.45872825384140015,
+      "frozen_probe_accessed": false,
+      "geometry_loss": 8.823638916015625,
+      "gradient_norm": 1.7317224740982056,
+      "initial_model_sha256": "4f1c102d9f39ba59544f5565b4c01fe03e073fca596aefdc822b707cd2f2c7fd",
+      "pass": true,
+      "peak_memory_allocated_bytes": 219641344,
+      "peak_memory_reserved_bytes": 243269632,
+      "post_projection_violation_count": 0,
+      "projection_mode": "blockwise",
+      "schema": "r258_stagea_forward_two_grad_block_projection_optimizer_step_and_100row_checkpoint_v1",
+      "timestep_cutoff": 50,
+      "top_k": 16
+    },
+    "schema": "phase314b_r258_stagea_portable_environment_v1"
+  },
+  "evaluation_contract": {
+    "candidate_selection_population": "six-fold grouped OOF objective train only",
+    "holdout_access": "one locked final evaluation only",
+    "target_direction_cosine": "evaluation only",
+    "target_distance_reduction": "evaluation only",
+    "target_relative_collapse_stretch": "evaluation only"
+  },
+  "frozen_probe_accessed": false,
+  "generation_contract": {
+    "coordinate_policy": "minimum translation required to enter frozen coordinate box",
+    "fallback": "unchanged diffusion control",
+    "oracle_control_selectable": false,
+    "oracle_control_uses_ground_truth_target": true,
+    "row_scale_policy": "largest observable-feasible pre-registered scale",
+    "segment_projection": "clip proposed ordered segment-vector lengths to frozen bounds, preserve segment directions and proposed horizon centroids",
+    "selectable_candidates_use_ground_truth_target": false,
+    "topology_policy": "evaluate topology only for rows passing vectorized observable gates; retry smaller scales after topology rejection",
+    "uses_frozen_probe": false,
+    "uses_selection_holdout": false,
+    "zero_direction_control": "direction-retention aggregate gate exempt; all geometry, physical, fidelity, and target-relative scientific gates remain active"
+  },
+  "integrator_definitions": [
+    {
+      "bound_mode": "none",
+      "candidate_id": "linear_centered_a10_m2",
+      "direction_source_id": "centered_ridge_a10",
+      "integration_mode": "linear",
+      "lower_z": 0.0,
+      "maximum_scale": 2.0,
+      "retention_min": 0.95,
+      "role": "negative_control",
+      "upper_z": 0.0
+    },
+    {
+      "bound_mode": "historical",
+      "candidate_id": "centered_a10_hist_m1_r25",
+      "direction_source_id": "centered_ridge_a10",
+      "integration_mode": "segment_reconstruct",
+      "lower_z": 0.0,
+      "maximum_scale": 1.0,
+      "retention_min": 0.25,
+      "role": "diagnostic_control",
+      "upper_z": 0.0
+    },
+    {
+      "bound_mode": "robust_intersection",
+      "candidate_id": "centered_a10_z4_m1_r25",
+      "direction_source_id": "centered_ridge_a10",
+      "integration_mode": "segment_reconstruct",
+      "lower_z": 4.0,
+      "maximum_scale": 1.0,
+      "retention_min": 0.25,
+      "role": "selectable",
+      "upper_z": 4.0
+    },
+    {
+      "bound_mode": "robust_intersection",
+      "candidate_id": "centered_a10_z3_m1_r50",
+      "direction_source_id": "centered_ridge_a10",
+      "integration_mode": "segment_reconstruct",
+      "lower_z": 3.0,
+      "maximum_scale": 1.0,
+      "retention_min": 0.5,
+      "role": "selectable",
+      "upper_z": 3.0
+    },
+    {
+      "bound_mode": "robust_intersection",
+      "candidate_id": "centered_a10_z4_m2_r25",
+      "direction_source_id": "centered_ridge_a10",
+      "integration_mode": "segment_reconstruct",
+      "lower_z": 4.0,
+      "maximum_scale": 2.0,
+      "retention_min": 0.25,
+      "role": "selectable",
+      "upper_z": 4.0
+    },
+    {
+      "bound_mode": "robust_intersection",
+      "candidate_id": "centered_rr32_z4_m1_r25",
+      "direction_source_id": "centered_rridge_k32_a10",
+      "integration_mode": "segment_reconstruct",
+      "lower_z": 4.0,
+      "maximum_scale": 1.0,
+      "retention_min": 0.25,
+      "role": "selectable",
+      "upper_z": 4.0
+    },
+    {
+      "bound_mode": "robust_intersection",
+      "candidate_id": "centered_rr32_z3_m1_r50",
+      "direction_source_id": "centered_rridge_k32_a10",
+      "integration_mode": "segment_reconstruct",
+      "lower_z": 3.0,
+      "maximum_scale": 1.0,
+      "retention_min": 0.5,
+      "role": "selectable",
+      "upper_z": 3.0
+    },
+    {
+      "bound_mode": "robust_intersection",
+      "candidate_id": "centered_rr32_z4_m2_r25",
+      "direction_source_id": "centered_rridge_k32_a10",
+      "integration_mode": "segment_reconstruct",
+      "lower_z": 4.0,
+      "maximum_scale": 2.0,
+      "retention_min": 0.25,
+      "role": "selectable",
+      "upper_z": 4.0
+    },
+    {
+      "bound_mode": "robust_intersection",
+      "candidate_id": "segment_rr32_z4_m1_r25",
+      "direction_source_id": "segment_rridge_k32_a10",
+      "integration_mode": "segment_reconstruct",
+      "lower_z": 4.0,
+      "maximum_scale": 1.0,
+      "retention_min": 0.25,
+      "role": "selectable",
+      "upper_z": 4.0
+    },
+    {
+      "bound_mode": "robust_intersection",
+      "candidate_id": "segment_rr32_z3_m1_r50",
+      "direction_source_id": "segment_rridge_k32_a10",
+      "integration_mode": "segment_reconstruct",
+      "lower_z": 3.0,
+      "maximum_scale": 1.0,
+      "retention_min": 0.5,
+      "role": "selectable",
+      "upper_z": 3.0
+    },
+    {
+      "bound_mode": "robust_intersection",
+      "candidate_id": "segment_rr32_z4_m2_r25",
+      "direction_source_id": "segment_rridge_k32_a10",
+      "integration_mode": "segment_reconstruct",
+      "lower_z": 4.0,
+      "maximum_scale": 2.0,
+      "retention_min": 0.25,
+      "role": "selectable",
+      "upper_z": 4.0
+    },
+    {
+      "bound_mode": "robust_intersection",
+      "candidate_id": "zero_z4_projection_only",
+      "direction_source_id": "zero",
+      "integration_mode": "segment_reconstruct",
+      "lower_z": 4.0,
+      "maximum_scale": 1.0,
+      "retention_min": 0.0,
+      "role": "diagnostic_control",
+      "upper_z": 4.0
+    },
+    {
+      "bound_mode": "robust_intersection",
+      "candidate_id": "oracle_z4_m2_r25",
+      "direction_source_id": "oracle",
+      "integration_mode": "segment_reconstruct",
+      "lower_z": 4.0,
+      "maximum_scale": 2.0,
+      "retention_min": 0.25,
+      "role": "oracle_control",
+      "upper_z": 4.0
+    }
+  ],
+  "model_architecture_changed": false,
+  "phase": "Phase3.14b-r2.5.8 Stage E",
+  "required_next_path": "CALIBRATE_CONSTRAINT_AWARE_DIRECTION_SURROGATE_ON_OBJECTIVE_TRAIN_ONLY",
+  "root_cause": "phase314b_r258_stagee_oracle_valid_but_surrogate_direction_not_integrable",
+  "schema": "phase314b_r258_stagee_constrained_integrator_contract_v1",
+  "scientific_status": "BLOCKED",
+  "selected_configuration": null,
+  "selection_holdout_changes_selection": false,
+  "selection_sha256": "068ebecd78e5ac0231d5e3b407855982867432625ef6f5d8f23a37bcd263b94f",
+  "source_sha256": {
+    "ccda_phase3/phase314b_r258_stageb_direct_x0_reachability.py": "42e4a382a22baffdff6ea9778ec89772ab25a53f2044c90c6d0870dd4e6fd3dd",
+    "ccda_phase3/phase314b_r258_stagec_balanced_geometry.py": "65e3f41a1788e90dcd87de1bfd0f373d67fa34bc3c2b6f7fa595f5f2968b77c6",
+    "ccda_phase3/phase314b_r258_staged_direction_surrogate.py": "946fca9d84b54e4affd35ab890970ba1f17154aa8b925f66746994ffe484bbb9",
+    "ccda_phase3/phase314b_r258_staged_resume2_temporal_views.py": "4830b09eafcab374de197b770532d879f63472d8c0d9f9a9ca430f9b110257d8",
+    "scripts/phase3_14b_r258_staged_resume2_run_calibration.py": "bd0183d93073d07e548bbe8bea80af837e825cc81e3ac99bfe2eb1a3d0597679",
+    "scripts/phase3_14b_r258_staged_resume2_test_gate.py": "66a09d2366fd093a5420f59caf14c0619e49a675ef3ec450d90eb82574c2c39b",
+    "tests/test_phase3_14b_r258_staged_resume2_temporal_views.py": "559486e146264fd091d3c772c16f6ab93657b3a138097f9a5787abf45b328cb3"
+  }
+}
