@@ -1,21 +1,20 @@
 #!/usr/bin/env python3
-"""Run Stage F once, end to end, in one Python process.
+"""Run the Stage-F base gate and calibration through one Python entrypoint.
 
-This is the terminal replacement for the Stage-F Resume wrapper chain.  It
-preserves prior commits and reports as immutable evidence, binds the unchanged
-Stage-F science to its implementation commit, starts with a cold CUDA context,
-runs one real calibration directly through the scientific module, and writes
-one write-once JSON result.
-
-A completed calibration may legitimately return scientific_status READY or
-BLOCKED.  Either is a valid scientific result.  An execution error writes one
-blocked report and must not be retried in place.
+The entrypoint preserves the historical evidence chain but does not delegate to
+legacy Resume wrappers.  If the portable Stage-C numerical-equivalence gate
+passes, it continues to one real Stage-F calibration in the same process.  If
+that gate reports a numerical mismatch, it captures expected/current traceback
+state, scalar differences, available array summaries, and runtime numerical
+settings into one write-once diagnostic result.  It never infers a tolerance
+from the current failure and never persists prediction tensors.
 """
 
 from __future__ import annotations
 
 import argparse
 import copy
+import dataclasses
 import hashlib
 import importlib
 import inspect
@@ -24,6 +23,7 @@ import math
 import multiprocessing
 import os
 import platform
+import re
 import shutil
 import subprocess
 import sys
@@ -39,15 +39,15 @@ REPOSITORY_ROOT = SCRIPT_PATH.parents[1]
 if str(REPOSITORY_ROOT) not in sys.path:
     sys.path.insert(0, str(REPOSITORY_ROOT))
 
-PHASE = "Phase3.14b-r2.5.8 Stage F Execution Consolidation Correction"
-SCHEMA = "phase314b_r258_stagef_consolidated_e2e_v2"
+PHASE = "Phase3.14b-r2.5.8 Stage F Consolidated Numerical Equivalence Diagnosis"
+SCHEMA = "phase314b_r258_stagef_consolidated_e2e_v3"
 DEFAULT_ROOT = Path("/data/state_diff2")
 
 EXPECTED_BRANCH = "Experiment1"
 EXPECTED_REMOTE_HEAD = "6758ea7ad800667a436b0243d3b1f6c63256d854"
 EXPECTED_SUBMODULE = "633a88752445cf5d6776ed374fdbbdb35f93050c"
-EXPECTED_PARENT = "bb21870c9b12c699a16b2e6a8501a8c163e9550b"
-EXPECTED_SUBJECT = "Phase3.14b-r2.5.8 Stage F: correct consolidated interface validation"
+EXPECTED_PARENT = "0e405929ed547a57c1d0ab69131efd11cdb658ff"
+EXPECTED_SUBJECT = "Phase3.14b-r2.5.8 Stage F: diagnose portable numerical equivalence"
 IMPLEMENTATION_PATH = "scripts/phase3_14b_r258_stagef_consolidated_e2e.py"
 
 STAGEF_ANCHOR = "f41a2364b7283b1eb963d305823804374ddfc8d6"
@@ -67,8 +67,8 @@ STAGEE_PATHS: Tuple[str, ...] = (
 STAGEE_WORKER_EVIDENCE = "reports/phase3_14b_r258_stagee_worker_evidence.json"
 CANONICAL_WORKER = "scripts/phase3_14b_r258_stagef_resume1_worker.py"
 
-SUCCESS_REPORT = "reports/phase3_14b_r258_stagef_consolidated_v2_summary.json"
-BLOCKED_REPORT = "reports/phase3_14b_r258_stagef_consolidated_v2_blocked_summary.json"
+SUCCESS_REPORT = "reports/phase3_14b_r258_stagef_consolidated_v3_summary.json"
+BLOCKED_REPORT = "reports/phase3_14b_r258_stagef_consolidated_v3_blocked_summary.json"
 
 EXPECTED_ENV = {
     "PYTHONHASHSEED": "0",
@@ -104,6 +104,8 @@ COMMIT_BOUND_REPORTS: Mapping[str, str] = {
         "e2fdbeca10df7fbf1925a3c6ec02b8a8a864c851",
     "reports/phase3_14b_r258_stagef_consolidated_blocked_summary.json":
         "bb21870c9b12c699a16b2e6a8501a8c163e9550b",
+    "reports/phase3_14b_r258_stagef_consolidated_v2_blocked_summary.json":
+        "0e405929ed547a57c1d0ab69131efd11cdb658ff",
 }
 
 REQUIRED_ANCESTORS: Tuple[str, ...] = (
@@ -118,6 +120,8 @@ REQUIRED_ANCESTORS: Tuple[str, ...] = (
     "e2fdbeca10df7fbf1925a3c6ec02b8a8a864c851",
     "d4c8f5a7f359e1aad7b1298874a2de8ba9d66c02",
     "bb21870c9b12c699a16b2e6a8501a8c163e9550b",
+    "4f1a8a0e9683a691e5bf23f16bdefee074c86ea4",
+    "0e405929ed547a57c1d0ab69131efd11cdb658ff",
 )
 
 FORBIDDEN_TRUE_FIELDS: Tuple[str, ...] = (
@@ -605,6 +609,906 @@ def torch_observation(torch: Any) -> Mapping[str, Any]:
     return result
 
 
+
+NUMERICAL_EQUIVALENCE_MARKER = (
+    "portable Stage-C numerical-equivalence gate failed"
+)
+DEFAULT_NUMERICAL_DIFF_PATHS: Tuple[str, ...] = (
+    "$.holdout_profiles.10.huber_region.positive_element_count",
+    "$.one_step.timesteps.10.upper.sha256",
+    "$.one_step.timesteps.25.upper.sha256",
+    "$.one_step.timesteps.50.upper.sha256",
+)
+EXPECTED_NAME_HINTS: Tuple[str, ...] = (
+    "expected",
+    "reference",
+    "frozen",
+    "recorded",
+    "canonical",
+    "baseline",
+)
+ACTUAL_NAME_HINTS: Tuple[str, ...] = (
+    "actual",
+    "current",
+    "observed",
+    "replay",
+    "portable",
+    "generated",
+    "candidate",
+)
+MAX_DIAGNOSTIC_ITEMS = 192
+MAX_DIAGNOSTIC_DEPTH = 10
+MAX_FRAME_LOCALS = 48
+
+
+def _is_array_like(value: Any) -> bool:
+    module = type(value).__module__.split(".", 1)[0]
+    name = type(value).__name__
+    return (
+        module in {"numpy", "torch"}
+        and hasattr(value, "shape")
+        and hasattr(value, "dtype")
+        and name not in {"dtype"}
+    )
+
+
+def _array_numpy(value: Any) -> Any:
+    import numpy as np  # type: ignore
+
+    if type(value).__module__.split(".", 1)[0] == "torch":
+        value = value.detach()
+        if hasattr(value, "is_sparse") and bool(value.is_sparse):
+            value = value.to_dense()
+        value = value.cpu().contiguous().numpy()
+    return np.asarray(value)
+
+
+def _finite_float(value: Any) -> Optional[float]:
+    try:
+        result = float(value)
+    except (TypeError, ValueError, OverflowError):
+        return None
+    if not math.isfinite(result):
+        return None
+    return result
+
+
+def array_summary(value: Any) -> Mapping[str, Any]:
+    import numpy as np  # type: ignore
+
+    array = _array_numpy(value)
+    contiguous = np.ascontiguousarray(array)
+    summary: Dict[str, Any] = {
+        "python_type": (
+            f"{type(value).__module__}.{type(value).__qualname__}"
+        ),
+        "shape": [int(item) for item in contiguous.shape],
+        "dtype": str(contiguous.dtype),
+        "ndim": int(contiguous.ndim),
+        "element_count": int(contiguous.size),
+        "nbytes": int(contiguous.nbytes),
+        "c_contiguous": bool(contiguous.flags.c_contiguous),
+        "raw_c_bytes_sha256": sha256_bytes(contiguous.tobytes(order="C")),
+    }
+    if contiguous.size == 0:
+        return summary
+
+    if np.issubdtype(contiguous.dtype, np.number):
+        numeric = contiguous.astype(np.float64, copy=False)
+        finite = np.isfinite(numeric)
+        finite_values = numeric[finite]
+        summary.update(
+            {
+                "finite_count": int(finite.sum()),
+                "nan_count": int(np.isnan(numeric).sum()),
+                "positive_infinity_count": int(np.isposinf(numeric).sum()),
+                "negative_infinity_count": int(np.isneginf(numeric).sum()),
+            }
+        )
+        if finite_values.size:
+            summary.update(
+                {
+                    "minimum": float(finite_values.min()),
+                    "maximum": float(finite_values.max()),
+                    "mean": float(finite_values.mean()),
+                    "absolute_maximum": float(np.abs(finite_values).max()),
+                    "positive_element_count": int((finite_values > 0.0).sum()),
+                    "negative_element_count": int((finite_values < 0.0).sum()),
+                    "zero_element_count": int((finite_values == 0.0).sum()),
+                    "near_zero_counts": {
+                        "abs_le_1e-15": int((np.abs(finite_values) <= 1e-15).sum()),
+                        "abs_le_1e-12": int((np.abs(finite_values) <= 1e-12).sum()),
+                        "abs_le_1e-10": int((np.abs(finite_values) <= 1e-10).sum()),
+                        "abs_le_1e-8": int((np.abs(finite_values) <= 1e-8).sum()),
+                        "abs_le_1e-6": int((np.abs(finite_values) <= 1e-6).sum()),
+                    },
+                }
+            )
+    return summary
+
+
+def diagnostic_snapshot(
+    value: Any,
+    *,
+    depth: int = 0,
+    seen: Optional[set] = None,
+) -> Any:
+    """Create a bounded JSON snapshot without persisting tensor contents."""
+    if seen is None:
+        seen = set()
+    if value is None or isinstance(value, (str, bool, int)):
+        return value
+    if isinstance(value, float):
+        if math.isnan(value):
+            return {"non_finite_float": "nan"}
+        if math.isinf(value):
+            return {
+                "non_finite_float": "positive_infinity"
+                if value > 0
+                else "negative_infinity"
+            }
+        return value
+    if isinstance(value, Path):
+        return value.as_posix()
+    if _is_array_like(value):
+        try:
+            return {"array_summary": array_summary(value)}
+        except BaseException as error:
+            return {
+                "array_summary_error": (
+                    f"{type(error).__module__}.{type(error).__qualname__}: "
+                    f"{error}"
+                ),
+                "python_type": (
+                    f"{type(value).__module__}.{type(value).__qualname__}"
+                ),
+            }
+    if dataclasses.is_dataclass(value) and not isinstance(value, type):
+        try:
+            value = dataclasses.asdict(value)
+        except BaseException:
+            return {
+                "python_type": (
+                    f"{type(value).__module__}.{type(value).__qualname__}"
+                ),
+                "representation": repr(value)[:512],
+            }
+    if depth >= MAX_DIAGNOSTIC_DEPTH:
+        return {
+            "truncated": "maximum_depth",
+            "python_type": f"{type(value).__module__}.{type(value).__qualname__}",
+        }
+
+    identity = id(value)
+    if identity in seen:
+        return {"cycle": True}
+    seen.add(identity)
+    try:
+        if isinstance(value, Mapping):
+            result: Dict[str, Any] = {}
+            entries = list(value.items())
+            for index, (key, item) in enumerate(entries):
+                if index >= MAX_DIAGNOSTIC_ITEMS:
+                    result["__truncated_items__"] = len(entries) - index
+                    break
+                result[str(key)] = diagnostic_snapshot(
+                    item,
+                    depth=depth + 1,
+                    seen=seen,
+                )
+            return result
+        if isinstance(value, (list, tuple)):
+            result_list: List[Any] = []
+            for index, item in enumerate(value):
+                if index >= MAX_DIAGNOSTIC_ITEMS:
+                    result_list.append(
+                        {"truncated_items": len(value) - index}
+                    )
+                    break
+                result_list.append(
+                    diagnostic_snapshot(item, depth=depth + 1, seen=seen)
+                )
+            return result_list
+        if isinstance(value, (set, frozenset)):
+            snapshots = [
+                diagnostic_snapshot(item, depth=depth + 1, seen=seen)
+                for item in list(value)[:MAX_DIAGNOSTIC_ITEMS]
+            ]
+            return sorted(
+                snapshots,
+                key=lambda item: json.dumps(
+                    item,
+                    sort_keys=True,
+                    separators=(",", ":"),
+                    ensure_ascii=False,
+                    allow_nan=False,
+                ),
+            )
+        if hasattr(value, "item") and callable(value.item):
+            try:
+                return diagnostic_snapshot(
+                    value.item(), depth=depth + 1, seen=seen
+                )
+            except BaseException:
+                pass
+        return {
+            "python_type": f"{type(value).__module__}.{type(value).__qualname__}",
+            "representation": repr(value)[:512],
+        }
+    finally:
+        seen.discard(identity)
+
+
+def parse_numerical_diff_paths(message: str) -> Tuple[str, ...]:
+    found = tuple(
+        dict.fromkeys(
+            re.findall(r"(?m)^\s*-\s+(\$\.[^\s]+)\s*$", message)
+        )
+    )
+    return found or DEFAULT_NUMERICAL_DIFF_PATHS
+
+
+def path_tokens(path: str) -> Tuple[str, ...]:
+    if path == "$":
+        return ()
+    if not path.startswith("$."):
+        raise ValueError(f"unsupported diagnostic path: {path!r}")
+    return tuple(token for token in path[2:].split(".") if token)
+
+
+def resolve_path(value: Any, path: str) -> Tuple[bool, Any]:
+    current = value
+    for token in path_tokens(path):
+        if isinstance(current, Mapping):
+            if token in current:
+                current = current[token]
+                continue
+            try:
+                integer_key = int(token)
+            except ValueError:
+                return False, None
+            if integer_key in current:
+                current = current[integer_key]
+                continue
+            return False, None
+        if isinstance(current, (list, tuple)):
+            try:
+                index = int(token)
+            except ValueError:
+                return False, None
+            if not 0 <= index < len(current):
+                return False, None
+            current = current[index]
+            continue
+        return False, None
+    return True, current
+
+
+def scalar_leaf_map(value: Any, prefix: str = "$") -> Mapping[str, Any]:
+    leaves: Dict[str, Any] = {}
+
+    def visit(item: Any, path: str, depth: int) -> None:
+        if depth > MAX_DIAGNOSTIC_DEPTH:
+            return
+        if item is None or isinstance(item, (str, bool, int)):
+            leaves[path] = item
+            return
+        if isinstance(item, float):
+            leaves[path] = diagnostic_snapshot(item)
+            return
+        if isinstance(item, Path):
+            leaves[path] = item.as_posix()
+            return
+        if _is_array_like(item):
+            summary = array_summary(item)
+            visit(summary, path + ".array_summary", depth + 1)
+            return
+        if dataclasses.is_dataclass(item) and not isinstance(item, type):
+            try:
+                item = dataclasses.asdict(item)
+            except BaseException:
+                leaves[path] = repr(item)[:512]
+                return
+        if isinstance(item, Mapping):
+            for index, (key, child) in enumerate(item.items()):
+                if index >= MAX_DIAGNOSTIC_ITEMS:
+                    break
+                visit(child, path + "." + str(key), depth + 1)
+            return
+        if isinstance(item, (list, tuple)):
+            for index, child in enumerate(item[:MAX_DIAGNOSTIC_ITEMS]):
+                visit(child, path + "." + str(index), depth + 1)
+            return
+        if hasattr(item, "item") and callable(item.item):
+            try:
+                visit(item.item(), path, depth + 1)
+                return
+            except BaseException:
+                pass
+        leaves[path] = repr(item)[:512]
+
+    visit(value, prefix, 0)
+    return leaves
+
+
+def leaf_differences(left: Any, right: Any) -> Mapping[str, Mapping[str, Any]]:
+    left_leaves = scalar_leaf_map(left)
+    right_leaves = scalar_leaf_map(right)
+    result: Dict[str, Mapping[str, Any]] = {}
+    for path in sorted(set(left_leaves) | set(right_leaves)):
+        left_present = path in left_leaves
+        right_present = path in right_leaves
+        left_value = left_leaves.get(path)
+        right_value = right_leaves.get(path)
+        if left_present and right_present and left_value == right_value:
+            continue
+        result[path] = {
+            "left_present": left_present,
+            "right_present": right_present,
+            "left": diagnostic_snapshot(left_value),
+            "right": diagnostic_snapshot(right_value),
+        }
+    return result
+
+
+def name_hint_score(label: str, hints: Sequence[str]) -> int:
+    lowered = label.lower()
+    return sum(1 for hint in hints if hint in lowered)
+
+
+def collect_mapping_candidates(
+    error: BaseException,
+) -> Tuple[List[Mapping[str, Any]], List[Mapping[str, Any]]]:
+    candidates: List[Mapping[str, Any]] = []
+    frame_summaries: List[Mapping[str, Any]] = []
+    traceback_cursor = error.__traceback__
+    frame_index = 0
+    while traceback_cursor is not None:
+        frame = traceback_cursor.tb_frame
+        module_name = str(frame.f_globals.get("__name__", ""))
+        code_name = frame.f_code.co_name
+        local_items = list(frame.f_locals.items())
+        selected_locals: Dict[str, Any] = {}
+        for local_index, (name, value) in enumerate(local_items):
+            if local_index >= MAX_FRAME_LOCALS:
+                selected_locals["__truncated_locals__"] = (
+                    len(local_items) - local_index
+                )
+                break
+            lowered = name.lower()
+            should_capture = (
+                isinstance(value, Mapping)
+                or _is_array_like(value)
+                or any(
+                    token in lowered
+                    for token in (
+                        "expected",
+                        "actual",
+                        "current",
+                        "reference",
+                        "frozen",
+                        "diff",
+                        "mismatch",
+                        "profile",
+                        "one_step",
+                        "upper",
+                    )
+                )
+            )
+            if should_capture:
+                selected_locals[name] = diagnostic_snapshot(value)
+
+            def collect_nested(
+                item: Any,
+                label: str,
+                depth: int,
+                seen: set,
+            ) -> None:
+                if depth > 3:
+                    return
+                identity = id(item)
+                if identity in seen:
+                    return
+                if dataclasses.is_dataclass(item) and not isinstance(item, type):
+                    try:
+                        item = dataclasses.asdict(item)
+                    except BaseException:
+                        return
+                if isinstance(item, Mapping):
+                    candidates.append(
+                        {
+                            "label": label,
+                            "frame_index": frame_index,
+                            "module": module_name,
+                            "function": code_name,
+                            "raw": item,
+                        }
+                    )
+                    seen.add(identity)
+                    try:
+                        for nested_index, (key, child) in enumerate(item.items()):
+                            if nested_index >= 32:
+                                break
+                            if isinstance(child, Mapping) or dataclasses.is_dataclass(child):
+                                collect_nested(
+                                    child,
+                                    label + "." + str(key),
+                                    depth + 1,
+                                    seen,
+                                )
+                    finally:
+                        seen.discard(identity)
+
+            collect_nested(
+                value,
+                f"frame[{frame_index}].{module_name}.{code_name}.{name}",
+                0,
+                set(),
+            )
+
+        frame_summaries.append(
+            {
+                "frame_index": frame_index,
+                "module": module_name,
+                "function": code_name,
+                "filename": frame.f_code.co_filename,
+                "line_number": int(traceback_cursor.tb_lineno),
+                "selected_locals": selected_locals,
+            }
+        )
+        traceback_cursor = traceback_cursor.tb_next
+        frame_index += 1
+    return candidates, frame_summaries
+
+
+def orient_candidate_pair(
+    left: Mapping[str, Any],
+    right: Mapping[str, Any],
+) -> Tuple[Mapping[str, Any], Mapping[str, Any], int]:
+    left_label = str(left["label"])
+    right_label = str(right["label"])
+    left_expected = name_hint_score(left_label, EXPECTED_NAME_HINTS)
+    left_actual = name_hint_score(left_label, ACTUAL_NAME_HINTS)
+    right_expected = name_hint_score(right_label, EXPECTED_NAME_HINTS)
+    right_actual = name_hint_score(right_label, ACTUAL_NAME_HINTS)
+    normal = left_expected + right_actual
+    reversed_score = right_expected + left_actual
+    if reversed_score > normal:
+        return right, left, reversed_score
+    return left, right, normal
+
+
+def select_expected_actual_pair(
+    candidates: Sequence[Mapping[str, Any]],
+    mismatch_paths: Sequence[str],
+) -> Optional[Mapping[str, Any]]:
+    best: Optional[Mapping[str, Any]] = None
+    for left_index, left in enumerate(candidates):
+        for right in candidates[left_index + 1 :]:
+            expected, actual, orientation = orient_candidate_pair(left, right)
+            expected_raw = expected["raw"]
+            actual_raw = actual["raw"]
+            target_rows: Dict[str, Mapping[str, Any]] = {}
+            coverage = 0
+            for path in mismatch_paths:
+                expected_present, expected_value = resolve_path(expected_raw, path)
+                actual_present, actual_value = resolve_path(actual_raw, path)
+                differs = (
+                    expected_present
+                    and actual_present
+                    and diagnostic_snapshot(expected_value)
+                    != diagnostic_snapshot(actual_value)
+                )
+                if differs:
+                    coverage += 1
+                target_rows[path] = {
+                    "expected_present": expected_present,
+                    "actual_present": actual_present,
+                    "expected": diagnostic_snapshot(expected_value)
+                    if expected_present
+                    else None,
+                    "actual": diagnostic_snapshot(actual_value)
+                    if actual_present
+                    else None,
+                    "different": differs,
+                }
+            if coverage == 0:
+                continue
+            differences = leaf_differences(expected_raw, actual_raw)
+            extra_count = len(
+                [path for path in differences if path not in mismatch_paths]
+            )
+            score = coverage * 100000 + orientation * 1000 - extra_count
+            candidate_result: Mapping[str, Any] = {
+                "score": score,
+                "coverage": coverage,
+                "orientation_hint_score": orientation,
+                "expected_label": expected["label"],
+                "actual_label": actual["label"],
+                "expected_raw": expected_raw,
+                "actual_raw": actual_raw,
+                "target_rows": target_rows,
+                "all_differences": differences,
+                "extra_difference_count": extra_count,
+            }
+            if best is None or int(candidate_result["score"]) > int(best["score"]):
+                best = candidate_result
+    return best
+
+
+def parent_path(path: str) -> str:
+    if "." not in path[2:]:
+        return "$"
+    return path.rsplit(".", 1)[0]
+
+
+def find_arrays(value: Any, prefix: str = "$") -> Mapping[str, Any]:
+    result: Dict[str, Any] = {}
+    seen: set = set()
+
+    def visit(item: Any, path: str, depth: int) -> None:
+        if depth > 5 or len(result) >= 64:
+            return
+        if _is_array_like(item):
+            result[path] = item
+            return
+        if dataclasses.is_dataclass(item) and not isinstance(item, type):
+            try:
+                item = dataclasses.asdict(item)
+            except BaseException:
+                return
+        identity = id(item)
+        if identity in seen:
+            return
+        if isinstance(item, Mapping):
+            seen.add(identity)
+            try:
+                for index, (key, child) in enumerate(item.items()):
+                    if index >= 64:
+                        break
+                    visit(child, path + "." + str(key), depth + 1)
+            finally:
+                seen.discard(identity)
+        elif isinstance(item, (list, tuple)):
+            seen.add(identity)
+            try:
+                for index, child in enumerate(item[:64]):
+                    visit(child, path + "." + str(index), depth + 1)
+            finally:
+                seen.discard(identity)
+
+    visit(value, prefix, 0)
+    return result
+
+
+def compare_array_values(expected: Any, actual: Any) -> Mapping[str, Any]:
+    import numpy as np  # type: ignore
+
+    expected_array = _array_numpy(expected)
+    actual_array = _array_numpy(actual)
+    result: Dict[str, Any] = {
+        "expected": array_summary(expected),
+        "actual": array_summary(actual),
+        "shape_equal": expected_array.shape == actual_array.shape,
+        "dtype_equal": expected_array.dtype == actual_array.dtype,
+    }
+    if expected_array.shape != actual_array.shape:
+        return result
+    expected_numeric = expected_array.astype(np.float64, copy=False)
+    actual_numeric = actual_array.astype(np.float64, copy=False)
+    finite_pair = np.isfinite(expected_numeric) & np.isfinite(actual_numeric)
+    result["finite_pair_count"] = int(finite_pair.sum())
+    if not finite_pair.any():
+        return result
+    expected_finite = expected_numeric[finite_pair]
+    actual_finite = actual_numeric[finite_pair]
+    difference = actual_finite - expected_finite
+    absolute = np.abs(difference)
+    denominator = np.maximum(np.abs(expected_finite), np.finfo(np.float64).tiny)
+    result.update(
+        {
+            "exactly_different_count": int(
+                np.not_equal(actual_finite, expected_finite).sum()
+            ),
+            "sign_change_count": int(
+                np.not_equal(
+                    np.signbit(actual_finite),
+                    np.signbit(expected_finite),
+                ).sum()
+            ),
+            "max_abs_diff": float(absolute.max()),
+            "mean_abs_diff": float(absolute.mean()),
+            "max_rel_diff": float((absolute / denominator).max()),
+            "allclose": {
+                "rtol_0_atol_0": bool(
+                    np.allclose(actual_finite, expected_finite, rtol=0.0, atol=0.0)
+                ),
+                "rtol_1e-9_atol_1e-12": bool(
+                    np.allclose(actual_finite, expected_finite, rtol=1e-9, atol=1e-12)
+                ),
+                "rtol_1e-8_atol_1e-10": bool(
+                    np.allclose(actual_finite, expected_finite, rtol=1e-8, atol=1e-10)
+                ),
+                "rtol_1e-6_atol_1e-8": bool(
+                    np.allclose(actual_finite, expected_finite, rtol=1e-6, atol=1e-8)
+                ),
+            },
+        }
+    )
+    return result
+
+
+def pair_array_diagnostics(
+    expected_value: Any,
+    actual_value: Any,
+) -> Mapping[str, Any]:
+    expected_arrays = find_arrays(expected_value)
+    actual_arrays = find_arrays(actual_value)
+    result: Dict[str, Any] = {
+        "expected_array_paths": sorted(expected_arrays),
+        "actual_array_paths": sorted(actual_arrays),
+        "comparisons": {},
+    }
+    comparisons: Dict[str, Any] = {}
+    for path in sorted(set(expected_arrays) & set(actual_arrays)):
+        try:
+            comparisons[path] = compare_array_values(
+                expected_arrays[path], actual_arrays[path]
+            )
+        except BaseException as error:
+            comparisons[path] = {
+                "comparison_error": (
+                    f"{type(error).__module__}.{type(error).__qualname__}: "
+                    f"{error}"
+                )
+            }
+    result["comparisons"] = comparisons
+    result["reference_numeric_arrays_available"] = bool(comparisons)
+    return result
+
+
+def runtime_numerical_observation(torch: Any) -> Mapping[str, Any]:
+    observation: Dict[str, Any] = {
+        "python_executable": sys.executable,
+        "python_version": platform.python_version(),
+        "numpy_version": None,
+        "torch_version": str(torch.__version__),
+        "torch_cuda_version": str(torch.version.cuda),
+        "torch_default_dtype": str(torch.get_default_dtype()),
+        "torch_cuda_initialized": bool(torch.cuda.is_initialized()),
+        "deterministic_algorithms_enabled": bool(
+            torch.are_deterministic_algorithms_enabled()
+        ),
+        "cudnn_enabled": bool(torch.backends.cudnn.enabled),
+        "cudnn_benchmark": bool(torch.backends.cudnn.benchmark),
+        "cudnn_deterministic": bool(torch.backends.cudnn.deterministic),
+        "cudnn_allow_tf32": bool(torch.backends.cudnn.allow_tf32),
+        "cuda_matmul_allow_tf32": bool(torch.backends.cuda.matmul.allow_tf32),
+    }
+    get_precision = getattr(torch, "get_float32_matmul_precision", None)
+    if callable(get_precision):
+        observation["float32_matmul_precision"] = str(get_precision())
+    try:
+        import numpy as np  # type: ignore
+
+        observation["numpy_version"] = str(np.__version__)
+    except BaseException as error:
+        observation["numpy_import_error"] = str(error)
+    if torch.cuda.is_initialized():
+        device = int(torch.cuda.current_device())
+        properties = torch.cuda.get_device_properties(device)
+        observation["cuda_device"] = {
+            "index": device,
+            "name": str(properties.name),
+            "compute_capability": [
+                int(properties.major),
+                int(properties.minor),
+            ],
+            "total_memory_bytes": int(properties.total_memory),
+        }
+    return observation
+
+
+def numerical_equivalence_diagnostic(
+    error: BaseException,
+    torch: Any,
+) -> Mapping[str, Any]:
+    message = str(error)
+    mismatch_paths = parse_numerical_diff_paths(message)
+    candidates, frames = collect_mapping_candidates(error)
+    pair = select_expected_actual_pair(candidates, mismatch_paths)
+
+    diagnostic: Dict[str, Any] = {
+        "gate_marker": NUMERICAL_EQUIVALENCE_MARKER,
+        "error_type": f"{type(error).__module__}.{type(error).__qualname__}",
+        "error": message,
+        "mismatch_paths": list(mismatch_paths),
+        "traceback_frames": frames,
+        "mapping_candidate_count": len(candidates),
+        "runtime": runtime_numerical_observation(torch),
+        "policy": {
+            "exact_gate_relaxed": False,
+            "tolerance_inferred_from_current_failure": False,
+            "scientific_calibration_started": False,
+            "reason": (
+                "A SHA mismatch does not encode numerical magnitude. The exact "
+                "gate must not be relaxed unless expected and current numerical "
+                "values are both available or a separately justified semantic "
+                "contract is established."
+            ),
+        },
+    }
+
+    if pair is None:
+        diagnostic.update(
+            {
+                "capture_status": "PARTIAL",
+                "expected_actual_pair_found": False,
+                "decision": "KEEP_BLOCKED_DIAGNOSTIC_PAIR_NOT_RECOVERED",
+                "required_next_path": (
+                    "INSPECT_THE_V3_TRACEBACK_LOCAL_SNAPSHOTS_IN_THE_SAME_"
+                    "CONSOLIDATED_ENTRYPOINT"
+                ),
+            }
+        )
+        return diagnostic
+
+    expected_raw = pair["expected_raw"]
+    actual_raw = pair["actual_raw"]
+    differences = pair["all_differences"]
+    mismatch_set = set(mismatch_paths)
+    additional_paths = sorted(path for path in differences if path not in mismatch_set)
+    missing_target_paths = sorted(
+        path
+        for path, row in pair["target_rows"].items()
+        if not bool(row["expected_present"]) or not bool(row["actual_present"])
+    )
+
+    parent_diagnostics: Dict[str, Any] = {}
+    reference_arrays_available = True
+    for path in mismatch_paths:
+        parent = parent_path(path)
+        expected_present, expected_parent = resolve_path(expected_raw, parent)
+        actual_present, actual_parent = resolve_path(actual_raw, parent)
+        row: Dict[str, Any] = {
+            "parent_path": parent,
+            "expected_present": expected_present,
+            "actual_present": actual_present,
+            "expected_snapshot": diagnostic_snapshot(expected_parent)
+            if expected_present
+            else None,
+            "actual_snapshot": diagnostic_snapshot(actual_parent)
+            if actual_present
+            else None,
+        }
+        if expected_present and actual_present:
+            array_diagnostic = pair_array_diagnostics(
+                expected_parent, actual_parent
+            )
+            row["array_diagnostic"] = array_diagnostic
+            if path.endswith(".sha256") and not bool(
+                array_diagnostic["reference_numeric_arrays_available"]
+            ):
+                reference_arrays_available = False
+        elif path.endswith(".sha256"):
+            reference_arrays_available = False
+        parent_diagnostics[path] = row
+
+    positive_path = (
+        "$.holdout_profiles.10.huber_region.positive_element_count"
+    )
+    positive_delta: Optional[int] = None
+    positive_row = pair["target_rows"].get(positive_path)
+    if positive_row:
+        expected_count = positive_row.get("expected")
+        actual_count = positive_row.get("actual")
+        if (
+            isinstance(expected_count, int)
+            and not isinstance(expected_count, bool)
+            and isinstance(actual_count, int)
+            and not isinstance(actual_count, bool)
+        ):
+            positive_delta = actual_count - expected_count
+
+    exact_target_only = (
+        not additional_paths
+        and not missing_target_paths
+        and int(pair["coverage"]) == len(mismatch_paths)
+    )
+    if reference_arrays_available:
+        decision = "KEEP_BLOCKED_PENDING_REVIEW_OF_CAPTURED_NUMERICAL_DIFFS"
+        next_path = (
+            "REVIEW_CAPTURED_REFERENCE_AND_CURRENT_ARRAY_DIFFERENCES_BEFORE_"
+            "CHANGING_THE_SAME_CONSOLIDATED_GATE"
+        )
+    else:
+        decision = "KEEP_BLOCKED_REFERENCE_NUMERICAL_VALUES_NOT_AVAILABLE"
+        next_path = (
+            "ESTABLISH_A_REFERENCE_NUMERICAL_WITNESS_OR_AN_INDEPENDENT_"
+            "SEMANTIC_EQUIVALENCE_CONTRACT_BEFORE_RELAXING_THE_GATE"
+        )
+
+    diagnostic.update(
+        {
+            "capture_status": "COMPLETE" if not missing_target_paths else "PARTIAL",
+            "expected_actual_pair_found": True,
+            "expected_candidate_label": pair["expected_label"],
+            "actual_candidate_label": pair["actual_label"],
+            "orientation_hint_score": pair["orientation_hint_score"],
+            "target_path_coverage": int(pair["coverage"]),
+            "target_differences": pair["target_rows"],
+            "all_leaf_difference_count": len(differences),
+            "additional_difference_paths": additional_paths,
+            "missing_target_paths": missing_target_paths,
+            "exactly_reported_paths_differ": exact_target_only,
+            "positive_element_count_delta": positive_delta,
+            "parent_subtree_diagnostics": parent_diagnostics,
+            "reference_numerical_arrays_available_for_sha_mismatches": (
+                reference_arrays_available
+            ),
+            "decision": decision,
+            "required_next_path": next_path,
+        }
+    )
+    return diagnostic
+
+
+def diagnostic_summary(
+    repository: Mapping[str, Any],
+    diagnostic: Mapping[str, Any],
+) -> Mapping[str, Any]:
+    diagnostic_sha = sha256_bytes(stable_json_bytes(diagnostic))
+    return {
+        "phase": PHASE,
+        "schema": SCHEMA,
+        "execution_verdict": "PASS",
+        "scientific_status": "BLOCKED",
+        "root_cause": (
+            "phase314b_r258_stagef_portable_numerical_equivalence_unresolved"
+        ),
+        "required_next_path": diagnostic["required_next_path"],
+        "selected_configuration": None,
+        "train_only_recommendation": None,
+        "repository": repository,
+        "execution": {
+            "mode": "one_python_process_one_base_gate_diagnosis",
+            "pid": os.getpid(),
+            "python_process_count": 1,
+            "child_python_process_count": 0,
+            "legacy_resume_wrappers_executed": False,
+            "duplicate_workers_executed": False,
+            "historical_temporal_gate_replayed": False,
+            "scientific_calibration_started": False,
+            "single_run_result_sha256": diagnostic_sha,
+        },
+        "base_evidence_validation": {
+            "completed_without_exception": False,
+            "failure_classified_as_portable_numerical_equivalence": True,
+        },
+        "numerical_equivalence_diagnosis": diagnostic,
+        "boundaries": {
+            "frozen_probe_accessed": False,
+            "selection_holdout_evaluated": False,
+            "formal_training_run": False,
+            "reverse_sampling_run": False,
+            "idm_run": False,
+            "candidate_execution": False,
+            "deformable_ravens_executed": False,
+            "phase4": False,
+            "cps": False,
+            "checkpoint_saved": False,
+            "weights_persisted": False,
+            "surrogate_weights_persisted": False,
+            "prediction_tensor_persisted": False,
+            "candidate_tensor_persisted": False,
+            "npz_saved": False,
+            "cache_saved": False,
+            "image_saved": False,
+            "video_saved": False,
+        },
+    }
+
+
 def run_once(repo: Path, repository: Mapping[str, Any]) -> Mapping[str, Any]:
     frozen_environment = load_frozen_environment(repo)
 
@@ -636,7 +1540,18 @@ def run_once(repo: Path, repository: Mapping[str, Any]) -> Mapping[str, Any]:
     if torch.cuda.is_initialized():
         raise ExecutionError("Stage-F import initialized CUDA")
 
-    base_result = call_validate_base(validate_base, repo)
+    try:
+        base_result = call_validate_base(validate_base, repo)
+    except BaseException as error:
+        if NUMERICAL_EQUIVALENCE_MARKER not in str(error):
+            raise
+        diagnostic = numerical_equivalence_diagnostic(error, torch)
+        require_clean(repo, "main worktree after numerical diagnosis")
+        require_clean(
+            repo / "external/deformable-ravens",
+            "submodule after numerical diagnosis",
+        )
+        return diagnostic_summary(repository, diagnostic)
     if torch.cuda.is_initialized():
         raise ExecutionError("base-evidence validation initialized CUDA")
 
@@ -749,7 +1664,7 @@ def run_once(repo: Path, repository: Mapping[str, Any]) -> Mapping[str, Any]:
 def blocked_payload(error: BaseException, repository: Optional[Mapping[str, Any]]) -> Mapping[str, Any]:
     return {
         "phase": PHASE,
-        "schema": "phase314b_r258_stagef_consolidated_blocked_v2",
+        "schema": "phase314b_r258_stagef_consolidated_blocked_v3",
         "execution_verdict": "BLOCKED",
         "scientific_status": "BLOCKED",
         "root_cause": "phase314b_r258_stagef_consolidated_execution_failed",
