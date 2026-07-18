@@ -1,0 +1,38 @@
+{
+  "frozen_temporal_files": 58,
+  "frozen_temporal_passed": 1503,
+  "generated_sha256": {
+    "ccda_phase3/phase314b_r258_stagef_resume4_head_admission.py": "213761746825ab765d09f7d4372676604ff268207731b159d050fd27d550c8e3",
+    "ccda_phase3/phase314b_r258_stagef_resume4_preflight_evidence.py": "005d11a2d0a2e5eebf70a8a1df86aafded78829ce1db450fc006444bf2ba59a3",
+    "scripts/phase3_14b_r258_stagef_resume4_blocked.py": "6a7bcb5198e73971765dd1913d08213db2f5fdf436470cc6e68acd5200adff67",
+    "scripts/phase3_14b_r258_stagef_resume4_materialize.py": "d5ccda84bcf2ff971b1e4a7176ae8fbd1f18b9a87d63571c203c82d2ee9ac4ff",
+    "scripts/phase3_14b_r258_stagef_resume4_preflight.py": "21bc4da9dd0b3d74747effdbc12535b7fd0518ed51295600fceb81205a0df395",
+    "scripts/phase3_14b_r258_stagef_resume4_run.sh": "8e371ccd77bdb3b8fb8424ebd0b8b5d347e755cfa5b4f11d588ec7fa51ee5176",
+    "scripts/phase3_14b_r258_stagef_resume4_run_calibration.py": "be7d3dc2ff5dbfb67858398b25d18d0c5326f248c49d718891c3946ee3f14cfc",
+    "scripts/phase3_14b_r258_stagef_resume4_test_gate.py": "88b3e4e87b1d8770fb639cbf0ad19066c205a39955c7232ce34b5f9740111e7d",
+    "scripts/phase3_14b_r258_stagef_resume4_worker.py": "b2d7e9afd8586d1c8f571dcf7c3436c494956d680b5f4bee310187f5995c3829",
+    "tests/test_phase3_14b_r258_stagef_resume4_head_admission.py": "9d529c84e21eec2d495ec498ae6bc871661e16f2536c9a62c164126f7f1a91f1"
+  },
+  "input_head": "2cab275171bdcc671f40f86092f19a357226dd18",
+  "legacy_validator_calls_replaced": 1,
+  "operation": "add_only_versioned_head_admission_recovery",
+  "phase": "Phase3.14b-r2.5.8 Stage F Resume4",
+  "python_validator_calls_replaced": 0,
+  "remote_head": "6758ea7ad800667a436b0243d3b1f6c63256d854",
+  "required_ancestors": [
+    "578708d9cd10d1abd1b052ee338dae7ee9cae011",
+    "abe6b8020bfea9d72c1e54bf2e866ee5c285d632",
+    "2cab275171bdcc671f40f86092f19a357226dd18"
+  ],
+  "resume3_blocked_report_sha256": "ef2ce4babeef6b53d797cb17e64f55c34709b443538d81559c5fcf9b906882c7",
+  "scientific_logic_changed": false,
+  "shell_python_heredoc_validator_calls_replaced": 1,
+  "source_sha256": {
+    "scripts/phase3_14b_r258_stagef_resume3_blocked.py": "a964d75ad682c4c6fc8fcb1c905975b1325b7fd3beca43b756f337adfb8e24ff",
+    "scripts/phase3_14b_r258_stagef_resume3_run.sh": "ff43ee206c374e9e7549543d5a283e52001749e558a584a5422fb47722e2a264",
+    "scripts/phase3_14b_r258_stagef_resume3_run_calibration.py": "33f97130bf7f0fc142a53dd8ac9f7f6001d79988ef84ed70dce85921036543f5",
+    "scripts/phase3_14b_r258_stagef_resume3_test_gate.py": "bf77650a098896853859c57e01148ca1cd982de433afc76ace24a4794cf5045d",
+    "scripts/phase3_14b_r258_stagef_resume3_worker.py": "793716c912eb7efb2a8b2f7b18713fe5ce861a1220413544a2a45b0b7c553902"
+  },
+  "submodule_head": "633a88752445cf5d6776ed374fdbbdb35f93050c"
+}
