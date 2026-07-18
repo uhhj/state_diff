@@ -125,6 +125,7 @@ EVIDENCE_MESSAGE = (
 CONDITION_VALUES = staged258.CONDITION_VALUES
 TIMESTEPS = (10, 25, 50)
 ORACLE_INTEGRATOR_ID = "oracle_z4_m2_r25"
+CONSTRAINT_Z_CLIP = 4.0
 
 
 class ConstraintAwareSurrogateError(RuntimeError):
@@ -384,6 +385,10 @@ class ConstraintAwareSpec:
     permutation_margin_min: float = 0.10
     translation_offset_xy: Tuple[float, float] = (0.375, -0.625)
     translation_tolerance: float = 2.0e-5
+    translation_structural_tolerance: float = 1.0e-10
+    translation_float32_z_ulp_factor: float = 8.0
+    translation_float32_z_bound_max: float = 1.0e-2
+    constraint_z_clip: float = CONSTRAINT_Z_CLIP
 
     def validate(self) -> None:
         if self.timesteps != TIMESTEPS:
@@ -424,11 +429,17 @@ class ConstraintAwareSpec:
             self.holdout_projected_condition_min,
             self.permutation_margin_min,
             self.translation_tolerance,
+            self.translation_structural_tolerance,
+            self.translation_float32_z_ulp_factor,
+            self.translation_float32_z_bound_max,
+            self.constraint_z_clip,
         ):
             if float(value) <= 0.0:
                 raise ValueError("positive Stage-F threshold is invalid")
         if not 0.0 <= self.permutation_cosine_max < 1.0:
             raise ValueError("permutation cosine threshold is invalid")
+        if self.constraint_z_clip != CONSTRAINT_Z_CLIP:
+            raise ValueError("constraint z clip changed")
 
 
 def sha256_bytes(payload: bytes) -> str:
@@ -705,16 +716,233 @@ def _control_points(control: np.ndarray) -> np.ndarray:
     return value.reshape(value.shape[0], stageb.FUTURE_STEPS, stageb.BEADS, 2)
 
 
-def constraint_z_features(control: np.ndarray, context: Mapping[str, Any]) -> np.ndarray:
-    lengths = stageb.segment_lengths(np.asarray(control, dtype=np.float32)).astype(np.float64)
+def stable_center_points(value: np.ndarray) -> np.ndarray:
+    """Return centroid-relative points after cancelling translation first.
+
+    This is algebraically identical to ``points - mean(points)`` but avoids
+    subtracting a large global centroid from every point.  The first bead is
+    used only as a numerical origin; the returned coordinates remain centered
+    on the full ordered cable centroid.
+    """
+    points = np.asarray(value, dtype=np.float64)
+    if points.shape[-2:] != (stageb.BEADS, 2):
+        raise ValueError("cable point shape changed")
+    relative = points - points[..., :1, :]
+    centered = relative - np.mean(relative, axis=-2, keepdims=True)
+    if not np.all(np.isfinite(centered)):
+        raise ConstraintAwareSurrogateError("stable centered points are non-finite")
+    return centered
+
+
+def stable_segment_vectors(value: np.ndarray) -> np.ndarray:
+    points = np.asarray(value, dtype=np.float64)
+    if points.shape[-2:] != (stageb.BEADS, 2):
+        raise ValueError("cable point shape changed")
+    result = points[..., 1:, :] - points[..., :-1, :]
+    if not np.all(np.isfinite(result)):
+        raise ConstraintAwareSurrogateError("stable segment vectors are non-finite")
+    return result
+
+
+def stable_relative_robot_features(
+    *,
+    cable: np.ndarray,
+    robot: np.ndarray,
+) -> np.ndarray:
+    cable_points = np.asarray(cable, dtype=np.float64)
+    robot_value = np.asarray(robot, dtype=np.float64)
+    expected = (
+        cable_points.shape[0],
+        stageb.HISTORY_STEPS,
+        staged258.schema_v3.ROBOT_PROXY_DIM,
+    )
+    if robot_value.shape != expected:
+        raise ValueError("robot-proxy shape changed: {}".format(robot_value.shape))
+    relative = cable_points - cable_points[:, :, :1, :]
+    centroid_from_anchor = (
+        cable_points[:, :, 0, :]
+        + np.mean(relative, axis=2)
+    )
+    joint_position = robot_value[
+        :, :, staged258.schema_v3.ROBOT_JOINT_POSITION_SLICE
+    ]
+    joint_velocity = robot_value[
+        :, :, staged258.schema_v3.ROBOT_JOINT_VELOCITY_SLICE
+    ]
+    ee_position = robot_value[
+        :, :, staged258.schema_v3.ROBOT_EE_POSITION_SLICE
+    ]
+    quaternion = robot_value[
+        :, :, staged258.schema_v3.ROBOT_EE_QUATERNION_SLICE
+    ]
+    result = np.concatenate(
+        [
+            joint_position,
+            joint_velocity,
+            ee_position[:, :, :2] - centroid_from_anchor,
+            ee_position[:, :, 2:3],
+            quaternion,
+        ],
+        axis=2,
+    )
+    if result.shape != expected:
+        raise ConstraintAwareSurrogateError(
+            "stable relative robot feature layout changed"
+        )
+    if not np.all(np.isfinite(result)):
+        raise ConstraintAwareSurrogateError(
+            "stable relative robot features are non-finite"
+        )
+    return result.astype(np.float64)
+
+
+def exact_translate_cable_inputs(
+    *,
+    condition: np.ndarray,
+    control: np.ndarray,
+    offset_xy: Sequence[float],
+) -> Tuple[np.ndarray, np.ndarray]:
+    """Translate in float64 without introducing a quantization round trip."""
+    translated_condition = np.asarray(condition, dtype=np.float64).copy()
+    translated_control = np.asarray(control, dtype=np.float64).copy()
+    offset = np.asarray(offset_xy, dtype=np.float64)
+    if offset.shape != (2,):
+        raise ValueError("translation offset shape changed")
+    history = translated_condition[
+        :, : stageb.HISTORY_STEPS * stageb.STATE_DIM
+    ].reshape(
+        translated_condition.shape[0],
+        stageb.HISTORY_STEPS,
+        stageb.STATE_DIM,
+    )
+    cable = history[:, :, : stageb.CABLE_DIM].reshape(
+        translated_condition.shape[0],
+        stageb.HISTORY_STEPS,
+        stageb.BEADS,
+        2,
+    )
+    cable += offset[None, None, None, :]
+    robot = history[:, :, stageb.CABLE_DIM :]
+    ee_position = robot[
+        :, :, staged258.schema_v3.ROBOT_EE_POSITION_SLICE
+    ]
+    ee_position[:, :, :2] += offset[None, None, :]
+    translated_control.reshape(
+        translated_control.shape[0],
+        stageb.FUTURE_STEPS,
+        stageb.BEADS,
+        2,
+    )[:] += offset[None, None, None, :]
+    return translated_condition, translated_control
+
+
+def constraint_z_features(
+    control: np.ndarray,
+    context: Mapping[str, Any],
+) -> np.ndarray:
+    """Return the frozen Stage-E constraint state with saturated log-z.
+
+    Stage F originally used an unbounded ``log(length)`` down to ``1e-12``.
+    Near a collapsed segment, a sub-ULP coordinate perturbation is amplified by
+    ``1 / length`` and can dominate the translation audit.  The Stage-E
+    integrator only distinguishes the robust interval ``[-4, +4]``; values
+    beyond either bound are the same lower/upper violation state.  Saturating
+    the feature at that immutable interval removes the numerical singularity
+    without discarding any decision-relevant constraint information.
+    """
+    points = _control_points(control)
+    lengths = np.linalg.norm(stable_segment_vectors(points), axis=-1)
     reference = context["stage_d_contract"].reference
     reference.validate()
     center = np.asarray(reference.center_log, dtype=np.float64)
     scale = np.asarray(reference.scale_log, dtype=np.float64)
-    z = (np.log(np.maximum(lengths, 1.0e-12)) - center[None]) / scale[None]
+    if center.shape != (stageb.FUTURE_STEPS, stageb.BEADS - 1):
+        raise ConstraintAwareSurrogateError("constraint center shape changed")
+    if scale.shape != center.shape or np.any(scale <= 0.0):
+        raise ConstraintAwareSurrogateError("constraint scale changed")
+    lower_log = center - CONSTRAINT_Z_CLIP * scale
+    upper_log = center + CONSTRAINT_Z_CLIP * scale
+    log_length = np.log(np.maximum(lengths, np.finfo(np.float64).tiny))
+    clipped_log = np.minimum(np.maximum(log_length, lower_log[None]), upper_log[None])
+    z = (clipped_log - center[None]) / scale[None]
+    z = np.clip(z, -CONSTRAINT_Z_CLIP, CONSTRAINT_Z_CLIP)
     if not np.all(np.isfinite(z)):
         raise ConstraintAwareSurrogateError("constraint z features are non-finite")
+    if float(np.max(np.abs(z))) > CONSTRAINT_Z_CLIP + 1.0e-12:
+        raise ConstraintAwareSurrogateError("constraint z saturation failed")
     return z.astype(np.float64)
+
+
+def _feature_block_slices(feature_mode: str) -> Tuple[Tuple[str, slice, str], ...]:
+    if feature_mode == "anchor":
+        return (("anchor", slice(0, 211), "ordinary"),)
+    if feature_mode == "full_centered_constraint":
+        return (
+            ("history_centered", slice(0, 144), "ordinary"),
+            ("relative_robot", slice(144, 201), "ordinary"),
+            ("actions", slice(201, 243), "ordinary"),
+            ("future_centered", slice(243, 435), "ordinary"),
+            ("constraint_z", slice(435, 527), "constraint_z"),
+        )
+    if feature_mode == "full_segment_constraint":
+        return (
+            ("history_segments", slice(0, 138), "ordinary"),
+            ("relative_robot", slice(138, 195), "ordinary"),
+            ("actions", slice(195, 237), "ordinary"),
+            ("future_segments", slice(237, 421), "ordinary"),
+            ("constraint_z", slice(421, 513), "constraint_z"),
+            ("history_centroid_velocity", slice(513, 517), "ordinary"),
+            ("future_centroid_increment", slice(517, 525), "ordinary"),
+        )
+    raise ValueError("unknown feature mode: {}".format(feature_mode))
+
+
+def _float32_constraint_z_bound(
+    *,
+    control: np.ndarray,
+    offset_xy: Sequence[float],
+    context: Mapping[str, Any],
+    spec: ConstraintAwareSpec,
+) -> Dict[str, float]:
+    exact = np.asarray(control, dtype=np.float64).reshape(
+        np.asarray(control).shape[0],
+        stageb.FUTURE_STEPS,
+        stageb.BEADS,
+        2,
+    ).copy()
+    exact += np.asarray(offset_xy, dtype=np.float64)[None, None, None, :]
+    rounded = exact.astype(np.float32)
+    spacing = np.abs(np.spacing(rounded)).astype(np.float64)
+    maximum_spacing = float(np.max(spacing))
+    reference = context["stage_d_contract"].reference
+    reference.validate()
+    center = np.asarray(reference.center_log, dtype=np.float64)
+    scale = np.asarray(reference.scale_log, dtype=np.float64)
+    lower_length = np.exp(center - spec.constraint_z_clip * scale)
+    minimum_lower_length = float(np.min(lower_length))
+    minimum_scale = float(np.min(scale))
+    if minimum_lower_length <= 0.0 or minimum_scale <= 0.0:
+        raise ConstraintAwareSurrogateError("constraint quantization denominator changed")
+    derived = (
+        spec.translation_float32_z_ulp_factor
+        * math.sqrt(2.0)
+        * maximum_spacing
+        / (minimum_lower_length * minimum_scale)
+    )
+    bound = max(float(spec.translation_tolerance), float(derived))
+    if bound > spec.translation_float32_z_bound_max:
+        raise ConstraintAwareSurrogateError(
+            "float32 coordinate resolution is insufficient for constraint-z audit"
+        )
+    return {
+        "maximum_coordinate_spacing": maximum_spacing,
+        "minimum_clipped_segment_length": minimum_lower_length,
+        "minimum_log_scale": minimum_scale,
+        "ulp_factor": float(spec.translation_float32_z_ulp_factor),
+        "derived_bound": float(derived),
+        "applied_bound": float(bound),
+        "maximum_allowed_bound": float(spec.translation_float32_z_bound_max),
+    }
 
 
 def build_constraint_features(
@@ -738,14 +966,14 @@ def build_constraint_features(
         )
     cable, robot, actions = _condition_parts(condition)
     future = _control_points(control)
-    relative_robot = staged258.relative_robot_features(cable=cable, robot=robot)
+    relative_robot = stable_relative_robot_features(cable=cable, robot=robot)
     z = constraint_z_features(control, context)
     if feature_mode == "full_centered_constraint":
         parts = (
-            staged258.center_points(cable).reshape(cable.shape[0], -1),
+            stable_center_points(cable).reshape(cable.shape[0], -1),
             relative_robot.reshape(cable.shape[0], -1),
             actions,
-            staged258.center_points(future).reshape(cable.shape[0], -1),
+            stable_center_points(future).reshape(cable.shape[0], -1),
             z.reshape(cable.shape[0], -1),
         )
         expected_dimension = 527
@@ -758,10 +986,10 @@ def build_constraint_features(
         )
         future_increment = np.diff(future_chain, axis=1)
         parts = (
-            staged258.segment_vectors(cable).reshape(cable.shape[0], -1),
+            stable_segment_vectors(cable).reshape(cable.shape[0], -1),
             relative_robot.reshape(cable.shape[0], -1),
             actions,
-            staged258.segment_vectors(future).reshape(cable.shape[0], -1),
+            stable_segment_vectors(future).reshape(cable.shape[0], -1),
             z.reshape(cable.shape[0], -1),
             history_velocity.reshape(cable.shape[0], -1),
             future_increment.reshape(cable.shape[0], -1),
@@ -787,12 +1015,25 @@ def translation_invariance_audit(
     context: Mapping[str, Any],
     spec: ConstraintAwareSpec,
 ) -> Dict[str, Any]:
-    translated_condition, translated_control = staged258.translate_cable_inputs(
+    """Separate structural invariance from float32 round-trip sensitivity."""
+    spec.validate()
+    exact_condition, exact_control = exact_translate_cable_inputs(
         condition=condition,
         control=control,
         offset_xy=spec.translation_offset_xy,
     )
-    records = {}
+    rounded_condition, rounded_control = staged258.translate_cable_inputs(
+        condition=condition,
+        control=control,
+        offset_xy=spec.translation_offset_xy,
+    )
+    z_bound = _float32_constraint_z_bound(
+        control=control,
+        offset_xy=spec.translation_offset_xy,
+        context=context,
+        spec=spec,
+    )
+    records: Dict[str, Any] = {}
     for mode in ("anchor", "full_centered_constraint", "full_segment_constraint"):
         original = build_constraint_features(
             condition=condition,
@@ -801,30 +1042,81 @@ def translation_invariance_audit(
             feature_mode=mode,
             context=context,
         )
-        translated = build_constraint_features(
-            condition=translated_condition,
-            control=translated_control,
+        exact_translated = build_constraint_features(
+            condition=exact_condition,
+            control=exact_control,
             condition_name=condition_name,
             feature_mode=mode,
             context=context,
         )
-        difference = np.abs(original - translated)
-        maximum = float(np.max(difference))
-        if maximum > spec.translation_tolerance:
+        rounded_translated = build_constraint_features(
+            condition=rounded_condition,
+            control=rounded_control,
+            condition_name=condition_name,
+            feature_mode=mode,
+            context=context,
+        )
+        structural_difference = np.abs(original - exact_translated)
+        structural_maximum = float(np.max(structural_difference))
+        if structural_maximum > spec.translation_structural_tolerance:
             raise ConstraintAwareSurrogateError(
-                "feature mode is not translation invariant: {}".format(mode)
+                "feature mode is structurally translation variant: {}".format(mode)
             )
+        roundtrip_difference = np.abs(original - rounded_translated)
+        block_records = {}
+        for name, block_slice, block_kind in _feature_block_slices(mode):
+            values = roundtrip_difference[:, block_slice]
+            maximum = float(np.max(values)) if values.size else 0.0
+            mean = float(np.mean(values)) if values.size else 0.0
+            tolerance = (
+                float(z_bound["applied_bound"])
+                if block_kind == "constraint_z"
+                else float(spec.translation_tolerance)
+            )
+            if maximum > tolerance:
+                raise ConstraintAwareSurrogateError(
+                    "float32 translation drift exceeds {} block envelope: {}".format(
+                        name, mode
+                    )
+                )
+            block_records[name] = {
+                "kind": block_kind,
+                "start": int(block_slice.start),
+                "stop": int(block_slice.stop),
+                "maximum_absolute_difference": maximum,
+                "mean_absolute_difference": mean,
+                "tolerance": tolerance,
+                "pass": True,
+            }
         records[mode] = {
-            "maximum_absolute_difference": maximum,
-            "mean_absolute_difference": float(np.mean(difference)),
+            "structural": {
+                "maximum_absolute_difference": structural_maximum,
+                "mean_absolute_difference": float(np.mean(structural_difference)),
+                "tolerance": float(spec.translation_structural_tolerance),
+                "pass": True,
+            },
+            "float32_roundtrip": {
+                "maximum_absolute_difference": float(np.max(roundtrip_difference)),
+                "mean_absolute_difference": float(np.mean(roundtrip_difference)),
+                "blocks": block_records,
+                "pass": True,
+            },
             "original_sha256": sha256_array(original),
-            "translated_sha256": sha256_array(translated),
+            "exact_translated_sha256": sha256_array(exact_translated),
+            "rounded_translated_sha256": sha256_array(rounded_translated),
         }
     return {
         "offset_xy": list(spec.translation_offset_xy),
-        "tolerance": float(spec.translation_tolerance),
+        "structural_tolerance": float(spec.translation_structural_tolerance),
+        "ordinary_float32_tolerance": float(spec.translation_tolerance),
+        "constraint_z_clip": float(spec.constraint_z_clip),
+        "constraint_z_quantization_envelope": z_bound,
         "records": records,
         "all_selectable_modes_invariant": True,
+        "audit_interpretation": (
+            "structural symmetry is a float64 hard gate; float32 round-trip "
+            "drift is bounded component-wise after frozen constraint-z saturation"
+        ),
     }
 
 
