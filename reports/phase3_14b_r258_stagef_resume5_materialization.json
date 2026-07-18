@@ -1,0 +1,38 @@
+{
+  "frozen_temporal_files": 58,
+  "frozen_temporal_passed": 1503,
+  "generated_python_bootstraps_inserted": 4,
+  "generated_sha256": {
+    "ccda_phase3/phase314b_r258_stagef_resume5_head_admission.py": "658752fe6d3f10fbf03e0324412483e7ba6cc2e0ab549881de77872a6842b6af",
+    "ccda_phase3/phase314b_r258_stagef_resume5_preflight_evidence.py": "20aaec5336e43f38c9a8fcafde04722a6d0a26293cfa3ed395cf428c516bda3b",
+    "scripts/phase3_14b_r258_stagef_resume5_blocked.py": "be3a4dc0862db27e739c48ec6a25b4fe3c22d57e4d8fed7a4960d12536088fa9",
+    "scripts/phase3_14b_r258_stagef_resume5_materialize.py": "c92a7ef8286e7fa24342f843e00dfefc60218e6cd2877f1ae2d4942d9299fb71",
+    "scripts/phase3_14b_r258_stagef_resume5_preflight.py": "0c4321cbd3ae66c13b945ab11f2e61af6cd4badc011c61516851fcd09facb491",
+    "scripts/phase3_14b_r258_stagef_resume5_run.sh": "b3a544973824e8d01e5eb319ba4025aaf0a9b079d18a91765a5c3eff1246153a",
+    "scripts/phase3_14b_r258_stagef_resume5_run_calibration.py": "037079d852ae1ba7aa91045dd01ae31cf776ba689f1361f18dd39f837c7e09ea",
+    "scripts/phase3_14b_r258_stagef_resume5_test_gate.py": "7b0190b092f73ed15522c405812616a0be8ea4c60105ccf93103f0601d7c6c73",
+    "scripts/phase3_14b_r258_stagef_resume5_worker.py": "9f85c4bfbdec0218f5fa4362e1f4756526e942edf22470a29c9c5c4d2c287e67",
+    "tests/test_phase3_14b_r258_stagef_resume5_import_bootstrap.py": "cf963ad0e7c2d56fc9bf54e7ac8e37fb5915709bcad584a6b20ca9580e555e1c"
+  },
+  "input_head": "23c49349c842a96aefadb91a2c9eac4ea78c131f",
+  "operation": "add_only_script_import_bootstrap_recovery",
+  "phase": "Phase3.14b-r2.5.8 Stage F Resume5",
+  "python_entrypoints_bootstrapped": 6,
+  "remote_head": "6758ea7ad800667a436b0243d3b1f6c63256d854",
+  "resume3_blocked_report_sha256": "ef2ce4babeef6b53d797cb17e64f55c34709b443538d81559c5fcf9b906882c7",
+  "resume4_blocked_report_sha256": "5db2eb2b994a0c8660357fcfdc5f337dc9df2dc81c1df30dd99c28fd8edbcf93",
+  "scientific_logic_changed": false,
+  "shell_environment_bootstraps_inserted": 1,
+  "shell_python_heredoc_bootstraps_inserted": 5,
+  "shell_wrappers_bootstrapped": 1,
+  "source_sha256": {
+    "scripts/phase3_14b_r258_stagef_resume4_blocked.py": "6a7bcb5198e73971765dd1913d08213db2f5fdf436470cc6e68acd5200adff67",
+    "scripts/phase3_14b_r258_stagef_resume4_run.sh": "8e371ccd77bdb3b8fb8424ebd0b8b5d347e755cfa5b4f11d588ec7fa51ee5176",
+    "scripts/phase3_14b_r258_stagef_resume4_run_calibration.py": "be7d3dc2ff5dbfb67858398b25d18d0c5326f248c49d718891c3946ee3f14cfc",
+    "scripts/phase3_14b_r258_stagef_resume4_test_gate.py": "88b3e4e87b1d8770fb639cbf0ad19066c205a39955c7232ce34b5f9740111e7d",
+    "scripts/phase3_14b_r258_stagef_resume4_worker.py": "b2d7e9afd8586d1c8f571dcf7c3436c494956d680b5f4bee310187f5995c3829"
+  },
+  "submodule_head": "633a88752445cf5d6776ed374fdbbdb35f93050c",
+  "title": "Script Import Bootstrap Recovery and Scientific Continuation",
+  "validator_calls_replaced": 2
+}
