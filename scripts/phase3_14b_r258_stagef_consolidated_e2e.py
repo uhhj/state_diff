@@ -39,15 +39,15 @@ REPOSITORY_ROOT = SCRIPT_PATH.parents[1]
 if str(REPOSITORY_ROOT) not in sys.path:
     sys.path.insert(0, str(REPOSITORY_ROOT))
 
-PHASE = "Phase3.14b-r2.5.8 Stage F Execution Consolidation"
-SCHEMA = "phase314b_r258_stagef_consolidated_e2e_v1"
+PHASE = "Phase3.14b-r2.5.8 Stage F Execution Consolidation Correction"
+SCHEMA = "phase314b_r258_stagef_consolidated_e2e_v2"
 DEFAULT_ROOT = Path("/data/state_diff2")
 
 EXPECTED_BRANCH = "Experiment1"
 EXPECTED_REMOTE_HEAD = "6758ea7ad800667a436b0243d3b1f6c63256d854"
 EXPECTED_SUBMODULE = "633a88752445cf5d6776ed374fdbbdb35f93050c"
-EXPECTED_PARENT = "e2fdbeca10df7fbf1925a3c6ec02b8a8a864c851"
-EXPECTED_SUBJECT = "Phase3.14b-r2.5.8 Stage F: consolidate execution path"
+EXPECTED_PARENT = "bb21870c9b12c699a16b2e6a8501a8c163e9550b"
+EXPECTED_SUBJECT = "Phase3.14b-r2.5.8 Stage F: correct consolidated interface validation"
 IMPLEMENTATION_PATH = "scripts/phase3_14b_r258_stagef_consolidated_e2e.py"
 
 STAGEF_ANCHOR = "f41a2364b7283b1eb963d305823804374ddfc8d6"
@@ -67,8 +67,8 @@ STAGEE_PATHS: Tuple[str, ...] = (
 STAGEE_WORKER_EVIDENCE = "reports/phase3_14b_r258_stagee_worker_evidence.json"
 CANONICAL_WORKER = "scripts/phase3_14b_r258_stagef_resume1_worker.py"
 
-SUCCESS_REPORT = "reports/phase3_14b_r258_stagef_consolidated_summary.json"
-BLOCKED_REPORT = "reports/phase3_14b_r258_stagef_consolidated_blocked_summary.json"
+SUCCESS_REPORT = "reports/phase3_14b_r258_stagef_consolidated_v2_summary.json"
+BLOCKED_REPORT = "reports/phase3_14b_r258_stagef_consolidated_v2_blocked_summary.json"
 
 EXPECTED_ENV = {
     "PYTHONHASHSEED": "0",
@@ -102,6 +102,8 @@ COMMIT_BOUND_REPORTS: Mapping[str, str] = {
         "23c49349c842a96aefadb91a2c9eac4ea78c131f",
     "reports/phase3_14b_r258_stagef_resume5_blocked_summary.json":
         "e2fdbeca10df7fbf1925a3c6ec02b8a8a864c851",
+    "reports/phase3_14b_r258_stagef_consolidated_blocked_summary.json":
+        "bb21870c9b12c699a16b2e6a8501a8c163e9550b",
 }
 
 REQUIRED_ANCESTORS: Tuple[str, ...] = (
@@ -114,6 +116,8 @@ REQUIRED_ANCESTORS: Tuple[str, ...] = (
     "23c49349c842a96aefadb91a2c9eac4ea78c131f",
     "3cd48e4d9aabd97a397e482ca8d7fe9eb89a3f90",
     "e2fdbeca10df7fbf1925a3c6ec02b8a8a864c851",
+    "d4c8f5a7f359e1aad7b1298874a2de8ba9d66c02",
+    "bb21870c9b12c699a16b2e6a8501a8c163e9550b",
 )
 
 FORBIDDEN_TRUE_FIELDS: Tuple[str, ...] = (
@@ -314,10 +318,10 @@ def validate_repository(repo: Path) -> Mapping[str, Any]:
     ).split(b"\0")
     if changed and changed[-1] == b"":
         changed.pop()
-    expected_change = [b"A", IMPLEMENTATION_PATH.encode("utf-8")]
+    expected_change = [b"M", IMPLEMENTATION_PATH.encode("utf-8")]
     if changed != expected_change:
         raise ExecutionError(
-            "implementation commit must add only the consolidated runner: "
+            "correction commit must modify only the existing consolidated runner: "
             f"expected={expected_change!r}, actual={changed!r}"
         )
 
@@ -604,19 +608,28 @@ def torch_observation(torch: Any) -> Mapping[str, Any]:
 def run_once(repo: Path, repository: Mapping[str, Any]) -> Mapping[str, Any]:
     frozen_environment = load_frozen_environment(repo)
 
-    canonical_worker = (repo / CANONICAL_WORKER).read_text(encoding="utf-8")
-    for token in ("validate_base_evidence", "run_calibration"):
-        if token not in canonical_worker:
-            raise ExecutionError(
-                f"canonical corrected worker no longer references {token}"
-            )
-
+    # The historical worker is retained and blob-bound as evidence, but it is not
+    # part of the consolidated execution interface.  Source-token searches are
+    # intentionally forbidden here: imports may be aliased, validation may be
+    # internal to run_calibration, and comments are not an API contract.
     import torch  # type: ignore
 
     if torch.cuda.is_initialized():
         raise ExecutionError("CUDA was initialized before Stage-F import")
 
     stagef = importlib.import_module(STAGEF_MODULE)
+    expected_stagef_path = (
+        repo / "ccda_phase3/phase314b_r258_stagef_constraint_aware_surrogate.py"
+    ).resolve()
+    actual_stagef_file = getattr(stagef, "__file__", None)
+    if actual_stagef_file is None:
+        raise ExecutionError("Stage-F module has no __file__ identity")
+    actual_stagef_path = Path(actual_stagef_file).resolve()
+    require_equal(
+        "imported Stage-F module path",
+        str(actual_stagef_path),
+        str(expected_stagef_path),
+    )
     validate_base = required_callable(stagef, "validate_base_evidence")
     run_calibration = required_callable(stagef, "run_calibration")
 
@@ -736,7 +749,7 @@ def run_once(repo: Path, repository: Mapping[str, Any]) -> Mapping[str, Any]:
 def blocked_payload(error: BaseException, repository: Optional[Mapping[str, Any]]) -> Mapping[str, Any]:
     return {
         "phase": PHASE,
-        "schema": "phase314b_r258_stagef_consolidated_blocked_v1",
+        "schema": "phase314b_r258_stagef_consolidated_blocked_v2",
         "execution_verdict": "BLOCKED",
         "scientific_status": "BLOCKED",
         "root_cause": "phase314b_r258_stagef_consolidated_execution_failed",
