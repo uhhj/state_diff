@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
-"""Run one Stage-F base gate and one real calibration in one Python process.
+"""Run one Stage-G base gate and one real calibration in one Python process.
 
-V8 preserves the single-process root-transport boundary and performs one
-predeclared objective-train-only calibration of the float32 ULP safety factor.
-The factor population and selection rule are frozen in the scientific module;
-the maximum clipped-z bound remains 1e-2.  No wrapper, duplicate worker,
-temporal replay, holdout fitting, frozen-probe access, or automatic tolerance
-inference is introduced.
+Stage G keeps the consolidated execution boundary and evaluates one scientific
+mechanism: a grouped-OOF direction model plus a target-independent feasibility/
+progress ranker over a predeclared frozen-integrator scale bank.  No wrapper,
+duplicate worker, temporal replay, holdout fitting, frozen-probe access, or
+automatic threshold inference is introduced.
 """
 
 from __future__ import annotations
@@ -38,27 +37,26 @@ REPOSITORY_ROOT = SCRIPT_PATH.parents[1]
 if str(REPOSITORY_ROOT) not in sys.path:
     sys.path.insert(0, str(REPOSITORY_ROOT))
 
-PHASE = "Phase3.14b-r2.5.8 Stage F Objective-Train ULP Policy Calibration"
-SCHEMA = "phase314b_r258_stagef_consolidated_e2e_v8_ulp_policy"
+PHASE = "Phase3.14b-r2.5.8 Stage G Joint Direction-Feasibility Surrogate"
+SCHEMA = "phase314b_r258_stageg_consolidated_e2e_v1_joint_direction_feasibility"
 DEFAULT_ROOT = Path("/data/state_diff2")
 
 EXPECTED_BRANCH = "Experiment1"
 EXPECTED_REMOTE_HEAD = "6758ea7ad800667a436b0243d3b1f6c63256d854"
 EXPECTED_SUBMODULE = "633a88752445cf5d6776ed374fdbbdb35f93050c"
-EXPECTED_PARENT = "e154a65c1c5a3ffa41d0ba1005b752932421bcf5"
-EXPECTED_SUBJECT = "Phase3.14b-r2.5.8 Stage F: calibrate objective-train ULP admission policy"
+EXPECTED_PARENT = "a00be9cb9ddd2b373fe38edad7742317641a3cb1"
+EXPECTED_SUBJECT = "Phase3.14b-r2.5.8 Stage G: calibrate joint direction feasibility ranker"
 IMPLEMENTATION_PATHS: Tuple[Tuple[str, str], ...] = (
-    ("M", "ccda_phase3/phase314b_r258_stagef_constraint_aware_surrogate.py"),
+    ("A", "ccda_phase3/phase314b_r258_stageg_joint_direction_feasibility.py"),
     ("M", "scripts/phase3_14b_r258_stagef_consolidated_e2e.py"),
-    ("M", "tests/test_phase3_14b_r258_stagef_ulp_bound_formula.py"),
-    ("A", "tests/test_phase3_14b_r258_stagef_ulp_policy_calibration.py"),
+    ("A", "tests/test_phase3_14b_r258_stageg_joint_direction_feasibility.py"),
 )
 
 STAGEF_ANCHOR = "f41a2364b7283b1eb963d305823804374ddfc8d6"
 STAGEE_ANCHOR = "6758ea7ad800667a436b0243d3b1f6c63256d854"
-STAGEF_MODULE = "ccda_phase3.phase314b_r258_stagef_constraint_aware_surrogate"
+STAGEF_MODULE = "ccda_phase3.phase314b_r258_stageg_joint_direction_feasibility"
 STAGEF_SCIENTIFIC_PATH = (
-    "ccda_phase3/phase314b_r258_stagef_constraint_aware_surrogate.py"
+    "ccda_phase3/phase314b_r258_stageg_joint_direction_feasibility.py"
 )
 STAGEF_IMMUTABLE_PATHS: Tuple[str, ...] = (
     "ccda_phase3/phase314b_r258_stagef_resume1_translation_fix.py",
@@ -73,8 +71,8 @@ STAGEE_PATHS: Tuple[str, ...] = (
 STAGEE_WORKER_EVIDENCE = "reports/phase3_14b_r258_stagee_worker_evidence.json"
 CANONICAL_WORKER = "scripts/phase3_14b_r258_stagef_resume1_worker.py"
 
-SUCCESS_REPORT = "reports/phase3_14b_r258_stagef_consolidated_v8_ulp_policy_summary.json"
-BLOCKED_REPORT = "reports/phase3_14b_r258_stagef_consolidated_v8_ulp_policy_blocked_summary.json"
+SUCCESS_REPORT = "reports/phase3_14b_r258_stageg_joint_direction_feasibility_summary.json"
+BLOCKED_REPORT = "reports/phase3_14b_r258_stageg_joint_direction_feasibility_blocked_summary.json"
 
 EXPECTED_ENV = {
     "PYTHONHASHSEED": "0",
@@ -122,6 +120,8 @@ COMMIT_BOUND_REPORTS: Mapping[str, str] = {
         "c27259cbdc5ad79e7bcea998ba405086770db03e",
     "reports/phase3_14b_r258_stagef_consolidated_v7_root_transport_summary.json":
         "e154a65c1c5a3ffa41d0ba1005b752932421bcf5",
+    "reports/phase3_14b_r258_stagef_consolidated_v8_ulp_policy_summary.json":
+        "a00be9cb9ddd2b373fe38edad7742317641a3cb1",
 }
 
 REQUIRED_ANCESTORS: Tuple[str, ...] = (
@@ -148,6 +148,8 @@ REQUIRED_ANCESTORS: Tuple[str, ...] = (
     "c27259cbdc5ad79e7bcea998ba405086770db03e",
     "d6678fc42cb5ad21e3d9e9318d5dcfdc8fdc8192",
     "e154a65c1c5a3ffa41d0ba1005b752932421bcf5",
+    "5a7a910a46963c7bfa9de68aabedd398dc0f92ba",
+    "a00be9cb9ddd2b373fe38edad7742317641a3cb1",
 )
 
 FORBIDDEN_TRUE_FIELDS: Tuple[str, ...] = (
@@ -1948,7 +1950,7 @@ def constraint_z_precision_diagnostic(
         },
         "runtime_numerical_settings": runtime_numerical_observation(torch),
         "exact_gate_relaxed": False,
-        "stagef_scientific_source_modified": True,
+        "stageg_scientific_source_added": True,
         "automatic_tolerance_inferred": False,
         "interpretation": interpretation,
         "required_next_path": required_next,
@@ -2109,15 +2111,13 @@ def run_once(repo: Path, repository: Mapping[str, Any]) -> Mapping[str, Any]:
     import torch  # type: ignore
 
     if torch.cuda.is_initialized():
-        raise ExecutionError("CUDA was initialized before Stage-F import")
+        raise ExecutionError("CUDA was initialized before Stage-G import")
 
     stagef = importlib.import_module(STAGEF_MODULE)
-    expected_stagef_path = (
-        repo / "ccda_phase3/phase314b_r258_stagef_constraint_aware_surrogate.py"
-    ).resolve()
+    expected_stagef_path = (repo / STAGEF_SCIENTIFIC_PATH).resolve()
     actual_stagef_file = getattr(stagef, "__file__", None)
     if actual_stagef_file is None:
-        raise ExecutionError("Stage-F module has no __file__ identity")
+        raise ExecutionError("Stage-G module has no __file__ identity")
     actual_stagef_path = Path(actual_stagef_file).resolve()
     require_equal(
         "imported Stage-F module path",
@@ -2128,7 +2128,7 @@ def run_once(repo: Path, repository: Mapping[str, Any]) -> Mapping[str, Any]:
     run_calibration = required_callable(stagef, "run_calibration")
 
     if torch.cuda.is_initialized():
-        raise ExecutionError("Stage-F import initialized CUDA")
+        raise ExecutionError("Stage-G import initialized CUDA")
 
     try:
         base_result = call_validate_base(validate_base, repo)
@@ -2239,7 +2239,7 @@ def run_once(repo: Path, repository: Mapping[str, Any]) -> Mapping[str, Any]:
 
     runtime = torch_observation(torch)
     if runtime["cuda_initialized"] is not True:
-        raise ExecutionError("real Stage-F calibration did not initialize CUDA")
+        raise ExecutionError("real Stage-G calibration did not initialize CUDA")
 
     result_sha = sha256_bytes(stable_json_bytes(result))
     return {
@@ -2273,8 +2273,8 @@ def run_once(repo: Path, repository: Mapping[str, Any]) -> Mapping[str, Any]:
             "frozen_portable_contract_sha256": repository[
                 "stagee_input_sha256"
             ][STAGEE_WORKER_EVIDENCE],
-            "frozen_contract_passed_to_current_stagef": True,
-            "stagef_scientific_source_modified": True,
+            "frozen_contract_passed_to_current_stageg": True,
+            "stageg_scientific_source_added": True,
             "cold_cuda_before_import": True,
             "cold_cuda_before_calibration": True,
             "current_runtime_after_calibration": runtime,
@@ -2316,10 +2316,10 @@ def run_once(repo: Path, repository: Mapping[str, Any]) -> Mapping[str, Any]:
 def blocked_payload(error: BaseException, repository: Optional[Mapping[str, Any]]) -> Mapping[str, Any]:
     return {
         "phase": PHASE,
-        "schema": "phase314b_r258_stagef_consolidated_blocked_v8_ulp_policy",
+        "schema": "phase314b_r258_stageg_consolidated_blocked_v1_joint_direction_feasibility",
         "execution_verdict": "BLOCKED",
         "scientific_status": "BLOCKED",
-        "root_cause": "phase314b_r258_stagef_consolidated_execution_failed",
+        "root_cause": "phase314b_r258_stageg_consolidated_execution_failed",
         "required_next_path": (
             "INSPECT_THE_SINGLE_CONSOLIDATED_ENTRYPOINT_WITHOUT_ADDING_A_WRAPPER"
         ),
