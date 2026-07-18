@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
-"""Run the Stage-F base gate and calibration through one Python entrypoint.
+"""Run one Stage-F base gate and one real calibration in one Python process.
 
-The entrypoint preserves the historical evidence chain but does not delegate to
-legacy Resume wrappers.  If the portable Stage-C numerical-equivalence gate
-passes, it continues to one real Stage-F calibration in the same process.  If the portable base gate reports a numerical mismatch, it captures the existing
-base-gate diagnosis. If real calibration reaches the constraint-z float32
-precision admission and stops, it captures the live failing frame, coordinate
-round-trip error, segment-length collapse, ULP-to-length ratios, translation
-pairs, and runtime settings. It never infers a tolerance from the failure and
-never persists prediction tensors.
+V6 keeps the structural-zero feature correction and replaces the V5
+``8 * observed z drift`` admission implementation with the frozen-factor,
+segmentwise, clipping-aware endpoint-ULP formula.  If the analytic formula is
+not admitted, the scientific module raises a structured diagnosis that this
+same entrypoint writes as a normal PASS/BLOCKED experiment result.  No legacy
+wrapper, duplicate worker, temporal replay, automatic tolerance inference, or
+forbidden scientific artifact is executed.
 """
 
 from __future__ import annotations
@@ -40,21 +39,21 @@ REPOSITORY_ROOT = SCRIPT_PATH.parents[1]
 if str(REPOSITORY_ROOT) not in sys.path:
     sys.path.insert(0, str(REPOSITORY_ROOT))
 
-PHASE = "Phase3.14b-r2.5.8 Stage F Structural-Zero Feature Correction"
-SCHEMA = "phase314b_r258_stagef_consolidated_e2e_v5_structural_zero"
+PHASE = "Phase3.14b-r2.5.8 Stage F Clipping-Aware ULP Bound Correction"
+SCHEMA = "phase314b_r258_stagef_consolidated_e2e_v6_ulp_bound"
 DEFAULT_ROOT = Path("/data/state_diff2")
 
 EXPECTED_BRANCH = "Experiment1"
 EXPECTED_REMOTE_HEAD = "6758ea7ad800667a436b0243d3b1f6c63256d854"
 EXPECTED_SUBMODULE = "633a88752445cf5d6776ed374fdbbdb35f93050c"
-EXPECTED_PARENT = "14af8bb3aabee09ded040b126c869f97e989362a"
-EXPECTED_SUBJECT = "Phase3.14b-r2.5.8 Stage F: separate structural-zero constraint state"
+EXPECTED_PARENT = "08f1dc835a42e3d4c336e8c3c7757b8158a192e4"
+EXPECTED_SUBJECT = "Phase3.14b-r2.5.8 Stage F: correct clipping-aware ULP bound"
 IMPLEMENTATION_PATHS: Tuple[Tuple[str, str], ...] = (
     ("M", "ccda_phase3/phase314b_r258_stagef_constraint_aware_surrogate.py"),
     ("M", "scripts/phase3_14b_r258_stagef_consolidated_e2e.py"),
-    ("M", "tests/test_phase3_14b_r258_stagef_constraint_aware_surrogate.py"),
     ("M", "tests/test_phase3_14b_r258_stagef_resume1_translation_fix.py"),
-    ("A", "tests/test_phase3_14b_r258_stagef_structural_zero_features.py"),
+    ("M", "tests/test_phase3_14b_r258_stagef_structural_zero_features.py"),
+    ("A", "tests/test_phase3_14b_r258_stagef_ulp_bound_formula.py"),
 )
 
 STAGEF_ANCHOR = "f41a2364b7283b1eb963d305823804374ddfc8d6"
@@ -76,8 +75,8 @@ STAGEE_PATHS: Tuple[str, ...] = (
 STAGEE_WORKER_EVIDENCE = "reports/phase3_14b_r258_stagee_worker_evidence.json"
 CANONICAL_WORKER = "scripts/phase3_14b_r258_stagef_resume1_worker.py"
 
-SUCCESS_REPORT = "reports/phase3_14b_r258_stagef_consolidated_v5_structural_zero_summary.json"
-BLOCKED_REPORT = "reports/phase3_14b_r258_stagef_consolidated_v5_structural_zero_blocked_summary.json"
+SUCCESS_REPORT = "reports/phase3_14b_r258_stagef_consolidated_v6_ulp_bound_summary.json"
+BLOCKED_REPORT = "reports/phase3_14b_r258_stagef_consolidated_v6_ulp_bound_blocked_summary.json"
 
 EXPECTED_ENV = {
     "PYTHONHASHSEED": "0",
@@ -119,6 +118,8 @@ COMMIT_BOUND_REPORTS: Mapping[str, str] = {
         "84bccbc897f5e9736f487b7110d136c24d7b4be6",
     "reports/phase3_14b_r258_stagef_consolidated_v4_precision_summary.json":
         "14af8bb3aabee09ded040b126c869f97e989362a",
+    "reports/phase3_14b_r258_stagef_consolidated_v5_structural_zero_summary.json":
+        "08f1dc835a42e3d4c336e8c3c7757b8158a192e4",
 }
 
 REQUIRED_ANCESTORS: Tuple[str, ...] = (
@@ -139,6 +140,8 @@ REQUIRED_ANCESTORS: Tuple[str, ...] = (
     "84bccbc897f5e9736f487b7110d136c24d7b4be6",
     "02ee4afa59acadc3344ac318c372d527b905581d",
     "14af8bb3aabee09ded040b126c869f97e989362a",
+    "8a03134ac9902e333a53903620825ecd36e49db7",
+    "08f1dc835a42e3d4c336e8c3c7757b8158a192e4",
 )
 
 FORBIDDEN_TRUE_FIELDS: Tuple[str, ...] = (
@@ -2005,6 +2008,83 @@ def precision_diagnostic_summary(
         },
     }
 
+def ulp_formula_diagnostic_summary(
+    repository: Mapping[str, Any],
+    base_result: Any,
+    diagnostic: Mapping[str, Any],
+    required_next_path: str,
+    commands: Sequence[Mapping[str, Any]],
+) -> Mapping[str, Any]:
+    normalized = json_value(diagnostic)
+    result_sha = sha256_bytes(stable_json_bytes(normalized))
+    return {
+        "phase": PHASE,
+        "schema": SCHEMA,
+        "execution_verdict": "PASS",
+        "scientific_status": "BLOCKED",
+        "root_cause": (
+            "phase314b_r258_stagef_constraint_z_ulp_formula_not_admitted"
+        ),
+        "required_next_path": str(required_next_path),
+        "selected_configuration": None,
+        "train_only_recommendation": None,
+        "repository": repository,
+        "execution": {
+            "mode": "one_python_process_one_real_calibration",
+            "pid": os.getpid(),
+            "python_process_count": 1,
+            "child_python_process_count": 0,
+            "observed_non_python_child_commands": list(commands),
+            "legacy_resume_wrappers_executed": False,
+            "duplicate_workers_executed": False,
+            "historical_temporal_gate_replayed": False,
+            "scientific_calibration_started": True,
+            "scientific_calibration_completed": False,
+            "single_run_result_sha256": result_sha,
+        },
+        "base_evidence_validation": {
+            "completed_without_exception": True,
+            "return_type": (
+                f"{type(base_result).__module__}.{type(base_result).__qualname__}"
+            ),
+        },
+        "constraint_z_ulp_formula_diagnosis": normalized,
+        "policy": {
+            "exact_gate_relaxed": False,
+            "ulp_factor_changed": False,
+            "maximum_allowed_bound_changed": False,
+            "automatic_tolerance_inferred": False,
+            "stagef_feature_definition_changed": False,
+            "candidate_matrix_changed": False,
+            "folds_changed": False,
+            "holdout_used_for_bound": False,
+            "frozen_probe_used_for_bound": False,
+        },
+        "boundaries": {
+            "frozen_probe_accessed": False,
+            "selection_holdout_evaluated": (
+                "not_reached_before_ulp_formula_admission_failure"
+            ),
+            "formal_training_run": False,
+            "reverse_sampling_run": False,
+            "idm_run": False,
+            "candidate_execution": False,
+            "deformable_ravens_executed": False,
+            "phase4": False,
+            "cps": False,
+            "checkpoint_saved": False,
+            "weights_persisted": False,
+            "surrogate_weights_persisted": False,
+            "prediction_tensor_persisted": False,
+            "candidate_tensor_persisted": False,
+            "npz_saved": False,
+            "cache_saved": False,
+            "image_saved": False,
+            "video_saved": False,
+        },
+    }
+
+
 def run_once(repo: Path, repository: Mapping[str, Any]) -> Mapping[str, Any]:
     frozen_environment = load_frozen_environment(repo)
 
@@ -2063,6 +2143,8 @@ def run_once(repo: Path, repository: Mapping[str, Any]) -> Mapping[str, Any]:
     os.environ["TORCH_HOME"] = str(temporary_root / "torch")
 
     precision_diagnostic: Optional[Mapping[str, Any]] = None
+    ulp_formula_diagnostic: Optional[Mapping[str, Any]] = None
+    ulp_required_next_path: Optional[str] = None
     precision_commands: Sequence[Mapping[str, Any]] = ()
     try:
         try:
@@ -2073,14 +2155,33 @@ def run_once(repo: Path, repository: Mapping[str, Any]) -> Mapping[str, Any]:
                     frozen_environment,
                 )
         except BaseException as error:
-            if not any(marker in str(error) for marker in CONSTRAINT_Z_PRECISION_MARKERS):
-                raise
-            precision_commands = list(guard.commands)
-            precision_diagnostic = constraint_z_precision_diagnostic(
-                error,
-                stagef,
-                torch,
-            )
+            ulp_error_type = getattr(stagef, "ConstraintZULPAdmissionError", None)
+            if isinstance(ulp_error_type, type) and isinstance(error, ulp_error_type):
+                precision_commands = list(guard.commands)
+                diagnostic_value = getattr(error, "diagnostic", None)
+                next_path_value = getattr(error, "required_next_path", None)
+                if not isinstance(diagnostic_value, Mapping):
+                    raise ExecutionError(
+                        "ULP admission error did not carry a diagnostic mapping"
+                    ) from error
+                if not isinstance(next_path_value, str) or not next_path_value:
+                    raise ExecutionError(
+                        "ULP admission error did not carry a next path"
+                    ) from error
+                ulp_formula_diagnostic = dict(diagnostic_value)
+                ulp_required_next_path = next_path_value
+            else:
+                if not any(
+                    marker in str(error)
+                    for marker in CONSTRAINT_Z_PRECISION_MARKERS
+                ):
+                    raise
+                precision_commands = list(guard.commands)
+                precision_diagnostic = constraint_z_precision_diagnostic(
+                    error,
+                    stagef,
+                    torch,
+                )
     finally:
         for key, previous in previous_cache_env.items():
             if previous is None:
@@ -2088,6 +2189,21 @@ def run_once(repo: Path, repository: Mapping[str, Any]) -> Mapping[str, Any]:
             else:
                 os.environ[key] = previous
         shutil.rmtree(temporary_root, ignore_errors=True)
+
+    if ulp_formula_diagnostic is not None:
+        require_clean(repo, "main worktree after ULP formula diagnosis")
+        require_clean(
+            repo / "external/deformable-ravens",
+            "submodule after ULP formula diagnosis",
+        )
+        assert ulp_required_next_path is not None
+        return ulp_formula_diagnostic_summary(
+            repository,
+            base_result,
+            ulp_formula_diagnostic,
+            ulp_required_next_path,
+            precision_commands,
+        )
 
     if precision_diagnostic is not None:
         require_clean(repo, "main worktree after precision diagnosis")
@@ -2186,7 +2302,7 @@ def run_once(repo: Path, repository: Mapping[str, Any]) -> Mapping[str, Any]:
 def blocked_payload(error: BaseException, repository: Optional[Mapping[str, Any]]) -> Mapping[str, Any]:
     return {
         "phase": PHASE,
-        "schema": "phase314b_r258_stagef_consolidated_blocked_v5_structural_zero",
+        "schema": "phase314b_r258_stagef_consolidated_blocked_v6_ulp_bound",
         "execution_verdict": "BLOCKED",
         "scientific_status": "BLOCKED",
         "root_cause": "phase314b_r258_stagef_consolidated_execution_failed",

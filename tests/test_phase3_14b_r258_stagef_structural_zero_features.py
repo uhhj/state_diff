@@ -91,6 +91,10 @@ def test_quantization_bound_excludes_structural_zero_segments():
     assert result["structural_zero_count"] == 3 * 4 * 2
     assert result["resolvable_segment_count"] == 3 * 4 * 21
     assert result["applied_bound"] <= result["maximum_allowed_bound"]
+    assert result["formula_covers_observed"] is True
+    assert result["formula_diagnostic"][
+        "comparison_with_prior_implementations"
+    ]["segmentwise_clipping_aware_bound_pass"] is True
 
 
 def test_feature_dimensions_include_explicit_mask():

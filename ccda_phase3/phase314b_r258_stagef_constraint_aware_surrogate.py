@@ -136,6 +136,21 @@ class ConstraintAwareSurrogateError(RuntimeError):
     """Raised when evidence, leakage, fitting, or selection invariants fail."""
 
 
+class ConstraintZULPAdmissionError(ConstraintAwareSurrogateError):
+    """Carry a bounded, JSON-safe ULP-formula diagnosis to the single runner."""
+
+    def __init__(
+        self,
+        message: str,
+        *,
+        diagnostic: Mapping[str, Any],
+        required_next_path: str,
+    ) -> None:
+        super().__init__(message)
+        self.diagnostic = copy.deepcopy(dict(diagnostic))
+        self.required_next_path = str(required_next_path)
+
+
 @dataclass(frozen=True)
 class ConstraintAwareDefinition:
     candidate_id: str
@@ -877,10 +892,9 @@ def constraint_z_features(
 def structural_zero_mask(control: np.ndarray) -> np.ndarray:
     """Return the exact discrete mask for duplicated adjacent cable beads.
 
-    The mask is deliberately threshold-free.  V4 proved that nonzero segments
-    do not collapse under the float32 translation round trip, so introducing a
-    learned or tolerance-based threshold would merge resolvable geometry with
-    a structural state and could create train/holdout leakage.
+    The mask uses componentwise equality of adjacent segment vectors.  V4
+    established that resolvable segments survive the frozen float32 translation
+    round trip, so the discrete state remains separate from continuous z.
     """
     vectors = stable_segment_vectors(_control_points(control))
     mask = np.all(vectors == 0.0, axis=-1)
@@ -959,6 +973,82 @@ def _feature_block_slices(feature_mode: str) -> Tuple[Tuple[str, slice, str], ..
     raise ValueError("unknown feature mode: {}".format(feature_mode))
 
 
+def _constraint_z_from_lengths(
+    *,
+    lengths: np.ndarray,
+    center: np.ndarray,
+    scale: np.ndarray,
+    clip: float,
+) -> np.ndarray:
+    value = np.asarray(lengths, dtype=np.float64)
+    lower_log = center - float(clip) * scale
+    upper_log = center + float(clip) * scale
+    log_length = np.log(np.maximum(value, np.finfo(np.float64).tiny))
+    clipped_log = np.minimum(
+        np.maximum(log_length, lower_log[None]),
+        upper_log[None],
+    )
+    result = (clipped_log - center[None]) / scale[None]
+    return np.clip(result, -float(clip), float(clip)).astype(np.float64)
+
+
+def _worst_ulp_formula_records(
+    *,
+    resolvable: np.ndarray,
+    source_lengths: np.ndarray,
+    rounded_lengths: np.ndarray,
+    scale: np.ndarray,
+    source_z: np.ndarray,
+    rounded_z: np.ndarray,
+    observed_z_difference: np.ndarray,
+    observed_length_error: np.ndarray,
+    full_endpoint_ulp_norm: np.ndarray,
+    half_endpoint_ulp_norm: np.ndarray,
+    safety_length_error: np.ndarray,
+    safety_relative_error: np.ndarray,
+    clipping_aware_bound: np.ndarray,
+    limit: float,
+    count: int = 24,
+) -> List[Dict[str, Any]]:
+    score = np.maximum(
+        clipping_aware_bound / float(limit),
+        observed_z_difference / float(limit),
+    )
+    score = np.where(resolvable, score, -np.inf)
+    flat_order = np.argsort(score.reshape(-1))[::-1]
+    records: List[Dict[str, Any]] = []
+    for flat_index in flat_order:
+        if len(records) >= int(count):
+            break
+        index = tuple(int(value) for value in np.unravel_index(flat_index, score.shape))
+        if not bool(resolvable[index]):
+            continue
+        horizon = index[1]
+        segment = index[2]
+        records.append(
+            {
+                "row": index[0],
+                "horizon_index": horizon,
+                "segment_index": segment,
+                "source_length": float(source_lengths[index]),
+                "rounded_length": float(rounded_lengths[index]),
+                "scale_log": float(scale[horizon, segment]),
+                "source_z": float(source_z[index]),
+                "rounded_z": float(rounded_z[index]),
+                "observed_z_difference": float(observed_z_difference[index]),
+                "observed_length_error": float(observed_length_error[index]),
+                "full_endpoint_ulp_norm": float(full_endpoint_ulp_norm[index]),
+                "half_endpoint_ulp_norm": float(half_endpoint_ulp_norm[index]),
+                "safety_length_error": float(safety_length_error[index]),
+                "safety_relative_error": float(safety_relative_error[index]),
+                "clipping_aware_z_bound": float(clipping_aware_bound[index]),
+                "source_lower_clipped": bool(source_z[index] <= -CONSTRAINT_Z_CLIP),
+                "source_upper_clipped": bool(source_z[index] >= CONSTRAINT_Z_CLIP),
+            }
+        )
+    return records
+
+
 def _float32_constraint_z_bound(
     *,
     control: np.ndarray,
@@ -966,20 +1056,23 @@ def _float32_constraint_z_bound(
     context: Mapping[str, Any],
     spec: ConstraintAwareSpec,
 ) -> Dict[str, Any]:
-    """Bound translation drift only on resolvable continuous segments.
+    """Apply a segmentwise, clipping-aware float32 ULP propagation bound.
 
-    Structural zeros are an exact discrete state and are excluded from the
-    continuous log-z envelope.  Their mask must remain byte-exact under the
-    frozen float32 translation path.  The continuous bound is derived from the
-    observed deterministic round trip, multiplied by the already frozen ULP
-    safety factor, and remains capped by the existing 1e-2 admission maximum.
+    V5 separated exact structural zeros, but its admission implementation still
+    multiplied the *observed* z drift by the frozen ULP safety factor.  That is
+    not an ULP error-propagation formula.  This function applies the unchanged
+    factor to the round-to-nearest endpoint uncertainty, propagates the length
+    interval through the exact clipped log-z transform, and checks the existing
+    1e-2 maximum.  No tolerance, split, candidate, or holdout policy changes.
     """
     control_value = np.asarray(control)
     source_points = _control_points(control_value)
-    exact_translated = source_points + np.asarray(
-        offset_xy, dtype=np.float64
-    )[None, None, None, :]
-    rounded_points = exact_translated.astype(np.float32).astype(np.float64)
+    offset = np.asarray(offset_xy, dtype=np.float64)
+    if offset.shape != (2,):
+        raise ValueError("translation offset shape changed")
+    exact_translated = source_points + offset[None, None, None, :]
+    rounded_float32 = exact_translated.astype(np.float32)
+    rounded_points = rounded_float32.astype(np.float64)
     rounded_control = rounded_points.reshape(
         control_value.shape[0],
         stageb.FUTURE_STEPS,
@@ -1016,31 +1109,228 @@ def _float32_constraint_z_bound(
             "float32 translation collapsed a resolvable segment"
         )
 
-    source_z = source_state["constraint_z_resolvable"]
-    rounded_z = rounded_state["constraint_z_resolvable"]
-    z_difference = np.abs(source_z - rounded_z)
-    maximum_observed = float(np.max(z_difference[resolvable]))
-    mean_observed = float(np.mean(z_difference[resolvable]))
-    derived = float(spec.translation_float32_z_ulp_factor) * maximum_observed
-    bound = max(float(spec.translation_tolerance), float(derived))
-    if bound > spec.translation_float32_z_bound_max:
-        raise ConstraintAwareSurrogateError(
-            "float32 coordinate resolution is insufficient for resolvable constraint-z audit"
-        )
-
-    spacing = np.abs(np.spacing(exact_translated.astype(np.float32))).astype(
-        np.float64
-    )
-    endpoint_spacing = np.linalg.norm(
-        spacing[..., 1:, :] + spacing[..., :-1, :], axis=-1
-    )
-    ratio = endpoint_spacing[resolvable] / source_lengths[resolvable]
-
     reference = context["stage_d_contract"].reference
     reference.validate()
     center = np.asarray(reference.center_log, dtype=np.float64)
     scale = np.asarray(reference.scale_log, dtype=np.float64)
+    if center.shape != (stageb.FUTURE_STEPS, stageb.BEADS - 1):
+        raise ConstraintAwareSurrogateError("constraint center shape changed")
+    if scale.shape != center.shape or np.any(scale <= 0.0):
+        raise ConstraintAwareSurrogateError("constraint scale changed")
+
+    source_z = source_state["constraint_z_resolvable"]
+    rounded_z = rounded_state["constraint_z_resolvable"]
+    observed_z_difference = np.abs(source_z - rounded_z)
+    maximum_observed = float(np.max(observed_z_difference[resolvable]))
+    mean_observed = float(np.mean(observed_z_difference[resolvable]))
+
+    # IEEE round-to-nearest error is at most one half ULP per endpoint
+    # coordinate.  Summing the two endpoint coordinate bounds and taking the
+    # Euclidean norm gives a segment-length perturbation bound.  The historical
+    # factor=8 is then applied unchanged to that uncertainty, not to observed z.
+    spacing = np.abs(np.spacing(rounded_float32)).astype(np.float64)
+    full_endpoint_ulp_vector = spacing[..., 1:, :] + spacing[..., :-1, :]
+    full_endpoint_ulp_norm = np.linalg.norm(full_endpoint_ulp_vector, axis=-1)
+    half_endpoint_ulp_norm = 0.5 * full_endpoint_ulp_norm
+    observed_length_error = np.abs(rounded_lengths - source_lengths)
+    length_error_excess = observed_length_error - half_endpoint_ulp_norm
+    numerical_slack = 64.0 * np.finfo(np.float64).eps
+    maximum_length_error_excess = float(
+        np.max(length_error_excess[resolvable])
+    )
+    rounding_model_covers_length = bool(
+        maximum_length_error_excess <= numerical_slack
+    )
+    safety_length_error = (
+        float(spec.translation_float32_z_ulp_factor)
+        * half_endpoint_ulp_norm
+    )
+    safety_relative_error = np.zeros_like(source_lengths, dtype=np.float64)
+    safety_relative_error[resolvable] = (
+        safety_length_error[resolvable] / source_lengths[resolvable]
+    )
+
+    lower_lengths = np.maximum(
+        source_lengths - safety_length_error,
+        np.finfo(np.float64).tiny,
+    )
+    upper_lengths = source_lengths + safety_length_error
+    lower_z = _constraint_z_from_lengths(
+        lengths=lower_lengths,
+        center=center,
+        scale=scale,
+        clip=spec.constraint_z_clip,
+    )
+    upper_z = _constraint_z_from_lengths(
+        lengths=upper_lengths,
+        center=center,
+        scale=scale,
+        clip=spec.constraint_z_clip,
+    )
+    clipping_aware_bound = np.maximum(
+        np.abs(lower_z - source_z),
+        np.abs(upper_z - source_z),
+    )
+    clipping_aware_bound = np.where(resolvable, clipping_aware_bound, 0.0)
+    maximum_formula_bound = float(np.max(clipping_aware_bound[resolvable]))
+    mean_formula_bound = float(np.mean(clipping_aware_bound[resolvable]))
+
+    observed_excess = observed_z_difference - clipping_aware_bound
+    maximum_observed_excess = float(np.max(observed_excess[resolvable]))
+    formula_covers_observed = bool(maximum_observed_excess <= numerical_slack)
+
     lower_length = np.exp(center - spec.constraint_z_clip * scale)
+    minimum_lower_length = float(np.min(lower_length))
+    minimum_scale = float(np.min(scale))
+    maximum_spacing = float(np.max(spacing))
+    historical_global_bound = (
+        float(spec.translation_float32_z_ulp_factor)
+        * math.sqrt(2.0)
+        * maximum_spacing
+        / (minimum_lower_length * minimum_scale)
+    )
+    v5_empirical_bound = (
+        float(spec.translation_float32_z_ulp_factor) * maximum_observed
+    )
+    applied_bound = max(
+        float(spec.translation_tolerance),
+        float(maximum_formula_bound),
+    )
+    maximum_allowed = float(spec.translation_float32_z_bound_max)
+
+    diagnostic: Dict[str, Any] = {
+        "schema": "phase314b_r258_stagef_constraint_z_ulp_formula_v1",
+        "admission_formula": (
+            "segmentwise_round_to_nearest_endpoint_half_ulp_"
+            "times_frozen_factor_then_exact_clipped_log_z_interval"
+        ),
+        "structural_zero_policy": "exact_adjacent_bead_equality",
+        "structural_zero_count": structural_zero_count,
+        "resolvable_segment_count": resolvable_count,
+        "mask_roundtrip_exact": True,
+        "float32_cast_collapse_count": 0,
+        "frozen_parameters": {
+            "ulp_factor": float(spec.translation_float32_z_ulp_factor),
+            "ordinary_translation_tolerance": float(spec.translation_tolerance),
+            "maximum_allowed_bound": maximum_allowed,
+            "constraint_z_clip": float(spec.constraint_z_clip),
+        },
+        "coordinate_and_geometry": {
+            "maximum_coordinate_spacing": maximum_spacing,
+            "minimum_clipped_segment_length": minimum_lower_length,
+            "minimum_resolvable_segment_length": float(
+                np.min(source_lengths[resolvable])
+            ),
+            "minimum_log_scale": minimum_scale,
+            "maximum_full_endpoint_ulp_norm_over_source_length": float(
+                np.max(
+                    full_endpoint_ulp_norm[resolvable]
+                    / source_lengths[resolvable]
+                )
+            ),
+            "maximum_half_endpoint_ulp_norm_over_source_length": float(
+                np.max(
+                    half_endpoint_ulp_norm[resolvable]
+                    / source_lengths[resolvable]
+                )
+            ),
+            "maximum_safety_relative_length_error": float(
+                np.max(safety_relative_error[resolvable])
+            ),
+        },
+        "observed_roundtrip": {
+            "maximum_resolvable_length_difference": float(
+                np.max(observed_length_error[resolvable])
+            ),
+            "maximum_length_error_minus_half_ulp_bound": (
+                maximum_length_error_excess
+            ),
+            "round_to_nearest_half_ulp_model_covers_length": (
+                rounding_model_covers_length
+            ),
+            "maximum_resolvable_z_difference": maximum_observed,
+            "mean_resolvable_z_difference": mean_observed,
+        },
+        "formula_result": {
+            "maximum_clipping_aware_z_bound": maximum_formula_bound,
+            "mean_clipping_aware_z_bound": mean_formula_bound,
+            "applied_bound": float(applied_bound),
+            "maximum_allowed_bound": maximum_allowed,
+            "formula_covers_observed": formula_covers_observed,
+            "maximum_observed_minus_formula_bound": maximum_observed_excess,
+        },
+        "comparison_with_prior_implementations": {
+            "historical_global_extrema_bound": float(historical_global_bound),
+            "v5_empirical_drift_times_factor_bound": float(v5_empirical_bound),
+            "historical_global_bound_pass": bool(
+                historical_global_bound <= maximum_allowed
+            ),
+            "v5_empirical_bound_pass": bool(
+                max(float(spec.translation_tolerance), v5_empirical_bound)
+                <= maximum_allowed
+            ),
+            "segmentwise_clipping_aware_bound_pass": bool(
+                applied_bound <= maximum_allowed
+            ),
+        },
+        "worst_segments": _worst_ulp_formula_records(
+            resolvable=resolvable,
+            source_lengths=source_lengths,
+            rounded_lengths=rounded_lengths,
+            scale=scale,
+            source_z=source_z,
+            rounded_z=rounded_z,
+            observed_z_difference=observed_z_difference,
+            observed_length_error=observed_length_error,
+            full_endpoint_ulp_norm=full_endpoint_ulp_norm,
+            half_endpoint_ulp_norm=half_endpoint_ulp_norm,
+            safety_length_error=safety_length_error,
+            safety_relative_error=safety_relative_error,
+            clipping_aware_bound=clipping_aware_bound,
+            limit=maximum_allowed,
+        ),
+        "policy": {
+            "exact_gate_relaxed": False,
+            "ulp_factor_changed": False,
+            "maximum_allowed_bound_changed": False,
+            "holdout_used": False,
+            "frozen_probe_used": False,
+            "automatic_tolerance_inferred": False,
+        },
+    }
+
+    if not rounding_model_covers_length:
+        raise ConstraintZULPAdmissionError(
+            "observed segment-length drift exceeds the half-ULP rounding model",
+            diagnostic=diagnostic,
+            required_next_path=(
+                "AUDIT_FLOAT32_ENDPOINT_ROUNDING_MODEL_BEFORE_ANY_BOUND_CHANGE"
+            ),
+        )
+    if not formula_covers_observed:
+        raise ConstraintZULPAdmissionError(
+            "observed float32 z drift exceeds the segmentwise ULP formula",
+            diagnostic=diagnostic,
+            required_next_path=(
+                "AUDIT_FLOAT32_ROUNDING_ERROR_MODEL_BEFORE_ANY_BOUND_CHANGE"
+            ),
+        )
+    if applied_bound > maximum_allowed:
+        if maximum_observed <= maximum_allowed:
+            next_path = (
+                "REVIEW_FROZEN_ULP_FACTOR_AND_BOUND_MAX_WITH_"
+                "PREDECLARED_OBJECTIVE_TRAIN_ONLY_POLICY"
+            )
+        else:
+            next_path = (
+                "REDESIGN_CONSTRAINT_Z_TRANSLATION_NUMERICS_ON_"
+                "OBJECTIVE_TRAIN_ONLY"
+            )
+        raise ConstraintZULPAdmissionError(
+            "segmentwise clipping-aware ULP bound exceeds frozen maximum",
+            diagnostic=diagnostic,
+            required_next_path=next_path,
+        )
 
     return {
         "structural_zero_policy": "exact_adjacent_bead_equality",
@@ -1048,18 +1338,26 @@ def _float32_constraint_z_bound(
         "resolvable_segment_count": resolvable_count,
         "mask_roundtrip_exact": True,
         "float32_cast_collapse_count": 0,
-        "maximum_coordinate_spacing": float(np.max(spacing)),
-        "minimum_clipped_segment_length": float(np.min(lower_length)),
+        "maximum_coordinate_spacing": maximum_spacing,
+        "minimum_clipped_segment_length": minimum_lower_length,
         "minimum_resolvable_segment_length": float(
             np.min(source_lengths[resolvable])
         ),
-        "maximum_endpoint_ulp_norm_over_source_length": float(np.max(ratio)),
+        "maximum_endpoint_ulp_norm_over_source_length": float(
+            np.max(
+                full_endpoint_ulp_norm[resolvable]
+                / source_lengths[resolvable]
+            )
+        ),
         "maximum_observed_resolvable_z_difference": maximum_observed,
         "mean_observed_resolvable_z_difference": mean_observed,
         "ulp_factor": float(spec.translation_float32_z_ulp_factor),
-        "derived_bound": float(derived),
-        "applied_bound": float(bound),
-        "maximum_allowed_bound": float(spec.translation_float32_z_bound_max),
+        "derived_bound": float(maximum_formula_bound),
+        "applied_bound": float(applied_bound),
+        "maximum_allowed_bound": maximum_allowed,
+        "admission_formula": diagnostic["admission_formula"],
+        "formula_covers_observed": True,
+        "formula_diagnostic": diagnostic,
     }
 
 

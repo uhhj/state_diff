@@ -280,6 +280,8 @@ def test_constraint_z_float32_drift_within_derived_envelope():
     )
     assert float(np.max(difference)) <= envelope["applied_bound"]
     assert envelope["applied_bound"] <= envelope["maximum_allowed_bound"]
+    assert envelope["formula_covers_observed"] is True
+    assert "segmentwise" in envelope["admission_formula"]
 
 
 @pytest.mark.parametrize(
@@ -391,6 +393,8 @@ def test_translation_audit_records_ulp_envelope():
     assert envelope["maximum_coordinate_spacing"] > 0.0
     assert envelope["minimum_clipped_segment_length"] > 0.0
     assert envelope["applied_bound"] <= 1.0e-2
+    assert envelope["formula_covers_observed"] is True
+    assert envelope["formula_diagnostic"]["policy"]["exact_gate_relaxed"] is False
 
 
 def test_translation_audit_rejects_insufficient_coordinate_resolution():
