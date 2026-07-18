@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 """Run one Stage-F base gate and one real calibration in one Python process.
 
-V7 preserves the admitted clipping-aware ULP implementation and corrects only
-the command-line transport boundary.  A terminal CR/LF sequence accidentally
-introduced by a remote shell transport is removed from ``--root`` before path
-resolution.  Interior line terminators remain invalid, general whitespace is
-not stripped, and the normalization is recorded in the write-once evidence.
-No wrapper, duplicate worker, temporal replay, tolerance change, or scientific
-source change is introduced.
+V8 preserves the single-process root-transport boundary and performs one
+predeclared objective-train-only calibration of the float32 ULP safety factor.
+The factor population and selection rule are frozen in the scientific module;
+the maximum clipped-z bound remains 1e-2.  No wrapper, duplicate worker,
+temporal replay, holdout fitting, frozen-probe access, or automatic tolerance
+inference is introduced.
 """
 
 from __future__ import annotations
@@ -39,17 +38,20 @@ REPOSITORY_ROOT = SCRIPT_PATH.parents[1]
 if str(REPOSITORY_ROOT) not in sys.path:
     sys.path.insert(0, str(REPOSITORY_ROOT))
 
-PHASE = "Phase3.14b-r2.5.8 Stage F Consolidated Root-Transport Correction"
-SCHEMA = "phase314b_r258_stagef_consolidated_e2e_v7_root_transport"
+PHASE = "Phase3.14b-r2.5.8 Stage F Objective-Train ULP Policy Calibration"
+SCHEMA = "phase314b_r258_stagef_consolidated_e2e_v8_ulp_policy"
 DEFAULT_ROOT = Path("/data/state_diff2")
 
 EXPECTED_BRANCH = "Experiment1"
 EXPECTED_REMOTE_HEAD = "6758ea7ad800667a436b0243d3b1f6c63256d854"
 EXPECTED_SUBMODULE = "633a88752445cf5d6776ed374fdbbdb35f93050c"
-EXPECTED_PARENT = "c27259cbdc5ad79e7bcea998ba405086770db03e"
-EXPECTED_SUBJECT = "Phase3.14b-r2.5.8 Stage F: normalize consolidated root transport"
+EXPECTED_PARENT = "e154a65c1c5a3ffa41d0ba1005b752932421bcf5"
+EXPECTED_SUBJECT = "Phase3.14b-r2.5.8 Stage F: calibrate objective-train ULP admission policy"
 IMPLEMENTATION_PATHS: Tuple[Tuple[str, str], ...] = (
+    ("M", "ccda_phase3/phase314b_r258_stagef_constraint_aware_surrogate.py"),
     ("M", "scripts/phase3_14b_r258_stagef_consolidated_e2e.py"),
+    ("M", "tests/test_phase3_14b_r258_stagef_ulp_bound_formula.py"),
+    ("A", "tests/test_phase3_14b_r258_stagef_ulp_policy_calibration.py"),
 )
 
 STAGEF_ANCHOR = "f41a2364b7283b1eb963d305823804374ddfc8d6"
@@ -71,8 +73,8 @@ STAGEE_PATHS: Tuple[str, ...] = (
 STAGEE_WORKER_EVIDENCE = "reports/phase3_14b_r258_stagee_worker_evidence.json"
 CANONICAL_WORKER = "scripts/phase3_14b_r258_stagef_resume1_worker.py"
 
-SUCCESS_REPORT = "reports/phase3_14b_r258_stagef_consolidated_v7_root_transport_summary.json"
-BLOCKED_REPORT = "reports/phase3_14b_r258_stagef_consolidated_v7_root_transport_blocked_summary.json"
+SUCCESS_REPORT = "reports/phase3_14b_r258_stagef_consolidated_v8_ulp_policy_summary.json"
+BLOCKED_REPORT = "reports/phase3_14b_r258_stagef_consolidated_v8_ulp_policy_blocked_summary.json"
 
 EXPECTED_ENV = {
     "PYTHONHASHSEED": "0",
@@ -118,6 +120,8 @@ COMMIT_BOUND_REPORTS: Mapping[str, str] = {
         "08f1dc835a42e3d4c336e8c3c7757b8158a192e4",
     "reports/phase3_14b_r258_stagef_consolidated_v6_ulp_bound_blocked_summary.json":
         "c27259cbdc5ad79e7bcea998ba405086770db03e",
+    "reports/phase3_14b_r258_stagef_consolidated_v7_root_transport_summary.json":
+        "e154a65c1c5a3ffa41d0ba1005b752932421bcf5",
 }
 
 REQUIRED_ANCESTORS: Tuple[str, ...] = (
@@ -142,6 +146,8 @@ REQUIRED_ANCESTORS: Tuple[str, ...] = (
     "08f1dc835a42e3d4c336e8c3c7757b8158a192e4",
     "1e1e78faae2a62d3270e20cb13ffb387a2b280b6",
     "c27259cbdc5ad79e7bcea998ba405086770db03e",
+    "d6678fc42cb5ad21e3d9e9318d5dcfdc8fdc8192",
+    "e154a65c1c5a3ffa41d0ba1005b752932421bcf5",
 )
 
 FORBIDDEN_TRUE_FIELDS: Tuple[str, ...] = (
@@ -2017,13 +2023,21 @@ def ulp_formula_diagnostic_summary(
 ) -> Mapping[str, Any]:
     normalized = json_value(diagnostic)
     result_sha = sha256_bytes(stable_json_bytes(normalized))
+    diagnostic_schema = (
+        normalized.get("schema") if isinstance(normalized, Mapping) else None
+    )
+    policy_failure = (
+        diagnostic_schema == "phase314b_r258_stagef_ulp_admission_policy_v1"
+    )
     return {
         "phase": PHASE,
         "schema": SCHEMA,
         "execution_verdict": "PASS",
         "scientific_status": "BLOCKED",
         "root_cause": (
-            "phase314b_r258_stagef_constraint_z_ulp_formula_not_admitted"
+            "phase314b_r258_stagef_ulp_admission_policy_not_admitted"
+            if policy_failure
+            else "phase314b_r258_stagef_constraint_z_ulp_formula_not_admitted"
         ),
         "required_next_path": str(required_next_path),
         "selected_configuration": None,
@@ -2048,10 +2062,10 @@ def ulp_formula_diagnostic_summary(
                 f"{type(base_result).__module__}.{type(base_result).__qualname__}"
             ),
         },
-        "constraint_z_ulp_formula_diagnosis": normalized,
+        "constraint_z_ulp_diagnosis": normalized,
         "policy": {
             "exact_gate_relaxed": False,
-            "ulp_factor_changed": False,
+            "ulp_factor_selected_from_predeclared_population": True,
             "maximum_allowed_bound_changed": False,
             "automatic_tolerance_inferred": False,
             "stagef_feature_definition_changed": False,
@@ -2063,7 +2077,7 @@ def ulp_formula_diagnostic_summary(
         "boundaries": {
             "frozen_probe_accessed": False,
             "selection_holdout_evaluated": (
-                "not_reached_before_ulp_formula_admission_failure"
+                "not_reached_before_ulp_policy_or_formula_admission_failure"
             ),
             "formal_training_run": False,
             "reverse_sampling_run": False,
@@ -2302,7 +2316,7 @@ def run_once(repo: Path, repository: Mapping[str, Any]) -> Mapping[str, Any]:
 def blocked_payload(error: BaseException, repository: Optional[Mapping[str, Any]]) -> Mapping[str, Any]:
     return {
         "phase": PHASE,
-        "schema": "phase314b_r258_stagef_consolidated_blocked_v7_root_transport",
+        "schema": "phase314b_r258_stagef_consolidated_blocked_v8_ulp_policy",
         "execution_verdict": "BLOCKED",
         "scientific_status": "BLOCKED",
         "root_cause": "phase314b_r258_stagef_consolidated_execution_failed",

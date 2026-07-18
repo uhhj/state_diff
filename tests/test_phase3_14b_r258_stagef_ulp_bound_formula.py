@@ -119,14 +119,15 @@ def test_formula_error_carries_json_safe_diagnosis_without_relaxation():
     error = captured.value
     assert isinstance(error.diagnostic, dict)
     assert error.required_next_path
-    assert error.diagnostic["policy"] == {
-        "exact_gate_relaxed": False,
-        "ulp_factor_changed": False,
-        "maximum_allowed_bound_changed": False,
-        "holdout_used": False,
-        "frozen_probe_used": False,
-        "automatic_tolerance_inferred": False,
-    }
+    policy = error.diagnostic["policy"]
+    assert policy["exact_gate_relaxed"] is False
+    assert policy["ulp_factor_changed"] is False
+    assert policy["factor_selected_from_predeclared_population"] is True
+    assert policy["maximum_allowed_bound_changed"] is False
+    assert policy["holdout_used"] is False
+    assert policy["frozen_probe_used"] is False
+    assert policy["automatic_tolerance_inferred"] is False
+    assert policy["admission_enforced"] is True
 
 
 def test_v5_empirical_multiplier_is_comparison_only_not_admission():

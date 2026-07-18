@@ -26,7 +26,7 @@ import json
 import math
 import os
 import subprocess
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, replace
 from pathlib import Path
 from typing import Any, Dict, List, Mapping, Optional, Sequence, Tuple
 
@@ -406,6 +406,16 @@ class ConstraintAwareSpec:
     translation_tolerance: float = 2.0e-5
     translation_structural_tolerance: float = 1.0e-10
     translation_float32_z_ulp_factor: float = 8.0
+    translation_float32_z_ulp_factor_candidates: Tuple[float, ...] = (
+        1.0,
+        2.0,
+        4.0,
+        8.0,
+    )
+    translation_float32_z_policy_selection_rule: str = (
+        "largest_predeclared_factor_covering_all_objective_train_timesteps_"
+        "within_frozen_bound"
+    )
     translation_float32_z_bound_max: float = 1.0e-2
     constraint_z_clip: float = CONSTRAINT_Z_CLIP
 
@@ -457,6 +467,22 @@ class ConstraintAwareSpec:
                 raise ValueError("positive Stage-F threshold is invalid")
         if not 0.0 <= self.permutation_cosine_max < 1.0:
             raise ValueError("permutation cosine threshold is invalid")
+        if self.translation_float32_z_ulp_factor_candidates != (
+            1.0,
+            2.0,
+            4.0,
+            8.0,
+        ):
+            raise ValueError("ULP factor candidate population changed")
+        if self.translation_float32_z_policy_selection_rule != (
+            "largest_predeclared_factor_covering_all_objective_train_timesteps_"
+            "within_frozen_bound"
+        ):
+            raise ValueError("ULP policy selection rule changed")
+        if self.translation_float32_z_ulp_factor not in (
+            self.translation_float32_z_ulp_factor_candidates
+        ):
+            raise ValueError("active ULP factor is outside the predeclared population")
         if self.constraint_z_clip != CONSTRAINT_Z_CLIP:
             raise ValueError("constraint z clip changed")
 
@@ -1055,6 +1081,7 @@ def _float32_constraint_z_bound(
     offset_xy: Sequence[float],
     context: Mapping[str, Any],
     spec: ConstraintAwareSpec,
+    enforce_admission: bool = True,
 ) -> Dict[str, Any]:
     """Apply a segmentwise, clipping-aware float32 ULP propagation bound.
 
@@ -1291,13 +1318,57 @@ def _float32_constraint_z_bound(
         ),
         "policy": {
             "exact_gate_relaxed": False,
-            "ulp_factor_changed": False,
+            "ulp_factor_changed": bool(
+                float(spec.translation_float32_z_ulp_factor) != 8.0
+            ),
+            "factor_selected_from_predeclared_population": bool(
+                float(spec.translation_float32_z_ulp_factor)
+                in spec.translation_float32_z_ulp_factor_candidates
+            ),
             "maximum_allowed_bound_changed": False,
             "holdout_used": False,
             "frozen_probe_used": False,
             "automatic_tolerance_inferred": False,
+            "admission_enforced": bool(enforce_admission),
         },
     }
+
+    result = {
+        "structural_zero_policy": "exact_adjacent_bead_equality",
+        "structural_zero_count": structural_zero_count,
+        "resolvable_segment_count": resolvable_count,
+        "mask_roundtrip_exact": True,
+        "float32_cast_collapse_count": 0,
+        "maximum_coordinate_spacing": maximum_spacing,
+        "minimum_clipped_segment_length": minimum_lower_length,
+        "minimum_resolvable_segment_length": float(
+            np.min(source_lengths[resolvable])
+        ),
+        "maximum_endpoint_ulp_norm_over_source_length": float(
+            np.max(
+                full_endpoint_ulp_norm[resolvable]
+                / source_lengths[resolvable]
+            )
+        ),
+        "maximum_observed_resolvable_z_difference": maximum_observed,
+        "mean_observed_resolvable_z_difference": mean_observed,
+        "rounding_model_covers_length": rounding_model_covers_length,
+        "formula_covers_observed": formula_covers_observed,
+        "ulp_factor": float(spec.translation_float32_z_ulp_factor),
+        "derived_bound": float(maximum_formula_bound),
+        "applied_bound": float(applied_bound),
+        "maximum_allowed_bound": maximum_allowed,
+        "admission_formula": diagnostic["admission_formula"],
+        "admission_pass": bool(
+            rounding_model_covers_length
+            and formula_covers_observed
+            and applied_bound <= maximum_allowed
+        ),
+        "formula_diagnostic": diagnostic,
+    }
+
+    if not enforce_admission:
+        return result
 
     if not rounding_model_covers_length:
         raise ConstraintZULPAdmissionError(
@@ -1332,33 +1403,7 @@ def _float32_constraint_z_bound(
             required_next_path=next_path,
         )
 
-    return {
-        "structural_zero_policy": "exact_adjacent_bead_equality",
-        "structural_zero_count": structural_zero_count,
-        "resolvable_segment_count": resolvable_count,
-        "mask_roundtrip_exact": True,
-        "float32_cast_collapse_count": 0,
-        "maximum_coordinate_spacing": maximum_spacing,
-        "minimum_clipped_segment_length": minimum_lower_length,
-        "minimum_resolvable_segment_length": float(
-            np.min(source_lengths[resolvable])
-        ),
-        "maximum_endpoint_ulp_norm_over_source_length": float(
-            np.max(
-                full_endpoint_ulp_norm[resolvable]
-                / source_lengths[resolvable]
-            )
-        ),
-        "maximum_observed_resolvable_z_difference": maximum_observed,
-        "mean_observed_resolvable_z_difference": mean_observed,
-        "ulp_factor": float(spec.translation_float32_z_ulp_factor),
-        "derived_bound": float(maximum_formula_bound),
-        "applied_bound": float(applied_bound),
-        "maximum_allowed_bound": maximum_allowed,
-        "admission_formula": diagnostic["admission_formula"],
-        "formula_covers_observed": True,
-        "formula_diagnostic": diagnostic,
-    }
+    return result
 
 
 def build_constraint_features(
@@ -1425,6 +1470,184 @@ def build_constraint_features(
     if not np.all(np.isfinite(result)):
         raise ConstraintAwareSurrogateError("constraint-aware features are non-finite")
     return result
+
+
+def calibrate_float32_constraint_z_policy(
+    *,
+    controls_by_timestep: Mapping[int, np.ndarray],
+    context: Mapping[str, Any],
+    spec: ConstraintAwareSpec,
+) -> Dict[str, Any]:
+    """Select the largest predeclared ULP factor admitted on objective train.
+
+    Candidate factors, the selection rule, the clipped-z maximum, and the
+    translation offset are fixed before evaluation.  The policy reads only
+    objective-train control predictions at the three frozen timesteps.
+    """
+    spec.validate()
+    actual_timesteps = tuple(sorted(int(value) for value in controls_by_timestep))
+    if actual_timesteps != tuple(sorted(spec.timesteps)):
+        raise ConstraintAwareSurrogateError(
+            "ULP policy objective-train timestep population changed: {}".format(
+                actual_timesteps
+            )
+        )
+
+    candidate_records: List[Dict[str, Any]] = []
+    eligible_factors: List[float] = []
+    for factor in spec.translation_float32_z_ulp_factor_candidates:
+        candidate_spec = replace(
+            spec,
+            translation_float32_z_ulp_factor=float(factor),
+        )
+        timestep_records: Dict[str, Any] = {}
+        for timestep in spec.timesteps:
+            result = _float32_constraint_z_bound(
+                control=np.asarray(controls_by_timestep[int(timestep)]),
+                offset_xy=candidate_spec.translation_offset_xy,
+                context=context,
+                spec=candidate_spec,
+                enforce_admission=False,
+            )
+            timestep_records[str(int(timestep))] = {
+                "rounding_model_covers_length": bool(
+                    result["rounding_model_covers_length"]
+                ),
+                "formula_covers_observed": bool(
+                    result["formula_covers_observed"]
+                ),
+                "maximum_observed_resolvable_z_difference": float(
+                    result["maximum_observed_resolvable_z_difference"]
+                ),
+                "derived_bound": float(result["derived_bound"]),
+                "applied_bound": float(result["applied_bound"]),
+                "maximum_allowed_bound": float(result["maximum_allowed_bound"]),
+                "admission_pass": bool(result["admission_pass"]),
+                "structural_zero_count": int(result["structural_zero_count"]),
+                "resolvable_segment_count": int(
+                    result["resolvable_segment_count"]
+                ),
+                "formula_diagnostic": copy.deepcopy(
+                    result["formula_diagnostic"]
+                ),
+            }
+
+        maximum_observed = max(
+            float(record["maximum_observed_resolvable_z_difference"])
+            for record in timestep_records.values()
+        )
+        maximum_derived = max(
+            float(record["derived_bound"])
+            for record in timestep_records.values()
+        )
+        maximum_applied = max(
+            float(record["applied_bound"])
+            for record in timestep_records.values()
+        )
+        all_length_covered = all(
+            bool(record["rounding_model_covers_length"])
+            for record in timestep_records.values()
+        )
+        all_z_covered = all(
+            bool(record["formula_covers_observed"])
+            for record in timestep_records.values()
+        )
+        all_timesteps_admitted = all(
+            bool(record["admission_pass"])
+            for record in timestep_records.values()
+        )
+        candidate_record = {
+            "factor": float(factor),
+            "timesteps": timestep_records,
+            "maximum_observed_resolvable_z_difference": maximum_observed,
+            "maximum_derived_bound": maximum_derived,
+            "maximum_applied_bound": maximum_applied,
+            "maximum_allowed_bound": float(
+                spec.translation_float32_z_bound_max
+            ),
+            "all_timesteps_rounding_model_covers_length": all_length_covered,
+            "all_timesteps_formula_covers_observed": all_z_covered,
+            "all_timesteps_admitted": all_timesteps_admitted,
+            "eligible": bool(all_timesteps_admitted),
+        }
+        candidate_records.append(candidate_record)
+        if all_timesteps_admitted:
+            eligible_factors.append(float(factor))
+
+    diagnostic: Dict[str, Any] = {
+        "schema": "phase314b_r258_stagef_ulp_admission_policy_v1",
+        "population": {
+            "name": "objective_train_only",
+            "timesteps": [int(value) for value in spec.timesteps],
+            "row_counts": {
+                str(int(timestep)): int(
+                    np.asarray(controls_by_timestep[int(timestep)]).shape[0]
+                )
+                for timestep in spec.timesteps
+            },
+            "selection_holdout_accessed": False,
+            "frozen_probe_accessed": False,
+            "condition_label_used": False,
+            "candidate_model_result_used": False,
+        },
+        "predeclared_policy": {
+            "candidate_factors": [
+                float(value)
+                for value in spec.translation_float32_z_ulp_factor_candidates
+            ],
+            "selection_rule": spec.translation_float32_z_policy_selection_rule,
+            "maximum_allowed_bound": float(
+                spec.translation_float32_z_bound_max
+            ),
+            "ordinary_translation_tolerance": float(
+                spec.translation_tolerance
+            ),
+            "constraint_z_clip": float(spec.constraint_z_clip),
+            "translation_offset_xy": [
+                float(value) for value in spec.translation_offset_xy
+            ],
+        },
+        "candidate_records": candidate_records,
+        "eligible_factors": sorted(eligible_factors),
+        "selected_factor": None,
+        "policy_pass": False,
+        "policy": {
+            "exact_gate_relaxed": False,
+            "maximum_allowed_bound_changed": False,
+            "candidate_population_changed": False,
+            "selection_rule_changed": False,
+            "holdout_used": False,
+            "frozen_probe_used": False,
+            "automatic_tolerance_inferred": False,
+        },
+    }
+
+    if not eligible_factors:
+        raise ConstraintZULPAdmissionError(
+            "no predeclared ULP factor is admitted on all objective-train timesteps",
+            diagnostic=diagnostic,
+            required_next_path=(
+                "REDESIGN_CONSTRAINT_Z_TRANSLATION_NUMERICS_ON_"
+                "OBJECTIVE_TRAIN_ONLY"
+            ),
+        )
+
+    selected_factor = float(max(eligible_factors))
+    diagnostic["selected_factor"] = selected_factor
+    diagnostic["policy_pass"] = True
+    diagnostic["selection_witness"] = {
+        "selected_is_largest_eligible": bool(
+            selected_factor == max(eligible_factors)
+        ),
+        "selected_factor_in_predeclared_population": bool(
+            selected_factor
+            in spec.translation_float32_z_ulp_factor_candidates
+        ),
+        "selected_factor_is_not_larger_than_historical": bool(
+            selected_factor <= float(spec.translation_float32_z_ulp_factor)
+        ),
+    }
+    return diagnostic
 
 
 def translation_invariance_audit(
@@ -2628,13 +2851,36 @@ def run_calibration(
         captured=captured,
         direction_spec=active_direction,
     )
-    translation = translation_invariance_audit(
-        condition=context["objective_condition"],
-        control=context["objective_control_predictions"][10],
-        condition_name=context["objective_condition_name"],
+    ulp_admission_policy = calibrate_float32_constraint_z_policy(
+        controls_by_timestep={
+            int(timestep): context["objective_control_predictions"][int(timestep)]
+            for timestep in active.timesteps
+        },
         context=context,
         spec=active,
     )
+    selected_ulp_factor = float(ulp_admission_policy["selected_factor"])
+    active = replace(
+        active,
+        translation_float32_z_ulp_factor=selected_ulp_factor,
+    )
+    active.validate()
+    translation = {
+        "schema": "phase314b_r258_stagef_translation_audit_v3_ulp_policy",
+        "ulp_admission_policy": copy.deepcopy(ulp_admission_policy),
+        "timesteps": {
+            str(int(timestep)): translation_invariance_audit(
+                condition=context["objective_condition"],
+                control=context["objective_control_predictions"][int(timestep)],
+                condition_name=context["objective_condition_name"],
+                context=context,
+                spec=active,
+            )
+            for timestep in active.timesteps
+        },
+        "selection_holdout_accessed": False,
+        "frozen_probe_accessed": False,
+    }
     oracle_targets = {}
     for timestep in active.timesteps:
         oracle_targets[int(timestep)] = generate_projected_oracle_target(
@@ -2759,7 +3005,7 @@ def run_calibration(
         else None
     )
     contract = {
-        "schema": "phase314b_r258_stagef_constraint_aware_contract_v2_structural_zero",
+        "schema": "phase314b_r258_stagef_constraint_aware_contract_v3_ulp_policy",
         "phase": PHASE,
         "base_evidence_commit": BASE_EVIDENCE_COMMIT,
         "base_identity": {
@@ -2774,6 +3020,7 @@ def run_calibration(
         "cold_main_worker_context": cold,
         "control_capture": captured["control_identity"],
         "constraint_aware_spec": asdict(active),
+        "ulp_admission_policy": copy.deepcopy(ulp_admission_policy),
         "direction_spec": asdict(active_direction),
         "integrator_spec": asdict(active_integrator),
         "fixed_integrator": asdict(fixed_integrator_definition()),
@@ -2812,7 +3059,7 @@ def run_calibration(
     }
     contract["contract_sha256"] = sha256_bytes(stable_json_bytes(contract))
     selection_payload = {
-        "schema": "phase314b_r258_stagef_selection_v2_structural_zero",
+        "schema": "phase314b_r258_stagef_selection_v3_ulp_policy",
         "phase": PHASE,
         "selected_configuration": copy.deepcopy(selected),
         "validated_train_only_recommendation": copy.deepcopy(validated),
@@ -2826,7 +3073,7 @@ def run_calibration(
     ready = validated is not None
     return {
         "phase": PHASE,
-        "schema": "phase314b_r258_stagef_result_v2_structural_zero",
+        "schema": "phase314b_r258_stagef_result_v3_ulp_policy",
         "verdict": "PASS",
         "scientific_status": "READY" if ready else "BLOCKED",
         "root_cause": classification["root_cause"],
@@ -2851,6 +3098,7 @@ def run_calibration(
             "fold_assignment_sha256": sha256_array(context["objective_fold_assignment"]),
         },
         "translation_invariance": translation,
+        "ulp_admission_policy": copy.deepcopy(ulp_admission_policy),
         "projected_oracle_targets": {
             str(timestep): {
                 key: value
