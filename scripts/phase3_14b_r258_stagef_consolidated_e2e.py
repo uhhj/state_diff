@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """Run one Stage-F base gate and one real calibration in one Python process.
 
-V6 keeps the structural-zero feature correction and replaces the V5
-``8 * observed z drift`` admission implementation with the frozen-factor,
-segmentwise, clipping-aware endpoint-ULP formula.  If the analytic formula is
-not admitted, the scientific module raises a structured diagnosis that this
-same entrypoint writes as a normal PASS/BLOCKED experiment result.  No legacy
-wrapper, duplicate worker, temporal replay, automatic tolerance inference, or
-forbidden scientific artifact is executed.
+V7 preserves the admitted clipping-aware ULP implementation and corrects only
+the command-line transport boundary.  A terminal CR/LF sequence accidentally
+introduced by a remote shell transport is removed from ``--root`` before path
+resolution.  Interior line terminators remain invalid, general whitespace is
+not stripped, and the normalization is recorded in the write-once evidence.
+No wrapper, duplicate worker, temporal replay, tolerance change, or scientific
+source change is introduced.
 """
 
 from __future__ import annotations
@@ -39,21 +39,17 @@ REPOSITORY_ROOT = SCRIPT_PATH.parents[1]
 if str(REPOSITORY_ROOT) not in sys.path:
     sys.path.insert(0, str(REPOSITORY_ROOT))
 
-PHASE = "Phase3.14b-r2.5.8 Stage F Clipping-Aware ULP Bound Correction"
-SCHEMA = "phase314b_r258_stagef_consolidated_e2e_v6_ulp_bound"
+PHASE = "Phase3.14b-r2.5.8 Stage F Consolidated Root-Transport Correction"
+SCHEMA = "phase314b_r258_stagef_consolidated_e2e_v7_root_transport"
 DEFAULT_ROOT = Path("/data/state_diff2")
 
 EXPECTED_BRANCH = "Experiment1"
 EXPECTED_REMOTE_HEAD = "6758ea7ad800667a436b0243d3b1f6c63256d854"
 EXPECTED_SUBMODULE = "633a88752445cf5d6776ed374fdbbdb35f93050c"
-EXPECTED_PARENT = "08f1dc835a42e3d4c336e8c3c7757b8158a192e4"
-EXPECTED_SUBJECT = "Phase3.14b-r2.5.8 Stage F: correct clipping-aware ULP bound"
+EXPECTED_PARENT = "c27259cbdc5ad79e7bcea998ba405086770db03e"
+EXPECTED_SUBJECT = "Phase3.14b-r2.5.8 Stage F: normalize consolidated root transport"
 IMPLEMENTATION_PATHS: Tuple[Tuple[str, str], ...] = (
-    ("M", "ccda_phase3/phase314b_r258_stagef_constraint_aware_surrogate.py"),
     ("M", "scripts/phase3_14b_r258_stagef_consolidated_e2e.py"),
-    ("M", "tests/test_phase3_14b_r258_stagef_resume1_translation_fix.py"),
-    ("M", "tests/test_phase3_14b_r258_stagef_structural_zero_features.py"),
-    ("A", "tests/test_phase3_14b_r258_stagef_ulp_bound_formula.py"),
 )
 
 STAGEF_ANCHOR = "f41a2364b7283b1eb963d305823804374ddfc8d6"
@@ -75,8 +71,8 @@ STAGEE_PATHS: Tuple[str, ...] = (
 STAGEE_WORKER_EVIDENCE = "reports/phase3_14b_r258_stagee_worker_evidence.json"
 CANONICAL_WORKER = "scripts/phase3_14b_r258_stagef_resume1_worker.py"
 
-SUCCESS_REPORT = "reports/phase3_14b_r258_stagef_consolidated_v6_ulp_bound_summary.json"
-BLOCKED_REPORT = "reports/phase3_14b_r258_stagef_consolidated_v6_ulp_bound_blocked_summary.json"
+SUCCESS_REPORT = "reports/phase3_14b_r258_stagef_consolidated_v7_root_transport_summary.json"
+BLOCKED_REPORT = "reports/phase3_14b_r258_stagef_consolidated_v7_root_transport_blocked_summary.json"
 
 EXPECTED_ENV = {
     "PYTHONHASHSEED": "0",
@@ -120,6 +116,8 @@ COMMIT_BOUND_REPORTS: Mapping[str, str] = {
         "14af8bb3aabee09ded040b126c869f97e989362a",
     "reports/phase3_14b_r258_stagef_consolidated_v5_structural_zero_summary.json":
         "08f1dc835a42e3d4c336e8c3c7757b8158a192e4",
+    "reports/phase3_14b_r258_stagef_consolidated_v6_ulp_bound_blocked_summary.json":
+        "c27259cbdc5ad79e7bcea998ba405086770db03e",
 }
 
 REQUIRED_ANCESTORS: Tuple[str, ...] = (
@@ -142,6 +140,8 @@ REQUIRED_ANCESTORS: Tuple[str, ...] = (
     "14af8bb3aabee09ded040b126c869f97e989362a",
     "8a03134ac9902e333a53903620825ecd36e49db7",
     "08f1dc835a42e3d4c336e8c3c7757b8158a192e4",
+    "1e1e78faae2a62d3270e20cb13ffb387a2b280b6",
+    "c27259cbdc5ad79e7bcea998ba405086770db03e",
 )
 
 FORBIDDEN_TRUE_FIELDS: Tuple[str, ...] = (
@@ -355,7 +355,7 @@ def validate_repository(repo: Path) -> Mapping[str, Any]:
     )
     if changed != IMPLEMENTATION_PATHS:
         raise ExecutionError(
-            "structural-zero implementation path population changed: "
+            "root-transport implementation path population changed: "
             f"expected={IMPLEMENTATION_PATHS!r}, actual={changed!r}"
         )
 
@@ -2302,7 +2302,7 @@ def run_once(repo: Path, repository: Mapping[str, Any]) -> Mapping[str, Any]:
 def blocked_payload(error: BaseException, repository: Optional[Mapping[str, Any]]) -> Mapping[str, Any]:
     return {
         "phase": PHASE,
-        "schema": "phase314b_r258_stagef_consolidated_blocked_v6_ulp_bound",
+        "schema": "phase314b_r258_stagef_consolidated_blocked_v7_root_transport",
         "execution_verdict": "BLOCKED",
         "scientific_status": "BLOCKED",
         "root_cause": "phase314b_r258_stagef_consolidated_execution_failed",
@@ -2333,15 +2333,52 @@ def blocked_payload(error: BaseException, repository: Optional[Mapping[str, Any]
     }
 
 
+def normalize_root_argument(raw_value: str) -> Tuple[Path, Mapping[str, Any]]:
+    """Normalize only terminal CR/LF transport artifacts in ``--root``.
+
+    POSIX paths may legally contain spaces, tabs, and other characters, so this
+    function deliberately does not call ``strip()``.  Only a terminal sequence
+    composed of carriage-return and line-feed characters is removed.  Any line
+    terminator that remains inside the path is rejected.
+    """
+    if not isinstance(raw_value, str):
+        raise ExecutionError(
+            f"--root must be text, got {type(raw_value).__module__}."
+            f"{type(raw_value).__qualname__}"
+        )
+    if "\x00" in raw_value:
+        raise ExecutionError("--root contains a NUL byte")
+
+    normalized = raw_value.rstrip("\r\n")
+    removed_suffix = raw_value[len(normalized):]
+
+    if not normalized:
+        raise ExecutionError("--root is empty after terminal CR/LF normalization")
+    if "\r" in normalized or "\n" in normalized:
+        raise ExecutionError("--root contains an interior CR/LF character")
+
+    evidence: Mapping[str, Any] = {
+        "raw_repr": repr(raw_value),
+        "normalized": normalized,
+        "changed": normalized != raw_value,
+        "removed_suffix_codepoints": [ord(char) for char in removed_suffix],
+        "removed_suffix_length": len(removed_suffix),
+        "general_whitespace_stripped": False,
+        "interior_line_terminators_allowed": False,
+    }
+    return Path(normalized), evidence
+
+
 def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--root", type=Path, default=DEFAULT_ROOT)
+    parser.add_argument("--root", type=str, default=str(DEFAULT_ROOT))
     return parser.parse_args(argv)
 
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
     args = parse_args(argv)
-    repo = args.root.resolve()
+    root_path, root_transport = normalize_root_argument(args.root)
+    repo = root_path.resolve(strict=False)
     success_path = repo / SUCCESS_REPORT
     blocked_path = repo / BLOCKED_REPORT
 
@@ -2349,10 +2386,16 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         print("BLOCKED: consolidated output already exists", file=sys.stderr)
         return 2
 
-    repository: Optional[Mapping[str, Any]] = None
+    repository: Optional[Mapping[str, Any]] = {
+        "root_argument_transport": root_transport,
+        "resolved_root": str(repo),
+    }
     try:
         validate_environment()
-        repository = validate_repository(repo)
+        validated_repository = validate_repository(repo)
+        repository = dict(validated_repository)
+        repository["root_argument_transport"] = root_transport
+        repository["resolved_root"] = str(repo)
         summary = run_once(repo, repository)
         data = stable_json_bytes(summary)
         write_once(success_path, data)
