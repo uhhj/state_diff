@@ -1,0 +1,47 @@
+{
+  "checkpoint_generated": false,
+  "command": [
+    "/miniforge3/envs/coord_bimanual/bin/python",
+    "scripts/phase3_14b_r258_stagef_resume4_preflight.py",
+    "--repo",
+    "/data/state_diff2"
+  ],
+  "created_utc": "2026-07-18T07:39:59.246070+00:00",
+  "detail": "The committed preflight was executed exactly once as specified, but direct script execution placed only scripts/ on sys.path. The module imported ccda_phase3 before inserting /data/state_diff2, so admission, regression, temporal gate, and scientific workers did not start.",
+  "extra": {
+    "frozen_temporal_gate_run": false,
+    "implementation_commit": "ce88ac14159c7073ab65a4004e49c748d51fab8d",
+    "resume4_regression_precommit_passed": 24,
+    "resume4_regression_preflight_run": false,
+    "scientific_workers_started": false
+  },
+  "failure_stage": "preflight_import_bootstrap",
+  "frozen_probe_accessed": false,
+  "holdout_evaluated": false,
+  "image_generated": false,
+  "npz_generated": false,
+  "phase": "Phase3.14b-r2.5.8 Stage F Resume4",
+  "push_performed": false,
+  "repository": {
+    "branch": "Experiment1",
+    "head": "ce88ac14159c7073ab65a4004e49c748d51fab8d",
+    "main_worktree_porcelain": "",
+    "origin_experiment1": "6758ea7ad800667a436b0243d3b1f6c63256d854",
+    "submodule_gitlink": "633a88752445cf5d6776ed374fdbbdb35f93050c",
+    "submodule_head": "633a88752445cf5d6776ed374fdbbdb35f93050c",
+    "submodule_worktree_porcelain": ""
+  },
+  "returncode": 1,
+  "root_cause": "repository_root_missing_from_sys_path_before_ccda_phase3_import",
+  "scientific_calibration_run": false,
+  "scientific_status": "BLOCKED",
+  "selected_configuration": null,
+  "status": "BLOCKED",
+  "stderr": "Traceback (most recent call last):\n  File \"/data/state_diff2/scripts/phase3_14b_r258_stagef_resume4_preflight.py\", line 20, in <module>\n    from ccda_phase3.phase314b_r258_stagef_resume4_head_admission import (\nModuleNotFoundError: No module named 'ccda_phase3'\n",
+  "stdout": "",
+  "title": "Versioned Implementation-Head Admission Recovery and Scientific Continuation",
+  "train_only_recommendation": null,
+  "video_generated": false,
+  "weights_generated": false,
+  "worker_exact_sha": null
+}
