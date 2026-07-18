@@ -3,11 +3,12 @@
 
 The entrypoint preserves the historical evidence chain but does not delegate to
 legacy Resume wrappers.  If the portable Stage-C numerical-equivalence gate
-passes, it continues to one real Stage-F calibration in the same process.  If
-that gate reports a numerical mismatch, it captures expected/current traceback
-state, scalar differences, available array summaries, and runtime numerical
-settings into one write-once diagnostic result.  It never infers a tolerance
-from the current failure and never persists prediction tensors.
+passes, it continues to one real Stage-F calibration in the same process.  If the portable base gate reports a numerical mismatch, it captures the existing
+base-gate diagnosis. If real calibration reaches the constraint-z float32
+precision admission and stops, it captures the live failing frame, coordinate
+round-trip error, segment-length collapse, ULP-to-length ratios, translation
+pairs, and runtime settings. It never infers a tolerance from the failure and
+never persists prediction tensors.
 """
 
 from __future__ import annotations
@@ -39,15 +40,15 @@ REPOSITORY_ROOT = SCRIPT_PATH.parents[1]
 if str(REPOSITORY_ROOT) not in sys.path:
     sys.path.insert(0, str(REPOSITORY_ROOT))
 
-PHASE = "Phase3.14b-r2.5.8 Stage F Consolidated Numerical Equivalence Diagnosis"
-SCHEMA = "phase314b_r258_stagef_consolidated_e2e_v3"
+PHASE = "Phase3.14b-r2.5.8 Stage F Consolidated Constraint-Z Precision Diagnosis"
+SCHEMA = "phase314b_r258_stagef_consolidated_e2e_v4_precision"
 DEFAULT_ROOT = Path("/data/state_diff2")
 
 EXPECTED_BRANCH = "Experiment1"
 EXPECTED_REMOTE_HEAD = "6758ea7ad800667a436b0243d3b1f6c63256d854"
 EXPECTED_SUBMODULE = "633a88752445cf5d6776ed374fdbbdb35f93050c"
-EXPECTED_PARENT = "0e405929ed547a57c1d0ab69131efd11cdb658ff"
-EXPECTED_SUBJECT = "Phase3.14b-r2.5.8 Stage F: diagnose portable numerical equivalence"
+EXPECTED_PARENT = "84bccbc897f5e9736f487b7110d136c24d7b4be6"
+EXPECTED_SUBJECT = "Phase3.14b-r2.5.8 Stage F: diagnose constraint-z float32 precision"
 IMPLEMENTATION_PATH = "scripts/phase3_14b_r258_stagef_consolidated_e2e.py"
 
 STAGEF_ANCHOR = "f41a2364b7283b1eb963d305823804374ddfc8d6"
@@ -67,8 +68,8 @@ STAGEE_PATHS: Tuple[str, ...] = (
 STAGEE_WORKER_EVIDENCE = "reports/phase3_14b_r258_stagee_worker_evidence.json"
 CANONICAL_WORKER = "scripts/phase3_14b_r258_stagef_resume1_worker.py"
 
-SUCCESS_REPORT = "reports/phase3_14b_r258_stagef_consolidated_v3_summary.json"
-BLOCKED_REPORT = "reports/phase3_14b_r258_stagef_consolidated_v3_blocked_summary.json"
+SUCCESS_REPORT = "reports/phase3_14b_r258_stagef_consolidated_v4_precision_summary.json"
+BLOCKED_REPORT = "reports/phase3_14b_r258_stagef_consolidated_v4_precision_blocked_summary.json"
 
 EXPECTED_ENV = {
     "PYTHONHASHSEED": "0",
@@ -106,6 +107,8 @@ COMMIT_BOUND_REPORTS: Mapping[str, str] = {
         "bb21870c9b12c699a16b2e6a8501a8c163e9550b",
     "reports/phase3_14b_r258_stagef_consolidated_v2_blocked_summary.json":
         "0e405929ed547a57c1d0ab69131efd11cdb658ff",
+    "reports/phase3_14b_r258_stagef_consolidated_v3_blocked_summary.json":
+        "84bccbc897f5e9736f487b7110d136c24d7b4be6",
 }
 
 REQUIRED_ANCESTORS: Tuple[str, ...] = (
@@ -122,6 +125,8 @@ REQUIRED_ANCESTORS: Tuple[str, ...] = (
     "bb21870c9b12c699a16b2e6a8501a8c163e9550b",
     "4f1a8a0e9683a691e5bf23f16bdefee074c86ea4",
     "0e405929ed547a57c1d0ab69131efd11cdb658ff",
+    "053679777b8362d19fbf8e5e3637dc56dcc5d432",
+    "84bccbc897f5e9736f487b7110d136c24d7b4be6",
 )
 
 FORBIDDEN_TRUE_FIELDS: Tuple[str, ...] = (
@@ -1509,6 +1514,471 @@ def diagnostic_summary(
     }
 
 
+
+CONSTRAINT_Z_PRECISION_MARKER = (
+    "float32 coordinate resolution is insufficient for constraint-z audit"
+)
+CONSTRAINT_Z_FUNCTION = "_float32_constraint_z_bound"
+MAX_PRECISION_ARRAYS = 48
+MAX_PRECISION_PAIRS = 64
+MAX_PRECISION_LOCAL_ITEMS = 128
+
+
+def _traceback_frames(error: BaseException) -> List[Any]:
+    frames: List[Any] = []
+    current = error.__traceback__
+    while current is not None:
+        frames.append(current)
+        current = current.tb_next
+    return frames
+
+
+def _source_excerpt(frame: Any, radius: int = 4) -> Mapping[str, Any]:
+    filename = Path(frame.tb_frame.f_code.co_filename)
+    lineno = int(frame.tb_lineno)
+    result: Dict[str, Any] = {
+        "filename": str(filename),
+        "function": frame.tb_frame.f_code.co_name,
+        "lineno": lineno,
+    }
+    try:
+        lines = filename.read_text(encoding="utf-8").splitlines()
+    except (OSError, UnicodeError) as error:
+        result["source_error"] = f"{type(error).__name__}: {error}"
+        return result
+    start = max(1, lineno - radius)
+    end = min(len(lines), lineno + radius)
+    excerpt = [
+        {"lineno": number, "text": lines[number - 1]}
+        for number in range(start, end + 1)
+    ]
+    result.update(
+        {
+            "file_sha256": sha256_path(filename),
+            "excerpt": excerpt,
+        }
+    )
+    return result
+
+
+def _bounded_local_snapshot(frame: Any) -> Mapping[str, Any]:
+    snapshots: Dict[str, Any] = {}
+    omitted: List[str] = []
+    for index, name in enumerate(sorted(frame.tb_frame.f_locals)):
+        if index >= MAX_PRECISION_LOCAL_ITEMS:
+            omitted.extend(sorted(frame.tb_frame.f_locals)[index:])
+            break
+        value = frame.tb_frame.f_locals[name]
+        try:
+            snapshots[name] = diagnostic_snapshot(value)
+        except BaseException as error:
+            snapshots[name] = {
+                "snapshot_error": (
+                    f"{type(error).__module__}.{type(error).__qualname__}: "
+                    f"{error}"
+                )
+            }
+    return {
+        "locals": snapshots,
+        "omitted_local_names": omitted,
+    }
+
+
+def _collect_array_candidates(
+    value: Any,
+    path: str,
+    output: List[Tuple[str, Any]],
+    *,
+    depth: int = 0,
+    seen: Optional[set] = None,
+) -> None:
+    if seen is None:
+        seen = set()
+    if len(output) >= MAX_PRECISION_ARRAYS or depth > 3:
+        return
+    identity = id(value)
+    if identity in seen:
+        return
+    seen.add(identity)
+    if _is_array_like(value):
+        output.append((path, value))
+        return
+    if isinstance(value, Mapping):
+        for key in sorted(value, key=lambda item: repr(item)):
+            if len(output) >= MAX_PRECISION_ARRAYS:
+                return
+            try:
+                item = value[key]
+            except BaseException:
+                continue
+            _collect_array_candidates(
+                item,
+                f"{path}.{key}",
+                output,
+                depth=depth + 1,
+                seen=seen,
+            )
+        return
+    if isinstance(value, (list, tuple)):
+        for index, item in enumerate(value[:32]):
+            if len(output) >= MAX_PRECISION_ARRAYS:
+                return
+            _collect_array_candidates(
+                item,
+                f"{path}[{index}]",
+                output,
+                depth=depth + 1,
+                seen=seen,
+            )
+
+
+def _quantiles(values: Any) -> Mapping[str, Optional[float]]:
+    import numpy as np  # type: ignore
+
+    array = np.asarray(values, dtype=np.float64).reshape(-1)
+    array = array[np.isfinite(array)]
+    if array.size == 0:
+        return {name: None for name in ("q0", "q01", "q05", "q50", "q95", "q99", "q100")}
+    probabilities = [0.0, 0.01, 0.05, 0.5, 0.95, 0.99, 1.0]
+    names = ["q0", "q01", "q05", "q50", "q95", "q99", "q100"]
+    computed = np.quantile(array, probabilities)
+    return {name: float(value) for name, value in zip(names, computed)}
+
+
+def coordinate_precision_summary(value: Any) -> Mapping[str, Any]:
+    import numpy as np  # type: ignore
+
+    raw = _array_numpy(value)
+    array = np.asarray(raw)
+    summary: Dict[str, Any] = dict(array_summary(value))
+    summary["coordinate_candidate"] = False
+    if array.ndim < 2 or array.shape[-1] not in (2, 3):
+        summary["coordinate_rejection"] = "last dimension is not XY/XYZ"
+        return summary
+    if not np.issubdtype(array.dtype, np.floating):
+        summary["coordinate_rejection"] = "dtype is not floating"
+        return summary
+
+    summary["coordinate_candidate"] = True
+    source64 = np.asarray(array, dtype=np.float64)
+    cast32 = np.asarray(array, dtype=np.float32)
+    roundtrip64 = cast32.astype(np.float64)
+    finite = np.isfinite(source64)
+    finite_values = source64[finite]
+    summary["source_absolute_coordinate_quantiles"] = _quantiles(np.abs(finite_values))
+
+    error = np.abs(roundtrip64 - source64)
+    finite_error = error[np.isfinite(error)]
+    summary["float32_roundtrip"] = {
+        "max_abs_error": float(finite_error.max()) if finite_error.size else None,
+        "mean_abs_error": float(finite_error.mean()) if finite_error.size else None,
+        "nonzero_error_count": int((finite_error > 0.0).sum()),
+        "error_quantiles": _quantiles(finite_error),
+    }
+
+    spacing = np.abs(np.spacing(cast32).astype(np.float64))
+    finite_spacing = spacing[np.isfinite(spacing)]
+    positive_spacing = finite_spacing[finite_spacing > 0.0]
+    summary["float32_spacing"] = {
+        "quantiles": _quantiles(positive_spacing),
+        "maximum": float(positive_spacing.max()) if positive_spacing.size else None,
+        "minimum_positive": float(positive_spacing.min()) if positive_spacing.size else None,
+    }
+
+    if array.shape[-2] < 2:
+        summary["segment_rejection"] = "bead axis has fewer than two points"
+        return summary
+
+    source_delta = np.diff(source64, axis=-2)
+    cast_delta = np.diff(roundtrip64, axis=-2)
+    source_length = np.linalg.norm(source_delta, axis=-1)
+    cast_length = np.linalg.norm(cast_delta, axis=-1)
+    source_positive = source_length[source_length > 0.0]
+    cast_positive = cast_length[cast_length > 0.0]
+    source_zero = source_length == 0.0
+    cast_zero = cast_length == 0.0
+    collapsed_by_cast = (source_length > 0.0) & cast_zero
+
+    endpoint_spacing = np.maximum(spacing[..., 1:, :], spacing[..., :-1, :])
+    endpoint_spacing_norm = np.linalg.norm(endpoint_spacing, axis=-1)
+    ratio = np.full(source_length.shape, np.nan, dtype=np.float64)
+    positive_mask = source_length > 0.0
+    ratio[positive_mask] = endpoint_spacing_norm[positive_mask] / source_length[positive_mask]
+    finite_ratio = ratio[np.isfinite(ratio)]
+
+    length_error = np.abs(cast_length - source_length)
+    finite_length_error = length_error[np.isfinite(length_error)]
+    summary["segments"] = {
+        "segment_count": int(source_length.size),
+        "source_zero_count": int(source_zero.sum()),
+        "cast_float32_zero_count": int(cast_zero.sum()),
+        "collapsed_by_float32_cast_count": int(collapsed_by_cast.sum()),
+        "source_length_quantiles": _quantiles(source_positive),
+        "cast_float32_length_quantiles": _quantiles(cast_positive),
+        "length_roundtrip_error_quantiles": _quantiles(finite_length_error),
+        "length_roundtrip_max_abs_error": (
+            float(finite_length_error.max()) if finite_length_error.size else None
+        ),
+        "endpoint_ulp_norm_over_source_length_quantiles": _quantiles(finite_ratio),
+        "endpoint_ulp_norm_over_source_length_maximum": (
+            float(finite_ratio.max()) if finite_ratio.size else None
+        ),
+    }
+
+    if collapsed_by_cast.any():
+        indices = np.argwhere(collapsed_by_cast)
+        summary["segments"]["first_collapsed_indices"] = [
+            [int(item) for item in row]
+            for row in indices[:16]
+        ]
+    return summary
+
+
+def _translation_pair_summary(
+    left_name: str,
+    left_value: Any,
+    right_name: str,
+    right_value: Any,
+) -> Optional[Mapping[str, Any]]:
+    import numpy as np  # type: ignore
+
+    left = np.asarray(_array_numpy(left_value), dtype=np.float64)
+    right = np.asarray(_array_numpy(right_value), dtype=np.float64)
+    if left.shape != right.shape or left.ndim < 2 or left.shape[-1] not in (2, 3):
+        return None
+    if left.size == 0:
+        return None
+    delta = right - left
+    finite = np.isfinite(delta)
+    if not finite.all():
+        return {
+            "left": left_name,
+            "right": right_name,
+            "shape": [int(item) for item in left.shape],
+            "non_finite_delta_count": int((~finite).sum()),
+        }
+    flattened = delta.reshape(-1, delta.shape[-1])
+    median_translation = np.median(flattened, axis=0)
+    translation_residual = flattened - median_translation
+    centered_left = left - np.take(left, [0], axis=-2)
+    centered_right = right - np.take(right, [0], axis=-2)
+    centered_difference = np.abs(centered_right - centered_left)
+    return {
+        "left": left_name,
+        "right": right_name,
+        "shape": [int(item) for item in left.shape],
+        "median_translation": [float(item) for item in median_translation],
+        "translation_residual_max_abs": float(np.abs(translation_residual).max()),
+        "centered_difference_max_abs": float(centered_difference.max()),
+        "centered_difference_mean_abs": float(centered_difference.mean()),
+        "exact_after_first_point_centering": bool(np.array_equal(centered_left, centered_right)),
+        "allclose_after_first_point_centering_1e_12": bool(
+            np.allclose(centered_left, centered_right, rtol=1e-12, atol=1e-12)
+        ),
+        "allclose_after_first_point_centering_1e_9": bool(
+            np.allclose(centered_left, centered_right, rtol=1e-9, atol=1e-9)
+        ),
+    }
+
+
+def constraint_z_precision_diagnostic(
+    error: BaseException,
+    stagef: Any,
+    torch: Any,
+) -> Mapping[str, Any]:
+    frames = _traceback_frames(error)
+    frame_trace = [
+        {
+            "filename": frame.tb_frame.f_code.co_filename,
+            "function": frame.tb_frame.f_code.co_name,
+            "lineno": int(frame.tb_lineno),
+        }
+        for frame in frames
+    ]
+    target = None
+    for frame in reversed(frames):
+        if frame.tb_frame.f_code.co_name == CONSTRAINT_Z_FUNCTION:
+            target = frame
+            break
+    if target is None:
+        for frame in reversed(frames):
+            if "constraint_z" in frame.tb_frame.f_code.co_name.lower():
+                target = frame
+                break
+    if target is None:
+        raise ExecutionError(
+            "constraint-z precision marker was raised without a constraint-z traceback frame"
+        )
+
+    arrays: List[Tuple[str, Any]] = []
+    for name, value in sorted(target.tb_frame.f_locals.items()):
+        _collect_array_candidates(value, f"local.{name}", arrays)
+    array_diagnostics: Dict[str, Any] = {}
+    coordinate_arrays: List[Tuple[str, Any]] = []
+    for path, value in arrays:
+        try:
+            summary = coordinate_precision_summary(value)
+        except BaseException as capture_error:
+            summary = {
+                "capture_error": (
+                    f"{type(capture_error).__module__}."
+                    f"{type(capture_error).__qualname__}: {capture_error}"
+                )
+            }
+        array_diagnostics[path] = summary
+        if summary.get("coordinate_candidate") is True:
+            coordinate_arrays.append((path, value))
+
+    pairs: List[Mapping[str, Any]] = []
+    for left_index, (left_name, left_value) in enumerate(coordinate_arrays):
+        for right_name, right_value in coordinate_arrays[left_index + 1:]:
+            if len(pairs) >= MAX_PRECISION_PAIRS:
+                break
+            pair = _translation_pair_summary(
+                left_name,
+                left_value,
+                right_name,
+                right_value,
+            )
+            if pair is not None:
+                pairs.append(pair)
+        if len(pairs) >= MAX_PRECISION_PAIRS:
+            break
+
+    source_function = getattr(stagef, CONSTRAINT_Z_FUNCTION, None)
+    function_identity: Dict[str, Any] = {
+        "module_has_named_callable": callable(source_function),
+    }
+    if callable(source_function):
+        try:
+            source = inspect.getsource(source_function)
+            function_identity.update(
+                {
+                    "signature": str(inspect.signature(source_function)),
+                    "source_sha256": sha256_bytes(source.encode("utf-8")),
+                    "source_line_count": len(source.splitlines()),
+                }
+            )
+        except (OSError, TypeError) as source_error:
+            function_identity["source_error"] = (
+                f"{type(source_error).__name__}: {source_error}"
+            )
+
+    structural_zero = 0
+    cast_collapse = 0
+    maximum_ratio: Optional[float] = None
+    for summary in array_diagnostics.values():
+        if not isinstance(summary, Mapping):
+            continue
+        segments = summary.get("segments")
+        if not isinstance(segments, Mapping):
+            continue
+        structural_zero += int(segments.get("source_zero_count") or 0)
+        cast_collapse += int(segments.get("collapsed_by_float32_cast_count") or 0)
+        value = _finite_float(
+            segments.get("endpoint_ulp_norm_over_source_length_maximum")
+        )
+        if value is not None:
+            maximum_ratio = value if maximum_ratio is None else max(maximum_ratio, value)
+
+    if cast_collapse > 0:
+        interpretation = "FLOAT32_CAST_COLLAPSES_NONZERO_SEGMENTS"
+        required_next = "DESIGN_A_FROZEN_TRAIN_ONLY_LENGTH_FLOOR_OR_NONLOG_FEATURE_FROM_CAPTURED_ROWS"
+    elif structural_zero > 0:
+        interpretation = "SOURCE_COORDINATES_CONTAIN_STRUCTURAL_ZERO_SEGMENTS"
+        required_next = "SEPARATE_STRUCTURAL_ZERO_MASK_FROM_RESOLVABLE_SEGMENT_FEATURES"
+    elif coordinate_arrays:
+        interpretation = "NO_CAST_COLLAPSE_OBSERVED_BOUND_FORMULA_OR_THRESHOLD_REQUIRES_REVIEW"
+        required_next = "COMPARE_CAPTURED_ULP_TO_SEGMENT_RATIOS_WITH_THE_FROZEN_BOUND_FORMULA"
+    else:
+        interpretation = "NO_COORDINATE_ARRAY_WAS_AVAILABLE_IN_THE_FAILING_FRAME"
+        required_next = "EXPOSE_THE_BOUND_INPUTS_WITHIN_THE_EXISTING_SINGLE_ENTRYPOINT"
+
+    return {
+        "diagnosis_kind": "constraint_z_float32_precision_admission",
+        "exception_type": f"{type(error).__module__}.{type(error).__qualname__}",
+        "exception": str(error),
+        "traceback_frames": frame_trace,
+        "failing_frame": _source_excerpt(target),
+        "failing_frame_locals": _bounded_local_snapshot(target),
+        "function_identity": function_identity,
+        "array_candidate_count": len(arrays),
+        "coordinate_candidate_count": len(coordinate_arrays),
+        "array_diagnostics": array_diagnostics,
+        "translation_pair_diagnostics": pairs,
+        "aggregate": {
+            "source_zero_segment_count_across_candidates": structural_zero,
+            "float32_cast_collapse_count_across_candidates": cast_collapse,
+            "maximum_endpoint_ulp_norm_over_source_length": maximum_ratio,
+        },
+        "runtime_numerical_settings": runtime_numerical_observation(torch),
+        "exact_gate_relaxed": False,
+        "stagef_scientific_source_modified": False,
+        "automatic_tolerance_inferred": False,
+        "interpretation": interpretation,
+        "required_next_path": required_next,
+    }
+
+
+def precision_diagnostic_summary(
+    repository: Mapping[str, Any],
+    base_result: Any,
+    diagnostic: Mapping[str, Any],
+    commands: Sequence[Mapping[str, Any]],
+) -> Mapping[str, Any]:
+    diagnostic_sha = sha256_bytes(stable_json_bytes(diagnostic))
+    return {
+        "phase": PHASE,
+        "schema": SCHEMA,
+        "execution_verdict": "PASS",
+        "scientific_status": "BLOCKED",
+        "root_cause": "phase314b_r258_stagef_constraint_z_float32_precision_not_admitted",
+        "required_next_path": diagnostic["required_next_path"],
+        "selected_configuration": None,
+        "train_only_recommendation": None,
+        "repository": repository,
+        "execution": {
+            "mode": "one_python_process_one_real_calibration_precision_diagnosis",
+            "pid": os.getpid(),
+            "python_process_count": 1,
+            "child_python_process_count": 0,
+            "observed_non_python_child_commands": list(commands),
+            "legacy_resume_wrappers_executed": False,
+            "duplicate_workers_executed": False,
+            "historical_temporal_gate_replayed": False,
+            "scientific_calibration_started": True,
+            "scientific_calibration_completed": False,
+            "single_run_result_sha256": diagnostic_sha,
+        },
+        "base_evidence_validation": {
+            "completed_without_exception": True,
+            "return_type": (
+                f"{type(base_result).__module__}.{type(base_result).__qualname__}"
+            ),
+        },
+        "constraint_z_precision_diagnosis": diagnostic,
+        "boundaries": {
+            "frozen_probe_accessed": False,
+            "selection_holdout_evaluated": "not_reached_before_precision_admission_failure",
+            "formal_training_run": False,
+            "reverse_sampling_run": False,
+            "idm_run": False,
+            "candidate_execution": False,
+            "deformable_ravens_executed": False,
+            "phase4": False,
+            "cps": False,
+            "checkpoint_saved": False,
+            "weights_persisted": False,
+            "surrogate_weights_persisted": False,
+            "prediction_tensor_persisted": False,
+            "candidate_tensor_persisted": False,
+            "npz_saved": False,
+            "cache_saved": False,
+            "image_saved": False,
+            "video_saved": False,
+        },
+    }
+
 def run_once(repo: Path, repository: Mapping[str, Any]) -> Mapping[str, Any]:
     frozen_environment = load_frozen_environment(repo)
 
@@ -1566,12 +2036,24 @@ def run_once(repo: Path, repository: Mapping[str, Any]) -> Mapping[str, Any]:
     os.environ["XDG_CACHE_HOME"] = str(temporary_root / "xdg")
     os.environ["TORCH_HOME"] = str(temporary_root / "torch")
 
+    precision_diagnostic: Optional[Mapping[str, Any]] = None
+    precision_commands: Sequence[Mapping[str, Any]] = ()
     try:
-        with OneProcessGuard() as guard:
-            raw_result = call_calibration(
-                run_calibration,
-                repo,
-                frozen_environment,
+        try:
+            with OneProcessGuard() as guard:
+                raw_result = call_calibration(
+                    run_calibration,
+                    repo,
+                    frozen_environment,
+                )
+        except BaseException as error:
+            if CONSTRAINT_Z_PRECISION_MARKER not in str(error):
+                raise
+            precision_commands = list(guard.commands)
+            precision_diagnostic = constraint_z_precision_diagnostic(
+                error,
+                stagef,
+                torch,
             )
     finally:
         for key, previous in previous_cache_env.items():
@@ -1580,6 +2062,19 @@ def run_once(repo: Path, repository: Mapping[str, Any]) -> Mapping[str, Any]:
             else:
                 os.environ[key] = previous
         shutil.rmtree(temporary_root, ignore_errors=True)
+
+    if precision_diagnostic is not None:
+        require_clean(repo, "main worktree after precision diagnosis")
+        require_clean(
+            repo / "external/deformable-ravens",
+            "submodule after precision diagnosis",
+        )
+        return precision_diagnostic_summary(
+            repository,
+            base_result,
+            precision_diagnostic,
+            precision_commands,
+        )
 
     result = normalize_scientific_result(stagef, raw_result)
     validate_scientific_result(result)
@@ -1664,7 +2159,7 @@ def run_once(repo: Path, repository: Mapping[str, Any]) -> Mapping[str, Any]:
 def blocked_payload(error: BaseException, repository: Optional[Mapping[str, Any]]) -> Mapping[str, Any]:
     return {
         "phase": PHASE,
-        "schema": "phase314b_r258_stagef_consolidated_blocked_v3",
+        "schema": "phase314b_r258_stagef_consolidated_blocked_v4_precision",
         "execution_verdict": "BLOCKED",
         "scientific_status": "BLOCKED",
         "root_cause": "phase314b_r258_stagef_consolidated_execution_failed",
