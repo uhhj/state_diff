@@ -243,8 +243,8 @@ def test_control_points():
         ("none", 0),
         ("condition_only", 2),
         ("anchor", 211),
-        ("full_centered_constraint", 527),
-        ("full_segment_constraint", 525),
+        ("full_centered_constraint", 619),
+        ("full_segment_constraint", 617),
     ],
 )
 def test_feature_dimensions(mode, dimension):

@@ -285,8 +285,8 @@ def test_constraint_z_float32_drift_within_derived_envelope():
 @pytest.mark.parametrize(
     "mode,dimension",
     [
-        ("full_centered_constraint", 527),
-        ("full_segment_constraint", 525),
+        ("full_centered_constraint", 619),
+        ("full_segment_constraint", 617),
     ],
 )
 def test_corrected_full_feature_dimensions(mode, dimension):
@@ -326,14 +326,18 @@ def test_corrected_selectable_features_ignore_condition_labels(mode):
 
 def test_feature_block_layout_centered():
     blocks = stagef._feature_block_slices("full_centered_constraint")
-    assert blocks[-1][0] == "constraint_z"
-    assert blocks[-1][1] == slice(435, 527)
+    assert blocks[-2][0] == "constraint_z_resolvable"
+    assert blocks[-2][1] == slice(435, 527)
+    assert blocks[-1][0] == "structural_zero_mask"
+    assert blocks[-1][1] == slice(527, 619)
 
 
 def test_feature_block_layout_segment():
     blocks = stagef._feature_block_slices("full_segment_constraint")
-    assert blocks[4][0] == "constraint_z"
+    assert blocks[4][0] == "constraint_z_resolvable"
     assert blocks[4][1] == slice(421, 513)
+    assert blocks[5][0] == "structural_zero_mask"
+    assert blocks[5][1] == slice(513, 605)
 
 
 def test_translation_audit_passes_pathological_full_resolution_inputs():
@@ -358,8 +362,8 @@ def test_translation_audit_records_constraint_z_separately():
         spec=stagef.ConstraintAwareSpec(),
     )
     centered = audit["records"]["full_centered_constraint"]["float32_roundtrip"]
-    assert centered["blocks"]["constraint_z"]["kind"] == "constraint_z"
-    assert centered["blocks"]["constraint_z"]["pass"]
+    assert centered["blocks"]["constraint_z_resolvable"]["kind"] == "constraint_z"
+    assert centered["blocks"]["constraint_z_resolvable"]["pass"]
 
 
 def test_translation_audit_keeps_ordinary_tolerance_strict():

@@ -126,6 +126,10 @@ CONDITION_VALUES = staged258.CONDITION_VALUES
 TIMESTEPS = (10, 25, 50)
 ORACLE_INTEGRATOR_ID = "oracle_z4_m2_r25"
 CONSTRAINT_Z_CLIP = 4.0
+STRUCTURAL_ZERO_Z_FILL = 0.0
+CONSTRAINT_SEGMENT_COUNT = stageb.FUTURE_STEPS * (stageb.BEADS - 1)
+FULL_CENTERED_CONSTRAINT_DIMENSION = 619
+FULL_SEGMENT_CONSTRAINT_DIMENSION = 617
 
 
 class ConstraintAwareSurrogateError(RuntimeError):
@@ -840,15 +844,12 @@ def constraint_z_features(
     control: np.ndarray,
     context: Mapping[str, Any],
 ) -> np.ndarray:
-    """Return the frozen Stage-E constraint state with saturated log-z.
+    """Return the frozen Stage-E saturated log-z state.
 
-    Stage F originally used an unbounded ``log(length)`` down to ``1e-12``.
-    Near a collapsed segment, a sub-ULP coordinate perturbation is amplified by
-    ``1 / length`` and can dominate the translation audit.  The Stage-E
-    integrator only distinguishes the robust interval ``[-4, +4]``; values
-    beyond either bound are the same lower/upper violation state.  Saturating
-    the feature at that immutable interval removes the numerical singularity
-    without discarding any decision-relevant constraint information.
+    This compatibility function intentionally retains the historical Stage-F
+    behavior: an exact zero-length segment maps to the lower saturated value.
+    Deployable constraint-aware features must call ``constraint_state_features``
+    instead, which separates that discrete structural state from continuous z.
     """
     points = _control_points(control)
     lengths = np.linalg.norm(stable_segment_vectors(points), axis=-1)
@@ -873,6 +874,57 @@ def constraint_z_features(
     return z.astype(np.float64)
 
 
+def structural_zero_mask(control: np.ndarray) -> np.ndarray:
+    """Return the exact discrete mask for duplicated adjacent cable beads.
+
+    The mask is deliberately threshold-free.  V4 proved that nonzero segments
+    do not collapse under the float32 translation round trip, so introducing a
+    learned or tolerance-based threshold would merge resolvable geometry with
+    a structural state and could create train/holdout leakage.
+    """
+    vectors = stable_segment_vectors(_control_points(control))
+    mask = np.all(vectors == 0.0, axis=-1)
+    expected = (
+        np.asarray(control).shape[0],
+        stageb.FUTURE_STEPS,
+        stageb.BEADS - 1,
+    )
+    if mask.shape != expected:
+        raise ConstraintAwareSurrogateError(
+            "structural-zero mask shape changed: {}".format(mask.shape)
+        )
+    return mask
+
+
+def constraint_state_features(
+    control: np.ndarray,
+    context: Mapping[str, Any],
+) -> Dict[str, np.ndarray]:
+    """Separate continuous resolvable z from exact structural-zero state."""
+    raw_z = constraint_z_features(control, context)
+    zero_mask_bool = structural_zero_mask(control)
+    continuous_z = np.where(
+        zero_mask_bool,
+        np.float64(STRUCTURAL_ZERO_Z_FILL),
+        raw_z,
+    ).astype(np.float64)
+    zero_mask = zero_mask_bool.astype(np.float64)
+    if continuous_z.shape != zero_mask.shape:
+        raise ConstraintAwareSurrogateError("constraint-state shape mismatch")
+    if not np.all(np.isfinite(continuous_z)):
+        raise ConstraintAwareSurrogateError(
+            "resolvable constraint z features are non-finite"
+        )
+    if not np.all((zero_mask == 0.0) | (zero_mask == 1.0)):
+        raise ConstraintAwareSurrogateError("structural-zero mask is not binary")
+    if np.any(continuous_z[zero_mask_bool] != STRUCTURAL_ZERO_Z_FILL):
+        raise ConstraintAwareSurrogateError("structural-zero z fill changed")
+    return {
+        "constraint_z_resolvable": continuous_z,
+        "structural_zero_mask": zero_mask,
+    }
+
+
 def _feature_block_slices(feature_mode: str) -> Tuple[Tuple[str, slice, str], ...]:
     if feature_mode == "anchor":
         return (("anchor", slice(0, 211), "ordinary"),)
@@ -882,7 +934,12 @@ def _feature_block_slices(feature_mode: str) -> Tuple[Tuple[str, slice, str], ..
             ("relative_robot", slice(144, 201), "ordinary"),
             ("actions", slice(201, 243), "ordinary"),
             ("future_centered", slice(243, 435), "ordinary"),
-            ("constraint_z", slice(435, 527), "constraint_z"),
+            ("constraint_z_resolvable", slice(435, 527), "constraint_z"),
+            (
+                "structural_zero_mask",
+                slice(527, FULL_CENTERED_CONSTRAINT_DIMENSION),
+                "structural_zero_mask",
+            ),
         )
     if feature_mode == "full_segment_constraint":
         return (
@@ -890,9 +947,14 @@ def _feature_block_slices(feature_mode: str) -> Tuple[Tuple[str, slice, str], ..
             ("relative_robot", slice(138, 195), "ordinary"),
             ("actions", slice(195, 237), "ordinary"),
             ("future_segments", slice(237, 421), "ordinary"),
-            ("constraint_z", slice(421, 513), "constraint_z"),
-            ("history_centroid_velocity", slice(513, 517), "ordinary"),
-            ("future_centroid_increment", slice(517, 525), "ordinary"),
+            ("constraint_z_resolvable", slice(421, 513), "constraint_z"),
+            ("structural_zero_mask", slice(513, 605), "structural_zero_mask"),
+            ("history_centroid_velocity", slice(605, 609), "ordinary"),
+            (
+                "future_centroid_increment",
+                slice(609, FULL_SEGMENT_CONSTRAINT_DIMENSION),
+                "ordinary",
+            ),
         )
     raise ValueError("unknown feature mode: {}".format(feature_mode))
 
@@ -903,41 +965,97 @@ def _float32_constraint_z_bound(
     offset_xy: Sequence[float],
     context: Mapping[str, Any],
     spec: ConstraintAwareSpec,
-) -> Dict[str, float]:
-    exact = np.asarray(control, dtype=np.float64).reshape(
-        np.asarray(control).shape[0],
+) -> Dict[str, Any]:
+    """Bound translation drift only on resolvable continuous segments.
+
+    Structural zeros are an exact discrete state and are excluded from the
+    continuous log-z envelope.  Their mask must remain byte-exact under the
+    frozen float32 translation path.  The continuous bound is derived from the
+    observed deterministic round trip, multiplied by the already frozen ULP
+    safety factor, and remains capped by the existing 1e-2 admission maximum.
+    """
+    control_value = np.asarray(control)
+    source_points = _control_points(control_value)
+    exact_translated = source_points + np.asarray(
+        offset_xy, dtype=np.float64
+    )[None, None, None, :]
+    rounded_points = exact_translated.astype(np.float32).astype(np.float64)
+    rounded_control = rounded_points.reshape(
+        control_value.shape[0],
         stageb.FUTURE_STEPS,
-        stageb.BEADS,
-        2,
-    ).copy()
-    exact += np.asarray(offset_xy, dtype=np.float64)[None, None, None, :]
-    rounded = exact.astype(np.float32)
-    spacing = np.abs(np.spacing(rounded)).astype(np.float64)
-    maximum_spacing = float(np.max(spacing))
+        stageb.CABLE_DIM,
+    )
+
+    source_state = constraint_state_features(control_value, context)
+    rounded_state = constraint_state_features(rounded_control, context)
+    source_mask = source_state["structural_zero_mask"].astype(np.bool_)
+    rounded_mask = rounded_state["structural_zero_mask"].astype(np.bool_)
+    if not np.array_equal(source_mask, rounded_mask):
+        changed = int(np.count_nonzero(source_mask != rounded_mask))
+        raise ConstraintAwareSurrogateError(
+            "structural-zero mask changed under float32 translation: {}".format(
+                changed
+            )
+        )
+
+    resolvable = ~source_mask
+    resolvable_count = int(np.count_nonzero(resolvable))
+    structural_zero_count = int(np.count_nonzero(source_mask))
+    if resolvable_count <= 0:
+        raise ConstraintAwareSurrogateError(
+            "constraint-z audit has no resolvable segments"
+        )
+
+    source_vectors = stable_segment_vectors(source_points)
+    rounded_vectors = stable_segment_vectors(rounded_points)
+    source_lengths = np.linalg.norm(source_vectors, axis=-1)
+    rounded_lengths = np.linalg.norm(rounded_vectors, axis=-1)
+    cast_collapse = resolvable & (rounded_lengths == 0.0)
+    if np.any(cast_collapse):
+        raise ConstraintAwareSurrogateError(
+            "float32 translation collapsed a resolvable segment"
+        )
+
+    source_z = source_state["constraint_z_resolvable"]
+    rounded_z = rounded_state["constraint_z_resolvable"]
+    z_difference = np.abs(source_z - rounded_z)
+    maximum_observed = float(np.max(z_difference[resolvable]))
+    mean_observed = float(np.mean(z_difference[resolvable]))
+    derived = float(spec.translation_float32_z_ulp_factor) * maximum_observed
+    bound = max(float(spec.translation_tolerance), float(derived))
+    if bound > spec.translation_float32_z_bound_max:
+        raise ConstraintAwareSurrogateError(
+            "float32 coordinate resolution is insufficient for resolvable constraint-z audit"
+        )
+
+    spacing = np.abs(np.spacing(exact_translated.astype(np.float32))).astype(
+        np.float64
+    )
+    endpoint_spacing = np.linalg.norm(
+        spacing[..., 1:, :] + spacing[..., :-1, :], axis=-1
+    )
+    ratio = endpoint_spacing[resolvable] / source_lengths[resolvable]
+
     reference = context["stage_d_contract"].reference
     reference.validate()
     center = np.asarray(reference.center_log, dtype=np.float64)
     scale = np.asarray(reference.scale_log, dtype=np.float64)
     lower_length = np.exp(center - spec.constraint_z_clip * scale)
-    minimum_lower_length = float(np.min(lower_length))
-    minimum_scale = float(np.min(scale))
-    if minimum_lower_length <= 0.0 or minimum_scale <= 0.0:
-        raise ConstraintAwareSurrogateError("constraint quantization denominator changed")
-    derived = (
-        spec.translation_float32_z_ulp_factor
-        * math.sqrt(2.0)
-        * maximum_spacing
-        / (minimum_lower_length * minimum_scale)
-    )
-    bound = max(float(spec.translation_tolerance), float(derived))
-    if bound > spec.translation_float32_z_bound_max:
-        raise ConstraintAwareSurrogateError(
-            "float32 coordinate resolution is insufficient for constraint-z audit"
-        )
+
     return {
-        "maximum_coordinate_spacing": maximum_spacing,
-        "minimum_clipped_segment_length": minimum_lower_length,
-        "minimum_log_scale": minimum_scale,
+        "structural_zero_policy": "exact_adjacent_bead_equality",
+        "structural_zero_count": structural_zero_count,
+        "resolvable_segment_count": resolvable_count,
+        "mask_roundtrip_exact": True,
+        "float32_cast_collapse_count": 0,
+        "maximum_coordinate_spacing": float(np.max(spacing)),
+        "minimum_clipped_segment_length": float(np.min(lower_length)),
+        "minimum_resolvable_segment_length": float(
+            np.min(source_lengths[resolvable])
+        ),
+        "maximum_endpoint_ulp_norm_over_source_length": float(np.max(ratio)),
+        "maximum_observed_resolvable_z_difference": maximum_observed,
+        "mean_observed_resolvable_z_difference": mean_observed,
         "ulp_factor": float(spec.translation_float32_z_ulp_factor),
         "derived_bound": float(derived),
         "applied_bound": float(bound),
@@ -967,7 +1085,9 @@ def build_constraint_features(
     cable, robot, actions = _condition_parts(condition)
     future = _control_points(control)
     relative_robot = stable_relative_robot_features(cable=cable, robot=robot)
-    z = constraint_z_features(control, context)
+    constraint_state = constraint_state_features(control, context)
+    z = constraint_state["constraint_z_resolvable"]
+    structural_zero = constraint_state["structural_zero_mask"]
     if feature_mode == "full_centered_constraint":
         parts = (
             stable_center_points(cable).reshape(cable.shape[0], -1),
@@ -975,8 +1095,9 @@ def build_constraint_features(
             actions,
             stable_center_points(future).reshape(cable.shape[0], -1),
             z.reshape(cable.shape[0], -1),
+            structural_zero.reshape(cable.shape[0], -1),
         )
-        expected_dimension = 527
+        expected_dimension = FULL_CENTERED_CONSTRAINT_DIMENSION
     elif feature_mode == "full_segment_constraint":
         history_centroid = np.mean(cable, axis=2)
         future_centroid = np.mean(future, axis=2)
@@ -991,10 +1112,11 @@ def build_constraint_features(
             actions,
             stable_segment_vectors(future).reshape(cable.shape[0], -1),
             z.reshape(cable.shape[0], -1),
+            structural_zero.reshape(cable.shape[0], -1),
             history_velocity.reshape(cable.shape[0], -1),
             future_increment.reshape(cable.shape[0], -1),
         )
-        expected_dimension = 525
+        expected_dimension = FULL_SEGMENT_CONSTRAINT_DIMENSION
     else:
         raise ValueError("unknown constraint-aware feature mode: {}".format(feature_mode))
     result = np.concatenate(parts, axis=1).astype(np.float64)
@@ -1068,11 +1190,20 @@ def translation_invariance_audit(
             values = roundtrip_difference[:, block_slice]
             maximum = float(np.max(values)) if values.size else 0.0
             mean = float(np.mean(values)) if values.size else 0.0
-            tolerance = (
-                float(z_bound["applied_bound"])
-                if block_kind == "constraint_z"
-                else float(spec.translation_tolerance)
-            )
+            if block_kind == "constraint_z":
+                tolerance = float(z_bound["applied_bound"])
+            elif block_kind == "structural_zero_mask":
+                tolerance = 0.0
+                if not np.array_equal(
+                    original[:, block_slice], rounded_translated[:, block_slice]
+                ):
+                    raise ConstraintAwareSurrogateError(
+                        "structural-zero mask is not float32 translation invariant: {}".format(
+                            mode
+                        )
+                    )
+            else:
+                tolerance = float(spec.translation_tolerance)
             if maximum > tolerance:
                 raise ConstraintAwareSurrogateError(
                     "float32 translation drift exceeds {} block envelope: {}".format(
@@ -1114,8 +1245,8 @@ def translation_invariance_audit(
         "records": records,
         "all_selectable_modes_invariant": True,
         "audit_interpretation": (
-            "structural symmetry is a float64 hard gate; float32 round-trip "
-            "drift is bounded component-wise after frozen constraint-z saturation"
+            "structural symmetry and the exact structural-zero mask are hard "
+            "gates; float32 drift is bounded only on resolvable continuous z"
         ),
     }
 
@@ -2330,7 +2461,7 @@ def run_calibration(
         else None
     )
     contract = {
-        "schema": "phase314b_r258_stagef_constraint_aware_contract_v1",
+        "schema": "phase314b_r258_stagef_constraint_aware_contract_v2_structural_zero",
         "phase": PHASE,
         "base_evidence_commit": BASE_EVIDENCE_COMMIT,
         "base_identity": {
@@ -2365,8 +2496,16 @@ def run_calibration(
             "group_pair_seed_window_metadata_in_features": False,
             "translation_invariant": True,
             "anchor_dimension": 211,
-            "full_centered_constraint_dimension": 527,
-            "full_segment_constraint_dimension": 525,
+            "full_centered_constraint_dimension": FULL_CENTERED_CONSTRAINT_DIMENSION,
+            "full_segment_constraint_dimension": FULL_SEGMENT_CONSTRAINT_DIMENSION,
+            "constraint_segment_count": CONSTRAINT_SEGMENT_COUNT,
+            "constraint_state_representation": {
+                "continuous": "clipped z on resolvable segments; zero-filled on structural zeros",
+                "discrete": "exact structural-zero mask",
+                "zero_definition": "adjacent ordered bead coordinates are exactly equal",
+                "threshold_learned": False,
+                "holdout_or_frozen_probe_used_to_define_mask": False,
+            },
         },
         "source_sha256": base["source_sha256"],
         "diffusion_model_candidate_trained": False,
@@ -2375,7 +2514,7 @@ def run_calibration(
     }
     contract["contract_sha256"] = sha256_bytes(stable_json_bytes(contract))
     selection_payload = {
-        "schema": "phase314b_r258_stagef_selection_v1",
+        "schema": "phase314b_r258_stagef_selection_v2_structural_zero",
         "phase": PHASE,
         "selected_configuration": copy.deepcopy(selected),
         "validated_train_only_recommendation": copy.deepcopy(validated),
@@ -2389,7 +2528,7 @@ def run_calibration(
     ready = validated is not None
     return {
         "phase": PHASE,
-        "schema": "phase314b_r258_stagef_result_v1",
+        "schema": "phase314b_r258_stagef_result_v2_structural_zero",
         "verdict": "PASS",
         "scientific_status": "READY" if ready else "BLOCKED",
         "root_cause": classification["root_cause"],

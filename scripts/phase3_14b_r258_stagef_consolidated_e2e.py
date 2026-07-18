@@ -40,22 +40,30 @@ REPOSITORY_ROOT = SCRIPT_PATH.parents[1]
 if str(REPOSITORY_ROOT) not in sys.path:
     sys.path.insert(0, str(REPOSITORY_ROOT))
 
-PHASE = "Phase3.14b-r2.5.8 Stage F Consolidated Constraint-Z Precision Diagnosis"
-SCHEMA = "phase314b_r258_stagef_consolidated_e2e_v4_precision"
+PHASE = "Phase3.14b-r2.5.8 Stage F Structural-Zero Feature Correction"
+SCHEMA = "phase314b_r258_stagef_consolidated_e2e_v5_structural_zero"
 DEFAULT_ROOT = Path("/data/state_diff2")
 
 EXPECTED_BRANCH = "Experiment1"
 EXPECTED_REMOTE_HEAD = "6758ea7ad800667a436b0243d3b1f6c63256d854"
 EXPECTED_SUBMODULE = "633a88752445cf5d6776ed374fdbbdb35f93050c"
-EXPECTED_PARENT = "84bccbc897f5e9736f487b7110d136c24d7b4be6"
-EXPECTED_SUBJECT = "Phase3.14b-r2.5.8 Stage F: diagnose constraint-z float32 precision"
-IMPLEMENTATION_PATH = "scripts/phase3_14b_r258_stagef_consolidated_e2e.py"
+EXPECTED_PARENT = "14af8bb3aabee09ded040b126c869f97e989362a"
+EXPECTED_SUBJECT = "Phase3.14b-r2.5.8 Stage F: separate structural-zero constraint state"
+IMPLEMENTATION_PATHS: Tuple[Tuple[str, str], ...] = (
+    ("M", "ccda_phase3/phase314b_r258_stagef_constraint_aware_surrogate.py"),
+    ("M", "scripts/phase3_14b_r258_stagef_consolidated_e2e.py"),
+    ("M", "tests/test_phase3_14b_r258_stagef_constraint_aware_surrogate.py"),
+    ("M", "tests/test_phase3_14b_r258_stagef_resume1_translation_fix.py"),
+    ("A", "tests/test_phase3_14b_r258_stagef_structural_zero_features.py"),
+)
 
 STAGEF_ANCHOR = "f41a2364b7283b1eb963d305823804374ddfc8d6"
 STAGEE_ANCHOR = "6758ea7ad800667a436b0243d3b1f6c63256d854"
 STAGEF_MODULE = "ccda_phase3.phase314b_r258_stagef_constraint_aware_surrogate"
-STAGEF_PATHS: Tuple[str, ...] = (
-    "ccda_phase3/phase314b_r258_stagef_constraint_aware_surrogate.py",
+STAGEF_SCIENTIFIC_PATH = (
+    "ccda_phase3/phase314b_r258_stagef_constraint_aware_surrogate.py"
+)
+STAGEF_IMMUTABLE_PATHS: Tuple[str, ...] = (
     "ccda_phase3/phase314b_r258_stagef_resume1_translation_fix.py",
     "scripts/phase3_14b_r258_stagef_resume1_worker.py",
 )
@@ -68,8 +76,8 @@ STAGEE_PATHS: Tuple[str, ...] = (
 STAGEE_WORKER_EVIDENCE = "reports/phase3_14b_r258_stagee_worker_evidence.json"
 CANONICAL_WORKER = "scripts/phase3_14b_r258_stagef_resume1_worker.py"
 
-SUCCESS_REPORT = "reports/phase3_14b_r258_stagef_consolidated_v4_precision_summary.json"
-BLOCKED_REPORT = "reports/phase3_14b_r258_stagef_consolidated_v4_precision_blocked_summary.json"
+SUCCESS_REPORT = "reports/phase3_14b_r258_stagef_consolidated_v5_structural_zero_summary.json"
+BLOCKED_REPORT = "reports/phase3_14b_r258_stagef_consolidated_v5_structural_zero_blocked_summary.json"
 
 EXPECTED_ENV = {
     "PYTHONHASHSEED": "0",
@@ -109,6 +117,8 @@ COMMIT_BOUND_REPORTS: Mapping[str, str] = {
         "0e405929ed547a57c1d0ab69131efd11cdb658ff",
     "reports/phase3_14b_r258_stagef_consolidated_v3_blocked_summary.json":
         "84bccbc897f5e9736f487b7110d136c24d7b4be6",
+    "reports/phase3_14b_r258_stagef_consolidated_v4_precision_summary.json":
+        "14af8bb3aabee09ded040b126c869f97e989362a",
 }
 
 REQUIRED_ANCESTORS: Tuple[str, ...] = (
@@ -127,6 +137,8 @@ REQUIRED_ANCESTORS: Tuple[str, ...] = (
     "0e405929ed547a57c1d0ab69131efd11cdb658ff",
     "053679777b8362d19fbf8e5e3637dc56dcc5d432",
     "84bccbc897f5e9736f487b7110d136c24d7b4be6",
+    "02ee4afa59acadc3344ac318c372d527b905581d",
+    "14af8bb3aabee09ded040b126c869f97e989362a",
 )
 
 FORBIDDEN_TRUE_FIELDS: Tuple[str, ...] = (
@@ -315,7 +327,7 @@ def validate_repository(repo: Path) -> Mapping[str, Any]:
     subject = git(repo, "show", "-s", "--format=%s", head)
     require_equal("implementation subject", subject, EXPECTED_SUBJECT)
 
-    changed = git_bytes(
+    raw_changed = git_bytes(
         repo,
         "diff-tree",
         "--no-commit-id",
@@ -325,13 +337,23 @@ def validate_repository(repo: Path) -> Mapping[str, Any]:
         "--no-renames",
         head,
     ).split(b"\0")
-    if changed and changed[-1] == b"":
-        changed.pop()
-    expected_change = [b"M", IMPLEMENTATION_PATH.encode("utf-8")]
-    if changed != expected_change:
+    if raw_changed and raw_changed[-1] == b"":
+        raw_changed.pop()
+    if len(raw_changed) % 2 != 0:
         raise ExecutionError(
-            "correction commit must modify only the existing consolidated runner: "
-            f"expected={expected_change!r}, actual={changed!r}"
+            "implementation diff-tree has an incomplete status/path record"
+        )
+    changed = tuple(
+        (
+            raw_changed[index].decode("ascii", "strict"),
+            raw_changed[index + 1].decode("utf-8", "strict"),
+        )
+        for index in range(0, len(raw_changed), 2)
+    )
+    if changed != IMPLEMENTATION_PATHS:
+        raise ExecutionError(
+            "structural-zero implementation path population changed: "
+            f"expected={IMPLEMENTATION_PATHS!r}, actual={changed!r}"
         )
 
     for ancestor in REQUIRED_ANCESTORS:
@@ -366,8 +388,11 @@ def validate_repository(repo: Path) -> Mapping[str, Any]:
     }
     stagef_hashes = {
         relpath: require_blob_equal(repo, STAGEF_ANCHOR, relpath)
-        for relpath in STAGEF_PATHS
+        for relpath in STAGEF_IMMUTABLE_PATHS
     }
+    stagef_hashes[STAGEF_SCIENTIFIC_PATH] = sha256_path(
+        repo / STAGEF_SCIENTIFIC_PATH
+    )
     stagee_hashes = {
         relpath: require_blob_equal(repo, STAGEE_ANCHOR, relpath)
         for relpath in STAGEE_PATHS
@@ -385,7 +410,7 @@ def validate_repository(repo: Path) -> Mapping[str, Any]:
         "subject": subject,
         "remote_head": remote,
         "submodule": EXPECTED_SUBMODULE,
-        "implementation_path": IMPLEMENTATION_PATH,
+        "implementation_paths": [list(item) for item in IMPLEMENTATION_PATHS],
         "immutable_report_sha256": immutable_hashes,
         "commit_bound_report_sha256": commit_bound,
         "stagef_source_sha256": stagef_hashes,
@@ -1515,8 +1540,9 @@ def diagnostic_summary(
 
 
 
-CONSTRAINT_Z_PRECISION_MARKER = (
-    "float32 coordinate resolution is insufficient for constraint-z audit"
+CONSTRAINT_Z_PRECISION_MARKERS: Tuple[str, ...] = (
+    "float32 coordinate resolution is insufficient for constraint-z audit",
+    "float32 coordinate resolution is insufficient for resolvable constraint-z audit",
 )
 CONSTRAINT_Z_FUNCTION = "_float32_constraint_z_bound"
 MAX_PRECISION_ARRAYS = 48
@@ -1913,7 +1939,7 @@ def constraint_z_precision_diagnostic(
         },
         "runtime_numerical_settings": runtime_numerical_observation(torch),
         "exact_gate_relaxed": False,
-        "stagef_scientific_source_modified": False,
+        "stagef_scientific_source_modified": True,
         "automatic_tolerance_inferred": False,
         "interpretation": interpretation,
         "required_next_path": required_next,
@@ -1932,7 +1958,7 @@ def precision_diagnostic_summary(
         "schema": SCHEMA,
         "execution_verdict": "PASS",
         "scientific_status": "BLOCKED",
-        "root_cause": "phase314b_r258_stagef_constraint_z_float32_precision_not_admitted",
+        "root_cause": "phase314b_r258_stagef_structural_zero_feature_correction_not_admitted",
         "required_next_path": diagnostic["required_next_path"],
         "selected_configuration": None,
         "train_only_recommendation": None,
@@ -2047,7 +2073,7 @@ def run_once(repo: Path, repository: Mapping[str, Any]) -> Mapping[str, Any]:
                     frozen_environment,
                 )
         except BaseException as error:
-            if CONSTRAINT_Z_PRECISION_MARKER not in str(error):
+            if not any(marker in str(error) for marker in CONSTRAINT_Z_PRECISION_MARKERS):
                 raise
             precision_commands = list(guard.commands)
             precision_diagnostic = constraint_z_precision_diagnostic(
@@ -2117,7 +2143,8 @@ def run_once(repo: Path, repository: Mapping[str, Any]) -> Mapping[str, Any]:
             "frozen_portable_contract_sha256": repository[
                 "stagee_input_sha256"
             ][STAGEE_WORKER_EVIDENCE],
-            "frozen_contract_passed_to_unchanged_stagef": True,
+            "frozen_contract_passed_to_current_stagef": True,
+            "stagef_scientific_source_modified": True,
             "cold_cuda_before_import": True,
             "cold_cuda_before_calibration": True,
             "current_runtime_after_calibration": runtime,
@@ -2159,7 +2186,7 @@ def run_once(repo: Path, repository: Mapping[str, Any]) -> Mapping[str, Any]:
 def blocked_payload(error: BaseException, repository: Optional[Mapping[str, Any]]) -> Mapping[str, Any]:
     return {
         "phase": PHASE,
-        "schema": "phase314b_r258_stagef_consolidated_blocked_v4_precision",
+        "schema": "phase314b_r258_stagef_consolidated_blocked_v5_structural_zero",
         "execution_verdict": "BLOCKED",
         "scientific_status": "BLOCKED",
         "root_cause": "phase314b_r258_stagef_consolidated_execution_failed",
