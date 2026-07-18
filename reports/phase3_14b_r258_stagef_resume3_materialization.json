@@ -1,0 +1,25 @@
+{
+  "current_stage_f_resume2_passed": 48,
+  "frozen_temporal_files": 58,
+  "frozen_temporal_passed": 1503,
+  "generated_sha256": {
+    "ccda_phase3/phase314b_r258_stagef_resume3_test_count_namespace.py": "4b23986646b659e5d39931d950e87047d4e45595f2ec94925e04ed7487e037fb",
+    "scripts/phase3_14b_r258_stagef_resume3_blocked.py": "a964d75ad682c4c6fc8fcb1c905975b1325b7fd3beca43b756f337adfb8e24ff",
+    "scripts/phase3_14b_r258_stagef_resume3_run.sh": "ff43ee206c374e9e7549543d5a283e52001749e558a584a5422fb47722e2a264",
+    "scripts/phase3_14b_r258_stagef_resume3_run_calibration.py": "33f97130bf7f0fc142a53dd8ac9f7f6001d79988ef84ed70dce85921036543f5",
+    "scripts/phase3_14b_r258_stagef_resume3_test_gate.py": "bf77650a098896853859c57e01148ca1cd982de433afc76ace24a4794cf5045d",
+    "scripts/phase3_14b_r258_stagef_resume3_worker.py": "793716c912eb7efb2a8b2f7b18713fe5ce861a1220413544a2a45b0b7c553902",
+    "tests/test_phase3_14b_r258_stagef_resume3_count_namespace.py": "dc1b5a53c316644bcd114385ef372428c764af29346419092b57eb18ec8cde0f"
+  },
+  "historical_stage_d_resume2_passed": 55,
+  "operation": "add_only_namespace_recovery_materialization",
+  "phase": "Phase3.14b-r2.5.8 Stage F Resume3",
+  "scientific_logic_changed": false,
+  "source_sha256": {
+    "scripts/phase3_14b_r258_stagef_resume2_blocked.py": "75fb6f683311fc7c608af46670b8634048cee31118fe51ac2c92b6989de94ed3",
+    "scripts/phase3_14b_r258_stagef_resume2_run.sh": "bf28c3d2ca9a5223d6858b73c1fb82d848534955d271d71b4acbf21ac22018e7",
+    "scripts/phase3_14b_r258_stagef_resume2_run_calibration.py": "e6f02dc5eaa88c03607d87e27ce882924c82ca90c64a8b3c3b0ac2d11f377cca",
+    "scripts/phase3_14b_r258_stagef_resume2_test_gate.py": "30fe14e0957c5b4a77f0dc93cf128bcd5412d82d7e4146f2ed5359fe945c25aa",
+    "scripts/phase3_14b_r258_stagef_resume2_worker.py": "ea3d2875141c5485764422421b1660d3e77de9ebc55debccdbaff823d9aad8ad"
+  }
+}
