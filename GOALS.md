@@ -2,8 +2,8 @@
 
 > Repository: `uhhj/state_diff`, branch `Experiment1`
 > Simulation submodule: `uhhj/deformable-ravens`, branch `ccda-cable`
-> Current research checkpoint: Phase3.14b-r2.4 blocked at supplied static-test contract
-> Current formal decision: **Phase3.14b-r2.4 did not start training; formal test, formal training, Phase3.14c, candidate execution, and Phase4/CPS remain blocked**
+> Current research checkpoint: Phase3.14b-r2.5.8 Stage H implementation committed at `0203b66`; candidate-descriptor identifiability audit is in progress, with Stage G as the latest finalized evidence
+> Current formal decision: **Stage G execution passed, but feasibility progress was not identifiable. No configuration was selected; formal test, formal training, Phase3.14c, candidate execution, and Phase4/CPS remain blocked**
 
 ---
 
@@ -146,40 +146,78 @@ Established:
 - therefore the rigid world-anchor task leaks through legally observable motion;
 - merely deleting simulator velocity is insufficient.
 
+### Phase3.12d-r2.4 and Phase3.13 — valid environment and formal state-v2 data
+
+Established:
+
+- replaced the rigid world-anchor benchmark with the versioned slack-breakaway environment;
+- passed no-action parity, actionability, deterministic release and snapshot-restore gates;
+- regenerated and atomically promoted the grouped formal state-v2 dataset;
+- retained a 14-D executable action codec and excluded hidden metadata from model inputs;
+- produced 448 visible seeds, 896 episodes and 4256 windows.
+
+### Phase3.14a–r2.5.5 — cache, DDPM and target-schema diagnosis
+
+Established:
+
+- built the immutable cache and passed deterministic future learnability;
+- completed the DDPM candidate matrix, scheduler-equivalence and ordered-geometry audits;
+- separated exact reconstruction, branch transport and robot-proxy reconstruction gates;
+- proved same-device residual determinism and cross-device functional-prior equivalence;
+- migrated the raw robot proxy to a write-once state-v3 dataset and cache;
+- found that future robot proxy is neither deployably predictable nor materially useful to IDM;
+- required future diffusion targets to become cable-only.
+
+### Phase3.14b-r2.5.6–r2.5.7 — cable geometry and objective diagnosis
+
+Established:
+
+- the cable-only contract is valid, but branch support fails;
+- the original symmetric segment gate was confounded by lower-tail XY collapse;
+- a frozen one-sided upper-segment contract isolates the remaining failure to cable x0 upper expansion;
+- Huber upper objectives saturate, while top-k quadratic variants retain a fidelity tradeoff;
+- timestep-gated K16 still has no joint geometry/fidelity solution;
+- no train-only recommendation or formal configuration was selected.
+
+### Phase3.14b-r2.5.8 — portable direction, reachability and feasibility chain
+
+Established:
+
+- replaced hardware-model identity gates with portable compatibility and same-instance determinism contracts;
+- showed a physically valid direct-x0 endpoint is reachable, while balanced local descent is misaligned;
+- found grouped-CV direction signal, but no valid state transition from the initial surrogate;
+- calibrated constrained direct-x0 integration and a constraint-aware direction surrogate;
+- separated structural-zero constraint state and admitted only ULP factor `1.0` under the frozen objective-train policy;
+- Stage G preserved direction signal for all nine candidate backbones but produced no feasibility-progress ranker signal;
+- Stage G execution verdict is `PASS`, scientific status is `BLOCKED`;
+- root cause is `phase314b_r258_stageg_feasibility_progress_not_identifiable`;
+- required next path is `AUDIT_CANDIDATE_DESCRIPTOR_IDENTIFIABILITY`;
+- `train_only_recommendation` and `selected_configuration` remain `None`.
+
 ---
 
 ## 4. Current blockers
 
-### Blocker A — benchmark validity
+### Blocker A — feasibility-progress descriptor identifiability
 
-The current condition:
+Stage G retained a usable direction signal, but every frozen ranker candidate had zero observable feasible rate, zero utility correlation and no positive Brier improvement. The next audit must determine whether the frozen candidate descriptors contain enough information to rank feasibility progress.
 
-```text
-hidden_breakaway_pin
-```
+### Blocker B — cable candidate integration
 
-uses a rigid world point constraint. Even when installed with zero initial position error, it changes the cable's natural dynamics and produces condition-specific no-action motion.
+A valid direct-x0 endpoint is reachable, but the learned/surrogate direction has not yet formed a physically valid integrated transition. Geometry, fidelity and feasibility gates have not passed together for any candidate.
 
-It is retired from formal CCDA claims and retained only for historical diagnostics.
+### Blocker C — formal candidate oracle
 
-### Blocker B — production state schema
-
-The current legacy dataset and checkpoints use simulator bead velocity.
-
-They are allowed only for bridge diagnostics. They cannot support final architecture-level negative or positive claims.
-
-### Blocker C — candidate oracle
-
-Candidate-set headroom has not been validly measured under a benchmark and observation contract that both satisfy CCDA requirements.
+No candidate configuration has been selected. Formal candidate execution and candidate-set headroom remain unmeasured because train-only geometry and feasibility diagnostics are still blocked.
 
 ### Blocker D — CPS authorization
 
-CPS development is blocked until:
+CPS development remains blocked until:
 
-- a valid latent-contact task passes hiddenness and actionability gates;
-- the state-v2 dataset is regenerated;
-- StateDiff and inverse dynamics are retrained;
-- candidate-set oracle headroom is demonstrated.
+- candidate descriptors support identifiable feasibility progress;
+- a frozen candidate configuration passes cable geometry, fidelity and feasibility gates;
+- formal candidate execution demonstrates useful headroom on held-out grouped data;
+- inverse-dynamics inputs and action feasibility are validated under the cable-only future contract.
 
 ---
 
@@ -237,7 +275,7 @@ Failure variants must identify whether the problem is:
 
 ## Phase 3.13 — State-v2 dataset regeneration
 
-Current phase: **Phase3.14 State-v2 Baseline Retraining and Candidate-Set Headroom Audit**.
+Status: **COMPLETED / PASS**. Current work remains in Phase3.14b train-only candidate-generation diagnostics.
 
 Formal task and observation contract:
 
@@ -296,6 +334,8 @@ Then measure candidate-set realized-effect oracle headroom using query-local sna
 - dense progress improves but sparse fraction does not → metric masking problem.
 
 CPS is not authorized unless useful candidate headroom exists.
+
+Current status: **SCIENTIFICALLY BLOCKED after Phase3.14b-r2.5.8 Stage G**. Stage H candidate-descriptor identifiability code is committed and its audit is in progress; it is not formal candidate execution and has no finalized scientific result yet.
 
 ---
 
@@ -410,12 +450,19 @@ No result may silently reuse an artifact produced under a different environment 
 
 - r2.1 paired-horizon audit;
 - r2.2 code/data and observation leakage audit;
-- r2.3 observation-contract and privileged-state ablation.
+- r2.3 observation-contract and privileged-state ablation;
+- r2.4 slack-breakaway environment audit;
+- Phase3.13-r1 formal state-v2 dataset and grouped-split audit;
+- Phase3.14a immutable cache and deterministic learnability audit;
+- r2.5.5 state-v3 robot-proxy migration and target-schema attribution;
+- r2.5.6 cable-only geometry and one-sided upper-segment contract audits;
+- r2.5.7 upper-objective and timestep-gated K16 diagnostics;
+- r2.5.8 portable direct-x0 reachability, constrained integration, ULP admission and Stage G joint direction-feasibility evidence.
 
 ### Next formal artifact
 
 ```text
-Phase3.13 state-v2 formal paired dataset and audit
+Phase3.14b-r2.5.8 Stage H candidate-descriptor identifiability evidence (implementation commit `0203b66`, audit in progress)
 ```
 
 ---
@@ -712,6 +759,60 @@ Formal training: BLOCKED
 Phase3.14c IDM: BLOCKED
 Candidate execution: BLOCKED
 Phase4/CPS: BLOCKED
+
+Phase3.14b-r2.5.4 Resume4/Resume5: COMPLETED / PASS
+Meaning: reproduction identity was decomposed, then same-device residual determinism and cable functional non-regression were established
+Root cause: phase314b_r254_resume5_same_device_residual_determinism_and_cable_functional_nonregression_supported
+Cross-device rule: compare frozen scientific/functional contracts, not hardware-specific byte SHA
+Train-only recommendation: None
+Selected configuration: None
+Next: migrate the robot-proxy schema and regenerate a write-once cache
+
+Phase3.14b-r2.5.5 Stage A/B/C Resume1: COMPLETED / PASS
+Meaning: the legacy robot proxy was deterministically migrated to state-v3, the write-once dataset/cache was reproduced, and robot-future attribution completed
+Root cause: phase314b_r255_stagec_robot_future_not_deployably_predictable_or_idm_material
+Decision: remove robot future from the diffusion target and redefine IDM input around cable future plus causal history/action information
+Train-only recommendation: None
+Selected configuration: None
+
+Phase3.14b-r2.5.6 Stage A through Stage D.3 Resume1: COMPLETED / PASS
+Meaning: the cable-only contract and IDM identifiability audit passed, but cable branch transport failed; gate audits isolated lower-tail XY collapse and froze a one-sided upper-segment contract
+Root cause: phase314b_r256_staged3_cable_x0_upper_segment_expansion_failed
+Primary failure locus: x0_upper_expansion
+Train-only recommendation: None
+Selected configuration: None
+Next: add and calibrate an ordered upper-segment expansion objective on train-only data
+
+Phase3.14b-r2.5.7 Stage A/B/C/Stage D Resume4: COMPLETED / PASS
+Meaning: upper-objective, mechanism, top-k quadratic and timestep-gated K16 diagnostics completed under the corrected GPU replay contract
+Root cause: phase314b_r257_staged_timestep_gated_k16_no_geometry_or_fidelity_solution
+Primary failure locus: joint_tradeoff
+Train-only recommendation: None
+Selected configuration: None
+Next: calibrate a portable conflict-projected low-noise K16 objective
+
+Phase3.14b-r2.5.8 Stage A Resume1 through Stage F V8: COMPLETED / PASS
+Meaning: portable compatibility, direct-x0 reachability, balanced geometry, direction-surrogate, constrained-integrator and constraint-aware ULP-policy diagnostics completed
+Root cause: phase314b_r258_stagef_constraint_aware_direction_still_not_integrable
+Selected ULP factor: 1.0
+Eligible ULP factors: [1.0]
+Train-only recommendation: None
+Selected configuration: None
+Next: calibrate a joint direction and feasibility surrogate
+
+Phase3.14b-r2.5.8 Stage G: EXECUTION PASS / SCIENTIFIC BLOCKED
+Meaning: all nine frozen candidate backbones retained direction signal, but none produced identifiable feasibility progress or passed the integrated state/observable gates
+Root cause: phase314b_r258_stageg_feasibility_progress_not_identifiable
+Primary failure locus: feasibility_progress_ranker
+Eligible candidates: none
+Train-only recommendation: None
+Selected configuration: None
+Required next path: AUDIT_CANDIDATE_DESCRIPTOR_IDENTIFIABILITY
+Formal test: UNREAD / BLOCKED
+Formal training: BLOCKED
+Phase3.14c IDM: BLOCKED
+Candidate execution: BLOCKED
+Phase4/CPS: BLOCKED
 ```
 
-Phase3.13-r1 regenerated, audited, and atomically promoted the formal dataset under Commit A. Phase3.14a established the immutable training cache and passed the deterministic future learnability gate. Phase3.14b completed its full DDPM matrix but failed candidate physical validity. Phase3.14b-r1.1 proved exact Diffusers 0.11.1 scheduler equivalence and localized the failure to cosine epsilon terminal-SNR instability. Phase3.14b-r2 completed all nine validation runs but no configuration reached the 2-of-3 stable-seed gate. Formal test was not run. Phase3.14b-r2.1 confirmed both strict-contract miscalibration and genuine ordered-cable geometry failure. Phase3.14b-r2.2 completed its validation-only GPU pilot, but no geometry-loss configuration passed the frozen moderate gate. Phase3.14b-r2.3 resumed after correcting the paired-row sampling contract and completed its initial diagnostic evidence chain. Phase3.14b-r2.3.1 then corrected the fixed-noise replay contract and invalidated the earlier generic capacity conclusion. Phase3.14b-r2.3.2 isolated the remaining one-row random-noise failure and supported a noisy-input skip-path deficiency. Phase3.14b-r2.4 resumed after correcting only the FakeScheduler test fixture. Its analytic oracle and one-row residual-v gate passed, but the same model failed the unique-free-16 gate. Phase3.14b-r2.4.1 then proved runtime source alignment and condition identifiability, found that width 512 passed through eight rows but missed the all-source gate at sixteen rows, and showed width 1024 passed all sixteen rows. Phase3.14b-r2.4.2 completed after three implementation-schema blocks. Its train-only factorized pilot supports prior-gradient isolation, recommends `frozen_p512_r512` for the next train-only ordered-geometry pilot, and selected no formal configuration. Phase3.14b-r2.5 then completed the frozen-prior ordered-geometry diagnostic but found all active objective gradient ratios above the frozen upper gate, so no geometry objective advanced and no recommendation was made. Phase3.14b-r2.5.1 Resume1 corrected the paired reverse batch contract and completed the full pilot, but finalization blocked on a serialized unique objective matrix/order mismatch. Resume2 then corrected the JSON objective-order contract, reran the full train-only chain, and finalized the diagnosis `phase314b_r251_paired_low_mid_geometry_transport_failed` with no train-only recommendation or selected configuration. Phase3.14b-r2.5.2 decomposed the paired one-step and reverse trajectory evidence, supported composite-gate conflation and per-timestep gradient miscalibration, and retained no recommendation or selected configuration. Phase3.14b-r2.5.3 completed its GPU pilot but finalization blocked because the v-only one-step result did not reproduce the committed r2.5.2 contract; its pilot evidence was preserved without a finalized mechanism claim. Formal test remained unread; formal training, Phase3.14c IDM, candidate execution, and Phase4/CPS remain blocked.
+Phase3.13-r1 regenerated, audited and atomically promoted the formal state-v2 dataset. Phase3.14a established the immutable cache and deterministic future learnability. Phase3.14b through r2.5.4 then localized failures from scheduler instability and ordered cable geometry to branch transport and robot-proxy reconstruction conflation. Phase3.14b-r2.5.5 migrated state-v3 and established that robot future should not be a diffusion target. Phase3.14b-r2.5.6 froze a cable-only, one-sided upper-segment contract; r2.5.7 showed that existing upper objectives and timestep-gated K16 could not jointly satisfy geometry and fidelity. Phase3.14b-r2.5.8 established portable hardware compatibility, direct-x0 reachability, constrained integration and an objective-train ULP admission factor of `1.0`. Stage G preserved direction signal but found feasibility progress unidentifiable for all nine ranker candidates. Stage H candidate-descriptor identifiability is implemented at `0203b66` and currently running; no Stage H evidence has been finalized. Formal test remains unread; no configuration is selected; formal training, Phase3.14c IDM, candidate execution and Phase4/CPS remain blocked.
