@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Run one Stage-H base gate and one real identifiability audit in one Python process.
+"""Run one Stage-I base gate and one real rejection-predicate audit in one Python process.
 
-Stage H keeps the consolidated execution boundary and performs one objective-
-train-only audit of proposal diversity, frozen-integrator acceptance, candidate
-diversity, descriptor collisions, and supervision-label entropy.  It does not
-fit another ranker, open holdout, access the frozen probe, or add a wrapper.
+Stage I keeps the consolidated execution boundary and performs one objective-
+train-only audit of the frozen Stage-E rejection predicates on OOF, raw-oracle,
+and projected-oracle direction banks.  It does not modify the integrator, fit a
+new model, open holdout, access the frozen probe, or add a wrapper.
 """
 
 from __future__ import annotations
@@ -36,26 +36,26 @@ REPOSITORY_ROOT = SCRIPT_PATH.parents[1]
 if str(REPOSITORY_ROOT) not in sys.path:
     sys.path.insert(0, str(REPOSITORY_ROOT))
 
-PHASE = "Phase3.14b-r2.5.8 Stage H Candidate Descriptor Identifiability Audit"
-SCHEMA = "phase314b_r258_stageh_consolidated_e2e_v1_candidate_descriptor_identifiability"
+PHASE = "Phase3.14b-r2.5.8 Stage I Frozen Integrator Rejection Predicate Audit"
+SCHEMA = "phase314b_r258_stagei_consolidated_e2e_v1_integrator_rejection_predicates"
 DEFAULT_ROOT = Path("/data/state_diff2")
 
 EXPECTED_BRANCH = "Experiment1"
 EXPECTED_REMOTE_HEAD = "6758ea7ad800667a436b0243d3b1f6c63256d854"
 EXPECTED_SUBMODULE = "633a88752445cf5d6776ed374fdbbdb35f93050c"
-EXPECTED_PARENT = "8a49fc91e21eb12579c580f4b5f16a65c1b325f9"
-EXPECTED_SUBJECT = "Phase3.14b-r2.5.8 Stage H: audit candidate descriptor identifiability"
+EXPECTED_PARENT = "5d3a55ec3bef4204292266f6be0716e2cdfd8335"
+EXPECTED_SUBJECT = "Phase3.14b-r2.5.8 Stage I: audit frozen integrator rejection predicates"
 IMPLEMENTATION_PATHS: Tuple[Tuple[str, str], ...] = (
-    ("A", "ccda_phase3/phase314b_r258_stageh_candidate_descriptor_identifiability.py"),
+    ("A", "ccda_phase3/phase314b_r258_stagei_integrator_rejection_predicates.py"),
     ("M", "scripts/phase3_14b_r258_stagef_consolidated_e2e.py"),
-    ("A", "tests/test_phase3_14b_r258_stageh_candidate_descriptor_identifiability.py"),
+    ("A", "tests/test_phase3_14b_r258_stagei_integrator_rejection_predicates.py"),
 )
 
 STAGEF_ANCHOR = "f41a2364b7283b1eb963d305823804374ddfc8d6"
 STAGEE_ANCHOR = "6758ea7ad800667a436b0243d3b1f6c63256d854"
-STAGEF_MODULE = "ccda_phase3.phase314b_r258_stageh_candidate_descriptor_identifiability"
+STAGEF_MODULE = "ccda_phase3.phase314b_r258_stagei_integrator_rejection_predicates"
 STAGEF_SCIENTIFIC_PATH = (
-    "ccda_phase3/phase314b_r258_stageh_candidate_descriptor_identifiability.py"
+    "ccda_phase3/phase314b_r258_stagei_integrator_rejection_predicates.py"
 )
 STAGEF_IMMUTABLE_PATHS: Tuple[str, ...] = (
     "ccda_phase3/phase314b_r258_stagef_resume1_translation_fix.py",
@@ -70,8 +70,8 @@ STAGEE_PATHS: Tuple[str, ...] = (
 STAGEE_WORKER_EVIDENCE = "reports/phase3_14b_r258_stagee_worker_evidence.json"
 CANONICAL_WORKER = "scripts/phase3_14b_r258_stagef_resume1_worker.py"
 
-SUCCESS_REPORT = "reports/phase3_14b_r258_stageh_candidate_descriptor_identifiability_summary.json"
-BLOCKED_REPORT = "reports/phase3_14b_r258_stageh_candidate_descriptor_identifiability_blocked_summary.json"
+SUCCESS_REPORT = "reports/phase3_14b_r258_stagei_integrator_rejection_predicates_summary.json"
+BLOCKED_REPORT = "reports/phase3_14b_r258_stagei_integrator_rejection_predicates_blocked_summary.json"
 
 EXPECTED_ENV = {
     "PYTHONHASHSEED": "0",
@@ -123,6 +123,8 @@ COMMIT_BOUND_REPORTS: Mapping[str, str] = {
         "a00be9cb9ddd2b373fe38edad7742317641a3cb1",
     "reports/phase3_14b_r258_stageg_joint_direction_feasibility_summary.json":
         "8a49fc91e21eb12579c580f4b5f16a65c1b325f9",
+    "reports/phase3_14b_r258_stageh_candidate_descriptor_identifiability_summary.json":
+        "5d3a55ec3bef4204292266f6be0716e2cdfd8335",
 }
 
 REQUIRED_ANCESTORS: Tuple[str, ...] = (
@@ -153,6 +155,9 @@ REQUIRED_ANCESTORS: Tuple[str, ...] = (
     "a00be9cb9ddd2b373fe38edad7742317641a3cb1",
     "4db7d88c7b4dae98613e7950574c4f314d02dc66",
     "8a49fc91e21eb12579c580f4b5f16a65c1b325f9",
+    "0203b661702b739fea0d68d08db026d7dae146f9",
+    "0ce0c9efa05c1b71d7e312bdf65bbe27eb094486",
+    "5d3a55ec3bef4204292266f6be0716e2cdfd8335",
 )
 
 FORBIDDEN_TRUE_FIELDS: Tuple[str, ...] = (
@@ -173,6 +178,7 @@ FORBIDDEN_TRUE_FIELDS: Tuple[str, ...] = (
     "cache_saved",
     "image_saved",
     "video_saved",
+    "predicate_tensor_persisted",
 )
 
 
@@ -599,14 +605,14 @@ def normalize_scientific_result(module: Any, result: Any) -> Mapping[str, Any]:
 def validate_scientific_result(result: Mapping[str, Any]) -> None:
     if result.get("verdict") != "PASS":
         raise ExecutionError(
-            f"Stage-F audit did not complete: verdict={result.get('verdict')!r}"
+            f"Stage-I audit did not complete: verdict={result.get('verdict')!r}"
         )
     status = result.get("scientific_status")
     if status not in {"READY", "BLOCKED"}:
         raise ExecutionError(f"invalid scientific_status: {status!r}")
     for field in ("root_cause", "required_next_path"):
         if not isinstance(result.get(field), str) or not result[field]:
-            raise ExecutionError(f"Stage-F result lacks {field}")
+            raise ExecutionError(f"Stage-I result lacks {field}")
     for field in FORBIDDEN_TRUE_FIELDS:
         if result.get(field) is True:
             raise ExecutionError(f"forbidden boundary crossed: {field}=true")
@@ -614,7 +620,7 @@ def validate_scientific_result(result: Mapping[str, Any]) -> None:
     cold = result.get("cold_main_worker_context")
     if isinstance(cold, dict):
         if cold.get("torch_cuda_is_initialized") is not False:
-            raise ExecutionError("Stage-F result does not preserve cold CUDA entry")
+            raise ExecutionError("Stage-I result does not preserve cold CUDA entry")
 
     if status == "READY":
         if result.get("selected_configuration") is None:
@@ -1953,7 +1959,7 @@ def constraint_z_precision_diagnostic(
         },
         "runtime_numerical_settings": runtime_numerical_observation(torch),
         "exact_gate_relaxed": False,
-        "stageh_scientific_source_added": True,
+        "stagei_scientific_source_added": True,
         "automatic_tolerance_inferred": False,
         "interpretation": interpretation,
         "required_next_path": required_next,
@@ -2114,16 +2120,16 @@ def run_once(repo: Path, repository: Mapping[str, Any]) -> Mapping[str, Any]:
     import torch  # type: ignore
 
     if torch.cuda.is_initialized():
-        raise ExecutionError("CUDA was initialized before Stage-H import")
+        raise ExecutionError("CUDA was initialized before Stage-I import")
 
     stagef = importlib.import_module(STAGEF_MODULE)
     expected_stagef_path = (repo / STAGEF_SCIENTIFIC_PATH).resolve()
     actual_stagef_file = getattr(stagef, "__file__", None)
     if actual_stagef_file is None:
-        raise ExecutionError("Stage-H module has no __file__ identity")
+        raise ExecutionError("Stage-I module has no __file__ identity")
     actual_stagef_path = Path(actual_stagef_file).resolve()
     require_equal(
-        "imported Stage-F module path",
+        "imported Stage-I module path",
         str(actual_stagef_path),
         str(expected_stagef_path),
     )
@@ -2131,7 +2137,7 @@ def run_once(repo: Path, repository: Mapping[str, Any]) -> Mapping[str, Any]:
     run_calibration = required_callable(stagef, "run_calibration")
 
     if torch.cuda.is_initialized():
-        raise ExecutionError("Stage-H import initialized CUDA")
+        raise ExecutionError("Stage-I import initialized CUDA")
 
     try:
         base_result = call_validate_base(validate_base, repo)
@@ -2242,7 +2248,7 @@ def run_once(repo: Path, repository: Mapping[str, Any]) -> Mapping[str, Any]:
 
     runtime = torch_observation(torch)
     if runtime["cuda_initialized"] is not True:
-        raise ExecutionError("real Stage-H audit did not initialize CUDA")
+        raise ExecutionError("real Stage-I audit did not initialize CUDA")
 
     result_sha = sha256_bytes(stable_json_bytes(result))
     return {
@@ -2268,7 +2274,7 @@ def run_once(repo: Path, repository: Mapping[str, Any]) -> Mapping[str, Any]:
                 "retired as an execution prerequisite; immutable commits, "
                 "science sources, and prior reports remain bound"
             ),
-            "actual_identifiability_audit_is_required_operation_gate": True,
+            "actual_integrator_rejection_audit_is_required_operation_gate": True,
             "single_run_result_sha256": result_sha,
         },
         "environment": {
@@ -2276,8 +2282,8 @@ def run_once(repo: Path, repository: Mapping[str, Any]) -> Mapping[str, Any]:
             "frozen_portable_contract_sha256": repository[
                 "stagee_input_sha256"
             ][STAGEE_WORKER_EVIDENCE],
-            "frozen_contract_passed_to_current_stageh": True,
-            "stageh_scientific_source_added": True,
+            "frozen_contract_passed_to_current_stagei": True,
+            "stagei_scientific_source_added": True,
             "cold_cuda_before_import": True,
             "cold_cuda_before_calibration": True,
             "current_runtime_after_calibration": runtime,
@@ -2319,10 +2325,10 @@ def run_once(repo: Path, repository: Mapping[str, Any]) -> Mapping[str, Any]:
 def blocked_payload(error: BaseException, repository: Optional[Mapping[str, Any]]) -> Mapping[str, Any]:
     return {
         "phase": PHASE,
-        "schema": "phase314b_r258_stageh_consolidated_blocked_v1_candidate_descriptor_identifiability",
+        "schema": "phase314b_r258_stagei_consolidated_blocked_v1_integrator_rejection_predicates",
         "execution_verdict": "BLOCKED",
         "scientific_status": "BLOCKED",
-        "root_cause": "phase314b_r258_stageh_consolidated_execution_failed",
+        "root_cause": "phase314b_r258_stagei_consolidated_execution_failed",
         "required_next_path": (
             "INSPECT_THE_SINGLE_CONSOLIDATED_ENTRYPOINT_WITHOUT_ADDING_A_WRAPPER"
         ),
