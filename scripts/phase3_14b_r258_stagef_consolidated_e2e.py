@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Run one Stage-J base gate and one read-only integrator telemetry audit in one Python process.
+"""Run one Stage-K explicit-predicate callback audit in one Python process.
 
-Stage J keeps the consolidated execution boundary and observes the frozen Stage-E
-integrator with an external Python frame trace. Every traced call is compared
-recursively and byte-exactly with an untraced call using identical arguments.
-It does not modify the integrator, fit a new model, open holdout, access the
-frozen probe, or add a wrapper.
+Stage K modifies only the frozen Stage-E integrator's observability surface by
+adding a default-disabled, scalar-only callback. Every callback-enabled call is
+compared recursively and byte-exactly with a callback-disabled call using
+identical arguments. The numerical integration path, thresholds, scale search,
+holdout boundary, frozen probe, and single-entry execution contract are fixed.
 """
 
 from __future__ import annotations
@@ -37,33 +37,36 @@ REPOSITORY_ROOT = SCRIPT_PATH.parents[1]
 if str(REPOSITORY_ROOT) not in sys.path:
     sys.path.insert(0, str(REPOSITORY_ROOT))
 
-PHASE = "Phase3.14b-r2.5.8 Stage J Read-Only Frozen Integrator Telemetry"
-SCHEMA = "phase314b_r258_stagej_consolidated_e2e_v1_readonly_integrator_telemetry"
+PHASE = "Phase3.14b-r2.5.8 Stage K Explicit Integrator Predicate Callback"
+SCHEMA = "phase314b_r258_stagek_consolidated_e2e_v1_explicit_predicate_callback"
 DEFAULT_ROOT = Path("/data/state_diff2")
 
 EXPECTED_BRANCH = "Experiment1"
 EXPECTED_REMOTE_HEAD = "6758ea7ad800667a436b0243d3b1f6c63256d854"
 EXPECTED_SUBMODULE = "633a88752445cf5d6776ed374fdbbdb35f93050c"
-EXPECTED_PARENT = "f4c511310fc40bfca398a684dd182f8ed5be8816"
-EXPECTED_SUBJECT = "Phase3.14b-r2.5.8 Stage J: add read-only frozen integrator telemetry"
+EXPECTED_PARENT = "90375c4a21e4a798539bc0fabea79787f2011966"
+EXPECTED_SUBJECT = "Phase3.14b-r2.5.8 Stage K: add explicit integrator predicate callback"
 IMPLEMENTATION_PATHS: Tuple[Tuple[str, str], ...] = (
-    ("A", "ccda_phase3/phase314b_r258_stagej_readonly_integrator_telemetry.py"),
+    ("M", "ccda_phase3/phase314b_r258_stagee_constrained_integrator.py"),
+    ("A", "ccda_phase3/phase314b_r258_stagek_explicit_integrator_predicate_callback.py"),
     ("M", "scripts/phase3_14b_r258_stagef_consolidated_e2e.py"),
-    ("A", "tests/test_phase3_14b_r258_stagej_readonly_integrator_telemetry.py"),
+    ("A", "tests/test_phase3_14b_r258_stagek_explicit_integrator_predicate_callback.py"),
 )
 
 STAGEF_ANCHOR = "f41a2364b7283b1eb963d305823804374ddfc8d6"
 STAGEE_ANCHOR = "6758ea7ad800667a436b0243d3b1f6c63256d854"
-STAGEF_MODULE = "ccda_phase3.phase314b_r258_stagej_readonly_integrator_telemetry"
+STAGEF_MODULE = "ccda_phase3.phase314b_r258_stagek_explicit_integrator_predicate_callback"
 STAGEF_SCIENTIFIC_PATH = (
-    "ccda_phase3/phase314b_r258_stagej_readonly_integrator_telemetry.py"
+    "ccda_phase3/phase314b_r258_stagek_explicit_integrator_predicate_callback.py"
 )
 STAGEF_IMMUTABLE_PATHS: Tuple[str, ...] = (
     "ccda_phase3/phase314b_r258_stagef_resume1_translation_fix.py",
     "scripts/phase3_14b_r258_stagef_resume1_worker.py",
 )
-STAGEE_PATHS: Tuple[str, ...] = (
-    "ccda_phase3/phase314b_r258_stagee_constrained_integrator.py",
+STAGEE_SCIENTIFIC_PATH = (
+    "ccda_phase3/phase314b_r258_stagee_constrained_integrator.py"
+)
+STAGEE_IMMUTABLE_PATHS: Tuple[str, ...] = (
     "reports/phase3_14b_r258_stagee_contract.json",
     "reports/phase3_14b_r258_stagee_summary.json",
     "reports/phase3_14b_r258_stagee_worker_evidence.json",
@@ -71,8 +74,8 @@ STAGEE_PATHS: Tuple[str, ...] = (
 STAGEE_WORKER_EVIDENCE = "reports/phase3_14b_r258_stagee_worker_evidence.json"
 CANONICAL_WORKER = "scripts/phase3_14b_r258_stagef_resume1_worker.py"
 
-SUCCESS_REPORT = "reports/phase3_14b_r258_stagej_readonly_integrator_telemetry_summary.json"
-BLOCKED_REPORT = "reports/phase3_14b_r258_stagej_readonly_integrator_telemetry_blocked_summary.json"
+SUCCESS_REPORT = "reports/phase3_14b_r258_stagek_explicit_integrator_predicate_callback_summary.json"
+BLOCKED_REPORT = "reports/phase3_14b_r258_stagek_explicit_integrator_predicate_callback_blocked_summary.json"
 
 EXPECTED_ENV = {
     "PYTHONHASHSEED": "0",
@@ -128,6 +131,8 @@ COMMIT_BOUND_REPORTS: Mapping[str, str] = {
         "5d3a55ec3bef4204292266f6be0716e2cdfd8335",
     "reports/phase3_14b_r258_stagei_integrator_rejection_predicates_summary.json":
         "f4c511310fc40bfca398a684dd182f8ed5be8816",
+    "reports/phase3_14b_r258_stagej_readonly_integrator_telemetry_summary.json":
+        "90375c4a21e4a798539bc0fabea79787f2011966",
 }
 
 REQUIRED_ANCESTORS: Tuple[str, ...] = (
@@ -163,6 +168,8 @@ REQUIRED_ANCESTORS: Tuple[str, ...] = (
     "5d3a55ec3bef4204292266f6be0716e2cdfd8335",
     "5950ea3355ee4a9789522bd6e77c58aaaba672b2",
     "f4c511310fc40bfca398a684dd182f8ed5be8816",
+    "3c6004de3418171966629c59f378c1cba6f6bc2d",
+    "90375c4a21e4a798539bc0fabea79787f2011966",
 )
 
 FORBIDDEN_TRUE_FIELDS: Tuple[str, ...] = (
@@ -377,7 +384,7 @@ def validate_repository(repo: Path) -> Mapping[str, Any]:
     )
     if changed != IMPLEMENTATION_PATHS:
         raise ExecutionError(
-            "root-transport implementation path population changed: "
+            "Stage-K implementation path population changed: "
             f"expected={IMPLEMENTATION_PATHS!r}, actual={changed!r}"
         )
 
@@ -420,8 +427,18 @@ def validate_repository(repo: Path) -> Mapping[str, Any]:
     )
     stagee_hashes = {
         relpath: require_blob_equal(repo, STAGEE_ANCHOR, relpath)
-        for relpath in STAGEE_PATHS
+        for relpath in STAGEE_IMMUTABLE_PATHS
     }
+    stagee_hashes[STAGEE_SCIENTIFIC_PATH] = sha256_path(
+        repo / STAGEE_SCIENTIFIC_PATH
+    )
+    stagee_hashes[STAGEE_SCIENTIFIC_PATH + ":parent_blob"] = sha256_bytes(
+        git_bytes(
+            repo,
+            "show",
+            f"{EXPECTED_PARENT}:{STAGEE_SCIENTIFIC_PATH}",
+        )
+    )
 
     if (repo / SUCCESS_REPORT).exists() or (repo / BLOCKED_REPORT).exists():
         raise ExecutionError(
@@ -597,27 +614,27 @@ class OneProcessGuard:
 def normalize_scientific_result(module: Any, result: Any) -> Mapping[str, Any]:
     serializer = getattr(module, "stable_json_bytes", None)
     if not callable(serializer):
-        raise ExecutionError("Stage-J module lacks stable_json_bytes")
+        raise ExecutionError("Stage-K module lacks stable_json_bytes")
     raw = serializer(result)
     if not isinstance(raw, (bytes, bytearray)):
-        raise ExecutionError("Stage-J stable_json_bytes did not return bytes")
+        raise ExecutionError("Stage-K stable_json_bytes did not return bytes")
     normalized = json.loads(bytes(raw).decode("utf-8"))
     if not isinstance(normalized, dict):
-        raise ExecutionError("Stage-J result is not a JSON object")
+        raise ExecutionError("Stage-K result is not a JSON object")
     return normalized
 
 
 def validate_scientific_result(result: Mapping[str, Any]) -> None:
     if result.get("verdict") != "PASS":
         raise ExecutionError(
-            f"Stage-J telemetry audit did not complete: verdict={result.get('verdict')!r}"
+            f"Stage-K callback audit did not complete: verdict={result.get('verdict')!r}"
         )
     status = result.get("scientific_status")
     if status not in {"READY", "BLOCKED"}:
         raise ExecutionError(f"invalid scientific_status: {status!r}")
     for field in ("root_cause", "required_next_path"):
         if not isinstance(result.get(field), str) or not result[field]:
-            raise ExecutionError(f"Stage-J result lacks {field}")
+            raise ExecutionError(f"Stage-K result lacks {field}")
     for field in FORBIDDEN_TRUE_FIELDS:
         if result.get(field) is True:
             raise ExecutionError(f"forbidden boundary crossed: {field}=true")
@@ -625,7 +642,7 @@ def validate_scientific_result(result: Mapping[str, Any]) -> None:
     cold = result.get("cold_main_worker_context")
     if isinstance(cold, dict):
         if cold.get("torch_cuda_is_initialized") is not False:
-            raise ExecutionError("Stage-J result does not preserve cold CUDA entry")
+            raise ExecutionError("Stage-K result does not preserve cold CUDA entry")
 
     if status == "READY":
         if result.get("selected_configuration") is None:
@@ -1964,7 +1981,7 @@ def constraint_z_precision_diagnostic(
         },
         "runtime_numerical_settings": runtime_numerical_observation(torch),
         "exact_gate_relaxed": False,
-        "stagej_scientific_source_added": True,
+        "stagek_scientific_source_added": True,
         "automatic_tolerance_inferred": False,
         "interpretation": interpretation,
         "required_next_path": required_next,
@@ -2125,16 +2142,16 @@ def run_once(repo: Path, repository: Mapping[str, Any]) -> Mapping[str, Any]:
     import torch  # type: ignore
 
     if torch.cuda.is_initialized():
-        raise ExecutionError("CUDA was initialized before Stage-J import")
+        raise ExecutionError("CUDA was initialized before Stage-K import")
 
     stagef = importlib.import_module(STAGEF_MODULE)
     expected_stagef_path = (repo / STAGEF_SCIENTIFIC_PATH).resolve()
     actual_stagef_file = getattr(stagef, "__file__", None)
     if actual_stagef_file is None:
-        raise ExecutionError("Stage-J module has no __file__ identity")
+        raise ExecutionError("Stage-K module has no __file__ identity")
     actual_stagef_path = Path(actual_stagef_file).resolve()
     require_equal(
-        "imported Stage-J module path",
+        "imported Stage-K module path",
         str(actual_stagef_path),
         str(expected_stagef_path),
     )
@@ -2142,7 +2159,7 @@ def run_once(repo: Path, repository: Mapping[str, Any]) -> Mapping[str, Any]:
     run_calibration = required_callable(stagef, "run_calibration")
 
     if torch.cuda.is_initialized():
-        raise ExecutionError("Stage-J import initialized CUDA")
+        raise ExecutionError("Stage-K import initialized CUDA")
 
     try:
         base_result = call_validate_base(validate_base, repo)
@@ -2253,7 +2270,7 @@ def run_once(repo: Path, repository: Mapping[str, Any]) -> Mapping[str, Any]:
 
     runtime = torch_observation(torch)
     if runtime["cuda_initialized"] is not True:
-        raise ExecutionError("real Stage-J telemetry audit did not initialize CUDA")
+        raise ExecutionError("real Stage-K callback audit did not initialize CUDA")
 
     result_sha = sha256_bytes(stable_json_bytes(result))
     return {
@@ -2279,7 +2296,7 @@ def run_once(repo: Path, repository: Mapping[str, Any]) -> Mapping[str, Any]:
                 "retired as an execution prerequisite; immutable commits, "
                 "science sources, and prior reports remain bound"
             ),
-            "actual_readonly_integrator_telemetry_is_required_operation_gate": True,
+            "actual_explicit_integrator_callback_audit_is_required_operation_gate": True,
             "single_run_result_sha256": result_sha,
         },
         "environment": {
@@ -2287,8 +2304,10 @@ def run_once(repo: Path, repository: Mapping[str, Any]) -> Mapping[str, Any]:
             "frozen_portable_contract_sha256": repository[
                 "stagee_input_sha256"
             ][STAGEE_WORKER_EVIDENCE],
-            "frozen_contract_passed_to_current_stagej": True,
-            "stagej_scientific_source_added": True,
+            "frozen_contract_passed_to_current_stagek": True,
+            "stagek_scientific_source_added": True,
+            "stagee_observability_surface_modified": True,
+            "stagee_numerical_decisions_modified": False,
             "cold_cuda_before_import": True,
             "cold_cuda_before_calibration": True,
             "current_runtime_after_calibration": runtime,
@@ -2330,10 +2349,10 @@ def run_once(repo: Path, repository: Mapping[str, Any]) -> Mapping[str, Any]:
 def blocked_payload(error: BaseException, repository: Optional[Mapping[str, Any]]) -> Mapping[str, Any]:
     return {
         "phase": PHASE,
-        "schema": "phase314b_r258_stagej_consolidated_blocked_v1_readonly_integrator_telemetry",
+        "schema": "phase314b_r258_stagek_consolidated_blocked_v1_explicit_predicate_callback",
         "execution_verdict": "BLOCKED",
         "scientific_status": "BLOCKED",
-        "root_cause": "phase314b_r258_stagej_consolidated_execution_failed",
+        "root_cause": "phase314b_r258_stagek_consolidated_execution_failed",
         "required_next_path": (
             "INSPECT_THE_SINGLE_CONSOLIDATED_ENTRYPOINT_WITHOUT_ADDING_A_WRAPPER"
         ),

@@ -31,7 +31,8 @@ import os
 import subprocess
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Mapping, MutableMapping, Optional, Sequence, Tuple
+from types import MappingProxyType
+from typing import Any, Callable, Dict, Iterable, List, Mapping, MutableMapping, Optional, Sequence, Tuple
 
 import numpy as np
 
@@ -828,6 +829,222 @@ def observable_row_metrics(
     }
 
 
+
+PREDICATE_CALLBACK_SCHEMA = "phase314b_r258_stagek_integrator_predicate_event_v1"
+PREDICATE_ORDER: Tuple[str, ...] = (
+    "finite_state",
+    "upper_segment_geometry",
+    "lower_segment_geometry",
+    "coordinate_recenter",
+    "coordinate_geometry",
+    "reconstruction_bounds",
+    "segment_geometry",
+    "direction_retention",
+    "displacement",
+    "topology",
+)
+PredicateTelemetryCallback = Callable[[Mapping[str, Any]], None]
+
+
+def _freeze_predicate_telemetry_value(value: Any) -> Any:
+    """Return a recursively immutable scalar-only callback payload."""
+    if isinstance(value, Mapping):
+        return MappingProxyType(
+            {
+                str(key): _freeze_predicate_telemetry_value(item)
+                for key, item in value.items()
+            }
+        )
+    if isinstance(value, (list, tuple)):
+        return tuple(_freeze_predicate_telemetry_value(item) for item in value)
+    if isinstance(value, np.generic):
+        return _freeze_predicate_telemetry_value(value.item())
+    if value is None or isinstance(value, (str, bool, int)):
+        return value
+    if isinstance(value, float):
+        if not math.isfinite(value):
+            raise ConstrainedIntegratorError("non-finite predicate telemetry scalar")
+        return value
+    raise TypeError(
+        "predicate telemetry contains a non-scalar value: {}".format(type(value))
+    )
+
+
+def _predicate_rate(mask: np.ndarray, active: np.ndarray) -> float:
+    active_mask = np.asarray(active, dtype=np.bool_)
+    count = int(np.count_nonzero(active_mask))
+    if count == 0:
+        return 1.0
+    values = np.asarray(mask, dtype=np.bool_)
+    return float(np.mean(values[active_mask]))
+
+
+def _predicate_telemetry_attempt_event(
+    *,
+    definition: IntegratorDefinition,
+    scale: float,
+    selected_before: np.ndarray,
+    metrics: Mapping[str, Any],
+    bound_pass: Optional[np.ndarray],
+    coordinate_possible: Optional[np.ndarray],
+    topology_candidates: np.ndarray,
+    topology_pass: np.ndarray,
+    choose: np.ndarray,
+) -> Mapping[str, Any]:
+    selected_mask = np.asarray(selected_before, dtype=np.bool_)
+    active = ~selected_mask
+    rows = int(active.shape[0])
+    coordinate_recenter = (
+        np.ones(rows, dtype=np.bool_)
+        if coordinate_possible is None
+        else np.asarray(coordinate_possible, dtype=np.bool_)
+    )
+    reconstruction_bounds = (
+        np.ones(rows, dtype=np.bool_)
+        if bound_pass is None
+        else np.asarray(bound_pass, dtype=np.bool_)
+    )
+    coordinate_geometry = np.where(
+        coordinate_recenter,
+        np.asarray(metrics["coordinate_pass"], dtype=np.bool_),
+        True,
+    )
+    segment_geometry = np.where(
+        reconstruction_bounds,
+        np.asarray(metrics["segment_pass"], dtype=np.bool_),
+        True,
+    )
+    predicate_masks: Dict[str, np.ndarray] = {
+        "finite_state": np.asarray(metrics["finite"], dtype=np.bool_),
+        "upper_segment_geometry": np.asarray(metrics["upper_pass"], dtype=np.bool_),
+        "lower_segment_geometry": np.asarray(metrics["lower_pass"], dtype=np.bool_),
+        "coordinate_recenter": coordinate_recenter,
+        "coordinate_geometry": coordinate_geometry,
+        "reconstruction_bounds": reconstruction_bounds,
+        "segment_geometry": segment_geometry,
+        "direction_retention": np.asarray(metrics["retention_pass"], dtype=np.bool_),
+        "displacement": np.asarray(metrics["nonzero_move"], dtype=np.bool_),
+    }
+    expected_fast = active.copy()
+    for name in PREDICATE_ORDER[:-1]:
+        expected_fast &= predicate_masks[name]
+    actual_fast = np.asarray(topology_candidates, dtype=np.bool_)
+    if not np.array_equal(expected_fast, actual_fast):
+        raise ConstrainedIntegratorError(
+            "predicate telemetry fast-feasible decomposition changed"
+        )
+    topology_values = np.asarray(topology_pass, dtype=np.bool_)
+    accepted = np.asarray(choose, dtype=np.bool_)
+    if not np.array_equal(actual_fast & topology_values, accepted):
+        raise ConstrainedIntegratorError(
+            "predicate telemetry topology/acceptance decomposition changed"
+        )
+
+    unresolved = active.copy()
+    first_failed_counts: Dict[str, int] = {}
+    first_failed_rates: Dict[str, float] = {}
+    active_count = int(np.count_nonzero(active))
+    for name in PREDICATE_ORDER[:-1]:
+        failures = unresolved & ~predicate_masks[name]
+        count = int(np.count_nonzero(failures))
+        first_failed_counts[name] = count
+        first_failed_rates[name] = 0.0 if active_count == 0 else float(count / active_count)
+        unresolved &= predicate_masks[name]
+    topology_failures = unresolved & ~topology_values
+    topology_count = int(np.count_nonzero(topology_failures))
+    first_failed_counts["topology"] = topology_count
+    first_failed_rates["topology"] = (
+        0.0 if active_count == 0 else float(topology_count / active_count)
+    )
+    accepted_count = int(np.count_nonzero(accepted))
+    if sum(first_failed_counts.values()) + accepted_count != active_count:
+        raise ConstrainedIntegratorError(
+            "predicate telemetry first-failure population does not close"
+        )
+
+    pass_counts = {
+        name: int(np.count_nonzero(np.asarray(mask, dtype=np.bool_) & active))
+        for name, mask in predicate_masks.items()
+    }
+    pass_rates = {
+        name: _predicate_rate(mask, active)
+        for name, mask in predicate_masks.items()
+    }
+    topology_checked_count = int(np.count_nonzero(actual_fast))
+    topology_pass_count = int(np.count_nonzero(topology_values & actual_fast))
+    pass_counts["topology"] = topology_pass_count
+    pass_rates["topology"] = (
+        1.0
+        if topology_checked_count == 0
+        else float(np.mean(topology_values[actual_fast]))
+    )
+    event = {
+        "schema": PREDICATE_CALLBACK_SCHEMA,
+        "event_type": "scale_attempt",
+        "candidate_id": definition.candidate_id,
+        "direction_source_id": definition.direction_source_id,
+        "integration_mode": definition.integration_mode,
+        "bound_mode": definition.bound_mode,
+        "attempted_scale": float(scale),
+        "row_count": rows,
+        "active_row_count": active_count,
+        "already_selected_count": int(np.count_nonzero(selected_mask)),
+        "fast_feasible_count": topology_checked_count,
+        "topology_checked_count": topology_checked_count,
+        "accepted_count": accepted_count,
+        "accepted_rate_over_active": (
+            0.0 if active_count == 0 else float(accepted_count / active_count)
+        ),
+        "predicate_order": PREDICATE_ORDER,
+        "predicate_pass_counts": pass_counts,
+        "predicate_pass_rates": pass_rates,
+        "first_failed_counts": first_failed_counts,
+        "first_failed_rates": first_failed_rates,
+        "all_active_rows_accounted_for": True,
+        "target_used": False,
+    }
+    return _freeze_predicate_telemetry_value(event)
+
+
+def _predicate_telemetry_final_event(
+    *,
+    definition: IntegratorDefinition,
+    selected: np.ndarray,
+    selected_scale: np.ndarray,
+    final_metrics: Mapping[str, Any],
+) -> Mapping[str, Any]:
+    selected_mask = np.asarray(selected, dtype=np.bool_)
+    scales = np.asarray(selected_scale, dtype=np.float64)
+    event = {
+        "schema": PREDICATE_CALLBACK_SCHEMA,
+        "event_type": "final_summary",
+        "candidate_id": definition.candidate_id,
+        "direction_source_id": definition.direction_source_id,
+        "integration_mode": definition.integration_mode,
+        "bound_mode": definition.bound_mode,
+        "row_count": int(selected_mask.shape[0]),
+        "selected_count": int(np.count_nonzero(selected_mask)),
+        "fallback_count": int(np.count_nonzero(~selected_mask)),
+        "selected_nonzero_rate": float(np.mean(selected_mask)),
+        "selected_scale_minimum": float(np.min(scales)),
+        "selected_scale_mean": float(np.mean(scales)),
+        "selected_scale_maximum": float(np.max(scales)),
+        "final_upper_pass_rate": float(np.mean(final_metrics["upper_pass"])),
+        "final_lower_pass_rate": float(np.mean(final_metrics["lower_pass"])),
+        "final_physical_pass_rate": float(np.mean(final_metrics["physical_pass"])),
+        "final_topology_pass_rate": float(np.mean(final_metrics["topology_pass"])),
+        "target_used": False,
+    }
+    return _freeze_predicate_telemetry_value(event)
+
+
+def _emit_predicate_telemetry(
+    callback: PredicateTelemetryCallback,
+    event: Mapping[str, Any],
+) -> None:
+    callback(event)
+
+
 def integrate_rowwise(
     *,
     control: np.ndarray,
@@ -835,6 +1052,7 @@ def integrate_rowwise(
     definition: IntegratorDefinition,
     context: Mapping[str, Any],
     spec: ConstrainedIntegratorSpec,
+    predicate_callback: Optional[PredicateTelemetryCallback] = None,
 ) -> Dict[str, Any]:
     definition.validate()
     control_raw = np.asarray(control, dtype=np.float32)
@@ -905,6 +1123,21 @@ def integrate_rowwise(
                 context["historical_geometry"],
             )["topology"][:, 0]
         choose = topology_candidates & topology_pass
+        if predicate_callback is not None:
+            _emit_predicate_telemetry(
+                predicate_callback,
+                _predicate_telemetry_attempt_event(
+                    definition=definition,
+                    scale=scale,
+                    selected_before=selected,
+                    metrics=metrics,
+                    bound_pass=bound_pass,
+                    coordinate_possible=coordinate_possible,
+                    topology_candidates=topology_candidates,
+                    topology_pass=topology_pass,
+                    choose=choose,
+                ),
+            )
         output[choose] = candidate[choose]
         selected_raw_proposal[choose] = raw_proposal[choose]
         selected_scale[choose] = scale
@@ -939,6 +1172,16 @@ def integrate_rowwise(
         include_topology=True,
     )
     fallback = ~selected
+    if predicate_callback is not None:
+        _emit_predicate_telemetry(
+            predicate_callback,
+            _predicate_telemetry_final_event(
+                definition=definition,
+                selected=selected,
+                selected_scale=selected_scale,
+                final_metrics=final_metrics,
+            ),
+        )
     return {
         "candidate": output,
         "candidate_sha256": sha256_array(output),
