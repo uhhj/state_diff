@@ -1,0 +1,365 @@
+{
+  "aggregate_interpretation": {
+    "fold_1_or_4_outer_test_causality_claimed": false,
+    "full_objective_oof_eligibility_cannot_replace_outer_crossfit": true,
+    "full_objective_oof_policy_is_eligible": true,
+    "modal_policy_has_four_of_six_support": true,
+    "single_timestep_selection_authorized": false,
+    "t10_failure_is_coverage_not_accepted_subset_fidelity": true,
+    "t25_and_t50_pass_all_frozen_procedure_checks": true,
+    "threshold_relaxation_authorized": false,
+    "two_inner_selection_fallback_folds_exist": true
+  },
+  "attribution_surface_audit": {
+    "aggregate_timestep_metrics_available": true,
+    "condition_attribution_available": false,
+    "fallback_folds_can_be_claimed_as_outer_test_failure_causes": false,
+    "fallback_folds_can_be_identified_from_inner_selection": true,
+    "full_objective_fixed_policy_surface_available": true,
+    "future_horizon_attribution_available": false,
+    "group_identity_or_ratio_table_available": false,
+    "inner_selection_by_outer_fold_available": true,
+    "outer_test_candidate_counts_by_fold_available": false,
+    "outer_test_metrics_by_fold_available": false,
+    "outer_test_risk_calibration_by_fold_available": false,
+    "pair_group_attribution_available": false,
+    "reason": "Stage-A persisted fold identities and inner-selection records, but stitched the outer-test outputs before metric aggregation and persisted only global per-timestep records and anonymous group-tail summaries.",
+    "row_level_metrics_available": false,
+    "segment_attribution_available": false,
+    "visible_seed_attribution_available": false
+  },
+  "audit_sha256": "574f1abc3162c2dd5f5d38c3f9509a63e59064679a42061a4cfbde3a50b31362",
+  "cache_saved": false,
+  "candidate_execution": false,
+  "candidate_tensor_persisted": false,
+  "checkpoint_saved": false,
+  "cps": false,
+  "cuda_initialized": false,
+  "cumulative_selection_holdout_evaluation_count": 1,
+  "dataset_loaded": false,
+  "deformable_ravens_executed": false,
+  "descriptor_tensor_persisted": false,
+  "environment_probe_run": false,
+  "execution_verdict": "PASS",
+  "formal_training_run": false,
+  "frozen_outer_procedure_gate_reconstruction": {
+    "all_other_frozen_checks_pass": true,
+    "by_timestep": {
+      "10": {
+        "acceptance_deficit": 0.06896551724137934,
+        "acceptance_rate": 0.43103448275862066,
+        "acceptance_threshold": 0.5,
+        "accepted_row_mse_ratio": 0.845847807617904,
+        "accepted_subset_fidelity_gain": 0.154152192382096,
+        "adverse_sse_mass": 0.017556409436346822,
+        "all_checks_pass": false,
+        "baseline_adverse_sse_mass": 0.1046636401945965,
+        "baseline_overall_mse_ratio": 0.9640651736868895,
+        "baseline_worst_fraction_cvar_mse_ratio": 1.2670780206814798,
+        "failed_checks": [
+          "acceptance"
+        ],
+        "frozen_checks": {
+          "acceptance": false,
+          "accepted_mse": true,
+          "adverse_sse_reduction": true,
+          "group_cvar_improvement": true,
+          "overall_mse": true,
+          "positive_reduction": true,
+          "relative_reduction": true,
+          "risk_brier_nonworse": true
+        },
+        "overall_mse_ratio": 0.941385360149701,
+        "positive_distance_reduction_rate": 0.7418181818181818,
+        "relative_distance_reduction_mean": 0.08380859009386059,
+        "risk_brier_score": 0.19773942597123262,
+        "risk_constant_brier_score": 0.23457577194831103,
+        "robust_minus_baseline_overall_mse": -0.02267981353718851,
+        "row_count": 638,
+        "selected_row_count": 275,
+        "worst_fraction_cvar_mse_ratio": 1.0265514394243698
+      },
+      "25": {
+        "acceptance_deficit": 0.0,
+        "acceptance_rate": 0.6598746081504702,
+        "acceptance_threshold": 0.5,
+        "accepted_row_mse_ratio": 0.8069027620950529,
+        "accepted_subset_fidelity_gain": 0.19309723790494715,
+        "adverse_sse_mass": 0.027560463122429907,
+        "all_checks_pass": true,
+        "baseline_adverse_sse_mass": 0.0875789204302181,
+        "baseline_overall_mse_ratio": 0.8710775174593649,
+        "baseline_worst_fraction_cvar_mse_ratio": 1.1942334317354422,
+        "failed_checks": [],
+        "frozen_checks": {
+          "acceptance": true,
+          "accepted_mse": true,
+          "adverse_sse_reduction": true,
+          "group_cvar_improvement": true,
+          "overall_mse": true,
+          "positive_reduction": true,
+          "relative_reduction": true,
+          "risk_brier_nonworse": true
+        },
+        "overall_mse_ratio": 0.8826505156692729,
+        "positive_distance_reduction_rate": 0.7672209026128266,
+        "relative_distance_reduction_mean": 0.10741648775125157,
+        "risk_brier_score": 0.1901151336756928,
+        "risk_constant_brier_score": 0.2098672404334506,
+        "robust_minus_baseline_overall_mse": 0.011572998209907981,
+        "row_count": 638,
+        "selected_row_count": 421,
+        "worst_fraction_cvar_mse_ratio": 1.0837448755742654
+      },
+      "50": {
+        "acceptance_deficit": 0.0,
+        "acceptance_rate": 0.5846394984326019,
+        "acceptance_threshold": 0.5,
+        "accepted_row_mse_ratio": 0.8972662676160503,
+        "accepted_subset_fidelity_gain": 0.10273373238394967,
+        "adverse_sse_mass": 0.05177436643210801,
+        "all_checks_pass": true,
+        "baseline_adverse_sse_mass": 0.09874706760619795,
+        "baseline_overall_mse_ratio": 0.9064894366634607,
+        "baseline_worst_fraction_cvar_mse_ratio": 1.252078654492119,
+        "failed_checks": [],
+        "frozen_checks": {
+          "acceptance": true,
+          "accepted_mse": true,
+          "adverse_sse_reduction": true,
+          "group_cvar_improvement": true,
+          "overall_mse": true,
+          "positive_reduction": true,
+          "relative_reduction": true,
+          "risk_brier_nonworse": true
+        },
+        "overall_mse_ratio": 0.9395259676017385,
+        "positive_distance_reduction_rate": 0.6568364611260054,
+        "relative_distance_reduction_mean": 0.0652457570302057,
+        "risk_brier_score": 0.23205029141823522,
+        "risk_constant_brier_score": 0.2358146648208744,
+        "robust_minus_baseline_overall_mse": 0.03303653093827774,
+        "row_count": 638,
+        "selected_row_count": 373,
+        "worst_fraction_cvar_mse_ratio": 1.1172900366012053
+      }
+    },
+    "frozen_gate_pattern": {
+      "10": [
+        "acceptance"
+      ],
+      "25": [],
+      "50": []
+    },
+    "single_failed_gate": "acceptance",
+    "single_failed_timestep": 10
+  },
+  "frozen_probe_accessed": false,
+  "idm_run": false,
+  "image_saved": false,
+  "immutable_inputs": {
+    "original_stageb_blocked_evidence_commit": "2d9568888c5583e82fb8adafad1cb867f65b7971",
+    "original_stageb_blocked_report": "reports/phase3_14b_r259_stageb_outer_crossfit_tail_failure_audit_blocked_summary.json",
+    "original_stageb_blocked_report_sha256": "15d226ee1eb606931af9d5ba5b4e4830b0b7c72454339c00529fe4dbb479f36f",
+    "original_stageb_implementation_commit": "aa1bfb4a4f719e299613badf4f9853bc59c3bd85",
+    "probe_evidence_file_sha256": "840dc98ca2b37179920e1b95183a86eb4160ff1668f8b1d95df0d9fd1cbde7a1",
+    "probe_evidence_path": "reports/phase3_14b_r259_stagea_environment_probe_evidence.json",
+    "resume1_implementation_commit": "6b1506b8b48c19ff31cdfed519a07d8561569f91",
+    "stagea_evidence_commit": "3100a877f3664936f713b089e1489768975f3fa4",
+    "stagea_implementation_commit": "507461048754a5a03f287cd1ef7017aacd53afbb",
+    "stagea_summary_file_sha256": "a433fe674b56bfbb2c09ff6ca836da941f4c9b32f69a9a05c06d22fdd3b9e8c0",
+    "stagea_summary_path": "reports/phase3_14b_r259_stagea_durable_tail_robust_nested_group_oof_summary.json",
+    "stagea_summary_self_sha256": "30295f799e1db737208c8afbc80a12243ee64c45c3f294ba0e3d83a5f5c63f37",
+    "worker_evidence_file_sha256": "f9524bf1cc08a24ebc547e1e05fdad42274902a33dd03cb24fc8f2cf6c32bd92",
+    "worker_evidence_path": "reports/phase3_14b_r259_stagea_tail_robust_nested_group_oof_worker_evidence.json",
+    "worker_result_sha256": "3d3631c6765caee1c19f83d961afef8ccdb1676256371bd444612cf211231cca"
+  },
+  "npz_saved": false,
+  "outer_selection_audit": {
+    "eligible_selection_fold_count": 4,
+    "fallback_fold_count": 2,
+    "fallback_folds": [
+      1,
+      4
+    ],
+    "full_objective_oof_selected_policy_eligible": true,
+    "full_objective_oof_selected_policy_id": "shrink_1.00__risk_0.50",
+    "full_objective_surface_role": "tuning_only_not_unbiased_outer_test_attribution",
+    "modal_policy_id": "shrink_1.00__risk_0.50",
+    "modal_policy_inner_eligibility_by_fold": {
+      "0": true,
+      "1": false,
+      "2": true,
+      "3": true,
+      "4": false,
+      "5": true
+    },
+    "modal_policy_support_count": 4,
+    "modal_policy_support_fraction": 0.6666666666666666,
+    "outer_fold_count": 6,
+    "records": [
+      {
+        "diagnostic_fallback_used": false,
+        "eligible_policy_count": 2,
+        "inner_train_row_count": 548,
+        "modal_policy_inner_eligible": true,
+        "outer_fold": 0,
+        "outer_test_row_count": 90,
+        "selected_policy_failed_checks": {
+          "10": [],
+          "25": [],
+          "50": []
+        },
+        "selected_policy_id": "shrink_1.00__risk_0.50",
+        "selected_policy_inner_eligible": true
+      },
+      {
+        "diagnostic_fallback_used": true,
+        "eligible_policy_count": 0,
+        "inner_train_row_count": 540,
+        "modal_policy_inner_eligible": false,
+        "outer_fold": 1,
+        "outer_test_row_count": 98,
+        "selected_policy_failed_checks": {
+          "10": [
+            "acceptance"
+          ],
+          "25": [
+            "acceptance"
+          ],
+          "50": [
+            "acceptance",
+            "risk_brier_nonworse"
+          ]
+        },
+        "selected_policy_id": "shrink_0.75__risk_0.25",
+        "selected_policy_inner_eligible": false
+      },
+      {
+        "diagnostic_fallback_used": false,
+        "eligible_policy_count": 1,
+        "inner_train_row_count": 526,
+        "modal_policy_inner_eligible": true,
+        "outer_fold": 2,
+        "outer_test_row_count": 112,
+        "selected_policy_failed_checks": {
+          "10": [],
+          "25": [],
+          "50": []
+        },
+        "selected_policy_id": "shrink_1.00__risk_0.50",
+        "selected_policy_inner_eligible": true
+      },
+      {
+        "diagnostic_fallback_used": false,
+        "eligible_policy_count": 1,
+        "inner_train_row_count": 534,
+        "modal_policy_inner_eligible": true,
+        "outer_fold": 3,
+        "outer_test_row_count": 104,
+        "selected_policy_failed_checks": {
+          "10": [],
+          "25": [],
+          "50": []
+        },
+        "selected_policy_id": "shrink_1.00__risk_0.50",
+        "selected_policy_inner_eligible": true
+      },
+      {
+        "diagnostic_fallback_used": true,
+        "eligible_policy_count": 0,
+        "inner_train_row_count": 514,
+        "modal_policy_inner_eligible": false,
+        "outer_fold": 4,
+        "outer_test_row_count": 124,
+        "selected_policy_failed_checks": {
+          "10": [
+            "acceptance"
+          ],
+          "25": [
+            "acceptance"
+          ],
+          "50": [
+            "acceptance",
+            "accepted_mse",
+            "adverse_sse_reduction",
+            "overall_mse",
+            "positive_reduction",
+            "relative_reduction",
+            "risk_brier_nonworse"
+          ]
+        },
+        "selected_policy_id": "shrink_0.50__risk_0.25",
+        "selected_policy_inner_eligible": false
+      },
+      {
+        "diagnostic_fallback_used": false,
+        "eligible_policy_count": 1,
+        "inner_train_row_count": 528,
+        "modal_policy_inner_eligible": true,
+        "outer_fold": 5,
+        "outer_test_row_count": 110,
+        "selected_policy_failed_checks": {
+          "10": [],
+          "25": [],
+          "50": []
+        },
+        "selected_policy_id": "shrink_1.00__risk_0.50",
+        "selected_policy_inner_eligible": true
+      }
+    ],
+    "selected_policy_ids": [
+      "shrink_1.00__risk_0.50",
+      "shrink_0.75__risk_0.25",
+      "shrink_1.00__risk_0.50",
+      "shrink_1.00__risk_0.50",
+      "shrink_0.50__risk_0.25",
+      "shrink_1.00__risk_0.50"
+    ]
+  },
+  "phase": "Phase3.14b-r2.5.9 Stage B Resume1",
+  "phase4": false,
+  "prediction_tensor_persisted": false,
+  "primary_failure_locus": "t10_acceptance_coverage_with_fold_resolved_attribution_unavailable",
+  "recovery_contract": {
+    "dynamic_resume1_implementation_commit_bound": true,
+    "evidence_only": true,
+    "new_candidate_generation_count": 0,
+    "new_fit_count": 0,
+    "new_internal_scale_attempt_count": 0,
+    "new_policy_evaluation_count": 0,
+    "new_risk_fit_count": 0,
+    "original_stageb_controller_reexecuted": false,
+    "original_stageb_failure_before_stagea_evidence_read": true,
+    "original_stageb_scientific_audit_completed": false,
+    "repository_validator_invocation_count": 1,
+    "stagea_policy_or_threshold_changed": false,
+    "stagea_science_replayed": false
+  },
+  "repository": {
+    "head": "6b1506b8b48c19ff31cdfed519a07d8561569f91",
+    "origin_experiment1": "6758ea7ad800667a436b0243d3b1f6c63256d854",
+    "original_stageb_blocked_evidence_commit": "2d9568888c5583e82fb8adafad1cb867f65b7971",
+    "original_stageb_implementation_commit": "aa1bfb4a4f719e299613badf4f9853bc59c3bd85",
+    "parent": "2d9568888c5583e82fb8adafad1cb867f65b7971",
+    "root": "/data/state_diff2",
+    "stagea_evidence_commit": "3100a877f3664936f713b089e1489768975f3fa4",
+    "submodule_commit": "633a88752445cf5d6776ed374fdbbdb35f93050c"
+  },
+  "required_next_path": "PREREGISTER_R259_STAGEC_OBJECTIVE_TRAIN_ONLY_FOLD_RESOLVED_TAIL_ATTRIBUTION_WITH_DURABLE_AGGREGATE_EVIDENCE",
+  "rerun_authorized": false,
+  "reverse_sampling_run": false,
+  "risk_probability_tensor_persisted": false,
+  "root_cause": "phase314b_r259_stageb_aggregate_evidence_localizes_t10_acceptance_coverage_failure_but_outer_test_fold_attribution_is_unavailable",
+  "schema": "phase314b_r259_stageb_resume1_postcommit_evidence_audit_recovery_v1",
+  "science_worker_run": false,
+  "scientific_status": "BLOCKED",
+  "selected_configuration": null,
+  "selection_holdout_evaluation_count_added": 0,
+  "selection_holdout_reaccessed": false,
+  "selection_holdout_target_loaded": false,
+  "selection_holdout_used_for_fit_or_selection": false,
+  "train_only_recommendation": null,
+  "video_saved": false,
+  "weights_persisted": false
+}
