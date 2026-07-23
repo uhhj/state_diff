@@ -1,0 +1,132 @@
+{
+  "cuda_initialization_allowed_in_this_process": true,
+  "durable_write_ahead_evidence": true,
+  "environment": {
+    "compatibility": {
+      "cuda_available": true,
+      "deterministic_runtime": {
+        "cublas_workspace_config": ":4096:8",
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms_enabled": true,
+        "python_hash_seed": "0",
+        "thread_counts": {
+          "MKL_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1",
+          "VECLIB_MAXIMUM_THREADS": "1"
+        }
+      },
+      "numpy_version": "1.23.3",
+      "python_implementation": "CPython",
+      "python_version": [
+        3,
+        9,
+        15
+      ],
+      "required_operation_pass": true,
+      "required_operation_schema": "r258_stagea_forward_two_grad_block_projection_optimizer_step_and_100row_checkpoint_v1",
+      "schema": "phase314b_r258_stagea_portable_compatibility_v1",
+      "torch_cuda_version": "11.2",
+      "torch_version": "1.12.1.post200"
+    },
+    "compatibility_pass": true,
+    "compatibility_sha256": "03fef5cfcfac7933bca0dfc72e67156bb260d50ae7f2f1f6a6375a34c90ad7ec",
+    "hardware_observation": {
+      "compute_capability": [
+        8,
+        9
+      ],
+      "cuda_device_count": 1,
+      "cuda_device_index": 0,
+      "cuda_visible_devices": null,
+      "cudnn_version": 8907,
+      "hostname": "gpu-kvm",
+      "multi_processor_count": 80,
+      "nvidia_smi": {
+        "available": true,
+        "driver_version": "580.119.02",
+        "memory_total_mib": "32760",
+        "name": "NVIDIA GeForce RTX 4080 SUPER",
+        "pci_bus_id": "00000000:06:00.0",
+        "uuid": "GPU-97f11f35-ada8-4834-5fcb-7d58baf3c127"
+      },
+      "schema": "phase314b_r258_stagea_hardware_observation_v1",
+      "torch_device_name": "NVIDIA GeForce RTX 4080 SUPER",
+      "total_memory_bytes": 33794359296
+    },
+    "observation_sha256": "35fdb4473ff76cea5d9e783b7cc55c5dcb93ba672fcabb66417fb00722fe3d98",
+    "required_operation_dry_run": {
+      "artifact_persisted": false,
+      "batch_size": 64,
+      "calibration_batch_size": 100,
+      "checkpoint_diffusion_gradient_unchanged": true,
+      "checkpoint_post_projection_violation_count": 0,
+      "diffusion_gradient_unchanged": true,
+      "diffusion_loss": 0.45872825384140015,
+      "frozen_probe_accessed": false,
+      "geometry_loss": 8.823638916015625,
+      "gradient_norm": 1.7317224740982056,
+      "initial_model_sha256": "4f1c102d9f39ba59544f5565b4c01fe03e073fca596aefdc822b707cd2f2c7fd",
+      "pass": true,
+      "peak_memory_allocated_bytes": 219641344,
+      "peak_memory_reserved_bytes": 243269632,
+      "post_projection_violation_count": 0,
+      "projection_mode": "blockwise",
+      "schema": "r258_stagea_forward_two_grad_block_projection_optimizer_step_and_100row_checkpoint_v1",
+      "timestep_cutoff": 50,
+      "top_k": 16
+    },
+    "schema": "phase314b_r258_stagea_portable_environment_v1"
+  },
+  "environment_sha256": "fc0608cc0827f29b95a3b27589182be5c124b5a01509c3be8fa5cff69b2dcd61",
+  "execution_verdict": "PASS",
+  "phase": "Phase3.14b-r2.5.9 Stage C Resume1",
+  "portable_environment_audit": {
+    "compatibility_sha256": "03fef5cfcfac7933bca0dfc72e67156bb260d50ae7f2f1f6a6375a34c90ad7ec",
+    "current_required_operation_pass": true,
+    "hardware_differences": {
+      "compute_capability": {
+        "current": [
+          8,
+          9
+        ],
+        "stagea": [
+          8,
+          6
+        ]
+      },
+      "multi_processor_count": {
+        "current": 80,
+        "stagea": 82
+      },
+      "torch_device_name": {
+        "current": "NVIDIA GeForce RTX 4080 SUPER",
+        "stagea": "NVIDIA GeForce RTX 3090"
+      },
+      "total_memory_bytes": {
+        "current": 33794359296,
+        "stagea": 25296044032
+      }
+    },
+    "hardware_identity_exact": false,
+    "hardware_identity_required": false,
+    "minimum_compute_capability_major": 8,
+    "minimum_total_memory_bytes": 16106127360,
+    "portable_contract_passed": true,
+    "software_and_required_operation_exact": true,
+    "stagea_compatibility_sha256": "03fef5cfcfac7933bca0dfc72e67156bb260d50ae7f2f1f6a6375a34c90ad7ec",
+    "stagea_required_operation_pass": true
+  },
+  "probe_evidence_sha256": "3624d03fe156cb6baf41f3006f16e9fd55945438e77b54670c2efb2d8a4adfd8",
+  "process_disposable": true,
+  "process_id": 3713,
+  "schema": "phase314b_r259_stagec_resume1_portable_gpu_compatibility_recovery_v1_environment_probe_v1",
+  "source_probe_payload_sha256": "886c44be5a988fe92edc7365f4bd7f69b523d0da5713f58d532502f5e6883224",
+  "source_probe_schema": "phase314b_r258_stages_resume2a_environment_probe_v1",
+  "stagea_environment_exact": false,
+  "stagea_environment_file_sha256": "840dc98ca2b37179920e1b95183a86eb4160ff1668f8b1d95df0d9fd1cbde7a1",
+  "stagea_environment_sha256": "fb95ed35d4f3f36fe9e000ded6012c4543acc36c2e366ff8a9c05aac74982c61",
+  "write_ahead_location_outside_git_worktree": true
+}
