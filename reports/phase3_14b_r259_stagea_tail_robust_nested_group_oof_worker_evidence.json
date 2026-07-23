@@ -1,0 +1,5110 @@
+{
+  "cache_saved": false,
+  "candidate_execution": false,
+  "candidate_tensor_persisted": false,
+  "checkpoint_saved": false,
+  "cold_cuda_precheck": {
+    "checked": true,
+    "purpose": "environment and operation probes run in disposable child processes",
+    "torch_cuda_is_initialized": false
+  },
+  "cps": false,
+  "cumulative_selection_holdout_evaluation_count": 1,
+  "deformable_ravens_executed": false,
+  "descriptor_tensor_persisted": false,
+  "durable_write_ahead_evidence": true,
+  "environment_sha256": "fb95ed35d4f3f36fe9e000ded6012c4543acc36c2e366ff8a9c05aac74982c61",
+  "execution_counts": {
+    "candidate_generation_count": 324,
+    "direction_fit_count": 108,
+    "full_objective_oof_policy_evaluation_count": 36,
+    "inner_policy_evaluation_count": 216,
+    "internal_scale_attempt_count": 2268,
+    "nonconverged_risk_fit_count": 0,
+    "risk_fit_count": 324
+  },
+  "execution_verdict": "PASS",
+  "formal_training_run": false,
+  "frozen_probe_accessed": false,
+  "full_objective_oof_fixed_policy_records": {
+    "shrink_0.50__risk_0.25": {
+      "10": {
+        "acceptance_rate": 0.0219435736677116,
+        "accepted_row_mse_ratio": 0.8728118523837911,
+        "adverse_row_count": 315,
+        "adverse_sse_mass": 0.0002745814679188238,
+        "beneficial_sse_mass": 0.0025848822169557482,
+        "distance_reduction_stats": {
+          "max": 0.01808663969644158,
+          "mean": 0.00581906497732638,
+          "median": 0.004789763729592771,
+          "min": -0.003517644446616286,
+          "p05": -0.003000634108291129,
+          "p95": 0.01590757754898584
+        },
+        "group_tail": {
+          "group_count": 126,
+          "group_ratio_sha256": "41f2de6df010c52b60429fa90bf4b08ac8f0c26726b43b40dc7d239544f20711",
+          "ratio_stats": {
+            "max": 1.0125905150726986,
+            "mean": 0.9975219786321248,
+            "median": 1.0,
+            "min": 0.9333417102493178,
+            "p05": 0.9778647170887269,
+            "p95": 1.0
+          },
+          "tail_count": 26,
+          "worst_fraction_cvar_mse_ratio": 1.00060959509553,
+          "worst_group_mse_ratio": 1.0125905150726986
+        },
+        "net_sse_reduction_mass": 0.0023103007490369244,
+        "output_candidate_sha256": "dd91b174cd770c094036cb232f65a6dacf3abf6ce1d019592e09707818ad4d0d",
+        "output_selected_scale_sha256": "76fd2dd1e0b88d0f8e1ccdede20b11f143f1ffd8d447102952d3547e0f80caf3",
+        "overall_mse_ratio": 0.9976896992509631,
+        "positive_distance_reduction_rate": 0.7142857142857143,
+        "raw_accepted_row_count": 422,
+        "relative_distance_reduction_mean": 0.08436888033474561,
+        "risk_brier_nonworse": true,
+        "risk_brier_score": 0.1538142994999759,
+        "risk_constant_brier_score": 0.18973820691318194,
+        "row_count": 638,
+        "selected_row_count": 14
+      },
+      "25": {
+        "acceptance_rate": 0.0877742946708464,
+        "accepted_row_mse_ratio": 0.8186427078344762,
+        "adverse_row_count": 251,
+        "adverse_sse_mass": 0.0022613291030646474,
+        "beneficial_sse_mass": 0.015540422073897782,
+        "distance_reduction_stats": {
+          "max": 0.041181611145647556,
+          "mean": 0.009116221849012927,
+          "median": 0.008723737840638283,
+          "min": -0.01935852938126123,
+          "p05": -0.008330538644550241,
+          "p95": 0.027628001351647356
+        },
+        "group_tail": {
+          "group_count": 126,
+          "group_ratio_sha256": "96818bddeaf2d8fb3975750aada286f8102d0dd04f51a4e82c614b2f77795f0e",
+          "ratio_stats": {
+            "max": 1.1556091686886125,
+            "mean": 0.9855423717200432,
+            "median": 1.0,
+            "min": 0.8336400028982548,
+            "p05": 0.8958913932084095,
+            "p95": 1.0
+          },
+          "tail_count": 26,
+          "worst_fraction_cvar_mse_ratio": 1.0096477072239716,
+          "worst_group_mse_ratio": 1.1556091686886125
+        },
+        "net_sse_reduction_mass": 0.013279092970833135,
+        "output_candidate_sha256": "9d0c47b5ecee646a9ce762f405bfc7ad98b42693250b708524b13e459e70b0e4",
+        "output_selected_scale_sha256": "4e0be6aaa7f6642631c121318e1af948bdafbe86749a42f41b6877a988076e66",
+        "overall_mse_ratio": 0.9867209070291668,
+        "positive_distance_reduction_rate": 0.7678571428571429,
+        "raw_accepted_row_count": 511,
+        "relative_distance_reduction_mean": 0.09914568653023917,
+        "risk_brier_nonworse": true,
+        "risk_brier_score": 0.21626009962480758,
+        "risk_constant_brier_score": 0.2512630168087138,
+        "row_count": 638,
+        "selected_row_count": 56
+      },
+      "50": {
+        "acceptance_rate": 0.0,
+        "accepted_row_mse_ratio": 1.0,
+        "adverse_row_count": 260,
+        "adverse_sse_mass": 0.0,
+        "beneficial_sse_mass": 0.0,
+        "distance_reduction_stats": {
+          "max": 0.0,
+          "mean": 0.0,
+          "median": 0.0,
+          "min": 0.0,
+          "p05": 0.0,
+          "p95": 0.0
+        },
+        "group_tail": {
+          "group_count": 126,
+          "group_ratio_sha256": "502143d6a60867abaf0ffc1f9f2ebf2e84a9ee1dbb3d23e132c5bf6719c0f49b",
+          "ratio_stats": {
+            "max": 1.0,
+            "mean": 1.0,
+            "median": 1.0,
+            "min": 1.0,
+            "p05": 1.0,
+            "p95": 1.0
+          },
+          "tail_count": 26,
+          "worst_fraction_cvar_mse_ratio": 1.0,
+          "worst_group_mse_ratio": 1.0
+        },
+        "net_sse_reduction_mass": 0.0,
+        "output_candidate_sha256": "28f3795537219daade292b9fb5db423611de78d7f3ae514387c12189c29e8c35",
+        "output_selected_scale_sha256": "b298c37290fdcbeee798b8083a5396e427d2ddc97d469e34c64c99ad1730e403",
+        "overall_mse_ratio": 1.0,
+        "positive_distance_reduction_rate": 0.0,
+        "raw_accepted_row_count": 503,
+        "relative_distance_reduction_mean": 0.0,
+        "risk_brier_nonworse": true,
+        "risk_brier_score": 0.2475106320942888,
+        "risk_constant_brier_score": 0.2513129707855627,
+        "row_count": 638,
+        "selected_row_count": 0
+      }
+    },
+    "shrink_0.50__risk_0.50": {
+      "10": {
+        "acceptance_rate": 0.10031347962382445,
+        "accepted_row_mse_ratio": 0.9321953718293753,
+        "adverse_row_count": 315,
+        "adverse_sse_mass": 0.004851152618056824,
+        "beneficial_sse_mass": 0.010644164651352555,
+        "distance_reduction_stats": {
+          "max": 0.025242865457513627,
+          "mean": 0.0029366561119547646,
+          "median": 0.0030463921644878662,
+          "min": -0.015663862568539584,
+          "p05": -0.011227719729434031,
+          "p95": 0.017817664162417413
+        },
+        "group_tail": {
+          "group_count": 126,
+          "group_ratio_sha256": "cde511d1364e3070dd0bd27aea276b03350710a99315408732d6c8d1ad1ee0e7",
+          "ratio_stats": {
+            "max": 1.1576116765445337,
+            "mean": 0.9942480444871222,
+            "median": 1.0,
+            "min": 0.8491862942972077,
+            "p05": 0.9228543576547354,
+            "p95": 1.024563367645964
+          },
+          "tail_count": 26,
+          "worst_fraction_cvar_mse_ratio": 1.0221014647335882,
+          "worst_group_mse_ratio": 1.1576116765445337
+        },
+        "net_sse_reduction_mass": 0.005793012033295731,
+        "output_candidate_sha256": "b38ba3cb6330d68c751a902265ae4b057b5cd916216c7944d8353c6949cdf78a",
+        "output_selected_scale_sha256": "f352773608c201433eeb46d20d74f0cf0d737f62c6d28ec74c4eebf8b963e212",
+        "overall_mse_ratio": 0.9942069879667044,
+        "positive_distance_reduction_rate": 0.59375,
+        "raw_accepted_row_count": 422,
+        "relative_distance_reduction_mean": 0.036387742891383607,
+        "risk_brier_nonworse": true,
+        "risk_brier_score": 0.1538142994999759,
+        "risk_constant_brier_score": 0.18973820691318194,
+        "row_count": 638,
+        "selected_row_count": 64
+      },
+      "25": {
+        "acceptance_rate": 0.3887147335423197,
+        "accepted_row_mse_ratio": 0.9090056929583129,
+        "adverse_row_count": 251,
+        "adverse_sse_mass": 0.021165657843228106,
+        "beneficial_sse_mass": 0.05148804677465549,
+        "distance_reduction_stats": {
+          "max": 0.042051133057241695,
+          "mean": 0.004630610956866386,
+          "median": 0.0045680721921750045,
+          "min": -0.044333236958670155,
+          "p05": -0.01685555182982989,
+          "p95": 0.025992929991815798
+        },
+        "group_tail": {
+          "group_count": 126,
+          "group_ratio_sha256": "e4da53b3e19c16ab19e7d129bcdb877ef64ccdc74c0476224910c9f7daea6041",
+          "ratio_stats": {
+            "max": 1.2599620797060374,
+            "mean": 0.9688583967714943,
+            "median": 0.9963943898255565,
+            "min": 0.604408271703187,
+            "p05": 0.8105393518498482,
+            "p95": 1.1216551403109805
+          },
+          "tail_count": 26,
+          "worst_fraction_cvar_mse_ratio": 1.0727495309632498,
+          "worst_group_mse_ratio": 1.2599620797060374
+        },
+        "net_sse_reduction_mass": 0.030322388931427382,
+        "output_candidate_sha256": "d55536d87ea0d7aa8d4a76f99cef8462b35fa15c6e1c39f2200238991bd7ddd2",
+        "output_selected_scale_sha256": "faa0bcfb1a49703170b9d813f0346f711419fe9a9e181d428ff782e0cdd07a70",
+        "overall_mse_ratio": 0.9696776110685725,
+        "positive_distance_reduction_rate": 0.6733870967741935,
+        "raw_accepted_row_count": 511,
+        "relative_distance_reduction_mean": 0.04590539852929228,
+        "risk_brier_nonworse": true,
+        "risk_brier_score": 0.21626009962480758,
+        "risk_constant_brier_score": 0.2512630168087138,
+        "row_count": 638,
+        "selected_row_count": 248
+      },
+      "50": {
+        "acceptance_rate": 0.2664576802507837,
+        "accepted_row_mse_ratio": 0.9727296411499726,
+        "adverse_row_count": 260,
+        "adverse_sse_mass": 0.02432334663206949,
+        "beneficial_sse_mass": 0.030856890799687505,
+        "distance_reduction_stats": {
+          "max": 0.04836458349299057,
+          "mean": 0.0018546399156447238,
+          "median": 0.0024293541951604936,
+          "min": -0.05117261712018309,
+          "p05": -0.02305443327405144,
+          "p95": 0.030968594482665174
+        },
+        "group_tail": {
+          "group_count": 126,
+          "group_ratio_sha256": "34f004e2b38d2fa4d0228bc2b995921d7a451eb379fe2a713d1f2a86e4e8da02",
+          "ratio_stats": {
+            "max": 1.2980068759050574,
+            "mean": 0.997327087818964,
+            "median": 1.0,
+            "min": 0.6628268729190689,
+            "p05": 0.8720243655761536,
+            "p95": 1.1275280012452151
+          },
+          "tail_count": 26,
+          "worst_fraction_cvar_mse_ratio": 1.1008531522783551,
+          "worst_group_mse_ratio": 1.2980068759050574
+        },
+        "net_sse_reduction_mass": 0.0065335441676180155,
+        "output_candidate_sha256": "84ebd5a3a4446a76cd5d2186bdef0bbeb616a46c1d80b83af7a84a44006a7c63",
+        "output_selected_scale_sha256": "78b09fcc6062efb63a94dbc0ced0acf6a447b72657c8ebd66d127b6789e1482f",
+        "overall_mse_ratio": 0.9934664558323821,
+        "positive_distance_reduction_rate": 0.5411764705882353,
+        "raw_accepted_row_count": 503,
+        "relative_distance_reduction_mean": 0.00935957684504497,
+        "risk_brier_nonworse": true,
+        "risk_brier_score": 0.2475106320942888,
+        "risk_constant_brier_score": 0.2513129707855627,
+        "row_count": 638,
+        "selected_row_count": 170
+      }
+    },
+    "shrink_0.50__risk_0.75": {
+      "10": {
+        "acceptance_rate": 0.25705329153605017,
+        "accepted_row_mse_ratio": 1.025363078586645,
+        "adverse_row_count": 315,
+        "adverse_sse_mass": 0.02401195532909268,
+        "beneficial_sse_mass": 0.018412065265187426,
+        "distance_reduction_stats": {
+          "max": 0.025242865457513627,
+          "mean": -0.0007692228572658869,
+          "median": -0.0004994491259750627,
+          "min": -0.03023673737002653,
+          "p05": -0.01765782237236441,
+          "p95": 0.014333445660145959
+        },
+        "group_tail": {
+          "group_count": 126,
+          "group_ratio_sha256": "de591ca09b02b660b5b1614d7ba5dd01d4f520165efff0e0d5e112cb3315bead",
+          "ratio_stats": {
+            "max": 1.1924787667963617,
+            "mean": 1.0039755781192845,
+            "median": 1.0,
+            "min": 0.8349253867633148,
+            "p05": 0.9214668823176239,
+            "p95": 1.1118233653495193
+          },
+          "tail_count": 26,
+          "worst_fraction_cvar_mse_ratio": 1.0826441514614313,
+          "worst_group_mse_ratio": 1.1924787667963617
+        },
+        "net_sse_reduction_mass": -0.005599890063905256,
+        "output_candidate_sha256": "94056fbdb42bac69bb1e5202b4e3931646b073170f5430be1cb89aa076358707",
+        "output_selected_scale_sha256": "1c01c45f952799c2b78f5ecc511824d245a18a48719a1ed5796d2be679879185",
+        "overall_mse_ratio": 1.0055998900639054,
+        "positive_distance_reduction_rate": 0.4634146341463415,
+        "raw_accepted_row_count": 422,
+        "relative_distance_reduction_mean": -0.013819770451345399,
+        "risk_brier_nonworse": true,
+        "risk_brier_score": 0.1538142994999759,
+        "risk_constant_brier_score": 0.18973820691318194,
+        "row_count": 638,
+        "selected_row_count": 164
+      },
+      "25": {
+        "acceptance_rate": 0.6630094043887147,
+        "accepted_row_mse_ratio": 0.9715241562141949,
+        "adverse_row_count": 251,
+        "adverse_sse_mass": 0.05414185459596575,
+        "beneficial_sse_mass": 0.07042061449402183,
+        "distance_reduction_stats": {
+          "max": 0.042051133057241695,
+          "mean": 0.0016253668978044244,
+          "median": 0.0016789074786920238,
+          "min": -0.044333236958670155,
+          "p05": -0.01980380513847415,
+          "p95": 0.022524001548855088
+        },
+        "group_tail": {
+          "group_count": 126,
+          "group_ratio_sha256": "c4644333f887b355396765f54d86677bc9ff9a4dbc4594487f27d624f033afe8",
+          "ratio_stats": {
+            "max": 1.4246211829383177,
+            "mean": 0.9890654112189136,
+            "median": 0.9960635699273694,
+            "min": 0.604408271703187,
+            "p05": 0.782203282048941,
+            "p95": 1.1959150568271992
+          },
+          "tail_count": 26,
+          "worst_fraction_cvar_mse_ratio": 1.1689359798011452,
+          "worst_group_mse_ratio": 1.4246211829383177
+        },
+        "net_sse_reduction_mass": 0.016278759898056078,
+        "output_candidate_sha256": "df5bf81a6b66b935475d41a619689cc3776ea1d8f9f2899b8c9c01f1e034ea92",
+        "output_selected_scale_sha256": "9eec93fa4d35bc168cbf5085a03d6ac9860ebd0c9d5c3be6422c7665558e2d0d",
+        "overall_mse_ratio": 0.9837212401019438,
+        "positive_distance_reduction_rate": 0.5697399527186762,
+        "raw_accepted_row_count": 511,
+        "relative_distance_reduction_mean": 0.01175783482595758,
+        "risk_brier_nonworse": true,
+        "risk_brier_score": 0.21626009962480758,
+        "risk_constant_brier_score": 0.2512630168087138,
+        "row_count": 638,
+        "selected_row_count": 423
+      },
+      "50": {
+        "acceptance_rate": 0.7492163009404389,
+        "accepted_row_mse_ratio": 1.029216984115635,
+        "adverse_row_count": 260,
+        "adverse_sse_mass": 0.09580701317301436,
+        "beneficial_sse_mass": 0.07511932128010561,
+        "distance_reduction_stats": {
+          "max": 0.05593557157194837,
+          "mean": -0.0011547208998712746,
+          "median": -0.00023543174679169915,
+          "min": -0.08042299367880477,
+          "p05": -0.03132144420864615,
+          "p95": 0.027703856948188124
+        },
+        "group_tail": {
+          "group_count": 126,
+          "group_ratio_sha256": "eb67fed192be1a42cc1241656c810a62a32a70a233afe31804ec1a395c84f2b7",
+          "ratio_stats": {
+            "max": 1.4791098630579014,
+            "mean": 1.030270697627184,
+            "median": 1.0062453093599981,
+            "min": 0.6628268729190689,
+            "p05": 0.8131029529386564,
+            "p95": 1.2852398935341902
+          },
+          "tail_count": 26,
+          "worst_fraction_cvar_mse_ratio": 1.2566040637938551,
+          "worst_group_mse_ratio": 1.4791098630579014
+        },
+        "net_sse_reduction_mass": -0.020687691892908755,
+        "output_candidate_sha256": "ba1ab79a274485f08c6e77cf50ae2de23680df2cf35c784f0c7e608b0522c0e3",
+        "output_selected_scale_sha256": "f91e7b1f2032daaf0d021b07c5215fcdd14f70a02396359b9fa86079fdeaa7b8",
+        "overall_mse_ratio": 1.0206876918929089,
+        "positive_distance_reduction_rate": 0.4916317991631799,
+        "raw_accepted_row_count": 503,
+        "relative_distance_reduction_mean": -0.016979318193100397,
+        "risk_brier_nonworse": true,
+        "risk_brier_score": 0.2475106320942888,
+        "risk_constant_brier_score": 0.2513129707855627,
+        "row_count": 638,
+        "selected_row_count": 478
+      }
+    },
+    "shrink_0.50__risk_1.00": {
+      "10": {
+        "acceptance_rate": 0.6614420062695925,
+        "accepted_row_mse_ratio": 1.3447628446614828,
+        "adverse_row_count": 315,
+        "adverse_sse_mass": 0.2377528051259117,
+        "beneficial_sse_mass": 0.025245938180118103,
+        "distance_reduction_stats": {
+          "max": 0.03015294129363083,
+          "mean": -0.011074717492272812,
+          "median": -0.007700753296431703,
+          "min": -0.10832161414048304,
+          "p05": -0.05109585183309002,
+          "p95": 0.011246764379212584
+        },
+        "group_tail": {
+          "group_count": 126,
+          "group_ratio_sha256": "eeb69119243c0838cf162ee7ffc3486a2d5901c526ac854a1f6204ded89ccc92",
+          "ratio_stats": {
+            "max": 2.0965303884219932,
+            "mean": 1.2182220889570152,
+            "median": 1.1169835370640153,
+            "min": 0.8491862942972077,
+            "p05": 0.9618149072786358,
+            "p95": 1.7935666413036253
+          },
+          "tail_count": 26,
+          "worst_fraction_cvar_mse_ratio": 1.6643436653231183,
+          "worst_group_mse_ratio": 2.0965303884219932
+        },
+        "net_sse_reduction_mass": -0.2125068669457936,
+        "output_candidate_sha256": "afec1e5754059c104c251b4efc3f571c7620383f4ee345a994dadbf40dde1a91",
+        "output_selected_scale_sha256": "c1f0d5d86de9aa00a75c9a293cd773f8e9a9f99db3a1eb4e576db0a6efa3d550",
+        "overall_mse_ratio": 1.2125068669457937,
+        "positive_distance_reduction_rate": 0.25355450236966826,
+        "raw_accepted_row_count": 422,
+        "relative_distance_reduction_mean": -0.1386388720256999,
+        "risk_brier_nonworse": true,
+        "risk_brier_score": 0.1538142994999759,
+        "risk_constant_brier_score": 0.18973820691318194,
+        "row_count": 638,
+        "selected_row_count": 422
+      },
+      "25": {
+        "acceptance_rate": 0.8009404388714734,
+        "accepted_row_mse_ratio": 1.110703838970181,
+        "adverse_row_count": 251,
+        "adverse_sse_mass": 0.15987322174703195,
+        "beneficial_sse_mass": 0.07589772023614165,
+        "distance_reduction_stats": {
+          "max": 0.042051133057241695,
+          "mean": -0.002524515788459938,
+          "median": 0.00022694605878134655,
+          "min": -0.2264461479978485,
+          "p05": -0.031660702594615765,
+          "p95": 0.021468973058983584
+        },
+        "group_tail": {
+          "group_count": 126,
+          "group_ratio_sha256": "16a64dbe8425a503412593acc29847877f836b90e7677a1e544ce66f8586520c",
+          "ratio_stats": {
+            "max": 2.2984522701824264,
+            "mean": 1.0681173301986635,
+            "median": 1.0114120704157437,
+            "min": 0.604408271703187,
+            "p05": 0.777053869246702,
+            "p95": 1.4475718063837077
+          },
+          "tail_count": 26,
+          "worst_fraction_cvar_mse_ratio": 1.4374430007423382,
+          "worst_group_mse_ratio": 2.2984522701824264
+        },
+        "net_sse_reduction_mass": -0.0839755015108903,
+        "output_candidate_sha256": "56febef697153f5185de9839873d7ecbfec19b50fdfdc57869d78ad5bc7aefd3",
+        "output_selected_scale_sha256": "29fbcf9e68bdd1ada638a19193de9efe081cae813f88436bb6926b565bdeee2f",
+        "overall_mse_ratio": 1.0839755015108903,
+        "positive_distance_reduction_rate": 0.5088062622309197,
+        "raw_accepted_row_count": 511,
+        "relative_distance_reduction_mean": -0.024208400523242864,
+        "risk_brier_nonworse": true,
+        "risk_brier_score": 0.21626009962480758,
+        "risk_constant_brier_score": 0.2512630168087138,
+        "row_count": 638,
+        "selected_row_count": 511
+      },
+      "50": {
+        "acceptance_rate": 0.7884012539184952,
+        "accepted_row_mse_ratio": 1.0557392978187894,
+        "adverse_row_count": 260,
+        "adverse_sse_mass": 0.12142890741654609,
+        "beneficial_sse_mass": 0.07869895074435178,
+        "distance_reduction_stats": {
+          "max": 0.05593557157194837,
+          "mean": -0.0021824947069865653,
+          "median": -0.0005283651995911937,
+          "min": -0.11123866450855191,
+          "p05": -0.03757396682821109,
+          "p95": 0.02759518867441183
+        },
+        "group_tail": {
+          "group_count": 126,
+          "group_ratio_sha256": "670f10c1dc0e8af8dea4bd50e9b753559e07ffa94cedc9a196ed236c57ca728c",
+          "ratio_stats": {
+            "max": 1.7135624274736416,
+            "mean": 1.0469043965745723,
+            "median": 1.0237525257870557,
+            "min": 0.657903192691397,
+            "p05": 0.8120195897849896,
+            "p95": 1.3490741087576517
+          },
+          "tail_count": 26,
+          "worst_fraction_cvar_mse_ratio": 1.3058511838424207,
+          "worst_group_mse_ratio": 1.7135624274736416
+        },
+        "net_sse_reduction_mass": -0.042729956672194314,
+        "output_candidate_sha256": "a948cf47a14658ba18cb7f9a4b694d71955b5871b65cb6510a7655cdcca436fd",
+        "output_selected_scale_sha256": "c8635c0bcc1fbcdd8ce3788ab59f9f1069ba9ee04d82c477e3c05979b2213513",
+        "overall_mse_ratio": 1.0427299566721944,
+        "positive_distance_reduction_rate": 0.4831013916500994,
+        "raw_accepted_row_count": 503,
+        "relative_distance_reduction_mean": -0.023782069392982986,
+        "risk_brier_nonworse": true,
+        "risk_brier_score": 0.2475106320942888,
+        "risk_constant_brier_score": 0.2513129707855627,
+        "row_count": 638,
+        "selected_row_count": 503
+      }
+    },
+    "shrink_0.75__risk_0.25": {
+      "10": {
+        "acceptance_rate": 0.06896551724137931,
+        "accepted_row_mse_ratio": 0.7714142085708532,
+        "adverse_row_count": 297,
+        "adverse_sse_mass": 0.0009470135411378201,
+        "beneficial_sse_mass": 0.013327597624665533,
+        "distance_reduction_stats": {
+          "max": 0.028529926846614824,
+          "mean": 0.009342059382921425,
+          "median": 0.010421126063859431,
+          "min": -0.010497196097286776,
+          "p05": -0.0041860938536552005,
+          "p95": 0.023793275651114554
+        },
+        "group_tail": {
+          "group_count": 126,
+          "group_ratio_sha256": "8e64481417b21566472ecdd63f739913b2b302add0d82553dcd58e0d94c201c0",
+          "ratio_stats": {
+            "max": 1.0507772525346968,
+            "mean": 0.9864552094972336,
+            "median": 1.0,
+            "min": 0.8062418988145105,
+            "p05": 0.908817529795531,
+            "p95": 1.0044519857057623
+          },
+          "tail_count": 26,
+          "worst_fraction_cvar_mse_ratio": 1.003701805224374,
+          "worst_group_mse_ratio": 1.0507772525346968
+        },
+        "net_sse_reduction_mass": 0.012380584083527713,
+        "output_candidate_sha256": "12c28f64d0ddef556ca131f153b6107eac5e6d6880c4b8a2765e84cff8eb0c7d",
+        "output_selected_scale_sha256": "5d4ca46084e0f1b412539e976b50faa65e1278e4005be7d45bff41464228be0f",
+        "overall_mse_ratio": 0.9876194159164724,
+        "positive_distance_reduction_rate": 0.7727272727272727,
+        "raw_accepted_row_count": 553,
+        "relative_distance_reduction_mean": 0.12397932116665276,
+        "risk_brier_nonworse": true,
+        "risk_brier_score": 0.22008877096530632,
+        "risk_constant_brier_score": 0.25133336589309074,
+        "row_count": 638,
+        "selected_row_count": 44
+      },
+      "25": {
+        "acceptance_rate": 0.22884012539184953,
+        "accepted_row_mse_ratio": 0.7605950881922273,
+        "adverse_row_count": 219,
+        "adverse_sse_mass": 0.005077410832916794,
+        "beneficial_sse_mass": 0.05017972409395621,
+        "distance_reduction_stats": {
+          "max": 0.04588566827347636,
+          "mean": 0.011851186296024056,
+          "median": 0.011533388571718355,
+          "min": -0.020490179437699138,
+          "p05": -0.010194060299558785,
+          "p95": 0.03545116929564042
+        },
+        "group_tail": {
+          "group_count": 126,
+          "group_ratio_sha256": "0442ec09bcfaf910bf7bd6895454e470ccb1ac274c005c48dbc9fd98077b226d",
+          "ratio_stats": {
+            "max": 1.2504753115379075,
+            "mean": 0.953035658253652,
+            "median": 1.0,
+            "min": 0.5056035504060445,
+            "p05": 0.7787636606509756,
+            "p95": 1.0243436387131495
+          },
+          "tail_count": 26,
+          "worst_fraction_cvar_mse_ratio": 1.0237694613908335,
+          "worst_group_mse_ratio": 1.2504753115379075
+        },
+        "net_sse_reduction_mass": 0.04510231326103942,
+        "output_candidate_sha256": "1d3130b9afdba74c6c7af3ab49dadf8ac90176cb0dc3816211159420ab1f7446",
+        "output_selected_scale_sha256": "873d2565688f45cd281b151217a55c4bce8b6578d2fc44d08aced2f2ac43f29a",
+        "overall_mse_ratio": 0.9548976867389605,
+        "positive_distance_reduction_rate": 0.8082191780821918,
+        "raw_accepted_row_count": 599,
+        "relative_distance_reduction_mean": 0.12653128550843457,
+        "risk_brier_nonworse": true,
+        "risk_brier_score": 0.2058728253449022,
+        "risk_constant_brier_score": 0.23224635084390388,
+        "row_count": 638,
+        "selected_row_count": 146
+      },
+      "50": {
+        "acceptance_rate": 0.006269592476489028,
+        "accepted_row_mse_ratio": 0.9174765931453365,
+        "adverse_row_count": 248,
+        "adverse_sse_mass": 0.00014016086188658634,
+        "beneficial_sse_mass": 0.0011431745373307958,
+        "distance_reduction_stats": {
+          "max": 0.014893747471414143,
+          "mean": 0.0073777935015139524,
+          "median": 0.009521885332152778,
+          "min": -0.0044263441296638895,
+          "p05": -0.002799661040636234,
+          "p95": 0.014553519480769782
+        },
+        "group_tail": {
+          "group_count": 126,
+          "group_ratio_sha256": "587f8ffdcc2489683225442792e96a28c799ee13a8b678427f72f9adc0843485",
+          "ratio_stats": {
+            "max": 1.0,
+            "mean": 0.9992323003390937,
+            "median": 1.0,
+            "min": 0.9559839991384024,
+            "p05": 1.0,
+            "p95": 1.0
+          },
+          "tail_count": 26,
+          "worst_fraction_cvar_mse_ratio": 1.0,
+          "worst_group_mse_ratio": 1.0
+        },
+        "net_sse_reduction_mass": 0.0010030136754442095,
+        "output_candidate_sha256": "11309959cff66f52fd024f63f773826d995dc1621bdb40b634b1add72fccf412",
+        "output_selected_scale_sha256": "a794339a492e5508b20c3804061131f55979cea1a2341d39d23cc78d110edb48",
+        "overall_mse_ratio": 0.9989969863245557,
+        "positive_distance_reduction_rate": 0.75,
+        "raw_accepted_row_count": 593,
+        "relative_distance_reduction_mean": 0.05419646290529053,
+        "risk_brier_nonworse": true,
+        "risk_brier_score": 0.24240048102527473,
+        "risk_constant_brier_score": 0.2447790974936519,
+        "row_count": 638,
+        "selected_row_count": 4
+      }
+    },
+    "shrink_0.75__risk_0.50": {
+      "10": {
+        "acceptance_rate": 0.33699059561128525,
+        "accepted_row_mse_ratio": 0.9272021184096102,
+        "adverse_row_count": 297,
+        "adverse_sse_mass": 0.019426834544510226,
+        "beneficial_sse_mass": 0.03993715256725556,
+        "distance_reduction_stats": {
+          "max": 0.028529926846614824,
+          "mean": 0.003258965451902603,
+          "median": 0.00415780403293111,
+          "min": -0.026140090725008808,
+          "p05": -0.01507104857584523,
+          "p95": 0.01762680106090169
+        },
+        "group_tail": {
+          "group_count": 126,
+          "group_ratio_sha256": "120dd6158159918f09039fc098a0f9a0948d40437e82fadda6b200ca6f11a983",
+          "ratio_stats": {
+            "max": 1.148487679076455,
+            "mean": 0.9779864165927504,
+            "median": 1.0,
+            "min": 0.6949067623674525,
+            "p05": 0.8656265360608619,
+            "p95": 1.0840750692446364
+          },
+          "tail_count": 26,
+          "worst_fraction_cvar_mse_ratio": 1.0640140750898583,
+          "worst_group_mse_ratio": 1.148487679076455
+        },
+        "net_sse_reduction_mass": 0.020510318022745333,
+        "output_candidate_sha256": "afbb1c217ed5771e161918291a3c4e41dfcc5458e1ec2498b0eaa179bae9429b",
+        "output_selected_scale_sha256": "9a9f18de53f1908545708d6667aa1e7e8e95b3d41cf3cb3c7e0d1c3e234395e0",
+        "overall_mse_ratio": 0.9794896819772548,
+        "positive_distance_reduction_rate": 0.6465116279069767,
+        "raw_accepted_row_count": 553,
+        "relative_distance_reduction_mean": 0.040343930736935416,
+        "risk_brier_nonworse": true,
+        "risk_brier_score": 0.22008877096530632,
+        "risk_constant_brier_score": 0.25133336589309074,
+        "row_count": 638,
+        "selected_row_count": 215
+      },
+      "25": {
+        "acceptance_rate": 0.7382445141065831,
+        "accepted_row_mse_ratio": 0.8594905959506003,
+        "adverse_row_count": 219,
+        "adverse_sse_mass": 0.03580946899977834,
+        "beneficial_sse_mass": 0.12702150548025648,
+        "distance_reduction_stats": {
+          "max": 0.05104873602537989,
+          "mean": 0.007297976043702157,
+          "median": 0.006997270139030079,
+          "min": -0.04511264618387546,
+          "p05": -0.014405042244786073,
+          "p95": 0.029957087361334997
+        },
+        "group_tail": {
+          "group_count": 126,
+          "group_ratio_sha256": "57eb83a60f00285b2128a79cb8b803963e95df5107b1eed5950673339761714c",
+          "ratio_stats": {
+            "max": 1.3776540948694636,
+            "mean": 0.9119931277100589,
+            "median": 0.9231277536831606,
+            "min": 0.5056035504060445,
+            "p05": 0.6812721416518119,
+            "p95": 1.1408292824838349
+          },
+          "tail_count": 26,
+          "worst_fraction_cvar_mse_ratio": 1.097226102450818,
+          "worst_group_mse_ratio": 1.3776540948694636
+        },
+        "net_sse_reduction_mass": 0.09121203648047814,
+        "output_candidate_sha256": "00160bc59fd4252959f0750ae092795de91021d551c7e4f746dfa503243081f4",
+        "output_selected_scale_sha256": "018c653806900bf91e04f15df34c682dce0527852dd3a8a8de13758fe57ff626",
+        "overall_mse_ratio": 0.908787963519522,
+        "positive_distance_reduction_rate": 0.70276008492569,
+        "raw_accepted_row_count": 599,
+        "relative_distance_reduction_mean": 0.07380241270757446,
+        "risk_brier_nonworse": true,
+        "risk_brier_score": 0.2058728253449022,
+        "risk_constant_brier_score": 0.23224635084390388,
+        "row_count": 638,
+        "selected_row_count": 471
+      },
+      "50": {
+        "acceptance_rate": 0.7711598746081505,
+        "accepted_row_mse_ratio": 0.9344984836461959,
+        "adverse_row_count": 248,
+        "adverse_sse_mass": 0.06685480861623719,
+        "beneficial_sse_mass": 0.11484611656957008,
+        "distance_reduction_stats": {
+          "max": 0.06546706005573509,
+          "mean": 0.004545806819595058,
+          "median": 0.0046464090969608775,
+          "min": -0.060227083326861997,
+          "p05": -0.025975823249108815,
+          "p95": 0.03668632749839673
+        },
+        "group_tail": {
+          "group_count": 126,
+          "group_ratio_sha256": "a19b0651f99e9e94f017ce20d92ed4d7cd246e6a9043070f255dffe9e0826464",
+          "ratio_stats": {
+            "max": 1.4777431163317292,
+            "mean": 0.9580267601629073,
+            "median": 0.9778715333867993,
+            "min": 0.6771719045920311,
+            "p05": 0.744783143205884,
+            "p95": 1.1673453967135605
+          },
+          "tail_count": 26,
+          "worst_fraction_cvar_mse_ratio": 1.1433054622086256,
+          "worst_group_mse_ratio": 1.4777431163317292
+        },
+        "net_sse_reduction_mass": 0.047991307953332896,
+        "output_candidate_sha256": "38a5f2448e0bce3321083d4198b77ecb24655aa5dc05f2ff7f2eca76ad815220",
+        "output_selected_scale_sha256": "a24b012ba084c73706740a7e94a5e1aacb037012d6dd41891d74c624824aa4f3",
+        "overall_mse_ratio": 0.952008692046667,
+        "positive_distance_reduction_rate": 0.5975609756097561,
+        "raw_accepted_row_count": 593,
+        "relative_distance_reduction_mean": 0.03322164429421898,
+        "risk_brier_nonworse": true,
+        "risk_brier_score": 0.24240048102527473,
+        "risk_constant_brier_score": 0.2447790974936519,
+        "row_count": 638,
+        "selected_row_count": 492
+      }
+    },
+    "shrink_0.75__risk_0.75": {
+      "10": {
+        "acceptance_rate": 0.6567398119122257,
+        "accepted_row_mse_ratio": 1.0072883126736767,
+        "adverse_row_count": 297,
+        "adverse_sse_mass": 0.06646532972074717,
+        "beneficial_sse_mass": 0.06216859650721504,
+        "distance_reduction_stats": {
+          "max": 0.03957876242757071,
+          "mean": 0.00019053101788607331,
+          "median": 0.0009907851631247439,
+          "min": -0.05002308244560334,
+          "p05": -0.017819620850261602,
+          "p95": 0.016385246864012493
+        },
+        "group_tail": {
+          "group_count": 126,
+          "group_ratio_sha256": "b67e3e9bcf29aebcbfc8f07b7cf4f8c737248dc5a08835ddc8aa1cb301f156ef",
+          "ratio_stats": {
+            "max": 1.5609430322065634,
+            "mean": 1.0102876312576252,
+            "median": 1.0,
+            "min": 0.6949067623674525,
+            "p05": 0.8312224814822491,
+            "p95": 1.1982290991535378
+          },
+          "tail_count": 26,
+          "worst_fraction_cvar_mse_ratio": 1.174424573676635,
+          "worst_group_mse_ratio": 1.5609430322065634
+        },
+        "net_sse_reduction_mass": -0.0042967332135321334,
+        "output_candidate_sha256": "a7c93463114da361b716fec876bf09d2fad617477a69b3df26e3441aa2d66a2d",
+        "output_selected_scale_sha256": "5649663dfd90622110478e0e8a043b2ab505cc9bf79676a238e256dff4c67783",
+        "overall_mse_ratio": 1.0042967332135324,
+        "positive_distance_reduction_rate": 0.5274463007159904,
+        "raw_accepted_row_count": 553,
+        "relative_distance_reduction_mean": -0.0005515638912259369,
+        "risk_brier_nonworse": true,
+        "risk_brier_score": 0.22008877096530632,
+        "risk_constant_brier_score": 0.25133336589309074,
+        "row_count": 638,
+        "selected_row_count": 419
+      },
+      "25": {
+        "acceptance_rate": 0.8981191222570533,
+        "accepted_row_mse_ratio": 0.9079402449258774,
+        "adverse_row_count": 219,
+        "adverse_sse_mass": 0.06414770795102763,
+        "beneficial_sse_mass": 0.14139851105990747,
+        "distance_reduction_stats": {
+          "max": 0.05104873602537989,
+          "mean": 0.005388157975223091,
+          "median": 0.005455876686791539,
+          "min": -0.062063350686400856,
+          "p05": -0.01813367174948534,
+          "p95": 0.029217797525055315
+        },
+        "group_tail": {
+          "group_count": 126,
+          "group_ratio_sha256": "114bd9a176ad99b6a393d387ea8d8d74c657df1daf9ef665ec28f55044d57f2d",
+          "ratio_stats": {
+            "max": 1.4975619234222912,
+            "mean": 0.9265509098259314,
+            "median": 0.9179699422585652,
+            "min": 0.5056035504060445,
+            "p05": 0.695264346657334,
+            "p95": 1.2172066341888257
+          },
+          "tail_count": 26,
+          "worst_fraction_cvar_mse_ratio": 1.1711786978388727,
+          "worst_group_mse_ratio": 1.4975619234222912
+        },
+        "net_sse_reduction_mass": 0.07725080310887984,
+        "output_candidate_sha256": "8ce74fdd4b30435da0939b5ba15540a201756f91f539fabff3239ca75f733ad2",
+        "output_selected_scale_sha256": "8d7831f8e1d4a3dee0016fb0bb12bd6285208160e10944869f2204a4465f3598",
+        "overall_mse_ratio": 0.9227491968911201,
+        "positive_distance_reduction_rate": 0.6544502617801047,
+        "raw_accepted_row_count": 599,
+        "relative_distance_reduction_mean": 0.054132122562432376,
+        "risk_brier_nonworse": true,
+        "risk_brier_score": 0.2058728253449022,
+        "risk_constant_brier_score": 0.23224635084390388,
+        "row_count": 638,
+        "selected_row_count": 573
+      },
+      "50": {
+        "acceptance_rate": 0.9184952978056427,
+        "accepted_row_mse_ratio": 0.9637382231653349,
+        "adverse_row_count": 248,
+        "adverse_sse_mass": 0.10182728225058921,
+        "beneficial_sse_mass": 0.1343425384372965,
+        "distance_reduction_stats": {
+          "max": 0.06954547189183971,
+          "mean": 0.0036493447717228437,
+          "median": 0.0037051985218549896,
+          "min": -0.15877992439463806,
+          "p05": -0.028042270196401608,
+          "p95": 0.03845586079416662
+        },
+        "group_tail": {
+          "group_count": 126,
+          "group_ratio_sha256": "c6bb189fef9c72c52c0cbdf9f4932d4642bc8d90dab7594bf0b894b65df88e8f",
+          "ratio_stats": {
+            "max": 1.6470185807506414,
+            "mean": 0.9686689721970522,
+            "median": 0.9694759005030962,
+            "min": 0.5378495020574223,
+            "p05": 0.7285704083523009,
+            "p95": 1.2304214861135185
+          },
+          "tail_count": 26,
+          "worst_fraction_cvar_mse_ratio": 1.2145067688560351,
+          "worst_group_mse_ratio": 1.6470185807506414
+        },
+        "net_sse_reduction_mass": 0.03251525618670728,
+        "output_candidate_sha256": "a817effeac10af4a5966ba60979ba127cbbb6d6827e30b5081a4e5592a7121f5",
+        "output_selected_scale_sha256": "1672df843ddff5a49d965e4362d476ad2c8d3222514375b2f6b8f90888926c2c",
+        "overall_mse_ratio": 0.9674847438132927,
+        "positive_distance_reduction_rate": 0.5819112627986348,
+        "raw_accepted_row_count": 593,
+        "relative_distance_reduction_mean": 0.02761859310072769,
+        "risk_brier_nonworse": true,
+        "risk_brier_score": 0.24240048102527473,
+        "risk_constant_brier_score": 0.2447790974936519,
+        "row_count": 638,
+        "selected_row_count": 586
+      }
+    },
+    "shrink_0.75__risk_1.00": {
+      "10": {
+        "acceptance_rate": 0.8667711598746082,
+        "accepted_row_mse_ratio": 1.11940552629266,
+        "adverse_row_count": 297,
+        "adverse_sse_mass": 0.16882480082867524,
+        "beneficial_sse_mass": 0.0699277246242173,
+        "distance_reduction_stats": {
+          "max": 0.03957876242757071,
+          "mean": -0.003445852136998191,
+          "median": -0.001490168711794193,
+          "min": -0.08794491708362721,
+          "p05": -0.030870882420924305,
+          "p95": 0.015627962775752752
+        },
+        "group_tail": {
+          "group_count": 126,
+          "group_ratio_sha256": "929618b5b9ac72092472bea998006bb76aef9157c9233b59eb65b63f11a42ab2",
+          "ratio_stats": {
+            "max": 1.9290765075945546,
+            "mean": 1.103147384637579,
+            "median": 1.067405664756431,
+            "min": 0.6949067623674525,
+            "p05": 0.8312224814822491,
+            "p95": 1.4927946732966617
+          },
+          "tail_count": 26,
+          "worst_fraction_cvar_mse_ratio": 1.44449752791295,
+          "worst_group_mse_ratio": 1.9290765075945546
+        },
+        "net_sse_reduction_mass": -0.09889707620445794,
+        "output_candidate_sha256": "d018dd4b08747d9fdae4134a531d542886456cbc293f54b5174aa00f48201bbd",
+        "output_selected_scale_sha256": "6d16014cd2dc1325f867b283c56d70b2c54a92eaeab6b82ddbeb17bd6ad92f29",
+        "overall_mse_ratio": 1.098897076204458,
+        "positive_distance_reduction_rate": 0.4629294755877034,
+        "raw_accepted_row_count": 553,
+        "relative_distance_reduction_mean": -0.04207602352754399,
+        "risk_brier_nonworse": true,
+        "risk_brier_score": 0.22008877096530632,
+        "risk_constant_brier_score": 0.25133336589309074,
+        "row_count": 638,
+        "selected_row_count": 553
+      },
+      "25": {
+        "acceptance_rate": 0.9388714733542319,
+        "accepted_row_mse_ratio": 0.9817780961722856,
+        "adverse_row_count": 219,
+        "adverse_sse_mass": 0.12698048151859442,
+        "beneficial_sse_mass": 0.1438801345044323,
+        "distance_reduction_stats": {
+          "max": 0.05104873602537989,
+          "mean": 0.0035904649625412353,
+          "median": 0.0051798321735188335,
+          "min": -0.18272216935672878,
+          "p05": -0.02403424068048835,
+          "p95": 0.028877348713337338
+        },
+        "group_tail": {
+          "group_count": 126,
+          "group_ratio_sha256": "80e2233311dec3bc631a905dda64ddbfe3aa56d5662940ff6502ebe4497f2e8c",
+          "ratio_stats": {
+            "max": 2.6904745840995514,
+            "mean": 0.9615007069819219,
+            "median": 0.9242204619012787,
+            "min": 0.5056035504060445,
+            "p05": 0.695264346657334,
+            "p95": 1.2613058597726936
+          },
+          "tail_count": 26,
+          "worst_fraction_cvar_mse_ratio": 1.2883668791177896,
+          "worst_group_mse_ratio": 2.6904745840995514
+        },
+        "net_sse_reduction_mass": 0.01689965298583787,
+        "output_candidate_sha256": "45ce969fcc6e655fe2949756663ff5d3235da27ef74986b011696c90be064835",
+        "output_selected_scale_sha256": "6af066b9c0594a98b9e9621dfbdeb80b36c22f2c59492644103f364d8d8a1392",
+        "overall_mse_ratio": 0.9831003470141622,
+        "positive_distance_reduction_rate": 0.6343906510851419,
+        "raw_accepted_row_count": 599,
+        "relative_distance_reduction_mean": 0.04106612188299684,
+        "risk_brier_nonworse": true,
+        "risk_brier_score": 0.2058728253449022,
+        "risk_constant_brier_score": 0.23224635084390388,
+        "row_count": 638,
+        "selected_row_count": 599
+      },
+      "50": {
+        "acceptance_rate": 0.9294670846394985,
+        "accepted_row_mse_ratio": 0.9659200721828238,
+        "adverse_row_count": 248,
+        "adverse_sse_mass": 0.10450561116092892,
+        "beneficial_sse_mass": 0.13552788684254582,
+        "distance_reduction_stats": {
+          "max": 0.06954547189183971,
+          "mean": 0.0035220037976084516,
+          "median": 0.0035636520710725372,
+          "min": -0.15877992439463806,
+          "p05": -0.028233490863167156,
+          "p95": 0.03827839710891129
+        },
+        "group_tail": {
+          "group_count": 126,
+          "group_ratio_sha256": "c91e34e23e10f8d0a65b23e2f97f7098f437dafff6d9848c31cfebe1185e6172",
+          "ratio_stats": {
+            "max": 1.9383432646809287,
+            "mean": 0.9715727276422224,
+            "median": 0.9694759005030962,
+            "min": 0.5378495020574223,
+            "p05": 0.7285704083523009,
+            "p95": 1.2304214861135185
+          },
+          "tail_count": 26,
+          "worst_fraction_cvar_mse_ratio": 1.2254910498348182,
+          "worst_group_mse_ratio": 1.9383432646809287
+        },
+        "net_sse_reduction_mass": 0.031022275681616904,
+        "output_candidate_sha256": "0416a9276d948d30e3b9b09aca88ca275bdab4ac18429af809081be00c9b6611",
+        "output_selected_scale_sha256": "1ed17d0fe1a100045d1dbbd2cf7f922c1559a39df26771d0bf2351e9f71ab16c",
+        "overall_mse_ratio": 0.9689777243183832,
+        "positive_distance_reduction_rate": 0.581787521079258,
+        "raw_accepted_row_count": 593,
+        "relative_distance_reduction_mean": 0.02639710561773603,
+        "risk_brier_nonworse": true,
+        "risk_brier_score": 0.24240048102527473,
+        "risk_constant_brier_score": 0.2447790974936519,
+        "row_count": 638,
+        "selected_row_count": 593
+      }
+    },
+    "shrink_1.00__risk_0.25": {
+      "10": {
+        "acceptance_rate": 0.2335423197492163,
+        "accepted_row_mse_ratio": 0.7617578136598736,
+        "adverse_row_count": 243,
+        "adverse_sse_mass": 0.004782400980428028,
+        "beneficial_sse_mass": 0.053911773836895,
+        "distance_reduction_stats": {
+          "max": 0.031375961448165055,
+          "mean": 0.010360659136970918,
+          "median": 0.010953657026917571,
+          "min": -0.021698436094996762,
+          "p05": -0.005910258842548702,
+          "p95": 0.024425588741999238
+        },
+        "group_tail": {
+          "group_count": 126,
+          "group_ratio_sha256": "5f00aacdd19925b27c143441fdfa723b92a0ad250512c05fa563eb662d784e68",
+          "ratio_stats": {
+            "max": 1.051123419451797,
+            "mean": 0.9484111724791265,
+            "median": 0.980069782407503,
+            "min": 0.560756329907988,
+            "p05": 0.8064494711672487,
+            "p95": 1.0089213196710978
+          },
+          "tail_count": 26,
+          "worst_fraction_cvar_mse_ratio": 1.0077221207107074,
+          "worst_group_mse_ratio": 1.051123419451797
+        },
+        "net_sse_reduction_mass": 0.04912937285646697,
+        "output_candidate_sha256": "9aa753b9b9d7523f9d5e079444943dfdc910f7315145b3a6a8c54eb7d3dd12c4",
+        "output_selected_scale_sha256": "19c4b7c5987bff321acda62a29a4d4d500a77b98570c608ba3deddc403379458",
+        "overall_mse_ratio": 0.9508706271435331,
+        "positive_distance_reduction_rate": 0.8523489932885906,
+        "raw_accepted_row_count": 610,
+        "relative_distance_reduction_mean": 0.13083014555481304,
+        "risk_brier_nonworse": true,
+        "risk_brier_score": 0.20307522274471018,
+        "risk_constant_brier_score": 0.24297551501533382,
+        "row_count": 638,
+        "selected_row_count": 149
+      },
+      "25": {
+        "acceptance_rate": 0.44200626959247646,
+        "accepted_row_mse_ratio": 0.747283703485812,
+        "adverse_row_count": 166,
+        "adverse_sse_mass": 0.012472060785096288,
+        "beneficial_sse_mass": 0.10750504373952431,
+        "distance_reduction_stats": {
+          "max": 0.05724323922217851,
+          "mean": 0.012930060967499265,
+          "median": 0.012684416785350185,
+          "min": -0.025368599994264496,
+          "p05": -0.012870514228460314,
+          "p95": 0.04145898043831942
+        },
+        "group_tail": {
+          "group_count": 126,
+          "group_ratio_sha256": "1b8eb6e24d021aa3892e215f20c7d853faa3111047abb522b313055a75e9ce08",
+          "ratio_stats": {
+            "max": 1.321023530395024,
+            "mean": 0.9063580271722633,
+            "median": 0.9333936868753645,
+            "min": 0.4839147796410513,
+            "p05": 0.6805188696822594,
+            "p95": 1.0335974883867327
+          },
+          "tail_count": 26,
+          "worst_fraction_cvar_mse_ratio": 1.0382249069388538,
+          "worst_group_mse_ratio": 1.321023530395024
+        },
+        "net_sse_reduction_mass": 0.09503298295442802,
+        "output_candidate_sha256": "a3e128861c7f5039e8ce681120df78b7d194e4859e7c3353f646db33876f520e",
+        "output_selected_scale_sha256": "d06aa21a8eec9499855e47a2a4dec092d6597c1b082423bcf8cf8063322a87ba",
+        "overall_mse_ratio": 0.9049670170455721,
+        "positive_distance_reduction_rate": 0.8156028368794326,
+        "raw_accepted_row_count": 623,
+        "relative_distance_reduction_mean": 0.13508282582474657,
+        "risk_brier_nonworse": true,
+        "risk_brier_score": 0.1852374799711804,
+        "risk_constant_brier_score": 0.1974617968077604,
+        "row_count": 638,
+        "selected_row_count": 282
+      },
+      "50": {
+        "acceptance_rate": 0.04231974921630094,
+        "accepted_row_mse_ratio": 0.896171322910511,
+        "adverse_row_count": 218,
+        "adverse_sse_mass": 0.002459665983840166,
+        "beneficial_sse_mass": 0.006995388059977623,
+        "distance_reduction_stats": {
+          "max": 0.04149408393130734,
+          "mean": 0.007396471459654742,
+          "median": 0.006658557727043879,
+          "min": -0.029848277849790716,
+          "p05": -0.015873524572911735,
+          "p95": 0.032458175972811386
+        },
+        "group_tail": {
+          "group_count": 126,
+          "group_ratio_sha256": "8166fbb457874d6d913a5f8626a699b21789156b1a17d2671715e72f6b2b601e",
+          "ratio_stats": {
+            "max": 1.0664920847766939,
+            "mean": 0.9940312057618546,
+            "median": 1.0,
+            "min": 0.7311203975548831,
+            "p05": 0.9511732627764521,
+            "p95": 1.0
+          },
+          "tail_count": 26,
+          "worst_fraction_cvar_mse_ratio": 1.0086504184305936,
+          "worst_group_mse_ratio": 1.0664920847766939
+        },
+        "net_sse_reduction_mass": 0.004535722076137456,
+        "output_candidate_sha256": "5a5a510112865df51424faa4c550b22782a3f4cdd56c75d8b77ed6a468718a56",
+        "output_selected_scale_sha256": "d73b8e0bf82b55c6e9e1dacb743a0caa55e5c4f5d8e13d920c4c5444e793f293",
+        "overall_mse_ratio": 0.9954642779238625,
+        "positive_distance_reduction_rate": 0.6666666666666666,
+        "raw_accepted_row_count": 625,
+        "relative_distance_reduction_mean": 0.05957600895314229,
+        "risk_brier_nonworse": true,
+        "risk_brier_score": 0.22819939018098812,
+        "risk_constant_brier_score": 0.22916174553464438,
+        "row_count": 638,
+        "selected_row_count": 27
+      }
+    },
+    "shrink_1.00__risk_0.50": {
+      "10": {
+        "acceptance_rate": 0.6316614420062696,
+        "accepted_row_mse_ratio": 0.8619871126074685,
+        "adverse_row_count": 243,
+        "adverse_sse_mass": 0.02820609944151207,
+        "beneficial_sse_mass": 0.10671180615245844,
+        "distance_reduction_stats": {
+          "max": 0.04356679654259834,
+          "mean": 0.006074958521782789,
+          "median": 0.006180977098310503,
+          "min": -0.0391136290551336,
+          "p05": -0.011139240658666867,
+          "p95": 0.023750322924932638
+        },
+        "group_tail": {
+          "group_count": 126,
+          "group_ratio_sha256": "1dcb9668103d4750b4913e2673209cd05d09d0635c9ce55926a9db5e01868494",
+          "ratio_stats": {
+            "max": 1.2273558822199413,
+            "mean": 0.9204639825778202,
+            "median": 0.9383071999776984,
+            "min": 0.560756329907988,
+            "p05": 0.7435270271334713,
+            "p95": 1.056211133604164
+          },
+          "tail_count": 26,
+          "worst_fraction_cvar_mse_ratio": 1.0435537556662113,
+          "worst_group_mse_ratio": 1.2273558822199413
+        },
+        "net_sse_reduction_mass": 0.07850570671094637,
+        "output_candidate_sha256": "81c15eb0b4e029a843c0a5688f5cf9d1230f7a45b41621a66cd7c65e14aa3c0e",
+        "output_selected_scale_sha256": "2703d97e8fb7806de5f1583198392fd6c71772ee0d8109a818b61cb68942350a",
+        "overall_mse_ratio": 0.9214942932890537,
+        "positive_distance_reduction_rate": 0.7096774193548387,
+        "raw_accepted_row_count": 610,
+        "relative_distance_reduction_mean": 0.07372211808422947,
+        "risk_brier_nonworse": true,
+        "risk_brier_score": 0.20307522274471018,
+        "risk_constant_brier_score": 0.24297551501533382,
+        "row_count": 638,
+        "selected_row_count": 403
+      },
+      "25": {
+        "acceptance_rate": 0.9122257053291536,
+        "accepted_row_mse_ratio": 0.8196097405880607,
+        "adverse_row_count": 166,
+        "adverse_sse_mass": 0.04650744271214248,
+        "beneficial_sse_mass": 0.2025693071134202,
+        "distance_reduction_stats": {
+          "max": 0.06185337632422745,
+          "mean": 0.01017434801418083,
+          "median": 0.010620024707838422,
+          "min": -0.046401477604829294,
+          "p05": -0.016661225459376608,
+          "p95": 0.0370341679667528
+        },
+        "group_tail": {
+          "group_count": 126,
+          "group_ratio_sha256": "badc4c55c508e884f2308ad6f8efd1c55f30c9b1e525ebcd8d0ce3c5a67199af",
+          "ratio_stats": {
+            "max": 1.428543998304012,
+            "mean": 0.8534084805117853,
+            "median": 0.8419579682839622,
+            "min": 0.4839147796410513,
+            "p05": 0.5895786011566764,
+            "p95": 1.1506578524695223
+          },
+          "tail_count": 26,
+          "worst_fraction_cvar_mse_ratio": 1.1125311707654624,
+          "worst_group_mse_ratio": 1.428543998304012
+        },
+        "net_sse_reduction_mass": 0.15606186440127773,
+        "output_candidate_sha256": "6e6d718eee0d4c78880b54a96e90046a8d71361137fe350caf9c32441ebcf5d5",
+        "output_selected_scale_sha256": "6b527b21d9d4a173b6ff309342da66d6339ad78f3abe6011ad4d3a749d494787",
+        "overall_mse_ratio": 0.8439381355987223,
+        "positive_distance_reduction_rate": 0.7491408934707904,
+        "raw_accepted_row_count": 623,
+        "relative_distance_reduction_mean": 0.10316127568666071,
+        "risk_brier_nonworse": true,
+        "risk_brier_score": 0.1852374799711804,
+        "risk_constant_brier_score": 0.1974617968077604,
+        "row_count": 638,
+        "selected_row_count": 582
+      },
+      "50": {
+        "acceptance_rate": 0.9137931034482759,
+        "accepted_row_mse_ratio": 0.8978040933338561,
+        "adverse_row_count": 218,
+        "adverse_sse_mass": 0.08178735701351751,
+        "beneficial_sse_mass": 0.1739460994964696,
+        "distance_reduction_stats": {
+          "max": 0.07531459836896028,
+          "mean": 0.007602970464187232,
+          "median": 0.007022084074696927,
+          "min": -0.1068038670090028,
+          "p05": -0.02805934939500442,
+          "p95": 0.04374570331052565
+        },
+        "group_tail": {
+          "group_count": 126,
+          "group_ratio_sha256": "1780bcd316b263353525dfc06a8f1cdfaaeed9f584c2eac05c9b255e170321c9",
+          "ratio_stats": {
+            "max": 1.7940635525685649,
+            "mean": 0.9143521497416627,
+            "median": 0.8920232424613148,
+            "min": 0.5058469508336454,
+            "p05": 0.663881538025904,
+            "p95": 1.1919661401368928
+          },
+          "tail_count": 26,
+          "worst_fraction_cvar_mse_ratio": 1.1805478711220696,
+          "worst_group_mse_ratio": 1.7940635525685649
+        },
+        "net_sse_reduction_mass": 0.0921587424829521,
+        "output_candidate_sha256": "c679131b864b8f8004bbb97f66a3eb2442db347939d41bdfaaaa30e98bf56679",
+        "output_selected_scale_sha256": "d16fb478f06d8352c1cc4db5616ecec4207a606127bf9570ce7ae407fafba12d",
+        "overall_mse_ratio": 0.907841257517048,
+        "positive_distance_reduction_rate": 0.6552315608919382,
+        "raw_accepted_row_count": 625,
+        "relative_distance_reduction_mean": 0.0587183836045001,
+        "risk_brier_nonworse": true,
+        "risk_brier_score": 0.22819939018098812,
+        "risk_constant_brier_score": 0.22916174553464438,
+        "row_count": 638,
+        "selected_row_count": 583
+      }
+    },
+    "shrink_1.00__risk_0.75": {
+      "10": {
+        "acceptance_rate": 0.8526645768025078,
+        "accepted_row_mse_ratio": 0.916185124647769,
+        "adverse_row_count": 243,
+        "adverse_sse_mass": 0.06361328405720626,
+        "beneficial_sse_mass": 0.13141031331996578,
+        "distance_reduction_stats": {
+          "max": 0.04356679654259834,
+          "mean": 0.004074961718971968,
+          "median": 0.004620835209306392,
+          "min": -0.04182908197709079,
+          "p05": -0.01587061936145433,
+          "p95": 0.023617504000058673
+        },
+        "group_tail": {
+          "group_count": 126,
+          "group_ratio_sha256": "4d281374b50eb28c6979e544dc8cc5bab19dbe19b382b3504b0492f5f7be2de3",
+          "ratio_stats": {
+            "max": 1.5705708449968283,
+            "mean": 0.9414376123735901,
+            "median": 0.9350741823157916,
+            "min": 0.560756329907988,
+            "p05": 0.6950119646814635,
+            "p95": 1.196030631512914
+          },
+          "tail_count": 26,
+          "worst_fraction_cvar_mse_ratio": 1.1672996477362199,
+          "worst_group_mse_ratio": 1.5705708449968283
+        },
+        "net_sse_reduction_mass": 0.06779702926275952,
+        "output_candidate_sha256": "cd6331a348e91cc8a5626c860596554ed7fa0a85ab9687d38b61e722d1e65a5d",
+        "output_selected_scale_sha256": "8250224a0431402281510d794da08e4c6dd30cba707be99f7412be24b8b0f976",
+        "overall_mse_ratio": 0.9322029707372405,
+        "positive_distance_reduction_rate": 0.6470588235294118,
+        "raw_accepted_row_count": 610,
+        "relative_distance_reduction_mean": 0.047555450749939575,
+        "risk_brier_nonworse": true,
+        "risk_brier_score": 0.20307522274471018,
+        "risk_constant_brier_score": 0.24297551501533382,
+        "row_count": 638,
+        "selected_row_count": 544
+      },
+      "25": {
+        "acceptance_rate": 0.9608150470219435,
+        "accepted_row_mse_ratio": 0.8358853803445981,
+        "adverse_row_count": 166,
+        "adverse_sse_mass": 0.060220828449696485,
+        "beneficial_sse_mass": 0.21419612546721029,
+        "distance_reduction_stats": {
+          "max": 0.06224876329045671,
+          "mean": 0.009669451329058975,
+          "median": 0.010491261103531518,
+          "min": -0.07554184653548619,
+          "p05": -0.01937006731232065,
+          "p95": 0.037980721853933974
+        },
+        "group_tail": {
+          "group_count": 126,
+          "group_ratio_sha256": "3614f9b09ec0e5ea0f23d6bcb4ee7fb98b33b4540e7ed606fad2137918b75399",
+          "ratio_stats": {
+            "max": 1.428543998304012,
+            "mean": 0.8523881599653149,
+            "median": 0.8241448463442784,
+            "min": 0.4839147796410513,
+            "p05": 0.5734138770948457,
+            "p95": 1.2144842554223587
+          },
+          "tail_count": 26,
+          "worst_fraction_cvar_mse_ratio": 1.129009022906011,
+          "worst_group_mse_ratio": 1.428543998304012
+        },
+        "net_sse_reduction_mass": 0.1539752970175138,
+        "output_candidate_sha256": "b88640ebff0c2e70f665de277f42c43efb1d93daadd93b0784ab0103176e5a45",
+        "output_selected_scale_sha256": "726a9c334fa409910e5ed178b35ab85a61c475a389e858c0578175c14b3a4d9e",
+        "overall_mse_ratio": 0.8460247029824861,
+        "positive_distance_reduction_rate": 0.7422512234910277,
+        "raw_accepted_row_count": 623,
+        "relative_distance_reduction_mean": 0.09724568954188047,
+        "risk_brier_nonworse": true,
+        "risk_brier_score": 0.1852374799711804,
+        "risk_constant_brier_score": 0.1974617968077604,
+        "row_count": 638,
+        "selected_row_count": 613
+      },
+      "50": {
+        "acceptance_rate": 0.9749216300940439,
+        "accepted_row_mse_ratio": 0.898525690742179,
+        "adverse_row_count": 218,
+        "adverse_sse_mass": 0.09506915172420217,
+        "beneficial_sse_mass": 0.19225763094273735,
+        "distance_reduction_stats": {
+          "max": 0.07641831040700549,
+          "mean": 0.0076267125671274656,
+          "median": 0.007164105196767197,
+          "min": -0.10707660732939508,
+          "p05": -0.028905951289549286,
+          "p95": 0.04870575960276268
+        },
+        "group_tail": {
+          "group_count": 126,
+          "group_ratio_sha256": "e29ff50ab4cb470c94987b9c0ed147a41246a7b834c62caf13ad62ef9de061a4",
+          "ratio_stats": {
+            "max": 1.9468306190983629,
+            "mean": 0.9137729488763077,
+            "median": 0.8891411136310252,
+            "min": 0.5058469508336454,
+            "p05": 0.6399981877409487,
+            "p95": 1.2474402311484465
+          },
+          "tail_count": 26,
+          "worst_fraction_cvar_mse_ratio": 1.2173670324406805,
+          "worst_group_mse_ratio": 1.9468306190983629
+        },
+        "net_sse_reduction_mass": 0.09718847921853517,
+        "output_candidate_sha256": "8c983a2c99cdb85f79167086830ac62fdaac4c8dddd83bc8c83a168718e356dc",
+        "output_selected_scale_sha256": "5e1c8c30f47653a4f4429a5638fd22175e4b0abac30cd0eb84ce243c9c6619e4",
+        "overall_mse_ratio": 0.902811520781465,
+        "positive_distance_reduction_rate": 0.6543408360128617,
+        "raw_accepted_row_count": 625,
+        "relative_distance_reduction_mean": 0.0570716509610526,
+        "risk_brier_nonworse": true,
+        "risk_brier_score": 0.22819939018098812,
+        "risk_constant_brier_score": 0.22916174553464438,
+        "row_count": 638,
+        "selected_row_count": 622
+      }
+    },
+    "shrink_1.00__risk_1.00": {
+      "10": {
+        "acceptance_rate": 0.9561128526645768,
+        "accepted_row_mse_ratio": 0.9618934502566069,
+        "adverse_row_count": 243,
+        "adverse_sse_mass": 0.1046636401945965,
+        "beneficial_sse_mass": 0.1405984665077071,
+        "distance_reduction_stats": {
+          "max": 0.04356679654259834,
+          "mean": 0.002682316877394303,
+          "median": 0.0033482781816498164,
+          "min": -0.07531703589032507,
+          "p05": -0.01900379334310357,
+          "p95": 0.02345406858311067
+        },
+        "group_tail": {
+          "group_count": 126,
+          "group_ratio_sha256": "51b7fadc2e64f0b55f0f211cdd1bdea47e8e85e7d9cccb82b2452e4698c64a3f",
+          "ratio_stats": {
+            "max": 1.6540446727356102,
+            "mean": 0.9681560414999765,
+            "median": 0.9468565740190833,
+            "min": 0.560756329907988,
+            "p05": 0.6950119646814635,
+            "p95": 1.3413332826864803
+          },
+          "tail_count": 26,
+          "worst_fraction_cvar_mse_ratio": 1.2670780206814798,
+          "worst_group_mse_ratio": 1.6540446727356102
+        },
+        "net_sse_reduction_mass": 0.03593482631311061,
+        "output_candidate_sha256": "eb887942a3b660874a4ccc530f1070eceb2d401f69d38082433b7539c2f2c429",
+        "output_selected_scale_sha256": "8bca73c5c855c129d6c5a8f898bd1ac366a5f5d5fbfbec7a18a5b288234f7548",
+        "overall_mse_ratio": 0.9640651736868895,
+        "positive_distance_reduction_rate": 0.601639344262295,
+        "raw_accepted_row_count": 610,
+        "relative_distance_reduction_mean": 0.03207942408060449,
+        "risk_brier_nonworse": true,
+        "risk_brier_score": 0.20307522274471018,
+        "risk_constant_brier_score": 0.24297551501533382,
+        "row_count": 638,
+        "selected_row_count": 610
+      },
+      "25": {
+        "acceptance_rate": 0.9764890282131662,
+        "accepted_row_mse_ratio": 0.8669667467521426,
+        "adverse_row_count": 166,
+        "adverse_sse_mass": 0.0875789204302181,
+        "beneficial_sse_mass": 0.21650140297085316,
+        "distance_reduction_stats": {
+          "max": 0.06224876329045671,
+          "mean": 0.008870712277418582,
+          "median": 0.010248507443580163,
+          "min": -0.12230702439765953,
+          "p05": -0.021102419029022296,
+          "p95": 0.037843951647533076
+        },
+        "group_tail": {
+          "group_count": 126,
+          "group_ratio_sha256": "54ad594a4adff577f340b82a3f48f06ba62536c3a252c20de290966581e8e646",
+          "ratio_stats": {
+            "max": 1.9186519356653153,
+            "mean": 0.8673185166426667,
+            "median": 0.8210281751976568,
+            "min": 0.4839147796410513,
+            "p05": 0.5734138770948457,
+            "p95": 1.258321419451738
+          },
+          "tail_count": 26,
+          "worst_fraction_cvar_mse_ratio": 1.1942334317354422,
+          "worst_group_mse_ratio": 1.9186519356653153
+        },
+        "net_sse_reduction_mass": 0.12892248254063504,
+        "output_candidate_sha256": "dcdf9fe69ead900a17a71c9eafd75514d455524da6aa7d3e0275cd7a9f11e93e",
+        "output_selected_scale_sha256": "e86985940a75b4528ff7ca00bd32b564bbb14afb8c66d45694b7239581a2c144",
+        "overall_mse_ratio": 0.8710775174593649,
+        "positive_distance_reduction_rate": 0.7335473515248796,
+        "raw_accepted_row_count": 623,
+        "relative_distance_reduction_mean": 0.09057247934484562,
+        "risk_brier_nonworse": true,
+        "risk_brier_score": 0.1852374799711804,
+        "risk_constant_brier_score": 0.1974617968077604,
+        "row_count": 638,
+        "selected_row_count": 623
+      },
+      "50": {
+        "acceptance_rate": 0.9796238244514106,
+        "accepted_row_mse_ratio": 0.9027246560157106,
+        "adverse_row_count": 218,
+        "adverse_sse_mass": 0.09874706760619795,
+        "beneficial_sse_mass": 0.19225763094273735,
+        "distance_reduction_stats": {
+          "max": 0.07641831040700549,
+          "mean": 0.007376547897742097,
+          "median": 0.007074265021396478,
+          "min": -0.10707660732939508,
+          "p05": -0.029125508806724976,
+          "p95": 0.04851270586650133
+        },
+        "group_tail": {
+          "group_count": 126,
+          "group_ratio_sha256": "9c3add475138084154b3e586b52f254aec713403f7dc888443e01255f7fcec3c",
+          "ratio_stats": {
+            "max": 2.844119271034764,
+            "mean": 0.9209356645377157,
+            "median": 0.8891411136310252,
+            "min": 0.5058469508336454,
+            "p05": 0.6399981877409487,
+            "p95": 1.2487436114986958
+          },
+          "tail_count": 26,
+          "worst_fraction_cvar_mse_ratio": 1.252078654492119,
+          "worst_group_mse_ratio": 2.844119271034764
+        },
+        "net_sse_reduction_mass": 0.0935105633365394,
+        "output_candidate_sha256": "89b1b5959bd658b2db809c82b6cdffa02ff6daf3e4ae3adfb4b5516f643d5200",
+        "output_selected_scale_sha256": "d1121463bcac2c08a665eaa1a42bba737b3ea03696cdea4c0a7377804e9d027f",
+        "overall_mse_ratio": 0.9064894366634607,
+        "positive_distance_reduction_rate": 0.6512,
+        "raw_accepted_row_count": 625,
+        "relative_distance_reduction_mean": 0.0546453143651707,
+        "risk_brier_nonworse": true,
+        "risk_brier_score": 0.22819939018098812,
+        "risk_constant_brier_score": 0.22916174553464438,
+        "row_count": 638,
+        "selected_row_count": 625
+      }
+    }
+  },
+  "full_objective_oof_fixed_policy_selection": {
+    "diagnostic_fallback_used": false,
+    "eligible_policy_ids": [
+      "shrink_1.00__risk_0.50"
+    ],
+    "policy_eligibility": {
+      "shrink_0.50__risk_0.25": {
+        "all_timesteps_pass": false,
+        "checks": {
+          "10": {
+            "acceptance": false,
+            "accepted_mse": true,
+            "adverse_sse_reduction": true,
+            "group_cvar_improvement": true,
+            "overall_mse": true,
+            "positive_reduction": true,
+            "relative_reduction": true,
+            "risk_brier_nonworse": true
+          },
+          "25": {
+            "acceptance": false,
+            "accepted_mse": true,
+            "adverse_sse_reduction": true,
+            "group_cvar_improvement": true,
+            "overall_mse": true,
+            "positive_reduction": true,
+            "relative_reduction": true,
+            "risk_brier_nonworse": true
+          },
+          "50": {
+            "acceptance": false,
+            "accepted_mse": false,
+            "adverse_sse_reduction": true,
+            "group_cvar_improvement": true,
+            "overall_mse": false,
+            "positive_reduction": false,
+            "relative_reduction": false,
+            "risk_brier_nonworse": true
+          }
+        }
+      },
+      "shrink_0.50__risk_0.50": {
+        "all_timesteps_pass": false,
+        "checks": {
+          "10": {
+            "acceptance": false,
+            "accepted_mse": true,
+            "adverse_sse_reduction": true,
+            "group_cvar_improvement": true,
+            "overall_mse": true,
+            "positive_reduction": true,
+            "relative_reduction": true,
+            "risk_brier_nonworse": true
+          },
+          "25": {
+            "acceptance": false,
+            "accepted_mse": true,
+            "adverse_sse_reduction": true,
+            "group_cvar_improvement": true,
+            "overall_mse": true,
+            "positive_reduction": true,
+            "relative_reduction": true,
+            "risk_brier_nonworse": true
+          },
+          "50": {
+            "acceptance": false,
+            "accepted_mse": true,
+            "adverse_sse_reduction": true,
+            "group_cvar_improvement": true,
+            "overall_mse": true,
+            "positive_reduction": true,
+            "relative_reduction": true,
+            "risk_brier_nonworse": true
+          }
+        }
+      },
+      "shrink_0.50__risk_0.75": {
+        "all_timesteps_pass": false,
+        "checks": {
+          "10": {
+            "acceptance": false,
+            "accepted_mse": false,
+            "adverse_sse_reduction": true,
+            "group_cvar_improvement": true,
+            "overall_mse": false,
+            "positive_reduction": false,
+            "relative_reduction": false,
+            "risk_brier_nonworse": true
+          },
+          "25": {
+            "acceptance": true,
+            "accepted_mse": true,
+            "adverse_sse_reduction": true,
+            "group_cvar_improvement": true,
+            "overall_mse": true,
+            "positive_reduction": true,
+            "relative_reduction": true,
+            "risk_brier_nonworse": true
+          },
+          "50": {
+            "acceptance": true,
+            "accepted_mse": false,
+            "adverse_sse_reduction": false,
+            "group_cvar_improvement": false,
+            "overall_mse": false,
+            "positive_reduction": false,
+            "relative_reduction": false,
+            "risk_brier_nonworse": true
+          }
+        }
+      },
+      "shrink_0.50__risk_1.00": {
+        "all_timesteps_pass": false,
+        "checks": {
+          "10": {
+            "acceptance": true,
+            "accepted_mse": false,
+            "adverse_sse_reduction": false,
+            "group_cvar_improvement": false,
+            "overall_mse": false,
+            "positive_reduction": false,
+            "relative_reduction": false,
+            "risk_brier_nonworse": true
+          },
+          "25": {
+            "acceptance": true,
+            "accepted_mse": false,
+            "adverse_sse_reduction": false,
+            "group_cvar_improvement": false,
+            "overall_mse": false,
+            "positive_reduction": true,
+            "relative_reduction": false,
+            "risk_brier_nonworse": true
+          },
+          "50": {
+            "acceptance": true,
+            "accepted_mse": false,
+            "adverse_sse_reduction": false,
+            "group_cvar_improvement": false,
+            "overall_mse": false,
+            "positive_reduction": false,
+            "relative_reduction": false,
+            "risk_brier_nonworse": true
+          }
+        }
+      },
+      "shrink_0.75__risk_0.25": {
+        "all_timesteps_pass": false,
+        "checks": {
+          "10": {
+            "acceptance": false,
+            "accepted_mse": true,
+            "adverse_sse_reduction": true,
+            "group_cvar_improvement": true,
+            "overall_mse": true,
+            "positive_reduction": true,
+            "relative_reduction": true,
+            "risk_brier_nonworse": true
+          },
+          "25": {
+            "acceptance": false,
+            "accepted_mse": true,
+            "adverse_sse_reduction": true,
+            "group_cvar_improvement": true,
+            "overall_mse": true,
+            "positive_reduction": true,
+            "relative_reduction": true,
+            "risk_brier_nonworse": true
+          },
+          "50": {
+            "acceptance": false,
+            "accepted_mse": true,
+            "adverse_sse_reduction": true,
+            "group_cvar_improvement": true,
+            "overall_mse": true,
+            "positive_reduction": true,
+            "relative_reduction": true,
+            "risk_brier_nonworse": true
+          }
+        }
+      },
+      "shrink_0.75__risk_0.50": {
+        "all_timesteps_pass": false,
+        "checks": {
+          "10": {
+            "acceptance": false,
+            "accepted_mse": true,
+            "adverse_sse_reduction": true,
+            "group_cvar_improvement": true,
+            "overall_mse": true,
+            "positive_reduction": true,
+            "relative_reduction": true,
+            "risk_brier_nonworse": true
+          },
+          "25": {
+            "acceptance": true,
+            "accepted_mse": true,
+            "adverse_sse_reduction": true,
+            "group_cvar_improvement": true,
+            "overall_mse": true,
+            "positive_reduction": true,
+            "relative_reduction": true,
+            "risk_brier_nonworse": true
+          },
+          "50": {
+            "acceptance": true,
+            "accepted_mse": true,
+            "adverse_sse_reduction": true,
+            "group_cvar_improvement": true,
+            "overall_mse": true,
+            "positive_reduction": true,
+            "relative_reduction": true,
+            "risk_brier_nonworse": true
+          }
+        }
+      },
+      "shrink_0.75__risk_0.75": {
+        "all_timesteps_pass": false,
+        "checks": {
+          "10": {
+            "acceptance": true,
+            "accepted_mse": false,
+            "adverse_sse_reduction": true,
+            "group_cvar_improvement": true,
+            "overall_mse": false,
+            "positive_reduction": true,
+            "relative_reduction": false,
+            "risk_brier_nonworse": true
+          },
+          "25": {
+            "acceptance": true,
+            "accepted_mse": true,
+            "adverse_sse_reduction": true,
+            "group_cvar_improvement": true,
+            "overall_mse": true,
+            "positive_reduction": true,
+            "relative_reduction": true,
+            "risk_brier_nonworse": true
+          },
+          "50": {
+            "acceptance": true,
+            "accepted_mse": true,
+            "adverse_sse_reduction": false,
+            "group_cvar_improvement": true,
+            "overall_mse": true,
+            "positive_reduction": true,
+            "relative_reduction": true,
+            "risk_brier_nonworse": true
+          }
+        }
+      },
+      "shrink_0.75__risk_1.00": {
+        "all_timesteps_pass": false,
+        "checks": {
+          "10": {
+            "acceptance": true,
+            "accepted_mse": false,
+            "adverse_sse_reduction": false,
+            "group_cvar_improvement": false,
+            "overall_mse": false,
+            "positive_reduction": false,
+            "relative_reduction": false,
+            "risk_brier_nonworse": true
+          },
+          "25": {
+            "acceptance": true,
+            "accepted_mse": true,
+            "adverse_sse_reduction": false,
+            "group_cvar_improvement": false,
+            "overall_mse": true,
+            "positive_reduction": true,
+            "relative_reduction": true,
+            "risk_brier_nonworse": true
+          },
+          "50": {
+            "acceptance": true,
+            "accepted_mse": true,
+            "adverse_sse_reduction": false,
+            "group_cvar_improvement": true,
+            "overall_mse": true,
+            "positive_reduction": true,
+            "relative_reduction": true,
+            "risk_brier_nonworse": true
+          }
+        }
+      },
+      "shrink_1.00__risk_0.25": {
+        "all_timesteps_pass": false,
+        "checks": {
+          "10": {
+            "acceptance": false,
+            "accepted_mse": true,
+            "adverse_sse_reduction": true,
+            "group_cvar_improvement": true,
+            "overall_mse": true,
+            "positive_reduction": true,
+            "relative_reduction": true,
+            "risk_brier_nonworse": true
+          },
+          "25": {
+            "acceptance": false,
+            "accepted_mse": true,
+            "adverse_sse_reduction": true,
+            "group_cvar_improvement": true,
+            "overall_mse": true,
+            "positive_reduction": true,
+            "relative_reduction": true,
+            "risk_brier_nonworse": true
+          },
+          "50": {
+            "acceptance": false,
+            "accepted_mse": true,
+            "adverse_sse_reduction": true,
+            "group_cvar_improvement": true,
+            "overall_mse": true,
+            "positive_reduction": true,
+            "relative_reduction": true,
+            "risk_brier_nonworse": true
+          }
+        }
+      },
+      "shrink_1.00__risk_0.50": {
+        "all_timesteps_pass": true,
+        "checks": {
+          "10": {
+            "acceptance": true,
+            "accepted_mse": true,
+            "adverse_sse_reduction": true,
+            "group_cvar_improvement": true,
+            "overall_mse": true,
+            "positive_reduction": true,
+            "relative_reduction": true,
+            "risk_brier_nonworse": true
+          },
+          "25": {
+            "acceptance": true,
+            "accepted_mse": true,
+            "adverse_sse_reduction": true,
+            "group_cvar_improvement": true,
+            "overall_mse": true,
+            "positive_reduction": true,
+            "relative_reduction": true,
+            "risk_brier_nonworse": true
+          },
+          "50": {
+            "acceptance": true,
+            "accepted_mse": true,
+            "adverse_sse_reduction": true,
+            "group_cvar_improvement": true,
+            "overall_mse": true,
+            "positive_reduction": true,
+            "relative_reduction": true,
+            "risk_brier_nonworse": true
+          }
+        }
+      },
+      "shrink_1.00__risk_0.75": {
+        "all_timesteps_pass": false,
+        "checks": {
+          "10": {
+            "acceptance": true,
+            "accepted_mse": true,
+            "adverse_sse_reduction": true,
+            "group_cvar_improvement": true,
+            "overall_mse": true,
+            "positive_reduction": true,
+            "relative_reduction": true,
+            "risk_brier_nonworse": true
+          },
+          "25": {
+            "acceptance": true,
+            "accepted_mse": true,
+            "adverse_sse_reduction": true,
+            "group_cvar_improvement": true,
+            "overall_mse": true,
+            "positive_reduction": true,
+            "relative_reduction": true,
+            "risk_brier_nonworse": true
+          },
+          "50": {
+            "acceptance": true,
+            "accepted_mse": true,
+            "adverse_sse_reduction": false,
+            "group_cvar_improvement": true,
+            "overall_mse": true,
+            "positive_reduction": true,
+            "relative_reduction": true,
+            "risk_brier_nonworse": true
+          }
+        }
+      },
+      "shrink_1.00__risk_1.00": {
+        "all_timesteps_pass": false,
+        "checks": {
+          "10": {
+            "acceptance": true,
+            "accepted_mse": true,
+            "adverse_sse_reduction": false,
+            "group_cvar_improvement": false,
+            "overall_mse": true,
+            "positive_reduction": true,
+            "relative_reduction": true,
+            "risk_brier_nonworse": true
+          },
+          "25": {
+            "acceptance": true,
+            "accepted_mse": true,
+            "adverse_sse_reduction": false,
+            "group_cvar_improvement": false,
+            "overall_mse": true,
+            "positive_reduction": true,
+            "relative_reduction": true,
+            "risk_brier_nonworse": true
+          },
+          "50": {
+            "acceptance": true,
+            "accepted_mse": true,
+            "adverse_sse_reduction": false,
+            "group_cvar_improvement": false,
+            "overall_mse": true,
+            "positive_reduction": true,
+            "relative_reduction": true,
+            "risk_brier_nonworse": true
+          }
+        }
+      }
+    },
+    "selected_policy": {
+      "risk_threshold": 0.5,
+      "shrinkage": 1.0
+    },
+    "selected_policy_id": "shrink_1.00__risk_0.50",
+    "selected_policy_inner_eligible": true,
+    "selection_score": [
+      0,
+      1.1805478711220696,
+      0.9214942932890537,
+      0.08178735701351751,
+      -0.6316614420062696,
+      2,
+      1
+    ]
+  },
+  "idm_run": false,
+  "image_saved": false,
+  "inner_selection_modal_policy_diagnostic": {
+    "counts": {
+      "shrink_0.50__risk_0.25": 1,
+      "shrink_0.50__risk_0.50": 0,
+      "shrink_0.50__risk_0.75": 0,
+      "shrink_0.50__risk_1.00": 0,
+      "shrink_0.75__risk_0.25": 1,
+      "shrink_0.75__risk_0.50": 0,
+      "shrink_0.75__risk_0.75": 0,
+      "shrink_0.75__risk_1.00": 0,
+      "shrink_1.00__risk_0.25": 0,
+      "shrink_1.00__risk_0.50": 4,
+      "shrink_1.00__risk_0.75": 0,
+      "shrink_1.00__risk_1.00": 0
+    },
+    "policy": {
+      "risk_threshold": 0.5,
+      "shrinkage": 1.0
+    },
+    "policy_id": "shrink_1.00__risk_0.50",
+    "support_count": 4
+  },
+  "locked_scientific_base": {
+    "backbone_id": "segment_target_rr64_feasible",
+    "external_multiplier": 0.25,
+    "internal_scale_count": 7,
+    "timesteps": [
+      10,
+      25,
+      50
+    ],
+    "tolerance_factor": 5.0
+  },
+  "npz_saved": false,
+  "outer_crossfit_baseline_records": {
+    "10": {
+      "acceptance_rate": 0.9561128526645768,
+      "accepted_row_mse_ratio": 0.9618934502566069,
+      "adverse_row_count": 243,
+      "adverse_sse_mass": 0.1046636401945965,
+      "beneficial_sse_mass": 0.1405984665077071,
+      "distance_reduction_stats": {
+        "max": 0.04356679654259834,
+        "mean": 0.002682316877394303,
+        "median": 0.0033482781816498164,
+        "min": -0.07531703589032507,
+        "p05": -0.01900379334310357,
+        "p95": 0.02345406858311067
+      },
+      "group_tail": {
+        "group_count": 126,
+        "group_ratio_sha256": "51b7fadc2e64f0b55f0f211cdd1bdea47e8e85e7d9cccb82b2452e4698c64a3f",
+        "ratio_stats": {
+          "max": 1.6540446727356102,
+          "mean": 0.9681560414999765,
+          "median": 0.9468565740190833,
+          "min": 0.560756329907988,
+          "p05": 0.6950119646814635,
+          "p95": 1.3413332826864803
+        },
+        "tail_count": 26,
+        "worst_fraction_cvar_mse_ratio": 1.2670780206814798,
+        "worst_group_mse_ratio": 1.6540446727356102
+      },
+      "net_sse_reduction_mass": 0.03593482631311061,
+      "output_candidate_sha256": "eb887942a3b660874a4ccc530f1070eceb2d401f69d38082433b7539c2f2c429",
+      "output_selected_scale_sha256": "8bca73c5c855c129d6c5a8f898bd1ac366a5f5d5fbfbec7a18a5b288234f7548",
+      "overall_mse_ratio": 0.9640651736868895,
+      "positive_distance_reduction_rate": 0.601639344262295,
+      "raw_accepted_row_count": 610,
+      "relative_distance_reduction_mean": 0.03207942408060449,
+      "risk_brier_nonworse": false,
+      "risk_brier_score": 0.3983606557377049,
+      "risk_constant_brier_score": 0.2396694436979307,
+      "row_count": 638,
+      "selected_row_count": 610
+    },
+    "25": {
+      "acceptance_rate": 0.9764890282131662,
+      "accepted_row_mse_ratio": 0.8669667467521426,
+      "adverse_row_count": 166,
+      "adverse_sse_mass": 0.0875789204302181,
+      "beneficial_sse_mass": 0.21650140297085316,
+      "distance_reduction_stats": {
+        "max": 0.06224876329045671,
+        "mean": 0.008870712277418582,
+        "median": 0.010248507443580163,
+        "min": -0.12230702439765953,
+        "p05": -0.021102419029022296,
+        "p95": 0.037843951647533076
+      },
+      "group_tail": {
+        "group_count": 126,
+        "group_ratio_sha256": "54ad594a4adff577f340b82a3f48f06ba62536c3a252c20de290966581e8e646",
+        "ratio_stats": {
+          "max": 1.9186519356653153,
+          "mean": 0.8673185166426667,
+          "median": 0.8210281751976568,
+          "min": 0.4839147796410513,
+          "p05": 0.5734138770948457,
+          "p95": 1.258321419451738
+        },
+        "tail_count": 26,
+        "worst_fraction_cvar_mse_ratio": 1.1942334317354422,
+        "worst_group_mse_ratio": 1.9186519356653153
+      },
+      "net_sse_reduction_mass": 0.12892248254063504,
+      "output_candidate_sha256": "dcdf9fe69ead900a17a71c9eafd75514d455524da6aa7d3e0275cd7a9f11e93e",
+      "output_selected_scale_sha256": "e86985940a75b4528ff7ca00bd32b564bbb14afb8c66d45694b7239581a2c144",
+      "overall_mse_ratio": 0.8710775174593649,
+      "positive_distance_reduction_rate": 0.7335473515248796,
+      "raw_accepted_row_count": 623,
+      "relative_distance_reduction_mean": 0.09057247934484562,
+      "risk_brier_nonworse": false,
+      "risk_brier_score": 0.2664526484751204,
+      "risk_constant_brier_score": 0.1954556345957143,
+      "row_count": 638,
+      "selected_row_count": 623
+    },
+    "50": {
+      "acceptance_rate": 0.9796238244514106,
+      "accepted_row_mse_ratio": 0.9027246560157106,
+      "adverse_row_count": 218,
+      "adverse_sse_mass": 0.09874706760619795,
+      "beneficial_sse_mass": 0.19225763094273735,
+      "distance_reduction_stats": {
+        "max": 0.07641831040700549,
+        "mean": 0.007376547897742097,
+        "median": 0.007074265021396478,
+        "min": -0.10707660732939508,
+        "p05": -0.029125508806724976,
+        "p95": 0.04851270586650133
+      },
+      "group_tail": {
+        "group_count": 126,
+        "group_ratio_sha256": "9c3add475138084154b3e586b52f254aec713403f7dc888443e01255f7fcec3c",
+        "ratio_stats": {
+          "max": 2.844119271034764,
+          "mean": 0.9209356645377157,
+          "median": 0.8891411136310252,
+          "min": 0.5058469508336454,
+          "p05": 0.6399981877409487,
+          "p95": 1.2487436114986958
+        },
+        "tail_count": 26,
+        "worst_fraction_cvar_mse_ratio": 1.252078654492119,
+        "worst_group_mse_ratio": 2.844119271034764
+      },
+      "net_sse_reduction_mass": 0.0935105633365394,
+      "output_candidate_sha256": "89b1b5959bd658b2db809c82b6cdffa02ff6daf3e4ae3adfb4b5516f643d5200",
+      "output_selected_scale_sha256": "d1121463bcac2c08a665eaa1a42bba737b3ea03696cdea4c0a7377804e9d027f",
+      "overall_mse_ratio": 0.9064894366634607,
+      "positive_distance_reduction_rate": 0.6512,
+      "raw_accepted_row_count": 625,
+      "relative_distance_reduction_mean": 0.0546453143651707,
+      "risk_brier_nonworse": false,
+      "risk_brier_score": 0.3488,
+      "risk_constant_brier_score": 0.22713856000000004,
+      "row_count": 638,
+      "selected_row_count": 625
+    }
+  },
+  "outer_crossfit_fold_selected_policy_records": {
+    "10": {
+      "acceptance_rate": 0.43103448275862066,
+      "accepted_row_mse_ratio": 0.845847807617904,
+      "adverse_row_count": 255,
+      "adverse_sse_mass": 0.017556409436346822,
+      "beneficial_sse_mass": 0.07617104928664586,
+      "distance_reduction_stats": {
+        "max": 0.04356679654259834,
+        "mean": 0.006754265336894487,
+        "median": 0.006779675723789777,
+        "min": -0.0391136290551336,
+        "p05": -0.010495013883248172,
+        "p95": 0.023602987897585637
+      },
+      "group_tail": {
+        "group_count": 126,
+        "group_ratio_sha256": "d9c38b611f9128442d0347598369d197710044a96e88c07f9701c6d4ebb01b7b",
+        "ratio_stats": {
+          "max": 1.2273558822199413,
+          "mean": 0.9353383299270686,
+          "median": 0.9875833854095226,
+          "min": 0.560756329907988,
+          "p05": 0.7435270271334713,
+          "p95": 1.0249865753844782
+        },
+        "tail_count": 26,
+        "worst_fraction_cvar_mse_ratio": 1.0265514394243698,
+        "worst_group_mse_ratio": 1.2273558822199413
+      },
+      "net_sse_reduction_mass": 0.05861463985029904,
+      "output_candidate_sha256": "37da8e9adf5fd6bcdf343677c5e1e3a5bc5e6fc6e2d1215601cb827a58cf7db7",
+      "output_selected_scale_sha256": "5fc3d7fb44c3311ee20ad43462dc6a207afc013ce404c65891ce606a914597a9",
+      "overall_mse_ratio": 0.941385360149701,
+      "positive_distance_reduction_rate": 0.7418181818181818,
+      "raw_accepted_row_count": 560,
+      "relative_distance_reduction_mean": 0.08380859009386059,
+      "risk_brier_nonworse": true,
+      "risk_brier_score": 0.19773942597123262,
+      "risk_constant_brier_score": 0.23457577194831103,
+      "row_count": 638,
+      "selected_row_count": 275,
+      "threshold_population_sha256": "5cf00e7efd2820f3b239a4d5b03870719995729dcd1e8e0dbfcf687fba0da5c4"
+    },
+    "25": {
+      "acceptance_rate": 0.6598746081504702,
+      "accepted_row_mse_ratio": 0.8069027620950529,
+      "adverse_row_count": 191,
+      "adverse_sse_mass": 0.027560463122429907,
+      "beneficial_sse_mass": 0.14490994745315697,
+      "distance_reduction_stats": {
+        "max": 0.06101669268722912,
+        "mean": 0.010512055587445331,
+        "median": 0.010675143610502709,
+        "min": -0.03488253877418168,
+        "p05": -0.014039015355433906,
+        "p95": 0.0375216860997237
+      },
+      "group_tail": {
+        "group_count": 126,
+        "group_ratio_sha256": "c9e8a0ed3b4efbfd77dc017f0b7e241e27e664e5ea280aa540c28df6a973eb39",
+        "ratio_stats": {
+          "max": 1.428543998304012,
+          "mean": 0.8847228658140484,
+          "median": 0.9064492869201725,
+          "min": 0.4839147796410513,
+          "p05": 0.6328164354417973,
+          "p95": 1.1240681697798296
+        },
+        "tail_count": 26,
+        "worst_fraction_cvar_mse_ratio": 1.0837448755742654,
+        "worst_group_mse_ratio": 1.428543998304012
+      },
+      "net_sse_reduction_mass": 0.11734948433072706,
+      "output_candidate_sha256": "c7f15bff3cbd807413c768cf1fde4528776dd9ec2034badf4c6c7cdf692578f5",
+      "output_selected_scale_sha256": "bf71ff585842f909d3ec203bd258239cbd5a6fae429fbe82b88cbef30c69339d",
+      "overall_mse_ratio": 0.8826505156692729,
+      "positive_distance_reduction_rate": 0.7672209026128266,
+      "raw_accepted_row_count": 609,
+      "relative_distance_reduction_mean": 0.10741648775125157,
+      "risk_brier_nonworse": true,
+      "risk_brier_score": 0.1901151336756928,
+      "risk_constant_brier_score": 0.2098672404334506,
+      "row_count": 638,
+      "selected_row_count": 421,
+      "threshold_population_sha256": "5cf00e7efd2820f3b239a4d5b03870719995729dcd1e8e0dbfcf687fba0da5c4"
+    },
+    "50": {
+      "acceptance_rate": 0.5846394984326019,
+      "accepted_row_mse_ratio": 0.8972662676160503,
+      "adverse_row_count": 232,
+      "adverse_sse_mass": 0.05177436643210801,
+      "beneficial_sse_mass": 0.11224839883036945,
+      "distance_reduction_stats": {
+        "max": 0.07212896952622727,
+        "mean": 0.008063770710857582,
+        "median": 0.007022084074696927,
+        "min": -0.1068038670090028,
+        "p05": -0.02584269780384139,
+        "p95": 0.04637814554866347
+      },
+      "group_tail": {
+        "group_count": 126,
+        "group_ratio_sha256": "ea97e7d42701840366f2b63033c75731f35417478f0cdffc1c190bc09ff45ecc",
+        "ratio_stats": {
+          "max": 1.6190058168677324,
+          "mean": 0.9385097770463281,
+          "median": 0.9941002642466122,
+          "min": 0.5058469508336454,
+          "p05": 0.6783876763967873,
+          "p95": 1.1418047947167804
+        },
+        "tail_count": 26,
+        "worst_fraction_cvar_mse_ratio": 1.1172900366012053,
+        "worst_group_mse_ratio": 1.6190058168677324
+      },
+      "net_sse_reduction_mass": 0.06047403239826144,
+      "output_candidate_sha256": "0b50b9d6d848f76a0b707741f6ff7c8bb5862866c3393c8c3ae664842ac29812",
+      "output_selected_scale_sha256": "351779beba9c50521ea8b87e364ce9ae48d5739197dda2feb7e637b015e5d4e9",
+      "overall_mse_ratio": 0.9395259676017385,
+      "positive_distance_reduction_rate": 0.6568364611260054,
+      "raw_accepted_row_count": 600,
+      "relative_distance_reduction_mean": 0.0652457570302057,
+      "risk_brier_nonworse": true,
+      "risk_brier_score": 0.23205029141823522,
+      "risk_constant_brier_score": 0.2358146648208744,
+      "row_count": 638,
+      "selected_row_count": 373,
+      "threshold_population_sha256": "5cf00e7efd2820f3b239a4d5b03870719995729dcd1e8e0dbfcf687fba0da5c4"
+    }
+  },
+  "outer_fold_selections": [
+    {
+      "diagnostic_fallback_used": false,
+      "eligible_policy_ids": [
+        "shrink_1.00__risk_0.50",
+        "shrink_1.00__risk_0.75"
+      ],
+      "inner_train_row_count": 548,
+      "outer_fold": 0,
+      "outer_test_row_count": 90,
+      "policy_eligibility": {
+        "shrink_0.50__risk_0.25": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": false,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": false
+            }
+          }
+        },
+        "shrink_0.50__risk_0.50": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": false,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": true,
+              "relative_reduction": false,
+              "risk_brier_nonworse": false
+            }
+          }
+        },
+        "shrink_0.50__risk_0.75": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": false,
+              "accepted_mse": false,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": false
+            }
+          }
+        },
+        "shrink_0.50__risk_1.00": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": false
+            }
+          }
+        },
+        "shrink_0.75__risk_0.25": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            }
+          }
+        },
+        "shrink_0.75__risk_0.50": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            }
+          }
+        },
+        "shrink_0.75__risk_0.75": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": true,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            }
+          }
+        },
+        "shrink_0.75__risk_1.00": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": false,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": true,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            }
+          }
+        },
+        "shrink_1.00__risk_0.25": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            }
+          }
+        },
+        "shrink_1.00__risk_0.50": {
+          "all_timesteps_pass": true,
+          "checks": {
+            "10": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            }
+          }
+        },
+        "shrink_1.00__risk_0.75": {
+          "all_timesteps_pass": true,
+          "checks": {
+            "10": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            }
+          }
+        },
+        "shrink_1.00__risk_1.00": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": false,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": false,
+              "positive_reduction": true,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            }
+          }
+        }
+      },
+      "selected_policy": {
+        "risk_threshold": 0.5,
+        "shrinkage": 1.0
+      },
+      "selected_policy_id": "shrink_1.00__risk_0.50",
+      "selected_policy_inner_eligible": true,
+      "selection_score": [
+        0,
+        1.2522725196798503,
+        0.9418963986297476,
+        0.0929931981026051,
+        -0.572992700729927,
+        2,
+        1
+      ]
+    },
+    {
+      "diagnostic_fallback_used": true,
+      "eligible_policy_ids": [],
+      "inner_train_row_count": 540,
+      "outer_fold": 1,
+      "outer_test_row_count": 98,
+      "policy_eligibility": {
+        "shrink_0.50__risk_0.25": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": false,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": false,
+              "positive_reduction": true,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            }
+          }
+        },
+        "shrink_0.50__risk_0.50": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": false,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": false,
+              "positive_reduction": true,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            }
+          }
+        },
+        "shrink_0.50__risk_0.75": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": false,
+              "accepted_mse": false,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": false,
+              "positive_reduction": true,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            }
+          }
+        },
+        "shrink_0.50__risk_1.00": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": false,
+              "positive_reduction": true,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            }
+          }
+        },
+        "shrink_0.75__risk_0.25": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": false
+            }
+          }
+        },
+        "shrink_0.75__risk_0.50": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": false
+            }
+          }
+        },
+        "shrink_0.75__risk_0.75": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": false
+            }
+          }
+        },
+        "shrink_0.75__risk_1.00": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": false
+            }
+          }
+        },
+        "shrink_1.00__risk_0.25": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": false
+            }
+          }
+        },
+        "shrink_1.00__risk_0.50": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": false
+            }
+          }
+        },
+        "shrink_1.00__risk_0.75": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": false
+            }
+          }
+        },
+        "shrink_1.00__risk_1.00": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": false,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": false
+            }
+          }
+        }
+      },
+      "selected_policy": {
+        "risk_threshold": 0.25,
+        "shrinkage": 0.75
+      },
+      "selected_policy_id": "shrink_0.75__risk_0.25",
+      "selected_policy_inner_eligible": false,
+      "selection_score": [
+        1,
+        1.0361394022113226,
+        0.996402972144184,
+        0.013830588771381706,
+        -0.03333333333333333,
+        1,
+        0
+      ]
+    },
+    {
+      "diagnostic_fallback_used": false,
+      "eligible_policy_ids": [
+        "shrink_1.00__risk_0.50"
+      ],
+      "inner_train_row_count": 526,
+      "outer_fold": 2,
+      "outer_test_row_count": 112,
+      "policy_eligibility": {
+        "shrink_0.50__risk_0.25": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": false,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            }
+          }
+        },
+        "shrink_0.50__risk_0.50": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": false,
+              "accepted_mse": false,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": false,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            }
+          }
+        },
+        "shrink_0.50__risk_0.75": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": false,
+              "accepted_mse": false,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            }
+          }
+        },
+        "shrink_0.50__risk_1.00": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            }
+          }
+        },
+        "shrink_0.75__risk_0.25": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": false,
+              "accepted_mse": false,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            }
+          }
+        },
+        "shrink_0.75__risk_0.50": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            }
+          }
+        },
+        "shrink_0.75__risk_0.75": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            }
+          }
+        },
+        "shrink_0.75__risk_1.00": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": true,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            }
+          }
+        },
+        "shrink_1.00__risk_0.25": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            }
+          }
+        },
+        "shrink_1.00__risk_0.50": {
+          "all_timesteps_pass": true,
+          "checks": {
+            "10": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            }
+          }
+        },
+        "shrink_1.00__risk_0.75": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            }
+          }
+        },
+        "shrink_1.00__risk_1.00": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": false,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": false,
+              "positive_reduction": true,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            }
+          }
+        }
+      },
+      "selected_policy": {
+        "risk_threshold": 0.5,
+        "shrinkage": 1.0
+      },
+      "selected_policy_id": "shrink_1.00__risk_0.50",
+      "selected_policy_inner_eligible": true,
+      "selection_score": [
+        0,
+        1.2078353326533402,
+        0.9407218107599282,
+        0.08817060928992566,
+        -0.596958174904943,
+        2,
+        1
+      ]
+    },
+    {
+      "diagnostic_fallback_used": false,
+      "eligible_policy_ids": [
+        "shrink_1.00__risk_0.50"
+      ],
+      "inner_train_row_count": 534,
+      "outer_fold": 3,
+      "outer_test_row_count": 104,
+      "policy_eligibility": {
+        "shrink_0.50__risk_0.25": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": false,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            }
+          }
+        },
+        "shrink_0.50__risk_0.50": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": false,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": true,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            }
+          }
+        },
+        "shrink_0.50__risk_0.75": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": false,
+              "accepted_mse": false,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": false,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            }
+          }
+        },
+        "shrink_0.50__risk_1.00": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            }
+          }
+        },
+        "shrink_0.75__risk_0.25": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": false,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            }
+          }
+        },
+        "shrink_0.75__risk_0.50": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": true,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            }
+          }
+        },
+        "shrink_0.75__risk_0.75": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": false,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": true,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            }
+          }
+        },
+        "shrink_0.75__risk_1.00": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": false,
+              "positive_reduction": true,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            }
+          }
+        },
+        "shrink_1.00__risk_0.25": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            }
+          }
+        },
+        "shrink_1.00__risk_0.50": {
+          "all_timesteps_pass": true,
+          "checks": {
+            "10": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            }
+          }
+        },
+        "shrink_1.00__risk_0.75": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            }
+          }
+        },
+        "shrink_1.00__risk_1.00": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": false,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": false,
+              "positive_reduction": true,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            }
+          }
+        }
+      },
+      "selected_policy": {
+        "risk_threshold": 0.5,
+        "shrinkage": 1.0
+      },
+      "selected_policy_id": "shrink_1.00__risk_0.50",
+      "selected_policy_inner_eligible": true,
+      "selection_score": [
+        0,
+        1.149568007163083,
+        0.933797584647489,
+        0.06868920268751649,
+        -0.5599250936329588,
+        2,
+        1
+      ]
+    },
+    {
+      "diagnostic_fallback_used": true,
+      "eligible_policy_ids": [],
+      "inner_train_row_count": 514,
+      "outer_fold": 4,
+      "outer_test_row_count": 124,
+      "policy_eligibility": {
+        "shrink_0.50__risk_0.25": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": false,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": false
+            }
+          }
+        },
+        "shrink_0.50__risk_0.50": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": false,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": true,
+              "relative_reduction": false,
+              "risk_brier_nonworse": false
+            }
+          }
+        },
+        "shrink_0.50__risk_0.75": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": false,
+              "accepted_mse": false,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": false
+            }
+          }
+        },
+        "shrink_0.50__risk_1.00": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": false
+            }
+          }
+        },
+        "shrink_0.75__risk_0.25": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": false,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": false
+            }
+          }
+        },
+        "shrink_0.75__risk_0.50": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": true,
+              "relative_reduction": false,
+              "risk_brier_nonworse": false
+            }
+          }
+        },
+        "shrink_0.75__risk_0.75": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": true,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": true,
+              "relative_reduction": false,
+              "risk_brier_nonworse": false
+            }
+          }
+        },
+        "shrink_0.75__risk_1.00": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": true,
+              "relative_reduction": false,
+              "risk_brier_nonworse": false
+            }
+          }
+        },
+        "shrink_1.00__risk_0.25": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": false
+            },
+            "50": {
+              "acceptance": false,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": true,
+              "relative_reduction": false,
+              "risk_brier_nonworse": false
+            }
+          }
+        },
+        "shrink_1.00__risk_0.50": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": false
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": true,
+              "relative_reduction": false,
+              "risk_brier_nonworse": false
+            }
+          }
+        },
+        "shrink_1.00__risk_0.75": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": false
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": false,
+              "positive_reduction": true,
+              "relative_reduction": false,
+              "risk_brier_nonworse": false
+            }
+          }
+        },
+        "shrink_1.00__risk_1.00": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": false
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": false,
+              "positive_reduction": true,
+              "relative_reduction": false,
+              "risk_brier_nonworse": false
+            }
+          }
+        }
+      },
+      "selected_policy": {
+        "risk_threshold": 0.25,
+        "shrinkage": 0.5
+      },
+      "selected_policy_id": "shrink_0.50__risk_0.25",
+      "selected_policy_inner_eligible": false,
+      "selection_score": [
+        1,
+        223.38016396817156,
+        84.0730986313085,
+        83.07309863130848,
+        -0.0038910505836575876,
+        0,
+        0
+      ]
+    },
+    {
+      "diagnostic_fallback_used": false,
+      "eligible_policy_ids": [
+        "shrink_1.00__risk_0.50"
+      ],
+      "inner_train_row_count": 528,
+      "outer_fold": 5,
+      "outer_test_row_count": 110,
+      "policy_eligibility": {
+        "shrink_0.50__risk_0.25": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": false,
+              "accepted_mse": false,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            }
+          }
+        },
+        "shrink_0.50__risk_0.50": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": false,
+              "accepted_mse": false,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            }
+          }
+        },
+        "shrink_0.50__risk_0.75": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": false,
+              "accepted_mse": false,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": false,
+              "overall_mse": false,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            }
+          }
+        },
+        "shrink_0.50__risk_1.00": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            }
+          }
+        },
+        "shrink_0.75__risk_0.25": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": false,
+              "accepted_mse": false,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": false
+            }
+          }
+        },
+        "shrink_0.75__risk_0.50": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": false
+            }
+          }
+        },
+        "shrink_0.75__risk_0.75": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": false
+            }
+          }
+        },
+        "shrink_0.75__risk_1.00": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": false,
+              "positive_reduction": false,
+              "relative_reduction": false,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": false,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": false
+            }
+          }
+        },
+        "shrink_1.00__risk_0.25": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": false,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            }
+          }
+        },
+        "shrink_1.00__risk_0.50": {
+          "all_timesteps_pass": true,
+          "checks": {
+            "10": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            }
+          }
+        },
+        "shrink_1.00__risk_0.75": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": true,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": true,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            }
+          }
+        },
+        "shrink_1.00__risk_1.00": {
+          "all_timesteps_pass": false,
+          "checks": {
+            "10": {
+              "acceptance": true,
+              "accepted_mse": false,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": false,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "25": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            },
+            "50": {
+              "acceptance": true,
+              "accepted_mse": true,
+              "adverse_sse_reduction": false,
+              "group_cvar_improvement": false,
+              "overall_mse": true,
+              "positive_reduction": true,
+              "relative_reduction": true,
+              "risk_brier_nonworse": true
+            }
+          }
+        }
+      },
+      "selected_policy": {
+        "risk_threshold": 0.5,
+        "shrinkage": 1.0
+      },
+      "selected_policy_id": "shrink_1.00__risk_0.50",
+      "selected_policy_inner_eligible": true,
+      "selection_score": [
+        0,
+        1.2051803456387584,
+        0.9431295954461141,
+        0.08374951664431933,
+        -0.5568181818181818,
+        2,
+        1
+      ]
+    }
+  ],
+  "phase": "Phase3.14b-r2.5.9 Stage A",
+  "phase4": false,
+  "policy_population": [
+    {
+      "risk_threshold": 0.25,
+      "shrinkage": 0.5
+    },
+    {
+      "risk_threshold": 0.5,
+      "shrinkage": 0.5
+    },
+    {
+      "risk_threshold": 0.75,
+      "shrinkage": 0.5
+    },
+    {
+      "risk_threshold": 1.0,
+      "shrinkage": 0.5
+    },
+    {
+      "risk_threshold": 0.25,
+      "shrinkage": 0.75
+    },
+    {
+      "risk_threshold": 0.5,
+      "shrinkage": 0.75
+    },
+    {
+      "risk_threshold": 0.75,
+      "shrinkage": 0.75
+    },
+    {
+      "risk_threshold": 1.0,
+      "shrinkage": 0.75
+    },
+    {
+      "risk_threshold": 0.25,
+      "shrinkage": 1.0
+    },
+    {
+      "risk_threshold": 0.5,
+      "shrinkage": 1.0
+    },
+    {
+      "risk_threshold": 0.75,
+      "shrinkage": 1.0
+    },
+    {
+      "risk_threshold": 1.0,
+      "shrinkage": 1.0
+    }
+  ],
+  "population": {
+    "fold_assignment_sha256": "024f32be55d5c0854215cfc9f003e7a10cc9f9cb8258d3cd5f3ae250422abb5d",
+    "group_count": 126,
+    "group_sha256": "0ccf2ac0d3a75d63a29153e75883d2c52232fd46ccbc8e809d78e9ee8f174f24",
+    "outer_fold_count": 6,
+    "row_count": 638
+  },
+  "prediction_tensor_persisted": false,
+  "preregistration_contract": {
+    "durable_worker_evidence_required_before_controller_decoration": true,
+    "frozen_probe_remains_closed": true,
+    "frozen_scientific_kernel_reused": true,
+    "lost_stagex_resume1_result_used": false,
+    "new_science_process_authorized_by": "f5af7ac15df498f52f9ef12d2e974c9aee41d9e857850f022f8e1d5f26c8aaa1",
+    "new_stage_identifier": "Phase3.14b-r2.5.9 Stage A",
+    "new_stage_science_process": true,
+    "selection_holdout_remains_closed": true,
+    "stagex_resume1_stage_reexecuted": false,
+    "worker_evidence_path": "reports/phase3_14b_r259_stagea_tail_robust_nested_group_oof_worker_evidence.json"
+  },
+  "primary_failure_locus": "outer_crossfit_tail_fidelity_failure",
+  "procedure_gate_totals": {
+    "10": {
+      "aligned_upper_element_failure_count": 0,
+      "length_log_z_element_mismatch_count": 0,
+      "strict_pass_aligned_fail_row_count": 0
+    },
+    "25": {
+      "aligned_upper_element_failure_count": 0,
+      "length_log_z_element_mismatch_count": 0,
+      "strict_pass_aligned_fail_row_count": 0
+    },
+    "50": {
+      "aligned_upper_element_failure_count": 0,
+      "length_log_z_element_mismatch_count": 0,
+      "strict_pass_aligned_fail_row_count": 0
+    }
+  },
+  "process_id": 2565,
+  "repository_head": "507461048754a5a03f287cd1ef7017aacd53afbb",
+  "required_next_path": "AUDIT_R259_STAGEA_OUTER_CROSSFIT_TAIL_FAILURE_ON_OBJECTIVE_TRAIN_ONLY",
+  "rerun_authorized": false,
+  "reverse_sampling_run": false,
+  "risk_probability_tensor_persisted": false,
+  "root_cause": "phase314b_r259_stagea_durable_tail_robust_nested_oof_blocked",
+  "schema": "phase314b_r259_stagea_durable_tail_robust_nested_group_oof_v1_worker_evidence_v1",
+  "scientific_kernel": {
+    "kernel_primary_failure_locus": "outer_crossfit_tail_fidelity_failure",
+    "kernel_required_next_path": "AUDIT_OBJECTIVE_TRAIN_OUTER_CROSSFIT_TAIL_FAILURE_WITHOUT_HOLDOUT_OR_PROBE",
+    "kernel_root_cause": "phase314b_r258_stagex_resume1_outer_crossfit_procedure_fails_tail_contract",
+    "kernel_scientific_result_sha256": "36be775b0f18388ee22be51449f24ad2439740f23901cef7b4d0efcfee150bfd",
+    "module": "phase314b_r258_stagex_resume1_import_crossfit_recovery",
+    "source_sha256": "66195d9f4a6e01fc3168501e65e3d0d57aed82ba182bf3b728645c271d448cff"
+  },
+  "scientific_status": "BLOCKED",
+  "selected_configuration": null,
+  "selection_holdout_evaluated_in_r259_stagea": false,
+  "selection_holdout_evaluation_count_added": 0,
+  "selection_holdout_reaccessed": false,
+  "selection_holdout_target_loaded_for_stagex": false,
+  "selection_holdout_used_for_fit_or_selection": false,
+  "stagex_spec": {
+    "adverse_sse_reduction_fraction": 0.1,
+    "epsilon": 1e-12,
+    "group_cvar_fraction": 0.2,
+    "minimum_acceptance_rate": 0.5,
+    "minimum_positive_reduction_rate": 0.5,
+    "modal_outer_fold_minimum": 4,
+    "outer_folds": 6,
+    "risk_l2": 1.0,
+    "risk_max_iterations": 80,
+    "risk_tolerance": 1e-10
+  },
+  "train_only_recommendation": null,
+  "video_saved": false,
+  "weights_persisted": false,
+  "worker_result_sha256": "3d3631c6765caee1c19f83d961afef8ccdb1676256371bd444612cf211231cca",
+  "write_ahead_location_outside_git_worktree": true
+}

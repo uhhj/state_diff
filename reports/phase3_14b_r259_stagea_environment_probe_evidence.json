@@ -1,0 +1,93 @@
+{
+  "cuda_initialization_allowed_in_this_process": true,
+  "durable_write_ahead_evidence": true,
+  "environment": {
+    "compatibility": {
+      "cuda_available": true,
+      "deterministic_runtime": {
+        "cublas_workspace_config": ":4096:8",
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms_enabled": true,
+        "python_hash_seed": "0",
+        "thread_counts": {
+          "MKL_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1",
+          "VECLIB_MAXIMUM_THREADS": "1"
+        }
+      },
+      "numpy_version": "1.23.3",
+      "python_implementation": "CPython",
+      "python_version": [
+        3,
+        9,
+        15
+      ],
+      "required_operation_pass": true,
+      "required_operation_schema": "r258_stagea_forward_two_grad_block_projection_optimizer_step_and_100row_checkpoint_v1",
+      "schema": "phase314b_r258_stagea_portable_compatibility_v1",
+      "torch_cuda_version": "11.2",
+      "torch_version": "1.12.1.post200"
+    },
+    "compatibility_pass": true,
+    "compatibility_sha256": "03fef5cfcfac7933bca0dfc72e67156bb260d50ae7f2f1f6a6375a34c90ad7ec",
+    "hardware_observation": {
+      "compute_capability": [
+        8,
+        6
+      ],
+      "cuda_device_count": 1,
+      "cuda_device_index": 0,
+      "cuda_visible_devices": null,
+      "cudnn_version": 8907,
+      "hostname": "gpu-kvm",
+      "multi_processor_count": 82,
+      "nvidia_smi": {
+        "available": true,
+        "driver_version": "580.119.02",
+        "memory_total_mib": "24576",
+        "name": "NVIDIA GeForce RTX 3090",
+        "pci_bus_id": "00000000:06:00.0",
+        "uuid": "GPU-e82b8e6f-db43-89ba-3da0-4ddc050e7d24"
+      },
+      "schema": "phase314b_r258_stagea_hardware_observation_v1",
+      "torch_device_name": "NVIDIA GeForce RTX 3090",
+      "total_memory_bytes": 25296044032
+    },
+    "observation_sha256": "7901fb58eb2b41cffe48cc9c02300581c9eadb4a958d9eb6a274daf933990fd4",
+    "required_operation_dry_run": {
+      "artifact_persisted": false,
+      "batch_size": 64,
+      "calibration_batch_size": 100,
+      "checkpoint_diffusion_gradient_unchanged": true,
+      "checkpoint_post_projection_violation_count": 0,
+      "diffusion_gradient_unchanged": true,
+      "diffusion_loss": 0.45872825384140015,
+      "frozen_probe_accessed": false,
+      "geometry_loss": 8.823638916015625,
+      "gradient_norm": 1.7317224740982056,
+      "initial_model_sha256": "4f1c102d9f39ba59544f5565b4c01fe03e073fca596aefdc822b707cd2f2c7fd",
+      "pass": true,
+      "peak_memory_allocated_bytes": 219641344,
+      "peak_memory_reserved_bytes": 243269632,
+      "post_projection_violation_count": 0,
+      "projection_mode": "blockwise",
+      "schema": "r258_stagea_forward_two_grad_block_projection_optimizer_step_and_100row_checkpoint_v1",
+      "timestep_cutoff": 50,
+      "top_k": 16
+    },
+    "schema": "phase314b_r258_stagea_portable_environment_v1"
+  },
+  "environment_sha256": "fb95ed35d4f3f36fe9e000ded6012c4543acc36c2e366ff8a9c05aac74982c61",
+  "execution_verdict": "PASS",
+  "phase": "Phase3.14b-r2.5.9 Stage A",
+  "probe_evidence_sha256": "ce7378b0212082611764a6b2b60a169d368b2f83d44b69e35d0b8b603b09a00c",
+  "process_disposable": true,
+  "process_id": 2485,
+  "schema": "phase314b_r259_stagea_durable_tail_robust_nested_group_oof_v1_environment_probe_v1",
+  "source_probe_payload_sha256": "078a66f2269a4d44407ca841f58034d93cd5be89994563ca819eb2354b709ac6",
+  "source_probe_schema": "phase314b_r258_stages_resume2a_environment_probe_v1",
+  "write_ahead_location_outside_git_worktree": true
+}
