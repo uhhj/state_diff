@@ -1,0 +1,566 @@
+{
+  "backup_audit": {
+    "all_archive_paths_safe_at_both_sites": true,
+    "all_archives_fully_streamed_at_both_sites": true,
+    "all_required_files_byte_exact": true,
+    "classification": "two_byte_exact_independent_external_failure_domains_attested",
+    "failure_domain_keys": [
+      "physical_disk:a97220e0cbc6d7c8dbcc6db69f7bf2597c6d68679f0350ea08d4f1504fa6f7fd",
+      "remote_object_store:9a654f39460e88290d2e0e60d492b38421bd3d71efb4ba585d2092fb4314709f"
+    ],
+    "failure_domain_kinds": [
+      "physical_disk",
+      "remote_object_store"
+    ],
+    "independent_external_copy_count": 2,
+    "objective_train_opened": false,
+    "role_payload_semantics_parsed": false,
+    "same_physical_disk_partitions_rejected": true,
+    "site_ids": [
+      "windows_primary_backup",
+      "onedrive_remote_backup"
+    ]
+  },
+  "backup_contract": {
+    "archive_count": 5,
+    "backup_policy": {
+      "archive_full_stream_read_required": true,
+      "archive_safe_path_audit_required": true,
+      "byte_exact_file_identity_required": true,
+      "required_independent_copy_count": 2,
+      "role_payload_semantics_must_not_be_parsed": true,
+      "same_physical_disk_partitions_are_one_failure_domain": true,
+      "site_read_back_required": true
+    },
+    "contract_role": "portable_byte_exact_backup_contract",
+    "contract_sha256": "98006909e78193a768f6902354912f0b78d8a5f6adb3d77ebc376c213c66e71c",
+    "data_universe_identity": {
+      "all_archive_identity_sha256": "36fd3116e8fe4c1b39e527090fe4d2955da27f06006869a596fd0ba16ba0a7fe",
+      "dataset_relative_root": "data/phase3_14b_r260_data_universe_v1",
+      "dataset_schema": "phase314b_r260_data_universe_v1",
+      "role_contract": {
+        "all_seed_list_sha256": "7c080d419a585bcd4c0471c02e1072923fe75c9188b89e0fcd617a2a16908e37",
+        "dataset_schema": "phase314b_r260_data_universe_v1",
+        "legacy_seed_overlap": false,
+        "roles": [
+          {
+            "episode_count": 640,
+            "governance_role": "fit_and_nested_group_oof_only",
+            "name": "objective_train",
+            "seed_count": 320,
+            "seed_list_sha256": "6e0eec7d0a52dd6f7393b1eaee2c2530ae56b47a307a7df83a789b7330238cbf",
+            "seed_start": 900000,
+            "seed_stop_exclusive": 900320
+          },
+          {
+            "episode_count": 192,
+            "governance_role": "one_shot_model_selection_only",
+            "name": "selection_holdout",
+            "seed_count": 96,
+            "seed_list_sha256": "20aae36271a287c8a4263a81d44563c171b9d0c8ebb1e44fb119fe8622d6ddb3",
+            "seed_start": 910000,
+            "seed_stop_exclusive": 910096
+          },
+          {
+            "episode_count": 192,
+            "governance_role": "one_shot_pre_final_probe_only",
+            "name": "frozen_probe",
+            "seed_count": 96,
+            "seed_list_sha256": "981dfd794c7cdb3a5eff5274e9b5507666cd9a40a3d50cf694c1aa24c2918def",
+            "seed_start": 920000,
+            "seed_stop_exclusive": 920096
+          },
+          {
+            "episode_count": 256,
+            "governance_role": "one_shot_final_evaluation_only",
+            "name": "final_evaluation",
+            "seed_count": 128,
+            "seed_list_sha256": "68e0167c8a6a4b6914618ae373c567dce50a7c1a16162faee83f0eda1c5a31f2",
+            "seed_start": 930000,
+            "seed_stop_exclusive": 930128
+          }
+        ],
+        "total_episodes": 1280,
+        "total_pair_groups": 640,
+        "total_visible_seeds": 640
+      }
+    },
+    "phase": "Phase3.14b-r2.6.0 Stage B",
+    "required_file_count": 7,
+    "required_files": [
+      {
+        "archive_scan": {
+          "all_member_paths_safe": true,
+          "all_members_regular": true,
+          "duplicate_member_count": 0,
+          "full_stream_read_completed": true,
+          "member_content_manifest_sha256": "cf4591fa13159c528a2e7412641b0d11041c9e6b1aab66564aaf6df294a04aa7",
+          "member_count": 1604,
+          "member_names_sha256": "f5959af4bada23ea6c373689509933e2b936865ca19d816e80416c0d873ea25c",
+          "total_uncompressed_bytes": 22327204
+        },
+        "basename": "objective_train.tar.gz",
+        "logical_name": "archive:objective_train",
+        "media_type": "application/gzip",
+        "sha256": "fb4879db04133a4483173bc39d007f1fcf804a7cf8ec38fe5d9c48907b333ef8",
+        "size_bytes": 9332905,
+        "source_relative_path": "data/phase3_14b_r260_data_universe_v1/exports/objective_train.tar.gz"
+      },
+      {
+        "archive_scan": {
+          "all_member_paths_safe": true,
+          "all_members_regular": true,
+          "duplicate_member_count": 0,
+          "full_stream_read_completed": true,
+          "member_content_manifest_sha256": "a2cd8ab803c229aaefecfd85fb6aea6373187148a76efb8a2c617da7d5eee52b",
+          "member_count": 484,
+          "member_names_sha256": "bbf81508da9a009b138b3c55b7275eef5e695e86e2f100e55fa30b71584bce12",
+          "total_uncompressed_bytes": 6362638
+        },
+        "basename": "selection_holdout.tar.gz",
+        "logical_name": "archive:selection_holdout",
+        "media_type": "application/gzip",
+        "sha256": "ae93b030d03df1b267a3ae131ddd780668cb3b7c85aa1facedad69e7ab83a80d",
+        "size_bytes": 2628613,
+        "source_relative_path": "data/phase3_14b_r260_data_universe_v1/exports/selection_holdout.tar.gz"
+      },
+      {
+        "archive_scan": {
+          "all_member_paths_safe": true,
+          "all_members_regular": true,
+          "duplicate_member_count": 0,
+          "full_stream_read_completed": true,
+          "member_content_manifest_sha256": "8b09672c9cc1920f7ea40d494b678b318693ff74123e5c29d312924adbe89ba4",
+          "member_count": 484,
+          "member_names_sha256": "c6b9dd9ed919c8ad56ccf7a6641cc03d26df2be644a7e3c1f1eca8efbab68e2a",
+          "total_uncompressed_bytes": 6819712
+        },
+        "basename": "frozen_probe.tar.gz",
+        "logical_name": "archive:frozen_probe",
+        "media_type": "application/gzip",
+        "sha256": "95e2d92d979094e8d98d8913c2d681a4b9700a48bbea9aaa2fc483f42daf4532",
+        "size_bytes": 2868136,
+        "source_relative_path": "data/phase3_14b_r260_data_universe_v1/exports/frozen_probe.tar.gz"
+      },
+      {
+        "archive_scan": {
+          "all_member_paths_safe": true,
+          "all_members_regular": true,
+          "duplicate_member_count": 0,
+          "full_stream_read_completed": true,
+          "member_content_manifest_sha256": "ce97cd305e05cb3257d0cf7a1d4052207bf0a6360abe3ebd5abf4f85d99bdc8f",
+          "member_count": 644,
+          "member_names_sha256": "faafad7e87716b79a364bba4040c676d501005f94133726b9c6552b64184af22",
+          "total_uncompressed_bytes": 8893926
+        },
+        "basename": "final_evaluation.tar.gz",
+        "logical_name": "archive:final_evaluation",
+        "media_type": "application/gzip",
+        "sha256": "414a31d02ded97a629d3aa95563f706cdc730c9698791b1cb934f059aafa1dd7",
+        "size_bytes": 3707425,
+        "source_relative_path": "data/phase3_14b_r260_data_universe_v1/exports/final_evaluation.tar.gz"
+      },
+      {
+        "archive_scan": {
+          "all_member_paths_safe": true,
+          "all_members_regular": true,
+          "duplicate_member_count": 0,
+          "full_stream_read_completed": true,
+          "member_content_manifest_sha256": "bb7fab8a25fe5dd513732b732b1dbda37eee2ae8aa8c194df61451ab5474e907",
+          "member_count": 11,
+          "member_names_sha256": "57285b293528ba71a1d07af1503b8f955c156d10f8736524080018603d5359dc",
+          "total_uncompressed_bytes": 877218
+        },
+        "basename": "metadata_and_receipts.tar.gz",
+        "logical_name": "archive:metadata_and_receipts",
+        "media_type": "application/gzip",
+        "sha256": "04d6c58336fdd86dd95281021ec31a18dfafb246ef48974d333dc86746f1d070",
+        "size_bytes": 209752,
+        "source_relative_path": "data/phase3_14b_r260_data_universe_v1/exports/metadata_and_receipts.tar.gz"
+      },
+      {
+        "basename": "seal_manifest.json",
+        "json_self_hash_field": "seal_sha256",
+        "json_self_sha256": "4211bb89b048520aa5a08e42050aa8b04a6b33dc44874c45779aad0456c8bcfd",
+        "logical_name": "stage_a_seal",
+        "media_type": "application/json",
+        "sha256": "f70ab3dce44460d1d9080100d744b43392a86fff421a809f9fbd462768a5d318",
+        "size_bytes": 11779,
+        "source_relative_path": "data/phase3_14b_r260_data_universe_v1/seal_manifest.json"
+      },
+      {
+        "basename": "phase3_14b_r260_stagea_data_universe_genesis_summary.json",
+        "json_self_hash_field": "summary_sha256",
+        "json_self_sha256": "9021d41e68fdad4032b8e3b304dd27332058e22e177e811bf243b4aa89de1b96",
+        "logical_name": "stage_a_report",
+        "media_type": "application/json",
+        "sha256": "60f9c2bc14d393dae061b2ac7ac3937e5ddf869c9841ba3ad834e300dfefd2c9",
+        "size_bytes": 14790,
+        "source_relative_path": "reports/phase3_14b_r260_stagea_data_universe_genesis_summary.json"
+      }
+    ],
+    "schema": "phase314b_r260_stageb_backup_contract_v1",
+    "source_report": {
+      "file_sha256": "60f9c2bc14d393dae061b2ac7ac3937e5ddf869c9841ba3ad834e300dfefd2c9",
+      "path": "reports/phase3_14b_r260_stagea_data_universe_genesis_summary.json",
+      "self_sha256": "9021d41e68fdad4032b8e3b304dd27332058e22e177e811bf243b4aa89de1b96"
+    },
+    "source_repository": {
+      "stage_a_evidence": "636a2853db1a972073e2dd254e75a9724a5a1d17",
+      "stage_a_implementation": "b7ca7bc3396c0879f13662fd953881a9f42e40f2",
+      "submodule_commit": "633a88752445cf5d6776ed374fdbbdb35f93050c"
+    },
+    "source_seal": {
+      "file_sha256": "f70ab3dce44460d1d9080100d744b43392a86fff421a809f9fbd462768a5d318",
+      "path": "data/phase3_14b_r260_data_universe_v1/seal_manifest.json",
+      "self_sha256": "4211bb89b048520aa5a08e42050aa8b04a6b33dc44874c45779aad0456c8bcfd"
+    }
+  },
+  "candidate_evaluation_run": false,
+  "candidate_generation_run": false,
+  "checkpoint_saved": false,
+  "cps": false,
+  "direction_fit_run": false,
+  "episode_pickle_loaded": false,
+  "execution_counts": {
+    "episode_pickle_load_count": 0,
+    "external_archive_full_stream_count": 10,
+    "external_file_readback_count": 14,
+    "external_site_attestation_count": 2,
+    "model_evaluation_count": 0,
+    "model_fit_count": 0,
+    "role_npz_parse_count": 0,
+    "source_export_hash_count": 5,
+    "source_report_read_count": 1,
+    "source_seal_read_count": 1
+  },
+  "execution_verdict": "PASS",
+  "external_backup_attested": true,
+  "final_evaluation_access_authorized_by_this_report": false,
+  "final_evaluation_model_evaluation_run": false,
+  "final_evaluation_opened": false,
+  "formal_training_run": false,
+  "frozen_probe_access_authorized_by_this_report": false,
+  "frozen_probe_model_evaluation_run": false,
+  "frozen_probe_opened": false,
+  "idm_run": false,
+  "independent_external_copy_count": 2,
+  "objective_train_access_authorized_by_this_report": true,
+  "objective_train_model_fit_run": false,
+  "objective_train_opened": false,
+  "phase": "Phase3.14b-r2.6.0 Stage B",
+  "phase4": false,
+  "primary_failure_locus": "external_redundant_persistence_attested",
+  "repository": {
+    "head": "4b19caa1de2b89ddf700dcad4a4b72928c2a4818",
+    "parent": "636a2853db1a972073e2dd254e75a9724a5a1d17",
+    "remote_identity_used_as_gate": false,
+    "root": "/data/state_diff2",
+    "stage_a_evidence": "636a2853db1a972073e2dd254e75a9724a5a1d17",
+    "stage_a_implementation": "b7ca7bc3396c0879f13662fd953881a9f42e40f2",
+    "submodule_commit": "633a88752445cf5d6776ed374fdbbdb35f93050c"
+  },
+  "required_next_path": "PREREGISTER_R260_STAGEC_OBJECTIVE_TRAIN_OPENING_AND_BASELINE_STATISTICS",
+  "rerun_authorized": false,
+  "reverse_sampling_run": false,
+  "risk_fit_run": false,
+  "role_npz_parsed": false,
+  "root_cause": "phase314b_r260_stageb_two_independent_external_failure_domains_contain_byte_exact_read_back_verified_data_universe_exports",
+  "schema": "phase314b_r260_stageb_external_backup_attestation_v1",
+  "scientific_status": "READY",
+  "selected_configuration": null,
+  "selection_holdout_access_authorized_by_this_report": false,
+  "selection_holdout_model_evaluation_run": false,
+  "selection_holdout_opened": false,
+  "site_attestations": [
+    {
+      "all_archive_paths_safe": true,
+      "all_archives_fully_streamed": true,
+      "all_required_files_byte_exact": true,
+      "attestation_role": "external_backup_site_readback",
+      "attestation_sha256": "c99b9e91c003d2b7ee87e12085c4d37dfc448ad614ad51018b002400cb617ac0",
+      "contract_sha256": "98006909e78193a768f6902354912f0b78d8a5f6adb3d77ebc376c213c66e71c",
+      "episode_pickle_loaded": false,
+      "failure_domain": {
+        "copy_completed": true,
+        "fault_domain_id_sha256": "a97220e0cbc6d7c8dbcc6db69f7bf2597c6d68679f0350ea08d4f1504fa6f7fd",
+        "fault_domain_kind": "physical_disk",
+        "location_description": "Windows workstation physical disk Disk 0",
+        "operator_certifies_independent_failure_domain": true,
+        "operator_understands_same_disk_partitions_are_not_independent": true,
+        "physical_device_id_sha256": "3b3da745e035f5ebd12a5e4f475aee59e4540418f65f3a3cb82b8a931da1c3d1",
+        "read_back_completed": true,
+        "service_or_system_id_sha256": null,
+        "site_id": "windows_primary_backup",
+        "stable_identifiers_persisted_as_sha256_only": true
+      },
+      "file_records": [
+        {
+          "archive_scan": {
+            "all_member_paths_safe": true,
+            "all_members_regular": true,
+            "duplicate_member_count": 0,
+            "full_stream_read_completed": true,
+            "member_content_manifest_sha256": "cf4591fa13159c528a2e7412641b0d11041c9e6b1aab66564aaf6df294a04aa7",
+            "member_count": 1604,
+            "member_names_sha256": "f5959af4bada23ea6c373689509933e2b936865ca19d816e80416c0d873ea25c",
+            "total_uncompressed_bytes": 22327204
+          },
+          "basename": "objective_train.tar.gz",
+          "byte_exact_to_source": true,
+          "logical_name": "archive:objective_train",
+          "sha256": "fb4879db04133a4483173bc39d007f1fcf804a7cf8ec38fe5d9c48907b333ef8",
+          "size_bytes": 9332905
+        },
+        {
+          "archive_scan": {
+            "all_member_paths_safe": true,
+            "all_members_regular": true,
+            "duplicate_member_count": 0,
+            "full_stream_read_completed": true,
+            "member_content_manifest_sha256": "a2cd8ab803c229aaefecfd85fb6aea6373187148a76efb8a2c617da7d5eee52b",
+            "member_count": 484,
+            "member_names_sha256": "bbf81508da9a009b138b3c55b7275eef5e695e86e2f100e55fa30b71584bce12",
+            "total_uncompressed_bytes": 6362638
+          },
+          "basename": "selection_holdout.tar.gz",
+          "byte_exact_to_source": true,
+          "logical_name": "archive:selection_holdout",
+          "sha256": "ae93b030d03df1b267a3ae131ddd780668cb3b7c85aa1facedad69e7ab83a80d",
+          "size_bytes": 2628613
+        },
+        {
+          "archive_scan": {
+            "all_member_paths_safe": true,
+            "all_members_regular": true,
+            "duplicate_member_count": 0,
+            "full_stream_read_completed": true,
+            "member_content_manifest_sha256": "8b09672c9cc1920f7ea40d494b678b318693ff74123e5c29d312924adbe89ba4",
+            "member_count": 484,
+            "member_names_sha256": "c6b9dd9ed919c8ad56ccf7a6641cc03d26df2be644a7e3c1f1eca8efbab68e2a",
+            "total_uncompressed_bytes": 6819712
+          },
+          "basename": "frozen_probe.tar.gz",
+          "byte_exact_to_source": true,
+          "logical_name": "archive:frozen_probe",
+          "sha256": "95e2d92d979094e8d98d8913c2d681a4b9700a48bbea9aaa2fc483f42daf4532",
+          "size_bytes": 2868136
+        },
+        {
+          "archive_scan": {
+            "all_member_paths_safe": true,
+            "all_members_regular": true,
+            "duplicate_member_count": 0,
+            "full_stream_read_completed": true,
+            "member_content_manifest_sha256": "ce97cd305e05cb3257d0cf7a1d4052207bf0a6360abe3ebd5abf4f85d99bdc8f",
+            "member_count": 644,
+            "member_names_sha256": "faafad7e87716b79a364bba4040c676d501005f94133726b9c6552b64184af22",
+            "total_uncompressed_bytes": 8893926
+          },
+          "basename": "final_evaluation.tar.gz",
+          "byte_exact_to_source": true,
+          "logical_name": "archive:final_evaluation",
+          "sha256": "414a31d02ded97a629d3aa95563f706cdc730c9698791b1cb934f059aafa1dd7",
+          "size_bytes": 3707425
+        },
+        {
+          "archive_scan": {
+            "all_member_paths_safe": true,
+            "all_members_regular": true,
+            "duplicate_member_count": 0,
+            "full_stream_read_completed": true,
+            "member_content_manifest_sha256": "bb7fab8a25fe5dd513732b732b1dbda37eee2ae8aa8c194df61451ab5474e907",
+            "member_count": 11,
+            "member_names_sha256": "57285b293528ba71a1d07af1503b8f955c156d10f8736524080018603d5359dc",
+            "total_uncompressed_bytes": 877218
+          },
+          "basename": "metadata_and_receipts.tar.gz",
+          "byte_exact_to_source": true,
+          "logical_name": "archive:metadata_and_receipts",
+          "sha256": "04d6c58336fdd86dd95281021ec31a18dfafb246ef48974d333dc86746f1d070",
+          "size_bytes": 209752
+        },
+        {
+          "basename": "seal_manifest.json",
+          "byte_exact_to_source": true,
+          "json_self_sha256": "4211bb89b048520aa5a08e42050aa8b04a6b33dc44874c45779aad0456c8bcfd",
+          "logical_name": "stage_a_seal",
+          "sha256": "f70ab3dce44460d1d9080100d744b43392a86fff421a809f9fbd462768a5d318",
+          "size_bytes": 11779
+        },
+        {
+          "basename": "phase3_14b_r260_stagea_data_universe_genesis_summary.json",
+          "byte_exact_to_source": true,
+          "json_self_sha256": "9021d41e68fdad4032b8e3b304dd27332058e22e177e811bf243b4aa89de1b96",
+          "logical_name": "stage_a_report",
+          "sha256": "60f9c2bc14d393dae061b2ac7ac3937e5ddf869c9841ba3ad834e300dfefd2c9",
+          "size_bytes": 14790
+        }
+      ],
+      "model_target_access_count": 0,
+      "phase": "Phase3.14b-r2.6.0 Stage B",
+      "required_file_count": 7,
+      "role_npz_opened": false,
+      "role_payload_semantics_parsed": false,
+      "schema": "phase314b_r260_stageb_backup_site_attestation_v1",
+      "storage_observation": {
+        "automatic_details_sha256": "d2d4d2357d5fe8a9d590bc20e2d7a72a149b00a70dab312af23002b81a135af8",
+        "automatic_device_fingerprint": "df21de626d4c16c3512407c039ceb09772e3eb85f81b2018c4cfb18f0b8bcfa5",
+        "automatic_device_identity_available": true,
+        "backup_root_resolved_sha256": "904d615484760d42e6e51dfbe0bb41a02a0f856b63bce17bf4c3d946d2fa3ae9",
+        "filesystem_device_number": 15615935066175312556,
+        "hostname_sha256": "fdbf1492135584279a7fc19e2f7af99da2ad7ee03381c80130a939ed879cb533",
+        "platform_release": "11",
+        "platform_system": "Windows",
+        "schema": "phase314b_r260_stageb_storage_observation_v1",
+        "sensitive_storage_identifiers_persisted": false
+      }
+    },
+    {
+      "all_archive_paths_safe": true,
+      "all_archives_fully_streamed": true,
+      "all_required_files_byte_exact": true,
+      "attestation_role": "external_backup_site_readback",
+      "attestation_sha256": "452318b9b22c36261bde3339ae6ceb865b3c769665db5ef03009195b6b90ed96",
+      "contract_sha256": "98006909e78193a768f6902354912f0b78d8a5f6adb3d77ebc376c213c66e71c",
+      "episode_pickle_loaded": false,
+      "failure_domain": {
+        "copy_completed": true,
+        "fault_domain_id_sha256": "9a654f39460e88290d2e0e60d492b38421bd3d71efb4ba585d2092fb4314709f",
+        "fault_domain_kind": "remote_object_store",
+        "location_description": "Microsoft OneDrive consumer cloud synchronized backup",
+        "operator_certifies_independent_failure_domain": true,
+        "operator_understands_same_disk_partitions_are_not_independent": true,
+        "physical_device_id_sha256": null,
+        "read_back_completed": true,
+        "service_or_system_id_sha256": "02640f8a20adb9f0cbe7466c81460b9be8a5e821cfa02d85fa1c1564480ad0cc",
+        "site_id": "onedrive_remote_backup",
+        "stable_identifiers_persisted_as_sha256_only": true
+      },
+      "file_records": [
+        {
+          "archive_scan": {
+            "all_member_paths_safe": true,
+            "all_members_regular": true,
+            "duplicate_member_count": 0,
+            "full_stream_read_completed": true,
+            "member_content_manifest_sha256": "cf4591fa13159c528a2e7412641b0d11041c9e6b1aab66564aaf6df294a04aa7",
+            "member_count": 1604,
+            "member_names_sha256": "f5959af4bada23ea6c373689509933e2b936865ca19d816e80416c0d873ea25c",
+            "total_uncompressed_bytes": 22327204
+          },
+          "basename": "objective_train.tar.gz",
+          "byte_exact_to_source": true,
+          "logical_name": "archive:objective_train",
+          "sha256": "fb4879db04133a4483173bc39d007f1fcf804a7cf8ec38fe5d9c48907b333ef8",
+          "size_bytes": 9332905
+        },
+        {
+          "archive_scan": {
+            "all_member_paths_safe": true,
+            "all_members_regular": true,
+            "duplicate_member_count": 0,
+            "full_stream_read_completed": true,
+            "member_content_manifest_sha256": "a2cd8ab803c229aaefecfd85fb6aea6373187148a76efb8a2c617da7d5eee52b",
+            "member_count": 484,
+            "member_names_sha256": "bbf81508da9a009b138b3c55b7275eef5e695e86e2f100e55fa30b71584bce12",
+            "total_uncompressed_bytes": 6362638
+          },
+          "basename": "selection_holdout.tar.gz",
+          "byte_exact_to_source": true,
+          "logical_name": "archive:selection_holdout",
+          "sha256": "ae93b030d03df1b267a3ae131ddd780668cb3b7c85aa1facedad69e7ab83a80d",
+          "size_bytes": 2628613
+        },
+        {
+          "archive_scan": {
+            "all_member_paths_safe": true,
+            "all_members_regular": true,
+            "duplicate_member_count": 0,
+            "full_stream_read_completed": true,
+            "member_content_manifest_sha256": "8b09672c9cc1920f7ea40d494b678b318693ff74123e5c29d312924adbe89ba4",
+            "member_count": 484,
+            "member_names_sha256": "c6b9dd9ed919c8ad56ccf7a6641cc03d26df2be644a7e3c1f1eca8efbab68e2a",
+            "total_uncompressed_bytes": 6819712
+          },
+          "basename": "frozen_probe.tar.gz",
+          "byte_exact_to_source": true,
+          "logical_name": "archive:frozen_probe",
+          "sha256": "95e2d92d979094e8d98d8913c2d681a4b9700a48bbea9aaa2fc483f42daf4532",
+          "size_bytes": 2868136
+        },
+        {
+          "archive_scan": {
+            "all_member_paths_safe": true,
+            "all_members_regular": true,
+            "duplicate_member_count": 0,
+            "full_stream_read_completed": true,
+            "member_content_manifest_sha256": "ce97cd305e05cb3257d0cf7a1d4052207bf0a6360abe3ebd5abf4f85d99bdc8f",
+            "member_count": 644,
+            "member_names_sha256": "faafad7e87716b79a364bba4040c676d501005f94133726b9c6552b64184af22",
+            "total_uncompressed_bytes": 8893926
+          },
+          "basename": "final_evaluation.tar.gz",
+          "byte_exact_to_source": true,
+          "logical_name": "archive:final_evaluation",
+          "sha256": "414a31d02ded97a629d3aa95563f706cdc730c9698791b1cb934f059aafa1dd7",
+          "size_bytes": 3707425
+        },
+        {
+          "archive_scan": {
+            "all_member_paths_safe": true,
+            "all_members_regular": true,
+            "duplicate_member_count": 0,
+            "full_stream_read_completed": true,
+            "member_content_manifest_sha256": "bb7fab8a25fe5dd513732b732b1dbda37eee2ae8aa8c194df61451ab5474e907",
+            "member_count": 11,
+            "member_names_sha256": "57285b293528ba71a1d07af1503b8f955c156d10f8736524080018603d5359dc",
+            "total_uncompressed_bytes": 877218
+          },
+          "basename": "metadata_and_receipts.tar.gz",
+          "byte_exact_to_source": true,
+          "logical_name": "archive:metadata_and_receipts",
+          "sha256": "04d6c58336fdd86dd95281021ec31a18dfafb246ef48974d333dc86746f1d070",
+          "size_bytes": 209752
+        },
+        {
+          "basename": "seal_manifest.json",
+          "byte_exact_to_source": true,
+          "json_self_sha256": "4211bb89b048520aa5a08e42050aa8b04a6b33dc44874c45779aad0456c8bcfd",
+          "logical_name": "stage_a_seal",
+          "sha256": "f70ab3dce44460d1d9080100d744b43392a86fff421a809f9fbd462768a5d318",
+          "size_bytes": 11779
+        },
+        {
+          "basename": "phase3_14b_r260_stagea_data_universe_genesis_summary.json",
+          "byte_exact_to_source": true,
+          "json_self_sha256": "9021d41e68fdad4032b8e3b304dd27332058e22e177e811bf243b4aa89de1b96",
+          "logical_name": "stage_a_report",
+          "sha256": "60f9c2bc14d393dae061b2ac7ac3937e5ddf869c9841ba3ad834e300dfefd2c9",
+          "size_bytes": 14790
+        }
+      ],
+      "model_target_access_count": 0,
+      "phase": "Phase3.14b-r2.6.0 Stage B",
+      "required_file_count": 7,
+      "role_npz_opened": false,
+      "role_payload_semantics_parsed": false,
+      "schema": "phase314b_r260_stageb_backup_site_attestation_v1",
+      "storage_observation": {
+        "automatic_details_sha256": "715cbac2100ad48753aad7491bca842065598b509f4b7fd3a9b91eec55718f33",
+        "automatic_device_fingerprint": "df21de626d4c16c3512407c039ceb09772e3eb85f81b2018c4cfb18f0b8bcfa5",
+        "automatic_device_identity_available": true,
+        "backup_root_resolved_sha256": "85fe5c83cfaaa4997b6dc6fd6c88a9b378cc3b07a41562eb7c0881f2c72fc28e",
+        "filesystem_device_number": 2665226785654402970,
+        "hostname_sha256": "fdbf1492135584279a7fc19e2f7af99da2ad7ee03381c80130a939ed879cb533",
+        "platform_release": "11",
+        "platform_system": "Windows",
+        "schema": "phase314b_r260_stageb_storage_observation_v1",
+        "sensitive_storage_identifiers_persisted": false
+      }
+    }
+  ],
+  "summary_sha256": "4882e2f263fa38ef90b64ed931a5ca669b100b1d1a2284aeae4f747557f16019",
+  "train_only_recommendation": null,
+  "weights_saved": false
+}
