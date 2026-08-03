@@ -1,0 +1,324 @@
+{
+  "audit": {
+    "calibration_axes": [
+      "descriptor_id",
+      "risk_l2",
+      "temperature"
+    ],
+    "calibration_family_support": {
+      "counts": {
+        "desc_compact_geometry_v2__l2_1.00__temp_0.75": 1,
+        "desc_compact_geometry_v2__l2_4.00__temp_0.75": 3,
+        "desc_compact_geometry_v2__l2_4.00__temp_1.25": 1,
+        "desc_compact_v1__l2_4.00__temp_1.00": 1
+      },
+      "modal_support": 3,
+      "modal_value": "desc_compact_geometry_v2__l2_4.00__temp_0.75",
+      "population": 6,
+      "unique_count": 4
+    },
+    "classification": "operational_family_stable_calibration_recipe_realizations_differ",
+    "common_full_objective_surface": {
+      "all_selected_recipes_eligible": true,
+      "exact_output_identity": false,
+      "metric_spreads": {
+        "acceptance_rate": {
+          "max": 0.6316614420062696,
+          "min": 0.5971786833855799,
+          "spread": 0.034482758620689724
+        },
+        "accepted_row_mse_ratio": {
+          "max": 0.8605000982262854,
+          "min": 0.8460964579448615,
+          "spread": 0.014403640281423824
+        },
+        "adverse_sse_mass": {
+          "max": 0.027704521766347932,
+          "min": 0.02601834354563259,
+          "spread": 0.0016861782207153418
+        },
+        "net_sse_reduction_mass": {
+          "max": 0.08793852559745496,
+          "min": 0.07889810702544092,
+          "spread": 0.009040418572014042
+        },
+        "overall_mse_ratio": {
+          "max": 0.9211018929745592,
+          "min": 0.912061474402545,
+          "spread": 0.009040418572014208
+        },
+        "positive_distance_reduction_rate": {
+          "max": 0.7416020671834626,
+          "min": 0.7146401985111662,
+          "spread": 0.02696186867229633
+        },
+        "relative_distance_reduction_mean": {
+          "max": 0.08389715585963411,
+          "min": 0.07480610639671968,
+          "spread": 0.009091049462914433
+        },
+        "risk_brier_score": {
+          "max": 0.21391351448894985,
+          "min": 0.19741384404528073,
+          "spread": 0.016499670443669123
+        },
+        "worst_fraction_cvar_mse_ratio": {
+          "max": 1.0489022704781523,
+          "min": 1.0426232178636485,
+          "spread": 0.006279052614503788
+        }
+      },
+      "selected_recipe_eligibility": {
+        "desc_compact_geometry_v2__l2_1.00__temp_0.75__shrink_1.00__risk_0.50": {
+          "checks": {
+            "acceptance": true,
+            "accepted_mse": true,
+            "adverse_sse_reduction": true,
+            "group_cvar_improvement": true,
+            "overall_mse": true,
+            "positive_reduction": true,
+            "relative_reduction": true,
+            "risk_brier_nonworse": true
+          },
+          "pass": true
+        },
+        "desc_compact_geometry_v2__l2_4.00__temp_0.75__shrink_1.00__risk_0.50": {
+          "checks": {
+            "acceptance": true,
+            "accepted_mse": true,
+            "adverse_sse_reduction": true,
+            "group_cvar_improvement": true,
+            "overall_mse": true,
+            "positive_reduction": true,
+            "relative_reduction": true,
+            "risk_brier_nonworse": true
+          },
+          "pass": true
+        },
+        "desc_compact_geometry_v2__l2_4.00__temp_1.25__shrink_1.00__risk_0.50": {
+          "checks": {
+            "acceptance": true,
+            "accepted_mse": true,
+            "adverse_sse_reduction": true,
+            "group_cvar_improvement": true,
+            "overall_mse": true,
+            "positive_reduction": true,
+            "relative_reduction": true,
+            "risk_brier_nonworse": true
+          },
+          "pass": true
+        },
+        "desc_compact_v1__l2_4.00__temp_1.00__shrink_1.00__risk_0.50": {
+          "checks": {
+            "acceptance": true,
+            "accepted_mse": true,
+            "adverse_sse_reduction": true,
+            "group_cvar_improvement": true,
+            "overall_mse": true,
+            "positive_reduction": true,
+            "relative_reduction": true,
+            "risk_brier_nonworse": true
+          },
+          "pass": true
+        }
+      },
+      "unique_candidate_sha_count": 4,
+      "unique_selected_recipe_count": 4,
+      "unique_selected_recipe_ids": [
+        "desc_compact_geometry_v2__l2_1.00__temp_0.75__shrink_1.00__risk_0.50",
+        "desc_compact_geometry_v2__l2_4.00__temp_0.75__shrink_1.00__risk_0.50",
+        "desc_compact_geometry_v2__l2_4.00__temp_1.25__shrink_1.00__risk_0.50",
+        "desc_compact_v1__l2_4.00__temp_1.00__shrink_1.00__risk_0.50"
+      ],
+      "unique_selected_scale_sha_count": 4
+    },
+    "eligible_surface": {
+      "eligibility_support_histogram": {
+        "1": 4,
+        "2": 3,
+        "4": 1,
+        "5": 2,
+        "6": 57
+      },
+      "eligible_recipe_count_by_fold": [
+        62,
+        60,
+        57,
+        60,
+        62,
+        65
+      ],
+      "intersection_count": 57,
+      "intersection_recipe_ids_sha256": "673ff45573f94c8300f863a69db7ef07436fae68ea4f337f14f61578eb2e08c5",
+      "recipes_eligible_in_all_six_folds": 57,
+      "union_count": 67,
+      "union_recipe_ids_sha256": "0f5dd328dce0c5db759b94714fb33a9c82eb4ffd9f7f1f141feb1e8c505be420"
+    },
+    "exact_recipe_support": {
+      "counts": {
+        "desc_compact_geometry_v2__l2_1.00__temp_0.75__shrink_1.00__risk_0.50": 1,
+        "desc_compact_geometry_v2__l2_4.00__temp_0.75__shrink_1.00__risk_0.50": 3,
+        "desc_compact_geometry_v2__l2_4.00__temp_1.25__shrink_1.00__risk_0.50": 1,
+        "desc_compact_v1__l2_4.00__temp_1.00__shrink_1.00__risk_0.50": 1
+      },
+      "modal_support": 3,
+      "modal_value": "desc_compact_geometry_v2__l2_4.00__temp_0.75__shrink_1.00__risk_0.50",
+      "population": 6,
+      "unique_count": 4
+    },
+    "factor_support": {
+      "descriptor_id": {
+        "counts": {
+          "compact_geometry_v2": 5,
+          "compact_v1": 1
+        },
+        "modal_support": 5,
+        "modal_value": "compact_geometry_v2",
+        "population": 6,
+        "unique_count": 2
+      },
+      "risk_l2": {
+        "counts": {
+          "1.00": 1,
+          "4.00": 5
+        },
+        "modal_support": 5,
+        "modal_value": "4.00",
+        "population": 6,
+        "unique_count": 2
+      },
+      "risk_threshold": {
+        "counts": {
+          "0.50": 6
+        },
+        "modal_support": 6,
+        "modal_value": "0.50",
+        "population": 6,
+        "unique_count": 1
+      },
+      "shrinkage": {
+        "counts": {
+          "1.00": 6
+        },
+        "modal_support": 6,
+        "modal_value": "1.00",
+        "population": 6,
+        "unique_count": 1
+      },
+      "temperature": {
+        "counts": {
+          "0.75": 4,
+          "1.00": 1,
+          "1.25": 1
+        },
+        "modal_support": 4,
+        "modal_value": "0.75",
+        "population": 6,
+        "unique_count": 3
+      }
+    },
+    "operational_family_axes": [
+      "shrinkage",
+      "risk_threshold"
+    ],
+    "operational_family_support": {
+      "counts": {
+        "shrink_1.00__risk_0.50": 6
+      },
+      "modal_support": 6,
+      "modal_value": "shrink_1.00__risk_0.50",
+      "population": 6,
+      "unique_count": 1
+    },
+    "required_exact_modal_support": 4,
+    "required_next_path": "DESIGN_R259_STAGED_T10_OPERATIONAL_FAMILY_LOCK_WITH_NESTED_CALIBRATION_CANONICALIZATION",
+    "root_cause": "phase314b_r259_stagee_t10_exact_recipe_instability_is_secondary_within_fully_eligible_operational_family",
+    "selected_operational_family": {
+      "all_family_recipes_eligible_in_every_fold": true,
+      "eligible_recipe_count_by_fold": [
+        30,
+        30,
+        30,
+        30,
+        30,
+        30
+      ],
+      "family_id": "shrink_1.00__risk_0.50",
+      "family_recipe_ids_sha256": "cb9f85387bc1cf9fce8f1b090b5c2044cfbef038a7814d280f537b5435573776",
+      "recipe_population": 30
+    },
+    "source_evidence_limitations": {
+      "accept_mask_hamming_distance_computable": false,
+      "near_tie_rank_margin_computable": false,
+      "per_recipe_inner_selection_scores_persisted": false,
+      "reason": "outer-fold evidence stores the selected score and all recipe eligibility, but not every recipe's inner score or row-level masks",
+      "row_level_accept_masks_persisted": false
+    }
+  },
+  "cache_saved": false,
+  "candidate_execution": false,
+  "candidate_tensor_persisted": false,
+  "checkpoint_saved": false,
+  "cps": false,
+  "cuda_used": false,
+  "cumulative_selection_holdout_evaluation_count": 1,
+  "dataset_loaded": false,
+  "deformable_ravens_executed": false,
+  "descriptor_tensor_persisted": false,
+  "environment_probe_run": false,
+  "execution_counts": {
+    "candidate_generation_count": 0,
+    "cuda_operation_count": 0,
+    "dataset_load_count": 0,
+    "direction_fit_count": 0,
+    "environment_probe_count": 0,
+    "recipe_evaluation_count": 0,
+    "report_read_count": 2,
+    "risk_fit_count": 0,
+    "science_worker_count": 0
+  },
+  "execution_verdict": "PASS",
+  "formal_training_run": false,
+  "frozen_probe_accessed": false,
+  "idm_run": false,
+  "image_saved": false,
+  "npz_saved": false,
+  "phase": "Phase3.14b-r2.5.9 Stage E",
+  "phase4": false,
+  "prediction_tensor_persisted": false,
+  "primary_failure_locus": "outer_recipe_instability_audit",
+  "repository": {
+    "head": "dbd38ee9a4389ecddd86bf673b1d6b1794fead99",
+    "parent": "6c1de2f5af23f2525414139a223d41b73037d74b",
+    "remote_identity_used_as_gate": false,
+    "root": "/data/state_diff2",
+    "stage_d_resume3_evidence": "6c1de2f5af23f2525414139a223d41b73037d74b",
+    "stage_d_resume3_implementation": "190ce56a8e579425ed074ced94b1151e933f0c85",
+    "submodule_commit": "633a88752445cf5d6776ed374fdbbdb35f93050c"
+  },
+  "required_next_path": "DESIGN_R259_STAGED_T10_OPERATIONAL_FAMILY_LOCK_WITH_NESTED_CALIBRATION_CANONICALIZATION",
+  "rerun_authorized": false,
+  "reverse_sampling_run": false,
+  "risk_probability_tensor_persisted": false,
+  "root_cause": "phase314b_r259_stagee_t10_exact_recipe_instability_is_secondary_within_fully_eligible_operational_family",
+  "schema": "phase314b_r259_stagee_recipe_instability_audit_v1",
+  "science_worker_run": false,
+  "scientific_status": "BLOCKED",
+  "selected_configuration": null,
+  "selection_holdout_evaluation_count_added": 0,
+  "selection_holdout_reaccessed": false,
+  "selection_holdout_target_loaded": false,
+  "selection_holdout_used_for_fit_or_selection": false,
+  "source_evidence": {
+    "summary_file_sha256": "95f15edd666a7fc56d374e8892f1964bbc68b64d564ddf57b9ba8e08f3488466",
+    "summary_path": "reports/phase3_14b_r259_staged_resume3_variable_threshold_call_order_recovery_summary.json",
+    "summary_self_sha256": "488ab5de981564372d27e31511442a1a71afc13b3ee4f8cb94078c01bce13158",
+    "worker_file_sha256": "879a4cc1a9b00ec9d82bac7ee1fbaad36f2d2c23532d048994fee408edb2a408",
+    "worker_path": "reports/phase3_14b_r259_staged_resume3_t10_risk_repair_worker_evidence.json",
+    "worker_result_sha256": "85863ca30410882a65ecf59b2aa123646cbdef9d9dbcef3a3ca5fd69febd56ae"
+  },
+  "summary_sha256": "9da37bc108e33525a9e4ff708689a4258b8ea2f76eb9122324310ec740c553af",
+  "train_only_recommendation": null,
+  "video_saved": false,
+  "weights_persisted": false
+}
