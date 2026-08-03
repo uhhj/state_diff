@@ -1,0 +1,51 @@
+{
+  "baseline": {
+    "bundle_archive_sha256": "68390ad783c1abccfc62a30866e956e6d545bd83eece8df192568fe8ed69483c",
+    "main_commit": "6c1de2f5af23f2525414139a223d41b73037d74b",
+    "submodule_commit": "633a88752445cf5d6776ed374fdbbdb35f93050c"
+  },
+  "governance": {
+    "old_git_object_identity_recovered": false,
+    "report_files_exact_from_preserved_artifacts": true,
+    "reports_regenerated": false,
+    "science_rerun": false,
+    "selection_holdout_reaccessed": false,
+    "source_files_exact_from_verified_packages": true,
+    "stage_g_frozen_probe_reaccessed": false
+  },
+  "original_lost_commits": {
+    "stage_e_evidence": "3457df7143f8585bb381fa1acb07452daf2567ef",
+    "stage_e_implementation": "dbd38ee9a4389ecddd86bf673b1d6b1794fead99",
+    "stage_f_evidence": "b324b38d655b11e13138675c6cfb304f43f9fbba",
+    "stage_f_implementation": "aaffdd796772ef9fadbeb3bae670aa8bc0f9b7e2",
+    "stage_g_evidence": "127cf4c59edcd0a6052cb04c969f86f393b23616",
+    "stage_g_implementation": "048adcb8c375fd8431b14c9130612fb837f8509f",
+    "stage_h_evidence": "bd5bc7d7d71ade7c7a219063fd062ac4e2a5f9d2",
+    "stage_h_implementation": "05dbc4c045799f0534d7a48654c82db18e55a56a"
+  },
+  "patch_sha256": {
+    "stage_e": "41878389eadcfa71e8542bd53d68050b6ee52d3e00c917ff88f190f2930eb9c3",
+    "stage_f": "f22e0e0460ecd453659282f3ff611ba21e8472abb680e924573f34f570fea29c",
+    "stage_g": "a36264854631f1c8072b80b12247a6063fbc273fd854ce9068c2edd0a617df11",
+    "stage_h": "e59cf649e6d47977f45012afa335374fe5c2a3817a5bae44ff5257220c797809"
+  },
+  "recovered_commits": {
+    "stage_e_evidence": "0902f0d261fce975149e66c0023ed245236f0dd9",
+    "stage_e_implementation": "5ba7889478564becf52a478a6dea77e2d500b919",
+    "stage_f_evidence": "8dcf0cc299a5745c16a7581b88283e7c7e0377e0",
+    "stage_f_implementation": "01c913ec7aa99d7deb4b107311e937cbc632ac2b",
+    "stage_g_evidence": "a21c544e20e5217b1d73f08d20d81f779a692185",
+    "stage_g_implementation": "322249327902909f8207dc791e763555a725aceb",
+    "stage_h_implementation": "449a7425ee8e1b5369a863a436918668f6b980eb"
+  },
+  "recovery_kind": "exact_files_new_git_identity",
+  "report_sha256": {
+    "stage_e": "026343261f32b806114d272e818818833e7c40fa9edeca21a4af510e642d3cea",
+    "stage_f": "d40930f5129f7c71b8d86c9533500c4b5f55a71feed10e72cf244537b28b4b39",
+    "stage_g_environment": "cb224b6811af1611d31d69f427c9cc54141bc33471c41409bd2ed81f266fd3a3",
+    "stage_g_summary": "3496779b461e7bd22a46edb192542bbcfd010d82f51848a867c92abb9140c28f",
+    "stage_g_worker": "e6334481d75bcc48028eb5624d237c219c08212c8533a8ca05bedcecba87f48c",
+    "stage_h": "cb3504172a223b51a206191fb46c2c8874a9d84170d4c6985779fcdeed8e0dfb"
+  },
+  "schema": "phase314b_r259_stageeh_lost_instance_recovery_manifest_v1"
+}

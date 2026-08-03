@@ -1,0 +1,341 @@
+{
+  "audit": {
+    "classification": "risk_probability_transfer_failure_beyond_base_rate_shift_with_raw_candidate_mean_improvement_preserved",
+    "environment_not_primary_failure": {
+      "portable_contract_passed": true,
+      "probe_did_not_access_frozen_probe": true,
+      "required_operation_passed": true
+    },
+    "governance_conclusion": {
+      "frozen_probe_access_consumed": true,
+      "frozen_probe_reaccess_authorized": false,
+      "future_final_evaluation_requires_fresh_untouched_data": true,
+      "recipe_fallback_authorized": false,
+      "retuning_against_frozen_probe_authorized": false,
+      "timestep_cherry_pick_authorized": false
+    },
+    "joint_findings": {
+      "all_aligned_geometry_gate_counts_zero": true,
+      "all_timesteps_model_brier_has_incremental_excess_beyond_base_rate_shift": true,
+      "all_timesteps_raw_candidate_mean_improvement_preserved": true,
+      "all_timesteps_risk_brier_worse_than_training_prevalence_constant": true,
+      "any_timestep_acceptance_gate_failed": true,
+      "canonical_joint_policy_passed": false
+    },
+    "required_next_path": "DESIGN_R259_RISK_TRANSFER_REPAIR_ON_OBJECTIVE_TRAIN_WITH_FRESH_UNTOUCHED_EVALUATION_SET",
+    "root_cause": "phase314b_r259_stageh_risk_probability_transfer_fails_beyond_prevalence_shift_while_raw_candidates_preserve_mean_improvement",
+    "source_evidence_limitations": {
+      "accept_mask_hamming_attribution_computable": false,
+      "auroc_computable": false,
+      "average_precision_computable": false,
+      "calibration_vs_ranking_failure_separable": false,
+      "descriptor_distribution_shift_computable": false,
+      "ece_computable": false,
+      "reason": "Stage G persisted bounded aggregate metrics and array identities, not row-level probabilities, labels, descriptors or masks",
+      "reliability_bins_computable": false,
+      "risk_score_distribution_shift_computable": false,
+      "row_level_accept_masks_persisted": false,
+      "row_level_adverse_labels_persisted": false,
+      "row_level_descriptors_persisted": false,
+      "row_level_risk_probabilities_persisted": false
+    },
+    "timestep_audits": {
+      "10": {
+        "abstention": {
+          "acceptance_rate": 0.2619047619047619,
+          "conditional_keep_rate_given_raw_candidate": 0.3142857142857143,
+          "conditional_rejection_rate_given_raw_candidate": 0.6857142857142857,
+          "selected_row_count": 33
+        },
+        "candidate_and_policy_effect": {
+          "adverse_sse_reduction_fraction": 0.9242023543342087,
+          "beneficial_sse_retention_fraction": 0.24842203069137267,
+          "group_cvar_gain_from_abstention": 0.105818112283105,
+          "net_sse_gain_from_abstention": 0.005861369512306236,
+          "no_abstention_overall_mse_ratio": 0.9974885139939486,
+          "no_abstention_positive_reduction_rate": 0.5904761904761905,
+          "overall_mse_gain_from_abstention": 0.005861369512306092,
+          "raw_candidate_mean_improvement": true,
+          "risk_policy_overall_mse_ratio": 0.9916271444816425,
+          "risk_policy_positive_reduction_rate": 0.5757575757575758
+        },
+        "eligibility": {
+          "failed_checks": [
+            "acceptance",
+            "risk_brier_nonworse"
+          ],
+          "pass": false
+        },
+        "frozen_probe_raw_candidate_population": {
+          "raw_candidate_admission_rate": 0.8333333333333334,
+          "raw_candidate_adverse_prevalence": 0.4095238095238095,
+          "raw_candidate_adverse_row_count": 43,
+          "raw_candidate_row_count": 105,
+          "row_count": 126
+        },
+        "geometry": {
+          "all_aligned_gate_counts_zero": true,
+          "gate_counts": {
+            "aligned_upper_element_failure_count": 0,
+            "length_log_z_element_mismatch_count": 0,
+            "strict_pass_aligned_fail_row_count": 0
+          }
+        },
+        "persisted_identity_only": {
+          "candidate_sha256": "fc1a899427baebd67e86211a18d291a14e54bd50fcd4d9a37b4f6cee47340800",
+          "descriptor_sha256": "1d2d051f82b14847bd6d85c4bea5780cf6f1423bcf2646f08ae3f811e0333291",
+          "risk_probability_sha256": "78b6ced60a00235ff8c559725429ffc3269e77a8056ed64bdc48400395f0e276",
+          "selected_scale_sha256": "742fa3b04febf3da31a6edd25c63249fd124a291aaeab3f36b24a0f9ec98550f"
+        },
+        "prevalence_transfer": {
+          "absolute_gap": 0.011163153786104607,
+          "brier_penalty_from_prevalence_shift": 0.0001246160024522216,
+          "constant_brier_recomputed": 0.24193867495936833,
+          "probe_optimal_constant_brier": 0.2418140589569161,
+          "signed_probe_minus_training": 0.011163153786104607,
+          "training_prevalence_constant_brier": 0.24193867495936838
+        },
+        "probability_transfer": {
+          "base_rate_shift_alone_explains_model_failure": false,
+          "brier_skill_vs_training_constant": -0.42903743650067705,
+          "model_brier": 0.34573942385430634,
+          "model_brier_excess_over_probe_optimal_constant": 0.10392536489739024,
+          "model_brier_excess_over_training_constant": 0.10380074889493796,
+          "training_constant_beaten": false,
+          "training_prevalence_constant_brier": 0.24193867495936838
+        },
+        "risk_l2": 4.0,
+        "risk_path": "stagef_canonical_t10",
+        "timestep": 10,
+        "training": {
+          "objective_adverse_label_rate": 0.38087774294670845,
+          "risk_fit_row_count": 610,
+          "risk_model_prevalence": 0.3983606557377049
+        }
+      },
+      "25": {
+        "abstention": {
+          "acceptance_rate": 0.5,
+          "conditional_keep_rate_given_raw_candidate": 0.5833333333333334,
+          "conditional_rejection_rate_given_raw_candidate": 0.41666666666666663,
+          "selected_row_count": 63
+        },
+        "candidate_and_policy_effect": {
+          "adverse_sse_reduction_fraction": 0.8640960635092378,
+          "beneficial_sse_retention_fraction": 0.38614741441211964,
+          "group_cvar_gain_from_abstention": 0.14095999302185058,
+          "net_sse_gain_from_abstention": 0.0066930745408301726,
+          "no_abstention_overall_mse_ratio": 0.9885967585021113,
+          "no_abstention_positive_reduction_rate": 0.6388888888888888,
+          "overall_mse_gain_from_abstention": 0.006693074540830235,
+          "raw_candidate_mean_improvement": true,
+          "risk_policy_overall_mse_ratio": 0.981903683961281,
+          "risk_policy_positive_reduction_rate": 0.7301587301587301
+        },
+        "eligibility": {
+          "failed_checks": [
+            "risk_brier_nonworse"
+          ],
+          "pass": false
+        },
+        "frozen_probe_raw_candidate_population": {
+          "raw_candidate_admission_rate": 0.8571428571428571,
+          "raw_candidate_adverse_prevalence": 0.3611111111111111,
+          "raw_candidate_adverse_row_count": 39,
+          "raw_candidate_row_count": 108,
+          "row_count": 126
+        },
+        "geometry": {
+          "all_aligned_gate_counts_zero": true,
+          "gate_counts": {
+            "aligned_upper_element_failure_count": 0,
+            "length_log_z_element_mismatch_count": 0,
+            "strict_pass_aligned_fail_row_count": 0
+          }
+        },
+        "persisted_identity_only": {
+          "candidate_sha256": "7a3cc82ad9525d73e85a83f0bf9585cedc062b08e93b5ff3f0bbccd6408962ee",
+          "descriptor_sha256": "6cc317922df0901278e95cc12c4f9f5bd56b17fc53275411a650d9e4d54d15e2",
+          "risk_probability_sha256": "ff301912174940ac95a80a757c988300ddc4804b9cdde60b4334f9ebbe1472e4",
+          "selected_scale_sha256": "9bee8a948aef2fe2ff23606bde7551ee11008a3f3da57f14a53c29f53b3e79c5"
+        },
+        "prevalence_transfer": {
+          "absolute_gap": 0.0946584626359907,
+          "brier_penalty_from_prevalence_shift": 0.008960224548609248,
+          "constant_brier_recomputed": 0.23967010109181913,
+          "probe_optimal_constant_brier": 0.23070987654320985,
+          "signed_probe_minus_training": 0.0946584626359907,
+          "training_prevalence_constant_brier": 0.23967010109181916
+        },
+        "probability_transfer": {
+          "base_rate_shift_alone_explains_model_failure": false,
+          "brier_skill_vs_training_constant": -0.04780339635104447,
+          "model_brier": 0.2511271459278063,
+          "model_brier_excess_over_probe_optimal_constant": 0.020417269384596426,
+          "model_brier_excess_over_training_constant": 0.011457044835987112,
+          "training_constant_beaten": false,
+          "training_prevalence_constant_brier": 0.23967010109181916
+        },
+        "risk_l2": 1.0,
+        "risk_path": "frozen_stagec_resume1_legacy_control",
+        "timestep": 25,
+        "training": {
+          "objective_adverse_label_rate": 0.2601880877742947,
+          "risk_fit_row_count": 623,
+          "risk_model_prevalence": 0.2664526484751204
+        }
+      },
+      "50": {
+        "abstention": {
+          "acceptance_rate": 0.7142857142857143,
+          "conditional_keep_rate_given_raw_candidate": 0.9183673469387755,
+          "conditional_rejection_rate_given_raw_candidate": 0.08163265306122447,
+          "selected_row_count": 90
+        },
+        "candidate_and_policy_effect": {
+          "adverse_sse_reduction_fraction": 0.2924541839879088,
+          "beneficial_sse_retention_fraction": 0.7596671730891165,
+          "group_cvar_gain_from_abstention": 0.003114442983683352,
+          "net_sse_gain_from_abstention": -0.0036387182565573994,
+          "no_abstention_overall_mse_ratio": 0.9774986614457499,
+          "no_abstention_positive_reduction_rate": 0.6326530612244898,
+          "overall_mse_gain_from_abstention": -0.0036387182565573717,
+          "raw_candidate_mean_improvement": true,
+          "risk_policy_overall_mse_ratio": 0.9811373797023073,
+          "risk_policy_positive_reduction_rate": 0.6222222222222222
+        },
+        "eligibility": {
+          "failed_checks": [
+            "risk_brier_nonworse"
+          ],
+          "pass": false
+        },
+        "frozen_probe_raw_candidate_population": {
+          "raw_candidate_admission_rate": 0.7777777777777778,
+          "raw_candidate_adverse_prevalence": 0.3673469387755102,
+          "raw_candidate_adverse_row_count": 36,
+          "raw_candidate_row_count": 98,
+          "row_count": 126
+        },
+        "geometry": {
+          "all_aligned_gate_counts_zero": true,
+          "gate_counts": {
+            "aligned_upper_element_failure_count": 0,
+            "length_log_z_element_mismatch_count": 0,
+            "strict_pass_aligned_fail_row_count": 0
+          }
+        },
+        "persisted_identity_only": {
+          "candidate_sha256": "b77f8bb937fe6347dd7861380a24ac72976dd1bba3cccb3cae51f3a59a8df420",
+          "descriptor_sha256": "028f422fc7d5a682d6376afe7601a990ebbc2f26c2f210ce01e0863c8390089a",
+          "risk_probability_sha256": "e0fba8b3636034553794dd6b5d24cb5cfc68a93ea46b45b6bbbfde998e08cb5a",
+          "selected_scale_sha256": "362ad21a9545013d9a89eac58f90ca4b95ca075817d763b7416555d4e054fe05"
+        },
+        "prevalence_transfer": {
+          "absolute_gap": 0.018546938775510224,
+          "brier_penalty_from_prevalence_shift": 0.0003439889379425247,
+          "constant_brier_recomputed": 0.2327471542857143,
+          "probe_optimal_constant_brier": 0.23240316534777178,
+          "signed_probe_minus_training": 0.018546938775510224,
+          "training_prevalence_constant_brier": 0.2327471542857143
+        },
+        "probability_transfer": {
+          "base_rate_shift_alone_explains_model_failure": false,
+          "brier_skill_vs_training_constant": -0.04974535533439517,
+          "model_brier": 0.24432524417872648,
+          "model_brier_excess_over_probe_optimal_constant": 0.011922078830954697,
+          "model_brier_excess_over_training_constant": 0.011578089893012178,
+          "training_constant_beaten": false,
+          "training_prevalence_constant_brier": 0.2327471542857143
+        },
+        "risk_l2": 1.0,
+        "risk_path": "frozen_stagec_resume1_legacy_control",
+        "timestep": 50,
+        "training": {
+          "objective_adverse_label_rate": 0.34169278996865204,
+          "risk_fit_row_count": 625,
+          "risk_model_prevalence": 0.3488
+        }
+      }
+    }
+  },
+  "cache_saved": false,
+  "candidate_execution": false,
+  "candidate_generation_run": false,
+  "candidate_tensor_persisted": false,
+  "checkpoint_saved": false,
+  "cps": false,
+  "cuda_used": false,
+  "cumulative_frozen_probe_evaluation_count": 1,
+  "cumulative_selection_holdout_evaluation_count": 1,
+  "dataset_loaded": false,
+  "deformable_ravens_executed": false,
+  "descriptor_tensor_persisted": false,
+  "direction_fit_run": false,
+  "environment_probe_run": false,
+  "execution_counts": {
+    "candidate_generation_count": 0,
+    "cuda_operation_count": 0,
+    "dataset_load_count": 0,
+    "direction_fit_count": 0,
+    "environment_probe_count": 0,
+    "frozen_probe_evaluation_count": 0,
+    "recipe_evaluation_count": 0,
+    "report_read_count": 3,
+    "risk_fit_count": 0,
+    "science_worker_count": 0
+  },
+  "execution_verdict": "PASS",
+  "formal_training_run": false,
+  "frozen_probe_accessed_historically": true,
+  "frozen_probe_evaluation_count_added": 0,
+  "frozen_probe_reaccessed": false,
+  "frozen_probe_target_loaded": false,
+  "frozen_probe_used_for_fit_or_selection": false,
+  "idm_run": false,
+  "image_saved": false,
+  "npz_saved": false,
+  "phase": "Phase3.14b-r2.5.9 Stage H",
+  "phase4": false,
+  "prediction_tensor_persisted": false,
+  "primary_failure_locus": "frozen_probe_risk_transfer_failure_audit",
+  "recipe_evaluation_run": false,
+  "repository": {
+    "head": "05dbc4c045799f0534d7a48654c82db18e55a56a",
+    "parent": "127cf4c59edcd0a6052cb04c969f86f393b23616",
+    "remote_identity_used_as_gate": false,
+    "root": "/data/state_diff2",
+    "stage_g_evidence": "127cf4c59edcd0a6052cb04c969f86f393b23616",
+    "stage_g_implementation": "048adcb8c375fd8431b14c9130612fb837f8509f",
+    "submodule_commit": "633a88752445cf5d6776ed374fdbbdb35f93050c"
+  },
+  "required_next_path": "DESIGN_R259_RISK_TRANSFER_REPAIR_ON_OBJECTIVE_TRAIN_WITH_FRESH_UNTOUCHED_EVALUATION_SET",
+  "rerun_authorized": false,
+  "reverse_sampling_run": false,
+  "risk_fit_run": false,
+  "risk_probability_tensor_persisted": false,
+  "root_cause": "phase314b_r259_stageh_risk_probability_transfer_fails_beyond_prevalence_shift_while_raw_candidates_preserve_mean_improvement",
+  "schema": "phase314b_r259_stageh_frozen_probe_transfer_failure_audit_v1",
+  "science_worker_run": false,
+  "scientific_status": "BLOCKED",
+  "selected_configuration": null,
+  "selection_holdout_evaluation_count_added": 0,
+  "selection_holdout_reaccessed": false,
+  "selection_holdout_target_loaded": false,
+  "selection_holdout_used_for_fit_or_selection": false,
+  "source_evidence": {
+    "probe_file_sha256": "cb224b6811af1611d31d69f427c9cc54141bc33471c41409bd2ed81f266fd3a3",
+    "probe_path": "reports/phase3_14b_r259_stageg_environment_probe_evidence.json",
+    "probe_self_sha256": "8b6a06929d0d196bc9349d994902be300754f9aef81963b3a0e259ad5cc3bae2",
+    "summary_file_sha256": "3496779b461e7bd22a46edb192542bbcfd010d82f51848a867c92abb9140c28f",
+    "summary_path": "reports/phase3_14b_r259_stageg_one_shot_frozen_probe_summary.json",
+    "summary_self_sha256": "e399198caa7d02941962340a359efef0e7a6bbc1bf457950ea1c85cbd72d433b",
+    "worker_file_sha256": "e6334481d75bcc48028eb5624d237c219c08212c8533a8ca05bedcecba87f48c",
+    "worker_path": "reports/phase3_14b_r259_stageg_frozen_probe_worker_evidence.json",
+    "worker_result_sha256": "73b4ee84b6a7adcb6cc458cc5691e85cc1cc1c30e2cff9fdbf8e6cb5b88c99f0"
+  },
+  "summary_sha256": "21e0836da0417a9c40e8cc66e85beddc7062a15b636e79f66be9f9f63897fcbc",
+  "train_only_recommendation": null,
+  "video_saved": false,
+  "weights_persisted": false
+}
