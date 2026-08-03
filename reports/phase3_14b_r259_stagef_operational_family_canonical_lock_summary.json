@@ -1,0 +1,219 @@
+{
+  "cache_saved": false,
+  "candidate_execution": false,
+  "candidate_tensor_persisted": false,
+  "checkpoint_saved": false,
+  "cps": false,
+  "cuda_used": false,
+  "cumulative_selection_holdout_evaluation_count": 1,
+  "dataset_loaded": false,
+  "deformable_ravens_executed": false,
+  "descriptor_tensor_persisted": false,
+  "environment_probe_run": false,
+  "execution_counts": {
+    "candidate_generation_count": 0,
+    "cuda_operation_count": 0,
+    "dataset_load_count": 0,
+    "direction_fit_count": 0,
+    "environment_probe_count": 0,
+    "recipe_evaluation_count": 0,
+    "report_read_count": 2,
+    "risk_fit_count": 0,
+    "science_worker_count": 0
+  },
+  "execution_verdict": "PASS",
+  "formal_training_run": false,
+  "frozen_probe_accessed": false,
+  "idm_run": false,
+  "image_saved": false,
+  "lock": {
+    "canonical_lock_ready": true,
+    "canonicalization": {
+      "canonical_order_key": [
+        17,
+        0.0,
+        -4.0,
+        "desc_compact_v1__l2_4.00__temp_1.00__shrink_1.00__risk_0.50"
+      ],
+      "canonical_recipe": {
+        "descriptor_id": "compact_v1",
+        "risk_l2": 4.0,
+        "risk_threshold": 0.5,
+        "shrinkage": 1.0,
+        "temperature": 1.0
+      },
+      "canonical_recipe_id": "desc_compact_v1__l2_4.00__temp_1.00__shrink_1.00__risk_0.50",
+      "family_recipe_count": 30,
+      "family_recipe_ids_sha256": "cb9f85387bc1cf9fce8f1b090b5c2044cfbef038a7814d280f537b5435573776",
+      "operational_family_id": "shrink_1.00__risk_0.50",
+      "ordering_axes": [
+        "descriptor_dimension_ascending",
+        "absolute_log_temperature_ascending",
+        "risk_l2_descending",
+        "recipe_id_ascending"
+      ],
+      "performance_metrics_used": false,
+      "rule_id": "minimum_descriptor__identity_temperature__maximum_l2__recipe_id"
+    },
+    "fixed_recipe_outer_oof": {
+      "eligibility": {
+        "checks": {
+          "acceptance": true,
+          "accepted_mse": true,
+          "adverse_sse_reduction": true,
+          "group_cvar_improvement": true,
+          "overall_mse": true,
+          "positive_reduction": true,
+          "relative_reduction": true,
+          "risk_brier_nonworse": true
+        },
+        "pass": true
+      },
+      "recipe_id": "desc_compact_v1__l2_4.00__temp_1.00__shrink_1.00__risk_0.50",
+      "record": {
+        "acceptance_rate": 0.6316614420062696,
+        "accepted_row_mse_ratio": 0.8605000982262854,
+        "adverse_row_count": 243,
+        "adverse_sse_mass": 0.027704521766347932,
+        "beneficial_sse_mass": 0.10660262879178885,
+        "distance_reduction_stats": {
+          "max": 0.04356679654259834,
+          "mean": 0.006139220672204228,
+          "median": 0.0062538037620993095,
+          "min": -0.0391136290551336,
+          "p05": -0.011139240658666867,
+          "p95": 0.0236921384658555
+        },
+        "group_tail": {
+          "group_count": 126,
+          "group_ratio_sha256": "3ec01f75995e77e9ed1bb65fc3ae65752fb756b687d369c2c6ef3362be38b916",
+          "ratio_stats": {
+            "max": 1.2273558822199413,
+            "mean": 0.9196649536599053,
+            "median": 0.9363645322347203,
+            "min": 0.560756329907988,
+            "p05": 0.7438541289633309,
+            "p95": 1.056211133604164
+          },
+          "tail_count": 26,
+          "worst_fraction_cvar_mse_ratio": 1.0426232178636485,
+          "worst_group_mse_ratio": 1.2273558822199413
+        },
+        "net_sse_reduction_mass": 0.07889810702544092,
+        "output_candidate_sha256": "04dec9f03c82c4f4c97f3b7c9a8017f90741d001876ede872d53ec3a01d4ea05",
+        "output_selected_scale_sha256": "967407ceab68cf55856cb9f94ff59abdd498afe8476e66470acf612d6b8e66bf",
+        "overall_mse_ratio": 0.9211018929745592,
+        "positive_distance_reduction_rate": 0.7146401985111662,
+        "raw_accepted_row_count": 610,
+        "relative_distance_reduction_mean": 0.07480610639671968,
+        "risk_brier_nonworse": true,
+        "risk_brier_score": 0.2025145146622673,
+        "risk_constant_brier_score": 0.24297551501533382,
+        "row_count": 638,
+        "selected_row_count": 403
+      }
+    },
+    "frozen_control_timesteps": {
+      "25": {
+        "all_pass": true
+      },
+      "50": {
+        "all_pass": true
+      }
+    },
+    "outer_fold_nested_eligibility": {
+      "all_six_folds_eligible": true,
+      "fold_records": [
+        {
+          "canonical_recipe_eligible": true,
+          "eligible_recipe_count": 62,
+          "outer_fold": 0
+        },
+        {
+          "canonical_recipe_eligible": true,
+          "eligible_recipe_count": 60,
+          "outer_fold": 1
+        },
+        {
+          "canonical_recipe_eligible": true,
+          "eligible_recipe_count": 57,
+          "outer_fold": 2
+        },
+        {
+          "canonical_recipe_eligible": true,
+          "eligible_recipe_count": 60,
+          "outer_fold": 3
+        },
+        {
+          "canonical_recipe_eligible": true,
+          "eligible_recipe_count": 62,
+          "outer_fold": 4
+        },
+        {
+          "canonical_recipe_eligible": true,
+          "eligible_recipe_count": 65,
+          "outer_fold": 5
+        }
+      ]
+    },
+    "stagee_operational_family_audit_sha256": "deb92653004960ef821f8127bc2c4635eae6fe7961c62146cce908cfb20b08c7"
+  },
+  "npz_saved": false,
+  "phase": "Phase3.14b-r2.5.9 Stage F",
+  "phase4": false,
+  "prediction_tensor_persisted": false,
+  "primary_failure_locus": "t10_canonical_risk_repair_ready_for_frozen_probe_preregistration",
+  "repository": {
+    "head": "aaffdd796772ef9fadbeb3bae670aa8bc0f9b7e2",
+    "parent": "3457df7143f8585bb381fa1acb07452daf2567ef",
+    "remote_identity_used_as_gate": false,
+    "root": "/data/state_diff2",
+    "stage_e_evidence": "3457df7143f8585bb381fa1acb07452daf2567ef",
+    "stage_e_implementation": "dbd38ee9a4389ecddd86bf673b1d6b1794fead99",
+    "submodule_commit": "633a88752445cf5d6776ed374fdbbdb35f93050c"
+  },
+  "required_next_path": "PREREGISTER_ONE_SHOT_FROZEN_PROBE_EVALUATION_OF_R259_T10_CANONICAL_RISK_REPAIR",
+  "rerun_authorized": false,
+  "reverse_sampling_run": false,
+  "risk_probability_tensor_persisted": false,
+  "root_cause": "phase314b_r259_stagef_t10_operational_family_and_structurally_canonicalized_recipe_pass_existing_nested_group_oof",
+  "schema": "phase314b_r259_stagef_operational_family_canonical_lock_v1",
+  "science_worker_run": false,
+  "scientific_status": "READY",
+  "selected_configuration": null,
+  "selection_holdout_evaluation_count_added": 0,
+  "selection_holdout_reaccessed": false,
+  "selection_holdout_target_loaded": false,
+  "selection_holdout_used_for_fit_or_selection": false,
+  "source_evidence": {
+    "stage_d_worker_file_sha256": "879a4cc1a9b00ec9d82bac7ee1fbaad36f2d2c23532d048994fee408edb2a408",
+    "stage_d_worker_path": "reports/phase3_14b_r259_staged_resume3_t10_risk_repair_worker_evidence.json",
+    "stage_d_worker_result_sha256": "85863ca30410882a65ecf59b2aa123646cbdef9d9dbcef3a3ca5fd69febd56ae",
+    "stagee_file_sha256": "026343261f32b806114d272e818818833e7c40fa9edeca21a4af510e642d3cea",
+    "stagee_path": "reports/phase3_14b_r259_stagee_recipe_instability_audit_summary.json",
+    "stagee_self_sha256": "9da37bc108e33525a9e4ff708689a4258b8ea2f76eb9122324310ec740c553af"
+  },
+  "summary_sha256": "d9c754282722bb7f4c2312f8981ec935e2e9d74131a892b941ec827e21c13ca1",
+  "train_only_recommendation": {
+    "backbone_id": "segment_target_rr64_feasible",
+    "frozen_probe_access_authorized_by_this_report": false,
+    "performance_metrics_used_for_canonicalization": false,
+    "selection_role": "structural_canonicalization_of_six_fold_eligible_operational_family",
+    "t10_adverse_risk_threshold": 0.5,
+    "t10_descriptor_dimension": 17,
+    "t10_descriptor_id": "compact_v1",
+    "t10_direction_shrinkage": 1.0,
+    "t10_prevalence_centered_temperature": 1.0,
+    "t10_risk_adapter_only": true,
+    "t10_risk_l2": 4.0,
+    "t25_t50_risk_path": "frozen_stagec_resume1_legacy_control",
+    "timestep_policy": "joint_all_timesteps_no_cherry_pick",
+    "timesteps": [
+      10,
+      25,
+      50
+    ]
+  },
+  "video_saved": false,
+  "weights_persisted": false
+}
