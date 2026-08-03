@@ -1,0 +1,1732 @@
+{
+  "candidate_evaluation_run": false,
+  "candidate_generation_run": false,
+  "checkpoint_saved": false,
+  "cps": false,
+  "cumulative_objective_train_open_count": 1,
+  "diffusion_model_fit_run": false,
+  "direction_fit_run": false,
+  "execution_verdict": "PASS",
+  "final_evaluation_access_count_added": 0,
+  "final_evaluation_model_evaluation_run": false,
+  "final_evaluation_opened": false,
+  "formal_training_run": false,
+  "frozen_probe_access_count_added": 0,
+  "frozen_probe_model_evaluation_run": false,
+  "frozen_probe_opened": false,
+  "idm_run": false,
+  "objective_train_access_count_added": 1,
+  "objective_train_model_evaluation_count": 0,
+  "objective_train_model_fit_count": 0,
+  "objective_train_opened": true,
+  "phase": "Phase3.14b-r2.6.0 Stage C",
+  "phase4": false,
+  "primary_failure_locus": "objective_train_baseline_contract_frozen",
+  "repository": {
+    "head": "094da963c0f87fda6f70a2e4e92297b50429803a",
+    "parent": "5296ecb948b91058ce2f0b502bf50baffac133d8",
+    "remote_identity_used_as_gate": false,
+    "root": "/data/state_diff2",
+    "stage_a_evidence": "636a2853db1a972073e2dd254e75a9724a5a1d17",
+    "stage_a_implementation": "b7ca7bc3396c0879f13662fd953881a9f42e40f2",
+    "stage_b_evidence": "5296ecb948b91058ce2f0b502bf50baffac133d8",
+    "stage_b_implementation": "4b19caa1de2b89ddf700dcad4a4b72928c2a4818",
+    "submodule_commit": "633a88752445cf5d6776ed374fdbbdb35f93050c"
+  },
+  "required_next_path": "PREREGISTER_R260_STAGED_OBJECTIVE_TRAIN_ONLY_CANDIDATE_SIGNAL_BENCHMARK_AGAINST_FROZEN_STAGEC_BASELINE_CONTRACT",
+  "rerun_authorized": false,
+  "resume_authorized": false,
+  "reverse_sampling_run": false,
+  "risk_fit_run": false,
+  "root_cause": "phase314b_r260_stagec_objective_train_opened_once_and_new_data_universe_baseline_statistics_fold_contract_and_numeric_scale_frozen",
+  "schema": "phase314b_r260_stagec_objective_train_baseline_v1",
+  "scientific_status": "READY",
+  "selected_configuration": null,
+  "selection_holdout_access_count_added": 0,
+  "selection_holdout_model_evaluation_run": false,
+  "selection_holdout_opened": false,
+  "stage_d_effect_gate_policy": {
+    "minimum_effect_threshold_locked_here": false,
+    "must_compare_effect_to_stagec_float_precision_margin": true,
+    "must_not_use_baseline_loss_variance_as_candidate_difference_variance": true,
+    "must_report_95_percent_group_confidence_interval": true,
+    "must_report_all_six_fold_effects": true,
+    "must_report_paired_candidate_minus_control_group_differences": true,
+    "must_use_stagec_pair_group_folds": true,
+    "reason": "a statistically valid minimum candidate effect requires the variance of paired candidate-minus-control differences, unavailable before Stage D"
+  },
+  "summary_sha256": "d2255ffa0177ec9ee0f5fa0d9f3d51fc8563d0f5f33857bee3f6e768f2844bba",
+  "train_only_recommendation": null,
+  "weights_saved": false,
+  "worker_evidence": {
+    "analytic_baselines": {
+      "constant_velocity": {
+        "cable_mse": 0.11657495922230968,
+        "condition_cable_mse": {
+          "free": 0.11755269088127149,
+          "hidden_slack_breakaway_pin_v2": 0.11559722756334789
+        },
+        "detectability_reference": {
+          "group_count": 320,
+          "group_sd": 0.11561357796654713,
+          "interpretation": "baseline-scale reference only; Stage D must estimate paired candidate-minus-control difference variance before locking an effect gate",
+          "mean_loss": 0.12735182680983997,
+          "normal_80_power_two_sided_mde_absolute": 0.018106632619371028,
+          "normal_80_power_two_sided_mde_relative": 0.14217803601991205,
+          "normal_95_ci_half_width": 0.012667238385548322,
+          "relative_95_ci_half_width": 0.09946648354297163,
+          "standard_error": 0.0064629954863792815
+        },
+        "final_cable_mse": 0.23095001052630051,
+        "fold_cable_mse": [
+          0.11635005990813556,
+          0.1257838029222923,
+          0.12184479680211473,
+          0.11928662635803175,
+          0.10846034291736142,
+          0.10781713915198271
+        ],
+        "fold_relative_spread": 0.15410063193251974,
+        "full_state_mse": 0.1376159878342143,
+        "group_cable_mse_distribution": {
+          "max": 0.9437518429825646,
+          "mean": 0.12735182680983997,
+          "median": 0.08512865199859537,
+          "min": 0.010452341391766675,
+          "p01": 0.018129332623323363,
+          "p05": 0.025629824623553565,
+          "p95": 0.32247509836128946,
+          "p99": 0.5308149639184752,
+          "std": 0.11543279040017144
+        },
+        "group_loss_sha256": "1cd20812b1712462670980f5a1549c6bc54b9dd8cd8f67ca5dfd7abe0f1adfc4",
+        "horizon_cable_mse": [
+          0.029166586584221853,
+          0.06894111743664263,
+          0.13724212234207372,
+          0.23095001052630015
+        ],
+        "row_cable_mse_distribution": {
+          "max": 1.6839463339512994,
+          "mean": 0.11657495922230968,
+          "median": 0.02302921998211266,
+          "min": 5.994905165668142e-11,
+          "p01": 1.8260509908561247e-09,
+          "p05": 0.00023278627288350232,
+          "p95": 0.6521393430684628,
+          "p99": 1.2504978107680569,
+          "std": 0.24159461923450046
+        },
+        "row_loss_sha256": "c1fe7a07f4dfb114dd97d154ceb53de9db9f4b1ebaa9774a248406df58f57bd0"
+      },
+      "persistence": {
+        "cable_mse": 0.014373296157605435,
+        "condition_cable_mse": {
+          "free": 0.014488409305280952,
+          "hidden_slack_breakaway_pin_v2": 0.01425818300992992
+        },
+        "detectability_reference": {
+          "group_count": 320,
+          "group_sd": 0.017761826355606462,
+          "interpretation": "baseline-scale reference only; Stage D must estimate paired candidate-minus-control difference variance before locking an effect gate",
+          "mean_loss": 0.017002665601049106,
+          "normal_80_power_two_sided_mde_absolute": 0.002781739568367006,
+          "normal_80_power_two_sided_mde_relative": 0.16360608587134512,
+          "normal_95_ci_half_width": 0.0019460801453120324,
+          "relative_95_ci_half_width": 0.11445735574496944,
+          "standard_error": 0.000992916278392085
+        },
+        "final_cable_mse": 0.015005703415272383,
+        "fold_cable_mse": [
+          0.013711755432905343,
+          0.015416377090597509,
+          0.015284527327271653,
+          0.014706451466794489,
+          0.013936196872253384,
+          0.01320282640348814
+        ],
+        "fold_relative_spread": 0.15397161305742177,
+        "full_state_mse": 0.02106967338754536,
+        "group_cable_mse_distribution": {
+          "max": 0.16422130764261111,
+          "mean": 0.017002665601049106,
+          "median": 0.011255154303191035,
+          "min": 0.0017195287072940255,
+          "p01": 0.001981473987299025,
+          "p05": 0.0031736250430839824,
+          "p95": 0.0484197818696491,
+          "p99": 0.07955198408337544,
+          "std": 0.01773405178606458
+        },
+        "group_loss_sha256": "c6f8f66d2ccf3cf04da5e618afb38e6a3276f2a8af4e48eae2f0783982deb15a",
+        "horizon_cable_mse": [
+          0.013951289533754734,
+          0.013713965106209753,
+          0.014822226575184946,
+          0.015005703415272409
+        ],
+        "row_cable_mse_distribution": {
+          "max": 0.22428661162818583,
+          "mean": 0.014373296157605435,
+          "median": 0.0005591051299974268,
+          "min": 8.635250017392388e-12,
+          "p01": 4.412088238776463e-10,
+          "p05": 6.102691134503558e-09,
+          "p95": 0.08948386611453069,
+          "p99": 0.16627489249448943,
+          "std": 0.03343157216123043
+        },
+        "row_loss_sha256": "a346a5c90c7b9e034af29d24c89f4a7a801528467de825634a91f7a46051e1e4"
+      }
+    },
+    "candidate_evaluation_run": false,
+    "candidate_generation_run": false,
+    "checkpoint_saved": false,
+    "checks": {
+      "constant_velocity_finite": true,
+      "final_evaluation_closed": true,
+      "fold_count": true,
+      "fold_group_balance": true,
+      "frozen_probe_closed": true,
+      "objective_group_count": true,
+      "objective_row_count": true,
+      "objective_seed_count": true,
+      "paired_windows_present": true,
+      "persistence_positive_loss": true,
+      "selection_holdout_closed": true
+    },
+    "contract_artifact": {
+      "contract_manifest": "data/phase3_14b_r260_stagec_objective_train_baseline_v1/contract_manifest.json",
+      "contract_manifest_file_sha256": "7a06deec5501564ef353f917591646fdb93a2975207f8e4e59433df6f9a63bcc",
+      "contract_manifest_self_sha256": "0d1d630d6c983c3d301afa7fd3ce1b1f9168bc35c69873dca09d19e3afbaf105",
+      "contract_npz": "data/phase3_14b_r260_stagec_objective_train_baseline_v1/objective_train_baseline_contract.npz",
+      "contract_npz_sha256": "b6db0afaad0cd49c02ed8259f4d5c1f310c3e0f1239323e74a3280fb873566a8"
+    },
+    "cps": false,
+    "diffusion_model_fit_run": false,
+    "direction_fit_run": false,
+    "execution_counts": {
+      "final_evaluation_npz_open_count": 0,
+      "frozen_probe_npz_open_count": 0,
+      "objective_train_analytic_baseline_count": 2,
+      "objective_train_file_hash_count": 1,
+      "objective_train_logical_open_count": 1,
+      "objective_train_model_evaluation_count": 0,
+      "objective_train_model_fit_count": 0,
+      "objective_train_npz_parse_count": 1,
+      "objective_train_role_manifest_read_count": 1,
+      "selection_holdout_npz_open_count": 0
+    },
+    "execution_verdict": "PASS",
+    "final_evaluation_model_evaluation_run": false,
+    "final_evaluation_opened": false,
+    "float_precision_audit": {
+      "absolute_difference": 7.141759111178869e-10,
+      "interpretation": "numerical resolution only; not a scientific minimum effect size",
+      "persistence_cable_mse_float32": 0.01437329687178135,
+      "persistence_cable_mse_float64": 0.014373296157605438,
+      "recommended_future_candidate_numerical_margin": 4.968769190357149e-07,
+      "relative_difference": 4.968769190357149e-08
+    },
+    "fold_contract": {
+      "fold_assignment_sha256": "52a8cf876b0f1c31d96f595f65fdd58657cde1fc2575875c049aeeb73006aca7",
+      "fold_count": 6,
+      "fold_group_counts": [
+        54,
+        54,
+        53,
+        53,
+        53,
+        53
+      ],
+      "group_assignment": [
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900313"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900073"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900081"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900137"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900011"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900022"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900144"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900235"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900168"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900114"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900182"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900154"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900110"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900004"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900128"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900226"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900253"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900213"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900006"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900003"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900097"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900192"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900258"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900036"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900150"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900121"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900164"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900134"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900031"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900075"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900212"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900167"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900277"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900066"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900193"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900239"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900179"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900028"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900318"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900051"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900237"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900175"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900156"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900223"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900216"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900188"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900317"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900159"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900145"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900116"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900032"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900120"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900045"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900041"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900016"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900224"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900273"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900015"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900047"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900228"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900251"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900180"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900038"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900290"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900000"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900107"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900117"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900284"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900220"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900200"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900040"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900113"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900060"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900101"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900178"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900232"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900291"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900271"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900257"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900067"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900083"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900100"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900095"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900275"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900151"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900109"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900211"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900233"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900143"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900249"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900008"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900279"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900246"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900074"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900098"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900272"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900268"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900206"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900260"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900287"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900262"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900208"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900256"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900035"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900267"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900111"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900153"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900129"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900215"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900001"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900176"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900319"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900276"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900171"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900158"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900053"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900269"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900056"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900005"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900238"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900061"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900173"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900244"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900259"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900296"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900082"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900254"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900301"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900002"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900202"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900146"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900093"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900252"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900132"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900136"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900099"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900133"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900230"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900044"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900172"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900090"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900304"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900049"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900025"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900314"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900184"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900174"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900024"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900063"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900085"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900052"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900139"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900297"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900126"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900140"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900169"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900286"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900306"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900105"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900186"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900282"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900013"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900293"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900135"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900187"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900122"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900034"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900266"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900316"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900007"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900050"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900017"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900076"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900088"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900068"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900162"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900096"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900124"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900241"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900243"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900048"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900311"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900170"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900166"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900010"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900160"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900148"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900222"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900207"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900020"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900210"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900142"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900023"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900046"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900092"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900091"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900231"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900147"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900234"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900043"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900084"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900298"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900245"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900037"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900089"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900055"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900191"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900071"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900281"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900059"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900157"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900198"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900119"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900039"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900021"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900302"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900312"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900289"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900305"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900219"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900070"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900054"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900072"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900265"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900217"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900280"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900165"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900033"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900177"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900086"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900087"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900307"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900138"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900125"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900112"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900194"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900080"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900183"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900221"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900103"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900149"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900270"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900030"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900131"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900189"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900310"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900094"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900152"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900218"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900012"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900102"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900205"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900242"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900077"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900303"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900141"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900009"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900214"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900240"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900236"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900079"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900225"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900247"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900308"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900204"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900299"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900065"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900203"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900029"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900309"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900292"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900201"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900283"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900106"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900018"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900227"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900026"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900108"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900278"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900300"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900042"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900263"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900019"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900264"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900315"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900027"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900078"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900058"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900127"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900161"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900199"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900255"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900248"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900163"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900285"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900209"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900274"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900115"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900014"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900229"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900294"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900155"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900190"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900123"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900196"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900118"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900104"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900064"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900261"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900250"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900288"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900295"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900069"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900197"
+        },
+        {
+          "fold": 2,
+          "pair_group": "phase314b_r260_objective_train_seed_900181"
+        },
+        {
+          "fold": 3,
+          "pair_group": "phase314b_r260_objective_train_seed_900062"
+        },
+        {
+          "fold": 4,
+          "pair_group": "phase314b_r260_objective_train_seed_900195"
+        },
+        {
+          "fold": 5,
+          "pair_group": "phase314b_r260_objective_train_seed_900185"
+        },
+        {
+          "fold": 0,
+          "pair_group": "phase314b_r260_objective_train_seed_900130"
+        },
+        {
+          "fold": 1,
+          "pair_group": "phase314b_r260_objective_train_seed_900057"
+        }
+      ],
+      "group_fold_population_sha256": "e4fafb6e9426217eeeae214a66dd27f76884506dcc8baa4999381ee570e911c3",
+      "paired_conditions_never_cross_folds": true,
+      "row_fold_population_sha256": "8ecebc0fec9c240404ca3be79004f023a12aef8716cd25449906c577ce63c63c"
+    },
+    "formal_training_run": false,
+    "frozen_probe_model_evaluation_run": false,
+    "frozen_probe_opened": false,
+    "idm_run": false,
+    "paired_branch_statistics": {
+      "final_fraction_absolute_gap": {
+        "max": 1.0,
+        "mean": 0.34622421953889104,
+        "median": 0.125,
+        "min": 0.0,
+        "p01": 0.0,
+        "p05": 0.0,
+        "p95": 1.0,
+        "p99": 1.0,
+        "std": 0.3954178453816111
+      },
+      "final_ordered_cable_mse": {
+        "max": 0.018142679898455343,
+        "mean": 0.0015016069662445062,
+        "median": 6.665644435596976e-05,
+        "min": 2.3306665819511352e-08,
+        "p01": 1.0188084491510382e-06,
+        "p05": 3.1857338326409432e-06,
+        "p95": 0.01038096600536376,
+        "p99": 0.01491896588786847,
+        "std": 0.0033957560640794004
+      },
+      "matched_pair_window_count": 1503,
+      "paper_x_pair_mae": {
+        "max": 0.1239238753914833,
+        "mean": 0.005262424379483732,
+        "median": 0.0006492432439699769,
+        "min": 0.0,
+        "p01": 0.0,
+        "p05": 0.0,
+        "p95": 0.03314154557883738,
+        "p99": 0.059589162319898636,
+        "std": 0.012882211751780283
+      },
+      "success_mismatch_rate": 0.5655355954757152
+    },
+    "phase": "Phase3.14b-r2.6.0 Stage C",
+    "phase4": false,
+    "reverse_sampling_run": false,
+    "risk_fit_run": false,
+    "schema": "phase314b_r260_stagec_objective_train_baseline_v1_worker_v1",
+    "scientific_status": "READY",
+    "selected_configuration": null,
+    "selection_holdout_model_evaluation_run": false,
+    "selection_holdout_opened": false,
+    "semantic_statistics": {
+      "cable_displacement_per_bead": {
+        "max": 0.7960922326993183,
+        "mean": 0.0944932589456302,
+        "median": 0.03140409734465148,
+        "min": 0.0,
+        "p01": 4.4532472150656e-06,
+        "p05": 2.7237859338902226e-05,
+        "p95": 0.4265331189960889,
+        "p99": 0.604351818896928,
+        "std": 0.14077505577709762
+      },
+      "conditions": {
+        "free": {
+          "engagement_step_nonnegative_rate": 0.0,
+          "final_fraction": {
+            "max": 1.0,
+            "mean": 1.0,
+            "median": 1.0,
+            "min": 1.0,
+            "p01": 1.0,
+            "p05": 1.0,
+            "p95": 1.0,
+            "p99": 1.0,
+            "std": 0.0
+          },
+          "pair_group_count": 320,
+          "pre_engagement_rate": 1.0,
+          "release_step_nonnegative_rate": 0.0,
+          "row_count": 1503,
+          "success_rate": 1.0,
+          "visible_seed_count": 320,
+          "window_t": {
+            "max": 9.0,
+            "mean": 2.187624750499002,
+            "median": 2.0,
+            "min": 0.0,
+            "p01": 0.0,
+            "p05": 0.0,
+            "p95": 5.0,
+            "p99": 7.0,
+            "std": 1.8083656086524853
+          }
+        },
+        "hidden_slack_breakaway_pin_v2": {
+          "engagement_step_nonnegative_rate": 1.0,
+          "final_fraction": {
+            "max": 1.0,
+            "mean": 0.6537757805751231,
+            "median": 0.875,
+            "min": 0.0,
+            "p01": 0.0,
+            "p05": 0.0,
+            "p95": 1.0,
+            "p99": 1.0,
+            "std": 0.3954178452610081
+          },
+          "pair_group_count": 320,
+          "pre_engagement_rate": 0.21357285429141717,
+          "release_step_nonnegative_rate": 0.9900199600798403,
+          "row_count": 1503,
+          "success_rate": 0.43446440452428475,
+          "visible_seed_count": 320,
+          "window_t": {
+            "max": 9.0,
+            "mean": 2.187624750499002,
+            "median": 2.0,
+            "min": 0.0,
+            "p01": 0.0,
+            "p05": 0.0,
+            "p95": 5.0,
+            "p99": 7.0,
+            "std": 1.8083656086524853
+          }
+        }
+      },
+      "final_fraction": {
+        "max": 1.0,
+        "mean": 0.8268878902875616,
+        "median": 1.0,
+        "min": 0.0,
+        "p01": 0.0,
+        "p05": 0.0,
+        "p95": 1.0,
+        "p99": 1.0,
+        "std": 0.3288547379991971
+      },
+      "fold_count": 6,
+      "fold_row_counts": [
+        526,
+        496,
+        492,
+        496,
+        522,
+        474
+      ],
+      "pair_group_count": 320,
+      "pre_engagement_rate": 0.6067864271457086,
+      "robot_proxy_displacement": {
+        "max": 4.961786435515787,
+        "mean": 0.6695455294533047,
+        "median": 0.515482739588347,
+        "min": 0.00021489337371070324,
+        "p01": 0.0045036535280203885,
+        "p05": 0.06401034237159417,
+        "p95": 1.2054560345525052,
+        "p99": 4.8578863549210896,
+        "std": 0.8335779226565921
+      },
+      "row_count": 3006,
+      "success_rate": 0.7172322022621423,
+      "target_action_absolute": {
+        "max": 1.0,
+        "mean": 0.2369387506234913,
+        "median": 0.0010000000474974513,
+        "min": 0.0,
+        "p01": 0.0,
+        "p05": 0.0,
+        "p95": 1.0,
+        "p99": 1.0,
+        "std": 0.36011015336429303
+      },
+      "visible_seed_count": 320,
+      "window_t": {
+        "max": 9.0,
+        "mean": 2.187624750499002,
+        "median": 2.0,
+        "min": 0.0,
+        "p01": 0.0,
+        "p05": 0.0,
+        "p95": 5.0,
+        "p99": 7.0,
+        "std": 1.8083656086524853
+      }
+    },
+    "source": {
+      "forbidden_role_npz_open_count": 0,
+      "objective_group_count": 320,
+      "objective_manifest_file_sha256": "20c83a723f0f14271ded03130fb1b07debe24dc475ce7740532a22d7492cc6e1",
+      "objective_manifest_self_sha256": "618fd185ba5e1a21a7a924f480a54e359d4353e7e63d602aac766d0cebc18916",
+      "objective_npz_sha256": "a015ccfa0a821b7add45087d0385ecca9c0ccd1168f8f31d917e077650cb20cb",
+      "objective_npz_size_bytes": 2306674,
+      "objective_row_count": 3006,
+      "objective_seed_count": 320,
+      "stage_a_report_file_sha256": "60f9c2bc14d393dae061b2ac7ac3937e5ddf869c9841ba3ad834e300dfefd2c9",
+      "stage_a_seal_sha256": "4211bb89b048520aa5a08e42050aa8b04a6b33dc44874c45779aad0456c8bcfd",
+      "stage_a_summary_sha256": "9021d41e68fdad4032b8e3b304dd27332058e22e177e811bf243b4aa89de1b96",
+      "stage_b_summary_sha256": "4882e2f263fa38ef90b64ed931a5ca669b100b1d1a2284aeae4f747557f16019"
+    },
+    "train_only_recommendation": null,
+    "weights_saved": false,
+    "worker_result_sha256": "aa23dba5c28ba4d10374b2161b4ac8a2369f0f3493a4108a2972346f28086ea0"
+  },
+  "worker_evidence_file_sha256": "5c584de0524c1bb7dd92353cd163736cd44a20f6f7ba08d5cad63cb02349dc2d"
+}
