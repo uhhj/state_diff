@@ -37,3 +37,15 @@ def test_max_state_difference_rejects_shape_mismatch():
             {"x": np.zeros((2, 2))},
             {"x": np.zeros((4,))},
         )
+
+
+def test_array_payload_hash_changes_when_phase_length_changes():
+    first = {
+        "phase": np.asarray(["no_action", "preload"]),
+        "x": np.asarray([1.0, 2.0]),
+    }
+    second = {
+        "phase": np.asarray(["no_action"]),
+        "x": np.asarray([1.0]),
+    }
+    assert array_payload_sha256(first) != array_payload_sha256(second)

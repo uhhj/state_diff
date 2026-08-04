@@ -183,3 +183,6 @@ reports/experiment2/phase0_hidden_friction/calibration/raw/
 # Calibrated-config videos stay on the server.
 reports/experiment2/phase0_hidden_friction/simulation/calibrated/**/*.mp4
 reports/experiment2/phase0_hidden_friction/simulation/calibrated/**/*.frames.json
+
+# Experiment2 Phase 0D fixed-step replay traces stay on the server.
+reports/experiment2/phase0_hidden_friction/determinism/raw/

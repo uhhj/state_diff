@@ -1,0 +1,3469 @@
+{
+  "audit_config": "configs/experiment2/phase0/deterministic_replay_audit.json",
+  "audit_config_hash": "cb876bbc12c972a6eae568eb17f1610d0e4e15709fc594388c22ba3a26ac2146",
+  "candidate_config_hash": "ad512a8fca83036116c4e0279124c4d12050fdb33e1b10bf5252330cd28bdf6e",
+  "candidate_id": "p02_n5_balanced",
+  "execution": {
+    "control_substeps": 1,
+    "deterministic": true,
+    "post_action_settle_steps": 240
+  },
+  "interpretation": "Fixed-step replay audit only. Parameter eligibility and formal CCDA gates remain pending.",
+  "main_repository_sha": "90f45a075181e953fb58d49c0d185a001cf96b10",
+  "numeric_atol": 1e-09,
+  "passed": true,
+  "repeats": 3,
+  "seed_results": [
+    {
+      "byte_exact": true,
+      "free_trace_comparisons": [
+        {
+          "byte_exact": true,
+          "candidate_repeat": 1,
+          "fields": {
+            "bead_positions": {
+              "exact": true,
+              "first_shape": [
+                429,
+                24,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                429,
+                24,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "bead_velocities": {
+              "exact": true,
+              "first_shape": [
+                429,
+                24,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                429,
+                24,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_active_beads": {
+              "exact": true,
+              "first_shape": [
+                429
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                429
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_force_norm": {
+              "exact": true,
+              "first_shape": [
+                429
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                429
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_force_xyz": {
+              "exact": true,
+              "first_shape": [
+                429,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                429,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_max_force_norm": {
+              "exact": true,
+              "first_shape": [
+                429
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                429
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_mean_speed": {
+              "exact": true,
+              "first_shape": [
+                429
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                429
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "ee_orientation": {
+              "exact": true,
+              "first_shape": [
+                429,
+                4
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                429,
+                4
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "ee_position": {
+              "exact": true,
+              "first_shape": [
+                429,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                429,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "joint_positions": {
+              "exact": true,
+              "first_shape": [
+                429,
+                6
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                429,
+                6
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "joint_velocities": {
+              "exact": true,
+              "first_shape": [
+                429,
+                6
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                429,
+                6
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "phase": {
+              "exact": true,
+              "first_shape": [
+                429
+              ],
+              "max_abs": null,
+              "present_in_both": true,
+              "second_shape": [
+                429
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "physics_step": {
+              "exact": true,
+              "first_shape": [
+                429
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                429
+              ],
+              "shape_match": true,
+              "within_atol": true
+            }
+          },
+          "keys_match": true,
+          "numeric_within_atol": true,
+          "passed": true,
+          "phase_exact": true,
+          "reference_repeat": 0,
+          "shape_match": true
+        },
+        {
+          "byte_exact": true,
+          "candidate_repeat": 2,
+          "fields": {
+            "bead_positions": {
+              "exact": true,
+              "first_shape": [
+                429,
+                24,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                429,
+                24,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "bead_velocities": {
+              "exact": true,
+              "first_shape": [
+                429,
+                24,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                429,
+                24,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_active_beads": {
+              "exact": true,
+              "first_shape": [
+                429
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                429
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_force_norm": {
+              "exact": true,
+              "first_shape": [
+                429
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                429
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_force_xyz": {
+              "exact": true,
+              "first_shape": [
+                429,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                429,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_max_force_norm": {
+              "exact": true,
+              "first_shape": [
+                429
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                429
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_mean_speed": {
+              "exact": true,
+              "first_shape": [
+                429
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                429
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "ee_orientation": {
+              "exact": true,
+              "first_shape": [
+                429,
+                4
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                429,
+                4
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "ee_position": {
+              "exact": true,
+              "first_shape": [
+                429,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                429,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "joint_positions": {
+              "exact": true,
+              "first_shape": [
+                429,
+                6
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                429,
+                6
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "joint_velocities": {
+              "exact": true,
+              "first_shape": [
+                429,
+                6
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                429,
+                6
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "phase": {
+              "exact": true,
+              "first_shape": [
+                429
+              ],
+              "max_abs": null,
+              "present_in_both": true,
+              "second_shape": [
+                429
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "physics_step": {
+              "exact": true,
+              "first_shape": [
+                429
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                429
+              ],
+              "shape_match": true,
+              "within_atol": true
+            }
+          },
+          "keys_match": true,
+          "numeric_within_atol": true,
+          "passed": true,
+          "phase_exact": true,
+          "reference_repeat": 0,
+          "shape_match": true
+        }
+      ],
+      "hidden_trace_comparisons": [
+        {
+          "byte_exact": true,
+          "candidate_repeat": 1,
+          "fields": {
+            "bead_positions": {
+              "exact": true,
+              "first_shape": [
+                404,
+                24,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                404,
+                24,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "bead_velocities": {
+              "exact": true,
+              "first_shape": [
+                404,
+                24,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                404,
+                24,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_active_beads": {
+              "exact": true,
+              "first_shape": [
+                404
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                404
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_force_norm": {
+              "exact": true,
+              "first_shape": [
+                404
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                404
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_force_xyz": {
+              "exact": true,
+              "first_shape": [
+                404,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                404,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_max_force_norm": {
+              "exact": true,
+              "first_shape": [
+                404
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                404
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_mean_speed": {
+              "exact": true,
+              "first_shape": [
+                404
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                404
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "ee_orientation": {
+              "exact": true,
+              "first_shape": [
+                404,
+                4
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                404,
+                4
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "ee_position": {
+              "exact": true,
+              "first_shape": [
+                404,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                404,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "joint_positions": {
+              "exact": true,
+              "first_shape": [
+                404,
+                6
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                404,
+                6
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "joint_velocities": {
+              "exact": true,
+              "first_shape": [
+                404,
+                6
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                404,
+                6
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "phase": {
+              "exact": true,
+              "first_shape": [
+                404
+              ],
+              "max_abs": null,
+              "present_in_both": true,
+              "second_shape": [
+                404
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "physics_step": {
+              "exact": true,
+              "first_shape": [
+                404
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                404
+              ],
+              "shape_match": true,
+              "within_atol": true
+            }
+          },
+          "keys_match": true,
+          "numeric_within_atol": true,
+          "passed": true,
+          "phase_exact": true,
+          "reference_repeat": 0,
+          "shape_match": true
+        },
+        {
+          "byte_exact": true,
+          "candidate_repeat": 2,
+          "fields": {
+            "bead_positions": {
+              "exact": true,
+              "first_shape": [
+                404,
+                24,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                404,
+                24,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "bead_velocities": {
+              "exact": true,
+              "first_shape": [
+                404,
+                24,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                404,
+                24,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_active_beads": {
+              "exact": true,
+              "first_shape": [
+                404
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                404
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_force_norm": {
+              "exact": true,
+              "first_shape": [
+                404
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                404
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_force_xyz": {
+              "exact": true,
+              "first_shape": [
+                404,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                404,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_max_force_norm": {
+              "exact": true,
+              "first_shape": [
+                404
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                404
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_mean_speed": {
+              "exact": true,
+              "first_shape": [
+                404
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                404
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "ee_orientation": {
+              "exact": true,
+              "first_shape": [
+                404,
+                4
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                404,
+                4
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "ee_position": {
+              "exact": true,
+              "first_shape": [
+                404,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                404,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "joint_positions": {
+              "exact": true,
+              "first_shape": [
+                404,
+                6
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                404,
+                6
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "joint_velocities": {
+              "exact": true,
+              "first_shape": [
+                404,
+                6
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                404,
+                6
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "phase": {
+              "exact": true,
+              "first_shape": [
+                404
+              ],
+              "max_abs": null,
+              "present_in_both": true,
+              "second_shape": [
+                404
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "physics_step": {
+              "exact": true,
+              "first_shape": [
+                404
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                404
+              ],
+              "shape_match": true,
+              "within_atol": true
+            }
+          },
+          "keys_match": true,
+          "numeric_within_atol": true,
+          "passed": true,
+          "phase_exact": true,
+          "reference_repeat": 0,
+          "shape_match": true
+        }
+      ],
+      "max_numeric_error": 0.0,
+      "metadata_comparison": {
+        "checks": {
+          "action_hash": true,
+          "base_state_hash": true,
+          "free_events": true,
+          "free_trace_length": true,
+          "hidden_events": true,
+          "hidden_trace_length": true,
+          "pair_action_match": true,
+          "pair_initial_match": true
+        },
+        "passed": true
+      },
+      "metric_spread": {
+        "contact_impulse_gap": {
+          "max": 0.18339501163772956,
+          "min": 0.18339501163772956,
+          "range": 0.0
+        },
+        "main_branch_ade": {
+          "max": 0.003764434061211723,
+          "min": 0.003764434061211723,
+          "range": 0.0
+        },
+        "main_branch_fde": {
+          "max": 0.0046407555136610155,
+          "min": 0.0046407555136610155,
+          "range": 0.0
+        },
+        "post_main_branch_fde": {
+          "max": 0.0046292761538266934,
+          "min": 0.0046292761538266934,
+          "range": 0.0
+        },
+        "preload_end_max_abs_xy": {
+          "max": 0.00561542753926858,
+          "min": 0.00561542753926858,
+          "range": 0.0
+        }
+      },
+      "passed": true,
+      "repeats": [
+        {
+          "action_hash": "636f2cab121f53090fabc794d9803efba11b14469abcac87d777d5e5d715614d",
+          "action_hash_match": true,
+          "base_state_hash": "4744e410b91153f99bfd02e242eea052489c61a5ce45a3df5938a427507f8e4b",
+          "execution": {
+            "control_substeps": 1,
+            "deterministic": true,
+            "hz": 480,
+            "post_action_settle_steps": 240
+          },
+          "free_base_state_hash_match": true,
+          "free_events": [
+            {
+              "name": "branch_start",
+              "physics_step": 0
+            },
+            {
+              "name": "no_action_end",
+              "physics_step": 240
+            },
+            {
+              "name": "preload_start",
+              "physics_step": 240
+            },
+            {
+              "name": "preload_end",
+              "physics_step": 829
+            },
+            {
+              "name": "main_pull_start",
+              "physics_step": 829
+            },
+            {
+              "name": "main_pull_end",
+              "physics_step": 1478
+            },
+            {
+              "name": "post_main_end",
+              "physics_step": 1718
+            }
+          ],
+          "free_hidden_initial_hash_match": true,
+          "free_initial_hash": "4744e410b91153f99bfd02e242eea052489c61a5ce45a3df5938a427507f8e4b",
+          "free_trace_hash": "6e57282ee2585812762182443b358ec89e000019c574cd762390a73a418dc4bc",
+          "free_trace_length": 429,
+          "group_id": "det_070001_r0",
+          "hidden_base_state_hash_match": true,
+          "hidden_events": [
+            {
+              "name": "branch_start",
+              "physics_step": 0
+            },
+            {
+              "name": "no_action_end",
+              "physics_step": 240
+            },
+            {
+              "name": "preload_start",
+              "physics_step": 240
+            },
+            {
+              "name": "preload_end",
+              "physics_step": 731
+            },
+            {
+              "name": "main_pull_start",
+              "physics_step": 731
+            },
+            {
+              "name": "main_pull_end",
+              "physics_step": 1379
+            },
+            {
+              "name": "post_main_end",
+              "physics_step": 1619
+            }
+          ],
+          "hidden_initial_hash": "4744e410b91153f99bfd02e242eea052489c61a5ce45a3df5938a427507f8e4b",
+          "hidden_trace_hash": "ba49f04973b8e8b96cedff40c7fc4f8704682aa5521781c49aa8c37299da78e5",
+          "hidden_trace_length": 404,
+          "max_initial_state_difference": 0.0,
+          "metrics": {
+            "action_hash_match": true,
+            "contact_impulse_gap": 0.18339501163772956,
+            "free_arm_max_abs_jump": 0.0,
+            "free_no_action_drift": 0.0003073044061898122,
+            "free_preload_contact_impulse": 0.0,
+            "hidden_arm_max_abs_jump": 0.0,
+            "hidden_no_action_drift": 0.00032429772386867933,
+            "hidden_preload_contact_impulse": 0.18339501163772956,
+            "initial_max_abs_xy": 4.69187584106745e-06,
+            "main_branch_ade": 0.003764434061211723,
+            "main_branch_fde": 0.0046407555136610155,
+            "post_main_branch_fde": 0.0046292761538266934,
+            "preload_end_max_abs_xy": 0.00561542753926858
+          },
+          "pairing_mode": "pybullet_save_restore_fixed_step",
+          "repeat": 0,
+          "seed": 70001
+        },
+        {
+          "action_hash": "636f2cab121f53090fabc794d9803efba11b14469abcac87d777d5e5d715614d",
+          "action_hash_match": true,
+          "base_state_hash": "4744e410b91153f99bfd02e242eea052489c61a5ce45a3df5938a427507f8e4b",
+          "execution": {
+            "control_substeps": 1,
+            "deterministic": true,
+            "hz": 480,
+            "post_action_settle_steps": 240
+          },
+          "free_base_state_hash_match": true,
+          "free_events": [
+            {
+              "name": "branch_start",
+              "physics_step": 0
+            },
+            {
+              "name": "no_action_end",
+              "physics_step": 240
+            },
+            {
+              "name": "preload_start",
+              "physics_step": 240
+            },
+            {
+              "name": "preload_end",
+              "physics_step": 829
+            },
+            {
+              "name": "main_pull_start",
+              "physics_step": 829
+            },
+            {
+              "name": "main_pull_end",
+              "physics_step": 1478
+            },
+            {
+              "name": "post_main_end",
+              "physics_step": 1718
+            }
+          ],
+          "free_hidden_initial_hash_match": true,
+          "free_initial_hash": "4744e410b91153f99bfd02e242eea052489c61a5ce45a3df5938a427507f8e4b",
+          "free_trace_hash": "6e57282ee2585812762182443b358ec89e000019c574cd762390a73a418dc4bc",
+          "free_trace_length": 429,
+          "group_id": "det_070001_r1",
+          "hidden_base_state_hash_match": true,
+          "hidden_events": [
+            {
+              "name": "branch_start",
+              "physics_step": 0
+            },
+            {
+              "name": "no_action_end",
+              "physics_step": 240
+            },
+            {
+              "name": "preload_start",
+              "physics_step": 240
+            },
+            {
+              "name": "preload_end",
+              "physics_step": 731
+            },
+            {
+              "name": "main_pull_start",
+              "physics_step": 731
+            },
+            {
+              "name": "main_pull_end",
+              "physics_step": 1379
+            },
+            {
+              "name": "post_main_end",
+              "physics_step": 1619
+            }
+          ],
+          "hidden_initial_hash": "4744e410b91153f99bfd02e242eea052489c61a5ce45a3df5938a427507f8e4b",
+          "hidden_trace_hash": "ba49f04973b8e8b96cedff40c7fc4f8704682aa5521781c49aa8c37299da78e5",
+          "hidden_trace_length": 404,
+          "max_initial_state_difference": 0.0,
+          "metrics": {
+            "action_hash_match": true,
+            "contact_impulse_gap": 0.18339501163772956,
+            "free_arm_max_abs_jump": 0.0,
+            "free_no_action_drift": 0.0003073044061898122,
+            "free_preload_contact_impulse": 0.0,
+            "hidden_arm_max_abs_jump": 0.0,
+            "hidden_no_action_drift": 0.00032429772386867933,
+            "hidden_preload_contact_impulse": 0.18339501163772956,
+            "initial_max_abs_xy": 4.69187584106745e-06,
+            "main_branch_ade": 0.003764434061211723,
+            "main_branch_fde": 0.0046407555136610155,
+            "post_main_branch_fde": 0.0046292761538266934,
+            "preload_end_max_abs_xy": 0.00561542753926858
+          },
+          "pairing_mode": "pybullet_save_restore_fixed_step",
+          "repeat": 1,
+          "seed": 70001
+        },
+        {
+          "action_hash": "636f2cab121f53090fabc794d9803efba11b14469abcac87d777d5e5d715614d",
+          "action_hash_match": true,
+          "base_state_hash": "4744e410b91153f99bfd02e242eea052489c61a5ce45a3df5938a427507f8e4b",
+          "execution": {
+            "control_substeps": 1,
+            "deterministic": true,
+            "hz": 480,
+            "post_action_settle_steps": 240
+          },
+          "free_base_state_hash_match": true,
+          "free_events": [
+            {
+              "name": "branch_start",
+              "physics_step": 0
+            },
+            {
+              "name": "no_action_end",
+              "physics_step": 240
+            },
+            {
+              "name": "preload_start",
+              "physics_step": 240
+            },
+            {
+              "name": "preload_end",
+              "physics_step": 829
+            },
+            {
+              "name": "main_pull_start",
+              "physics_step": 829
+            },
+            {
+              "name": "main_pull_end",
+              "physics_step": 1478
+            },
+            {
+              "name": "post_main_end",
+              "physics_step": 1718
+            }
+          ],
+          "free_hidden_initial_hash_match": true,
+          "free_initial_hash": "4744e410b91153f99bfd02e242eea052489c61a5ce45a3df5938a427507f8e4b",
+          "free_trace_hash": "6e57282ee2585812762182443b358ec89e000019c574cd762390a73a418dc4bc",
+          "free_trace_length": 429,
+          "group_id": "det_070001_r2",
+          "hidden_base_state_hash_match": true,
+          "hidden_events": [
+            {
+              "name": "branch_start",
+              "physics_step": 0
+            },
+            {
+              "name": "no_action_end",
+              "physics_step": 240
+            },
+            {
+              "name": "preload_start",
+              "physics_step": 240
+            },
+            {
+              "name": "preload_end",
+              "physics_step": 731
+            },
+            {
+              "name": "main_pull_start",
+              "physics_step": 731
+            },
+            {
+              "name": "main_pull_end",
+              "physics_step": 1379
+            },
+            {
+              "name": "post_main_end",
+              "physics_step": 1619
+            }
+          ],
+          "hidden_initial_hash": "4744e410b91153f99bfd02e242eea052489c61a5ce45a3df5938a427507f8e4b",
+          "hidden_trace_hash": "ba49f04973b8e8b96cedff40c7fc4f8704682aa5521781c49aa8c37299da78e5",
+          "hidden_trace_length": 404,
+          "max_initial_state_difference": 0.0,
+          "metrics": {
+            "action_hash_match": true,
+            "contact_impulse_gap": 0.18339501163772956,
+            "free_arm_max_abs_jump": 0.0,
+            "free_no_action_drift": 0.0003073044061898122,
+            "free_preload_contact_impulse": 0.0,
+            "hidden_arm_max_abs_jump": 0.0,
+            "hidden_no_action_drift": 0.00032429772386867933,
+            "hidden_preload_contact_impulse": 0.18339501163772956,
+            "initial_max_abs_xy": 4.69187584106745e-06,
+            "main_branch_ade": 0.003764434061211723,
+            "main_branch_fde": 0.0046407555136610155,
+            "post_main_branch_fde": 0.0046292761538266934,
+            "preload_end_max_abs_xy": 0.00561542753926858
+          },
+          "pairing_mode": "pybullet_save_restore_fixed_step",
+          "repeat": 2,
+          "seed": 70001
+        }
+      ],
+      "seed": 70001
+    },
+    {
+      "byte_exact": true,
+      "free_trace_comparisons": [
+        {
+          "byte_exact": true,
+          "candidate_repeat": 1,
+          "fields": {
+            "bead_positions": {
+              "exact": true,
+              "first_shape": [
+                487,
+                24,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                487,
+                24,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "bead_velocities": {
+              "exact": true,
+              "first_shape": [
+                487,
+                24,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                487,
+                24,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_active_beads": {
+              "exact": true,
+              "first_shape": [
+                487
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                487
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_force_norm": {
+              "exact": true,
+              "first_shape": [
+                487
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                487
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_force_xyz": {
+              "exact": true,
+              "first_shape": [
+                487,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                487,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_max_force_norm": {
+              "exact": true,
+              "first_shape": [
+                487
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                487
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_mean_speed": {
+              "exact": true,
+              "first_shape": [
+                487
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                487
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "ee_orientation": {
+              "exact": true,
+              "first_shape": [
+                487,
+                4
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                487,
+                4
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "ee_position": {
+              "exact": true,
+              "first_shape": [
+                487,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                487,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "joint_positions": {
+              "exact": true,
+              "first_shape": [
+                487,
+                6
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                487,
+                6
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "joint_velocities": {
+              "exact": true,
+              "first_shape": [
+                487,
+                6
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                487,
+                6
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "phase": {
+              "exact": true,
+              "first_shape": [
+                487
+              ],
+              "max_abs": null,
+              "present_in_both": true,
+              "second_shape": [
+                487
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "physics_step": {
+              "exact": true,
+              "first_shape": [
+                487
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                487
+              ],
+              "shape_match": true,
+              "within_atol": true
+            }
+          },
+          "keys_match": true,
+          "numeric_within_atol": true,
+          "passed": true,
+          "phase_exact": true,
+          "reference_repeat": 0,
+          "shape_match": true
+        },
+        {
+          "byte_exact": true,
+          "candidate_repeat": 2,
+          "fields": {
+            "bead_positions": {
+              "exact": true,
+              "first_shape": [
+                487,
+                24,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                487,
+                24,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "bead_velocities": {
+              "exact": true,
+              "first_shape": [
+                487,
+                24,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                487,
+                24,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_active_beads": {
+              "exact": true,
+              "first_shape": [
+                487
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                487
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_force_norm": {
+              "exact": true,
+              "first_shape": [
+                487
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                487
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_force_xyz": {
+              "exact": true,
+              "first_shape": [
+                487,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                487,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_max_force_norm": {
+              "exact": true,
+              "first_shape": [
+                487
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                487
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_mean_speed": {
+              "exact": true,
+              "first_shape": [
+                487
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                487
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "ee_orientation": {
+              "exact": true,
+              "first_shape": [
+                487,
+                4
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                487,
+                4
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "ee_position": {
+              "exact": true,
+              "first_shape": [
+                487,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                487,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "joint_positions": {
+              "exact": true,
+              "first_shape": [
+                487,
+                6
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                487,
+                6
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "joint_velocities": {
+              "exact": true,
+              "first_shape": [
+                487,
+                6
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                487,
+                6
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "phase": {
+              "exact": true,
+              "first_shape": [
+                487
+              ],
+              "max_abs": null,
+              "present_in_both": true,
+              "second_shape": [
+                487
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "physics_step": {
+              "exact": true,
+              "first_shape": [
+                487
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                487
+              ],
+              "shape_match": true,
+              "within_atol": true
+            }
+          },
+          "keys_match": true,
+          "numeric_within_atol": true,
+          "passed": true,
+          "phase_exact": true,
+          "reference_repeat": 0,
+          "shape_match": true
+        }
+      ],
+      "hidden_trace_comparisons": [
+        {
+          "byte_exact": true,
+          "candidate_repeat": 1,
+          "fields": {
+            "bead_positions": {
+              "exact": true,
+              "first_shape": [
+                456,
+                24,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                456,
+                24,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "bead_velocities": {
+              "exact": true,
+              "first_shape": [
+                456,
+                24,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                456,
+                24,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_active_beads": {
+              "exact": true,
+              "first_shape": [
+                456
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                456
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_force_norm": {
+              "exact": true,
+              "first_shape": [
+                456
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                456
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_force_xyz": {
+              "exact": true,
+              "first_shape": [
+                456,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                456,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_max_force_norm": {
+              "exact": true,
+              "first_shape": [
+                456
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                456
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_mean_speed": {
+              "exact": true,
+              "first_shape": [
+                456
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                456
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "ee_orientation": {
+              "exact": true,
+              "first_shape": [
+                456,
+                4
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                456,
+                4
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "ee_position": {
+              "exact": true,
+              "first_shape": [
+                456,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                456,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "joint_positions": {
+              "exact": true,
+              "first_shape": [
+                456,
+                6
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                456,
+                6
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "joint_velocities": {
+              "exact": true,
+              "first_shape": [
+                456,
+                6
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                456,
+                6
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "phase": {
+              "exact": true,
+              "first_shape": [
+                456
+              ],
+              "max_abs": null,
+              "present_in_both": true,
+              "second_shape": [
+                456
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "physics_step": {
+              "exact": true,
+              "first_shape": [
+                456
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                456
+              ],
+              "shape_match": true,
+              "within_atol": true
+            }
+          },
+          "keys_match": true,
+          "numeric_within_atol": true,
+          "passed": true,
+          "phase_exact": true,
+          "reference_repeat": 0,
+          "shape_match": true
+        },
+        {
+          "byte_exact": true,
+          "candidate_repeat": 2,
+          "fields": {
+            "bead_positions": {
+              "exact": true,
+              "first_shape": [
+                456,
+                24,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                456,
+                24,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "bead_velocities": {
+              "exact": true,
+              "first_shape": [
+                456,
+                24,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                456,
+                24,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_active_beads": {
+              "exact": true,
+              "first_shape": [
+                456
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                456
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_force_norm": {
+              "exact": true,
+              "first_shape": [
+                456
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                456
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_force_xyz": {
+              "exact": true,
+              "first_shape": [
+                456,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                456,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_max_force_norm": {
+              "exact": true,
+              "first_shape": [
+                456
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                456
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_mean_speed": {
+              "exact": true,
+              "first_shape": [
+                456
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                456
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "ee_orientation": {
+              "exact": true,
+              "first_shape": [
+                456,
+                4
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                456,
+                4
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "ee_position": {
+              "exact": true,
+              "first_shape": [
+                456,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                456,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "joint_positions": {
+              "exact": true,
+              "first_shape": [
+                456,
+                6
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                456,
+                6
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "joint_velocities": {
+              "exact": true,
+              "first_shape": [
+                456,
+                6
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                456,
+                6
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "phase": {
+              "exact": true,
+              "first_shape": [
+                456
+              ],
+              "max_abs": null,
+              "present_in_both": true,
+              "second_shape": [
+                456
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "physics_step": {
+              "exact": true,
+              "first_shape": [
+                456
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                456
+              ],
+              "shape_match": true,
+              "within_atol": true
+            }
+          },
+          "keys_match": true,
+          "numeric_within_atol": true,
+          "passed": true,
+          "phase_exact": true,
+          "reference_repeat": 0,
+          "shape_match": true
+        }
+      ],
+      "max_numeric_error": 0.0,
+      "metadata_comparison": {
+        "checks": {
+          "action_hash": true,
+          "base_state_hash": true,
+          "free_events": true,
+          "free_trace_length": true,
+          "hidden_events": true,
+          "hidden_trace_length": true,
+          "pair_action_match": true,
+          "pair_initial_match": true
+        },
+        "passed": true
+      },
+      "metric_spread": {
+        "contact_impulse_gap": {
+          "max": 0.2441911695542668,
+          "min": 0.2441911695542668,
+          "range": 0.0
+        },
+        "main_branch_ade": {
+          "max": 0.002829126370891303,
+          "min": 0.002829126370891303,
+          "range": 0.0
+        },
+        "main_branch_fde": {
+          "max": 0.0036250499625145698,
+          "min": 0.0036250499625145698,
+          "range": 0.0
+        },
+        "post_main_branch_fde": {
+          "max": 0.003655613922320938,
+          "min": 0.003655613922320938,
+          "range": 0.0
+        },
+        "preload_end_max_abs_xy": {
+          "max": 0.010253378955984271,
+          "min": 0.010253378955984271,
+          "range": 0.0
+        }
+      },
+      "passed": true,
+      "repeats": [
+        {
+          "action_hash": "22859c1a164d6ee470e78fe30919852b8667863a7f044910fdeaf8c01f05a787",
+          "action_hash_match": true,
+          "base_state_hash": "05c9f9b14eb66056a5c9234fc2580f540f95883a45ef6776ac46b8586a94932c",
+          "execution": {
+            "control_substeps": 1,
+            "deterministic": true,
+            "hz": 480,
+            "post_action_settle_steps": 240
+          },
+          "free_base_state_hash_match": true,
+          "free_events": [
+            {
+              "name": "branch_start",
+              "physics_step": 0
+            },
+            {
+              "name": "no_action_end",
+              "physics_step": 240
+            },
+            {
+              "name": "preload_start",
+              "physics_step": 240
+            },
+            {
+              "name": "preload_end",
+              "physics_step": 896
+            },
+            {
+              "name": "main_pull_start",
+              "physics_step": 896
+            },
+            {
+              "name": "main_pull_end",
+              "physics_step": 1708
+            },
+            {
+              "name": "post_main_end",
+              "physics_step": 1948
+            }
+          ],
+          "free_hidden_initial_hash_match": true,
+          "free_initial_hash": "05c9f9b14eb66056a5c9234fc2580f540f95883a45ef6776ac46b8586a94932c",
+          "free_trace_hash": "233755f285885c34253ce57bae03261e0a7b135afe4fe119dbdf7ca7d296a498",
+          "free_trace_length": 487,
+          "group_id": "det_070002_r0",
+          "hidden_base_state_hash_match": true,
+          "hidden_events": [
+            {
+              "name": "branch_start",
+              "physics_step": 0
+            },
+            {
+              "name": "no_action_end",
+              "physics_step": 240
+            },
+            {
+              "name": "preload_start",
+              "physics_step": 240
+            },
+            {
+              "name": "preload_end",
+              "physics_step": 767
+            },
+            {
+              "name": "main_pull_start",
+              "physics_step": 767
+            },
+            {
+              "name": "main_pull_end",
+              "physics_step": 1585
+            },
+            {
+              "name": "post_main_end",
+              "physics_step": 1825
+            }
+          ],
+          "hidden_initial_hash": "05c9f9b14eb66056a5c9234fc2580f540f95883a45ef6776ac46b8586a94932c",
+          "hidden_trace_hash": "1941f672299030d801a6854a5eea7028c763bdb538102a299573d401ec472083",
+          "hidden_trace_length": 456,
+          "max_initial_state_difference": 0.0,
+          "metrics": {
+            "action_hash_match": true,
+            "contact_impulse_gap": 0.2441911695542668,
+            "free_arm_max_abs_jump": 0.0,
+            "free_no_action_drift": 0.0004324956584163965,
+            "free_preload_contact_impulse": 0.0,
+            "hidden_arm_max_abs_jump": 0.0,
+            "hidden_no_action_drift": 0.0002114561368793361,
+            "hidden_preload_contact_impulse": 0.2441911695542668,
+            "initial_max_abs_xy": 4.0939321764299486e-06,
+            "main_branch_ade": 0.002829126370891303,
+            "main_branch_fde": 0.0036250499625145698,
+            "post_main_branch_fde": 0.003655613922320938,
+            "preload_end_max_abs_xy": 0.010253378955984271
+          },
+          "pairing_mode": "pybullet_save_restore_fixed_step",
+          "repeat": 0,
+          "seed": 70002
+        },
+        {
+          "action_hash": "22859c1a164d6ee470e78fe30919852b8667863a7f044910fdeaf8c01f05a787",
+          "action_hash_match": true,
+          "base_state_hash": "05c9f9b14eb66056a5c9234fc2580f540f95883a45ef6776ac46b8586a94932c",
+          "execution": {
+            "control_substeps": 1,
+            "deterministic": true,
+            "hz": 480,
+            "post_action_settle_steps": 240
+          },
+          "free_base_state_hash_match": true,
+          "free_events": [
+            {
+              "name": "branch_start",
+              "physics_step": 0
+            },
+            {
+              "name": "no_action_end",
+              "physics_step": 240
+            },
+            {
+              "name": "preload_start",
+              "physics_step": 240
+            },
+            {
+              "name": "preload_end",
+              "physics_step": 896
+            },
+            {
+              "name": "main_pull_start",
+              "physics_step": 896
+            },
+            {
+              "name": "main_pull_end",
+              "physics_step": 1708
+            },
+            {
+              "name": "post_main_end",
+              "physics_step": 1948
+            }
+          ],
+          "free_hidden_initial_hash_match": true,
+          "free_initial_hash": "05c9f9b14eb66056a5c9234fc2580f540f95883a45ef6776ac46b8586a94932c",
+          "free_trace_hash": "233755f285885c34253ce57bae03261e0a7b135afe4fe119dbdf7ca7d296a498",
+          "free_trace_length": 487,
+          "group_id": "det_070002_r1",
+          "hidden_base_state_hash_match": true,
+          "hidden_events": [
+            {
+              "name": "branch_start",
+              "physics_step": 0
+            },
+            {
+              "name": "no_action_end",
+              "physics_step": 240
+            },
+            {
+              "name": "preload_start",
+              "physics_step": 240
+            },
+            {
+              "name": "preload_end",
+              "physics_step": 767
+            },
+            {
+              "name": "main_pull_start",
+              "physics_step": 767
+            },
+            {
+              "name": "main_pull_end",
+              "physics_step": 1585
+            },
+            {
+              "name": "post_main_end",
+              "physics_step": 1825
+            }
+          ],
+          "hidden_initial_hash": "05c9f9b14eb66056a5c9234fc2580f540f95883a45ef6776ac46b8586a94932c",
+          "hidden_trace_hash": "1941f672299030d801a6854a5eea7028c763bdb538102a299573d401ec472083",
+          "hidden_trace_length": 456,
+          "max_initial_state_difference": 0.0,
+          "metrics": {
+            "action_hash_match": true,
+            "contact_impulse_gap": 0.2441911695542668,
+            "free_arm_max_abs_jump": 0.0,
+            "free_no_action_drift": 0.0004324956584163965,
+            "free_preload_contact_impulse": 0.0,
+            "hidden_arm_max_abs_jump": 0.0,
+            "hidden_no_action_drift": 0.0002114561368793361,
+            "hidden_preload_contact_impulse": 0.2441911695542668,
+            "initial_max_abs_xy": 4.0939321764299486e-06,
+            "main_branch_ade": 0.002829126370891303,
+            "main_branch_fde": 0.0036250499625145698,
+            "post_main_branch_fde": 0.003655613922320938,
+            "preload_end_max_abs_xy": 0.010253378955984271
+          },
+          "pairing_mode": "pybullet_save_restore_fixed_step",
+          "repeat": 1,
+          "seed": 70002
+        },
+        {
+          "action_hash": "22859c1a164d6ee470e78fe30919852b8667863a7f044910fdeaf8c01f05a787",
+          "action_hash_match": true,
+          "base_state_hash": "05c9f9b14eb66056a5c9234fc2580f540f95883a45ef6776ac46b8586a94932c",
+          "execution": {
+            "control_substeps": 1,
+            "deterministic": true,
+            "hz": 480,
+            "post_action_settle_steps": 240
+          },
+          "free_base_state_hash_match": true,
+          "free_events": [
+            {
+              "name": "branch_start",
+              "physics_step": 0
+            },
+            {
+              "name": "no_action_end",
+              "physics_step": 240
+            },
+            {
+              "name": "preload_start",
+              "physics_step": 240
+            },
+            {
+              "name": "preload_end",
+              "physics_step": 896
+            },
+            {
+              "name": "main_pull_start",
+              "physics_step": 896
+            },
+            {
+              "name": "main_pull_end",
+              "physics_step": 1708
+            },
+            {
+              "name": "post_main_end",
+              "physics_step": 1948
+            }
+          ],
+          "free_hidden_initial_hash_match": true,
+          "free_initial_hash": "05c9f9b14eb66056a5c9234fc2580f540f95883a45ef6776ac46b8586a94932c",
+          "free_trace_hash": "233755f285885c34253ce57bae03261e0a7b135afe4fe119dbdf7ca7d296a498",
+          "free_trace_length": 487,
+          "group_id": "det_070002_r2",
+          "hidden_base_state_hash_match": true,
+          "hidden_events": [
+            {
+              "name": "branch_start",
+              "physics_step": 0
+            },
+            {
+              "name": "no_action_end",
+              "physics_step": 240
+            },
+            {
+              "name": "preload_start",
+              "physics_step": 240
+            },
+            {
+              "name": "preload_end",
+              "physics_step": 767
+            },
+            {
+              "name": "main_pull_start",
+              "physics_step": 767
+            },
+            {
+              "name": "main_pull_end",
+              "physics_step": 1585
+            },
+            {
+              "name": "post_main_end",
+              "physics_step": 1825
+            }
+          ],
+          "hidden_initial_hash": "05c9f9b14eb66056a5c9234fc2580f540f95883a45ef6776ac46b8586a94932c",
+          "hidden_trace_hash": "1941f672299030d801a6854a5eea7028c763bdb538102a299573d401ec472083",
+          "hidden_trace_length": 456,
+          "max_initial_state_difference": 0.0,
+          "metrics": {
+            "action_hash_match": true,
+            "contact_impulse_gap": 0.2441911695542668,
+            "free_arm_max_abs_jump": 0.0,
+            "free_no_action_drift": 0.0004324956584163965,
+            "free_preload_contact_impulse": 0.0,
+            "hidden_arm_max_abs_jump": 0.0,
+            "hidden_no_action_drift": 0.0002114561368793361,
+            "hidden_preload_contact_impulse": 0.2441911695542668,
+            "initial_max_abs_xy": 4.0939321764299486e-06,
+            "main_branch_ade": 0.002829126370891303,
+            "main_branch_fde": 0.0036250499625145698,
+            "post_main_branch_fde": 0.003655613922320938,
+            "preload_end_max_abs_xy": 0.010253378955984271
+          },
+          "pairing_mode": "pybullet_save_restore_fixed_step",
+          "repeat": 2,
+          "seed": 70002
+        }
+      ],
+      "seed": 70002
+    },
+    {
+      "byte_exact": true,
+      "free_trace_comparisons": [
+        {
+          "byte_exact": true,
+          "candidate_repeat": 1,
+          "fields": {
+            "bead_positions": {
+              "exact": true,
+              "first_shape": [
+                421,
+                24,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421,
+                24,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "bead_velocities": {
+              "exact": true,
+              "first_shape": [
+                421,
+                24,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421,
+                24,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_active_beads": {
+              "exact": true,
+              "first_shape": [
+                421
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_force_norm": {
+              "exact": true,
+              "first_shape": [
+                421
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_force_xyz": {
+              "exact": true,
+              "first_shape": [
+                421,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_max_force_norm": {
+              "exact": true,
+              "first_shape": [
+                421
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_mean_speed": {
+              "exact": true,
+              "first_shape": [
+                421
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "ee_orientation": {
+              "exact": true,
+              "first_shape": [
+                421,
+                4
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421,
+                4
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "ee_position": {
+              "exact": true,
+              "first_shape": [
+                421,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "joint_positions": {
+              "exact": true,
+              "first_shape": [
+                421,
+                6
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421,
+                6
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "joint_velocities": {
+              "exact": true,
+              "first_shape": [
+                421,
+                6
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421,
+                6
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "phase": {
+              "exact": true,
+              "first_shape": [
+                421
+              ],
+              "max_abs": null,
+              "present_in_both": true,
+              "second_shape": [
+                421
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "physics_step": {
+              "exact": true,
+              "first_shape": [
+                421
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421
+              ],
+              "shape_match": true,
+              "within_atol": true
+            }
+          },
+          "keys_match": true,
+          "numeric_within_atol": true,
+          "passed": true,
+          "phase_exact": true,
+          "reference_repeat": 0,
+          "shape_match": true
+        },
+        {
+          "byte_exact": true,
+          "candidate_repeat": 2,
+          "fields": {
+            "bead_positions": {
+              "exact": true,
+              "first_shape": [
+                421,
+                24,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421,
+                24,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "bead_velocities": {
+              "exact": true,
+              "first_shape": [
+                421,
+                24,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421,
+                24,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_active_beads": {
+              "exact": true,
+              "first_shape": [
+                421
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_force_norm": {
+              "exact": true,
+              "first_shape": [
+                421
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_force_xyz": {
+              "exact": true,
+              "first_shape": [
+                421,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_max_force_norm": {
+              "exact": true,
+              "first_shape": [
+                421
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_mean_speed": {
+              "exact": true,
+              "first_shape": [
+                421
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "ee_orientation": {
+              "exact": true,
+              "first_shape": [
+                421,
+                4
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421,
+                4
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "ee_position": {
+              "exact": true,
+              "first_shape": [
+                421,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "joint_positions": {
+              "exact": true,
+              "first_shape": [
+                421,
+                6
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421,
+                6
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "joint_velocities": {
+              "exact": true,
+              "first_shape": [
+                421,
+                6
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421,
+                6
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "phase": {
+              "exact": true,
+              "first_shape": [
+                421
+              ],
+              "max_abs": null,
+              "present_in_both": true,
+              "second_shape": [
+                421
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "physics_step": {
+              "exact": true,
+              "first_shape": [
+                421
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421
+              ],
+              "shape_match": true,
+              "within_atol": true
+            }
+          },
+          "keys_match": true,
+          "numeric_within_atol": true,
+          "passed": true,
+          "phase_exact": true,
+          "reference_repeat": 0,
+          "shape_match": true
+        }
+      ],
+      "hidden_trace_comparisons": [
+        {
+          "byte_exact": true,
+          "candidate_repeat": 1,
+          "fields": {
+            "bead_positions": {
+              "exact": true,
+              "first_shape": [
+                421,
+                24,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421,
+                24,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "bead_velocities": {
+              "exact": true,
+              "first_shape": [
+                421,
+                24,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421,
+                24,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_active_beads": {
+              "exact": true,
+              "first_shape": [
+                421
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_force_norm": {
+              "exact": true,
+              "first_shape": [
+                421
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_force_xyz": {
+              "exact": true,
+              "first_shape": [
+                421,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_max_force_norm": {
+              "exact": true,
+              "first_shape": [
+                421
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_mean_speed": {
+              "exact": true,
+              "first_shape": [
+                421
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "ee_orientation": {
+              "exact": true,
+              "first_shape": [
+                421,
+                4
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421,
+                4
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "ee_position": {
+              "exact": true,
+              "first_shape": [
+                421,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "joint_positions": {
+              "exact": true,
+              "first_shape": [
+                421,
+                6
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421,
+                6
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "joint_velocities": {
+              "exact": true,
+              "first_shape": [
+                421,
+                6
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421,
+                6
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "phase": {
+              "exact": true,
+              "first_shape": [
+                421
+              ],
+              "max_abs": null,
+              "present_in_both": true,
+              "second_shape": [
+                421
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "physics_step": {
+              "exact": true,
+              "first_shape": [
+                421
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421
+              ],
+              "shape_match": true,
+              "within_atol": true
+            }
+          },
+          "keys_match": true,
+          "numeric_within_atol": true,
+          "passed": true,
+          "phase_exact": true,
+          "reference_repeat": 0,
+          "shape_match": true
+        },
+        {
+          "byte_exact": true,
+          "candidate_repeat": 2,
+          "fields": {
+            "bead_positions": {
+              "exact": true,
+              "first_shape": [
+                421,
+                24,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421,
+                24,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "bead_velocities": {
+              "exact": true,
+              "first_shape": [
+                421,
+                24,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421,
+                24,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_active_beads": {
+              "exact": true,
+              "first_shape": [
+                421
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_force_norm": {
+              "exact": true,
+              "first_shape": [
+                421
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_force_xyz": {
+              "exact": true,
+              "first_shape": [
+                421,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_max_force_norm": {
+              "exact": true,
+              "first_shape": [
+                421
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "contact_mean_speed": {
+              "exact": true,
+              "first_shape": [
+                421
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "ee_orientation": {
+              "exact": true,
+              "first_shape": [
+                421,
+                4
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421,
+                4
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "ee_position": {
+              "exact": true,
+              "first_shape": [
+                421,
+                3
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421,
+                3
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "joint_positions": {
+              "exact": true,
+              "first_shape": [
+                421,
+                6
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421,
+                6
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "joint_velocities": {
+              "exact": true,
+              "first_shape": [
+                421,
+                6
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421,
+                6
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "phase": {
+              "exact": true,
+              "first_shape": [
+                421
+              ],
+              "max_abs": null,
+              "present_in_both": true,
+              "second_shape": [
+                421
+              ],
+              "shape_match": true,
+              "within_atol": true
+            },
+            "physics_step": {
+              "exact": true,
+              "first_shape": [
+                421
+              ],
+              "max_abs": 0.0,
+              "present_in_both": true,
+              "second_shape": [
+                421
+              ],
+              "shape_match": true,
+              "within_atol": true
+            }
+          },
+          "keys_match": true,
+          "numeric_within_atol": true,
+          "passed": true,
+          "phase_exact": true,
+          "reference_repeat": 0,
+          "shape_match": true
+        }
+      ],
+      "max_numeric_error": 0.0,
+      "metadata_comparison": {
+        "checks": {
+          "action_hash": true,
+          "base_state_hash": true,
+          "free_events": true,
+          "free_trace_length": true,
+          "hidden_events": true,
+          "hidden_trace_length": true,
+          "pair_action_match": true,
+          "pair_initial_match": true
+        },
+        "passed": true
+      },
+      "metric_spread": {
+        "contact_impulse_gap": {
+          "max": 0.21589776299377747,
+          "min": 0.21589776299377747,
+          "range": 0.0
+        },
+        "main_branch_ade": {
+          "max": 0.0014078716435122264,
+          "min": 0.0014078716435122264,
+          "range": 0.0
+        },
+        "main_branch_fde": {
+          "max": 0.0021874585712695397,
+          "min": 0.0021874585712695397,
+          "range": 0.0
+        },
+        "post_main_branch_fde": {
+          "max": 0.002162600725458951,
+          "min": 0.002162600725458951,
+          "range": 0.0
+        },
+        "preload_end_max_abs_xy": {
+          "max": 0.0025823806169175123,
+          "min": 0.0025823806169175123,
+          "range": 0.0
+        }
+      },
+      "passed": true,
+      "repeats": [
+        {
+          "action_hash": "dd0550b632adbbf61ce0c47564d538f3156da12c7b1006dabb59a4165875dac2",
+          "action_hash_match": true,
+          "base_state_hash": "3bd27dc2a59e56014e26b0f745874a40f8f422014ac8e28f5a5c12bda66f4aa5",
+          "execution": {
+            "control_substeps": 1,
+            "deterministic": true,
+            "hz": 480,
+            "post_action_settle_steps": 240
+          },
+          "free_base_state_hash_match": true,
+          "free_events": [
+            {
+              "name": "branch_start",
+              "physics_step": 0
+            },
+            {
+              "name": "no_action_end",
+              "physics_step": 240
+            },
+            {
+              "name": "preload_start",
+              "physics_step": 240
+            },
+            {
+              "name": "preload_end",
+              "physics_step": 750
+            },
+            {
+              "name": "main_pull_start",
+              "physics_step": 750
+            },
+            {
+              "name": "main_pull_end",
+              "physics_step": 1445
+            },
+            {
+              "name": "post_main_end",
+              "physics_step": 1685
+            }
+          ],
+          "free_hidden_initial_hash_match": true,
+          "free_initial_hash": "3bd27dc2a59e56014e26b0f745874a40f8f422014ac8e28f5a5c12bda66f4aa5",
+          "free_trace_hash": "86707e5c314b30cd762f7197a004c12b2b37627ea6c24a5ef8674d75cb54cf02",
+          "free_trace_length": 421,
+          "group_id": "det_070003_r0",
+          "hidden_base_state_hash_match": true,
+          "hidden_events": [
+            {
+              "name": "branch_start",
+              "physics_step": 0
+            },
+            {
+              "name": "no_action_end",
+              "physics_step": 240
+            },
+            {
+              "name": "preload_start",
+              "physics_step": 240
+            },
+            {
+              "name": "preload_end",
+              "physics_step": 754
+            },
+            {
+              "name": "main_pull_start",
+              "physics_step": 754
+            },
+            {
+              "name": "main_pull_end",
+              "physics_step": 1447
+            },
+            {
+              "name": "post_main_end",
+              "physics_step": 1687
+            }
+          ],
+          "hidden_initial_hash": "3bd27dc2a59e56014e26b0f745874a40f8f422014ac8e28f5a5c12bda66f4aa5",
+          "hidden_trace_hash": "b126e6096d2f77a6061d12da9c0251a3f5eea4bbb0f53860852e9baad33a1bc4",
+          "hidden_trace_length": 421,
+          "max_initial_state_difference": 0.0,
+          "metrics": {
+            "action_hash_match": true,
+            "contact_impulse_gap": 0.21589776299377747,
+            "free_arm_max_abs_jump": 0.0,
+            "free_no_action_drift": 0.0005010136726743167,
+            "free_preload_contact_impulse": 0.0,
+            "hidden_arm_max_abs_jump": 0.0,
+            "hidden_no_action_drift": 0.00035191263523253407,
+            "hidden_preload_contact_impulse": 0.21589776299377747,
+            "initial_max_abs_xy": 5.183070962921921e-06,
+            "main_branch_ade": 0.0014078716435122264,
+            "main_branch_fde": 0.0021874585712695397,
+            "post_main_branch_fde": 0.002162600725458951,
+            "preload_end_max_abs_xy": 0.0025823806169175123
+          },
+          "pairing_mode": "pybullet_save_restore_fixed_step",
+          "repeat": 0,
+          "seed": 70003
+        },
+        {
+          "action_hash": "dd0550b632adbbf61ce0c47564d538f3156da12c7b1006dabb59a4165875dac2",
+          "action_hash_match": true,
+          "base_state_hash": "3bd27dc2a59e56014e26b0f745874a40f8f422014ac8e28f5a5c12bda66f4aa5",
+          "execution": {
+            "control_substeps": 1,
+            "deterministic": true,
+            "hz": 480,
+            "post_action_settle_steps": 240
+          },
+          "free_base_state_hash_match": true,
+          "free_events": [
+            {
+              "name": "branch_start",
+              "physics_step": 0
+            },
+            {
+              "name": "no_action_end",
+              "physics_step": 240
+            },
+            {
+              "name": "preload_start",
+              "physics_step": 240
+            },
+            {
+              "name": "preload_end",
+              "physics_step": 750
+            },
+            {
+              "name": "main_pull_start",
+              "physics_step": 750
+            },
+            {
+              "name": "main_pull_end",
+              "physics_step": 1445
+            },
+            {
+              "name": "post_main_end",
+              "physics_step": 1685
+            }
+          ],
+          "free_hidden_initial_hash_match": true,
+          "free_initial_hash": "3bd27dc2a59e56014e26b0f745874a40f8f422014ac8e28f5a5c12bda66f4aa5",
+          "free_trace_hash": "86707e5c314b30cd762f7197a004c12b2b37627ea6c24a5ef8674d75cb54cf02",
+          "free_trace_length": 421,
+          "group_id": "det_070003_r1",
+          "hidden_base_state_hash_match": true,
+          "hidden_events": [
+            {
+              "name": "branch_start",
+              "physics_step": 0
+            },
+            {
+              "name": "no_action_end",
+              "physics_step": 240
+            },
+            {
+              "name": "preload_start",
+              "physics_step": 240
+            },
+            {
+              "name": "preload_end",
+              "physics_step": 754
+            },
+            {
+              "name": "main_pull_start",
+              "physics_step": 754
+            },
+            {
+              "name": "main_pull_end",
+              "physics_step": 1447
+            },
+            {
+              "name": "post_main_end",
+              "physics_step": 1687
+            }
+          ],
+          "hidden_initial_hash": "3bd27dc2a59e56014e26b0f745874a40f8f422014ac8e28f5a5c12bda66f4aa5",
+          "hidden_trace_hash": "b126e6096d2f77a6061d12da9c0251a3f5eea4bbb0f53860852e9baad33a1bc4",
+          "hidden_trace_length": 421,
+          "max_initial_state_difference": 0.0,
+          "metrics": {
+            "action_hash_match": true,
+            "contact_impulse_gap": 0.21589776299377747,
+            "free_arm_max_abs_jump": 0.0,
+            "free_no_action_drift": 0.0005010136726743167,
+            "free_preload_contact_impulse": 0.0,
+            "hidden_arm_max_abs_jump": 0.0,
+            "hidden_no_action_drift": 0.00035191263523253407,
+            "hidden_preload_contact_impulse": 0.21589776299377747,
+            "initial_max_abs_xy": 5.183070962921921e-06,
+            "main_branch_ade": 0.0014078716435122264,
+            "main_branch_fde": 0.0021874585712695397,
+            "post_main_branch_fde": 0.002162600725458951,
+            "preload_end_max_abs_xy": 0.0025823806169175123
+          },
+          "pairing_mode": "pybullet_save_restore_fixed_step",
+          "repeat": 1,
+          "seed": 70003
+        },
+        {
+          "action_hash": "dd0550b632adbbf61ce0c47564d538f3156da12c7b1006dabb59a4165875dac2",
+          "action_hash_match": true,
+          "base_state_hash": "3bd27dc2a59e56014e26b0f745874a40f8f422014ac8e28f5a5c12bda66f4aa5",
+          "execution": {
+            "control_substeps": 1,
+            "deterministic": true,
+            "hz": 480,
+            "post_action_settle_steps": 240
+          },
+          "free_base_state_hash_match": true,
+          "free_events": [
+            {
+              "name": "branch_start",
+              "physics_step": 0
+            },
+            {
+              "name": "no_action_end",
+              "physics_step": 240
+            },
+            {
+              "name": "preload_start",
+              "physics_step": 240
+            },
+            {
+              "name": "preload_end",
+              "physics_step": 750
+            },
+            {
+              "name": "main_pull_start",
+              "physics_step": 750
+            },
+            {
+              "name": "main_pull_end",
+              "physics_step": 1445
+            },
+            {
+              "name": "post_main_end",
+              "physics_step": 1685
+            }
+          ],
+          "free_hidden_initial_hash_match": true,
+          "free_initial_hash": "3bd27dc2a59e56014e26b0f745874a40f8f422014ac8e28f5a5c12bda66f4aa5",
+          "free_trace_hash": "86707e5c314b30cd762f7197a004c12b2b37627ea6c24a5ef8674d75cb54cf02",
+          "free_trace_length": 421,
+          "group_id": "det_070003_r2",
+          "hidden_base_state_hash_match": true,
+          "hidden_events": [
+            {
+              "name": "branch_start",
+              "physics_step": 0
+            },
+            {
+              "name": "no_action_end",
+              "physics_step": 240
+            },
+            {
+              "name": "preload_start",
+              "physics_step": 240
+            },
+            {
+              "name": "preload_end",
+              "physics_step": 754
+            },
+            {
+              "name": "main_pull_start",
+              "physics_step": 754
+            },
+            {
+              "name": "main_pull_end",
+              "physics_step": 1447
+            },
+            {
+              "name": "post_main_end",
+              "physics_step": 1687
+            }
+          ],
+          "hidden_initial_hash": "3bd27dc2a59e56014e26b0f745874a40f8f422014ac8e28f5a5c12bda66f4aa5",
+          "hidden_trace_hash": "b126e6096d2f77a6061d12da9c0251a3f5eea4bbb0f53860852e9baad33a1bc4",
+          "hidden_trace_length": 421,
+          "max_initial_state_difference": 0.0,
+          "metrics": {
+            "action_hash_match": true,
+            "contact_impulse_gap": 0.21589776299377747,
+            "free_arm_max_abs_jump": 0.0,
+            "free_no_action_drift": 0.0005010136726743167,
+            "free_preload_contact_impulse": 0.0,
+            "hidden_arm_max_abs_jump": 0.0,
+            "hidden_no_action_drift": 0.00035191263523253407,
+            "hidden_preload_contact_impulse": 0.21589776299377747,
+            "initial_max_abs_xy": 5.183070962921921e-06,
+            "main_branch_ade": 0.0014078716435122264,
+            "main_branch_fde": 0.0021874585712695397,
+            "post_main_branch_fde": 0.002162600725458951,
+            "preload_end_max_abs_xy": 0.0025823806169175123
+          },
+          "pairing_mode": "pybullet_save_restore_fixed_step",
+          "repeat": 2,
+          "seed": 70003
+        }
+      ],
+      "seed": 70003
+    }
+  ],
+  "seeds": [
+    70001,
+    70002,
+    70003
+  ],
+  "stage": "Experiment2 Phase 0D",
+  "submodule_sha": "9f56caeec7689514e1bd043da5ceccb8ffafb435"
+}

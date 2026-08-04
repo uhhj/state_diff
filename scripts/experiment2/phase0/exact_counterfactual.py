@@ -26,7 +26,6 @@ from scripts.experiment2.phase0.run_hidden_friction_pairs import (
     _environment_action,
     _trace_arrays,
     generate_action_script,
-    wait_physics_steps,
 )
 
 
@@ -101,6 +100,15 @@ def max_state_difference(
     return maximum
 
 
+def _mark_event(task: Any, events: List[Dict[str, Any]], name: str) -> None:
+    events.append(
+        {
+            "name": str(name),
+            "physics_step": int(task.physics_step_count()),
+        }
+    )
+
+
 def _run_restored_branch(
     env: Environment,
     task: Any,
@@ -117,14 +125,16 @@ def _run_restored_branch(
         task.reset_ccda_branch(condition)
         task.arm_hidden_friction_after_settle()
         branch_initial = capture_world_state(env, task)
-    env.start()
 
     base_hash = array_payload_sha256(base_state)
     initial_hash = array_payload_sha256(branch_initial)
     initial_difference = max_state_difference(base_state, branch_initial)
+    events: List[Dict[str, Any]] = []
+    _mark_event(task, events, "branch_start")
 
     task.set_ccda_phase("no_action")
-    wait_physics_steps(task, int(config["no_action_steps"]))
+    env.step_physics(int(config["no_action_steps"]))
+    _mark_event(task, events, "no_action_end")
     stable_beads = _bead_positions(task)
 
     if condition == "free" and action_script is None:
@@ -136,11 +146,18 @@ def _run_restored_branch(
     action_hash = canonical_json_sha256(action_script)
 
     task.set_ccda_phase("preload")
+    _mark_event(task, events, "preload_start")
     env.step(_environment_action(action_script[0]))
+    _mark_event(task, events, "preload_end")
+
     task.set_ccda_phase("main_pull")
+    _mark_event(task, events, "main_pull_start")
     env.step(_environment_action(action_script[1]))
+    _mark_event(task, events, "main_pull_end")
+
     task.set_ccda_phase("post_main")
-    wait_physics_steps(task, int(config["post_main_steps"]))
+    env.step_physics(int(config["post_main_steps"]))
+    _mark_event(task, events, "post_main_end")
 
     if env._ccda_physics_hook_error:
         raise RuntimeError(env._ccda_physics_hook_error)
@@ -154,7 +171,18 @@ def _run_restored_branch(
         "branch_initial_state_hash": initial_hash,
         "base_state_hash_match": base_hash == initial_hash,
         "initial_state_max_abs_difference": initial_difference,
-        "pairing_mode": "pybullet_save_restore_same_connection",
+        "pairing_mode": "pybullet_save_restore_fixed_step",
+        "execution": {
+            "deterministic": bool(env.deterministic),
+            "control_substeps": int(env.control_substeps),
+            "post_action_settle_steps": int(
+                env.post_action_settle_steps
+            ),
+            "hz": int(env.hz),
+        },
+        "events": events,
+        "trace_hash": array_payload_sha256(trace),
+        "trace_length": int(trace["phase"].shape[0]),
         "privileged_state": task.ccda_privileged_state(),
         "physics_steps_observed": int(task.physics_step_count()),
     }
@@ -166,7 +194,15 @@ def run_exact_counterfactual_pair(
     seed: int,
     group_id: str,
     disp: bool = False,
+    execution: Optional[Dict[str, Any]] = None,
 ):
+    execution = dict(execution or {})
+    deterministic = bool(execution.get("deterministic", True))
+    control_substeps = int(execution.get("control_substeps", 1))
+    post_action_settle_steps = int(
+        execution.get("post_action_settle_steps", 240)
+    )
+
     random.seed(seed)
     np.random.seed(seed)
     _configure_task_environment(config, "free", seed, group_id)
@@ -175,7 +211,13 @@ def run_exact_counterfactual_pair(
     env = None
     state_id = None
     try:
-        env = Environment(disp=disp, hz=int(config["hz"]))
+        env = Environment(
+            disp=disp,
+            hz=int(config["hz"]),
+            deterministic=deterministic,
+            control_substeps=control_substeps,
+            post_action_settle_steps=post_action_settle_steps,
+        )
         task = tasks.names[config["task_name"]]()
         env.reset(task)
         if task.ccda_is_armed():
@@ -233,7 +275,14 @@ def run_exact_counterfactual_pair(
             "action_hash_match": (
                 free_meta["action_hash"] == hidden_meta["action_hash"]
             ),
-            "pairing_mode": "pybullet_save_restore_same_connection",
+            "pairing_mode": "pybullet_save_restore_fixed_step",
+            "execution": free_meta["execution"],
+            "free_trace_hash": free_meta["trace_hash"],
+            "hidden_trace_hash": hidden_meta["trace_hash"],
+            "free_trace_length": free_meta["trace_length"],
+            "hidden_trace_length": hidden_meta["trace_length"],
+            "free_events": free_meta["events"],
+            "hidden_events": hidden_meta["events"],
         }
         return (
             free_trace,

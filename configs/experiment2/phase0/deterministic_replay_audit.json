@@ -1,0 +1,24 @@
+{
+  "base_config": "configs/experiment2/phase0/hidden_friction_cable.json",
+  "candidate": {
+    "id": "p02_n5_balanced",
+    "action": {
+      "preload_distance": 0.002
+    },
+    "friction": {
+      "selected_count": 5,
+      "patch_radius": 0.04,
+      "viscous_gain": 1.0,
+      "coulomb_force": 0.06,
+      "max_force": 0.5
+    }
+  },
+  "execution": {
+    "deterministic": true,
+    "control_substeps": 1,
+    "post_action_settle_steps": 240
+  },
+  "seeds": [70001, 70002, 70003],
+  "repeats": 3,
+  "numeric_atol": 1e-9
+}
