@@ -165,3 +165,14 @@ data/generated/
 
 # Experiment2 Phase 0 pilot raw rollouts
 reports/experiment2/phase0_hidden_friction/raw/
+
+# Experiment2 real PyBullet simulation videos are generated on the server.
+reports/experiment2/phase0_hidden_friction/simulation/**/*.mp4
+reports/experiment2/phase0_hidden_friction/simulation/**/*.frames.json
+reports/experiment2/phase0_hidden_friction/simulation/**/*_inspection.png
+
+# Keep one representative small visual artifact in Git; retain the others on the server.
+reports/experiment2/phase0_hidden_friction/simulation/hf_*/*_simulation.json
+reports/experiment2/phase0_hidden_friction/simulation/hf_*/*_side_by_side_contact_sheet.png
+!reports/experiment2/phase0_hidden_friction/simulation/hf_070001/hf_070001_simulation.json
+!reports/experiment2/phase0_hidden_friction/simulation/hf_070001/hf_070001_side_by_side_contact_sheet.png

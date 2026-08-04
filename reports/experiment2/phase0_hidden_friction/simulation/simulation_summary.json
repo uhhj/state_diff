@@ -1,0 +1,5060 @@
+{
+  "config_hash": "5812b93f815660149294a4f0be4853d157df2d75ca399896f8c6c1cc50f454ed",
+  "config_path": "configs/experiment2/phase0/hidden_friction_cable.json",
+  "groups": [
+    {
+      "action_hash": "12d144ad768daa76eeda9eb5e5e88682e7afa5c4a9a609f084e4c239fd441694",
+      "action_hash_match": true,
+      "free": {
+        "action_hash": "12d144ad768daa76eeda9eb5e5e88682e7afa5c4a9a609f084e4c239fd441694",
+        "action_script": [
+          {
+            "name": "preload",
+            "pose0": {
+              "position": [
+                0.6346441793494129,
+                0.3604497189983505,
+                0.001
+              ],
+              "quaternion": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            "pose1": {
+              "position": [
+                0.6377226925227858,
+                0.355299694081773,
+                0.001
+              ],
+              "quaternion": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            "primitive": "pick_place"
+          },
+          {
+            "name": "main_pull",
+            "pose0": {
+              "position": [
+                0.6377226925227858,
+                0.355299694081773,
+                0.001
+              ],
+              "quaternion": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            "pose1": {
+              "position": [
+                0.6839003901233803,
+                0.2780493203331105,
+                0.001
+              ],
+              "quaternion": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            "primitive": "pick_place"
+          }
+        ],
+        "condition": "free",
+        "group_id": "hf_070001",
+        "physics_steps_observed": 2512,
+        "seed": 70001,
+        "video": {
+          "camera_eye": [
+            0.68,
+            -0.82,
+            0.62
+          ],
+          "camera_target": [
+            0.5,
+            -0.02,
+            0.025
+          ],
+          "camera_up": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "codec": "mp4v",
+          "condition": "free",
+          "far": 3.0,
+          "fov": 50.0,
+          "fps": 20.0,
+          "frames": [
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 0,
+              "label": "initial",
+              "phase": "no_action",
+              "physics_step": 1136,
+              "record_call": 1
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 1,
+              "label": "no_action",
+              "phase": "no_action",
+              "physics_step": 1212,
+              "record_call": 21
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 2,
+              "label": "no_action",
+              "phase": "no_action",
+              "physics_step": 1292,
+              "record_call": 41
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 3,
+              "label": "no_action",
+              "phase": "no_action",
+              "physics_step": 1372,
+              "record_call": 61
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 4,
+              "label": "prepick",
+              "phase": "preload",
+              "physics_step": 1392,
+              "record_call": 81
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 5,
+              "label": "prepick",
+              "phase": "preload",
+              "physics_step": 1409,
+              "record_call": 101
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 6,
+              "label": "prepick",
+              "phase": "preload",
+              "physics_step": 1427,
+              "record_call": 121
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 7,
+              "label": "prepick",
+              "phase": "preload",
+              "physics_step": 1446,
+              "record_call": 141
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 8,
+              "label": "prepick",
+              "phase": "preload",
+              "physics_step": 1465,
+              "record_call": 161
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 9,
+              "label": "prepick",
+              "phase": "preload",
+              "physics_step": 1484,
+              "record_call": 181
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 10,
+              "label": "prepick",
+              "phase": "preload",
+              "physics_step": 1500,
+              "record_call": 201
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 11,
+              "label": "lower",
+              "phase": "preload",
+              "physics_step": 1517,
+              "record_call": 221
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 12,
+              "label": "lower",
+              "phase": "preload",
+              "physics_step": 1537,
+              "record_call": 241
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 13,
+              "label": "lower",
+              "phase": "preload",
+              "physics_step": 1557,
+              "record_call": 261
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 14,
+              "label": "lower",
+              "phase": "preload",
+              "physics_step": 1578,
+              "record_call": 281
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 15,
+              "label": "lower",
+              "phase": "preload",
+              "physics_step": 1598,
+              "record_call": 301
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 16,
+              "label": "lift",
+              "phase": "preload",
+              "physics_step": 1615,
+              "record_call": 321
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 17,
+              "label": "lift",
+              "phase": "preload",
+              "physics_step": 1632,
+              "record_call": 341
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 18,
+              "label": "lift",
+              "phase": "preload",
+              "physics_step": 1648,
+              "record_call": 361
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 19,
+              "label": "lower",
+              "phase": "preload",
+              "physics_step": 1663,
+              "record_call": 381
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 20,
+              "label": "release",
+              "phase": "preload",
+              "physics_step": 1682,
+              "record_call": 401
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 21,
+              "label": "release",
+              "phase": "preload",
+              "physics_step": 1700,
+              "record_call": 421
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 22,
+              "label": "release",
+              "phase": "preload",
+              "physics_step": 1717,
+              "record_call": 441
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 23,
+              "label": "release",
+              "phase": "preload",
+              "physics_step": 1735,
+              "record_call": 461
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 24,
+              "label": "release",
+              "phase": "preload",
+              "physics_step": 1754,
+              "record_call": 481
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 25,
+              "label": "main_pull_start",
+              "phase": "main_pull",
+              "physics_step": 1773,
+              "record_call": 501
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 26,
+              "label": "lower",
+              "phase": "main_pull",
+              "physics_step": 1792,
+              "record_call": 521
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 27,
+              "label": "lower",
+              "phase": "main_pull",
+              "physics_step": 1811,
+              "record_call": 541
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 28,
+              "label": "lower",
+              "phase": "main_pull",
+              "physics_step": 1831,
+              "record_call": 561
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 29,
+              "label": "lower",
+              "phase": "main_pull",
+              "physics_step": 1850,
+              "record_call": 581
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 30,
+              "label": "lift",
+              "phase": "main_pull",
+              "physics_step": 1868,
+              "record_call": 601
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 31,
+              "label": "lift",
+              "phase": "main_pull",
+              "physics_step": 1886,
+              "record_call": 621
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 32,
+              "label": "lift",
+              "phase": "main_pull",
+              "physics_step": 1903,
+              "record_call": 641
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 33,
+              "label": "lift",
+              "phase": "main_pull",
+              "physics_step": 1921,
+              "record_call": 661
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 34,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 1936,
+              "record_call": 681
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 35,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 1954,
+              "record_call": 701
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 36,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 1970,
+              "record_call": 721
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 37,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 1988,
+              "record_call": 741
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 38,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2006,
+              "record_call": 761
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 39,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2023,
+              "record_call": 781
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 40,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2041,
+              "record_call": 801
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 41,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2059,
+              "record_call": 821
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 42,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2073,
+              "record_call": 841
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 43,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2092,
+              "record_call": 861
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 44,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2109,
+              "record_call": 881
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 45,
+              "label": "lower",
+              "phase": "main_pull",
+              "physics_step": 2128,
+              "record_call": 901
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 46,
+              "label": "release",
+              "phase": "main_pull",
+              "physics_step": 2146,
+              "record_call": 921
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 47,
+              "label": "release",
+              "phase": "main_pull",
+              "physics_step": 2165,
+              "record_call": 941
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 48,
+              "label": "release",
+              "phase": "main_pull",
+              "physics_step": 2184,
+              "record_call": 961
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 49,
+              "label": "release",
+              "phase": "main_pull",
+              "physics_step": 2201,
+              "record_call": 981
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 50,
+              "label": "release",
+              "phase": "main_pull",
+              "physics_step": 2219,
+              "record_call": 1001
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 51,
+              "label": "settle",
+              "phase": "main_pull",
+              "physics_step": 2236,
+              "record_call": 1021
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 52,
+              "label": "settle",
+              "phase": "main_pull",
+              "physics_step": 2256,
+              "record_call": 1041
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 53,
+              "label": "post_main",
+              "phase": "post_main",
+              "physics_step": 2301,
+              "record_call": 1061
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 54,
+              "label": "post_main",
+              "phase": "post_main",
+              "physics_step": 2381,
+              "record_call": 1081
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 55,
+              "label": "post_main",
+              "phase": "post_main",
+              "physics_step": 2461,
+              "record_call": 1101
+            }
+          ],
+          "frames_written": 56,
+          "group_id": "hf_070001",
+          "height": 480,
+          "manifest_path": "/data/state_diff_experiment2/reports/experiment2/phase0_hidden_friction/simulation/hf_070001/hf_070001_free.frames.json",
+          "near": 0.01,
+          "output_path": "/data/state_diff_experiment2/reports/experiment2/phase0_hidden_friction/simulation/hf_070001/hf_070001_free.mp4",
+          "record_call_stride": 20,
+          "record_calls": 1113,
+          "renderer": "tiny",
+          "seed": 70001,
+          "width": 640
+        }
+      },
+      "group_id": "hf_070001",
+      "hidden_high_friction": {
+        "action_hash": "12d144ad768daa76eeda9eb5e5e88682e7afa5c4a9a609f084e4c239fd441694",
+        "action_script": [
+          {
+            "name": "preload",
+            "pose0": {
+              "position": [
+                0.6346441793494129,
+                0.3604497189983505,
+                0.001
+              ],
+              "quaternion": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            "pose1": {
+              "position": [
+                0.6377226925227858,
+                0.355299694081773,
+                0.001
+              ],
+              "quaternion": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            "primitive": "pick_place"
+          },
+          {
+            "name": "main_pull",
+            "pose0": {
+              "position": [
+                0.6377226925227858,
+                0.355299694081773,
+                0.001
+              ],
+              "quaternion": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            "pose1": {
+              "position": [
+                0.6839003901233803,
+                0.2780493203331105,
+                0.001
+              ],
+              "quaternion": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            "primitive": "pick_place"
+          }
+        ],
+        "condition": "hidden_high_friction",
+        "group_id": "hf_070001",
+        "physics_steps_observed": 2499,
+        "seed": 70001,
+        "video": {
+          "camera_eye": [
+            0.68,
+            -0.82,
+            0.62
+          ],
+          "camera_target": [
+            0.5,
+            -0.02,
+            0.025
+          ],
+          "camera_up": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "codec": "mp4v",
+          "condition": "hidden_high_friction",
+          "far": 3.0,
+          "fov": 50.0,
+          "fps": 20.0,
+          "frames": [
+            {
+              "contact": {
+                "active_beads": 3,
+                "force_norm": 0.3608566828175786,
+                "max_force_norm": 0.12043079206173474
+              },
+              "frame_index": 0,
+              "label": "initial",
+              "phase": "no_action",
+              "physics_step": 1107,
+              "record_call": 1
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.6016697232156677,
+                "max_force_norm": 0.12048949970796206
+              },
+              "frame_index": 1,
+              "label": "no_action",
+              "phase": "no_action",
+              "physics_step": 1183,
+              "record_call": 21
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.602934301804284,
+                "max_force_norm": 0.12105214235058054
+              },
+              "frame_index": 2,
+              "label": "no_action",
+              "phase": "no_action",
+              "physics_step": 1263,
+              "record_call": 41
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.6023069345411834,
+                "max_force_norm": 0.12063288044227405
+              },
+              "frame_index": 3,
+              "label": "no_action",
+              "phase": "no_action",
+              "physics_step": 1343,
+              "record_call": 61
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.4823189374920404,
+                "max_force_norm": 0.12091973203165818
+              },
+              "frame_index": 4,
+              "label": "prepick",
+              "phase": "preload",
+              "physics_step": 1362,
+              "record_call": 81
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.4821101823693017,
+                "max_force_norm": 0.12098304512740005
+              },
+              "frame_index": 5,
+              "label": "prepick",
+              "phase": "preload",
+              "physics_step": 1382,
+              "record_call": 101
+            },
+            {
+              "contact": {
+                "active_beads": 3,
+                "force_norm": 0.36220822125570873,
+                "max_force_norm": 0.12117841801675844
+              },
+              "frame_index": 6,
+              "label": "prepick",
+              "phase": "preload",
+              "physics_step": 1402,
+              "record_call": 121
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.602164542105756,
+                "max_force_norm": 0.12084297926782264
+              },
+              "frame_index": 7,
+              "label": "prepick",
+              "phase": "preload",
+              "physics_step": 1419,
+              "record_call": 141
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.6024955658765001,
+                "max_force_norm": 0.12069327820536659
+              },
+              "frame_index": 8,
+              "label": "prepick",
+              "phase": "preload",
+              "physics_step": 1436,
+              "record_call": 161
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.6028627204852254,
+                "max_force_norm": 0.12078387648229806
+              },
+              "frame_index": 9,
+              "label": "prepick",
+              "phase": "preload",
+              "physics_step": 1452,
+              "record_call": 181
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.6029003333204992,
+                "max_force_norm": 0.1208298493892893
+              },
+              "frame_index": 10,
+              "label": "prepick",
+              "phase": "preload",
+              "physics_step": 1470,
+              "record_call": 201
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.6020996713286721,
+                "max_force_norm": 0.12076072312803886
+              },
+              "frame_index": 11,
+              "label": "lower",
+              "phase": "preload",
+              "physics_step": 1489,
+              "record_call": 221
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.48163900028780604,
+                "max_force_norm": 0.12075464929015244
+              },
+              "frame_index": 12,
+              "label": "lower",
+              "phase": "preload",
+              "physics_step": 1508,
+              "record_call": 241
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.48147392317718035,
+                "max_force_norm": 0.12059498063419093
+              },
+              "frame_index": 13,
+              "label": "lower",
+              "phase": "preload",
+              "physics_step": 1528,
+              "record_call": 261
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.602505261455062,
+                "max_force_norm": 0.12125149122681267
+              },
+              "frame_index": 14,
+              "label": "lower",
+              "phase": "preload",
+              "physics_step": 1548,
+              "record_call": 281
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.4824850302766197,
+                "max_force_norm": 0.12119920029974116
+              },
+              "frame_index": 15,
+              "label": "lift",
+              "phase": "preload",
+              "physics_step": 1565,
+              "record_call": 301
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.48160660518772136,
+                "max_force_norm": 0.12084999812919202
+              },
+              "frame_index": 16,
+              "label": "lift",
+              "phase": "preload",
+              "physics_step": 1582,
+              "record_call": 321
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.4814725258019408,
+                "max_force_norm": 0.12057666056102812
+              },
+              "frame_index": 17,
+              "label": "lift",
+              "phase": "preload",
+              "physics_step": 1602,
+              "record_call": 341
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.4823759008585046,
+                "max_force_norm": 0.12081593801694261
+              },
+              "frame_index": 18,
+              "label": "lift",
+              "phase": "preload",
+              "physics_step": 1619,
+              "record_call": 361
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.4841145028406956,
+                "max_force_norm": 0.1221063573432708
+              },
+              "frame_index": 19,
+              "label": "release",
+              "phase": "preload",
+              "physics_step": 1636,
+              "record_call": 381
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.6037771788984774,
+                "max_force_norm": 0.1216157946815152
+              },
+              "frame_index": 20,
+              "label": "release",
+              "phase": "preload",
+              "physics_step": 1655,
+              "record_call": 401
+            },
+            {
+              "contact": {
+                "active_beads": 1,
+                "force_norm": 0.12015632084772748,
+                "max_force_norm": 0.12015632084772748
+              },
+              "frame_index": 21,
+              "label": "release",
+              "phase": "preload",
+              "physics_step": 1674,
+              "record_call": 421
+            },
+            {
+              "contact": {
+                "active_beads": 1,
+                "force_norm": 0.12017117089988451,
+                "max_force_norm": 0.12017117089988451
+              },
+              "frame_index": 22,
+              "label": "release",
+              "phase": "preload",
+              "physics_step": 1692,
+              "record_call": 441
+            },
+            {
+              "contact": {
+                "active_beads": 2,
+                "force_norm": 0.24085528490599134,
+                "max_force_norm": 0.12068338772436618
+              },
+              "frame_index": 23,
+              "label": "release",
+              "phase": "preload",
+              "physics_step": 1710,
+              "record_call": 461
+            },
+            {
+              "contact": {
+                "active_beads": 2,
+                "force_norm": 0.2406859874324106,
+                "max_force_norm": 0.12037521609025749
+              },
+              "frame_index": 24,
+              "label": "release",
+              "phase": "preload",
+              "physics_step": 1726,
+              "record_call": 481
+            },
+            {
+              "contact": {
+                "active_beads": 3,
+                "force_norm": 0.36065410623860095,
+                "max_force_norm": 0.120268041375861
+              },
+              "frame_index": 25,
+              "label": "settle",
+              "phase": "preload",
+              "physics_step": 1743,
+              "record_call": 501
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.48088590404795284,
+                "max_force_norm": 0.12031486212220348
+              },
+              "frame_index": 26,
+              "label": "lower",
+              "phase": "main_pull",
+              "physics_step": 1762,
+              "record_call": 521
+            },
+            {
+              "contact": {
+                "active_beads": 3,
+                "force_norm": 0.3605746057754972,
+                "max_force_norm": 0.12027047723981017
+              },
+              "frame_index": 27,
+              "label": "lower",
+              "phase": "main_pull",
+              "physics_step": 1782,
+              "record_call": 541
+            },
+            {
+              "contact": {
+                "active_beads": 3,
+                "force_norm": 0.3606987140383508,
+                "max_force_norm": 0.1203668548934161
+              },
+              "frame_index": 28,
+              "label": "lower",
+              "phase": "main_pull",
+              "physics_step": 1802,
+              "record_call": 561
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.4812646642741257,
+                "max_force_norm": 0.120418454415491
+              },
+              "frame_index": 29,
+              "label": "lower",
+              "phase": "main_pull",
+              "physics_step": 1822,
+              "record_call": 581
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.4836072053193789,
+                "max_force_norm": 0.1217571057558978
+              },
+              "frame_index": 30,
+              "label": "lift",
+              "phase": "main_pull",
+              "physics_step": 1839,
+              "record_call": 601
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.6098172210226824,
+                "max_force_norm": 0.12422603914382138
+              },
+              "frame_index": 31,
+              "label": "lift",
+              "phase": "main_pull",
+              "physics_step": 1855,
+              "record_call": 621
+            },
+            {
+              "contact": {
+                "active_beads": 3,
+                "force_norm": 0.36088369860968733,
+                "max_force_norm": 0.1205146946766233
+              },
+              "frame_index": 32,
+              "label": "lift",
+              "phase": "main_pull",
+              "physics_step": 1871,
+              "record_call": 641
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.4814958502935652,
+                "max_force_norm": 0.12062320930309979
+              },
+              "frame_index": 33,
+              "label": "lift",
+              "phase": "main_pull",
+              "physics_step": 1891,
+              "record_call": 661
+            },
+            {
+              "contact": {
+                "active_beads": 3,
+                "force_norm": 0.36128826861111085,
+                "max_force_norm": 0.12071114947198192
+              },
+              "frame_index": 34,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 1909,
+              "record_call": 681
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.4833424126278671,
+                "max_force_norm": 0.12197755755466487
+              },
+              "frame_index": 35,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 1926,
+              "record_call": 701
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.8349768496178118,
+                "max_force_norm": 0.2839554255147912
+              },
+              "frame_index": 36,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 1943,
+              "record_call": 721
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.48163442005022133,
+                "max_force_norm": 0.12085201160794802
+              },
+              "frame_index": 37,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 1962,
+              "record_call": 741
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.6926040500335818,
+                "max_force_norm": 0.17063007788551718
+              },
+              "frame_index": 38,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 1979,
+              "record_call": 761
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.5605355800187479,
+                "max_force_norm": 0.19926842306746295
+              },
+              "frame_index": 39,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 1997,
+              "record_call": 781
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.7520578596768452,
+                "max_force_norm": 0.27072732256345616
+              },
+              "frame_index": 40,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2016,
+              "record_call": 801
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.5016735030846561,
+                "max_force_norm": 0.1403522742570635
+              },
+              "frame_index": 41,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2034,
+              "record_call": 821
+            },
+            {
+              "contact": {
+                "active_beads": 2,
+                "force_norm": 0.24404185973569542,
+                "max_force_norm": 0.12326128753895185
+              },
+              "frame_index": 42,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2051,
+              "record_call": 841
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.6062949454379388,
+                "max_force_norm": 0.12197235231357478
+              },
+              "frame_index": 43,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2067,
+              "record_call": 861
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.6945432508821117,
+                "max_force_norm": 0.1693245293909557
+              },
+              "frame_index": 44,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2083,
+              "record_call": 881
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.8174336919796634,
+                "max_force_norm": 0.26317194132838007
+              },
+              "frame_index": 45,
+              "label": "lower",
+              "phase": "main_pull",
+              "physics_step": 2101,
+              "record_call": 901
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 1.5161184078096537,
+                "max_force_norm": 0.5623483001308764
+              },
+              "frame_index": 46,
+              "label": "release",
+              "phase": "main_pull",
+              "physics_step": 2118,
+              "record_call": 921
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.9485552753750174,
+                "max_force_norm": 0.28331510403906934
+              },
+              "frame_index": 47,
+              "label": "release",
+              "phase": "main_pull",
+              "physics_step": 2136,
+              "record_call": 941
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.6067614864557316,
+                "max_force_norm": 0.12342842577828145
+              },
+              "frame_index": 48,
+              "label": "release",
+              "phase": "main_pull",
+              "physics_step": 2155,
+              "record_call": 961
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.6034512465343647,
+                "max_force_norm": 0.1209393977517363
+              },
+              "frame_index": 49,
+              "label": "release",
+              "phase": "main_pull",
+              "physics_step": 2173,
+              "record_call": 981
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.6024700594841165,
+                "max_force_norm": 0.12109575455095847
+              },
+              "frame_index": 50,
+              "label": "release",
+              "phase": "main_pull",
+              "physics_step": 2190,
+              "record_call": 1001
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.48193489448272003,
+                "max_force_norm": 0.12110727027730286
+              },
+              "frame_index": 51,
+              "label": "release",
+              "phase": "main_pull",
+              "physics_step": 2208,
+              "record_call": 1021
+            },
+            {
+              "contact": {
+                "active_beads": 3,
+                "force_norm": 0.36102671347166704,
+                "max_force_norm": 0.12050161266123455
+              },
+              "frame_index": 52,
+              "label": "settle",
+              "phase": "main_pull",
+              "physics_step": 2225,
+              "record_call": 1041
+            },
+            {
+              "contact": {
+                "active_beads": 3,
+                "force_norm": 0.36076620877283194,
+                "max_force_norm": 0.1202868120663942
+              },
+              "frame_index": 53,
+              "label": "settle",
+              "phase": "main_pull",
+              "physics_step": 2245,
+              "record_call": 1061
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.6021564857318541,
+                "max_force_norm": 0.12050285093847339
+              },
+              "frame_index": 54,
+              "label": "post_main",
+              "phase": "post_main",
+              "physics_step": 2290,
+              "record_call": 1081
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.6025023020022637,
+                "max_force_norm": 0.12084675283927963
+              },
+              "frame_index": 55,
+              "label": "post_main",
+              "phase": "post_main",
+              "physics_step": 2370,
+              "record_call": 1101
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.48230126620161046,
+                "max_force_norm": 0.12086243113518455
+              },
+              "frame_index": 56,
+              "label": "post_main",
+              "phase": "post_main",
+              "physics_step": 2450,
+              "record_call": 1121
+            }
+          ],
+          "frames_written": 57,
+          "group_id": "hf_070001",
+          "height": 480,
+          "manifest_path": "/data/state_diff_experiment2/reports/experiment2/phase0_hidden_friction/simulation/hf_070001/hf_070001_hidden_high_friction.frames.json",
+          "near": 0.01,
+          "output_path": "/data/state_diff_experiment2/reports/experiment2/phase0_hidden_friction/simulation/hf_070001/hf_070001_hidden_high_friction.mp4",
+          "record_call_stride": 20,
+          "record_calls": 1133,
+          "renderer": "tiny",
+          "seed": 70001,
+          "width": 640
+        }
+      },
+      "pair_video": {
+        "contact_sheet_path": "/data/state_diff_experiment2/reports/experiment2/phase0_hidden_friction/simulation/hf_070001/hf_070001_side_by_side_contact_sheet.png",
+        "fps": 20.0,
+        "frames_written": 57,
+        "free_path": "/data/state_diff_experiment2/reports/experiment2/phase0_hidden_friction/simulation/hf_070001/hf_070001_free.mp4",
+        "hidden_path": "/data/state_diff_experiment2/reports/experiment2/phase0_hidden_friction/simulation/hf_070001/hf_070001_hidden_high_friction.mp4",
+        "output_path": "/data/state_diff_experiment2/reports/experiment2/phase0_hidden_friction/simulation/hf_070001/hf_070001_side_by_side.mp4",
+        "panel_height": 480,
+        "panel_width": 640
+      },
+      "seed": 70001
+    },
+    {
+      "action_hash": "d4895695387ea4eb0c4efc40cb733acd99402b90b2dde837e5d906454e7f9605",
+      "action_hash_match": true,
+      "free": {
+        "action_hash": "d4895695387ea4eb0c4efc40cb733acd99402b90b2dde837e5d906454e7f9605",
+        "action_script": [
+          {
+            "name": "preload",
+            "pose0": {
+              "position": [
+                0.38475745474578354,
+                -0.39965021538495443,
+                0.001
+              ],
+              "quaternion": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            "pose1": {
+              "position": [
+                0.3906518178667819,
+                -0.4007711450873957,
+                0.001
+              ],
+              "quaternion": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            "primitive": "pick_place"
+          },
+          {
+            "name": "main_pull",
+            "pose0": {
+              "position": [
+                0.3906518178667819,
+                -0.4007711450873957,
+                0.001
+              ],
+              "quaternion": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            "pose1": {
+              "position": [
+                0.4790672646817566,
+                -0.4175850906240143,
+                0.001
+              ],
+              "quaternion": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            "primitive": "pick_place"
+          }
+        ],
+        "condition": "free",
+        "group_id": "hf_070002",
+        "physics_steps_observed": 2673,
+        "seed": 70002,
+        "video": {
+          "camera_eye": [
+            0.68,
+            -0.82,
+            0.62
+          ],
+          "camera_target": [
+            0.5,
+            -0.02,
+            0.025
+          ],
+          "camera_up": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "codec": "mp4v",
+          "condition": "free",
+          "far": 3.0,
+          "fov": 50.0,
+          "fps": 20.0,
+          "frames": [
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 0,
+              "label": "initial",
+              "phase": "no_action",
+              "physics_step": 1058,
+              "record_call": 1
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 1,
+              "label": "no_action",
+              "phase": "no_action",
+              "physics_step": 1134,
+              "record_call": 21
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 2,
+              "label": "no_action",
+              "phase": "no_action",
+              "physics_step": 1214,
+              "record_call": 41
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 3,
+              "label": "no_action",
+              "phase": "no_action",
+              "physics_step": 1294,
+              "record_call": 61
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 4,
+              "label": "prepick",
+              "phase": "preload",
+              "physics_step": 1312,
+              "record_call": 81
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 5,
+              "label": "prepick",
+              "phase": "preload",
+              "physics_step": 1332,
+              "record_call": 101
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 6,
+              "label": "prepick",
+              "phase": "preload",
+              "physics_step": 1351,
+              "record_call": 121
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 7,
+              "label": "prepick",
+              "phase": "preload",
+              "physics_step": 1369,
+              "record_call": 141
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 8,
+              "label": "prepick",
+              "phase": "preload",
+              "physics_step": 1386,
+              "record_call": 161
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 9,
+              "label": "prepick",
+              "phase": "preload",
+              "physics_step": 1404,
+              "record_call": 181
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 10,
+              "label": "prepick",
+              "phase": "preload",
+              "physics_step": 1422,
+              "record_call": 201
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 11,
+              "label": "prepick",
+              "phase": "preload",
+              "physics_step": 1438,
+              "record_call": 221
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 12,
+              "label": "prepick",
+              "phase": "preload",
+              "physics_step": 1455,
+              "record_call": 241
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 13,
+              "label": "lower",
+              "phase": "preload",
+              "physics_step": 1472,
+              "record_call": 261
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 14,
+              "label": "lower",
+              "phase": "preload",
+              "physics_step": 1492,
+              "record_call": 281
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 15,
+              "label": "lower",
+              "phase": "preload",
+              "physics_step": 1512,
+              "record_call": 301
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 16,
+              "label": "lower",
+              "phase": "preload",
+              "physics_step": 1532,
+              "record_call": 321
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 17,
+              "label": "lower",
+              "phase": "preload",
+              "physics_step": 1552,
+              "record_call": 341
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 18,
+              "label": "lift",
+              "phase": "preload",
+              "physics_step": 1568,
+              "record_call": 361
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 19,
+              "label": "lift",
+              "phase": "preload",
+              "physics_step": 1584,
+              "record_call": 381
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 20,
+              "label": "lift",
+              "phase": "preload",
+              "physics_step": 1601,
+              "record_call": 401
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 21,
+              "label": "lift",
+              "phase": "preload",
+              "physics_step": 1618,
+              "record_call": 421
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 22,
+              "label": "lift",
+              "phase": "preload",
+              "physics_step": 1635,
+              "record_call": 441
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 23,
+              "label": "lower",
+              "phase": "preload",
+              "physics_step": 1653,
+              "record_call": 461
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 24,
+              "label": "release",
+              "phase": "preload",
+              "physics_step": 1670,
+              "record_call": 481
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 25,
+              "label": "release",
+              "phase": "preload",
+              "physics_step": 1687,
+              "record_call": 501
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 26,
+              "label": "release",
+              "phase": "preload",
+              "physics_step": 1706,
+              "record_call": 521
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 27,
+              "label": "release",
+              "phase": "preload",
+              "physics_step": 1723,
+              "record_call": 541
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 28,
+              "label": "release",
+              "phase": "preload",
+              "physics_step": 1742,
+              "record_call": 561
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 29,
+              "label": "release",
+              "phase": "preload",
+              "physics_step": 1758,
+              "record_call": 581
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 30,
+              "label": "lower",
+              "phase": "main_pull",
+              "physics_step": 1774,
+              "record_call": 601
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 31,
+              "label": "lower",
+              "phase": "main_pull",
+              "physics_step": 1794,
+              "record_call": 621
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 32,
+              "label": "lower",
+              "phase": "main_pull",
+              "physics_step": 1815,
+              "record_call": 641
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 33,
+              "label": "lower",
+              "phase": "main_pull",
+              "physics_step": 1835,
+              "record_call": 661
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 34,
+              "label": "lower",
+              "phase": "main_pull",
+              "physics_step": 1855,
+              "record_call": 681
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 35,
+              "label": "lift",
+              "phase": "main_pull",
+              "physics_step": 1871,
+              "record_call": 701
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 36,
+              "label": "lift",
+              "phase": "main_pull",
+              "physics_step": 1887,
+              "record_call": 721
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 37,
+              "label": "lift",
+              "phase": "main_pull",
+              "physics_step": 1906,
+              "record_call": 741
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 38,
+              "label": "lift",
+              "phase": "main_pull",
+              "physics_step": 1923,
+              "record_call": 761
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 39,
+              "label": "lift",
+              "phase": "main_pull",
+              "physics_step": 1941,
+              "record_call": 781
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 40,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 1959,
+              "record_call": 801
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 41,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 1973,
+              "record_call": 821
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 42,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 1992,
+              "record_call": 841
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 43,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2011,
+              "record_call": 861
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 44,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2028,
+              "record_call": 881
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 45,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2045,
+              "record_call": 901
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 46,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2063,
+              "record_call": 921
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 47,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2080,
+              "record_call": 941
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 48,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2099,
+              "record_call": 961
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 49,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2119,
+              "record_call": 981
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 50,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2137,
+              "record_call": 1001
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 51,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2154,
+              "record_call": 1021
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 52,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2173,
+              "record_call": 1041
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 53,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2192,
+              "record_call": 1061
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 54,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2209,
+              "record_call": 1081
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 55,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2226,
+              "record_call": 1101
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 56,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2244,
+              "record_call": 1121
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 57,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2261,
+              "record_call": 1141
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 58,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2279,
+              "record_call": 1161
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 59,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2295,
+              "record_call": 1181
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 60,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2312,
+              "record_call": 1201
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 61,
+              "label": "release",
+              "phase": "main_pull",
+              "physics_step": 2329,
+              "record_call": 1221
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 62,
+              "label": "release",
+              "phase": "main_pull",
+              "physics_step": 2348,
+              "record_call": 1241
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 63,
+              "label": "release",
+              "phase": "main_pull",
+              "physics_step": 2367,
+              "record_call": 1261
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 64,
+              "label": "release",
+              "phase": "main_pull",
+              "physics_step": 2383,
+              "record_call": 1281
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 65,
+              "label": "release",
+              "phase": "main_pull",
+              "physics_step": 2399,
+              "record_call": 1301
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 66,
+              "label": "release",
+              "phase": "main_pull",
+              "physics_step": 2416,
+              "record_call": 1321
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 67,
+              "label": "post_main",
+              "phase": "post_main",
+              "physics_step": 2443,
+              "record_call": 1341
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 68,
+              "label": "post_main",
+              "phase": "post_main",
+              "physics_step": 2523,
+              "record_call": 1361
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 69,
+              "label": "post_main",
+              "phase": "post_main",
+              "physics_step": 2603,
+              "record_call": 1381
+            }
+          ],
+          "frames_written": 70,
+          "group_id": "hf_070002",
+          "height": 480,
+          "manifest_path": "/data/state_diff_experiment2/reports/experiment2/phase0_hidden_friction/simulation/hf_070002/hf_070002_free.frames.json",
+          "near": 0.01,
+          "output_path": "/data/state_diff_experiment2/reports/experiment2/phase0_hidden_friction/simulation/hf_070002/hf_070002_free.mp4",
+          "record_call_stride": 20,
+          "record_calls": 1398,
+          "renderer": "tiny",
+          "seed": 70002,
+          "width": 640
+        }
+      },
+      "group_id": "hf_070002",
+      "hidden_high_friction": {
+        "action_hash": "d4895695387ea4eb0c4efc40cb733acd99402b90b2dde837e5d906454e7f9605",
+        "action_script": [
+          {
+            "name": "preload",
+            "pose0": {
+              "position": [
+                0.38475745474578354,
+                -0.39965021538495443,
+                0.001
+              ],
+              "quaternion": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            "pose1": {
+              "position": [
+                0.3906518178667819,
+                -0.4007711450873957,
+                0.001
+              ],
+              "quaternion": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            "primitive": "pick_place"
+          },
+          {
+            "name": "main_pull",
+            "pose0": {
+              "position": [
+                0.3906518178667819,
+                -0.4007711450873957,
+                0.001
+              ],
+              "quaternion": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            "pose1": {
+              "position": [
+                0.4790672646817566,
+                -0.4175850906240143,
+                0.001
+              ],
+              "quaternion": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            "primitive": "pick_place"
+          }
+        ],
+        "condition": "hidden_high_friction",
+        "group_id": "hf_070002",
+        "physics_steps_observed": 2696,
+        "seed": 70002,
+        "video": {
+          "camera_eye": [
+            0.68,
+            -0.82,
+            0.62
+          ],
+          "camera_target": [
+            0.5,
+            -0.02,
+            0.025
+          ],
+          "camera_up": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "codec": "mp4v",
+          "condition": "hidden_high_friction",
+          "far": 3.0,
+          "fov": 50.0,
+          "fps": 20.0,
+          "frames": [
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.601548606133406,
+                "max_force_norm": 0.12046479792530666
+              },
+              "frame_index": 0,
+              "label": "initial",
+              "phase": "no_action",
+              "physics_step": 1057,
+              "record_call": 1
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.4817024523660093,
+                "max_force_norm": 0.12075227273543145
+              },
+              "frame_index": 1,
+              "label": "no_action",
+              "phase": "no_action",
+              "physics_step": 1133,
+              "record_call": 21
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.4819973270050881,
+                "max_force_norm": 0.12067355692537932
+              },
+              "frame_index": 2,
+              "label": "no_action",
+              "phase": "no_action",
+              "physics_step": 1213,
+              "record_call": 41
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.601678351358133,
+                "max_force_norm": 0.12059043838656107
+              },
+              "frame_index": 3,
+              "label": "no_action",
+              "phase": "no_action",
+              "physics_step": 1293,
+              "record_call": 61
+            },
+            {
+              "contact": {
+                "active_beads": 3,
+                "force_norm": 0.36170114926306696,
+                "max_force_norm": 0.12114747842880333
+              },
+              "frame_index": 4,
+              "label": "prepick",
+              "phase": "preload",
+              "physics_step": 1312,
+              "record_call": 81
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.48181793602019196,
+                "max_force_norm": 0.12080596924010281
+              },
+              "frame_index": 5,
+              "label": "prepick",
+              "phase": "preload",
+              "physics_step": 1330,
+              "record_call": 101
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.6018839740002138,
+                "max_force_norm": 0.12076591267062836
+              },
+              "frame_index": 6,
+              "label": "prepick",
+              "phase": "preload",
+              "physics_step": 1349,
+              "record_call": 121
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.6017209570215308,
+                "max_force_norm": 0.120582699734743
+              },
+              "frame_index": 7,
+              "label": "prepick",
+              "phase": "preload",
+              "physics_step": 1368,
+              "record_call": 141
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.4819113299434628,
+                "max_force_norm": 0.12099875303404667
+              },
+              "frame_index": 8,
+              "label": "prepick",
+              "phase": "preload",
+              "physics_step": 1386,
+              "record_call": 161
+            },
+            {
+              "contact": {
+                "active_beads": 3,
+                "force_norm": 0.3608963845932394,
+                "max_force_norm": 0.12036968914281779
+              },
+              "frame_index": 9,
+              "label": "prepick",
+              "phase": "preload",
+              "physics_step": 1406,
+              "record_call": 181
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.6017365949418169,
+                "max_force_norm": 0.12059821570343003
+              },
+              "frame_index": 10,
+              "label": "prepick",
+              "phase": "preload",
+              "physics_step": 1424,
+              "record_call": 201
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.4818683967140109,
+                "max_force_norm": 0.12123151678754815
+              },
+              "frame_index": 11,
+              "label": "prepick",
+              "phase": "preload",
+              "physics_step": 1441,
+              "record_call": 221
+            },
+            {
+              "contact": {
+                "active_beads": 3,
+                "force_norm": 0.36118570231479596,
+                "max_force_norm": 0.12049685122859635
+              },
+              "frame_index": 12,
+              "label": "prepick",
+              "phase": "preload",
+              "physics_step": 1458,
+              "record_call": 241
+            },
+            {
+              "contact": {
+                "active_beads": 2,
+                "force_norm": 0.24143180690892518,
+                "max_force_norm": 0.12097351654276818
+              },
+              "frame_index": 13,
+              "label": "lower",
+              "phase": "preload",
+              "physics_step": 1476,
+              "record_call": 261
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.48138336752624844,
+                "max_force_norm": 0.12055668252162687
+              },
+              "frame_index": 14,
+              "label": "lower",
+              "phase": "preload",
+              "physics_step": 1495,
+              "record_call": 281
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.4819726571450882,
+                "max_force_norm": 0.12113470965190162
+              },
+              "frame_index": 15,
+              "label": "lower",
+              "phase": "preload",
+              "physics_step": 1514,
+              "record_call": 301
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.48148263222362797,
+                "max_force_norm": 0.1205292634653438
+              },
+              "frame_index": 16,
+              "label": "lower",
+              "phase": "preload",
+              "physics_step": 1534,
+              "record_call": 321
+            },
+            {
+              "contact": {
+                "active_beads": 2,
+                "force_norm": 0.24049705397945498,
+                "max_force_norm": 0.12030149643765484
+              },
+              "frame_index": 17,
+              "label": "lower",
+              "phase": "preload",
+              "physics_step": 1554,
+              "record_call": 341
+            },
+            {
+              "contact": {
+                "active_beads": 2,
+                "force_norm": 0.24110134840845504,
+                "max_force_norm": 0.12085037624892597
+              },
+              "frame_index": 18,
+              "label": "lift",
+              "phase": "preload",
+              "physics_step": 1570,
+              "record_call": 361
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.4906939093079087,
+                "max_force_norm": 0.1251434937715762
+              },
+              "frame_index": 19,
+              "label": "lift",
+              "phase": "preload",
+              "physics_step": 1588,
+              "record_call": 381
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.6238188485352796,
+                "max_force_norm": 0.13219319787211986
+              },
+              "frame_index": 20,
+              "label": "lift",
+              "phase": "preload",
+              "physics_step": 1605,
+              "record_call": 401
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.6017864952402755,
+                "max_force_norm": 0.12054674468114131
+              },
+              "frame_index": 21,
+              "label": "lift",
+              "phase": "preload",
+              "physics_step": 1622,
+              "record_call": 421
+            },
+            {
+              "contact": {
+                "active_beads": 3,
+                "force_norm": 0.3609177752449024,
+                "max_force_norm": 0.12035285411862791
+              },
+              "frame_index": 22,
+              "label": "lift",
+              "phase": "preload",
+              "physics_step": 1641,
+              "record_call": 441
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.4828266042200604,
+                "max_force_norm": 0.12115838004095436
+              },
+              "frame_index": 23,
+              "label": "preplace",
+              "phase": "preload",
+              "physics_step": 1660,
+              "record_call": 461
+            },
+            {
+              "contact": {
+                "active_beads": 3,
+                "force_norm": 0.3655442664242334,
+                "max_force_norm": 0.12377358925545694
+              },
+              "frame_index": 24,
+              "label": "release",
+              "phase": "preload",
+              "physics_step": 1678,
+              "record_call": 481
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.6497154626353093,
+                "max_force_norm": 0.1430965669396171
+              },
+              "frame_index": 25,
+              "label": "release",
+              "phase": "preload",
+              "physics_step": 1696,
+              "record_call": 501
+            },
+            {
+              "contact": {
+                "active_beads": 3,
+                "force_norm": 0.3608657352706761,
+                "max_force_norm": 0.120381764430309
+              },
+              "frame_index": 26,
+              "label": "release",
+              "phase": "preload",
+              "physics_step": 1716,
+              "record_call": 521
+            },
+            {
+              "contact": {
+                "active_beads": 3,
+                "force_norm": 0.36136494796990587,
+                "max_force_norm": 0.12059849648377326
+              },
+              "frame_index": 27,
+              "label": "release",
+              "phase": "preload",
+              "physics_step": 1735,
+              "record_call": 541
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.48179570776071207,
+                "max_force_norm": 0.12095566143273849
+              },
+              "frame_index": 28,
+              "label": "release",
+              "phase": "preload",
+              "physics_step": 1754,
+              "record_call": 561
+            },
+            {
+              "contact": {
+                "active_beads": 2,
+                "force_norm": 0.241831795130672,
+                "max_force_norm": 0.12128830394509131
+              },
+              "frame_index": 29,
+              "label": "release",
+              "phase": "preload",
+              "physics_step": 1771,
+              "record_call": 581
+            },
+            {
+              "contact": {
+                "active_beads": 2,
+                "force_norm": 0.24067085902371368,
+                "max_force_norm": 0.12036126267283913
+              },
+              "frame_index": 30,
+              "label": "main_pull_start",
+              "phase": "main_pull",
+              "physics_step": 1788,
+              "record_call": 601
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.48221930203586694,
+                "max_force_norm": 0.1210081717420072
+              },
+              "frame_index": 31,
+              "label": "lower",
+              "phase": "main_pull",
+              "physics_step": 1807,
+              "record_call": 621
+            },
+            {
+              "contact": {
+                "active_beads": 3,
+                "force_norm": 0.36064435716405546,
+                "max_force_norm": 0.120230434800882
+              },
+              "frame_index": 32,
+              "label": "lower",
+              "phase": "main_pull",
+              "physics_step": 1827,
+              "record_call": 641
+            },
+            {
+              "contact": {
+                "active_beads": 3,
+                "force_norm": 0.36076162739695466,
+                "max_force_norm": 0.12030839547348315
+              },
+              "frame_index": 33,
+              "label": "lower",
+              "phase": "main_pull",
+              "physics_step": 1847,
+              "record_call": 661
+            },
+            {
+              "contact": {
+                "active_beads": 1,
+                "force_norm": 0.12021426286538708,
+                "max_force_norm": 0.12021426286538708
+              },
+              "frame_index": 34,
+              "label": "lower",
+              "phase": "main_pull",
+              "physics_step": 1867,
+              "record_call": 681
+            },
+            {
+              "contact": {
+                "active_beads": 2,
+                "force_norm": 0.24058569325380788,
+                "max_force_norm": 0.12037014859343138
+              },
+              "frame_index": 35,
+              "label": "lift",
+              "phase": "main_pull",
+              "physics_step": 1884,
+              "record_call": 701
+            },
+            {
+              "contact": {
+                "active_beads": 2,
+                "force_norm": 0.24063924310731988,
+                "max_force_norm": 0.12041052706323074
+              },
+              "frame_index": 36,
+              "label": "lift",
+              "phase": "main_pull",
+              "physics_step": 1902,
+              "record_call": 721
+            },
+            {
+              "contact": {
+                "active_beads": 3,
+                "force_norm": 0.3609539382955891,
+                "max_force_norm": 0.12045648607734084
+              },
+              "frame_index": 37,
+              "label": "lift",
+              "phase": "main_pull",
+              "physics_step": 1920,
+              "record_call": 741
+            },
+            {
+              "contact": {
+                "active_beads": 2,
+                "force_norm": 0.24076375494654617,
+                "max_force_norm": 0.12041988679661683
+              },
+              "frame_index": 38,
+              "label": "lift",
+              "phase": "main_pull",
+              "physics_step": 1937,
+              "record_call": 761
+            },
+            {
+              "contact": {
+                "active_beads": 1,
+                "force_norm": 0.12025003025190888,
+                "max_force_norm": 0.12025003025190888
+              },
+              "frame_index": 39,
+              "label": "lift",
+              "phase": "main_pull",
+              "physics_step": 1954,
+              "record_call": 781
+            },
+            {
+              "contact": {
+                "active_beads": 3,
+                "force_norm": 0.36085101154915394,
+                "max_force_norm": 0.12037379821272445
+              },
+              "frame_index": 40,
+              "label": "lift",
+              "phase": "main_pull",
+              "physics_step": 1972,
+              "record_call": 801
+            },
+            {
+              "contact": {
+                "active_beads": 3,
+                "force_norm": 0.3606421696911103,
+                "max_force_norm": 0.12027349100265736
+              },
+              "frame_index": 41,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 1989,
+              "record_call": 821
+            },
+            {
+              "contact": {
+                "active_beads": 3,
+                "force_norm": 0.360672086752038,
+                "max_force_norm": 0.1202769020524505
+              },
+              "frame_index": 42,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2004,
+              "record_call": 841
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.4816332512200817,
+                "max_force_norm": 0.12090130419830261
+              },
+              "frame_index": 43,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2022,
+              "record_call": 861
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.482120997903563,
+                "max_force_norm": 0.12109107678025781
+              },
+              "frame_index": 44,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2039,
+              "record_call": 881
+            },
+            {
+              "contact": {
+                "active_beads": 3,
+                "force_norm": 0.36078252805085664,
+                "max_force_norm": 0.1203311675347436
+              },
+              "frame_index": 45,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2058,
+              "record_call": 901
+            },
+            {
+              "contact": {
+                "active_beads": 3,
+                "force_norm": 0.3608873689998926,
+                "max_force_norm": 0.12035764531089181
+              },
+              "frame_index": 46,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2075,
+              "record_call": 921
+            },
+            {
+              "contact": {
+                "active_beads": 3,
+                "force_norm": 0.3608758990027473,
+                "max_force_norm": 0.12039811655165897
+              },
+              "frame_index": 47,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2091,
+              "record_call": 941
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.4812298596816843,
+                "max_force_norm": 0.1206134728153386
+              },
+              "frame_index": 48,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2109,
+              "record_call": 961
+            },
+            {
+              "contact": {
+                "active_beads": 2,
+                "force_norm": 0.2417222903344004,
+                "max_force_norm": 0.12120719294942311
+              },
+              "frame_index": 49,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2127,
+              "record_call": 981
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.4813714317619052,
+                "max_force_norm": 0.12058863605941551
+              },
+              "frame_index": 50,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2145,
+              "record_call": 1001
+            },
+            {
+              "contact": {
+                "active_beads": 2,
+                "force_norm": 0.24049065287459698,
+                "max_force_norm": 0.12027089679356719
+              },
+              "frame_index": 51,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2162,
+              "record_call": 1021
+            },
+            {
+              "contact": {
+                "active_beads": 2,
+                "force_norm": 0.24206269994251808,
+                "max_force_norm": 0.1216325344195977
+              },
+              "frame_index": 52,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2181,
+              "record_call": 1041
+            },
+            {
+              "contact": {
+                "active_beads": 3,
+                "force_norm": 0.36153542740204436,
+                "max_force_norm": 0.12106593597022654
+              },
+              "frame_index": 53,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2200,
+              "record_call": 1061
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.48161423439310785,
+                "max_force_norm": 0.12049254319750212
+              },
+              "frame_index": 54,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2217,
+              "record_call": 1081
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.48174527438425696,
+                "max_force_norm": 0.12053821219900578
+              },
+              "frame_index": 55,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2237,
+              "record_call": 1101
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.48136948582131167,
+                "max_force_norm": 0.12054078275899116
+              },
+              "frame_index": 56,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2255,
+              "record_call": 1121
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.6011836352183592,
+                "max_force_norm": 0.12038487475331593
+              },
+              "frame_index": 57,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2272,
+              "record_call": 1141
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.78647431854018,
+                "max_force_norm": 0.17277524228661584
+              },
+              "frame_index": 58,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2291,
+              "record_call": 1161
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.7683885584461626,
+                "max_force_norm": 0.1695906961468528
+              },
+              "frame_index": 59,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2309,
+              "record_call": 1181
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 1.451563108308066,
+                "max_force_norm": 0.33464069571040994
+              },
+              "frame_index": 60,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2328,
+              "record_call": 1201
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 2.1530349511445337,
+                "max_force_norm": 0.46542665973463426
+              },
+              "frame_index": 61,
+              "label": "release",
+              "phase": "main_pull",
+              "physics_step": 2345,
+              "record_call": 1221
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.8458751282446335,
+                "max_force_norm": 0.1931229014331742
+              },
+              "frame_index": 62,
+              "label": "release",
+              "phase": "main_pull",
+              "physics_step": 2363,
+              "record_call": 1241
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.48515930111424094,
+                "max_force_norm": 0.12229660895621415
+              },
+              "frame_index": 63,
+              "label": "release",
+              "phase": "main_pull",
+              "physics_step": 2377,
+              "record_call": 1261
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 64,
+              "label": "release",
+              "phase": "main_pull",
+              "physics_step": 2397,
+              "record_call": 1281
+            },
+            {
+              "contact": {
+                "active_beads": 1,
+                "force_norm": 0.1205230490061328,
+                "max_force_norm": 0.1205230490061328
+              },
+              "frame_index": 65,
+              "label": "release",
+              "phase": "main_pull",
+              "physics_step": 2416,
+              "record_call": 1301
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.48198642590087387,
+                "max_force_norm": 0.1206256062557398
+              },
+              "frame_index": 66,
+              "label": "release",
+              "phase": "main_pull",
+              "physics_step": 2434,
+              "record_call": 1321
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.48198660200676974,
+                "max_force_norm": 0.12077579677449579
+              },
+              "frame_index": 67,
+              "label": "main_pull_end",
+              "phase": "main_pull",
+              "physics_step": 2454,
+              "record_call": 1341
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.6018404170829257,
+                "max_force_norm": 0.12061152198664928
+              },
+              "frame_index": 68,
+              "label": "post_main",
+              "phase": "post_main",
+              "physics_step": 2530,
+              "record_call": 1361
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.6013078775460101,
+                "max_force_norm": 0.12052558096406865
+              },
+              "frame_index": 69,
+              "label": "post_main",
+              "phase": "post_main",
+              "physics_step": 2610,
+              "record_call": 1381
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.6016011590445572,
+                "max_force_norm": 0.12043858835626021
+              },
+              "frame_index": 70,
+              "label": "post_main",
+              "phase": "post_main",
+              "physics_step": 2690,
+              "record_call": 1401
+            }
+          ],
+          "frames_written": 71,
+          "group_id": "hf_070002",
+          "height": 480,
+          "manifest_path": "/data/state_diff_experiment2/reports/experiment2/phase0_hidden_friction/simulation/hf_070002/hf_070002_hidden_high_friction.frames.json",
+          "near": 0.01,
+          "output_path": "/data/state_diff_experiment2/reports/experiment2/phase0_hidden_friction/simulation/hf_070002/hf_070002_hidden_high_friction.mp4",
+          "record_call_stride": 20,
+          "record_calls": 1402,
+          "renderer": "tiny",
+          "seed": 70002,
+          "width": 640
+        }
+      },
+      "pair_video": {
+        "contact_sheet_path": "/data/state_diff_experiment2/reports/experiment2/phase0_hidden_friction/simulation/hf_070002/hf_070002_side_by_side_contact_sheet.png",
+        "fps": 20.0,
+        "frames_written": 71,
+        "free_path": "/data/state_diff_experiment2/reports/experiment2/phase0_hidden_friction/simulation/hf_070002/hf_070002_free.mp4",
+        "hidden_path": "/data/state_diff_experiment2/reports/experiment2/phase0_hidden_friction/simulation/hf_070002/hf_070002_hidden_high_friction.mp4",
+        "output_path": "/data/state_diff_experiment2/reports/experiment2/phase0_hidden_friction/simulation/hf_070002/hf_070002_side_by_side.mp4",
+        "panel_height": 480,
+        "panel_width": 640
+      },
+      "seed": 70002
+    },
+    {
+      "action_hash": "24d7aa6bffb425afe5ef551e696f4f58e9ec0b806673c9a2f1996a1de28b10c3",
+      "action_hash_match": true,
+      "free": {
+        "action_hash": "24d7aa6bffb425afe5ef551e696f4f58e9ec0b806673c9a2f1996a1de28b10c3",
+        "action_script": [
+          {
+            "name": "preload",
+            "pose0": {
+              "position": [
+                0.5174408829590218,
+                0.16214388144609362,
+                0.001
+              ],
+              "quaternion": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            "pose1": {
+              "position": [
+                0.5130331783382731,
+                0.16621477078089875,
+                0.001
+              ],
+              "quaternion": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            "primitive": "pick_place"
+          },
+          {
+            "name": "main_pull",
+            "pose0": {
+              "position": [
+                0.5130331783382731,
+                0.16621477078089875,
+                0.001
+              ],
+              "quaternion": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            "pose1": {
+              "position": [
+                0.446917609027042,
+                0.22727811080297577,
+                0.001
+              ],
+              "quaternion": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            "primitive": "pick_place"
+          }
+        ],
+        "condition": "free",
+        "group_id": "hf_070003",
+        "physics_steps_observed": 2504,
+        "seed": 70003,
+        "video": {
+          "camera_eye": [
+            0.68,
+            -0.82,
+            0.62
+          ],
+          "camera_target": [
+            0.5,
+            -0.02,
+            0.025
+          ],
+          "camera_up": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "codec": "mp4v",
+          "condition": "free",
+          "far": 3.0,
+          "fov": 50.0,
+          "fps": 20.0,
+          "frames": [
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 0,
+              "label": "initial",
+              "phase": "no_action",
+              "physics_step": 1123,
+              "record_call": 1
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 1,
+              "label": "no_action",
+              "phase": "no_action",
+              "physics_step": 1199,
+              "record_call": 21
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 2,
+              "label": "no_action",
+              "phase": "no_action",
+              "physics_step": 1279,
+              "record_call": 41
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 3,
+              "label": "no_action",
+              "phase": "no_action",
+              "physics_step": 1359,
+              "record_call": 61
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 4,
+              "label": "prepick",
+              "phase": "preload",
+              "physics_step": 1377,
+              "record_call": 81
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 5,
+              "label": "lower",
+              "phase": "preload",
+              "physics_step": 1398,
+              "record_call": 101
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 6,
+              "label": "lower",
+              "phase": "preload",
+              "physics_step": 1418,
+              "record_call": 121
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 7,
+              "label": "lower",
+              "phase": "preload",
+              "physics_step": 1438,
+              "record_call": 141
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 8,
+              "label": "lower",
+              "phase": "preload",
+              "physics_step": 1458,
+              "record_call": 161
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 9,
+              "label": "lower",
+              "phase": "preload",
+              "physics_step": 1478,
+              "record_call": 181
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 10,
+              "label": "lift",
+              "phase": "preload",
+              "physics_step": 1494,
+              "record_call": 201
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 11,
+              "label": "lift",
+              "phase": "preload",
+              "physics_step": 1514,
+              "record_call": 221
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 12,
+              "label": "lift",
+              "phase": "preload",
+              "physics_step": 1531,
+              "record_call": 241
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 13,
+              "label": "lift",
+              "phase": "preload",
+              "physics_step": 1547,
+              "record_call": 261
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 14,
+              "label": "lift",
+              "phase": "preload",
+              "physics_step": 1566,
+              "record_call": 281
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 15,
+              "label": "preplace",
+              "phase": "preload",
+              "physics_step": 1584,
+              "record_call": 301
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 16,
+              "label": "release",
+              "phase": "preload",
+              "physics_step": 1602,
+              "record_call": 321
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 17,
+              "label": "release",
+              "phase": "preload",
+              "physics_step": 1620,
+              "record_call": 341
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 18,
+              "label": "release",
+              "phase": "preload",
+              "physics_step": 1639,
+              "record_call": 361
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 19,
+              "label": "release",
+              "phase": "preload",
+              "physics_step": 1656,
+              "record_call": 381
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 20,
+              "label": "release",
+              "phase": "preload",
+              "physics_step": 1673,
+              "record_call": 401
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 21,
+              "label": "release",
+              "phase": "preload",
+              "physics_step": 1691,
+              "record_call": 421
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 22,
+              "label": "settle",
+              "phase": "preload",
+              "physics_step": 1705,
+              "record_call": 441
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 23,
+              "label": "lower",
+              "phase": "main_pull",
+              "physics_step": 1722,
+              "record_call": 461
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 24,
+              "label": "lower",
+              "phase": "main_pull",
+              "physics_step": 1741,
+              "record_call": 481
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 25,
+              "label": "lower",
+              "phase": "main_pull",
+              "physics_step": 1761,
+              "record_call": 501
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 26,
+              "label": "lower",
+              "phase": "main_pull",
+              "physics_step": 1781,
+              "record_call": 521
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 27,
+              "label": "grasp",
+              "phase": "main_pull",
+              "physics_step": 1800,
+              "record_call": 541
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 28,
+              "label": "lift",
+              "phase": "main_pull",
+              "physics_step": 1817,
+              "record_call": 561
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 29,
+              "label": "lift",
+              "phase": "main_pull",
+              "physics_step": 1836,
+              "record_call": 581
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 30,
+              "label": "lift",
+              "phase": "main_pull",
+              "physics_step": 1855,
+              "record_call": 601
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 31,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 1873,
+              "record_call": 621
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 32,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 1893,
+              "record_call": 641
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 33,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 1909,
+              "record_call": 661
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 34,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 1929,
+              "record_call": 681
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 35,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 1945,
+              "record_call": 701
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 36,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 1962,
+              "record_call": 721
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 37,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 1977,
+              "record_call": 741
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 38,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 1995,
+              "record_call": 761
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 39,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2015,
+              "record_call": 781
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 40,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2034,
+              "record_call": 801
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 41,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2054,
+              "record_call": 821
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 42,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2072,
+              "record_call": 841
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 43,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2090,
+              "record_call": 861
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 44,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2105,
+              "record_call": 881
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 45,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2121,
+              "record_call": 901
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 46,
+              "label": "lower",
+              "phase": "main_pull",
+              "physics_step": 2139,
+              "record_call": 921
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 47,
+              "label": "release",
+              "phase": "main_pull",
+              "physics_step": 2158,
+              "record_call": 941
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 48,
+              "label": "release",
+              "phase": "main_pull",
+              "physics_step": 2177,
+              "record_call": 961
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 49,
+              "label": "release",
+              "phase": "main_pull",
+              "physics_step": 2197,
+              "record_call": 981
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 50,
+              "label": "release",
+              "phase": "main_pull",
+              "physics_step": 2215,
+              "record_call": 1001
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 51,
+              "label": "release",
+              "phase": "main_pull",
+              "physics_step": 2234,
+              "record_call": 1021
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 52,
+              "label": "release",
+              "phase": "main_pull",
+              "physics_step": 2252,
+              "record_call": 1041
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 53,
+              "label": "post_main",
+              "phase": "post_main",
+              "physics_step": 2298,
+              "record_call": 1061
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 54,
+              "label": "post_main",
+              "phase": "post_main",
+              "physics_step": 2378,
+              "record_call": 1081
+            },
+            {
+              "contact": {
+                "active_beads": 0,
+                "force_norm": 0.0,
+                "max_force_norm": 0.0
+              },
+              "frame_index": 55,
+              "label": "post_main",
+              "phase": "post_main",
+              "physics_step": 2458,
+              "record_call": 1101
+            }
+          ],
+          "frames_written": 56,
+          "group_id": "hf_070003",
+          "height": 480,
+          "manifest_path": "/data/state_diff_experiment2/reports/experiment2/phase0_hidden_friction/simulation/hf_070003/hf_070003_free.frames.json",
+          "near": 0.01,
+          "output_path": "/data/state_diff_experiment2/reports/experiment2/phase0_hidden_friction/simulation/hf_070003/hf_070003_free.mp4",
+          "record_call_stride": 20,
+          "record_calls": 1112,
+          "renderer": "tiny",
+          "seed": 70003,
+          "width": 640
+        }
+      },
+      "group_id": "hf_070003",
+      "hidden_high_friction": {
+        "action_hash": "24d7aa6bffb425afe5ef551e696f4f58e9ec0b806673c9a2f1996a1de28b10c3",
+        "action_script": [
+          {
+            "name": "preload",
+            "pose0": {
+              "position": [
+                0.5174408829590218,
+                0.16214388144609362,
+                0.001
+              ],
+              "quaternion": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            "pose1": {
+              "position": [
+                0.5130331783382731,
+                0.16621477078089875,
+                0.001
+              ],
+              "quaternion": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            "primitive": "pick_place"
+          },
+          {
+            "name": "main_pull",
+            "pose0": {
+              "position": [
+                0.5130331783382731,
+                0.16621477078089875,
+                0.001
+              ],
+              "quaternion": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            "pose1": {
+              "position": [
+                0.446917609027042,
+                0.22727811080297577,
+                0.001
+              ],
+              "quaternion": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            "primitive": "pick_place"
+          }
+        ],
+        "condition": "hidden_high_friction",
+        "group_id": "hf_070003",
+        "physics_steps_observed": 2481,
+        "seed": 70003,
+        "video": {
+          "camera_eye": [
+            0.68,
+            -0.82,
+            0.62
+          ],
+          "camera_target": [
+            0.5,
+            -0.02,
+            0.025
+          ],
+          "camera_up": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "codec": "mp4v",
+          "condition": "hidden_high_friction",
+          "far": 3.0,
+          "fov": 50.0,
+          "fps": 20.0,
+          "frames": [
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.6023796779154591,
+                "max_force_norm": 0.12069042516026667
+              },
+              "frame_index": 0,
+              "label": "initial",
+              "phase": "no_action",
+              "physics_step": 1140,
+              "record_call": 1
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.6049756055697542,
+                "max_force_norm": 0.12240210233200352
+              },
+              "frame_index": 1,
+              "label": "no_action",
+              "phase": "no_action",
+              "physics_step": 1216,
+              "record_call": 21
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.613364768939,
+                "max_force_norm": 0.12960074891927015
+              },
+              "frame_index": 2,
+              "label": "no_action",
+              "phase": "no_action",
+              "physics_step": 1296,
+              "record_call": 41
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.6027200143608701,
+                "max_force_norm": 0.12074910435429093
+              },
+              "frame_index": 3,
+              "label": "no_action",
+              "phase": "no_action",
+              "physics_step": 1376,
+              "record_call": 61
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.6037275524378306,
+                "max_force_norm": 0.1216782771326182
+              },
+              "frame_index": 4,
+              "label": "prepick",
+              "phase": "preload",
+              "physics_step": 1392,
+              "record_call": 81
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.6016418209952367,
+                "max_force_norm": 0.12047875750777054
+              },
+              "frame_index": 5,
+              "label": "lower",
+              "phase": "preload",
+              "physics_step": 1411,
+              "record_call": 101
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.48286105791975353,
+                "max_force_norm": 0.12133468733348515
+              },
+              "frame_index": 6,
+              "label": "lower",
+              "phase": "preload",
+              "physics_step": 1431,
+              "record_call": 121
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.6032291848754172,
+                "max_force_norm": 0.12116323292344841
+              },
+              "frame_index": 7,
+              "label": "lower",
+              "phase": "preload",
+              "physics_step": 1451,
+              "record_call": 141
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.603132346561899,
+                "max_force_norm": 0.12091478970029752
+              },
+              "frame_index": 8,
+              "label": "lower",
+              "phase": "preload",
+              "physics_step": 1471,
+              "record_call": 161
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.6038246795416928,
+                "max_force_norm": 0.12181810946867956
+              },
+              "frame_index": 9,
+              "label": "lower",
+              "phase": "preload",
+              "physics_step": 1491,
+              "record_call": 181
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.7572779474080652,
+                "max_force_norm": 0.19260279378628464
+              },
+              "frame_index": 10,
+              "label": "lift",
+              "phase": "preload",
+              "physics_step": 1506,
+              "record_call": 201
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.6359974075500202,
+                "max_force_norm": 0.13901212855699002
+              },
+              "frame_index": 11,
+              "label": "lift",
+              "phase": "preload",
+              "physics_step": 1524,
+              "record_call": 221
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.6234732864934345,
+                "max_force_norm": 0.13502310852611826
+              },
+              "frame_index": 12,
+              "label": "lift",
+              "phase": "preload",
+              "physics_step": 1539,
+              "record_call": 241
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.4822704673378243,
+                "max_force_norm": 0.12106353733247853
+              },
+              "frame_index": 13,
+              "label": "lift",
+              "phase": "preload",
+              "physics_step": 1558,
+              "record_call": 261
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.48307565420590304,
+                "max_force_norm": 0.12156352651448149
+              },
+              "frame_index": 14,
+              "label": "lower",
+              "phase": "preload",
+              "physics_step": 1573,
+              "record_call": 281
+            },
+            {
+              "contact": {
+                "active_beads": 3,
+                "force_norm": 0.36249535298721725,
+                "max_force_norm": 0.12178240249834558
+              },
+              "frame_index": 15,
+              "label": "release",
+              "phase": "preload",
+              "physics_step": 1590,
+              "record_call": 301
+            },
+            {
+              "contact": {
+                "active_beads": 3,
+                "force_norm": 0.3627467293365455,
+                "max_force_norm": 0.12140677883810823
+              },
+              "frame_index": 16,
+              "label": "release",
+              "phase": "preload",
+              "physics_step": 1606,
+              "record_call": 321
+            },
+            {
+              "contact": {
+                "active_beads": 3,
+                "force_norm": 0.36253462449758,
+                "max_force_norm": 0.12128805257800272
+              },
+              "frame_index": 17,
+              "label": "release",
+              "phase": "preload",
+              "physics_step": 1624,
+              "record_call": 341
+            },
+            {
+              "contact": {
+                "active_beads": 3,
+                "force_norm": 0.3627932968426288,
+                "max_force_norm": 0.12134108656264123
+              },
+              "frame_index": 18,
+              "label": "release",
+              "phase": "preload",
+              "physics_step": 1642,
+              "record_call": 361
+            },
+            {
+              "contact": {
+                "active_beads": 3,
+                "force_norm": 0.3629259987033126,
+                "max_force_norm": 0.1219012368091362
+              },
+              "frame_index": 19,
+              "label": "release",
+              "phase": "preload",
+              "physics_step": 1662,
+              "record_call": 381
+            },
+            {
+              "contact": {
+                "active_beads": 3,
+                "force_norm": 0.3618789329771211,
+                "max_force_norm": 0.12101140895570835
+              },
+              "frame_index": 20,
+              "label": "release",
+              "phase": "preload",
+              "physics_step": 1680,
+              "record_call": 401
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.4820273234747262,
+                "max_force_norm": 0.12132752915817682
+              },
+              "frame_index": 21,
+              "label": "lower",
+              "phase": "main_pull",
+              "physics_step": 1697,
+              "record_call": 421
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.48218600329773553,
+                "max_force_norm": 0.12123775206503694
+              },
+              "frame_index": 22,
+              "label": "lower",
+              "phase": "main_pull",
+              "physics_step": 1717,
+              "record_call": 441
+            },
+            {
+              "contact": {
+                "active_beads": 2,
+                "force_norm": 0.24129065340608463,
+                "max_force_norm": 0.12108481846922393
+              },
+              "frame_index": 23,
+              "label": "lower",
+              "phase": "main_pull",
+              "physics_step": 1737,
+              "record_call": 461
+            },
+            {
+              "contact": {
+                "active_beads": 2,
+                "force_norm": 0.2416683892152506,
+                "max_force_norm": 0.12134235881646402
+              },
+              "frame_index": 24,
+              "label": "lower",
+              "phase": "main_pull",
+              "physics_step": 1757,
+              "record_call": 481
+            },
+            {
+              "contact": {
+                "active_beads": 3,
+                "force_norm": 0.3610597133925907,
+                "max_force_norm": 0.12063146276381814
+              },
+              "frame_index": 25,
+              "label": "lower",
+              "phase": "main_pull",
+              "physics_step": 1777,
+              "record_call": 501
+            },
+            {
+              "contact": {
+                "active_beads": 3,
+                "force_norm": 0.36234767952021163,
+                "max_force_norm": 0.12166844020119669
+              },
+              "frame_index": 26,
+              "label": "lift",
+              "phase": "main_pull",
+              "physics_step": 1793,
+              "record_call": 521
+            },
+            {
+              "contact": {
+                "active_beads": 2,
+                "force_norm": 0.24233060088370897,
+                "max_force_norm": 0.12188089829609927
+              },
+              "frame_index": 27,
+              "label": "lift",
+              "phase": "main_pull",
+              "physics_step": 1809,
+              "record_call": 541
+            },
+            {
+              "contact": {
+                "active_beads": 3,
+                "force_norm": 0.3640782745781076,
+                "max_force_norm": 0.12212112915452279
+              },
+              "frame_index": 28,
+              "label": "lift",
+              "phase": "main_pull",
+              "physics_step": 1827,
+              "record_call": 561
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.6228012533918825,
+                "max_force_norm": 0.12766914844284152
+              },
+              "frame_index": 29,
+              "label": "lift",
+              "phase": "main_pull",
+              "physics_step": 1846,
+              "record_call": 581
+            },
+            {
+              "contact": {
+                "active_beads": 2,
+                "force_norm": 0.24218774632574308,
+                "max_force_norm": 0.12109790103994898
+              },
+              "frame_index": 30,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 1865,
+              "record_call": 601
+            },
+            {
+              "contact": {
+                "active_beads": 2,
+                "force_norm": 0.24212133659614898,
+                "max_force_norm": 0.12144328863888132
+              },
+              "frame_index": 31,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 1884,
+              "record_call": 621
+            },
+            {
+              "contact": {
+                "active_beads": 1,
+                "force_norm": 0.1211195292965354,
+                "max_force_norm": 0.1211195292965354
+              },
+              "frame_index": 32,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 1901,
+              "record_call": 641
+            },
+            {
+              "contact": {
+                "active_beads": 1,
+                "force_norm": 0.12098576051156051,
+                "max_force_norm": 0.12098576051156051
+              },
+              "frame_index": 33,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 1918,
+              "record_call": 661
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.6053656151737961,
+                "max_force_norm": 0.12273551010876974
+              },
+              "frame_index": 34,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 1935,
+              "record_call": 681
+            },
+            {
+              "contact": {
+                "active_beads": 1,
+                "force_norm": 0.12092950494829828,
+                "max_force_norm": 0.12092950494829828
+              },
+              "frame_index": 35,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 1952,
+              "record_call": 701
+            },
+            {
+              "contact": {
+                "active_beads": 2,
+                "force_norm": 0.24227753682897687,
+                "max_force_norm": 0.12134898362149302
+              },
+              "frame_index": 36,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 1968,
+              "record_call": 721
+            },
+            {
+              "contact": {
+                "active_beads": 3,
+                "force_norm": 0.36152874463449464,
+                "max_force_norm": 0.12059903645115759
+              },
+              "frame_index": 37,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 1987,
+              "record_call": 741
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.6062363848167694,
+                "max_force_norm": 0.12376112883727215
+              },
+              "frame_index": 38,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2006,
+              "record_call": 761
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.4852148204249451,
+                "max_force_norm": 0.12175996799572988
+              },
+              "frame_index": 39,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2023,
+              "record_call": 781
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.7936605237325804,
+                "max_force_norm": 0.1985008152015924
+              },
+              "frame_index": 40,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2043,
+              "record_call": 801
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.8321045559935734,
+                "max_force_norm": 0.21630296554714387
+              },
+              "frame_index": 41,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2061,
+              "record_call": 821
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.9502370009576673,
+                "max_force_norm": 0.31696519505833987
+              },
+              "frame_index": 42,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2078,
+              "record_call": 841
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.8625115241776028,
+                "max_force_norm": 0.25904635779342544
+              },
+              "frame_index": 43,
+              "label": "preplace",
+              "phase": "main_pull",
+              "physics_step": 2094,
+              "record_call": 861
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.6027177084033654,
+                "max_force_norm": 0.12140482144119889
+              },
+              "frame_index": 44,
+              "label": "lower",
+              "phase": "main_pull",
+              "physics_step": 2111,
+              "record_call": 881
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.616308960488992,
+                "max_force_norm": 0.13191406897456043
+              },
+              "frame_index": 45,
+              "label": "release",
+              "phase": "main_pull",
+              "physics_step": 2128,
+              "record_call": 901
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.6316542595892253,
+                "max_force_norm": 0.1438681778662646
+              },
+              "frame_index": 46,
+              "label": "release",
+              "phase": "main_pull",
+              "physics_step": 2145,
+              "record_call": 921
+            },
+            {
+              "contact": {
+                "active_beads": 5,
+                "force_norm": 0.6115825408436933,
+                "max_force_norm": 0.12705253683675174
+              },
+              "frame_index": 47,
+              "label": "release",
+              "phase": "main_pull",
+              "physics_step": 2162,
+              "record_call": 941
+            },
+            {
+              "contact": {
+                "active_beads": 3,
+                "force_norm": 0.36175530738542305,
+                "max_force_norm": 0.12088034651554898
+              },
+              "frame_index": 48,
+              "label": "release",
+              "phase": "main_pull",
+              "physics_step": 2182,
+              "record_call": 961
+            },
+            {
+              "contact": {
+                "active_beads": 1,
+                "force_norm": 0.12019725103885666,
+                "max_force_norm": 0.12019725103885666
+              },
+              "frame_index": 49,
+              "label": "release",
+              "phase": "main_pull",
+              "physics_step": 2200,
+              "record_call": 981
+            },
+            {
+              "contact": {
+                "active_beads": 2,
+                "force_norm": 0.24085240717328957,
+                "max_force_norm": 0.12047198112008596
+              },
+              "frame_index": 50,
+              "label": "release",
+              "phase": "main_pull",
+              "physics_step": 2219,
+              "record_call": 1001
+            },
+            {
+              "contact": {
+                "active_beads": 2,
+                "force_norm": 0.24134556387340655,
+                "max_force_norm": 0.12077590036815805
+              },
+              "frame_index": 51,
+              "label": "post_main",
+              "phase": "post_main",
+              "physics_step": 2239,
+              "record_call": 1021
+            },
+            {
+              "contact": {
+                "active_beads": 3,
+                "force_norm": 0.3613579742050782,
+                "max_force_norm": 0.12058774929900168
+              },
+              "frame_index": 52,
+              "label": "post_main",
+              "phase": "post_main",
+              "physics_step": 2319,
+              "record_call": 1041
+            },
+            {
+              "contact": {
+                "active_beads": 3,
+                "force_norm": 0.3615038075339032,
+                "max_force_norm": 0.12065272135905421
+              },
+              "frame_index": 53,
+              "label": "post_main",
+              "phase": "post_main",
+              "physics_step": 2399,
+              "record_call": 1061
+            },
+            {
+              "contact": {
+                "active_beads": 4,
+                "force_norm": 0.4813053028923052,
+                "max_force_norm": 0.1205082659870556
+              },
+              "frame_index": 54,
+              "label": "post_main",
+              "phase": "post_main",
+              "physics_step": 2479,
+              "record_call": 1081
+            }
+          ],
+          "frames_written": 55,
+          "group_id": "hf_070003",
+          "height": 480,
+          "manifest_path": "/data/state_diff_experiment2/reports/experiment2/phase0_hidden_friction/simulation/hf_070003/hf_070003_hidden_high_friction.frames.json",
+          "near": 0.01,
+          "output_path": "/data/state_diff_experiment2/reports/experiment2/phase0_hidden_friction/simulation/hf_070003/hf_070003_hidden_high_friction.mp4",
+          "record_call_stride": 20,
+          "record_calls": 1081,
+          "renderer": "tiny",
+          "seed": 70003,
+          "width": 640
+        }
+      },
+      "pair_video": {
+        "contact_sheet_path": "/data/state_diff_experiment2/reports/experiment2/phase0_hidden_friction/simulation/hf_070003/hf_070003_side_by_side_contact_sheet.png",
+        "fps": 20.0,
+        "frames_written": 56,
+        "free_path": "/data/state_diff_experiment2/reports/experiment2/phase0_hidden_friction/simulation/hf_070003/hf_070003_free.mp4",
+        "hidden_path": "/data/state_diff_experiment2/reports/experiment2/phase0_hidden_friction/simulation/hf_070003/hf_070003_hidden_high_friction.mp4",
+        "output_path": "/data/state_diff_experiment2/reports/experiment2/phase0_hidden_friction/simulation/hf_070003/hf_070003_side_by_side.mp4",
+        "panel_height": 480,
+        "panel_width": 640
+      },
+      "seed": 70003
+    }
+  ],
+  "interpretation": "Qualitative real-simulation visualization only; Phase 0A metrics remain the source for physical and branch auditing.",
+  "task_name": "ccda-hidden-friction-cable"
+}
