@@ -36,7 +36,7 @@ sanitize_remote() {
   python3 --version 2>&1 || python --version 2>&1 || true
   uname -a 2>&1 || true
   nvidia-smi 2>&1 || true
-} > "$out_dir/environment_local.txt"
+} | sed 's/[[:space:]]*$//' > "$out_dir/environment_local.txt"
 
 {
   sha256sum docs/CCDA_RESEARCH_ROADMAP.md
