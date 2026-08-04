@@ -1,0 +1,33 @@
+{
+  "task_name": "ccda-hidden-friction-cable",
+  "conditions": ["free", "hidden_high_friction"],
+  "hz": 480,
+  "trace_stride": 4,
+  "seed_start": 70001,
+  "groups": 3,
+  "no_action_steps": 240,
+  "post_main_steps": 240,
+  "workspace_bounds": {
+    "x": [0.25, 0.75],
+    "y": [-0.45, 0.45]
+  },
+  "action": {
+    "pick_z": 0.001,
+    "preload_distance": 0.006,
+    "main_pull_distance": 0.09
+  },
+  "friction": {
+    "center_ratio": 0.45,
+    "selected_count": 5,
+    "patch_radius": 0.045,
+    "viscous_gain": 1.5,
+    "coulomb_force": 0.12,
+    "max_force": 0.75,
+    "speed_epsilon": 0.0001,
+    "contact_height": 0.03
+  },
+  "visualization": {
+    "resample_frames": 120,
+    "dpi": 150
+  }
+}

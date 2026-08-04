@@ -162,3 +162,6 @@ checkpoints/
 datasets/
 data/raw/
 data/generated/
+
+# Experiment2 Phase 0 pilot raw rollouts
+reports/experiment2/phase0_hidden_friction/raw/

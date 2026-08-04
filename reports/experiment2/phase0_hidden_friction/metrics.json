@@ -1,0 +1,120 @@
+{
+  "aggregate": {
+    "contact_impulse_gap": {
+      "mean": 0.3514782691682632,
+      "std": 0.04270990033429312
+    },
+    "free_arm_max_abs_jump": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "free_no_action_drift": {
+      "mean": 0.00046934330890864795,
+      "std": 9.734717435454931e-05
+    },
+    "free_preload_contact_impulse": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "hidden_arm_max_abs_jump": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "hidden_no_action_drift": {
+      "mean": 0.0004633094046534868,
+      "std": 0.00010169694582728568
+    },
+    "hidden_preload_contact_impulse": {
+      "mean": 0.3514782691682632,
+      "std": 0.04270990033429312
+    },
+    "initial_max_abs_xy": {
+      "mean": 4.328653044569086e-05,
+      "std": 2.768951436907208e-05
+    },
+    "main_branch_ade": {
+      "mean": 0.006188230783562482,
+      "std": 0.0035463937604720717
+    },
+    "main_branch_fde": {
+      "mean": 0.01409733034410126,
+      "std": 0.005814315115831596
+    },
+    "post_main_branch_fde": {
+      "mean": 0.014089655950314703,
+      "std": 0.00586369451256517
+    },
+    "preload_end_max_abs_xy": {
+      "mean": 0.010487664101551589,
+      "std": 0.007715953394320653
+    }
+  },
+  "config_hash": "8d4fc91b932d717549d82474f518ca53ff30052c720cd866883941437279b0dd",
+  "config_path": "configs/experiment2/phase0/hidden_friction_cable.json",
+  "groups": [
+    {
+      "action_hash": "9ee2a37205d9b5e9900d98c0a3b6d297668e6c4daefd4635b5607e320d2a771d",
+      "group_id": "hf_070001",
+      "metrics": {
+        "action_hash_match": true,
+        "contact_impulse_gap": 0.37115787486877433,
+        "free_arm_max_abs_jump": 0.0,
+        "free_no_action_drift": 0.0004083342325439852,
+        "free_preload_contact_impulse": 0.0,
+        "hidden_arm_max_abs_jump": 0.0,
+        "hidden_no_action_drift": 0.0004146110880160486,
+        "hidden_preload_contact_impulse": 0.37115787486877433,
+        "initial_max_abs_xy": 7.030819453868187e-05,
+        "main_branch_ade": 0.004203516796262382,
+        "main_branch_fde": 0.013534876841788356,
+        "post_main_branch_fde": 0.013501383828299504,
+        "preload_end_max_abs_xy": 0.0011067763933148012
+      },
+      "seed": 70001
+    },
+    {
+      "action_hash": "bfe165e4af29bd38ae6d18d595d9b4bd81d386b05333ed276e6d84f835b57ab1",
+      "group_id": "hf_070002",
+      "metrics": {
+        "action_hash_match": true,
+        "contact_impulse_gap": 0.39109287177851415,
+        "free_arm_max_abs_jump": 0.0,
+        "free_no_action_drift": 0.00039296881274340214,
+        "free_preload_contact_impulse": 0.0,
+        "hidden_arm_max_abs_jump": 0.0,
+        "hidden_no_action_drift": 0.00037046317631638783,
+        "hidden_preload_contact_impulse": 0.39109287177851415,
+        "initial_max_abs_xy": 5.231125450644303e-06,
+        "main_branch_ade": 0.0031917225440999393,
+        "main_branch_fde": 0.007274183446400014,
+        "post_main_branch_fde": 0.007220355549827365,
+        "preload_end_max_abs_xy": 0.01035077799708195
+      },
+      "seed": 70002
+    },
+    {
+      "action_hash": "12413f5166a804057896cadab712f0101124e682b017821469089a14225821a0",
+      "group_id": "hf_070003",
+      "metrics": {
+        "action_hash_match": true,
+        "contact_impulse_gap": 0.292184060857501,
+        "free_arm_max_abs_jump": 0.0,
+        "free_no_action_drift": 0.0006067268814385566,
+        "free_preload_contact_impulse": 0.0,
+        "hidden_arm_max_abs_jump": 0.0,
+        "hidden_no_action_drift": 0.0006048539496280238,
+        "hidden_preload_contact_impulse": 0.292184060857501,
+        "initial_max_abs_xy": 5.432027134774642e-05,
+        "main_branch_ade": 0.011169453010325122,
+        "main_branch_fde": 0.02148293074411541,
+        "post_main_branch_fde": 0.021547228472817242,
+        "preload_end_max_abs_xy": 0.020005437914258017
+      },
+      "seed": 70003
+    }
+  ],
+  "main_repository_sha": "c7d73045752bf90b6143055a4eb11429b67b5d92",
+  "pilot_only": true,
+  "submodule_sha": "39238061cd98124db210c5483c014f27d53ee563",
+  "task_name": "ccda-hidden-friction-cable"
+}
