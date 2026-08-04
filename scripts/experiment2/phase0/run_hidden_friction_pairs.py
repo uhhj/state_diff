@@ -89,14 +89,29 @@ def _pose(position: np.ndarray) -> Dict[str, Any]:
     }
 
 
-def generate_action_script(config: Dict[str, Any], beads: np.ndarray) -> List[Dict[str, Any]]:
+def generate_action_script(
+    config: Dict[str, Any],
+    beads: np.ndarray,
+) -> List[Dict[str, Any]]:
     values = np.asarray(beads, dtype=np.float64)
     if values.ndim != 2 or values.shape[0] < 2 or values.shape[1] != 3:
         raise ValueError(f"expected ordered beads [N,3], got {values.shape}")
+
+    action = config["action"]
+    protocol = str(action.get("protocol", "direct"))
+    if protocol not in {"direct", "probe_return"}:
+        raise ValueError(f"unsupported preload protocol {protocol!r}")
+
     center = np.mean(values[:, :2], axis=0)
-    preload_distance = float(config["action"]["preload_distance"])
-    main_distance = float(config["action"]["main_pull_distance"])
-    pick_z = float(config["action"]["pick_z"])
+    preload_distance = float(action["preload_distance"])
+    main_distance = float(action["main_pull_distance"])
+    pick_z = float(action["pick_z"])
+    hold_steps = int(action.get("probe_hold_steps", 0))
+    if preload_distance <= 0 or main_distance <= 0:
+        raise ValueError("preload and main-pull distances must be positive")
+    if hold_steps < 0:
+        raise ValueError("probe_hold_steps must be non-negative")
+
     x_bounds = np.asarray(config["workspace_bounds"]["x"], dtype=np.float64)
     y_bounds = np.asarray(config["workspace_bounds"]["y"], dtype=np.float64)
 
@@ -108,40 +123,74 @@ def generate_action_script(config: Dict[str, Any], beads: np.ndarray) -> List[Di
         if norm <= 1e-12:
             continue
         direction = outward / norm
-        final_xy = endpoint_xy + direction * (preload_distance + main_distance)
+        far_distance = (
+            preload_distance + main_distance
+            if protocol == "direct"
+            else max(preload_distance, main_distance)
+        )
+        far_xy = endpoint_xy + direction * far_distance
         legal = bool(
-            x_bounds[0] <= final_xy[0] <= x_bounds[1]
-            and y_bounds[0] <= final_xy[1] <= y_bounds[1]
+            x_bounds[0] <= far_xy[0] <= x_bounds[1]
+            and y_bounds[0] <= far_xy[1] <= y_bounds[1]
         )
         if not legal:
             continue
         margin = min(
-            final_xy[0] - x_bounds[0],
-            x_bounds[1] - final_xy[0],
-            final_xy[1] - y_bounds[0],
-            y_bounds[1] - final_xy[1],
+            far_xy[0] - x_bounds[0],
+            x_bounds[1] - far_xy[0],
+            far_xy[1] - y_bounds[0],
+            y_bounds[1] - far_xy[1],
         )
         candidates.append((float(margin), index, direction))
-    if not candidates:
-        raise RuntimeError("neither ordered cable endpoint has a legal fixed pull action")
 
-    _, endpoint_index, direction = max(candidates, key=lambda item: (item[0], -item[1]))
-    start = np.array([values[endpoint_index, 0], values[endpoint_index, 1], pick_z])
-    preload_end = start.copy()
-    preload_end[:2] += direction * preload_distance
-    main_end = preload_end.copy()
-    main_end[:2] += direction * main_distance
-    return [
-        {
-            "name": "preload",
+    if not candidates:
+        raise RuntimeError(
+            "neither ordered cable endpoint has a legal fixed pull action"
+        )
+
+    _, endpoint_index, direction = max(
+        candidates,
+        key=lambda item: (item[0], -item[1]),
+    )
+    start = np.asarray(
+        [values[endpoint_index, 0], values[endpoint_index, 1], pick_z],
+        dtype=np.float64,
+    )
+    probe_end = start.copy()
+    probe_end[:2] += direction * preload_distance
+
+    if protocol == "direct":
+        main_start = probe_end.copy()
+        main_end = main_start.copy()
+        main_end[:2] += direction * main_distance
+        preload = {
+            "name": "direct_preload",
+            "phase": "preload",
             "primitive": "pick_place",
             "pose0": _pose(start),
-            "pose1": _pose(preload_end),
-        },
+            "pose1": _pose(probe_end),
+        }
+    else:
+        main_start = start.copy()
+        main_end = main_start.copy()
+        main_end[:2] += direction * main_distance
+        preload = {
+            "name": "probe_return",
+            "phase": "preload",
+            "primitive": "pick_probe_return",
+            "pose0": _pose(start),
+            "pose_probe": _pose(probe_end),
+            "pose_return": _pose(start),
+            "hold_steps": hold_steps,
+        }
+
+    return [
+        preload,
         {
             "name": "main_pull",
+            "phase": "main_pull",
             "primitive": "pick_place",
-            "pose0": _pose(preload_end),
+            "pose0": _pose(main_start),
             "pose1": _pose(main_end),
         },
     ]
@@ -149,15 +198,27 @@ def generate_action_script(config: Dict[str, Any], beads: np.ndarray) -> List[Di
 
 def _environment_action(action: Dict[str, Any]) -> Dict[str, Any]:
     def tuple_pose(value: Dict[str, Any]):
-        return (tuple(value["position"]), tuple(value["quaternion"]))
+        return (
+            tuple(value["position"]),
+            tuple(value["quaternion"]),
+        )
 
-    return {
-        "primitive": action["primitive"],
-        "params": {
+    primitive = str(action["primitive"])
+    if primitive == "pick_place":
+        params = {
             "pose0": tuple_pose(action["pose0"]),
             "pose1": tuple_pose(action["pose1"]),
-        },
-    }
+        }
+    elif primitive == "pick_probe_return":
+        params = {
+            "pose0": tuple_pose(action["pose0"]),
+            "pose_probe": tuple_pose(action["pose_probe"]),
+            "pose_return": tuple_pose(action["pose_return"]),
+            "hold_steps": int(action.get("hold_steps", 0)),
+        }
+    else:
+        raise ValueError(f"unsupported primitive {primitive!r}")
+    return {"primitive": primitive, "params": params}
 
 
 def _trace_arrays(frames: List[Dict[str, Any]]) -> Dict[str, np.ndarray]:

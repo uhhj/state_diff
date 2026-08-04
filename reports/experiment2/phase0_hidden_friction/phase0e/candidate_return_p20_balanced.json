@@ -1,0 +1,1249 @@
+{
+  "candidate": {
+    "action": {
+      "main_pull_distance": 0.1,
+      "preload_distance": 0.002,
+      "probe_hold_steps": 60,
+      "protocol": "probe_return"
+    },
+    "friction": {
+      "coulomb_force": 0.08,
+      "max_force": 0.65,
+      "patch_radius": 0.045,
+      "selected_count": 5,
+      "viscous_gain": 1.25
+    },
+    "id": "return_p20_balanced"
+  },
+  "candidate_config_hash": "d21ee1aca0496cd5a5f2ec1ab4e4e985ddd685c362edc8322e565a0c69e786cf",
+  "candidate_id": "return_p20_balanced",
+  "checks": {
+    "amplification_seed_fraction": false,
+    "arm_jump": true,
+    "branch_amplification": false,
+    "contact_classifier": true,
+    "contact_informativeness": true,
+    "exact_pairing": true,
+    "fde_seed_fraction": true,
+    "initial_match": true,
+    "main_ade": true,
+    "main_fde": true,
+    "no_action_drift": true,
+    "preload_visibility": false,
+    "vision_screen": false
+  },
+  "classifiers": {
+    "contact": {
+      "accuracy": 1.0,
+      "feature_key": "contact",
+      "groups": [
+        "hf_070001",
+        "hf_070002",
+        "hf_070003",
+        "hf_070004",
+        "hf_070005",
+        "hf_070006",
+        "hf_070007",
+        "hf_070008"
+      ],
+      "l2": 0.01,
+      "predictions": [
+        {
+          "condition": "free",
+          "group_id": "hf_070001",
+          "prediction": -1,
+          "score": -1.0035528236709002,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070001",
+          "prediction": 1,
+          "score": 1.068421782227782,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070002",
+          "prediction": -1,
+          "score": -0.9996881946049114,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070002",
+          "prediction": 1,
+          "score": 1.0063265371800871,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070003",
+          "prediction": -1,
+          "score": -1.000718009448859,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070003",
+          "prediction": 1,
+          "score": 0.9850307735008965,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070004",
+          "prediction": -1,
+          "score": -0.9994408479491871,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070004",
+          "prediction": 1,
+          "score": 0.986269302205152,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070005",
+          "prediction": -1,
+          "score": -0.9995045745517671,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070005",
+          "prediction": 1,
+          "score": 0.9798920734043276,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070006",
+          "prediction": -1,
+          "score": -0.9994605607511641,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070006",
+          "prediction": 1,
+          "score": 0.918354212069665,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070007",
+          "prediction": -1,
+          "score": -1.0002811791023796,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070007",
+          "prediction": 1,
+          "score": 0.9827338149856489,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070008",
+          "prediction": -1,
+          "score": -1.0000310167668651,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070008",
+          "prediction": 1,
+          "score": 1.0142052026423256,
+          "truth": 1
+        }
+      ]
+    },
+    "maximum_vision_accuracy": 0.8125,
+    "vision_delta": {
+      "accuracy": 0.8125,
+      "feature_key": "vision_delta",
+      "groups": [
+        "hf_070001",
+        "hf_070002",
+        "hf_070003",
+        "hf_070004",
+        "hf_070005",
+        "hf_070006",
+        "hf_070007",
+        "hf_070008"
+      ],
+      "l2": 0.01,
+      "predictions": [
+        {
+          "condition": "free",
+          "group_id": "hf_070001",
+          "prediction": -1,
+          "score": -1.1082166005568403,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070001",
+          "prediction": 1,
+          "score": 0.2690471995792006,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070002",
+          "prediction": -1,
+          "score": -4.256173643525521,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070002",
+          "prediction": -1,
+          "score": -6.226717666272952,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070003",
+          "prediction": -1,
+          "score": -1.3556985844410319,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070003",
+          "prediction": 1,
+          "score": 0.4114784603692033,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070004",
+          "prediction": -1,
+          "score": -1.9640104201870823,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070004",
+          "prediction": 1,
+          "score": 0.5639453035968807,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070005",
+          "prediction": 1,
+          "score": 1.0421911559119421,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070005",
+          "prediction": 1,
+          "score": 3.1985396352720934,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070006",
+          "prediction": -1,
+          "score": -3.15283099036993,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070006",
+          "prediction": -1,
+          "score": -1.007915492725409,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070007",
+          "prediction": -1,
+          "score": -0.03158176979912612,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070007",
+          "prediction": 1,
+          "score": 0.5577274288649131,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070008",
+          "prediction": -1,
+          "score": -0.8007045447870478,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070008",
+          "prediction": 1,
+          "score": 0.9528500329039136,
+          "truth": 1
+        }
+      ]
+    },
+    "vision_raw": {
+      "accuracy": 0.5,
+      "feature_key": "vision_raw",
+      "groups": [
+        "hf_070001",
+        "hf_070002",
+        "hf_070003",
+        "hf_070004",
+        "hf_070005",
+        "hf_070006",
+        "hf_070007",
+        "hf_070008"
+      ],
+      "l2": 0.01,
+      "predictions": [
+        {
+          "condition": "free",
+          "group_id": "hf_070001",
+          "prediction": 1,
+          "score": 2.791780610954647,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070001",
+          "prediction": 1,
+          "score": 2.794082031899383,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070002",
+          "prediction": 1,
+          "score": 4.42255664673215,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070002",
+          "prediction": 1,
+          "score": 4.106662521166695,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070003",
+          "prediction": 1,
+          "score": 0.5382419628975866,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070003",
+          "prediction": 1,
+          "score": 0.5339034206201926,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070004",
+          "prediction": -1,
+          "score": -5.882004912518029,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070004",
+          "prediction": -1,
+          "score": -5.831081463212552,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070005",
+          "prediction": 1,
+          "score": 0.31298595283652964,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070005",
+          "prediction": 1,
+          "score": 0.4157136131053555,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070006",
+          "prediction": -1,
+          "score": -0.6927612793206066,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070006",
+          "prediction": -1,
+          "score": -0.504724482209547,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070007",
+          "prediction": 1,
+          "score": 7.87939098680074,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070007",
+          "prediction": 1,
+          "score": 16.57720740931809,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070008",
+          "prediction": 1,
+          "score": 0.8891513257017548,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070008",
+          "prediction": 1,
+          "score": 0.9633031979491171,
+          "truth": 1
+        }
+      ]
+    }
+  },
+  "eligible": false,
+  "maximum": {
+    "free_arm_max_abs_jump": 0.0,
+    "hidden_arm_max_abs_jump": 0.0,
+    "initial_state_difference": 0.0
+  },
+  "median": {
+    "branch_amplification": 1.9987797740794053,
+    "contact_impulse_gap": 0.2677012018159728,
+    "free_preload_return_residual": 0.002928139125658595,
+    "hidden_preload_return_residual": 0.0031146049420504897,
+    "main_branch_ade": 0.013662003117793068,
+    "main_branch_fde": 0.02212644328968738,
+    "max_no_action_drift": 0.0003226293342783404,
+    "preload_end_max_abs_xy": 0.009884863197933164
+  },
+  "pairs": [
+    {
+      "action_hash": "f13406e72398eab14f28bdc7923b7ffcb9bdd39ec212a139efa9419b93ab1a6a",
+      "action_hash_match": true,
+      "base_state_hash": "4744e410b91153f99bfd02e242eea052489c61a5ce45a3df5938a427507f8e4b",
+      "branch_amplification": 1.1416159977705946,
+      "candidate_id": "return_p20_balanced",
+      "contact_impulse_gap": 0.27702862451334725,
+      "execution": {
+        "control_substeps": 1,
+        "deterministic": true,
+        "hz": 480,
+        "post_action_settle_steps": 240
+      },
+      "free_arm_max_abs_jump": 0.0,
+      "free_base_state_hash_match": true,
+      "free_events": [
+        {
+          "name": "branch_start",
+          "physics_step": 0
+        },
+        {
+          "name": "no_action_end",
+          "physics_step": 240
+        },
+        {
+          "name": "probe_return_start",
+          "physics_step": 240
+        },
+        {
+          "name": "probe_return_end",
+          "physics_step": 889
+        },
+        {
+          "name": "main_pull_start",
+          "physics_step": 889
+        },
+        {
+          "name": "main_pull_end",
+          "physics_step": 1558
+        },
+        {
+          "name": "post_main_end",
+          "physics_step": 1798
+        }
+      ],
+      "free_hidden_initial_hash_match": true,
+      "free_initial_hash": "4744e410b91153f99bfd02e242eea052489c61a5ce45a3df5938a427507f8e4b",
+      "free_no_action_drift": 0.0003073044061898122,
+      "free_preload_contact_impulse": 0.0,
+      "free_preload_return_residual": 0.001803186814505471,
+      "free_trace_hash": "c51088e0c10482a23e2091eb94bab870a0027ae87fad7586cd38bd5bcd56b6a7",
+      "free_trace_length": 449,
+      "group_id": "hf_070001",
+      "hidden_arm_max_abs_jump": 0.0,
+      "hidden_base_state_hash_match": true,
+      "hidden_events": [
+        {
+          "name": "branch_start",
+          "physics_step": 0
+        },
+        {
+          "name": "no_action_end",
+          "physics_step": 240
+        },
+        {
+          "name": "probe_return_start",
+          "physics_step": 240
+        },
+        {
+          "name": "probe_return_end",
+          "physics_step": 796
+        },
+        {
+          "name": "main_pull_start",
+          "physics_step": 796
+        },
+        {
+          "name": "main_pull_end",
+          "physics_step": 1465
+        },
+        {
+          "name": "post_main_end",
+          "physics_step": 1705
+        }
+      ],
+      "hidden_initial_hash": "4744e410b91153f99bfd02e242eea052489c61a5ce45a3df5938a427507f8e4b",
+      "hidden_no_action_drift": 8.987353423741434e-05,
+      "hidden_preload_contact_impulse": 0.27702862451334725,
+      "hidden_preload_return_residual": 0.002467761801376515,
+      "hidden_trace_hash": "599bd426a8ceba820052eb78d29c117a27c567a0c3148947a46e8d08728e9dd1",
+      "hidden_trace_length": 426,
+      "initial_max_abs_xy": 1.385163788636401e-05,
+      "main_branch_ade": 0.003655310676827561,
+      "main_branch_fde": 0.0052129158964344955,
+      "max_initial_state_difference": 0.0,
+      "pairing_mode": "pybullet_save_restore_fixed_step",
+      "post_main_branch_fde": 0.005204777790611343,
+      "preload_end_max_abs_xy": 0.0045662603770572074,
+      "seed": 70001
+    },
+    {
+      "action_hash": "ab02b3b303faaf4fabdd03985c91af76e70452aaa031e15b00c2d1ebe7a17686",
+      "action_hash_match": true,
+      "base_state_hash": "05c9f9b14eb66056a5c9234fc2580f540f95883a45ef6776ac46b8586a94932c",
+      "branch_amplification": 4.860198106311692,
+      "candidate_id": "return_p20_balanced",
+      "contact_impulse_gap": 0.33082292287098164,
+      "execution": {
+        "control_substeps": 1,
+        "deterministic": true,
+        "hz": 480,
+        "post_action_settle_steps": 240
+      },
+      "free_arm_max_abs_jump": 0.0,
+      "free_base_state_hash_match": true,
+      "free_events": [
+        {
+          "name": "branch_start",
+          "physics_step": 0
+        },
+        {
+          "name": "no_action_end",
+          "physics_step": 240
+        },
+        {
+          "name": "probe_return_start",
+          "physics_step": 240
+        },
+        {
+          "name": "probe_return_end",
+          "physics_step": 951
+        },
+        {
+          "name": "main_pull_start",
+          "physics_step": 951
+        },
+        {
+          "name": "main_pull_end",
+          "physics_step": 1800
+        },
+        {
+          "name": "post_main_end",
+          "physics_step": 2040
+        }
+      ],
+      "free_hidden_initial_hash_match": true,
+      "free_initial_hash": "05c9f9b14eb66056a5c9234fc2580f540f95883a45ef6776ac46b8586a94932c",
+      "free_no_action_drift": 0.0004324956584163965,
+      "free_preload_contact_impulse": 0.0,
+      "free_preload_return_residual": 0.005200132749566212,
+      "free_trace_hash": "aebf3dd97c7d3f27759f291aa1f26da81d78bb2a8f50e50faa484eda74e0ffa4",
+      "free_trace_length": 510,
+      "group_id": "hf_070002",
+      "hidden_arm_max_abs_jump": 0.0,
+      "hidden_base_state_hash_match": true,
+      "hidden_events": [
+        {
+          "name": "branch_start",
+          "physics_step": 0
+        },
+        {
+          "name": "no_action_end",
+          "physics_step": 240
+        },
+        {
+          "name": "probe_return_start",
+          "physics_step": 240
+        },
+        {
+          "name": "probe_return_end",
+          "physics_step": 830
+        },
+        {
+          "name": "main_pull_start",
+          "physics_step": 830
+        },
+        {
+          "name": "main_pull_end",
+          "physics_step": 1675
+        },
+        {
+          "name": "post_main_end",
+          "physics_step": 1915
+        }
+      ],
+      "hidden_initial_hash": "05c9f9b14eb66056a5c9234fc2580f540f95883a45ef6776ac46b8586a94932c",
+      "hidden_no_action_drift": 0.0012722869356531763,
+      "hidden_preload_contact_impulse": 0.33082292287098164,
+      "hidden_preload_return_residual": 0.0035089200590073476,
+      "hidden_trace_hash": "0bc8a1065fc81b2ce7dfd7ad525dc88fbda7939b15e517a9c40b8f2f26fafdc2",
+      "hidden_trace_length": 478,
+      "initial_max_abs_xy": 5.085968001361518e-06,
+      "main_branch_ade": 0.03553591725054572,
+      "main_branch_fde": 0.05969461387810798,
+      "max_initial_state_difference": 0.0,
+      "pairing_mode": "pybullet_save_restore_fixed_step",
+      "post_main_branch_fde": 0.05974435430830751,
+      "preload_end_max_abs_xy": 0.012282341701377486,
+      "seed": 70002
+    },
+    {
+      "action_hash": "0bdb92888d263ce08ec7e457ada4a97c1fb93b873f915e762e61e0fb71a8ad17",
+      "action_hash_match": true,
+      "base_state_hash": "3bd27dc2a59e56014e26b0f745874a40f8f422014ac8e28f5a5c12bda66f4aa5",
+      "branch_amplification": 1.082935633009313,
+      "candidate_id": "return_p20_balanced",
+      "contact_impulse_gap": 0.350322285825049,
+      "execution": {
+        "control_substeps": 1,
+        "deterministic": true,
+        "hz": 480,
+        "post_action_settle_steps": 240
+      },
+      "free_arm_max_abs_jump": 0.0,
+      "free_base_state_hash_match": true,
+      "free_events": [
+        {
+          "name": "branch_start",
+          "physics_step": 0
+        },
+        {
+          "name": "no_action_end",
+          "physics_step": 240
+        },
+        {
+          "name": "probe_return_start",
+          "physics_step": 240
+        },
+        {
+          "name": "probe_return_end",
+          "physics_step": 810
+        },
+        {
+          "name": "main_pull_start",
+          "physics_step": 810
+        },
+        {
+          "name": "main_pull_end",
+          "physics_step": 1535
+        },
+        {
+          "name": "post_main_end",
+          "physics_step": 1775
+        }
+      ],
+      "free_hidden_initial_hash_match": true,
+      "free_initial_hash": "3bd27dc2a59e56014e26b0f745874a40f8f422014ac8e28f5a5c12bda66f4aa5",
+      "free_no_action_drift": 0.0005010136726743167,
+      "free_preload_contact_impulse": 0.0,
+      "free_preload_return_residual": 0.0019950339413980383,
+      "free_trace_hash": "339f5753128e10c30d2ac66a4335496d44c23b5eca3abb17543514c7ec8f3559",
+      "free_trace_length": 443,
+      "group_id": "hf_070003",
+      "hidden_arm_max_abs_jump": 0.0,
+      "hidden_base_state_hash_match": true,
+      "hidden_events": [
+        {
+          "name": "branch_start",
+          "physics_step": 0
+        },
+        {
+          "name": "no_action_end",
+          "physics_step": 240
+        },
+        {
+          "name": "probe_return_start",
+          "physics_step": 240
+        },
+        {
+          "name": "probe_return_end",
+          "physics_step": 815
+        },
+        {
+          "name": "main_pull_start",
+          "physics_step": 815
+        },
+        {
+          "name": "main_pull_end",
+          "physics_step": 1537
+        },
+        {
+          "name": "post_main_end",
+          "physics_step": 1777
+        }
+      ],
+      "hidden_initial_hash": "3bd27dc2a59e56014e26b0f745874a40f8f422014ac8e28f5a5c12bda66f4aa5",
+      "hidden_no_action_drift": 0.0001877843837349485,
+      "hidden_preload_contact_impulse": 0.350322285825049,
+      "hidden_preload_return_residual": 0.0018717948678614092,
+      "hidden_trace_hash": "f209bfd1d886879d02f16ce5f125d78587ecf39173f7e72763784b3677b2eb98",
+      "hidden_trace_length": 444,
+      "initial_max_abs_xy": 5.130052303875532e-06,
+      "main_branch_ade": 0.0019949777745234534,
+      "main_branch_fde": 0.0030499460789600434,
+      "max_initial_state_difference": 0.0,
+      "pairing_mode": "pybullet_save_restore_fixed_step",
+      "post_main_branch_fde": 0.002962545707247607,
+      "preload_end_max_abs_xy": 0.002816368753593146,
+      "seed": 70003
+    },
+    {
+      "action_hash": "bb0ccac1f005068745a32cf47df3865332e1c6a85ee6c0a519a3ef5468989ca4",
+      "action_hash_match": true,
+      "base_state_hash": "63566c5958c6adbf417d3186a68ae52d9e28507132fa298ffe03338a555c80b1",
+      "branch_amplification": 3.1714303210335095,
+      "candidate_id": "return_p20_balanced",
+      "contact_impulse_gap": 0.2088837936363711,
+      "execution": {
+        "control_substeps": 1,
+        "deterministic": true,
+        "hz": 480,
+        "post_action_settle_steps": 240
+      },
+      "free_arm_max_abs_jump": 0.0,
+      "free_base_state_hash_match": true,
+      "free_events": [
+        {
+          "name": "branch_start",
+          "physics_step": 0
+        },
+        {
+          "name": "no_action_end",
+          "physics_step": 240
+        },
+        {
+          "name": "probe_return_start",
+          "physics_step": 240
+        },
+        {
+          "name": "probe_return_end",
+          "physics_step": 927
+        },
+        {
+          "name": "main_pull_start",
+          "physics_step": 927
+        },
+        {
+          "name": "main_pull_end",
+          "physics_step": 1602
+        },
+        {
+          "name": "post_main_end",
+          "physics_step": 1842
+        }
+      ],
+      "free_hidden_initial_hash_match": true,
+      "free_initial_hash": "63566c5958c6adbf417d3186a68ae52d9e28507132fa298ffe03338a555c80b1",
+      "free_no_action_drift": 0.0003379542623668686,
+      "free_preload_contact_impulse": 0.0,
+      "free_preload_return_residual": 0.0016266654859243166,
+      "free_trace_hash": "2b7116a84289a5776805416835d62f5a5acd46ca8dbeed5457d4a45594ea18f4",
+      "free_trace_length": 460,
+      "group_id": "hf_070004",
+      "hidden_arm_max_abs_jump": 0.0,
+      "hidden_base_state_hash_match": true,
+      "hidden_events": [
+        {
+          "name": "branch_start",
+          "physics_step": 0
+        },
+        {
+          "name": "no_action_end",
+          "physics_step": 240
+        },
+        {
+          "name": "probe_return_start",
+          "physics_step": 240
+        },
+        {
+          "name": "probe_return_end",
+          "physics_step": 804
+        },
+        {
+          "name": "main_pull_start",
+          "physics_step": 804
+        },
+        {
+          "name": "main_pull_end",
+          "physics_step": 1315
+        },
+        {
+          "name": "post_main_end",
+          "physics_step": 1555
+        }
+      ],
+      "hidden_initial_hash": "63566c5958c6adbf417d3186a68ae52d9e28507132fa298ffe03338a555c80b1",
+      "hidden_no_action_drift": 0.0001899480907539122,
+      "hidden_preload_contact_impulse": 0.2088837936363711,
+      "hidden_preload_return_residual": 0.0029547567158245847,
+      "hidden_trace_hash": "aa82e941148e3cb7f40ea3063318e78f728519dd2d2de44ee3d597473ff6c73c",
+      "hidden_trace_length": 388,
+      "initial_max_abs_xy": 4.930525530300045e-06,
+      "main_branch_ade": 0.021071450776020604,
+      "main_branch_fde": 0.03389469110019103,
+      "max_initial_state_difference": 0.0,
+      "pairing_mode": "pybullet_save_restore_fixed_step",
+      "post_main_branch_fde": 0.033883530364798395,
+      "preload_end_max_abs_xy": 0.010687509315716381,
+      "seed": 70004
+    },
+    {
+      "action_hash": "f587942aad618698616a14323f25f5e2afbc2e83b0c2ae15da4fff0187f39672",
+      "action_hash_match": true,
+      "base_state_hash": "972d0380445cb2fc96b2d4ba59c5b9583be45625907ab3cf5198e4282e3832f1",
+      "branch_amplification": 1.1404919512243943,
+      "candidate_id": "return_p20_balanced",
+      "contact_impulse_gap": 0.1825509494558965,
+      "execution": {
+        "control_substeps": 1,
+        "deterministic": true,
+        "hz": 480,
+        "post_action_settle_steps": 240
+      },
+      "free_arm_max_abs_jump": 0.0,
+      "free_base_state_hash_match": true,
+      "free_events": [
+        {
+          "name": "branch_start",
+          "physics_step": 0
+        },
+        {
+          "name": "no_action_end",
+          "physics_step": 240
+        },
+        {
+          "name": "probe_return_start",
+          "physics_step": 240
+        },
+        {
+          "name": "probe_return_end",
+          "physics_step": 801
+        },
+        {
+          "name": "main_pull_start",
+          "physics_step": 801
+        },
+        {
+          "name": "main_pull_end",
+          "physics_step": 1565
+        },
+        {
+          "name": "post_main_end",
+          "physics_step": 1805
+        }
+      ],
+      "free_hidden_initial_hash_match": true,
+      "free_initial_hash": "972d0380445cb2fc96b2d4ba59c5b9583be45625907ab3cf5198e4282e3832f1",
+      "free_no_action_drift": 0.00011278226286417996,
+      "free_preload_contact_impulse": 0.0,
+      "free_preload_return_residual": 0.002107482323478145,
+      "free_trace_hash": "f6254b2b34cbedec2387d43289e47bce77837ff9be3bfddbac564094d218f67e",
+      "free_trace_length": 451,
+      "group_id": "hf_070005",
+      "hidden_arm_max_abs_jump": 0.0,
+      "hidden_base_state_hash_match": true,
+      "hidden_events": [
+        {
+          "name": "branch_start",
+          "physics_step": 0
+        },
+        {
+          "name": "no_action_end",
+          "physics_step": 240
+        },
+        {
+          "name": "probe_return_start",
+          "physics_step": 240
+        },
+        {
+          "name": "probe_return_end",
+          "physics_step": 822
+        },
+        {
+          "name": "main_pull_start",
+          "physics_step": 822
+        },
+        {
+          "name": "main_pull_end",
+          "physics_step": 1582
+        },
+        {
+          "name": "post_main_end",
+          "physics_step": 1822
+        }
+      ],
+      "hidden_initial_hash": "972d0380445cb2fc96b2d4ba59c5b9583be45625907ab3cf5198e4282e3832f1",
+      "hidden_no_action_drift": 0.00019002815901501125,
+      "hidden_preload_contact_impulse": 0.1825509494558965,
+      "hidden_preload_return_residual": 0.0011317259828655596,
+      "hidden_trace_hash": "8ad3aa8b094646cdfc80c5c75d28c9ffe6b858800ea005417f663c7621d1c982",
+      "hidden_trace_length": 455,
+      "initial_max_abs_xy": 3.4392249537440467e-06,
+      "main_branch_ade": 0.0062525554595655305,
+      "main_branch_fde": 0.010358195479183733,
+      "max_initial_state_difference": 0.0,
+      "pairing_mode": "pybullet_save_restore_fixed_step",
+      "post_main_branch_fde": 0.010370998181108365,
+      "preload_end_max_abs_xy": 0.009082217080149946,
+      "seed": 70005
+    },
+    {
+      "action_hash": "06dd4331991af32ef72f249edc4e0e49073d1a21a25a9ab36ec8ec2b2417aa49",
+      "action_hash_match": true,
+      "base_state_hash": "d4a7dbcb533e18de308a015a5e06a46e1eddf294fe0466559b26c9a1ee2bc300",
+      "branch_amplification": 1.3565220520686843,
+      "candidate_id": "return_p20_balanced",
+      "contact_impulse_gap": 0.19594105196961936,
+      "execution": {
+        "control_substeps": 1,
+        "deterministic": true,
+        "hz": 480,
+        "post_action_settle_steps": 240
+      },
+      "free_arm_max_abs_jump": 0.0,
+      "free_base_state_hash_match": true,
+      "free_events": [
+        {
+          "name": "branch_start",
+          "physics_step": 0
+        },
+        {
+          "name": "no_action_end",
+          "physics_step": 240
+        },
+        {
+          "name": "probe_return_start",
+          "physics_step": 240
+        },
+        {
+          "name": "probe_return_end",
+          "physics_step": 902
+        },
+        {
+          "name": "main_pull_start",
+          "physics_step": 902
+        },
+        {
+          "name": "main_pull_end",
+          "physics_step": 1706
+        },
+        {
+          "name": "post_main_end",
+          "physics_step": 1946
+        }
+      ],
+      "free_hidden_initial_hash_match": true,
+      "free_initial_hash": "d4a7dbcb533e18de308a015a5e06a46e1eddf294fe0466559b26c9a1ee2bc300",
+      "free_no_action_drift": 0.00047205382043986183,
+      "free_preload_contact_impulse": 0.0,
+      "free_preload_return_residual": 0.003748795927839045,
+      "free_trace_hash": "dcf800e1243aa863c9c0fe39f7c8a242754ab55da6860434d335c0fa020de908",
+      "free_trace_length": 486,
+      "group_id": "hf_070006",
+      "hidden_arm_max_abs_jump": 0.0,
+      "hidden_base_state_hash_match": true,
+      "hidden_events": [
+        {
+          "name": "branch_start",
+          "physics_step": 0
+        },
+        {
+          "name": "no_action_end",
+          "physics_step": 240
+        },
+        {
+          "name": "probe_return_start",
+          "physics_step": 240
+        },
+        {
+          "name": "probe_return_end",
+          "physics_step": 862
+        },
+        {
+          "name": "main_pull_start",
+          "physics_step": 862
+        },
+        {
+          "name": "main_pull_end",
+          "physics_step": 1667
+        },
+        {
+          "name": "post_main_end",
+          "physics_step": 1907
+        }
+      ],
+      "hidden_initial_hash": "d4a7dbcb533e18de308a015a5e06a46e1eddf294fe0466559b26c9a1ee2bc300",
+      "hidden_no_action_drift": 0.00032031106495472697,
+      "hidden_preload_contact_impulse": 0.19594105196961936,
+      "hidden_preload_return_residual": 0.0036388816227837166,
+      "hidden_trace_hash": "41b5749fd95c426450f9d63ca8dc0d2836725862bd4bd9dfaf3fb34f2d4b7241",
+      "hidden_trace_length": 476,
+      "initial_max_abs_xy": 1.0022698303857602e-05,
+      "main_branch_ade": 0.005089627986291048,
+      "main_branch_fde": 0.008111784841055453,
+      "max_initial_state_difference": 0.0,
+      "pairing_mode": "pybullet_save_restore_fixed_step",
+      "post_main_branch_fde": 0.008122376019220718,
+      "preload_end_max_abs_xy": 0.005979840009740389,
+      "seed": 70006
+    },
+    {
+      "action_hash": "4f316633e40ffefe965ce0c04f8e225595a716dab074fac78460bd926d7c6f6d",
+      "action_hash_match": true,
+      "base_state_hash": "2b6a859d09196fb517e2536dde850da3b0715a9a520ea0de5b4d78971e25f4e7",
+      "branch_amplification": 2.6410374960901266,
+      "candidate_id": "return_p20_balanced",
+      "contact_impulse_gap": 0.30052156601229585,
+      "execution": {
+        "control_substeps": 1,
+        "deterministic": true,
+        "hz": 480,
+        "post_action_settle_steps": 240
+      },
+      "free_arm_max_abs_jump": 0.0,
+      "free_base_state_hash_match": true,
+      "free_events": [
+        {
+          "name": "branch_start",
+          "physics_step": 0
+        },
+        {
+          "name": "no_action_end",
+          "physics_step": 240
+        },
+        {
+          "name": "probe_return_start",
+          "physics_step": 240
+        },
+        {
+          "name": "probe_return_end",
+          "physics_step": 924
+        },
+        {
+          "name": "main_pull_start",
+          "physics_step": 924
+        },
+        {
+          "name": "main_pull_end",
+          "physics_step": 1773
+        },
+        {
+          "name": "post_main_end",
+          "physics_step": 2013
+        }
+      ],
+      "free_hidden_initial_hash_match": true,
+      "free_initial_hash": "2b6a859d09196fb517e2536dde850da3b0715a9a520ea0de5b4d78971e25f4e7",
+      "free_no_action_drift": 0.00018353850384881552,
+      "free_preload_contact_impulse": 0.0,
+      "free_preload_return_residual": 0.007891125281021786,
+      "free_trace_hash": "6be92ab60fccd3db255f0651a78968f315379711e659c11f4f74ec9e5ef6743b",
+      "free_trace_length": 503,
+      "group_id": "hf_070007",
+      "hidden_arm_max_abs_jump": 0.0,
+      "hidden_base_state_hash_match": true,
+      "hidden_events": [
+        {
+          "name": "branch_start",
+          "physics_step": 0
+        },
+        {
+          "name": "no_action_end",
+          "physics_step": 240
+        },
+        {
+          "name": "probe_return_start",
+          "physics_step": 240
+        },
+        {
+          "name": "probe_return_end",
+          "physics_step": 896
+        },
+        {
+          "name": "main_pull_start",
+          "physics_step": 896
+        },
+        {
+          "name": "main_pull_end",
+          "physics_step": 1721
+        },
+        {
+          "name": "post_main_end",
+          "physics_step": 1961
+        }
+      ],
+      "hidden_initial_hash": "2b6a859d09196fb517e2536dde850da3b0715a9a520ea0de5b4d78971e25f4e7",
+      "hidden_no_action_drift": 0.00019003782346481272,
+      "hidden_preload_contact_impulse": 0.30052156601229585,
+      "hidden_preload_return_residual": 0.005284741126914458,
+      "hidden_trace_hash": "256ba470cc09eb4f9427af0895f8069300bc9d24e06fe38f7cdfbf0b3f6bee01",
+      "hidden_trace_length": 490,
+      "initial_max_abs_xy": 3.6265353208497775e-06,
+      "main_branch_ade": 0.022626152274177795,
+      "main_branch_fde": 0.04072602933594569,
+      "max_initial_state_difference": 0.0,
+      "pairing_mode": "pybullet_save_restore_fixed_step",
+      "post_main_branch_fde": 0.040733190932994316,
+      "preload_end_max_abs_xy": 0.015420466160074503,
+      "seed": 70007
+    },
+    {
+      "action_hash": "710251e5e720522c616eb33874413d1df18f67cee478b110f1036ea5cf4fccb8",
+      "action_hash_match": true,
+      "base_state_hash": "25d984941439c6c2596049377cbe326b480c7da9f8c098850bd51c77015e323f",
+      "branch_amplification": 3.1925993562843633,
+      "candidate_id": "return_p20_balanced",
+      "contact_impulse_gap": 0.2583737791185984,
+      "execution": {
+        "control_substeps": 1,
+        "deterministic": true,
+        "hz": 480,
+        "post_action_settle_steps": 240
+      },
+      "free_arm_max_abs_jump": 0.0,
+      "free_base_state_hash_match": true,
+      "free_events": [
+        {
+          "name": "branch_start",
+          "physics_step": 0
+        },
+        {
+          "name": "no_action_end",
+          "physics_step": 240
+        },
+        {
+          "name": "probe_return_start",
+          "physics_step": 240
+        },
+        {
+          "name": "probe_return_end",
+          "physics_step": 832
+        },
+        {
+          "name": "main_pull_start",
+          "physics_step": 832
+        },
+        {
+          "name": "main_pull_end",
+          "physics_step": 1669
+        },
+        {
+          "name": "post_main_end",
+          "physics_step": 1909
+        }
+      ],
+      "free_hidden_initial_hash_match": true,
+      "free_initial_hash": "25d984941439c6c2596049377cbe326b480c7da9f8c098850bd51c77015e323f",
+      "free_no_action_drift": 0.00018397680260541407,
+      "free_preload_contact_impulse": 0.0,
+      "free_preload_return_residual": 0.003989598655849949,
+      "free_trace_hash": "f7a54236a14b3adeea7916f66dd5d07086b88372f0ecbb1f4ba22455402d138f",
+      "free_trace_length": 477,
+      "group_id": "hf_070008",
+      "hidden_arm_max_abs_jump": 0.0,
+      "hidden_base_state_hash_match": true,
+      "hidden_events": [
+        {
+          "name": "branch_start",
+          "physics_step": 0
+        },
+        {
+          "name": "no_action_end",
+          "physics_step": 240
+        },
+        {
+          "name": "probe_return_start",
+          "physics_step": 240
+        },
+        {
+          "name": "probe_return_end",
+          "physics_step": 827
+        },
+        {
+          "name": "main_pull_start",
+          "physics_step": 827
+        },
+        {
+          "name": "main_pull_end",
+          "physics_step": 1611
+        },
+        {
+          "name": "post_main_end",
+          "physics_step": 1851
+        }
+      ],
+      "hidden_initial_hash": "25d984941439c6c2596049377cbe326b480c7da9f8c098850bd51c77015e323f",
+      "hidden_no_action_drift": 0.00015075329143766529,
+      "hidden_preload_contact_impulse": 0.2583737791185984,
+      "hidden_preload_return_residual": 0.003274453168276394,
+      "hidden_trace_hash": "a1b54bec7761709997d3b2c5b40ed184930edb14a3d586067ef555e42052397d",
+      "hidden_trace_length": 462,
+      "initial_max_abs_xy": 3.5976120883463025e-06,
+      "main_branch_ade": 0.032183028620678615,
+      "main_branch_fde": 0.054036306043731275,
+      "max_initial_state_difference": 0.0,
+      "pairing_mode": "pybullet_save_restore_fixed_step",
+      "post_main_branch_fde": 0.0540191704020542,
+      "preload_end_max_abs_xy": 0.01692548923727788,
+      "seed": 70008
+    }
+  ],
+  "score": 15.096803664187476,
+  "seed_pass_fraction": {
+    "branch_amplification": 0.5,
+    "main_fde": 0.625
+  },
+  "valid_pairs": 8
+}

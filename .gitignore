@@ -186,3 +186,10 @@ reports/experiment2/phase0_hidden_friction/simulation/calibrated/**/*.frames.jso
 
 # Experiment2 Phase 0D fixed-step replay traces stay on the server.
 reports/experiment2/phase0_hidden_friction/determinism/raw/
+
+# Experiment2 Phase 0E raw traces and event RGB stay on the server.
+reports/experiment2/phase0_hidden_friction/phase0e/raw/
+
+# Optional selected-candidate videos stay on the server.
+reports/experiment2/phase0_hidden_friction/phase0e/videos/**/*.mp4
+reports/experiment2/phase0_hidden_friction/phase0e/videos/**/*.frames.json

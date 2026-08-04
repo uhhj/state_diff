@@ -20,6 +20,10 @@ for path in (REPO_ROOT, SUBMODULE_ROOT):
 import pybullet as p  # noqa: E402
 from ravens import Environment, tasks  # noqa: E402
 from scripts.experiment2.phase0.common import canonical_json_sha256
+from scripts.experiment2.phase0.observation_common import (
+    render_fixed_rgb,
+    save_rgb,
+)
 from scripts.experiment2.phase0.run_hidden_friction_pairs import (
     _bead_positions,
     _configure_task_environment,
@@ -109,6 +113,33 @@ def _mark_event(task: Any, events: List[Dict[str, Any]], name: str) -> None:
     )
 
 
+def _capture_event_observation(
+    env: Environment,
+    task: Any,
+    output_dir: Optional[Path],
+    observation_config: Optional[Dict[str, Any]],
+    condition: str,
+    event: str,
+) -> Optional[Dict[str, Any]]:
+    if output_dir is None or observation_config is None:
+        return None
+    before = capture_world_state(env, task)
+    rgb = render_fixed_rgb(observation_config)
+    after = capture_world_state(env, task)
+    state_difference = max_state_difference(before, after)
+    if state_difference != 0.0:
+        raise RuntimeError(
+            f"rendering changed physics state by {state_difference}"
+        )
+    result = save_rgb(
+        Path(output_dir) / f"{condition}_{event}.png",
+        rgb,
+    )
+    result["state_difference_after_render"] = state_difference
+    result["event"] = event
+    return result
+
+
 def _run_restored_branch(
     env: Environment,
     task: Any,
@@ -117,6 +148,8 @@ def _run_restored_branch(
     config: Dict[str, Any],
     condition: str,
     action_script: Optional[List[Dict[str, Any]]],
+    observation_output_dir: Optional[Path],
+    observation_config: Optional[Dict[str, Any]],
 ) -> Tuple[Dict[str, np.ndarray], Dict[str, Any], List[Dict[str, Any]]]:
     env.pause()
     with env._ccda_step_lock:
@@ -129,12 +162,24 @@ def _run_restored_branch(
     base_hash = array_payload_sha256(base_state)
     initial_hash = array_payload_sha256(branch_initial)
     initial_difference = max_state_difference(base_state, branch_initial)
+    observations: Dict[str, Any] = {}
     events: List[Dict[str, Any]] = []
     _mark_event(task, events, "branch_start")
 
     task.set_ccda_phase("no_action")
     env.step_physics(int(config["no_action_steps"]))
     _mark_event(task, events, "no_action_end")
+    no_action_observation = _capture_event_observation(
+        env,
+        task,
+        observation_output_dir,
+        observation_config,
+        condition,
+        "no_action_end",
+    )
+    if no_action_observation is not None:
+        observations["no_action_end"] = no_action_observation
+
     stable_beads = _bead_positions(task)
 
     if condition == "free" and action_script is None:
@@ -144,15 +189,35 @@ def _run_restored_branch(
 
     action_script = json.loads(json.dumps(action_script, sort_keys=True))
     action_hash = canonical_json_sha256(action_script)
+    main_actions = [a for a in action_script if a["phase"] == "main_pull"]
+    if len(main_actions) != 1:
+        raise ValueError("action script must contain exactly one main_pull")
 
-    task.set_ccda_phase("preload")
-    _mark_event(task, events, "preload_start")
-    env.step(_environment_action(action_script[0]))
-    _mark_event(task, events, "preload_end")
+    preload_actions = [a for a in action_script if a["phase"] == "preload"]
+    if not preload_actions:
+        raise ValueError("action script contains no preload action")
 
+    for action in preload_actions:
+        task.set_ccda_phase("preload")
+        _mark_event(task, events, action["name"] + "_start")
+        env.step(_environment_action(action))
+        _mark_event(task, events, action["name"] + "_end")
+
+    pre_main_observation = _capture_event_observation(
+        env,
+        task,
+        observation_output_dir,
+        observation_config,
+        condition,
+        "pre_main",
+    )
+    if pre_main_observation is not None:
+        observations["pre_main"] = pre_main_observation
+
+    main_action = main_actions[0]
     task.set_ccda_phase("main_pull")
     _mark_event(task, events, "main_pull_start")
-    env.step(_environment_action(action_script[1]))
+    env.step(_environment_action(main_action))
     _mark_event(task, events, "main_pull_end")
 
     task.set_ccda_phase("post_main")
@@ -181,6 +246,7 @@ def _run_restored_branch(
             "hz": int(env.hz),
         },
         "events": events,
+        "observations": observations,
         "trace_hash": array_payload_sha256(trace),
         "trace_length": int(trace["phase"].shape[0]),
         "privileged_state": task.ccda_privileged_state(),
@@ -195,6 +261,8 @@ def run_exact_counterfactual_pair(
     group_id: str,
     disp: bool = False,
     execution: Optional[Dict[str, Any]] = None,
+    observation_output_dir: Optional[Path] = None,
+    observation_config: Optional[Dict[str, Any]] = None,
 ):
     execution = dict(execution or {})
     deterministic = bool(execution.get("deterministic", True))
@@ -231,8 +299,26 @@ def run_exact_counterfactual_pair(
             base_state_hash = array_payload_sha256(base_state)
             state_id = int(p.saveState())
 
+        free_observation_dir = (
+            Path(observation_output_dir) / "free"
+            if observation_output_dir is not None
+            else None
+        )
+        hidden_observation_dir = (
+            Path(observation_output_dir) / "hidden_high_friction"
+            if observation_output_dir is not None
+            else None
+        )
         free_trace, free_meta, action_script = _run_restored_branch(
-            env, task, state_id, base_state, config, "free", None
+            env,
+            task,
+            state_id,
+            base_state,
+            config,
+            "free",
+            None,
+            free_observation_dir,
+            observation_config,
         )
         hidden_trace, hidden_meta, hidden_action = _run_restored_branch(
             env,
@@ -242,6 +328,8 @@ def run_exact_counterfactual_pair(
             config,
             "hidden_high_friction",
             action_script,
+            hidden_observation_dir,
+            observation_config,
         )
 
         if canonical_json_sha256(action_script) != canonical_json_sha256(

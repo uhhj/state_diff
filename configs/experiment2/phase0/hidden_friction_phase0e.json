@@ -1,0 +1,34 @@
+{
+  "base_config": "configs/experiment2/phase0/hidden_friction_cable.json",
+  "seed_search": {"start": 70001, "count": 8, "max_attempts": 24},
+  "execution": {"deterministic": true, "control_substeps": 1, "post_action_settle_steps": 240},
+  "observation": {
+    "width": 160, "height": 120, "feature_width": 32, "feature_height": 24,
+    "ridge_l2": 0.01, "camera_eye": [0.68, -0.82, 0.62],
+    "camera_target": [0.5, -0.02, 0.025], "camera_up": [0.0, 0.0, 1.0],
+    "fov": 50.0, "near": 0.01, "far": 3.0
+  },
+  "candidates": [
+    {"id": "direct_p15_mild", "action": {"protocol": "direct", "preload_distance": 0.0015, "main_pull_distance": 0.1, "probe_hold_steps": 0}, "friction": {"selected_count": 5, "patch_radius": 0.04, "viscous_gain": 1.0, "coulomb_force": 0.06, "max_force": 0.5}},
+    {"id": "direct_p15_balanced", "action": {"protocol": "direct", "preload_distance": 0.0015, "main_pull_distance": 0.1, "probe_hold_steps": 0}, "friction": {"selected_count": 5, "patch_radius": 0.045, "viscous_gain": 1.25, "coulomb_force": 0.08, "max_force": 0.65}},
+    {"id": "direct_p15_strong", "action": {"protocol": "direct", "preload_distance": 0.0015, "main_pull_distance": 0.1, "probe_hold_steps": 0}, "friction": {"selected_count": 5, "patch_radius": 0.05, "viscous_gain": 1.5, "coulomb_force": 0.1, "max_force": 0.8}},
+    {"id": "direct_p20_mild", "action": {"protocol": "direct", "preload_distance": 0.002, "main_pull_distance": 0.1, "probe_hold_steps": 0}, "friction": {"selected_count": 5, "patch_radius": 0.04, "viscous_gain": 1.0, "coulomb_force": 0.06, "max_force": 0.5}},
+    {"id": "direct_p20_balanced", "action": {"protocol": "direct", "preload_distance": 0.002, "main_pull_distance": 0.1, "probe_hold_steps": 0}, "friction": {"selected_count": 5, "patch_radius": 0.045, "viscous_gain": 1.25, "coulomb_force": 0.08, "max_force": 0.65}},
+    {"id": "direct_p20_strong", "action": {"protocol": "direct", "preload_distance": 0.002, "main_pull_distance": 0.1, "probe_hold_steps": 0}, "friction": {"selected_count": 5, "patch_radius": 0.05, "viscous_gain": 1.5, "coulomb_force": 0.1, "max_force": 0.8}},
+    {"id": "return_p15_mild", "action": {"protocol": "probe_return", "preload_distance": 0.0015, "main_pull_distance": 0.1, "probe_hold_steps": 60}, "friction": {"selected_count": 5, "patch_radius": 0.04, "viscous_gain": 1.0, "coulomb_force": 0.06, "max_force": 0.5}},
+    {"id": "return_p15_balanced", "action": {"protocol": "probe_return", "preload_distance": 0.0015, "main_pull_distance": 0.1, "probe_hold_steps": 60}, "friction": {"selected_count": 5, "patch_radius": 0.045, "viscous_gain": 1.25, "coulomb_force": 0.08, "max_force": 0.65}},
+    {"id": "return_p15_strong", "action": {"protocol": "probe_return", "preload_distance": 0.0015, "main_pull_distance": 0.1, "probe_hold_steps": 60}, "friction": {"selected_count": 5, "patch_radius": 0.05, "viscous_gain": 1.5, "coulomb_force": 0.1, "max_force": 0.8}},
+    {"id": "return_p20_mild", "action": {"protocol": "probe_return", "preload_distance": 0.002, "main_pull_distance": 0.1, "probe_hold_steps": 60}, "friction": {"selected_count": 5, "patch_radius": 0.04, "viscous_gain": 1.0, "coulomb_force": 0.06, "max_force": 0.5}},
+    {"id": "return_p20_balanced", "action": {"protocol": "probe_return", "preload_distance": 0.002, "main_pull_distance": 0.1, "probe_hold_steps": 60}, "friction": {"selected_count": 5, "patch_radius": 0.045, "viscous_gain": 1.25, "coulomb_force": 0.08, "max_force": 0.65}},
+    {"id": "return_p20_strong", "action": {"protocol": "probe_return", "preload_distance": 0.002, "main_pull_distance": 0.1, "probe_hold_steps": 60}, "friction": {"selected_count": 5, "patch_radius": 0.05, "viscous_gain": 1.5, "coulomb_force": 0.1, "max_force": 0.8}}
+  ],
+  "selection_targets": {
+    "max_initial_abs_xy": 1e-12, "max_arm_jump": 1e-12,
+    "max_median_no_action_drift": 0.0015, "max_median_preload_visible_difference": 0.004,
+    "min_median_contact_impulse_gap": 0.08, "min_median_main_branch_ade": 0.004,
+    "min_median_main_branch_fde": 0.01, "min_median_branch_amplification": 2.0,
+    "max_grouped_vision_accuracy": 0.625, "min_grouped_contact_accuracy": 0.875,
+    "min_seed_pass_fraction": 0.625
+  },
+  "repeat_check": {"top_k": 2, "seed_count": 2, "repeats": 2}
+}
