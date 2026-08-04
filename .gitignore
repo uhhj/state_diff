@@ -144,3 +144,21 @@ dmypy.json
 wandb_api_key.txt
 
 scripts/slurm/slurm_outputs
+
+# Experiment2 security and generated artifacts
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+.ssh/
+secrets/
+credentials/
+.ruff_cache/
+runs/
+checkpoints/
+datasets/
+data/raw/
+data/generated/
