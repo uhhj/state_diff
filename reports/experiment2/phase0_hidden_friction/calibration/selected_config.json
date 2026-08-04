@@ -1,0 +1,87 @@
+{
+  "action": {
+    "main_pull_distance": 0.09,
+    "pick_z": 0.001,
+    "preload_distance": 0.002
+  },
+  "calibration": {
+    "candidate_id": "p02_n5_balanced",
+    "eligible": false,
+    "note": "Provisional Phase 0C selection; not a formal CCDA gate pass.",
+    "score": 6.818607418907985,
+    "selection_targets": {
+      "max_arm_jump": 1e-12,
+      "max_initial_abs_xy": 1e-12,
+      "max_median_no_action_drift": 0.0015,
+      "max_median_preload_visible_difference": 0.006,
+      "min_median_branch_amplification": 1.8,
+      "min_median_contact_impulse_gap": 0.08,
+      "min_median_main_branch_ade": 0.004,
+      "min_median_main_branch_fde": 0.01
+    },
+    "source_calibration_config": "configs/experiment2/phase0/hidden_friction_calibration.json",
+    "source_calibration_hash": "27281eb6c50fe0d10315465559de4316935be149283fa7a56a84c0a1035a3012"
+  },
+  "conditions": [
+    "free",
+    "hidden_high_friction"
+  ],
+  "friction": {
+    "center_ratio": 0.45,
+    "contact_height": 0.03,
+    "coulomb_force": 0.06,
+    "max_force": 0.5,
+    "patch_radius": 0.04,
+    "selected_count": 5,
+    "speed_epsilon": 0.0001,
+    "viscous_gain": 1.0
+  },
+  "groups": 3,
+  "hz": 480,
+  "no_action_steps": 240,
+  "post_main_steps": 240,
+  "seed_start": 70001,
+  "simulation_video": {
+    "camera_eye": [
+      0.68,
+      -0.82,
+      0.62
+    ],
+    "camera_target": [
+      0.5,
+      -0.02,
+      0.025
+    ],
+    "camera_up": [
+      0.0,
+      0.0,
+      1.0
+    ],
+    "far": 3.0,
+    "fov": 50.0,
+    "fps": 20,
+    "height": 480,
+    "idle_capture_steps": 4,
+    "near": 0.01,
+    "overlay": true,
+    "record_call_stride": 20,
+    "renderer": "tiny",
+    "width": 640
+  },
+  "task_name": "ccda-hidden-friction-cable",
+  "trace_stride": 4,
+  "visualization": {
+    "dpi": 150,
+    "resample_frames": 120
+  },
+  "workspace_bounds": {
+    "x": [
+      0.25,
+      0.75
+    ],
+    "y": [
+      -0.45,
+      0.45
+    ]
+  }
+}

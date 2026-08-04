@@ -1,0 +1,120 @@
+{
+  "base_config": "configs/experiment2/phase0/hidden_friction_cable.json",
+  "seeds": [70001, 70002, 70003],
+  "candidates": [
+    {
+      "id": "p02_n3_mild",
+      "action": {"preload_distance": 0.002},
+      "friction": {
+        "selected_count": 3,
+        "patch_radius": 0.025,
+        "viscous_gain": 0.75,
+        "coulomb_force": 0.04,
+        "max_force": 0.35
+      }
+    },
+    {
+      "id": "p02_n3_balanced",
+      "action": {"preload_distance": 0.002},
+      "friction": {
+        "selected_count": 3,
+        "patch_radius": 0.035,
+        "viscous_gain": 1.0,
+        "coulomb_force": 0.06,
+        "max_force": 0.45
+      }
+    },
+    {
+      "id": "p02_n5_balanced",
+      "action": {"preload_distance": 0.002},
+      "friction": {
+        "selected_count": 5,
+        "patch_radius": 0.04,
+        "viscous_gain": 1.0,
+        "coulomb_force": 0.06,
+        "max_force": 0.5
+      }
+    },
+    {
+      "id": "p03_n3_mild",
+      "action": {"preload_distance": 0.003},
+      "friction": {
+        "selected_count": 3,
+        "patch_radius": 0.025,
+        "viscous_gain": 0.75,
+        "coulomb_force": 0.04,
+        "max_force": 0.35
+      }
+    },
+    {
+      "id": "p03_n3_balanced",
+      "action": {"preload_distance": 0.003},
+      "friction": {
+        "selected_count": 3,
+        "patch_radius": 0.035,
+        "viscous_gain": 1.0,
+        "coulomb_force": 0.06,
+        "max_force": 0.45
+      }
+    },
+    {
+      "id": "p03_n5_balanced",
+      "action": {"preload_distance": 0.003},
+      "friction": {
+        "selected_count": 5,
+        "patch_radius": 0.04,
+        "viscous_gain": 1.0,
+        "coulomb_force": 0.06,
+        "max_force": 0.5
+      }
+    },
+    {
+      "id": "p04_n3_mild",
+      "action": {"preload_distance": 0.004},
+      "friction": {
+        "selected_count": 3,
+        "patch_radius": 0.025,
+        "viscous_gain": 0.75,
+        "coulomb_force": 0.04,
+        "max_force": 0.35
+      }
+    },
+    {
+      "id": "p04_n3_balanced",
+      "action": {"preload_distance": 0.004},
+      "friction": {
+        "selected_count": 3,
+        "patch_radius": 0.035,
+        "viscous_gain": 1.0,
+        "coulomb_force": 0.06,
+        "max_force": 0.45
+      }
+    },
+    {
+      "id": "p04_n5_balanced",
+      "action": {"preload_distance": 0.004},
+      "friction": {
+        "selected_count": 5,
+        "patch_radius": 0.04,
+        "viscous_gain": 1.0,
+        "coulomb_force": 0.06,
+        "max_force": 0.5
+      }
+    }
+  ],
+  "selection_targets": {
+    "max_initial_abs_xy": 1e-12,
+    "max_arm_jump": 1e-12,
+    "max_median_no_action_drift": 0.0015,
+    "max_median_preload_visible_difference": 0.006,
+    "min_median_contact_impulse_gap": 0.08,
+    "min_median_main_branch_ade": 0.004,
+    "min_median_main_branch_fde": 0.01,
+    "min_median_branch_amplification": 1.8
+  },
+  "determinism": {
+    "seed": 70001,
+    "repeats": 2,
+    "trace_atol": 0.000001
+  }
+}

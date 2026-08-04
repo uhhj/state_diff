@@ -176,3 +176,10 @@ reports/experiment2/phase0_hidden_friction/simulation/hf_*/*_simulation.json
 reports/experiment2/phase0_hidden_friction/simulation/hf_*/*_side_by_side_contact_sheet.png
 !reports/experiment2/phase0_hidden_friction/simulation/hf_070001/hf_070001_simulation.json
 !reports/experiment2/phase0_hidden_friction/simulation/hf_070001/hf_070001_side_by_side_contact_sheet.png
+
+# Experiment2 Phase 0C calibration raw traces stay on the server.
+reports/experiment2/phase0_hidden_friction/calibration/raw/
+
+# Calibrated-config videos stay on the server.
+reports/experiment2/phase0_hidden_friction/simulation/calibrated/**/*.mp4
+reports/experiment2/phase0_hidden_friction/simulation/calibrated/**/*.frames.json

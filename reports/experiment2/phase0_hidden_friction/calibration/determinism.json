@@ -1,0 +1,194 @@
+{
+  "candidate_id": "p02_n5_balanced",
+  "comparisons": [
+    {
+      "free": {
+        "bead_positions": {
+          "first_shape": [
+            311,
+            24,
+            3
+          ],
+          "max_abs": null,
+          "second_shape": [
+            321,
+            24,
+            3
+          ],
+          "shape_match": false
+        },
+        "bead_velocities": {
+          "first_shape": [
+            311,
+            24,
+            3
+          ],
+          "max_abs": null,
+          "second_shape": [
+            321,
+            24,
+            3
+          ],
+          "shape_match": false
+        },
+        "contact_force_norm": {
+          "first_shape": [
+            311
+          ],
+          "max_abs": null,
+          "second_shape": [
+            321
+          ],
+          "shape_match": false
+        },
+        "ee_position": {
+          "first_shape": [
+            311,
+            3
+          ],
+          "max_abs": null,
+          "second_shape": [
+            321,
+            3
+          ],
+          "shape_match": false
+        },
+        "joint_positions": {
+          "first_shape": [
+            311,
+            6
+          ],
+          "max_abs": null,
+          "second_shape": [
+            321,
+            6
+          ],
+          "shape_match": false
+        },
+        "joint_velocities": {
+          "first_shape": [
+            311,
+            6
+          ],
+          "max_abs": null,
+          "second_shape": [
+            321,
+            6
+          ],
+          "shape_match": false
+        }
+      },
+      "hidden": {
+        "bead_positions": {
+          "first_shape": [
+            286,
+            24,
+            3
+          ],
+          "max_abs": null,
+          "second_shape": [
+            299,
+            24,
+            3
+          ],
+          "shape_match": false
+        },
+        "bead_velocities": {
+          "first_shape": [
+            286,
+            24,
+            3
+          ],
+          "max_abs": null,
+          "second_shape": [
+            299,
+            24,
+            3
+          ],
+          "shape_match": false
+        },
+        "contact_force_norm": {
+          "first_shape": [
+            286
+          ],
+          "max_abs": null,
+          "second_shape": [
+            299
+          ],
+          "shape_match": false
+        },
+        "ee_position": {
+          "first_shape": [
+            286,
+            3
+          ],
+          "max_abs": null,
+          "second_shape": [
+            299,
+            3
+          ],
+          "shape_match": false
+        },
+        "joint_positions": {
+          "first_shape": [
+            286,
+            6
+          ],
+          "max_abs": null,
+          "second_shape": [
+            299,
+            6
+          ],
+          "shape_match": false
+        },
+        "joint_velocities": {
+          "first_shape": [
+            286,
+            6
+          ],
+          "max_abs": null,
+          "second_shape": [
+            299,
+            6
+          ],
+          "shape_match": false
+        }
+      },
+      "repeat_a": 0,
+      "repeat_b": 1
+    }
+  ],
+  "pair_metadata": [
+    {
+      "action_hash": "7348ec32e8590958358b05d5f6af6b961e62e78b8810cb100b39610af522fcaa",
+      "action_hash_match": true,
+      "base_state_hash": "458b9491abc95e54908f71a5ea0f085dfcc2af1748368159c1dae3e6f7c5c929",
+      "free_base_state_hash_match": true,
+      "free_hidden_initial_hash_match": true,
+      "free_initial_hash": "458b9491abc95e54908f71a5ea0f085dfcc2af1748368159c1dae3e6f7c5c929",
+      "group_id": "det_070001_0",
+      "hidden_base_state_hash_match": true,
+      "hidden_initial_hash": "458b9491abc95e54908f71a5ea0f085dfcc2af1748368159c1dae3e6f7c5c929",
+      "max_initial_state_difference": 0.0,
+      "pairing_mode": "pybullet_save_restore_same_connection",
+      "seed": 70001
+    },
+    {
+      "action_hash": "dca1cd5d928df8099faaae427498ba405d531901ad0d97185c0930232557d97e",
+      "action_hash_match": true,
+      "base_state_hash": "aec0a1114f4be1cc684dfeff2333bb3d575be046b1439440d3817d9ca52d360d",
+      "free_base_state_hash_match": true,
+      "free_hidden_initial_hash_match": true,
+      "free_initial_hash": "aec0a1114f4be1cc684dfeff2333bb3d575be046b1439440d3817d9ca52d360d",
+      "group_id": "det_070001_1",
+      "hidden_base_state_hash_match": true,
+      "hidden_initial_hash": "aec0a1114f4be1cc684dfeff2333bb3d575be046b1439440d3817d9ca52d360d",
+      "max_initial_state_difference": 0.0,
+      "pairing_mode": "pybullet_save_restore_same_connection",
+      "seed": 70001
+    }
+  ],
+  "repeats": 2,
+  "seed": 70001,
+  "trace_atol": 1e-06
+}
