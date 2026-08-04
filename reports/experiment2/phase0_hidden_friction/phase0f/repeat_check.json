@@ -1,0 +1,2562 @@
+{
+  "numeric_atol": 1e-09,
+  "passed": true,
+  "rows": [
+    {
+      "candidate_id": "legacy_direct_reference",
+      "comparisons": [
+        {
+          "free": {
+            "byte_exact": true,
+            "fields": {
+              "bead_positions": {
+                "exact": true,
+                "first_shape": [
+                  434,
+                  24,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  434,
+                  24,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "bead_velocities": {
+                "exact": true,
+                "first_shape": [
+                  434,
+                  24,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  434,
+                  24,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "contact_active_beads": {
+                "exact": true,
+                "first_shape": [
+                  434
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  434
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "contact_force_norm": {
+                "exact": true,
+                "first_shape": [
+                  434
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  434
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "contact_force_xyz": {
+                "exact": true,
+                "first_shape": [
+                  434,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  434,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "contact_max_force_norm": {
+                "exact": true,
+                "first_shape": [
+                  434
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  434
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "contact_mean_speed": {
+                "exact": true,
+                "first_shape": [
+                  434
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  434
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "ee_orientation": {
+                "exact": true,
+                "first_shape": [
+                  434,
+                  4
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  434,
+                  4
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "ee_position": {
+                "exact": true,
+                "first_shape": [
+                  434,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  434,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "joint_positions": {
+                "exact": true,
+                "first_shape": [
+                  434,
+                  6
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  434,
+                  6
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "joint_velocities": {
+                "exact": true,
+                "first_shape": [
+                  434,
+                  6
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  434,
+                  6
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "phase": {
+                "exact": true,
+                "first_shape": [
+                  434
+                ],
+                "max_abs": null,
+                "present_in_both": true,
+                "second_shape": [
+                  434
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "physics_step": {
+                "exact": true,
+                "first_shape": [
+                  434
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  434
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_constraint_available": {
+                "exact": true,
+                "first_shape": [
+                  434
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  434
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_grasp_active": {
+                "exact": true,
+                "first_shape": [
+                  434
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  434
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_joint_motor_torque": {
+                "exact": true,
+                "first_shape": [
+                  434,
+                  6
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  434,
+                  6
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_joint_motor_torque_norm": {
+                "exact": true,
+                "first_shape": [
+                  434
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  434
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_suction_force_norm": {
+                "exact": true,
+                "first_shape": [
+                  434
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  434
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_suction_force_xyz": {
+                "exact": true,
+                "first_shape": [
+                  434,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  434,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_suction_torque_norm": {
+                "exact": true,
+                "first_shape": [
+                  434
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  434
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_suction_torque_xyz": {
+                "exact": true,
+                "first_shape": [
+                  434,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  434,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              }
+            },
+            "keys_match": true,
+            "numeric_within_atol": true,
+            "passed": true,
+            "phase_exact": true,
+            "shape_match": true
+          },
+          "hidden": {
+            "byte_exact": true,
+            "fields": {
+              "bead_positions": {
+                "exact": true,
+                "first_shape": [
+                  410,
+                  24,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  410,
+                  24,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "bead_velocities": {
+                "exact": true,
+                "first_shape": [
+                  410,
+                  24,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  410,
+                  24,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "contact_active_beads": {
+                "exact": true,
+                "first_shape": [
+                  410
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  410
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "contact_force_norm": {
+                "exact": true,
+                "first_shape": [
+                  410
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  410
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "contact_force_xyz": {
+                "exact": true,
+                "first_shape": [
+                  410,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  410,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "contact_max_force_norm": {
+                "exact": true,
+                "first_shape": [
+                  410
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  410
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "contact_mean_speed": {
+                "exact": true,
+                "first_shape": [
+                  410
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  410
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "ee_orientation": {
+                "exact": true,
+                "first_shape": [
+                  410,
+                  4
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  410,
+                  4
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "ee_position": {
+                "exact": true,
+                "first_shape": [
+                  410,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  410,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "joint_positions": {
+                "exact": true,
+                "first_shape": [
+                  410,
+                  6
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  410,
+                  6
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "joint_velocities": {
+                "exact": true,
+                "first_shape": [
+                  410,
+                  6
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  410,
+                  6
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "phase": {
+                "exact": true,
+                "first_shape": [
+                  410
+                ],
+                "max_abs": null,
+                "present_in_both": true,
+                "second_shape": [
+                  410
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "physics_step": {
+                "exact": true,
+                "first_shape": [
+                  410
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  410
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_constraint_available": {
+                "exact": true,
+                "first_shape": [
+                  410
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  410
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_grasp_active": {
+                "exact": true,
+                "first_shape": [
+                  410
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  410
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_joint_motor_torque": {
+                "exact": true,
+                "first_shape": [
+                  410,
+                  6
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  410,
+                  6
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_joint_motor_torque_norm": {
+                "exact": true,
+                "first_shape": [
+                  410
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  410
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_suction_force_norm": {
+                "exact": true,
+                "first_shape": [
+                  410
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  410
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_suction_force_xyz": {
+                "exact": true,
+                "first_shape": [
+                  410,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  410,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_suction_torque_norm": {
+                "exact": true,
+                "first_shape": [
+                  410
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  410
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_suction_torque_xyz": {
+                "exact": true,
+                "first_shape": [
+                  410,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  410,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              }
+            },
+            "keys_match": true,
+            "numeric_within_atol": true,
+            "passed": true,
+            "phase_exact": true,
+            "shape_match": true
+          },
+          "repeat_a": 0,
+          "repeat_b": 1
+        }
+      ],
+      "max_numeric_error": 0.0,
+      "metadata": {
+        "checks": {
+          "action_hash": true,
+          "base_state_hash": true,
+          "free_events": true,
+          "free_trace_length": true,
+          "hidden_events": true,
+          "hidden_trace_length": true,
+          "pair_action_match": true,
+          "pair_initial_match": true
+        },
+        "passed": true
+      },
+      "passed": true,
+      "seed": 70001
+    },
+    {
+      "candidate_id": "legacy_direct_reference",
+      "comparisons": [
+        {
+          "free": {
+            "byte_exact": true,
+            "fields": {
+              "bead_positions": {
+                "exact": true,
+                "first_shape": [
+                  498,
+                  24,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  498,
+                  24,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "bead_velocities": {
+                "exact": true,
+                "first_shape": [
+                  498,
+                  24,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  498,
+                  24,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "contact_active_beads": {
+                "exact": true,
+                "first_shape": [
+                  498
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  498
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "contact_force_norm": {
+                "exact": true,
+                "first_shape": [
+                  498
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  498
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "contact_force_xyz": {
+                "exact": true,
+                "first_shape": [
+                  498,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  498,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "contact_max_force_norm": {
+                "exact": true,
+                "first_shape": [
+                  498
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  498
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "contact_mean_speed": {
+                "exact": true,
+                "first_shape": [
+                  498
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  498
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "ee_orientation": {
+                "exact": true,
+                "first_shape": [
+                  498,
+                  4
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  498,
+                  4
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "ee_position": {
+                "exact": true,
+                "first_shape": [
+                  498,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  498,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "joint_positions": {
+                "exact": true,
+                "first_shape": [
+                  498,
+                  6
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  498,
+                  6
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "joint_velocities": {
+                "exact": true,
+                "first_shape": [
+                  498,
+                  6
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  498,
+                  6
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "phase": {
+                "exact": true,
+                "first_shape": [
+                  498
+                ],
+                "max_abs": null,
+                "present_in_both": true,
+                "second_shape": [
+                  498
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "physics_step": {
+                "exact": true,
+                "first_shape": [
+                  498
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  498
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_constraint_available": {
+                "exact": true,
+                "first_shape": [
+                  498
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  498
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_grasp_active": {
+                "exact": true,
+                "first_shape": [
+                  498
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  498
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_joint_motor_torque": {
+                "exact": true,
+                "first_shape": [
+                  498,
+                  6
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  498,
+                  6
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_joint_motor_torque_norm": {
+                "exact": true,
+                "first_shape": [
+                  498
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  498
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_suction_force_norm": {
+                "exact": true,
+                "first_shape": [
+                  498
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  498
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_suction_force_xyz": {
+                "exact": true,
+                "first_shape": [
+                  498,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  498,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_suction_torque_norm": {
+                "exact": true,
+                "first_shape": [
+                  498
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  498
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_suction_torque_xyz": {
+                "exact": true,
+                "first_shape": [
+                  498,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  498,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              }
+            },
+            "keys_match": true,
+            "numeric_within_atol": true,
+            "passed": true,
+            "phase_exact": true,
+            "shape_match": true
+          },
+          "hidden": {
+            "byte_exact": true,
+            "fields": {
+              "bead_positions": {
+                "exact": true,
+                "first_shape": [
+                  466,
+                  24,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  466,
+                  24,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "bead_velocities": {
+                "exact": true,
+                "first_shape": [
+                  466,
+                  24,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  466,
+                  24,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "contact_active_beads": {
+                "exact": true,
+                "first_shape": [
+                  466
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  466
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "contact_force_norm": {
+                "exact": true,
+                "first_shape": [
+                  466
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  466
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "contact_force_xyz": {
+                "exact": true,
+                "first_shape": [
+                  466,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  466,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "contact_max_force_norm": {
+                "exact": true,
+                "first_shape": [
+                  466
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  466
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "contact_mean_speed": {
+                "exact": true,
+                "first_shape": [
+                  466
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  466
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "ee_orientation": {
+                "exact": true,
+                "first_shape": [
+                  466,
+                  4
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  466,
+                  4
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "ee_position": {
+                "exact": true,
+                "first_shape": [
+                  466,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  466,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "joint_positions": {
+                "exact": true,
+                "first_shape": [
+                  466,
+                  6
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  466,
+                  6
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "joint_velocities": {
+                "exact": true,
+                "first_shape": [
+                  466,
+                  6
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  466,
+                  6
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "phase": {
+                "exact": true,
+                "first_shape": [
+                  466
+                ],
+                "max_abs": null,
+                "present_in_both": true,
+                "second_shape": [
+                  466
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "physics_step": {
+                "exact": true,
+                "first_shape": [
+                  466
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  466
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_constraint_available": {
+                "exact": true,
+                "first_shape": [
+                  466
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  466
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_grasp_active": {
+                "exact": true,
+                "first_shape": [
+                  466
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  466
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_joint_motor_torque": {
+                "exact": true,
+                "first_shape": [
+                  466,
+                  6
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  466,
+                  6
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_joint_motor_torque_norm": {
+                "exact": true,
+                "first_shape": [
+                  466
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  466
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_suction_force_norm": {
+                "exact": true,
+                "first_shape": [
+                  466
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  466
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_suction_force_xyz": {
+                "exact": true,
+                "first_shape": [
+                  466,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  466,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_suction_torque_norm": {
+                "exact": true,
+                "first_shape": [
+                  466
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  466
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_suction_torque_xyz": {
+                "exact": true,
+                "first_shape": [
+                  466,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  466,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              }
+            },
+            "keys_match": true,
+            "numeric_within_atol": true,
+            "passed": true,
+            "phase_exact": true,
+            "shape_match": true
+          },
+          "repeat_a": 0,
+          "repeat_b": 1
+        }
+      ],
+      "max_numeric_error": 0.0,
+      "metadata": {
+        "checks": {
+          "action_hash": true,
+          "base_state_hash": true,
+          "free_events": true,
+          "free_trace_length": true,
+          "hidden_events": true,
+          "hidden_trace_length": true,
+          "pair_action_match": true,
+          "pair_initial_match": true
+        },
+        "passed": true
+      },
+      "passed": true,
+      "seed": 70002
+    },
+    {
+      "candidate_id": "legacy_micro_p05",
+      "comparisons": [
+        {
+          "free": {
+            "byte_exact": true,
+            "fields": {
+              "bead_positions": {
+                "exact": true,
+                "first_shape": [
+                  908,
+                  24,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  908,
+                  24,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "bead_velocities": {
+                "exact": true,
+                "first_shape": [
+                  908,
+                  24,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  908,
+                  24,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "contact_active_beads": {
+                "exact": true,
+                "first_shape": [
+                  908
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  908
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "contact_force_norm": {
+                "exact": true,
+                "first_shape": [
+                  908
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  908
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "contact_force_xyz": {
+                "exact": true,
+                "first_shape": [
+                  908,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  908,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "contact_max_force_norm": {
+                "exact": true,
+                "first_shape": [
+                  908
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  908
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "contact_mean_speed": {
+                "exact": true,
+                "first_shape": [
+                  908
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  908
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "ee_orientation": {
+                "exact": true,
+                "first_shape": [
+                  908,
+                  4
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  908,
+                  4
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "ee_position": {
+                "exact": true,
+                "first_shape": [
+                  908,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  908,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "joint_positions": {
+                "exact": true,
+                "first_shape": [
+                  908,
+                  6
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  908,
+                  6
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "joint_velocities": {
+                "exact": true,
+                "first_shape": [
+                  908,
+                  6
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  908,
+                  6
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "phase": {
+                "exact": true,
+                "first_shape": [
+                  908
+                ],
+                "max_abs": null,
+                "present_in_both": true,
+                "second_shape": [
+                  908
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "physics_step": {
+                "exact": true,
+                "first_shape": [
+                  908
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  908
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_constraint_available": {
+                "exact": true,
+                "first_shape": [
+                  908
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  908
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_grasp_active": {
+                "exact": true,
+                "first_shape": [
+                  908
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  908
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_joint_motor_torque": {
+                "exact": true,
+                "first_shape": [
+                  908,
+                  6
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  908,
+                  6
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_joint_motor_torque_norm": {
+                "exact": true,
+                "first_shape": [
+                  908
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  908
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_suction_force_norm": {
+                "exact": true,
+                "first_shape": [
+                  908
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  908
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_suction_force_xyz": {
+                "exact": true,
+                "first_shape": [
+                  908,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  908,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_suction_torque_norm": {
+                "exact": true,
+                "first_shape": [
+                  908
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  908
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_suction_torque_xyz": {
+                "exact": true,
+                "first_shape": [
+                  908,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  908,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              }
+            },
+            "keys_match": true,
+            "numeric_within_atol": true,
+            "passed": true,
+            "phase_exact": true,
+            "shape_match": true
+          },
+          "hidden": {
+            "byte_exact": true,
+            "fields": {
+              "bead_positions": {
+                "exact": true,
+                "first_shape": [
+                  875,
+                  24,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  875,
+                  24,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "bead_velocities": {
+                "exact": true,
+                "first_shape": [
+                  875,
+                  24,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  875,
+                  24,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "contact_active_beads": {
+                "exact": true,
+                "first_shape": [
+                  875
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  875
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "contact_force_norm": {
+                "exact": true,
+                "first_shape": [
+                  875
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  875
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "contact_force_xyz": {
+                "exact": true,
+                "first_shape": [
+                  875,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  875,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "contact_max_force_norm": {
+                "exact": true,
+                "first_shape": [
+                  875
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  875
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "contact_mean_speed": {
+                "exact": true,
+                "first_shape": [
+                  875
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  875
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "ee_orientation": {
+                "exact": true,
+                "first_shape": [
+                  875,
+                  4
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  875,
+                  4
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "ee_position": {
+                "exact": true,
+                "first_shape": [
+                  875,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  875,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "joint_positions": {
+                "exact": true,
+                "first_shape": [
+                  875,
+                  6
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  875,
+                  6
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "joint_velocities": {
+                "exact": true,
+                "first_shape": [
+                  875,
+                  6
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  875,
+                  6
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "phase": {
+                "exact": true,
+                "first_shape": [
+                  875
+                ],
+                "max_abs": null,
+                "present_in_both": true,
+                "second_shape": [
+                  875
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "physics_step": {
+                "exact": true,
+                "first_shape": [
+                  875
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  875
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_constraint_available": {
+                "exact": true,
+                "first_shape": [
+                  875
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  875
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_grasp_active": {
+                "exact": true,
+                "first_shape": [
+                  875
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  875
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_joint_motor_torque": {
+                "exact": true,
+                "first_shape": [
+                  875,
+                  6
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  875,
+                  6
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_joint_motor_torque_norm": {
+                "exact": true,
+                "first_shape": [
+                  875
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  875
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_suction_force_norm": {
+                "exact": true,
+                "first_shape": [
+                  875
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  875
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_suction_force_xyz": {
+                "exact": true,
+                "first_shape": [
+                  875,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  875,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_suction_torque_norm": {
+                "exact": true,
+                "first_shape": [
+                  875
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  875
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_suction_torque_xyz": {
+                "exact": true,
+                "first_shape": [
+                  875,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  875,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              }
+            },
+            "keys_match": true,
+            "numeric_within_atol": true,
+            "passed": true,
+            "phase_exact": true,
+            "shape_match": true
+          },
+          "repeat_a": 0,
+          "repeat_b": 1
+        }
+      ],
+      "max_numeric_error": 0.0,
+      "metadata": {
+        "checks": {
+          "action_hash": true,
+          "base_state_hash": true,
+          "free_events": true,
+          "free_trace_length": true,
+          "hidden_events": true,
+          "hidden_trace_length": true,
+          "pair_action_match": true,
+          "pair_initial_match": true
+        },
+        "passed": true
+      },
+      "passed": true,
+      "seed": 70001
+    },
+    {
+      "candidate_id": "legacy_micro_p05",
+      "comparisons": [
+        {
+          "free": {
+            "byte_exact": true,
+            "fields": {
+              "bead_positions": {
+                "exact": true,
+                "first_shape": [
+                  1119,
+                  24,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  1119,
+                  24,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "bead_velocities": {
+                "exact": true,
+                "first_shape": [
+                  1119,
+                  24,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  1119,
+                  24,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "contact_active_beads": {
+                "exact": true,
+                "first_shape": [
+                  1119
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  1119
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "contact_force_norm": {
+                "exact": true,
+                "first_shape": [
+                  1119
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  1119
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "contact_force_xyz": {
+                "exact": true,
+                "first_shape": [
+                  1119,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  1119,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "contact_max_force_norm": {
+                "exact": true,
+                "first_shape": [
+                  1119
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  1119
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "contact_mean_speed": {
+                "exact": true,
+                "first_shape": [
+                  1119
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  1119
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "ee_orientation": {
+                "exact": true,
+                "first_shape": [
+                  1119,
+                  4
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  1119,
+                  4
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "ee_position": {
+                "exact": true,
+                "first_shape": [
+                  1119,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  1119,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "joint_positions": {
+                "exact": true,
+                "first_shape": [
+                  1119,
+                  6
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  1119,
+                  6
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "joint_velocities": {
+                "exact": true,
+                "first_shape": [
+                  1119,
+                  6
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  1119,
+                  6
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "phase": {
+                "exact": true,
+                "first_shape": [
+                  1119
+                ],
+                "max_abs": null,
+                "present_in_both": true,
+                "second_shape": [
+                  1119
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "physics_step": {
+                "exact": true,
+                "first_shape": [
+                  1119
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  1119
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_constraint_available": {
+                "exact": true,
+                "first_shape": [
+                  1119
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  1119
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_grasp_active": {
+                "exact": true,
+                "first_shape": [
+                  1119
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  1119
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_joint_motor_torque": {
+                "exact": true,
+                "first_shape": [
+                  1119,
+                  6
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  1119,
+                  6
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_joint_motor_torque_norm": {
+                "exact": true,
+                "first_shape": [
+                  1119
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  1119
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_suction_force_norm": {
+                "exact": true,
+                "first_shape": [
+                  1119
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  1119
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_suction_force_xyz": {
+                "exact": true,
+                "first_shape": [
+                  1119,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  1119,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_suction_torque_norm": {
+                "exact": true,
+                "first_shape": [
+                  1119
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  1119
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_suction_torque_xyz": {
+                "exact": true,
+                "first_shape": [
+                  1119,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  1119,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              }
+            },
+            "keys_match": true,
+            "numeric_within_atol": true,
+            "passed": true,
+            "phase_exact": true,
+            "shape_match": true
+          },
+          "hidden": {
+            "byte_exact": true,
+            "fields": {
+              "bead_positions": {
+                "exact": true,
+                "first_shape": [
+                  977,
+                  24,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  977,
+                  24,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "bead_velocities": {
+                "exact": true,
+                "first_shape": [
+                  977,
+                  24,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  977,
+                  24,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "contact_active_beads": {
+                "exact": true,
+                "first_shape": [
+                  977
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  977
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "contact_force_norm": {
+                "exact": true,
+                "first_shape": [
+                  977
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  977
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "contact_force_xyz": {
+                "exact": true,
+                "first_shape": [
+                  977,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  977,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "contact_max_force_norm": {
+                "exact": true,
+                "first_shape": [
+                  977
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  977
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "contact_mean_speed": {
+                "exact": true,
+                "first_shape": [
+                  977
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  977
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "ee_orientation": {
+                "exact": true,
+                "first_shape": [
+                  977,
+                  4
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  977,
+                  4
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "ee_position": {
+                "exact": true,
+                "first_shape": [
+                  977,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  977,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "joint_positions": {
+                "exact": true,
+                "first_shape": [
+                  977,
+                  6
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  977,
+                  6
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "joint_velocities": {
+                "exact": true,
+                "first_shape": [
+                  977,
+                  6
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  977,
+                  6
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "phase": {
+                "exact": true,
+                "first_shape": [
+                  977
+                ],
+                "max_abs": null,
+                "present_in_both": true,
+                "second_shape": [
+                  977
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "physics_step": {
+                "exact": true,
+                "first_shape": [
+                  977
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  977
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_constraint_available": {
+                "exact": true,
+                "first_shape": [
+                  977
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  977
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_grasp_active": {
+                "exact": true,
+                "first_shape": [
+                  977
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  977
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_joint_motor_torque": {
+                "exact": true,
+                "first_shape": [
+                  977,
+                  6
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  977,
+                  6
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_joint_motor_torque_norm": {
+                "exact": true,
+                "first_shape": [
+                  977
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  977
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_suction_force_norm": {
+                "exact": true,
+                "first_shape": [
+                  977
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  977
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_suction_force_xyz": {
+                "exact": true,
+                "first_shape": [
+                  977,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  977,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_suction_torque_norm": {
+                "exact": true,
+                "first_shape": [
+                  977
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  977
+                ],
+                "shape_match": true,
+                "within_atol": true
+              },
+              "sensor_suction_torque_xyz": {
+                "exact": true,
+                "first_shape": [
+                  977,
+                  3
+                ],
+                "max_abs": 0.0,
+                "present_in_both": true,
+                "second_shape": [
+                  977,
+                  3
+                ],
+                "shape_match": true,
+                "within_atol": true
+              }
+            },
+            "keys_match": true,
+            "numeric_within_atol": true,
+            "passed": true,
+            "phase_exact": true,
+            "shape_match": true
+          },
+          "repeat_a": 0,
+          "repeat_b": 1
+        }
+      ],
+      "max_numeric_error": 0.0,
+      "metadata": {
+        "checks": {
+          "action_hash": true,
+          "base_state_hash": true,
+          "free_events": true,
+          "free_trace_length": true,
+          "hidden_events": true,
+          "hidden_trace_length": true,
+          "pair_action_match": true,
+          "pair_initial_match": true
+        },
+        "passed": true
+      },
+      "passed": true,
+      "seed": 70002
+    }
+  ]
+}

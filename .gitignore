@@ -193,3 +193,6 @@ reports/experiment2/phase0_hidden_friction/phase0e/raw/
 # Optional selected-candidate videos stay on the server.
 reports/experiment2/phase0_hidden_friction/phase0e/videos/**/*.mp4
 reports/experiment2/phase0_hidden_friction/phase0e/videos/**/*.frames.json
+
+# Experiment2 Phase 0F raw traces and event RGB stay on the server.
+reports/experiment2/phase0_hidden_friction/phase0f/raw/

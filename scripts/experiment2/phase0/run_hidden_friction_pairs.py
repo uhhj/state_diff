@@ -31,19 +31,23 @@ from scripts.experiment2.phase0.common import (  # noqa: E402
 
 
 TRACE_KEYS = (
-    "physics_step",
-    "phase",
-    "bead_positions",
-    "bead_velocities",
-    "joint_positions",
-    "joint_velocities",
-    "ee_position",
-    "ee_orientation",
-    "contact_force_xyz",
-    "contact_force_norm",
-    "contact_max_force_norm",
-    "contact_active_beads",
+    "physics_step", "phase",
+    "bead_positions", "bead_velocities",
+    "joint_positions", "joint_velocities",
+    "ee_position", "ee_orientation",
+    # Oracle / privileged contact.
+    "contact_force_xyz", "contact_force_norm",
+    "contact_max_force_norm", "contact_active_beads",
     "contact_mean_speed",
+    # Formal robot-observable sensor.
+    "sensor_joint_motor_torque",
+    "sensor_joint_motor_torque_norm",
+    "sensor_suction_force_xyz",
+    "sensor_suction_force_norm",
+    "sensor_suction_torque_xyz",
+    "sensor_suction_torque_norm",
+    "sensor_grasp_active",
+    "sensor_constraint_available",
 )
 
 
@@ -99,7 +103,7 @@ def generate_action_script(
 
     action = config["action"]
     protocol = str(action.get("protocol", "direct"))
-    if protocol not in {"direct", "probe_return"}:
+    if protocol not in {"direct", "probe_return", "planar_microprobe"}:
         raise ValueError(f"unsupported preload protocol {protocol!r}")
 
     center = np.mean(values[:, :2], axis=0)
@@ -170,7 +174,7 @@ def generate_action_script(
             "pose0": _pose(start),
             "pose1": _pose(probe_end),
         }
-    else:
+    elif protocol == "probe_return":
         main_start = start.copy()
         main_end = main_start.copy()
         main_end[:2] += direction * main_distance
@@ -182,6 +186,32 @@ def generate_action_script(
             "pose_probe": _pose(probe_end),
             "pose_return": _pose(start),
             "hold_steps": hold_steps,
+        }
+    else:
+        main_start = start.copy()
+        main_end = main_start.copy()
+        main_end[:2] += direction * main_distance
+        preload = {
+            "name": "planar_microprobe",
+            "phase": "preload",
+            "primitive": "pick_planar_microprobe",
+            "pose0": _pose(start),
+            "pose_probe": _pose(probe_end),
+            "pose_return": _pose(start),
+            "lift_height": float(
+                action.get("microprobe_lift_height", 0.0015)
+            ),
+            "hold_steps": int(action.get("microprobe_hold_steps", 60)),
+            "return_hold_steps": int(
+                action.get("microprobe_return_hold_steps", 120)
+            ),
+            "post_release_steps": int(
+                action.get("microprobe_post_release_steps", 120)
+            ),
+            "approach_height": float(
+                action.get("microprobe_approach_height", 0.02)
+            ),
+            "retreat_z": float(action.get("microprobe_retreat_z", 0.3)),
         }
 
     return [
@@ -216,6 +246,18 @@ def _environment_action(action: Dict[str, Any]) -> Dict[str, Any]:
             "pose_return": tuple_pose(action["pose_return"]),
             "hold_steps": int(action.get("hold_steps", 0)),
         }
+    elif primitive == "pick_planar_microprobe":
+        params = {
+            "pose0": tuple_pose(action["pose0"]),
+            "pose_probe": tuple_pose(action["pose_probe"]),
+            "pose_return": tuple_pose(action["pose_return"]),
+            "lift_height": float(action["lift_height"]),
+            "hold_steps": int(action["hold_steps"]),
+            "return_hold_steps": int(action["return_hold_steps"]),
+            "post_release_steps": int(action["post_release_steps"]),
+            "approach_height": float(action["approach_height"]),
+            "retreat_z": float(action["retreat_z"]),
+        }
     else:
         raise ValueError(f"unsupported primitive {primitive!r}")
     return {"primitive": primitive, "params": params}
@@ -229,19 +271,33 @@ def _trace_arrays(frames: List[Dict[str, Any]]) -> Dict[str, np.ndarray]:
         values = [frame[key] for frame in frames]
         if key == "phase":
             arrays[key] = np.asarray(values, dtype="U16")
-        elif key in {"physics_step", "contact_active_beads"}:
+        elif key in {
+            "physics_step",
+            "contact_active_beads",
+            "sensor_grasp_active",
+            "sensor_constraint_available",
+        }:
             arrays[key] = np.asarray(values, dtype=np.int64)
         else:
             arrays[key] = np.asarray(values, dtype=np.float64)
     return arrays
 
 
-def _configure_task_environment(config: Dict[str, Any], condition: str, seed: int, group_id: str) -> None:
+def _configure_task_environment(
+    config: Dict[str, Any],
+    condition: str,
+    seed: int,
+    group_id: str,
+) -> None:
     friction = config["friction"]
+    native = friction.get("native", {})
     values = {
         "CCDA_HIDDEN_CONDITION": condition,
         "CCDA_VISIBLE_SEED": str(seed),
         "CCDA_PAIR_GROUP": group_id,
+        "CCDA_FRICTION_MECHANISM": friction.get(
+            "mechanism", "external_patch"
+        ),
         "CCDA_FRICTION_CENTER_RATIO": friction["center_ratio"],
         "CCDA_FRICTION_SELECTED_COUNT": friction["selected_count"],
         "CCDA_FRICTION_PATCH_RADIUS": friction["patch_radius"],
@@ -250,6 +306,19 @@ def _configure_task_environment(config: Dict[str, Any], condition: str, seed: in
         "CCDA_FRICTION_MAX_FORCE": friction["max_force"],
         "CCDA_FRICTION_SPEED_EPSILON": friction["speed_epsilon"],
         "CCDA_FRICTION_CONTACT_HEIGHT": friction["contact_height"],
+        "CCDA_NATIVE_BASE_LATERAL_FRICTION": native.get(
+            "base_lateral_friction", 0.15
+        ),
+        "CCDA_NATIVE_HIDDEN_LATERAL_FRICTION": native.get(
+            "hidden_lateral_friction", 1.2
+        ),
+        "CCDA_NATIVE_SPINNING_FRICTION": native.get(
+            "spinning_friction", 0.0
+        ),
+        "CCDA_NATIVE_ROLLING_FRICTION": native.get(
+            "rolling_friction", 0.0
+        ),
+        "CCDA_NATIVE_RESTITUTION": native.get("restitution", 0.0),
         "CCDA_TRACE_STRIDE": config["trace_stride"],
     }
     for name, value in values.items():

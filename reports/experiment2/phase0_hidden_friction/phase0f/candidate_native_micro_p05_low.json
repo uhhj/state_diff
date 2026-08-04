@@ -1,0 +1,1388 @@
+{
+  "candidate": {
+    "action": {
+      "main_pull_distance": 0.1,
+      "microprobe_approach_height": 0.02,
+      "microprobe_hold_steps": 60,
+      "microprobe_lift_height": 0.0015,
+      "microprobe_post_release_steps": 120,
+      "microprobe_retreat_z": 0.3,
+      "microprobe_return_hold_steps": 120,
+      "preload_distance": 0.0005,
+      "protocol": "planar_microprobe"
+    },
+    "friction": {
+      "mechanism": "native_segment",
+      "native": {
+        "base_lateral_friction": 0.15,
+        "hidden_lateral_friction": 0.6,
+        "restitution": 0.0,
+        "rolling_friction": 0.0,
+        "spinning_friction": 0.0
+      },
+      "selected_count": 5
+    },
+    "id": "native_micro_p05_low"
+  },
+  "candidate_config_hash": "2fe579071be32f260f317e8ed2585b0ae3e83a47de31e92d76f670f73cebefdb",
+  "candidate_id": "native_micro_p05_low",
+  "checks": {
+    "amplification_seed_fraction": false,
+    "arm_jump": true,
+    "branch_amplification": true,
+    "contact_informativeness": false,
+    "exact_pairing": true,
+    "fde_seed_fraction": true,
+    "formal_sensor_classifier": false,
+    "initial_match": true,
+    "main_ade": true,
+    "main_fde": true,
+    "no_action_drift": false,
+    "oracle_classifier": false,
+    "preload_visibility": false,
+    "sensor_over_vision_margin": false,
+    "vision_screen": false
+  },
+  "classifiers": {
+    "formal_sensor": {
+      "accuracy": 0.625,
+      "feature_key": "formal_sensor",
+      "groups": [
+        "hf_070001",
+        "hf_070002",
+        "hf_070003",
+        "hf_070004",
+        "hf_070005",
+        "hf_070006",
+        "hf_070007",
+        "hf_070008"
+      ],
+      "l2": 0.01,
+      "predictions": [
+        {
+          "condition": "free",
+          "group_id": "hf_070001",
+          "prediction": -1,
+          "score": -5.274638966401223,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070001",
+          "prediction": -1,
+          "score": -5.9122740822243225,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070002",
+          "prediction": -1,
+          "score": -2.0632172167359752,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070002",
+          "prediction": 1,
+          "score": 1.8967928883032381,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070003",
+          "prediction": 1,
+          "score": 0.7565665573346759,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070003",
+          "prediction": 1,
+          "score": 0.3364554874228134,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070004",
+          "prediction": 1,
+          "score": 2.9715369266055736,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070004",
+          "prediction": 1,
+          "score": 1.6317359026009632,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070005",
+          "prediction": 1,
+          "score": 0.6286104439985374,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070005",
+          "prediction": 1,
+          "score": 0.7470411401366595,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070006",
+          "prediction": 1,
+          "score": 2.3619483963004737,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070006",
+          "prediction": 1,
+          "score": 5.8258211991715445,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070007",
+          "prediction": -1,
+          "score": -1.8485760705490335,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070007",
+          "prediction": -1,
+          "score": -1.9893584001206044,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070008",
+          "prediction": -1,
+          "score": -3.424293795972603,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070008",
+          "prediction": 1,
+          "score": 0.12344393435190026,
+          "truth": 1
+        }
+      ]
+    },
+    "maximum_vision_accuracy": 0.8125,
+    "oracle_contact": {
+      "accuracy": 0.5,
+      "feature_key": "oracle_contact",
+      "groups": [
+        "hf_070001",
+        "hf_070002",
+        "hf_070003",
+        "hf_070004",
+        "hf_070005",
+        "hf_070006",
+        "hf_070007",
+        "hf_070008"
+      ],
+      "l2": 0.01,
+      "predictions": [
+        {
+          "condition": "free",
+          "group_id": "hf_070001",
+          "prediction": 1,
+          "score": 0.08844602741158218,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070001",
+          "prediction": 1,
+          "score": 0.06801720710925187,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070002",
+          "prediction": 1,
+          "score": 0.0839534905037748,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070002",
+          "prediction": 1,
+          "score": 0.05737399590699799,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070003",
+          "prediction": 1,
+          "score": 0.0843648061021845,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070003",
+          "prediction": 1,
+          "score": 0.06565096563129856,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070004",
+          "prediction": 1,
+          "score": 0.07376268461528458,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070004",
+          "prediction": 1,
+          "score": 0.04421025692959735,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070005",
+          "prediction": 1,
+          "score": 8.912976884148708,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070005",
+          "prediction": 1,
+          "score": 1.4223325172562347,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070006",
+          "prediction": 1,
+          "score": 0.09138781192042038,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070006",
+          "prediction": 1,
+          "score": 0.07281690762710295,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070007",
+          "prediction": 1,
+          "score": 0.0026178146192625614,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070007",
+          "prediction": 1,
+          "score": 0.04989673583533423,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070008",
+          "prediction": 1,
+          "score": 0.09377272107231757,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070008",
+          "prediction": 1,
+          "score": 0.0843320283997446,
+          "truth": 1
+        }
+      ]
+    },
+    "sensor_over_vision_margin": -0.1875,
+    "vision_delta": {
+      "accuracy": 0.8125,
+      "feature_key": "vision_delta",
+      "groups": [
+        "hf_070001",
+        "hf_070002",
+        "hf_070003",
+        "hf_070004",
+        "hf_070005",
+        "hf_070006",
+        "hf_070007",
+        "hf_070008"
+      ],
+      "l2": 0.01,
+      "predictions": [
+        {
+          "condition": "free",
+          "group_id": "hf_070001",
+          "prediction": -1,
+          "score": -1.2985603463752189,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070001",
+          "prediction": 1,
+          "score": 0.3035667997433716,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070002",
+          "prediction": -1,
+          "score": -4.933796667127272,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070002",
+          "prediction": -1,
+          "score": -8.27491416794061,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070003",
+          "prediction": -1,
+          "score": -1.3266887492826611,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070003",
+          "prediction": 1,
+          "score": 0.5136035641125629,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070004",
+          "prediction": -1,
+          "score": -1.7066994946134046,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070004",
+          "prediction": 1,
+          "score": 0.03245682351341181,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070005",
+          "prediction": 1,
+          "score": 0.7822505341872605,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070005",
+          "prediction": 1,
+          "score": 2.6061814269057626,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070006",
+          "prediction": -1,
+          "score": -3.177734218077497,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070006",
+          "prediction": -1,
+          "score": -1.5040181159357022,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070007",
+          "prediction": -1,
+          "score": -0.07862792809367102,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070007",
+          "prediction": 1,
+          "score": 1.314608759000922,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070008",
+          "prediction": -1,
+          "score": -0.5425673324877918,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070008",
+          "prediction": 1,
+          "score": 4.020004800519736,
+          "truth": 1
+        }
+      ]
+    },
+    "vision_raw": {
+      "accuracy": 0.5,
+      "feature_key": "vision_raw",
+      "groups": [
+        "hf_070001",
+        "hf_070002",
+        "hf_070003",
+        "hf_070004",
+        "hf_070005",
+        "hf_070006",
+        "hf_070007",
+        "hf_070008"
+      ],
+      "l2": 0.01,
+      "predictions": [
+        {
+          "condition": "free",
+          "group_id": "hf_070001",
+          "prediction": 1,
+          "score": 4.107835629692682,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070001",
+          "prediction": 1,
+          "score": 3.7170900085445466,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070002",
+          "prediction": -1,
+          "score": -7.806587999966476,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070002",
+          "prediction": -1,
+          "score": -7.830744533349243,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070003",
+          "prediction": -1,
+          "score": -1.3262944274555015,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070003",
+          "prediction": -1,
+          "score": -1.3077058775825154,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070004",
+          "prediction": 1,
+          "score": 5.044207740110658,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070004",
+          "prediction": 1,
+          "score": 4.520258975451694,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070005",
+          "prediction": -1,
+          "score": -7.613180203707437,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070005",
+          "prediction": -1,
+          "score": -8.199373794047924,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070006",
+          "prediction": 1,
+          "score": 2.4027037262063917,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070006",
+          "prediction": 1,
+          "score": 2.4027037262063917,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070007",
+          "prediction": 1,
+          "score": 3.018067371037799,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070007",
+          "prediction": 1,
+          "score": 3.056055252843131,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hf_070008",
+          "prediction": 1,
+          "score": 0.3761369600917055,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_high_friction",
+          "group_id": "hf_070008",
+          "prediction": 1,
+          "score": 0.29139566656141597,
+          "truth": 1
+        }
+      ]
+    }
+  },
+  "eligible": false,
+  "maximum": {
+    "free_arm_max_abs_jump": 0.0,
+    "hidden_arm_max_abs_jump": 0.0,
+    "initial_state_difference": 0.0
+  },
+  "median": {
+    "branch_amplification": 2.014140389495325,
+    "contact_impulse_gap": 0.0,
+    "main_branch_ade": 0.009546627751998181,
+    "main_branch_fde": 0.017432472460652673,
+    "max_no_action_drift": 0.007890577606463164,
+    "preload_end_max_abs_xy": 0.006169837749330803
+  },
+  "pairs": [
+    {
+      "action_hash": "0bfd3abebdef142b8ae8c4ff6a85c2eef0b35a60431b903b640ea704bf335b0a",
+      "action_hash_match": true,
+      "base_state_hash": "4744e410b91153f99bfd02e242eea052489c61a5ce45a3df5938a427507f8e4b",
+      "branch_amplification": 3.622880395304037,
+      "candidate_id": "native_micro_p05_low",
+      "contact_impulse_gap": 0.0,
+      "execution": {
+        "control_substeps": 1,
+        "deterministic": true,
+        "hz": 480,
+        "post_action_settle_steps": 240
+      },
+      "free_arm_max_abs_jump": 0.0,
+      "free_base_state_hash_match": true,
+      "free_events": [
+        {
+          "name": "branch_start",
+          "physics_step": 0
+        },
+        {
+          "name": "no_action_end",
+          "physics_step": 240
+        },
+        {
+          "name": "planar_microprobe_start",
+          "physics_step": 240
+        },
+        {
+          "name": "planar_microprobe_end",
+          "physics_step": 2705
+        },
+        {
+          "name": "main_pull_start",
+          "physics_step": 2705
+        },
+        {
+          "name": "main_pull_end",
+          "physics_step": 3378
+        },
+        {
+          "name": "post_main_end",
+          "physics_step": 3618
+        }
+      ],
+      "free_hidden_initial_hash_match": true,
+      "free_initial_hash": "4744e410b91153f99bfd02e242eea052489c61a5ce45a3df5938a427507f8e4b",
+      "free_no_action_drift": 0.006691247634323383,
+      "free_preload_contact_impulse": 0.0,
+      "free_preload_return_residual": 0.00031442147645247925,
+      "free_trace_hash": "11256fef2dccc4a2c18b73b0cd2afb9bd8ebee89a51014d0d007eea3f1df7c04",
+      "free_trace_length": 904,
+      "group_id": "hf_070001",
+      "hidden_arm_max_abs_jump": 0.0,
+      "hidden_base_state_hash_match": true,
+      "hidden_events": [
+        {
+          "name": "branch_start",
+          "physics_step": 0
+        },
+        {
+          "name": "no_action_end",
+          "physics_step": 240
+        },
+        {
+          "name": "planar_microprobe_start",
+          "physics_step": 240
+        },
+        {
+          "name": "planar_microprobe_end",
+          "physics_step": 2592
+        },
+        {
+          "name": "main_pull_start",
+          "physics_step": 2592
+        },
+        {
+          "name": "main_pull_end",
+          "physics_step": 3265
+        },
+        {
+          "name": "post_main_end",
+          "physics_step": 3505
+        }
+      ],
+      "hidden_initial_hash": "4744e410b91153f99bfd02e242eea052489c61a5ce45a3df5938a427507f8e4b",
+      "hidden_no_action_drift": 0.004772593735958158,
+      "hidden_preload_contact_impulse": 0.0,
+      "hidden_preload_return_residual": 0.0003415853699756858,
+      "hidden_trace_hash": "e27572ad8a9f0a1869dca1c665d1dbf054742a8beebba4a250073a6ae3c1f28f",
+      "hidden_trace_length": 876,
+      "initial_max_abs_xy": 1.5885371552948335e-05,
+      "main_branch_ade": 0.00802477507231231,
+      "main_branch_fde": 0.013598837885345475,
+      "max_initial_state_difference": 0.0,
+      "pairing_mode": "pybullet_save_restore_fixed_step",
+      "post_main_branch_fde": 0.013617329053440118,
+      "preload_end_max_abs_xy": 0.0037535983531148953,
+      "seed": 70001
+    },
+    {
+      "action_hash": "26e17aa180927161770855181f4c7185b0e1bafe6195cc170f9d51c1dd948de8",
+      "action_hash_match": true,
+      "base_state_hash": "05c9f9b14eb66056a5c9234fc2580f540f95883a45ef6776ac46b8586a94932c",
+      "branch_amplification": 1.7200734734434402,
+      "candidate_id": "native_micro_p05_low",
+      "contact_impulse_gap": 0.0,
+      "execution": {
+        "control_substeps": 1,
+        "deterministic": true,
+        "hz": 480,
+        "post_action_settle_steps": 240
+      },
+      "free_arm_max_abs_jump": 0.0,
+      "free_base_state_hash_match": true,
+      "free_events": [
+        {
+          "name": "branch_start",
+          "physics_step": 0
+        },
+        {
+          "name": "no_action_end",
+          "physics_step": 240
+        },
+        {
+          "name": "planar_microprobe_start",
+          "physics_step": 240
+        },
+        {
+          "name": "planar_microprobe_end",
+          "physics_step": 3372
+        },
+        {
+          "name": "main_pull_start",
+          "physics_step": 3372
+        },
+        {
+          "name": "main_pull_end",
+          "physics_step": 4219
+        },
+        {
+          "name": "post_main_end",
+          "physics_step": 4459
+        }
+      ],
+      "free_hidden_initial_hash_match": true,
+      "free_initial_hash": "05c9f9b14eb66056a5c9234fc2580f540f95883a45ef6776ac46b8586a94932c",
+      "free_no_action_drift": 0.011702866172285071,
+      "free_preload_contact_impulse": 0.0,
+      "free_preload_return_residual": 0.0004471456450629227,
+      "free_trace_hash": "b034757b02300dcc93be3d56689bc0c78104fd8740056f4b8df3354bd3190ab7",
+      "free_trace_length": 1114,
+      "group_id": "hf_070002",
+      "hidden_arm_max_abs_jump": 0.0,
+      "hidden_base_state_hash_match": true,
+      "hidden_events": [
+        {
+          "name": "branch_start",
+          "physics_step": 0
+        },
+        {
+          "name": "no_action_end",
+          "physics_step": 240
+        },
+        {
+          "name": "planar_microprobe_start",
+          "physics_step": 240
+        },
+        {
+          "name": "planar_microprobe_end",
+          "physics_step": 2796
+        },
+        {
+          "name": "main_pull_start",
+          "physics_step": 2796
+        },
+        {
+          "name": "main_pull_end",
+          "physics_step": 3641
+        },
+        {
+          "name": "post_main_end",
+          "physics_step": 3881
+        }
+      ],
+      "hidden_initial_hash": "05c9f9b14eb66056a5c9234fc2580f540f95883a45ef6776ac46b8586a94932c",
+      "hidden_no_action_drift": 0.01054459875381346,
+      "hidden_preload_contact_impulse": 0.0,
+      "hidden_preload_return_residual": 0.0005331353795459312,
+      "hidden_trace_hash": "bf0a3e9b8295c4bbbcacd6bd3e6a09e649fcc2b3a826a9a4a0b6176440ffe555",
+      "hidden_trace_length": 970,
+      "initial_max_abs_xy": 9.3132435563692e-05,
+      "main_branch_ade": 0.0051066027063110826,
+      "main_branch_fde": 0.0082565917647599,
+      "max_initial_state_difference": 0.0,
+      "pairing_mode": "pybullet_save_restore_fixed_step",
+      "post_main_branch_fde": 0.008229948761684239,
+      "preload_end_max_abs_xy": 0.004800139001173542,
+      "seed": 70002
+    },
+    {
+      "action_hash": "1b14ca7d2378628875dfe66214723d7a2cf98a856c65dc79318c952ebedaeced",
+      "action_hash_match": true,
+      "base_state_hash": "3bd27dc2a59e56014e26b0f745874a40f8f422014ac8e28f5a5c12bda66f4aa5",
+      "branch_amplification": 0.8218252905358807,
+      "candidate_id": "native_micro_p05_low",
+      "contact_impulse_gap": 0.0,
+      "execution": {
+        "control_substeps": 1,
+        "deterministic": true,
+        "hz": 480,
+        "post_action_settle_steps": 240
+      },
+      "free_arm_max_abs_jump": 0.0,
+      "free_base_state_hash_match": true,
+      "free_events": [
+        {
+          "name": "branch_start",
+          "physics_step": 0
+        },
+        {
+          "name": "no_action_end",
+          "physics_step": 240
+        },
+        {
+          "name": "planar_microprobe_start",
+          "physics_step": 240
+        },
+        {
+          "name": "planar_microprobe_end",
+          "physics_step": 2633
+        },
+        {
+          "name": "main_pull_start",
+          "physics_step": 2633
+        },
+        {
+          "name": "main_pull_end",
+          "physics_step": 3410
+        },
+        {
+          "name": "post_main_end",
+          "physics_step": 3650
+        }
+      ],
+      "free_hidden_initial_hash_match": true,
+      "free_initial_hash": "3bd27dc2a59e56014e26b0f745874a40f8f422014ac8e28f5a5c12bda66f4aa5",
+      "free_no_action_drift": 0.018050644651534806,
+      "free_preload_contact_impulse": 0.0,
+      "free_preload_return_residual": 0.0008898161778014938,
+      "free_trace_hash": "8b8703940e7de2943e7e9632c3bb879bcd4e0633f2591b0adf38cfd09cc571e1",
+      "free_trace_length": 912,
+      "group_id": "hf_070003",
+      "hidden_arm_max_abs_jump": 0.0,
+      "hidden_base_state_hash_match": true,
+      "hidden_events": [
+        {
+          "name": "branch_start",
+          "physics_step": 0
+        },
+        {
+          "name": "no_action_end",
+          "physics_step": 240
+        },
+        {
+          "name": "planar_microprobe_start",
+          "physics_step": 240
+        },
+        {
+          "name": "planar_microprobe_end",
+          "physics_step": 2652
+        },
+        {
+          "name": "main_pull_start",
+          "physics_step": 2652
+        },
+        {
+          "name": "main_pull_end",
+          "physics_step": 3431
+        },
+        {
+          "name": "post_main_end",
+          "physics_step": 3671
+        }
+      ],
+      "hidden_initial_hash": "3bd27dc2a59e56014e26b0f745874a40f8f422014ac8e28f5a5c12bda66f4aa5",
+      "hidden_no_action_drift": 0.01610425953381445,
+      "hidden_preload_contact_impulse": 0.0,
+      "hidden_preload_return_residual": 0.0003471531128180774,
+      "hidden_trace_hash": "efff75f0e7df9cdf9177c5252e8c182141e0652d60127b666d382edb3f8572a6",
+      "hidden_trace_length": 917,
+      "initial_max_abs_xy": 2.397403157508582e-05,
+      "main_branch_ade": 0.007397994461188322,
+      "main_branch_fde": 0.015067345984376729,
+      "max_initial_state_difference": 0.0,
+      "pairing_mode": "pybullet_save_restore_fixed_step",
+      "post_main_branch_fde": 0.015063241354342964,
+      "preload_end_max_abs_xy": 0.01833400134784352,
+      "seed": 70003
+    },
+    {
+      "action_hash": "17fe8c4b03377698f8bd0c35ef2d32cb90e7724f51e9517e9ab673b82bc98f9a",
+      "action_hash_match": true,
+      "base_state_hash": "63566c5958c6adbf417d3186a68ae52d9e28507132fa298ffe03338a555c80b1",
+      "branch_amplification": 1.3471063473835057,
+      "candidate_id": "native_micro_p05_low",
+      "contact_impulse_gap": 0.0,
+      "execution": {
+        "control_substeps": 1,
+        "deterministic": true,
+        "hz": 480,
+        "post_action_settle_steps": 240
+      },
+      "free_arm_max_abs_jump": 0.0,
+      "free_base_state_hash_match": true,
+      "free_events": [
+        {
+          "name": "branch_start",
+          "physics_step": 0
+        },
+        {
+          "name": "no_action_end",
+          "physics_step": 240
+        },
+        {
+          "name": "planar_microprobe_start",
+          "physics_step": 240
+        },
+        {
+          "name": "planar_microprobe_end",
+          "physics_step": 2842
+        },
+        {
+          "name": "main_pull_start",
+          "physics_step": 2842
+        },
+        {
+          "name": "main_pull_end",
+          "physics_step": 3520
+        },
+        {
+          "name": "post_main_end",
+          "physics_step": 3760
+        }
+      ],
+      "free_hidden_initial_hash_match": true,
+      "free_initial_hash": "63566c5958c6adbf417d3186a68ae52d9e28507132fa298ffe03338a555c80b1",
+      "free_no_action_drift": 0.0035120550319927436,
+      "free_preload_contact_impulse": 0.0,
+      "free_preload_return_residual": 0.0005473911629545004,
+      "free_trace_hash": "0747c2bb1cb237f9a31b947b5232bfc4378d7d3aeda74f2bd5a5616937f414f2",
+      "free_trace_length": 940,
+      "group_id": "hf_070004",
+      "hidden_arm_max_abs_jump": 0.0,
+      "hidden_base_state_hash_match": true,
+      "hidden_events": [
+        {
+          "name": "branch_start",
+          "physics_step": 0
+        },
+        {
+          "name": "no_action_end",
+          "physics_step": 240
+        },
+        {
+          "name": "planar_microprobe_start",
+          "physics_step": 240
+        },
+        {
+          "name": "planar_microprobe_end",
+          "physics_step": 2623
+        },
+        {
+          "name": "main_pull_start",
+          "physics_step": 2623
+        },
+        {
+          "name": "main_pull_end",
+          "physics_step": 3300
+        },
+        {
+          "name": "post_main_end",
+          "physics_step": 3540
+        }
+      ],
+      "hidden_initial_hash": "63566c5958c6adbf417d3186a68ae52d9e28507132fa298ffe03338a555c80b1",
+      "hidden_no_action_drift": 0.003442747957924757,
+      "hidden_preload_contact_impulse": 0.0,
+      "hidden_preload_return_residual": 0.0014630407621029488,
+      "hidden_trace_hash": "b3c090ccb2c43c183958421e424ef30381dc3a0f089f7785761d3794c1670667",
+      "hidden_trace_length": 885,
+      "initial_max_abs_xy": 9.592238088940164e-05,
+      "main_branch_ade": 0.0067521421990185855,
+      "main_branch_fde": 0.010156557472095776,
+      "max_initial_state_difference": 0.0,
+      "pairing_mode": "pybullet_save_restore_fixed_step",
+      "post_main_branch_fde": 0.010189005574477614,
+      "preload_end_max_abs_xy": 0.007539536497488064,
+      "seed": 70004
+    },
+    {
+      "action_hash": "17c4677658dd71fd722d6da648ce3ba89dc57f8f71cb31e3fbaed39498ef992b",
+      "action_hash_match": true,
+      "base_state_hash": "972d0380445cb2fc96b2d4ba59c5b9583be45625907ab3cf5198e4282e3832f1",
+      "branch_amplification": 0.8026296795397619,
+      "candidate_id": "native_micro_p05_low",
+      "contact_impulse_gap": 0.0,
+      "execution": {
+        "control_substeps": 1,
+        "deterministic": true,
+        "hz": 480,
+        "post_action_settle_steps": 240
+      },
+      "free_arm_max_abs_jump": 0.0,
+      "free_base_state_hash_match": true,
+      "free_events": [
+        {
+          "name": "branch_start",
+          "physics_step": 0
+        },
+        {
+          "name": "no_action_end",
+          "physics_step": 240
+        },
+        {
+          "name": "planar_microprobe_start",
+          "physics_step": 240
+        },
+        {
+          "name": "planar_microprobe_end",
+          "physics_step": 2713
+        },
+        {
+          "name": "main_pull_start",
+          "physics_step": 2713
+        },
+        {
+          "name": "main_pull_end",
+          "physics_step": 3488
+        },
+        {
+          "name": "post_main_end",
+          "physics_step": 3728
+        }
+      ],
+      "free_hidden_initial_hash_match": true,
+      "free_initial_hash": "972d0380445cb2fc96b2d4ba59c5b9583be45625907ab3cf5198e4282e3832f1",
+      "free_no_action_drift": 0.001977289639779275,
+      "free_preload_contact_impulse": 0.0,
+      "free_preload_return_residual": 0.008841259292285316,
+      "free_trace_hash": "6085b238cfaef0094789f694b152693c23e64df281c0b8d42834c08aec568343",
+      "free_trace_length": 932,
+      "group_id": "hf_070005",
+      "hidden_arm_max_abs_jump": 0.0,
+      "hidden_base_state_hash_match": true,
+      "hidden_events": [
+        {
+          "name": "branch_start",
+          "physics_step": 0
+        },
+        {
+          "name": "no_action_end",
+          "physics_step": 240
+        },
+        {
+          "name": "planar_microprobe_start",
+          "physics_step": 240
+        },
+        {
+          "name": "planar_microprobe_end",
+          "physics_step": 2741
+        },
+        {
+          "name": "main_pull_start",
+          "physics_step": 2741
+        },
+        {
+          "name": "main_pull_end",
+          "physics_step": 3538
+        },
+        {
+          "name": "post_main_end",
+          "physics_step": 3778
+        }
+      ],
+      "hidden_initial_hash": "972d0380445cb2fc96b2d4ba59c5b9583be45625907ab3cf5198e4282e3832f1",
+      "hidden_no_action_drift": 0.0017384041895606701,
+      "hidden_preload_contact_impulse": 0.0,
+      "hidden_preload_return_residual": 0.007134952943264564,
+      "hidden_trace_hash": "1422bd8602cd3a75ee4dd0a37e71c415f595d5e9352ece94ec5f9e15c8675be4",
+      "hidden_trace_length": 944,
+      "initial_max_abs_xy": 2.349458198959431e-05,
+      "main_branch_ade": 0.02018941324680359,
+      "main_branch_fde": 0.025184297073986468,
+      "max_initial_state_difference": 0.0,
+      "pairing_mode": "pybullet_save_restore_fixed_step",
+      "post_main_branch_fde": 0.025167022704706745,
+      "preload_end_max_abs_xy": 0.031377231263647595,
+      "seed": 70005
+    },
+    {
+      "action_hash": "f25d3db82d858f47021398c5c17108b1302dee444a7c580242d12dd796c352a9",
+      "action_hash_match": true,
+      "base_state_hash": "d4a7dbcb533e18de308a015a5e06a46e1eddf294fe0466559b26c9a1ee2bc300",
+      "branch_amplification": 6.9372339009616555,
+      "candidate_id": "native_micro_p05_low",
+      "contact_impulse_gap": 0.0,
+      "execution": {
+        "control_substeps": 1,
+        "deterministic": true,
+        "hz": 480,
+        "post_action_settle_steps": 240
+      },
+      "free_arm_max_abs_jump": 0.0,
+      "free_base_state_hash_match": true,
+      "free_events": [
+        {
+          "name": "branch_start",
+          "physics_step": 0
+        },
+        {
+          "name": "no_action_end",
+          "physics_step": 240
+        },
+        {
+          "name": "planar_microprobe_start",
+          "physics_step": 240
+        },
+        {
+          "name": "planar_microprobe_end",
+          "physics_step": 2975
+        },
+        {
+          "name": "main_pull_start",
+          "physics_step": 2975
+        },
+        {
+          "name": "main_pull_end",
+          "physics_step": 3765
+        },
+        {
+          "name": "post_main_end",
+          "physics_step": 4005
+        }
+      ],
+      "free_hidden_initial_hash_match": true,
+      "free_initial_hash": "d4a7dbcb533e18de308a015a5e06a46e1eddf294fe0466559b26c9a1ee2bc300",
+      "free_no_action_drift": 0.0056331641432954245,
+      "free_preload_contact_impulse": 0.0,
+      "free_preload_return_residual": 0.0013217425535194524,
+      "free_trace_hash": "2ea6f3827a8d44d496c3a7f44c84591850fe0a29655f09cc99577e371e514a40",
+      "free_trace_length": 1001,
+      "group_id": "hf_070006",
+      "hidden_arm_max_abs_jump": 0.0,
+      "hidden_base_state_hash_match": true,
+      "hidden_events": [
+        {
+          "name": "branch_start",
+          "physics_step": 0
+        },
+        {
+          "name": "no_action_end",
+          "physics_step": 240
+        },
+        {
+          "name": "planar_microprobe_start",
+          "physics_step": 240
+        },
+        {
+          "name": "planar_microprobe_end",
+          "physics_step": 2891
+        },
+        {
+          "name": "main_pull_start",
+          "physics_step": 2891
+        },
+        {
+          "name": "main_pull_end",
+          "physics_step": 3680
+        },
+        {
+          "name": "post_main_end",
+          "physics_step": 3920
+        }
+      ],
+      "hidden_initial_hash": "d4a7dbcb533e18de308a015a5e06a46e1eddf294fe0466559b26c9a1ee2bc300",
+      "hidden_no_action_drift": 0.004243301532598213,
+      "hidden_preload_contact_impulse": 0.0,
+      "hidden_preload_return_residual": 0.0015573896334318577,
+      "hidden_trace_hash": "7393a73e8867c264dc8019d53cb9137db6f81bfa64fc51f7fad154c6f4b996dc",
+      "hidden_trace_length": 980,
+      "initial_max_abs_xy": 6.4188129906828095e-06,
+      "main_branch_ade": 0.011274670501397726,
+      "main_branch_fde": 0.021133804163064613,
+      "max_initial_state_difference": 0.0,
+      "pairing_mode": "pybullet_save_restore_fixed_step",
+      "post_main_branch_fde": 0.021125072924772777,
+      "preload_end_max_abs_xy": 0.0030464309643840892,
+      "seed": 70006
+    },
+    {
+      "action_hash": "096e1da277dd988ab4d253ce5b00dbe1de924d682e0a24583deb5617b983d877",
+      "action_hash_match": true,
+      "base_state_hash": "2b6a859d09196fb517e2536dde850da3b0715a9a520ea0de5b4d78971e25f4e7",
+      "branch_amplification": 2.30820730554721,
+      "candidate_id": "native_micro_p05_low",
+      "contact_impulse_gap": 0.0,
+      "execution": {
+        "control_substeps": 1,
+        "deterministic": true,
+        "hz": 480,
+        "post_action_settle_steps": 240
+      },
+      "free_arm_max_abs_jump": 0.0,
+      "free_base_state_hash_match": true,
+      "free_events": [
+        {
+          "name": "branch_start",
+          "physics_step": 0
+        },
+        {
+          "name": "no_action_end",
+          "physics_step": 240
+        },
+        {
+          "name": "planar_microprobe_start",
+          "physics_step": 240
+        },
+        {
+          "name": "planar_microprobe_end",
+          "physics_step": 3172
+        },
+        {
+          "name": "main_pull_start",
+          "physics_step": 3172
+        },
+        {
+          "name": "main_pull_end",
+          "physics_step": 4010
+        },
+        {
+          "name": "post_main_end",
+          "physics_step": 4250
+        }
+      ],
+      "free_hidden_initial_hash_match": true,
+      "free_initial_hash": "2b6a859d09196fb517e2536dde850da3b0715a9a520ea0de5b4d78971e25f4e7",
+      "free_no_action_drift": 0.009212179904128419,
+      "free_preload_contact_impulse": 0.0,
+      "free_preload_return_residual": 0.0013357520300744015,
+      "free_trace_hash": "61df9f8ba7fe3cd435afe5186163013e7dbe43d39b43b54c8fa75c8d60edddc0",
+      "free_trace_length": 1062,
+      "group_id": "hf_070007",
+      "hidden_arm_max_abs_jump": 0.0,
+      "hidden_base_state_hash_match": true,
+      "hidden_events": [
+        {
+          "name": "branch_start",
+          "physics_step": 0
+        },
+        {
+          "name": "no_action_end",
+          "physics_step": 240
+        },
+        {
+          "name": "planar_microprobe_start",
+          "physics_step": 240
+        },
+        {
+          "name": "planar_microprobe_end",
+          "physics_step": 3063
+        },
+        {
+          "name": "main_pull_start",
+          "physics_step": 3063
+        },
+        {
+          "name": "main_pull_end",
+          "physics_step": 3917
+        },
+        {
+          "name": "post_main_end",
+          "physics_step": 4157
+        }
+      ],
+      "hidden_initial_hash": "2b6a859d09196fb517e2536dde850da3b0715a9a520ea0de5b4d78971e25f4e7",
+      "hidden_no_action_drift": 0.005475126217638572,
+      "hidden_preload_contact_impulse": 0.0,
+      "hidden_preload_return_residual": 0.001980071568220535,
+      "hidden_trace_hash": "b35716b4a78d3871f6df3f96931d54ae2c5d4bb9852b4568e46ffb4fae58789a",
+      "hidden_trace_length": 1039,
+      "initial_max_abs_xy": 5.8209152749205684e-05,
+      "main_branch_ade": 0.012516885318855331,
+      "main_branch_fde": 0.02280627920334591,
+      "max_initial_state_difference": 0.0,
+      "pairing_mode": "pybullet_save_restore_fixed_step",
+      "post_main_branch_fde": 0.02280735030600549,
+      "preload_end_max_abs_xy": 0.00988051599548126,
+      "seed": 70007
+    },
+    {
+      "action_hash": "032867acc61f46d6b7e90ec773f890b5d4fa568530f7b7401ae22fb82b0f78cf",
+      "action_hash_match": true,
+      "base_state_hash": "25d984941439c6c2596049377cbe326b480c7da9f8c098850bd51c77015e323f",
+      "branch_amplification": 7.651713624306729,
+      "candidate_id": "native_micro_p05_low",
+      "contact_impulse_gap": 0.0,
+      "execution": {
+        "control_substeps": 1,
+        "deterministic": true,
+        "hz": 480,
+        "post_action_settle_steps": 240
+      },
+      "free_arm_max_abs_jump": 0.0,
+      "free_base_state_hash_match": true,
+      "free_events": [
+        {
+          "name": "branch_start",
+          "physics_step": 0
+        },
+        {
+          "name": "no_action_end",
+          "physics_step": 240
+        },
+        {
+          "name": "planar_microprobe_start",
+          "physics_step": 240
+        },
+        {
+          "name": "planar_microprobe_end",
+          "physics_step": 2509
+        },
+        {
+          "name": "main_pull_start",
+          "physics_step": 2509
+        },
+        {
+          "name": "main_pull_end",
+          "physics_step": 3253
+        },
+        {
+          "name": "post_main_end",
+          "physics_step": 3493
+        }
+      ],
+      "free_hidden_initial_hash_match": true,
+      "free_initial_hash": "25d984941439c6c2596049377cbe326b480c7da9f8c098850bd51c77015e323f",
+      "free_no_action_drift": 0.009089907578602946,
+      "free_preload_contact_impulse": 0.0,
+      "free_preload_return_residual": 0.00013776449641230513,
+      "free_trace_hash": "475c9d813610bfa9b5e9565ba09e088b48a7b001265edc41a0431b88f3e7e4be",
+      "free_trace_length": 873,
+      "group_id": "hf_070008",
+      "hidden_arm_max_abs_jump": 0.0,
+      "hidden_base_state_hash_match": true,
+      "hidden_events": [
+        {
+          "name": "branch_start",
+          "physics_step": 0
+        },
+        {
+          "name": "no_action_end",
+          "physics_step": 240
+        },
+        {
+          "name": "planar_microprobe_start",
+          "physics_step": 240
+        },
+        {
+          "name": "planar_microprobe_end",
+          "physics_step": 2683
+        },
+        {
+          "name": "main_pull_start",
+          "physics_step": 2683
+        },
+        {
+          "name": "main_pull_end",
+          "physics_step": 3433
+        },
+        {
+          "name": "post_main_end",
+          "physics_step": 3673
+        }
+      ],
+      "hidden_initial_hash": "25d984941439c6c2596049377cbe326b480c7da9f8c098850bd51c77015e323f",
+      "hidden_no_action_drift": 0.010406483155387511,
+      "hidden_preload_contact_impulse": 0.0,
+      "hidden_preload_return_residual": 0.0002293972096255786,
+      "hidden_trace_hash": "87a6e6510b5794077689268438353d8fa69fc3bd4a5a768d2d302537b6945881",
+      "hidden_trace_length": 918,
+      "initial_max_abs_xy": 2.7723561338843794e-05,
+      "main_branch_ade": 0.011068480431684052,
+      "main_branch_fde": 0.01979759893692862,
+      "max_initial_state_difference": 0.0,
+      "pairing_mode": "pybullet_save_restore_fixed_step",
+      "post_main_branch_fde": 0.019794907748901667,
+      "preload_end_max_abs_xy": 0.0025873418568670425,
+      "seed": 70008
+    }
+  ],
+  "score": 9.806064686878196,
+  "seed_pass_fraction": {
+    "branch_amplification": 0.5,
+    "main_fde": 0.875
+  },
+  "valid_pairs": 8
+}

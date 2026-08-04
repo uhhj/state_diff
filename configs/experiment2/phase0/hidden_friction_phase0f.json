@@ -1,0 +1,189 @@
+{
+  "base_config": "configs/experiment2/phase0/hidden_friction_cable.json",
+  "seeds": [70001, 70002, 70003, 70004, 70005, 70006, 70007, 70008],
+  "execution": {
+    "deterministic": true,
+    "control_substeps": 1,
+    "post_action_settle_steps": 240
+  },
+  "observation": {
+    "width": 160,
+    "height": 120,
+    "feature_width": 32,
+    "feature_height": 24,
+    "ridge_l2": 0.01,
+    "camera_eye": [0.68, -0.82, 0.62],
+    "camera_target": [0.5, -0.02, 0.025],
+    "camera_up": [0.0, 0.0, 1.0],
+    "fov": 50.0,
+    "near": 0.01,
+    "far": 3.0
+  },
+  "selection_targets": {
+    "max_initial_abs_xy": 1e-12,
+    "max_arm_jump": 1e-12,
+    "max_median_no_action_drift": 0.0015,
+    "max_median_preload_visible_difference": 0.004,
+    "min_median_contact_impulse_gap": 0.02,
+    "min_median_main_branch_ade": 0.004,
+    "min_median_main_branch_fde": 0.01,
+    "min_median_branch_amplification": 2.0,
+    "max_grouped_vision_accuracy": 0.625,
+    "min_grouped_sensor_accuracy": 0.75,
+    "min_grouped_oracle_accuracy": 0.875,
+    "min_sensor_over_vision_margin": 0.125,
+    "min_seed_pass_fraction": 0.625
+  },
+  "repeat_check": {
+    "top_k": 2,
+    "seeds": [70001, 70002],
+    "repeats": 2,
+    "numeric_atol": 1e-9
+  },
+  "candidates": [
+    {
+      "id": "legacy_direct_reference",
+      "action": {
+        "protocol": "direct",
+        "preload_distance": 0.0015,
+        "main_pull_distance": 0.1
+      },
+      "friction": {
+        "mechanism": "external_patch",
+        "selected_count": 5,
+        "patch_radius": 0.045,
+        "viscous_gain": 1.25,
+        "coulomb_force": 0.08,
+        "max_force": 0.65
+      }
+    },
+    {
+      "id": "legacy_micro_p05",
+      "action": {
+        "protocol": "planar_microprobe",
+        "preload_distance": 0.0005,
+        "main_pull_distance": 0.1,
+        "microprobe_lift_height": 0.0015,
+        "microprobe_hold_steps": 60,
+        "microprobe_return_hold_steps": 120,
+        "microprobe_post_release_steps": 120,
+        "microprobe_approach_height": 0.02,
+        "microprobe_retreat_z": 0.3
+      },
+      "friction": {
+        "mechanism": "external_patch",
+        "selected_count": 5,
+        "patch_radius": 0.045,
+        "viscous_gain": 1.25,
+        "coulomb_force": 0.08,
+        "max_force": 0.65
+      }
+    },
+    {
+      "id": "legacy_micro_p10",
+      "action": {
+        "protocol": "planar_microprobe",
+        "preload_distance": 0.001,
+        "main_pull_distance": 0.1,
+        "microprobe_lift_height": 0.0015,
+        "microprobe_hold_steps": 60,
+        "microprobe_return_hold_steps": 120,
+        "microprobe_post_release_steps": 120,
+        "microprobe_approach_height": 0.02,
+        "microprobe_retreat_z": 0.3
+      },
+      "friction": {
+        "mechanism": "external_patch",
+        "selected_count": 5,
+        "patch_radius": 0.045,
+        "viscous_gain": 1.25,
+        "coulomb_force": 0.08,
+        "max_force": 0.65
+      }
+    },
+    {
+      "id": "native_micro_p05_low",
+      "action": {
+        "protocol": "planar_microprobe", "preload_distance": 0.0005,
+        "main_pull_distance": 0.1, "microprobe_lift_height": 0.0015,
+        "microprobe_hold_steps": 60, "microprobe_return_hold_steps": 120,
+        "microprobe_post_release_steps": 120, "microprobe_approach_height": 0.02,
+        "microprobe_retreat_z": 0.3
+      },
+      "friction": {
+        "mechanism": "native_segment", "selected_count": 5,
+        "native": {"base_lateral_friction": 0.15, "hidden_lateral_friction": 0.6, "spinning_friction": 0.0, "rolling_friction": 0.0, "restitution": 0.0}
+      }
+    },
+    {
+      "id": "native_micro_p05_mid",
+      "action": {
+        "protocol": "planar_microprobe", "preload_distance": 0.0005,
+        "main_pull_distance": 0.1, "microprobe_lift_height": 0.0015,
+        "microprobe_hold_steps": 60, "microprobe_return_hold_steps": 120,
+        "microprobe_post_release_steps": 120, "microprobe_approach_height": 0.02,
+        "microprobe_retreat_z": 0.3
+      },
+      "friction": {
+        "mechanism": "native_segment", "selected_count": 5,
+        "native": {"base_lateral_friction": 0.15, "hidden_lateral_friction": 1.2, "spinning_friction": 0.0, "rolling_friction": 0.0, "restitution": 0.0}
+      }
+    },
+    {
+      "id": "native_micro_p05_high",
+      "action": {
+        "protocol": "planar_microprobe", "preload_distance": 0.0005,
+        "main_pull_distance": 0.1, "microprobe_lift_height": 0.0015,
+        "microprobe_hold_steps": 60, "microprobe_return_hold_steps": 120,
+        "microprobe_post_release_steps": 120, "microprobe_approach_height": 0.02,
+        "microprobe_retreat_z": 0.3
+      },
+      "friction": {
+        "mechanism": "native_segment", "selected_count": 5,
+        "native": {"base_lateral_friction": 0.15, "hidden_lateral_friction": 2.0, "spinning_friction": 0.0, "rolling_friction": 0.0, "restitution": 0.0}
+      }
+    },
+    {
+      "id": "native_micro_p10_low",
+      "action": {
+        "protocol": "planar_microprobe", "preload_distance": 0.001,
+        "main_pull_distance": 0.1, "microprobe_lift_height": 0.0015,
+        "microprobe_hold_steps": 60, "microprobe_return_hold_steps": 120,
+        "microprobe_post_release_steps": 120, "microprobe_approach_height": 0.02,
+        "microprobe_retreat_z": 0.3
+      },
+      "friction": {
+        "mechanism": "native_segment", "selected_count": 5,
+        "native": {"base_lateral_friction": 0.15, "hidden_lateral_friction": 0.6, "spinning_friction": 0.0, "rolling_friction": 0.0, "restitution": 0.0}
+      }
+    },
+    {
+      "id": "native_micro_p10_mid",
+      "action": {
+        "protocol": "planar_microprobe", "preload_distance": 0.001,
+        "main_pull_distance": 0.1, "microprobe_lift_height": 0.0015,
+        "microprobe_hold_steps": 60, "microprobe_return_hold_steps": 120,
+        "microprobe_post_release_steps": 120, "microprobe_approach_height": 0.02,
+        "microprobe_retreat_z": 0.3
+      },
+      "friction": {
+        "mechanism": "native_segment", "selected_count": 5,
+        "native": {"base_lateral_friction": 0.15, "hidden_lateral_friction": 1.2, "spinning_friction": 0.0, "rolling_friction": 0.0, "restitution": 0.0}
+      }
+    },
+    {
+      "id": "native_micro_p10_high",
+      "action": {
+        "protocol": "planar_microprobe", "preload_distance": 0.001,
+        "main_pull_distance": 0.1, "microprobe_lift_height": 0.0015,
+        "microprobe_hold_steps": 60, "microprobe_return_hold_steps": 120,
+        "microprobe_post_release_steps": 120, "microprobe_approach_height": 0.02,
+        "microprobe_retreat_z": 0.3
+      },
+      "friction": {
+        "mechanism": "native_segment", "selected_count": 5,
+        "native": {"base_lateral_friction": 0.15, "hidden_lateral_friction": 2.0, "spinning_friction": 0.0, "rolling_friction": 0.0, "restitution": 0.0}
+      }
+    }
+  ]
+}
