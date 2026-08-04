@@ -1,5 +1,89 @@
-status=PENDING
-reason=SSH host fingerprints have not been independently authenticated
-server_access_attempted=false
-remote_environment_queried=false
-remote_worktree_created=false
+timestamp_utc=2026-08-04T15:47:04Z
+trust_status=VERIFIED
+key_auth_verified=true
+worktree=/data/state_diff_experiment2
+=== verify_remote.sh ===
+gpu-kvm
+root
+/data/state_diff_experiment2
+Linux gpu-kvm 5.15.0-139-generic #149~20.04.1-Ubuntu SMP Wed Apr 16 08:29:56 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux
+git version 2.25.1
+Python 3.8.10
+NVIDIA-SMI has failed because it couldn't communicate with the NVIDIA driver. Make sure that the latest NVIDIA driver is installed and running.
+
+文件系统                   容量  已用  可用 已用% 挂载点
+udev                       940M     0  940M    0% /dev
+tmpfs                      197M  1.4M  195M    1% /run
+/dev/vda5                   59G   30G   26G   54% /
+tmpfs                      982M     0  982M    0% /dev/shm
+tmpfs                      5.0M     0  5.0M    0% /run/lock
+tmpfs                      982M     0  982M    0% /sys/fs/cgroup
+/dev/loop1                  64M   64M     0  100% /snap/core20/2866
+/dev/loop0                 128K  128K     0  100% /snap/bare/5
+/dev/loop2                 350M  350M     0  100% /snap/gnome-3-38-2004/143
+/dev/loop3                 249M  249M     0  100% /snap/gnome-3-38-2004/99
+/dev/loop4                  66M   66M     0  100% /snap/gtk-common-themes/1519
+/dev/loop6                  49M   49M     0  100% /snap/snapd/25935
+/dev/loop5                  55M   55M     0  100% /snap/snap-store/558
+/dev/loop7                  92M   92M     0  100% /snap/gtk-common-themes/1535
+/dev/loop8                  62M   62M     0  100% /snap/core20/1328
+/dev/vda1                  511M  4.0K  511M    1% /boot/efi
+tmpfs                      197M   36K  197M    1% /run/user/125
+/dev/vdb                    59G   17G   40G   30% /data
+//100.100.100.201/PubData   19T   15T  4.0T   79% /root/PubData
+tmpfs                      197M     0  197M    0% /run/user/0
+## Experiment2...origin/Experiment2
+b172fc76b46ca344710b8cac3808335804860e3b
+ 633a88752445cf5d6776ed374fdbbdb35f93050c external/deformable-ravens (remotes/origin/ccda-cable)
+=== environment_storage ===
+drwxr-xr-x 419 root root 61440 8月   3 12:18 /data/conda-pkgs
+drwxr-xr-x   2 root root  4096 8月   3 12:28 /data/environment_manifests
+drwxr-xr-x  16 root root  4096 8月   3 11:54 /miniforge3
+TARGET SOURCE    FSTYPE OPTIONS
+/      /dev/vda5 ext4   rw,relatime,errors=remount-ro
+文件系统        容量  已用  可用 已用% 挂载点
+/dev/vda5        59G   30G   26G   54% /
+/dev/vdb         59G   17G   40G   30% /data
+=== conda_environments ===
+
+# conda environments:
+#
+# * -> active
+# + -> frozen
+                         /miniconda3
+base                     /miniforge3
+coord_bimanual           /miniforge3/envs/coord_bimanual
+defravens37              /miniforge3/envs/defravens37
+
+=== defravens37 ===
+Python 3.7.12
+Detected TensorFlow version:  2.4.1
+numpy=1.19.5
+tensorflow=2.4.1
+cv2=4.1.2
+ravens_import=PASS
+ccda_slack_cable_v2_registered=True
+pybullet build time: Sep 22 2020 00:55:20
+=== coord_bimanual ===
+Python 3.9.15
+numpy=1.23.3
+torch=1.12.1.post200
+torch_cuda_available=False
+=== environment_manifests ===
+343eded2541231563cfd14a68c9599766760b63e87b0f89a0532ce71a8fd1f99  environment_manifests/defravens37_environment.yml
+1e4efe1286600e411ee39b72f12067240b62817816be990f9f000859c616b3ae  environment_manifests/coord_bimanual_environment.yml
+a4957dccc47c44bbd11ff7644cce5451baaab3cc402a9a0b273bbdffa138a24d  environment_manifests/SHA256SUMS
+=== existing_experiment1 ===
+## Experiment1...origin/Experiment1
+0da921162e67459a5921a4359cbe7d04d9424337
+ 633a88752445cf5d6776ed374fdbbdb35f93050c external/deformable-ravens (remotes/origin/ccda-cable)
+=== experiment2_state ===
+## Experiment2...origin/Experiment2
+b172fc76b46ca344710b8cac3808335804860e3b
+ 633a88752445cf5d6776ed374fdbbdb35f93050c external/deformable-ravens (remotes/origin/ccda-cable)
+2026-08-04 15:47:06.753328: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcudart.so.11.0
+
+=== post_capture_repository_sync ===
+verified_remote_head=6f44bfe9b15cb14422c9d3083b80c6f3e62e5148
+expected_final_remote_head=SELF
+expected_final_remote_status=clean_after_fast_forward

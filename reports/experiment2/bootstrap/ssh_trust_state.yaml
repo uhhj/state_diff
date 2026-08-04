@@ -1,12 +1,15 @@
-status: PENDING
+status: VERIFIED
 endpoint: jq1.9gpu.com:15560
-independent_verification: false
+independent_verification: true
 network_observed_fingerprints:
   rsa: SHA256:YvYSqFxDaDTuIlwqcQePLjRmmMgOQmd+yVn+Xze5bWY
   ecdsa: SHA256:Dv/BKjDNs5LqoHIHsR0v8FvItk5tSp290FE3VTXRXAk
   ed25519: SHA256:/7WatiXfgTqa3S+OvKdaMl75yd8FlNu6Dk7etVBI3vc
-server_access_attempted: false
-ssh_config_modified: false
-dedicated_key_installed: false
-remote_worktree_created: false
-required_fix: authenticate one or more host-key fingerprints through the cloud-provider console or another trusted out-of-band channel
+server_access_attempted: true
+ssh_config_modified: true
+strict_host_key_checking: true
+dedicated_key_installed: true
+key_auth_verified: true
+remote_worktree_created: true
+remote_worktree: /data/state_diff_experiment2
+required_fix: null

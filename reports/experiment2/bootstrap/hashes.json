@@ -4,11 +4,13 @@
     ".gitignore": "496a683a579013f496c7c1e518c2b345735a73c6da95868bcff3e61aded35e26",
     ".gitmodules": "ba48b0616b6d5965a6a9582863031db66f2f695b789960f4f4012a1837c44753",
     "docs/CCDA_RESEARCH_ROADMAP.md": "bed5e4f6b05d6f6dae79d1d67ef6bfef5ebd0ceb327d3c5059a35f7f68881dcd",
-    "docs/EXPERIMENT2_BOOTSTRAP.md": "f87864d4572fbcbd27344c4e10c577c7e5e5568094a6a116b3a0d6b1b26a2659",
+    "docs/EXPERIMENT2_BOOTSTRAP.md": "8cde3211c9e32cd453d30b96fd21e7978c9161376e81623099fc71fff91ad617",
     "docs/REMOTE_WORKFLOW.md": "e43954bdf2a3d17314305a5230d0b2272899453bdebc7a41f5f177b448b93d3f",
-    "scripts/audit/capture_git_state.sh": "2f24764cba972e6b3f6af3aaac8d510bb2129bc511d2e7ccf4ca02f59b3081b4",
+    "scripts/audit/capture_git_state.sh": "f24fd35f534393c25d545edb7b2673c5b1c5412d84c57c150dbc8a8f84dc01d3",
     "scripts/remote/verify_remote.sh": "73db31589c0e68cb9092243039a049962347b37dccfc05529b9bae990f2b2df9"
   },
+  "audit_ops_commit": "6f44bfe9b15cb14422c9d3083b80c6f3e62e5148",
   "implementation_commit": "14ec3f00bd44326d4a4a9f865521bfbed327e45d",
+  "remote_ops_commit": "b172fc76b46ca344710b8cac3808335804860e3b",
   "submodule_commit": "633a88752445cf5d6776ed374fdbbdb35f93050c"
 }

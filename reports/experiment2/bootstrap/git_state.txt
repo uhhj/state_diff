@@ -1,14 +1,20 @@
-timestamp_utc=2026-08-04T07:24:24Z
+timestamp_utc=2026-08-04T07:49:52Z
 repository_root=D:/论文课题研究/Experiment2/state_diff-main
 branch=Experiment2
-head=14ec3f00bd44326d4a4a9f865521bfbed327e45d
+head=6f44bfe9b15cb14422c9d3083b80c6f3e62e5148
 origin	https://github.com/uhhj/state_diff.git (fetch)
 origin	https://github.com/uhhj/state_diff.git (push)
 status_porcelain_v1:
-?? reports/
+ M reports/experiment2/bootstrap/contract.yaml
+ M reports/experiment2/bootstrap/environment_local.txt
+ M reports/experiment2/bootstrap/environment_remote.txt
+ M reports/experiment2/bootstrap/git_state.txt
+ M reports/experiment2/bootstrap/hashes.json
+ M reports/experiment2/bootstrap/ssh_trust_state.yaml
+ M reports/experiment2/bootstrap/summary.md
 recent_commits:
-14ec3f0 (HEAD -> Experiment2) bootstrap(Experiment2): add CCDA roadmap and pinned simulator
+6f44bfe (HEAD -> Experiment2, origin/Experiment2) ops(audit): normalize captured environment evidence
+b172fc7 ops(remote): record verified GPU server bootstrap
+5f9a12a evidence(Experiment2): record bootstrap integrity audit
+14ec3f0 bootstrap(Experiment2): add CCDA roadmap and pinned simulator
 6a3c817 (origin/main, origin/HEAD) update dataset path
-2261fe5 Update README.md
-227e38b Update README.md
-ce67edd Update README.md

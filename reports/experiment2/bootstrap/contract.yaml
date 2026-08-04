@@ -3,6 +3,8 @@ scope: repository_and_simulator_bootstrap_only
 branch: Experiment2
 branch_point: 6a3c817f70547d3011e61a179880d0430a974da7
 implementation_commit: 14ec3f00bd44326d4a4a9f865521bfbed327e45d
+remote_ops_commit: b172fc76b46ca344710b8cac3808335804860e3b
+audit_ops_commit: 6f44bfe9b15cb14422c9d3083b80c6f3e62e5148
 evidence_commit: SELF
 roadmap:
   path: docs/CCDA_RESEARCH_ROADMAP.md
@@ -15,7 +17,12 @@ submodule:
 server:
   endpoint: jq1.9gpu.com:15560
   alias: ccda-gpu
-  trust_status: PENDING
+  trust_status: VERIFIED
+  key_auth_verified: true
+  worktree: /data/state_diff_experiment2
+  environment_prefixes:
+    - /miniforge3/envs/defravens37
+    - /miniforge3/envs/coord_bimanual
 scientific_status: NOT_STARTED
 forbidden_actions:
   - phase_0_implementation
