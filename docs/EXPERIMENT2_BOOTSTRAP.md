@@ -27,7 +27,10 @@ This branch prepares the repository and simulator baseline for the CCDA Experime
 
 - SSH alias: `ccda-gpu`
 - Endpoint: `jq1.9gpu.com:15560`
-- Intended worktree: `/data/state_diff_experiment2`, falling back to `/root/state_diff_experiment2` only if `/data` is unsuitable
-- Current status: `PENDING` until the server host-key fingerprints are independently authenticated
+- Worktree: `/data/state_diff_experiment2`
+- Host-key status: `VERIFIED` against fingerprints obtained independently from the cloud-provider console
+- Authentication: dedicated Ed25519 key with strict host-key checking
+- Clone status: the published `Experiment2` branch and recursive submodule were cloned cleanly and SHA-aligned
+- Environment inventory: the server retains the prior `/data/state_diff2` Experiment1 tree, but the default shell currently has no Conda/virtual environment or common simulation packages, and `nvidia-smi` cannot communicate with the driver
 
 No Hidden-Friction Cable task implementation, dataset generation, training, or scientific experiment was performed during this bootstrap.
