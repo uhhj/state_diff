@@ -1,0 +1,14 @@
+timestamp_utc=2026-08-04T07:24:24Z
+repository_root=D:/论文课题研究/Experiment2/state_diff-main
+branch=Experiment2
+head=14ec3f00bd44326d4a4a9f865521bfbed327e45d
+origin	https://github.com/uhhj/state_diff.git (fetch)
+origin	https://github.com/uhhj/state_diff.git (push)
+status_porcelain_v1:
+?? reports/
+recent_commits:
+14ec3f0 (HEAD -> Experiment2) bootstrap(Experiment2): add CCDA roadmap and pinned simulator
+6a3c817 (origin/main, origin/HEAD) update dataset path
+2261fe5 Update README.md
+227e38b Update README.md
+ce67edd Update README.md

@@ -1,0 +1,5 @@
+status=PENDING
+reason=SSH host fingerprints have not been independently authenticated
+server_access_attempted=false
+remote_environment_queried=false
+remote_worktree_created=false

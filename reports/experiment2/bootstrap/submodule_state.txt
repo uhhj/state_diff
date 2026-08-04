@@ -1,0 +1,7 @@
+ 633a88752445cf5d6776ed374fdbbdb35f93050c external/deformable-ravens (heads/ccda-cable)
+origin	https://github.com/uhhj/deformable-ravens.git (fetch)
+origin	https://github.com/uhhj/deformable-ravens.git (push)
+633a88752445cf5d6776ed374fdbbdb35f93050c
+submodule.external/deformable-ravens.path external/deformable-ravens
+submodule.external/deformable-ravens.url https://github.com/uhhj/deformable-ravens.git
+submodule.external/deformable-ravens.branch ccda-cable

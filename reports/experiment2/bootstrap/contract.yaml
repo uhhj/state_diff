@@ -1,0 +1,24 @@
+stage: Experiment2 bootstrap Resume1
+scope: repository_and_simulator_bootstrap_only
+branch: Experiment2
+branch_point: 6a3c817f70547d3011e61a179880d0430a974da7
+implementation_commit: 14ec3f00bd44326d4a4a9f865521bfbed327e45d
+evidence_commit: SELF
+roadmap:
+  path: docs/CCDA_RESEARCH_ROADMAP.md
+  sha256: bed5e4f6b05d6f6dae79d1d67ef6bfef5ebd0ceb327d3c5059a35f7f68881dcd
+submodule:
+  path: external/deformable-ravens
+  url: https://github.com/uhhj/deformable-ravens.git
+  selected_ref: ccda-cable
+  commit: 633a88752445cf5d6776ed374fdbbdb35f93050c
+server:
+  endpoint: jq1.9gpu.com:15560
+  alias: ccda-gpu
+  trust_status: PENDING
+scientific_status: NOT_STARTED
+forbidden_actions:
+  - phase_0_implementation
+  - dataset_generation
+  - model_training
+  - simulator_physics_changes

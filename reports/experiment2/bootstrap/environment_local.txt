@@ -1,0 +1,47 @@
+timestamp_utc=2026-08-04T07:24:27Z
+git version 2.53.0.windows.2
+MINGW64_NT-10.0-26200 DESKTOP-53K669Q 3.6.6-1cdd4371.x86_64 2026-01-15 22:20 UTC x86_64 Msys
+Tue Aug  4 15:24:28 2026       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 462.30       Driver Version: 462.30       CUDA Version: 11.2     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name            TCC/WDDM | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  GeForce GTX 1650   WDDM  | 00000000:01:00.0  On |                  N/A |
+| N/A   43C    P8     2W /  N/A |   1219MiB /  4096MiB |     18%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|=============================================================================|
+|    0   N/A  N/A      1812    C+G   ...e6\promecefpluginhost.exe    N/A      |
+|    0   N/A  N/A      1832    C+G   Insufficient Permissions        N/A      |
+|    0   N/A  N/A      2564    C+G   ...78.105\msedgewebview2.exe    N/A      |
+|    0   N/A  N/A      4740    C+G   ...d\runtime\WeChatAppEx.exe    N/A      |
+|    0   N/A  N/A      9692    C+G   C:\Windows\explorer.exe         N/A      |
+|    0   N/A  N/A     10412    C+G   ...lPanel\SystemSettings.exe    N/A      |
+|    0   N/A  N/A     13096    C+G   ...xyBrowser\RoxyBrowser.exe    N/A      |
+|    0   N/A  N/A     17980    C+G   Insufficient Permissions        N/A      |
+|    0   N/A  N/A     19464    C+G   ...ge\Application\msedge.exe    N/A      |
+|    0   N/A  N/A     21548    C+G   ...cw5n1h2txyewy\LockApp.exe    N/A      |
+|    0   N/A  N/A     21776    C+G   ...me-bin\149\RoxyChrome.exe    N/A      |
+|    0   N/A  N/A     22144    C+G   ...m Files\Zotero\zotero.exe    N/A      |
+|    0   N/A  N/A     22876    C+G   ...m Files\Zotero\zotero.exe    N/A      |
+|    0   N/A  N/A     23580    C+G   ...ge\Application\msedge.exe    N/A      |
+|    0   N/A  N/A     23784    C+G   ...078.83\msedgewebview2.exe    N/A      |
+|    0   N/A  N/A     24648    C+G   ...artMenuExperienceHost.exe    N/A      |
+|    0   N/A  N/A     24840    C+G   ...ewy\CrossDeviceResume.exe    N/A      |
+|    0   N/A  N/A     27428    C+G   ...me-bin\149\RoxyChrome.exe    N/A      |
+|    0   N/A  N/A     29232    C+G   ...y\ShellExperienceHost.exe    N/A      |
+|    0   N/A  N/A     29268    C+G   ...2txyewy\TextInputHost.exe    N/A      |
+|    0   N/A  N/A     29920    C+G   ...n1h2txyewy\SearchHost.exe    N/A      |
+|    0   N/A  N/A     30500    C+G   ...\ApplicationFrameHost.exe    N/A      |
+|    0   N/A  N/A     30796    C+G   ...qsd0c76g0\app\ChatGPT.exe    N/A      |
+|    0   N/A  N/A     33532    C+G   Insufficient Permissions        N/A      |
+|    0   N/A  N/A     36116    C+G   ...ws\System32\ShellHost.exe    N/A      |
++-----------------------------------------------------------------------------+
