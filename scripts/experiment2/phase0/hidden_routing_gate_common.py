@@ -473,6 +473,12 @@ def generate_hidden_routing_gate_action_script(
             "main_pull_frame": (
                 main_pull_frame
             ),
+            "acquisition_motion_mode": str(
+                action.get(
+                    "acquisition_motion_mode",
+                    "legacy_joint_return",
+                )
+            ),
             "pose0": _pose(main_start),
             "pose_stage1": _pose(
                 stage1_target

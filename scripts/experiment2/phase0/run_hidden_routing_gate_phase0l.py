@@ -61,6 +61,25 @@ from scripts.experiment2.phase0.run_hidden_latch_phase0i import (
 )
 
 
+class RoutingActionExecutionError(
+    RuntimeError
+):
+    def __init__(
+        self,
+        diagnostics,
+    ):
+        self.diagnostics = dict(
+            diagnostics
+        )
+        super().__init__(
+            str(
+                self.diagnostics[
+                    "failure_reason"
+                ]
+            )
+        )
+
+
 def _fraction(trace, phase):
     block = phase_slice(trace, phase)
     return float(np.mean(
@@ -150,6 +169,60 @@ def _public_layout_match(
             "do not match"
         )
     return next(iter(hashes))
+
+
+def _first_action_failure(
+    free_metadata,
+    hidden_metadata,
+):
+    for condition, metadata in (
+        ("free", free_metadata),
+        (
+            "hidden_hook",
+            hidden_metadata,
+        ),
+    ):
+        failures = [
+            row
+            for row
+            in metadata.get(
+                "action_results",
+                [],
+            )
+            if not bool(
+                row.get(
+                    "primitive_succeeded"
+                )
+            )
+        ]
+        if not failures:
+            continue
+
+        failure = dict(
+            failures[0]
+        )
+        acquisition = next(
+            (
+                dict(event)
+                for event
+                in metadata.get(
+                    "motion_events",
+                    [],
+                )
+                if event.get("stage")
+                == (
+                    "tension_pull_"
+                    "acquisition"
+                )
+            ),
+            None,
+        )
+        return {
+            "condition": condition,
+            "action": failure,
+            "acquisition": acquisition,
+        }
+    return None
 
 
 def _motion_debug(pair_runs):
@@ -279,6 +352,92 @@ def _write_geometry_failure(
     return summary
 
 
+def _write_action_failure(
+    output_root,
+    config,
+    config_path,
+    seed,
+    error,
+    stage_name,
+    blocked_verdict,
+):
+    diagnostics = dict(
+        error.diagnostics
+    )
+    summary = {
+        "stage": stage_name,
+        "runtime_main_code_sha": (
+            git_sha(REPO_ROOT)
+        ),
+        "runtime_submodule_sha": (
+            git_sha(SUBMODULE_ROOT)
+        ),
+        "config": str(
+            config_path.relative_to(
+                REPO_ROOT
+            )
+        ),
+        "candidate_id": (
+            config["candidate_id"]
+        ),
+        "topology_id": (
+            config["topology_id"]
+        ),
+        "probe_selector_mode": (
+            config["routing_gate"].get(
+                "probe_selector_mode"
+            )
+        ),
+        "public_layout_mode": (
+            config["routing_gate"].get(
+                "public_layout_mode"
+            )
+        ),
+        "main_pull_frame": (
+            config["action"].get(
+                "main_pull_frame"
+            )
+        ),
+        "acquisition_motion_mode": (
+            config["action"].get(
+                "acquisition_motion_mode"
+            )
+        ),
+        "official_outcome": (
+            config["official_outcome"]
+        ),
+        "engineering_blocked_before_pairs": (
+            True
+        ),
+        "completed_pair_count": 0,
+        "attempted_seed": int(seed),
+        "unrun_seeds": [
+            int(value)
+            for value in config["seeds"]
+            if int(value) != int(seed)
+        ],
+        "failure": diagnostics,
+        "failed_checks": [
+            "main_pull_acquisition"
+        ],
+        "scientific_status": "UNTESTED",
+        "training_performed": False,
+        "geometry_search_performed": False,
+        "action_distance_search_performed": (
+            False
+        ),
+        "outcome_search_performed": False,
+        "automatic_retry_performed": False,
+        "visualization_performed": False,
+        "verdict": blocked_verdict,
+    }
+    write_json(
+        output_root / "summary.json",
+        summary,
+    )
+    return summary
+
+
 def run_one_pair(
     config,
     seed,
@@ -328,6 +487,39 @@ def run_one_pair(
             hidden_meta,
         )
     )
+    action_failure = (
+        _first_action_failure(
+            free_meta,
+            hidden_meta,
+        )
+    )
+    if action_failure is not None:
+        acquisition = (
+            action_failure[
+                "acquisition"
+            ]
+            or {}
+        )
+        raise RoutingActionExecutionError({
+            "seed": int(seed),
+            "group_id": group_id,
+            "condition": (
+                action_failure[
+                    "condition"
+                ]
+            ),
+            "failed_action": (
+                action_failure["action"]
+            ),
+            "failure_reason": (
+                acquisition.get(
+                    "failure_reason",
+                    "primitive_failed",
+                )
+            ),
+            "acquisition": acquisition,
+            "public_layout_match": True,
+        })
     metrics = compute_pair_metrics(
         free_trace,
         hidden_trace,
@@ -412,6 +604,12 @@ def run_one_pair(
             config["action"].get(
                 "main_pull_frame",
                 "frozen_absolute_targets",
+            )
+        ),
+        "acquisition_motion_mode": (
+            config["action"].get(
+                "acquisition_motion_mode",
+                "legacy_joint_return",
             )
         ),
         "free_selected_probe_index": (
@@ -653,6 +851,20 @@ def main() -> None:
             )
             print(output_root / "summary.json")
             return
+        except RoutingActionExecutionError as error:
+            _write_action_failure(
+                output_root,
+                config,
+                config_path,
+                seed,
+                error,
+                stage_name,
+                blocked_verdict,
+            )
+            print(
+                output_root / "summary.json"
+            )
+            return
         (
             free_trace,
             hidden_trace,
@@ -778,6 +990,12 @@ def main() -> None:
                     "frozen_absolute_targets",
                 )
             ),
+            "acquisition_motion_mode": (
+                config["action"].get(
+                    "acquisition_motion_mode",
+                    "legacy_joint_return",
+                )
+            ),
             "stage1_pull_distance": (
                 config["action"][
                     "stage1_pull_distance"
@@ -868,6 +1086,12 @@ def main() -> None:
             config["action"].get(
                 "main_pull_frame",
                 "frozen_absolute_targets",
+            )
+        ),
+        "acquisition_motion_mode": (
+            config["action"].get(
+                "acquisition_motion_mode",
+                "legacy_joint_return",
             )
         ),
         "gate": (
@@ -1076,6 +1300,8 @@ def main() -> None:
         f"`{summary['public_layout_mode']}`",
         f"- Main pull frame: "
         f"`{summary['main_pull_frame']}`",
+        f"- Acquisition motion mode: "
+        f"`{summary['acquisition_motion_mode']}`",
         "- Official outcome: "
         "`pulled_endpoint_target_success_gap`",
         "- Official gate: "

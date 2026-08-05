@@ -150,6 +150,52 @@ def _capture_event_observation(
     return result
 
 
+def _action_execution_result(
+    action,
+    done,
+    info,
+):
+    extras = dict(
+        (info or {}).get(
+            "extras",
+            {},
+        )
+    )
+    returned_done = bool(done)
+    task_done = bool(
+        extras.get(
+            "task.done",
+            False,
+        )
+    )
+    primitive_succeeded = not (
+        returned_done
+        and not task_done
+    )
+    return {
+        "action_name": str(
+            action["name"]
+        ),
+        "phase": str(
+            action["phase"]
+        ),
+        "primitive": str(
+            action["primitive"]
+        ),
+        "primitive_succeeded": bool(
+            primitive_succeeded
+        ),
+        "returned_done": returned_done,
+        "task_done": task_done,
+        "exit_gracefully": bool(
+            extras.get(
+                "exit_gracefully",
+                False,
+            )
+        ),
+    }
+
+
 def _run_restored_branch(
     env: Environment,
     task: Any,
@@ -176,6 +222,10 @@ def _run_restored_branch(
     initial_difference = max_state_difference(base_state, branch_initial)
     observations: Dict[str, Any] = {}
     events: List[Dict[str, Any]] = []
+    action_results: List[
+        Dict[str, Any]
+    ] = []
+    branch_action_failed = False
     _mark_event(task, events, "branch_start")
 
     task.set_ccda_phase("no_action")
@@ -212,29 +262,80 @@ def _run_restored_branch(
     for action in preload_actions:
         task.set_ccda_phase("preload")
         _mark_event(task, events, action["name"] + "_start")
-        env.step(_environment_action(action))
+        (
+            _,
+            _,
+            returned_done,
+            returned_info,
+        ) = env.step(
+            _environment_action(action)
+        )
+        action_result = (
+            _action_execution_result(
+                action,
+                returned_done,
+                returned_info,
+            )
+        )
+        action_results.append(
+            action_result
+        )
         _mark_event(task, events, action["name"] + "_end")
+        if not action_result[
+            "primitive_succeeded"
+        ]:
+            branch_action_failed = True
+            break
 
-    pre_main_observation = _capture_event_observation(
-        env,
-        task,
-        observation_output_dir,
-        observation_config,
-        condition,
-        "pre_main",
-    )
-    if pre_main_observation is not None:
-        observations["pre_main"] = pre_main_observation
+    if not branch_action_failed:
+        pre_main_observation = _capture_event_observation(
+            env,
+            task,
+            observation_output_dir,
+            observation_config,
+            condition,
+            "pre_main",
+        )
+        if pre_main_observation is not None:
+            observations["pre_main"] = pre_main_observation
 
-    main_action = main_actions[0]
-    task.set_ccda_phase("main_pull")
-    _mark_event(task, events, "main_pull_start")
-    env.step(_environment_action(main_action))
-    _mark_event(task, events, "main_pull_end")
+        main_action = main_actions[0]
+        task.set_ccda_phase("main_pull")
+        _mark_event(task, events, "main_pull_start")
+        (
+            _,
+            _,
+            returned_done,
+            returned_info,
+        ) = env.step(
+            _environment_action(
+                main_action
+            )
+        )
+        main_result = (
+            _action_execution_result(
+                main_action,
+                returned_done,
+                returned_info,
+            )
+        )
+        action_results.append(
+            main_result
+        )
+        _mark_event(task, events, "main_pull_end")
 
-    task.set_ccda_phase("post_main")
-    env.step_physics(int(config["post_main_steps"]))
-    _mark_event(task, events, "post_main_end")
+        if main_result[
+            "primitive_succeeded"
+        ]:
+            task.set_ccda_phase("post_main")
+            env.step_physics(
+                int(config["post_main_steps"])
+            )
+            _mark_event(
+                task,
+                events,
+                "post_main_end",
+            )
 
     if env._ccda_physics_hook_error:
         raise RuntimeError(env._ccda_physics_hook_error)
@@ -259,6 +360,18 @@ def _run_restored_branch(
         },
         "events": events,
         "motion_events": env.ccda_motion_events(),
+        "action_results": (
+            action_results
+        ),
+        "all_actions_succeeded": bool(
+            action_results
+            and all(
+                row[
+                    "primitive_succeeded"
+                ]
+                for row in action_results
+            )
+        ),
         "observations": observations,
         "trace_hash": array_payload_sha256(trace),
         "trace_length": int(trace["phase"].shape[0]),

@@ -299,6 +299,12 @@ def _environment_action(action: Dict[str, Any]) -> Dict[str, Any]:
             "joint_tolerance": float(action["joint_tolerance"]),
             "cartesian_tolerance": float(action["cartesian_tolerance"]),
             "min_achieved_fraction": float(action["min_achieved_fraction"]),
+            "acquisition_motion_mode": str(
+                action.get(
+                    "acquisition_motion_mode",
+                    "legacy_joint_return",
+                )
+            ),
         }
     else:
         raise ValueError(f"unsupported primitive {primitive!r}")
