@@ -118,6 +118,16 @@ def test_oracle_fields_do_not_affect_result():
     assert first == second
 
 
+def test_all_beads_covered_is_non_gating_diagnostic_without_empty_statistics():
+    free, hidden, actions = synthetic_case()
+    actions[0]["layout"]["boxes"][0]["half_extents"][0] = 1.0
+    result = hidden_latch_outcome_decomposition(free, hidden, actions)
+    assert result["ordered_partition_valid"] is False
+    assert result["diagnostic_only"] is True
+    assert set(result["segments"]) == {"all", "blocked"}
+    assert result["segments"]["all"] == result["segments"]["blocked"]
+
+
 @pytest.mark.parametrize("blocked,endpoint", [([], 0), ([0, 1], 0), ([18, 19], 19)])
 def test_invalid_or_empty_segments_raise(blocked, endpoint):
     with pytest.raises(ValueError):

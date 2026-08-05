@@ -205,9 +205,22 @@ def hidden_latch_outcome_decomposition(
 
     endpoint_index = int(layout["endpoint_index"])
     blocked = blocked_indices_from_layout(free_before, layout)
-    segments = ordered_segment_indices(
-        free_before.shape[0], blocked, endpoint_index
-    )
+    ordered_partition_valid = True
+    ordered_partition_error = None
+    try:
+        segments = ordered_segment_indices(
+            free_before.shape[0], blocked, endpoint_index
+        )
+    except ValueError as error:
+        if blocked.size != free_before.shape[0]:
+            raise
+        # A sufficiently wide stop can span every bead in tangent projection.
+        # Preserve the usable all/blocked diagnostics without inventing empty
+        # pulled/trailing statistics. This diagnostic state is not a gate.
+        ordered_partition_valid = False
+        ordered_partition_error = str(error)
+        all_indices = np.arange(free_before.shape[0], dtype=np.int64)
+        segments = {"all": all_indices, "blocked": blocked}
 
     free_disp = free_after - free_before
     hidden_disp = hidden_after - hidden_before
@@ -260,6 +273,8 @@ def hidden_latch_outcome_decomposition(
         "metric_version": "hidden_latch_outcome_decomposition_v1",
         "diagnostic_only": True,
         "changes_official_progress_gate": False,
+        "ordered_partition_valid": ordered_partition_valid,
+        "ordered_partition_error": ordered_partition_error,
         "endpoint_index": endpoint_index,
         "probe_index": int(layout["probe_index"]),
         "blocked_indices": blocked.astype(int).tolist(),

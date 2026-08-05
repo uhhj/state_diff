@@ -96,7 +96,10 @@ def main() -> None:
     for offset, name in enumerate(segment_names):
         axis.bar(
             x + (offset - 1) * width,
-            [row["segments"][name]["progress_gap"] for row in audit["rows"]],
+            [
+                row["segments"].get(name, {}).get("progress_gap", np.nan)
+                for row in audit["rows"]
+            ],
             width=width,
             label=name,
         )
