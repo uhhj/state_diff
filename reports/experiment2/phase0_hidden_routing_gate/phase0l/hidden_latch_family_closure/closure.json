@@ -1,0 +1,22 @@
+{
+  "closed_official_outcome": "whole-cable mean progress gap",
+  "closed_task_mechanism": "delayed_z_latch family",
+  "closure_reason": "Phase 0I established an observable future-state branch but insufficient positive mean progress. Phase 0J degraded the Pareto metrics when the barrier was widened. Phase 0K retained the branch but produced seed-dependent and negative signed progress under additional same-end tension.",
+  "historical_verdicts_changed": false,
+  "new_simulation_performed": false,
+  "next_task_family": "hidden_routing_gate",
+  "post_hoc_summary_only": true,
+  "scope_limit": "This closes only the delayed Z-latch plus whole-cable mean-progress task combination. It does not reject hidden contact conditioning or outcome-aligned routing tasks.",
+  "source_reports": {
+    "phase0i": "reports/experiment2/phase0_hidden_hook/phase0i/summary.json",
+    "phase0j": "reports/experiment2/phase0_hidden_hook/phase0j/summary.json",
+    "phase0k": "reports/experiment2/phase0_hidden_hook/phase0k/summary.json"
+  },
+  "source_verdicts": {
+    "phase0i": "HIDDEN_Z_LATCH_SMOKE_BLOCKED",
+    "phase0j": "HIDDEN_WIDE_STOP_SMOKE_BLOCKED",
+    "phase0k": "HIDDEN_TENSION_EXTENSION_SMOKE_BLOCKED"
+  },
+  "stage": "Experiment2 Phase 0L Hidden Z-latch Family Closure",
+  "training_performed": false
+}

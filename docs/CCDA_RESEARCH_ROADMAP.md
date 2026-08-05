@@ -1300,3 +1300,20 @@ Agent 当前只应执行以下主线：
 - Hard branch negatives；
 - 可执行性闭环；
 - 可复现的任务与证据合同。
+
+### Phase 0L — Hidden Routing-Gate Outcome-Aligned Smoke
+
+- Closed the prior `delayed_z_latch + whole-cable mean progress`
+  task combination without changing Phase 0I/0J/0K verdicts.
+- Introduced one fixed `hidden_routing_gate_v1` topology.
+- The public task outcome was pre-registered as whether the pulled
+  endpoint crossed a fixed target plane inside a fixed corridor.
+- The hidden fixture contained an invisible preload probe roof and
+  an invisible transverse cable-only barrier.
+- Reused the existing precise continuous-grasp routing primitive.
+- No geometry, action, outcome or classifier search was performed.
+- Official gate: `median routing_success_gap >= 1.0`.
+- Verdict: `HIDDEN_ROUTING_GATE_SMOKE_BLOCKED`.
+- The fixed layout had no legal workspace geometry at the first
+  environment reset, so no pair metrics or physical conclusion were produced.
+- Training remained disabled; no retry or geometry change was performed.

@@ -1,0 +1,40 @@
+{
+  "action_search_performed": false,
+  "candidate_id": "hidden_routing_gate_v1_fixed_pull_v1",
+  "config": "configs/experiment2/phase0/hidden_routing_gate_phase0l.json",
+  "config_file_sha256": "b33bc62cea5287d1b6dcb11e974a48ef77e674a632305cf65a1a840a8084c1a6",
+  "failed_checks": ["legal_workspace_geometry"],
+  "failure": {
+    "completed_pair_count": 0,
+    "exception_message": "no legal fixed hidden routing-gate orientation and endpoint",
+    "exception_type": "RuntimeError",
+    "failure_class": "engineering_blocker",
+    "first_requested_seed": 71001,
+    "retry_performed": false
+  },
+  "gate": "Stage M0 fixed outcome-aligned hidden routing-gate smoke",
+  "geometry_search_performed": false,
+  "interpretation": "Engineering BLOCKED before any pair completed. No physical-mechanism or classifier conclusion is supported, and no retry or geometry change was performed.",
+  "legacy_mean_progress_is_gate": false,
+  "official_outcome": "pulled_endpoint_target_success_gap",
+  "official_outcome_gate": "median routing_success_gap >= 1.0",
+  "oracle_used_as_formal_feature": false,
+  "outcome_search_performed": false,
+  "phase0i_phase0j_phase0k_verdicts_changed": false,
+  "raw_file_count": 0,
+  "runtime_main_code_sha": "276e38e82453d8ec9cf5509f2e4a1be4787fd86c",
+  "runtime_submodule_sha": "f0cf0b2a085aea4a087a0e2bc45955511a2c17a1",
+  "seeds": [71001, 71002, 71003],
+  "stage": "Experiment2 Phase 0L",
+  "topology": {
+    "candidate_id": "hidden_routing_gate_v1_fixed_pull_v1",
+    "checks": {"legal_workspace_geometry": false},
+    "eligible": false,
+    "engineering_blocked_before_pairs": true,
+    "pairs": [],
+    "valid_pairs": 0
+  },
+  "topology_id": "hidden_routing_gate_v1",
+  "training_performed": false,
+  "verdict": "HIDDEN_ROUTING_GATE_SMOKE_BLOCKED"
+}

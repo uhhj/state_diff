@@ -1,0 +1,35 @@
+{
+  "candidate": {
+    "id": "hidden_routing_gate_v1_fixed_pull_v1",
+    "official_outcome": "pulled_endpoint_target_success_gap",
+    "topology_id": "hidden_routing_gate_v1"
+  },
+  "candidate_id": "hidden_routing_gate_v1_fixed_pull_v1",
+  "checks": {
+    "legal_workspace_geometry": false
+  },
+  "classifiers": {
+    "formal_sensor": {"accuracy": null, "status": "not_run"},
+    "oracle_contact": {"accuracy": null, "status": "not_run"},
+    "vision_delta": {"accuracy": null, "status": "not_run"},
+    "vision_raw": {"accuracy": null, "status": "not_run"}
+  },
+  "eligible": false,
+  "engineering_blocked_before_pairs": true,
+  "median": {
+    "branch_amplification": null,
+    "endpoint_target_margin_gap": null,
+    "hidden_gate_engagement_fraction": null,
+    "leading_crossing_fraction_gap": null,
+    "main_branch_ade": null,
+    "main_branch_fde": null,
+    "preload_end_max_abs_xy": null,
+    "routing_success_gap": null
+  },
+  "pairs": [],
+  "success_fraction": {
+    "free_endpoint_target": null,
+    "hidden_endpoint_target": null
+  },
+  "valid_pairs": 0
+}

@@ -1,0 +1,14 @@
+{
+  "all_cartesian_stages_successful": false,
+  "engineering_blocked_before_motion": true,
+  "event_count": 0,
+  "failure_count": 1,
+  "failures": [
+    {
+      "reason": "no legal fixed hidden routing-gate orientation and endpoint",
+      "stage": "environment_reset_geometry"
+    }
+  ],
+  "recovered_joint_timeout_count": 0,
+  "rows": []
+}

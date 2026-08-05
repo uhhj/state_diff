@@ -1,0 +1,19 @@
+{
+  "attempt_scope": "single_fixed_three_seed_phase0l_run",
+  "completed_pair_count": 0,
+  "exception_message": "no legal fixed hidden routing-gate orientation and endpoint",
+  "exception_type": "RuntimeError",
+  "failure_class": "engineering_blocker",
+  "failure_location": "compute_hidden_routing_gate_layout",
+  "first_requested_seed": 71001,
+  "geometry_changed_after_failure": false,
+  "retry_performed": false,
+  "simulation_started": true,
+  "traceback_tail": [
+    "run_hidden_routing_gate_phase0l.py:528 in main -> run_one_pair",
+    "exact_counterfactual.py:309 in run_exact_counterfactual_pair -> env.reset(task)",
+    "ccda_hidden_routing_gate_cable.py:268 in reset -> super().reset",
+    "ccda_hidden_hook_cable.py:56 in reset -> _compute_hidden_layout",
+    "ccda_hidden_routing_gate_geometry.py:612 -> RuntimeError"
+  ]
+}

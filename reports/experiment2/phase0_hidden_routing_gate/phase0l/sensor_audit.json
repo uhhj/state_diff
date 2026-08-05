@@ -1,0 +1,6 @@
+{
+  "formal_sensor_feature_version": "stage_aligned_formal_sensor_v1",
+  "oracle_used_as_formal_feature": false,
+  "rows": [],
+  "status": "not_run_due_to_engineering_blocker"
+}
