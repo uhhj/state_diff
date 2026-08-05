@@ -128,6 +128,17 @@ def test_all_beads_covered_is_non_gating_diagnostic_without_empty_statistics():
     assert result["segments"]["all"] == result["segments"]["blocked"]
 
 
+def test_endpoint_covered_preserves_nonempty_opposite_side_diagnostic():
+    free, hidden, actions = synthetic_case()
+    actions[0]["layout"]["boxes"][0]["center_xy"][0] = 0.04
+    actions[0]["layout"]["boxes"][0]["half_extents"][0] = 0.04
+    actions[0]["layout"]["probe_index"] = 4
+    result = hidden_latch_outcome_decomposition(free, hidden, actions)
+    assert result["ordered_partition_valid"] is False
+    assert "pulled_side" not in result["segments"]
+    assert result["segments"]["trailing_side"]["bead_count"] > 0
+
+
 @pytest.mark.parametrize("blocked,endpoint", [([], 0), ([0, 1], 0), ([18, 19], 19)])
 def test_invalid_or_empty_segments_raise(blocked, endpoint):
     with pytest.raises(ValueError):

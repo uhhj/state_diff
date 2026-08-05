@@ -212,15 +212,25 @@ def hidden_latch_outcome_decomposition(
             free_before.shape[0], blocked, endpoint_index
         )
     except ValueError as error:
-        if blocked.size != free_before.shape[0]:
-            raise
-        # A sufficiently wide stop can span every bead in tangent projection.
-        # Preserve the usable all/blocked diagnostics without inventing empty
-        # pulled/trailing statistics. This diagnostic state is not a gate.
+        # A sufficiently wide stop can span an ordered endpoint or every bead
+        # in tangent projection. Preserve every non-empty segment diagnostic
+        # without inventing statistics for an empty side. This state is not a
+        # gate; direct ordered_segment_indices calls remain strict.
         ordered_partition_valid = False
         ordered_partition_error = str(error)
         all_indices = np.arange(free_before.shape[0], dtype=np.int64)
         segments = {"all": all_indices, "blocked": blocked}
+        lower, upper = int(np.min(blocked)), int(np.max(blocked))
+        if endpoint_index == 0:
+            pulled = np.arange(0, lower, dtype=np.int64)
+            trailing = np.arange(upper + 1, free_before.shape[0], dtype=np.int64)
+        else:
+            pulled = np.arange(upper + 1, free_before.shape[0], dtype=np.int64)
+            trailing = np.arange(0, lower, dtype=np.int64)
+        if pulled.size:
+            segments["pulled_side"] = pulled
+        if trailing.size:
+            segments["trailing_side"] = trailing
 
     free_disp = free_after - free_before
     hidden_disp = hidden_after - hidden_before
