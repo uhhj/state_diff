@@ -1398,3 +1398,34 @@ Agent 当前只应执行以下主线：
 - Verdict: `HIDDEN_ROUTING_GATE_RESUME3_SMOKE_BLOCKED`.
 - Scientific status: `UNTESTED`.
 - Training remained disabled.
+
+### Phase 0L Resume4 — Frozen Public Routing Layout
+
+- Preserved the Phase 0L through Resume3 evidence and their prior
+  scientific status.
+- Resume3 had already passed the all-bead probe selection and runtime
+  initial-clearance gates, and both seed-71001 rollouts returned.
+- The remaining blocker was a public-task lifecycle mismatch: the task
+  and hidden fixture used the branch-arm layout, while the action
+  generator reconstructed the layout after the no-action interval.
+- Resume4 froze one public routing layout immediately after successful
+  branch arming.
+- The hidden fixture, visible target, action targets, task metadata and
+  official outcome reused the frozen public layout. Action grasp poses
+  still used the current no-action-end bead positions.
+- The exact action/task public-layout equality gate was retained without
+  tolerance relaxation.
+- Probe selector, fixture geometry, clearance threshold, workspace,
+  target offsets, action distances, sensor features, scientific
+  thresholds, seeds and official outcome were unchanged.
+- The one-shot run was engineering blocked on seed 71001 in the free
+  branch before main routing motion. Tangential no-action endpoint drift
+  made the current pose0 and frozen stage-1/final targets fail the
+  existing primitive's strict collinearity precondition.
+- No pair was accepted; seeds 71002 and 71003 were not run, and no
+  scientific metric was calculated.
+- No preflight, layout search, geometry search, action search, outcome
+  search, automatic retry or model training was performed.
+- Verdict: `HIDDEN_ROUTING_GATE_RESUME4_SMOKE_BLOCKED`.
+- Scientific status: `UNTESTED`.
+- Training remained disabled.

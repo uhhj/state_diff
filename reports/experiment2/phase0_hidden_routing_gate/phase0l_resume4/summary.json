@@ -1,0 +1,54 @@
+{
+  "stage": "Experiment2 Phase 0L Resume4",
+  "gate": "Stage M0 fixed outcome-aligned hidden routing-gate smoke",
+  "runtime_main_code_sha": "483d05553cdeefdfb5e2008cbf1226ec5aeed321",
+  "runtime_submodule_sha": "8905ecd89d0d04d3df0ea36ce67be69e09b689ca",
+  "config": "configs/experiment2/phase0/hidden_routing_gate_phase0l_resume4.json",
+  "candidate_id": "hidden_routing_gate_v1r4_fixed_pull_v1",
+  "topology_id": "hidden_routing_gate_v1r4",
+  "probe_selector_mode": "all_bead_clearance_nearest_center",
+  "public_layout_mode": "frozen_at_branch_arm",
+  "official_outcome": "pulled_endpoint_target_success_gap",
+  "engineering_blocked_before_pairs": true,
+  "completed_pair_count": 0,
+  "completed_seeds": [],
+  "attempted_seed": 71001,
+  "unrun_seeds": [71002, 71003],
+  "probe_selection": {
+    "71001": {
+      "preferred_probe_index": 10,
+      "selected_probe_index": 7,
+      "offline_all_bead_roof_clearance": 0.002049999999999998,
+      "runtime_initial_fixture_clearance": "passed; exact value not persisted"
+    },
+    "71002": null,
+    "71003": null
+  },
+  "public_layout_match": {
+    "71001": "N/A; free branch aborted before pair-level exact match",
+    "71002": "N/A; not run",
+    "71003": "N/A; not run"
+  },
+  "failure": {
+    "class": "engineering_routing_action_collinearity_blocker",
+    "failed_check": "routing_action_collinearity",
+    "condition": "free",
+    "seed": 71001,
+    "phase": "main_pull_precondition",
+    "exception_type": "ValueError",
+    "exception_message": "stage-1 and final pulls must be collinear",
+    "root_cause": "The no-action-end endpoint pose0 had drifted tangentially from the branch-arm frozen public target line. The frozen stage-1 and final targets therefore did not satisfy the existing primitive's 1e-9 direction-equality precondition when measured from the current pose0.",
+    "raw_observation_count": 2
+  },
+  "failed_checks": [
+    "routing_action_collinearity"
+  ],
+  "scientific_status": "UNTESTED",
+  "training_performed": false,
+  "geometry_search_performed": false,
+  "action_search_performed": false,
+  "outcome_search_performed": false,
+  "automatic_retry_performed": false,
+  "visualization_performed": false,
+  "verdict": "HIDDEN_ROUTING_GATE_RESUME4_SMOKE_BLOCKED"
+}
