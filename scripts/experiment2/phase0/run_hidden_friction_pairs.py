@@ -294,6 +294,10 @@ def _environment_action(action: Dict[str, Any]) -> Dict[str, Any]:
                 )
             ),
         }
+        if "target_bead_index" in action:
+            params["target_bead_index"] = int(
+                action["target_bead_index"]
+            )
     elif primitive == "pick_precise_tension_extension":
         params = {
             "pose0": tuple_pose(action["pose0"]),
@@ -312,6 +316,10 @@ def _environment_action(action: Dict[str, Any]) -> Dict[str, Any]:
                 )
             ),
         }
+        if "target_bead_index" in action:
+            params["target_bead_index"] = int(
+                action["target_bead_index"]
+            )
     else:
         raise ValueError(f"unsupported primitive {primitive!r}")
     return {"primitive": primitive, "params": params}

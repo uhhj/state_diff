@@ -28,6 +28,12 @@ FROZEN_ABSOLUTE_TARGETS_FRAME = (
 CURRENT_ENDPOINT_FROZEN_NORMAL_FRAME = (
     "current_endpoint_frozen_normal"
 )
+GENERIC_CONTACT_GRASP_MODE = (
+    "generic_contact"
+)
+SELECTED_BEAD_ONLY_GRASP_MODE = (
+    "selected_bead_only"
+)
 
 
 def _pose(position):
@@ -374,6 +380,20 @@ def generate_hidden_routing_gate_action_script(
         positions,
     )
     action = config["action"]
+    target_grasp_mode = str(
+        action.get(
+            "target_grasp_mode",
+            GENERIC_CONTACT_GRASP_MODE,
+        )
+    )
+    if target_grasp_mode not in {
+        GENERIC_CONTACT_GRASP_MODE,
+        SELECTED_BEAD_ONLY_GRASP_MODE,
+    }:
+        raise ValueError(
+            "unsupported target_grasp_mode "
+            f"{target_grasp_mode!r}"
+        )
 
     probe_index = int(
         public["probe_index"]
@@ -417,8 +437,7 @@ def generate_hidden_routing_gate_action_script(
                 f"{forbidden!r}"
             )
 
-    return [
-        {
+    preload_action = {
             "name": "routing_contact_probe",
             "phase": "preload",
             "primitive": (
@@ -469,8 +488,8 @@ def generate_hidden_routing_gate_action_script(
                 ]
             ),
             "public_task_layout": public,
-        },
-        {
+        }
+    main_action = {
             "name": "routing_main_pull",
             "phase": "main_pull",
             "primitive": (
@@ -515,5 +534,27 @@ def generate_hidden_routing_gate_action_script(
                 ]
             ),
             "public_task_layout": public,
-        },
+        }
+
+    preload_action[
+        "target_grasp_mode"
+    ] = target_grasp_mode
+    main_action[
+        "target_grasp_mode"
+    ] = target_grasp_mode
+
+    if (
+        target_grasp_mode
+        == SELECTED_BEAD_ONLY_GRASP_MODE
+    ):
+        preload_action[
+            "target_bead_index"
+        ] = int(probe_index)
+        main_action[
+            "target_bead_index"
+        ] = int(endpoint_index)
+
+    return [
+        preload_action,
+        main_action,
     ]

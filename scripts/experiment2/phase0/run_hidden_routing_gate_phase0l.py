@@ -525,6 +525,12 @@ def _write_action_failure(
                 "main_pull_frame"
             )
         ),
+        "target_grasp_mode": (
+            config["action"].get(
+                "target_grasp_mode",
+                "generic_contact",
+            )
+        ),
         "probe_acquisition_motion_mode": (
             config["action"].get(
                 "probe_acquisition_motion_mode",
@@ -560,6 +566,31 @@ def _write_action_failure(
                 and int(value) != int(seed)
             )
         ],
+        "selected_probe_index": (
+            diagnostics.get(
+                "selected_probe_index"
+            )
+        ),
+        "free_initial_fixture_clearance": (
+            diagnostics.get(
+                "free_initial_fixture_clearance"
+            )
+        ),
+        "hidden_initial_fixture_clearance": (
+            diagnostics.get(
+                "hidden_initial_fixture_clearance"
+            )
+        ),
+        "action_results": {
+            "free": diagnostics.get(
+                "free_action_results",
+                [],
+            ),
+            "hidden_hook": diagnostics.get(
+                "hidden_action_results",
+                [],
+            ),
+        },
         "failure": diagnostics,
         "failed_checks": [
             str(
@@ -641,6 +672,12 @@ def run_one_pair(
         )
     )
     if action_failure is not None:
+        free_privileged = (
+            free_meta["privileged_state"]
+        )
+        hidden_privileged = (
+            hidden_meta["privileged_state"]
+        )
         raise RoutingActionExecutionError({
             "seed": int(seed),
             "group_id": group_id,
@@ -678,6 +715,33 @@ def run_one_pair(
                 ]
             ),
             "public_layout_match": True,
+            "selected_probe_index": (
+                free_privileged.get(
+                    "selected_probe_index"
+                )
+            ),
+            "free_initial_fixture_clearance": (
+                free_privileged.get(
+                    "routing_gate_initial_clearance"
+                )
+            ),
+            "hidden_initial_fixture_clearance": (
+                hidden_privileged.get(
+                    "routing_gate_initial_clearance"
+                )
+            ),
+            "free_action_results": (
+                free_meta.get(
+                    "action_results",
+                    [],
+                )
+            ),
+            "hidden_action_results": (
+                hidden_meta.get(
+                    "action_results",
+                    [],
+                )
+            ),
         })
 
     minimum_fraction = float(
@@ -818,6 +882,22 @@ def run_one_pair(
                 "main_pull_frame",
                 "frozen_absolute_targets",
             )
+        ),
+        "target_grasp_mode": (
+            config["action"].get(
+                "target_grasp_mode",
+                "generic_contact",
+            )
+        ),
+        "probe_target_bead_index": int(
+            actions[0][
+                "target_bead_index"
+            ]
+        ),
+        "main_target_bead_index": int(
+            actions[1][
+                "target_bead_index"
+            ]
         ),
         "probe_acquisition_motion_mode": (
             config["action"].get(
@@ -1212,6 +1292,12 @@ def main() -> None:
             config["routing_gate"]
         ),
         "action": {
+            "target_grasp_mode": (
+                config["action"].get(
+                    "target_grasp_mode",
+                    "generic_contact",
+                )
+            ),
             "probe_acquisition_motion_mode": (
                 config["action"].get(
                     "probe_acquisition_motion_mode",
@@ -1326,6 +1412,12 @@ def main() -> None:
             config["action"].get(
                 "main_pull_frame",
                 "frozen_absolute_targets",
+            )
+        ),
+        "target_grasp_mode": (
+            config["action"].get(
+                "target_grasp_mode",
+                "generic_contact",
             )
         ),
         "probe_acquisition_motion_mode": (
@@ -1559,6 +1651,8 @@ def main() -> None:
         f"`{summary['public_layout_mode']}`",
         f"- Main pull frame: "
         f"`{summary['main_pull_frame']}`",
+        f"- Target grasp mode: "
+        f"`{summary['target_grasp_mode']}`",
         f"- Probe acquisition motion mode: "
         f"`{summary['probe_acquisition_motion_mode']}`",
         f"- Acquisition motion mode: "
