@@ -22,6 +22,14 @@ from ravens.tasks.ccda_hidden_routing_gate_geometry import (
 )
 
 
+FROZEN_ABSOLUTE_TARGETS_FRAME = (
+    "frozen_absolute_targets"
+)
+CURRENT_ENDPOINT_FROZEN_NORMAL_FRAME = (
+    "current_endpoint_frozen_normal"
+)
+
+
 def _pose(position):
     return {
         "position": (
@@ -288,6 +296,71 @@ def _public_layout_for_action(
     )
 
 
+def _routing_main_targets(
+    action,
+    public,
+    main_start,
+):
+    frame = str(action.get(
+        "main_pull_frame",
+        FROZEN_ABSOLUTE_TARGETS_FRAME,
+    ))
+
+    stage1_target = np.asarray(
+        main_start,
+        dtype=np.float64,
+    ).copy()
+    final_target = np.asarray(
+        main_start,
+        dtype=np.float64,
+    ).copy()
+
+    if (
+        frame
+        == CURRENT_ENDPOINT_FROZEN_NORMAL_FRAME
+    ):
+        normal = np.asarray(
+            public["normal_xy"],
+            dtype=np.float64,
+        )
+        normal = normal / np.linalg.norm(
+            normal
+        )
+        stage1_target[:2] = (
+            main_start[:2]
+            + normal
+            * float(
+                action[
+                    "stage1_pull_distance"
+                ]
+            )
+        )
+        final_target[:2] = (
+            main_start[:2]
+            + normal
+            * float(
+                action[
+                    "final_pull_distance"
+                ]
+            )
+        )
+    else:
+        stage1_target[:2] = np.asarray(
+            public["stage1_target_xy"],
+            dtype=np.float64,
+        )
+        final_target[:2] = np.asarray(
+            public["final_target_xy"],
+            dtype=np.float64,
+        )
+
+    return (
+        frame,
+        stage1_target,
+        final_target,
+    )
+
+
 def generate_hidden_routing_gate_action_script(
     config: Dict[str, Any],
     beads: np.ndarray,
@@ -320,15 +393,14 @@ def generate_hidden_routing_gate_action_script(
     ].copy()
     main_start[2] = pick_z
 
-    stage1_target = main_start.copy()
-    stage1_target[:2] = np.asarray(
-        public["stage1_target_xy"],
-        dtype=np.float64,
-    )
-    final_target = main_start.copy()
-    final_target[:2] = np.asarray(
-        public["final_target_xy"],
-        dtype=np.float64,
+    (
+        main_pull_frame,
+        stage1_target,
+        final_target,
+    ) = _routing_main_targets(
+        action,
+        public,
+        main_start,
     )
 
     # Public action metadata must not contain any
@@ -397,6 +469,9 @@ def generate_hidden_routing_gate_action_script(
             "phase": "main_pull",
             "primitive": (
                 "pick_precise_tension_extension"
+            ),
+            "main_pull_frame": (
+                main_pull_frame
             ),
             "pose0": _pose(main_start),
             "pose_stage1": _pose(

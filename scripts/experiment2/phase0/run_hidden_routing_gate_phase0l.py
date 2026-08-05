@@ -408,6 +408,12 @@ def run_one_pair(
                 "recompute_from_action_state",
             )
         ),
+        "main_pull_frame": (
+            config["action"].get(
+                "main_pull_frame",
+                "frozen_absolute_targets",
+            )
+        ),
         "free_selected_probe_index": (
             free_privileged.get(
                 "selected_probe_index"
@@ -766,6 +772,12 @@ def main() -> None:
             config["routing_gate"]
         ),
         "action": {
+            "main_pull_frame": (
+                config["action"].get(
+                    "main_pull_frame",
+                    "frozen_absolute_targets",
+                )
+            ),
             "stage1_pull_distance": (
                 config["action"][
                     "stage1_pull_distance"
@@ -850,6 +862,12 @@ def main() -> None:
             config["routing_gate"].get(
                 "public_layout_mode",
                 "recompute_from_action_state",
+            )
+        ),
+        "main_pull_frame": (
+            config["action"].get(
+                "main_pull_frame",
+                "frozen_absolute_targets",
             )
         ),
         "gate": (
@@ -1056,6 +1074,8 @@ def main() -> None:
         f"`{summary['probe_selector_mode']}`",
         f"- Public layout mode: "
         f"`{summary['public_layout_mode']}`",
+        f"- Main pull frame: "
+        f"`{summary['main_pull_frame']}`",
         "- Official outcome: "
         "`pulled_endpoint_target_success_gap`",
         "- Official gate: "
