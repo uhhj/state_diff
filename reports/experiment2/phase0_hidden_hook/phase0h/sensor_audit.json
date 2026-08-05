@@ -1,0 +1,564 @@
+{
+  "formal_sensor_contract": {
+    "allowed": [
+      "joint motor torque",
+      "joint reaction force/torque",
+      "end-effector constraint reaction",
+      "grasp state",
+      "constraint availability",
+      "probe phase index"
+    ],
+    "forbidden": [
+      "hidden condition label",
+      "hidden object ID",
+      "hook layout",
+      "Oracle contact force"
+    ],
+    "oracle_contact_use": "contact-alignment audit only"
+  },
+  "rows": [
+    {
+      "condition": "free",
+      "group_id": "hh_071001",
+      "phase_sample_count": {
+        "main_pull": 207,
+        "no_action": 60,
+        "post_main": 60,
+        "preload": 827
+      },
+      "sample_count": 1154,
+      "seed": 71001,
+      "signals": {
+        "sensor_constraint_available": {
+          "finite": true,
+          "maximum": 1.0,
+          "mean": 0.14991334488734837,
+          "nonzero_fraction": 0.14991334488734837,
+          "shape": [
+            1154
+          ]
+        },
+        "sensor_grasp_active": {
+          "finite": true,
+          "maximum": 1.0,
+          "mean": 0.14991334488734837,
+          "nonzero_fraction": 0.14991334488734837,
+          "shape": [
+            1154
+          ]
+        },
+        "sensor_joint_motor_torque_norm": {
+          "finite": true,
+          "maximum": 2375.2887980742794,
+          "mean": 34.05398860396906,
+          "nonzero_fraction": 1.0,
+          "shape": [
+            1154
+          ]
+        },
+        "sensor_joint_reaction_force_torque_norm": {
+          "finite": true,
+          "maximum": 8128.156966278749,
+          "mean": 250.11009574598154,
+          "nonzero_fraction": 1.0,
+          "shape": [
+            1154
+          ]
+        },
+        "sensor_suction_force_norm": {
+          "finite": true,
+          "maximum": 245.76948198264213,
+          "mean": 15.312338182135258,
+          "nonzero_fraction": 0.14991334488734837,
+          "shape": [
+            1154
+          ]
+        },
+        "sensor_suction_torque_norm": {
+          "finite": true,
+          "maximum": 0.738018431904045,
+          "mean": 0.06040494495737614,
+          "nonzero_fraction": 0.14991334488734837,
+          "shape": [
+            1154
+          ]
+        }
+      },
+      "timeline": "reports/experiment2/phase0_hidden_hook/phase0h/raw/recessed_u_hook_shallow/hh_071001/sensor_timeline_free.npz"
+    },
+    {
+      "condition": "hidden_hook",
+      "group_id": "hh_071001",
+      "phase_sample_count": {
+        "main_pull": 210,
+        "no_action": 60,
+        "post_main": 60,
+        "preload": 623
+      },
+      "sample_count": 953,
+      "seed": 71001,
+      "signals": {
+        "sensor_constraint_available": {
+          "finite": true,
+          "maximum": 1.0,
+          "mean": 0.18782791185729275,
+          "nonzero_fraction": 0.18782791185729275,
+          "shape": [
+            953
+          ]
+        },
+        "sensor_grasp_active": {
+          "finite": true,
+          "maximum": 1.0,
+          "mean": 0.18782791185729275,
+          "nonzero_fraction": 0.18782791185729275,
+          "shape": [
+            953
+          ]
+        },
+        "sensor_joint_motor_torque_norm": {
+          "finite": true,
+          "maximum": 38123.561614242906,
+          "mean": 75.56669512804473,
+          "nonzero_fraction": 1.0,
+          "shape": [
+            953
+          ]
+        },
+        "sensor_joint_reaction_force_torque_norm": {
+          "finite": true,
+          "maximum": 202088.94149464194,
+          "mean": 464.74945891649423,
+          "nonzero_fraction": 1.0,
+          "shape": [
+            953
+          ]
+        },
+        "sensor_suction_force_norm": {
+          "finite": true,
+          "maximum": 412.7811456235402,
+          "mean": 40.12106107459017,
+          "nonzero_fraction": 0.18782791185729275,
+          "shape": [
+            953
+          ]
+        },
+        "sensor_suction_torque_norm": {
+          "finite": true,
+          "maximum": 0.9206565887312625,
+          "mean": 0.0535330139687562,
+          "nonzero_fraction": 0.18782791185729275,
+          "shape": [
+            953
+          ]
+        }
+      },
+      "timeline": "reports/experiment2/phase0_hidden_hook/phase0h/raw/recessed_u_hook_shallow/hh_071001/sensor_timeline_hidden_hook.npz"
+    },
+    {
+      "condition": "free_hidden_difference",
+      "group_id": "hh_071001",
+      "seed": 71001,
+      "signals": {
+        "sensor_constraint_available": {
+          "aligned_samples": 953,
+          "max_abs_difference": 1.0,
+          "mean_abs_difference": 0.3095487932843652,
+          "root_mean_square_difference": 0.5563710931423066
+        },
+        "sensor_grasp_active": {
+          "aligned_samples": 953,
+          "max_abs_difference": 1.0,
+          "mean_abs_difference": 0.3095487932843652,
+          "root_mean_square_difference": 0.5563710931423066
+        },
+        "sensor_joint_motor_torque_norm": {
+          "aligned_samples": 953,
+          "max_abs_difference": 38098.45239736726,
+          "mean_abs_difference": 53.559941951257024,
+          "root_mean_square_difference": 1241.7207973101056
+        },
+        "sensor_joint_reaction_force_torque_norm": {
+          "aligned_samples": 953,
+          "max_abs_difference": 201861.59085015403,
+          "mean_abs_difference": 260.44928486305975,
+          "root_mean_square_difference": 6560.726779567264
+        },
+        "sensor_suction_force_norm": {
+          "aligned_samples": 953,
+          "max_abs_difference": 412.7811456235402,
+          "mean_abs_difference": 47.73476452912144,
+          "root_mean_square_difference": 127.69568717997359
+        },
+        "sensor_suction_torque_norm": {
+          "aligned_samples": 953,
+          "max_abs_difference": 0.9206565887312625,
+          "mean_abs_difference": 0.08437282397405482,
+          "root_mean_square_difference": 0.21855797881510092
+        }
+      }
+    },
+    {
+      "condition": "free",
+      "group_id": "hh_071002",
+      "phase_sample_count": {
+        "main_pull": 171,
+        "no_action": 60,
+        "post_main": 60,
+        "preload": 608
+      },
+      "sample_count": 899,
+      "seed": 71002,
+      "signals": {
+        "sensor_constraint_available": {
+          "finite": true,
+          "maximum": 1.0,
+          "mean": 0.1446051167964405,
+          "nonzero_fraction": 0.1446051167964405,
+          "shape": [
+            899
+          ]
+        },
+        "sensor_grasp_active": {
+          "finite": true,
+          "maximum": 1.0,
+          "mean": 0.1446051167964405,
+          "nonzero_fraction": 0.1446051167964405,
+          "shape": [
+            899
+          ]
+        },
+        "sensor_joint_motor_torque_norm": {
+          "finite": true,
+          "maximum": 3185.1282238146127,
+          "mean": 41.149695658032,
+          "nonzero_fraction": 1.0,
+          "shape": [
+            899
+          ]
+        },
+        "sensor_joint_reaction_force_torque_norm": {
+          "finite": true,
+          "maximum": 11051.520058573455,
+          "mean": 249.4298232988757,
+          "nonzero_fraction": 1.0,
+          "shape": [
+            899
+          ]
+        },
+        "sensor_suction_force_norm": {
+          "finite": true,
+          "maximum": 419.9156037880341,
+          "mean": 28.866405760691734,
+          "nonzero_fraction": 0.1446051167964405,
+          "shape": [
+            899
+          ]
+        },
+        "sensor_suction_torque_norm": {
+          "finite": true,
+          "maximum": 0.7968721520049566,
+          "mean": 0.04952136583337529,
+          "nonzero_fraction": 0.1446051167964405,
+          "shape": [
+            899
+          ]
+        }
+      },
+      "timeline": "reports/experiment2/phase0_hidden_hook/phase0h/raw/recessed_u_hook_shallow/hh_071002/sensor_timeline_free.npz"
+    },
+    {
+      "condition": "hidden_hook",
+      "group_id": "hh_071002",
+      "phase_sample_count": {
+        "main_pull": 172,
+        "no_action": 60,
+        "post_main": 60,
+        "preload": 4194
+      },
+      "sample_count": 4486,
+      "seed": 71002,
+      "signals": {
+        "sensor_constraint_available": {
+          "finite": true,
+          "maximum": 1.0,
+          "mean": 0.8299152920196166,
+          "nonzero_fraction": 0.8299152920196166,
+          "shape": [
+            4486
+          ]
+        },
+        "sensor_grasp_active": {
+          "finite": true,
+          "maximum": 1.0,
+          "mean": 0.8299152920196166,
+          "nonzero_fraction": 0.8299152920196166,
+          "shape": [
+            4486
+          ]
+        },
+        "sensor_joint_motor_torque_norm": {
+          "finite": true,
+          "maximum": 3188.9184702739503,
+          "mean": 41.124222297917115,
+          "nonzero_fraction": 1.0,
+          "shape": [
+            4486
+          ]
+        },
+        "sensor_joint_reaction_force_torque_norm": {
+          "finite": true,
+          "maximum": 11037.269411677864,
+          "mean": 238.21469832641966,
+          "nonzero_fraction": 1.0,
+          "shape": [
+            4486
+          ]
+        },
+        "sensor_suction_force_norm": {
+          "finite": true,
+          "maximum": 305.3946999837561,
+          "mean": 14.897227608797076,
+          "nonzero_fraction": 0.8299152920196166,
+          "shape": [
+            4486
+          ]
+        },
+        "sensor_suction_torque_norm": {
+          "finite": true,
+          "maximum": 0.6939043453126472,
+          "mean": 0.15735990214863985,
+          "nonzero_fraction": 0.8299152920196166,
+          "shape": [
+            4486
+          ]
+        }
+      },
+      "timeline": "reports/experiment2/phase0_hidden_hook/phase0h/raw/recessed_u_hook_shallow/hh_071002/sensor_timeline_hidden_hook.npz"
+    },
+    {
+      "condition": "free_hidden_difference",
+      "group_id": "hh_071002",
+      "seed": 71002,
+      "signals": {
+        "sensor_constraint_available": {
+          "aligned_samples": 899,
+          "max_abs_difference": 1.0,
+          "mean_abs_difference": 0.5317018909899889,
+          "root_mean_square_difference": 0.729178915623586
+        },
+        "sensor_grasp_active": {
+          "aligned_samples": 899,
+          "max_abs_difference": 1.0,
+          "mean_abs_difference": 0.5317018909899889,
+          "root_mean_square_difference": 0.729178915623586
+        },
+        "sensor_joint_motor_torque_norm": {
+          "aligned_samples": 899,
+          "max_abs_difference": 3144.0160332896166,
+          "mean_abs_difference": 12.919572997250247,
+          "root_mean_square_difference": 114.7502827105919
+        },
+        "sensor_joint_reaction_force_torque_norm": {
+          "aligned_samples": 899,
+          "max_abs_difference": 10814.251344918413,
+          "mean_abs_difference": 32.03661414530784,
+          "root_mean_square_difference": 399.7653461962994
+        },
+        "sensor_suction_force_norm": {
+          "aligned_samples": 899,
+          "max_abs_difference": 406.262439465975,
+          "mean_abs_difference": 36.07405469483781,
+          "root_mean_square_difference": 103.87577787542801
+        },
+        "sensor_suction_torque_norm": {
+          "aligned_samples": 899,
+          "max_abs_difference": 0.6193604298199011,
+          "mean_abs_difference": 0.14298985604659997,
+          "root_mean_square_difference": 0.19174091613108268
+        }
+      }
+    },
+    {
+      "condition": "free",
+      "group_id": "hh_071003",
+      "phase_sample_count": {
+        "main_pull": 224,
+        "no_action": 60,
+        "post_main": 60,
+        "preload": 766
+      },
+      "sample_count": 1110,
+      "seed": 71003,
+      "signals": {
+        "sensor_constraint_available": {
+          "finite": true,
+          "maximum": 1.0,
+          "mean": 0.17387387387387387,
+          "nonzero_fraction": 0.17387387387387387,
+          "shape": [
+            1110
+          ]
+        },
+        "sensor_grasp_active": {
+          "finite": true,
+          "maximum": 1.0,
+          "mean": 0.17387387387387387,
+          "nonzero_fraction": 0.17387387387387387,
+          "shape": [
+            1110
+          ]
+        },
+        "sensor_joint_motor_torque_norm": {
+          "finite": true,
+          "maximum": 556.7253987278839,
+          "mean": 36.17862365033138,
+          "nonzero_fraction": 1.0,
+          "shape": [
+            1110
+          ]
+        },
+        "sensor_joint_reaction_force_torque_norm": {
+          "finite": true,
+          "maximum": 1930.7539613241274,
+          "mean": 231.99258735683443,
+          "nonzero_fraction": 1.0,
+          "shape": [
+            1110
+          ]
+        },
+        "sensor_suction_force_norm": {
+          "finite": true,
+          "maximum": 467.4799408855632,
+          "mean": 47.972371143810754,
+          "nonzero_fraction": 0.17387387387387387,
+          "shape": [
+            1110
+          ]
+        },
+        "sensor_suction_torque_norm": {
+          "finite": true,
+          "maximum": 0.8185594738083426,
+          "mean": 0.06777383842473038,
+          "nonzero_fraction": 0.17387387387387387,
+          "shape": [
+            1110
+          ]
+        }
+      },
+      "timeline": "reports/experiment2/phase0_hidden_hook/phase0h/raw/recessed_u_hook_shallow/hh_071003/sensor_timeline_free.npz"
+    },
+    {
+      "condition": "hidden_hook",
+      "group_id": "hh_071003",
+      "phase_sample_count": {
+        "main_pull": 204,
+        "no_action": 60,
+        "post_main": 60,
+        "preload": 580
+      },
+      "sample_count": 904,
+      "seed": 71003,
+      "signals": {
+        "sensor_constraint_available": {
+          "finite": true,
+          "maximum": 1.0,
+          "mean": 0.1902654867256637,
+          "nonzero_fraction": 0.1902654867256637,
+          "shape": [
+            904
+          ]
+        },
+        "sensor_grasp_active": {
+          "finite": true,
+          "maximum": 1.0,
+          "mean": 0.1902654867256637,
+          "nonzero_fraction": 0.1902654867256637,
+          "shape": [
+            904
+          ]
+        },
+        "sensor_joint_motor_torque_norm": {
+          "finite": true,
+          "maximum": 23781.93690425583,
+          "mean": 73.9822872330185,
+          "nonzero_fraction": 1.0,
+          "shape": [
+            904
+          ]
+        },
+        "sensor_joint_reaction_force_torque_norm": {
+          "finite": true,
+          "maximum": 131911.90402984354,
+          "mean": 411.0346385548799,
+          "nonzero_fraction": 1.0,
+          "shape": [
+            904
+          ]
+        },
+        "sensor_suction_force_norm": {
+          "finite": true,
+          "maximum": 305.33546867201676,
+          "mean": 21.524040811940047,
+          "nonzero_fraction": 0.1902654867256637,
+          "shape": [
+            904
+          ]
+        },
+        "sensor_suction_torque_norm": {
+          "finite": true,
+          "maximum": 0.7077340149235862,
+          "mean": 0.07201709888501721,
+          "nonzero_fraction": 0.1902654867256637,
+          "shape": [
+            904
+          ]
+        }
+      },
+      "timeline": "reports/experiment2/phase0_hidden_hook/phase0h/raw/recessed_u_hook_shallow/hh_071003/sensor_timeline_hidden_hook.npz"
+    },
+    {
+      "condition": "free_hidden_difference",
+      "group_id": "hh_071003",
+      "seed": 71003,
+      "signals": {
+        "sensor_constraint_available": {
+          "aligned_samples": 904,
+          "max_abs_difference": 1.0,
+          "mean_abs_difference": 0.3307522123893805,
+          "root_mean_square_difference": 0.5751106088304931
+        },
+        "sensor_grasp_active": {
+          "aligned_samples": 904,
+          "max_abs_difference": 1.0,
+          "mean_abs_difference": 0.3307522123893805,
+          "root_mean_square_difference": 0.5751106088304931
+        },
+        "sensor_joint_motor_torque_norm": {
+          "aligned_samples": 904,
+          "max_abs_difference": 23756.827687380184,
+          "mean_abs_difference": 46.01310554639783,
+          "root_mean_square_difference": 812.9243865926462
+        },
+        "sensor_joint_reaction_force_torque_norm": {
+          "aligned_samples": 904,
+          "max_abs_difference": 131684.55338535563,
+          "mean_abs_difference": 199.31504255722047,
+          "root_mean_square_difference": 4426.931698688549
+        },
+        "sensor_suction_force_norm": {
+          "aligned_samples": 904,
+          "max_abs_difference": 467.4799408855632,
+          "mean_abs_difference": 46.54020245196461,
+          "root_mean_square_difference": 122.65222702595861
+        },
+        "sensor_suction_torque_norm": {
+          "aligned_samples": 904,
+          "max_abs_difference": 0.8185594738083426,
+          "mean_abs_difference": 0.11160838883561247,
+          "root_mean_square_difference": 0.2616546459868032
+        }
+      }
+    }
+  ]
+}
