@@ -1,0 +1,73 @@
+{
+  "action_search_performed": false,
+  "candidate_id": "hidden_routing_gate_v1r3_fixed_pull_v1",
+  "completed_pair_count": 0,
+  "config": "configs/experiment2/phase0/hidden_routing_gate_phase0l_resume3.json",
+  "failed_checks": [
+    "action_task_public_routing_layout_match",
+    "fixed_three_seed_smoke_completed"
+  ],
+  "failure": {
+    "exception_message": "action/task public routing layouts do not match",
+    "failure_class": "engineering_public_layout_consistency_blocker",
+    "failure_location": "run_one_pair._public_layout_match",
+    "seed": 71001
+  },
+  "geometry_search_performed": false,
+  "official_outcome": "pulled_endpoint_target_success_gap",
+  "outcome_search_performed": false,
+  "probe_selector_mode": "all_bead_clearance_nearest_center",
+  "raw_file_count": 4,
+  "raw_path": "reports/experiment2/phase0_hidden_routing_gate/phase0l_resume3/raw",
+  "runtime_main_code_sha": "820f1ffbe8f88a105a49292ab317b6ee52845ace",
+  "runtime_submodule_sha": "6e2db4c1e0e0f03f43dfc69b7d5b319974630009",
+  "scientific_metrics": {
+    "ade_median": "N/A",
+    "branch_amplification": "N/A",
+    "fde_median": "N/A",
+    "formal_sensor_accuracy": "N/A",
+    "free_endpoint_success_fraction": "N/A",
+    "hidden_endpoint_success_fraction": "N/A",
+    "hidden_gate_engagement": "N/A",
+    "median_endpoint_target_margin_gap": "N/A",
+    "median_routing_success_gap": "N/A",
+    "oracle_accuracy": "N/A",
+    "preload_median": "N/A",
+    "rgb_delta_accuracy": "N/A",
+    "rgb_raw_accuracy": "N/A",
+    "sensor_over_vision_margin": "N/A"
+  },
+  "scientific_metrics_computed": false,
+  "scientific_status": "UNTESTED",
+  "seed_status": {
+    "71001": {
+      "offline_all_bead_roof_clearance": 0.002049999999999998,
+      "preferred_probe_index": 10,
+      "raw_observation_count": 4,
+      "runtime_exact_initial_fixture_clearance": "N/A (gate passed; exact value not persisted)",
+      "selected_probe_index": 7,
+      "status": "engineering_blocked_after_rollouts_before_pair_acceptance"
+    },
+    "71002": {
+      "offline_all_bead_roof_clearance": "N/A",
+      "preferred_probe_index": "N/A",
+      "runtime_exact_initial_fixture_clearance": "N/A",
+      "selected_probe_index": "N/A",
+      "status": "not_run"
+    },
+    "71003": {
+      "offline_all_bead_roof_clearance": "N/A",
+      "preferred_probe_index": "N/A",
+      "runtime_exact_initial_fixture_clearance": "N/A",
+      "selected_probe_index": "N/A",
+      "status": "not_run"
+    }
+  },
+  "seeds": [71001, 71002, 71003],
+  "smoke_run_performed": true,
+  "stage": "Experiment2 Phase 0L Resume3",
+  "topology_id": "hidden_routing_gate_v1r3",
+  "training_performed": false,
+  "verdict": "HIDDEN_ROUTING_GATE_RESUME3_SMOKE_BLOCKED",
+  "visualization_performed": false
+}

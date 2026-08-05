@@ -1,0 +1,19 @@
+{
+  "accepted_pair_count": 0,
+  "action_started": true,
+  "attempt_scope": "single_fixed_three_seed_phase0l_resume3_smoke",
+  "exception_message": "action/task public routing layouts do not match",
+  "exception_type": "RuntimeError",
+  "failure_class": "engineering_public_layout_consistency_blocker",
+  "failure_location": "run_one_pair._public_layout_match",
+  "first_requested_seed": 71001,
+  "free_and_hidden_rollouts_returned": true,
+  "geometry_changed_after_failure": false,
+  "pair_metrics_computed": false,
+  "remaining_seeds_not_run": [71002, 71003],
+  "retry_after_failure": false,
+  "runtime_clearance_gate_passed": true,
+  "runtime_exact_clearance_persisted": false,
+  "scientific_pair_accepted": false,
+  "training_performed": false
+}

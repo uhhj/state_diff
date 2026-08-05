@@ -1367,3 +1367,34 @@ Agent 当前只应执行以下主线：
 - Verdict: `HIDDEN_ROUTING_GATE_RESUME2_SMOKE_BLOCKED`.
 - Scientific status: `UNTESTED`.
 - Training remained disabled.
+
+### Phase 0L Resume3 — All-Bead-Clearance Probe Selector
+
+- Preserved the Phase 0L, Resume1 and Resume2 engineering BLOCKED
+  evidence and their `UNTESTED` scientific status.
+- Identified the Resume2 offline/runtime mismatch: the pure geometry
+  evaluator checked the probe roof only against its anchor bead, while
+  the runtime safety gate checked every hidden fixture against all cable
+  beads.
+- On the frozen seed-71001 settled cable, fixed probe index 10 had an
+  all-bead roof clearance of approximately `-0.005154 m`, with bead 15
+  as the nearest non-anchor bead.
+- Replaced the fixed center-ratio probe index with a deterministic
+  all-bead-clearance selector. It keeps the existing roof geometry and
+  `0.002 m` clearance requirement, then chooses the legal interior bead
+  nearest to the original center-ratio target.
+- The selector chose index 7 on the frozen seed-71001 fixture with
+  `0.002050 m` all-bead clearance, and the runtime exact clearance gate
+  was passed.
+- The fixed smoke was engineering BLOCKED after the seed-71001 free and
+  hidden rollouts returned because the action and task public routing
+  layouts did not match. No pair was accepted and no scientific metric
+  was persisted; seeds 71002 and 71003 were not run.
+- Barrier geometry, workspace, target, action, sensor features,
+  scientific thresholds, seeds and official outcome were unchanged.
+- No probe-index list, roof search, clearance relaxation, geometry grid,
+  action search, outcome search, automatic retry or model training was
+  performed.
+- Verdict: `HIDDEN_ROUTING_GATE_RESUME3_SMOKE_BLOCKED`.
+- Scientific status: `UNTESTED`.
+- Training remained disabled.
