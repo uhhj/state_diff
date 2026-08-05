@@ -1,0 +1,22 @@
+# Experiment2 Phase 0L Resume5 — Frozen Task Layout with Relative Pull Action
+
+- Public layout mode: `frozen_at_branch_arm`
+- Main pull frame: `current_endpoint_frozen_normal`
+- Seed 71001 preferred probe index: `10`
+- Seed 71001 selected probe index: `7`
+- Seed 71001 offline all-bead roof clearance: `0.002049999999999998 m`
+- Seed 71001 runtime initial fixture clearance: passed; exact value was not persisted
+- Seed 71001 commanded stage-1/final distance: `0.080 m / 0.120 m`
+- Seed 71001 main-pull collinearity: passed; the Resume4 primitive exception did not recur
+- Seed 71001 action/free-task/hidden-task public-layout exact match: passed
+- Engineering blocker: `expected one event for tension_pull_lift, got 0`
+- Blocker location: pair motion-validity summary after free/hidden rollouts and exact public-layout match, before pair acceptance and metric persistence
+- Completed accepted pairs: `0`
+- Seeds 71002 and 71003: not run
+- Raw artifacts retained on server: `4` observation PNGs
+- Verdict: `HIDDEN_ROUTING_GATE_RESUME5_SMOKE_BLOCKED`
+- Scientific status: `UNTESTED`
+- Training performed: `False`
+- Geometry/action-distance/outcome search performed: `False`
+- Visualization performed: `False`
+- No retry or post-result frame, distance, threshold, geometry, outcome, or seed change was made.

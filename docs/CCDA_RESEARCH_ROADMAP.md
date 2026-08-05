@@ -1429,3 +1429,37 @@ Agent 当前只应执行以下主线：
 - Verdict: `HIDDEN_ROUTING_GATE_RESUME4_SMOKE_BLOCKED`.
 - Scientific status: `UNTESTED`.
 - Training remained disabled.
+
+### Phase 0L Resume5 — Frozen Task Layout with Relative Pull Action
+
+- Preserved the Phase 0L through Resume4 evidence and their prior
+  scientific status.
+- Resume4 had already retained one frozen public task layout and passed
+  the seed-71001 probe-selection and runtime initial-clearance gates.
+- The remaining blocker was an action-coordinate mismatch: the main
+  grasp pose used the no-action-end endpoint, while stage-1 and final
+  poses used branch-arm absolute targets. Tangential no-action drift
+  therefore violated the existing primitive's strict collinearity
+  precondition.
+- Resume5 retained the frozen target plane, corridor, normal, visible
+  target, fixture and official outcome.
+- The main pull used the current no-action-end endpoint as pose0 and
+  commanded fixed relative displacements of `0.080 m` and `0.120 m`
+  along the frozen public normal.
+- The existing primitive and its exact collinearity check were unchanged.
+- The seed-71001 free and hidden rollouts returned, and the exact
+  action/free-task/hidden-task public-layout match passed. The Resume4
+  collinearity exception did not recur.
+- The run was then engineering blocked before pair acceptance because
+  the free metadata had no `tension_pull_lift` event required by the
+  unchanged motion-validity validator. No scientific metric was
+  persisted, and seeds 71002 and 71003 were not run.
+- The hidden-task topology, probe selector, fixture geometry, clearance
+  threshold, workspace, pull distances, sensor features, scientific
+  thresholds, seeds and official outcome were unchanged.
+- The deformable-ravens submodule was unchanged.
+- No preflight, distance search, direction search, geometry search,
+  outcome search, automatic retry or model training was performed.
+- Verdict: `HIDDEN_ROUTING_GATE_RESUME5_SMOKE_BLOCKED`.
+- Scientific status: `UNTESTED`.
+- Training remained disabled.

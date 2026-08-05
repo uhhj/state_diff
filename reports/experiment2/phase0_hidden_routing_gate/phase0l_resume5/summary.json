@@ -1,0 +1,64 @@
+{
+  "stage": "Experiment2 Phase 0L Resume5",
+  "gate": "Stage M0 fixed outcome-aligned hidden routing-gate smoke",
+  "runtime_main_code_sha": "17028dd0f7704f255035072ff071d4e764f5a378",
+  "runtime_submodule_sha": "8905ecd89d0d04d3df0ea36ce67be69e09b689ca",
+  "config": "configs/experiment2/phase0/hidden_routing_gate_phase0l_resume5.json",
+  "candidate_id": "hidden_routing_gate_v1r5_relative_pull_v1",
+  "topology_id": "hidden_routing_gate_v1r4",
+  "probe_selector_mode": "all_bead_clearance_nearest_center",
+  "public_layout_mode": "frozen_at_branch_arm",
+  "main_pull_frame": "current_endpoint_frozen_normal",
+  "official_outcome": "pulled_endpoint_target_success_gap",
+  "engineering_blocked_before_pairs": true,
+  "completed_pair_count": 0,
+  "completed_seeds": [],
+  "attempted_seed": 71001,
+  "unrun_seeds": [71002, 71003],
+  "probe_selection": {
+    "71001": {
+      "preferred_probe_index": 10,
+      "selected_probe_index": 7,
+      "offline_all_bead_roof_clearance": 0.002049999999999998,
+      "runtime_initial_fixture_clearance": "passed; exact value not persisted"
+    },
+    "71002": null,
+    "71003": null
+  },
+  "public_layout_match": {
+    "71001": "passed for action/free-task/hidden-task",
+    "71002": "N/A; not run",
+    "71003": "N/A; not run"
+  },
+  "commanded_pull": {
+    "71001": {
+      "stage1_distance": 0.08,
+      "final_distance": 0.12,
+      "collinearity": "passed; primitive collinearity exception did not recur"
+    },
+    "71002": null,
+    "71003": null
+  },
+  "failure": {
+    "class": "engineering_motion_event_contract_blocker",
+    "failed_check": "tension_pull_lift_event_missing",
+    "condition": "free",
+    "seed": 71001,
+    "phase": "pair_motion_validity_summary",
+    "exception_type": "ValueError",
+    "exception_message": "expected one event for tension_pull_lift, got 0",
+    "root_cause": "The free and hidden rollouts returned and their exact public layouts matched, but the free metadata contained no tension_pull_lift event required by the unchanged tension-motion validator. The run stopped before pair acceptance and metric persistence.",
+    "raw_observation_count": 4
+  },
+  "failed_checks": [
+    "tension_pull_lift_event_missing"
+  ],
+  "scientific_status": "UNTESTED",
+  "training_performed": false,
+  "geometry_search_performed": false,
+  "action_distance_search_performed": false,
+  "outcome_search_performed": false,
+  "automatic_retry_performed": false,
+  "visualization_performed": false,
+  "verdict": "HIDDEN_ROUTING_GATE_RESUME5_SMOKE_BLOCKED"
+}
