@@ -293,6 +293,12 @@ def _environment_action(action: Dict[str, Any]) -> Dict[str, Any]:
                     "legacy_joint_return",
                 )
             ),
+            "acquisition_descent_mode": str(
+                action.get(
+                    "acquisition_descent_mode",
+                    "legacy_stepwise",
+                )
+            ),
         }
         if "target_bead_index" in action:
             params["target_bead_index"] = int(
@@ -313,6 +319,12 @@ def _environment_action(action: Dict[str, Any]) -> Dict[str, Any]:
                 action.get(
                     "acquisition_motion_mode",
                     "legacy_joint_return",
+                )
+            ),
+            "acquisition_descent_mode": str(
+                action.get(
+                    "acquisition_descent_mode",
+                    "legacy_stepwise",
                 )
             ),
         }

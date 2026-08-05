@@ -444,6 +444,12 @@ def _write_geometry_failure(
         "config_hash": canonical_json_sha256(config),
         "candidate_id": config["candidate_id"],
         "topology_id": config["topology_id"],
+        "acquisition_descent_mode": (
+            config["action"].get(
+                "acquisition_descent_mode",
+                "legacy_stepwise",
+            )
+        ),
         "official_outcome": config["official_outcome"],
         "engineering_blocked_before_pairs": True,
         "engineering_status": "BLOCKED",
@@ -529,6 +535,12 @@ def _write_action_failure(
             config["action"].get(
                 "target_grasp_mode",
                 "generic_contact",
+            )
+        ),
+        "acquisition_descent_mode": (
+            config["action"].get(
+                "acquisition_descent_mode",
+                "legacy_stepwise",
             )
         ),
         "probe_acquisition_motion_mode": (
@@ -887,6 +899,12 @@ def run_one_pair(
             config["action"].get(
                 "target_grasp_mode",
                 "generic_contact",
+            )
+        ),
+        "acquisition_descent_mode": (
+            config["action"].get(
+                "acquisition_descent_mode",
+                "legacy_stepwise",
             )
         ),
         "probe_target_bead_index": int(
@@ -1298,6 +1316,12 @@ def main() -> None:
                     "generic_contact",
                 )
             ),
+            "acquisition_descent_mode": (
+                config["action"].get(
+                    "acquisition_descent_mode",
+                    "legacy_stepwise",
+                )
+            ),
             "probe_acquisition_motion_mode": (
                 config["action"].get(
                     "probe_acquisition_motion_mode",
@@ -1418,6 +1442,12 @@ def main() -> None:
             config["action"].get(
                 "target_grasp_mode",
                 "generic_contact",
+            )
+        ),
+        "acquisition_descent_mode": (
+            config["action"].get(
+                "acquisition_descent_mode",
+                "legacy_stepwise",
             )
         ),
         "probe_acquisition_motion_mode": (
@@ -1653,6 +1683,8 @@ def main() -> None:
         f"`{summary['main_pull_frame']}`",
         f"- Target grasp mode: "
         f"`{summary['target_grasp_mode']}`",
+        f"- Acquisition descent mode: "
+        f"`{summary['acquisition_descent_mode']}`",
         f"- Probe acquisition motion mode: "
         f"`{summary['probe_acquisition_motion_mode']}`",
         f"- Acquisition motion mode: "

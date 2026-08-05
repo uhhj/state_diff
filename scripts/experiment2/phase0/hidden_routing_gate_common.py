@@ -394,6 +394,21 @@ def generate_hidden_routing_gate_action_script(
             "unsupported target_grasp_mode "
             f"{target_grasp_mode!r}"
         )
+    acquisition_descent_mode = str(
+        action.get(
+            "acquisition_descent_mode",
+            "legacy_stepwise",
+        )
+    )
+    if acquisition_descent_mode not in {
+        "legacy_stepwise",
+        "single_pass_target",
+    }:
+        raise ValueError(
+            "unsupported "
+            "acquisition_descent_mode "
+            f"{acquisition_descent_mode!r}"
+        )
 
     probe_index = int(
         public["probe_index"]
@@ -449,6 +464,9 @@ def generate_hidden_routing_gate_action_script(
                     "legacy_joint_return",
                 )
             ),
+            "acquisition_descent_mode": (
+                acquisition_descent_mode
+            ),
             "pose0": _pose(probe_start),
             "lift_height": float(
                 action["probe_lift_height"]
@@ -503,6 +521,9 @@ def generate_hidden_routing_gate_action_script(
                     "acquisition_motion_mode",
                     "legacy_joint_return",
                 )
+            ),
+            "acquisition_descent_mode": (
+                acquisition_descent_mode
             ),
             "pose0": _pose(main_start),
             "pose_stage1": _pose(
