@@ -9,11 +9,14 @@
 - Failure: `no legal fixed hidden routing-gate orientation and endpoint`
 - Completed pairs: `0`
 - Raw files: `0`
-- Retry performed: `False`
+- Client-timeout-aborted invocation before completed run: `True`
+- Retry after completed engineering result: `False`
 - Geometry/action/outcome search performed: `False`
 - Training performed: `False`
 
 The fixed geometry failed during environment reset for the first requested seed,
 before any free/hidden pair completed. No physical-mechanism, routing-outcome,
 sensor, vision, or Oracle metric is available. The geometry was not changed and
-the simulation was not retried.
+the simulation was not retried after the completed engineering result. An
+earlier invocation was terminated by the client timeout before it produced a
+pair, raw file, or result; this transport event is recorded explicitly.

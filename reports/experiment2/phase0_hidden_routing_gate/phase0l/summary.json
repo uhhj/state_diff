@@ -10,7 +10,8 @@
     "exception_type": "RuntimeError",
     "failure_class": "engineering_blocker",
     "first_requested_seed": 71001,
-    "retry_performed": false
+    "retry_after_completed_result": false,
+    "transport_aborted_invocation_before_completed_run": true
   },
   "gate": "Stage M0 fixed outcome-aligned hidden routing-gate smoke",
   "geometry_search_performed": false,

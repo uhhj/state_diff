@@ -1316,4 +1316,6 @@ Agent 当前只应执行以下主线：
 - Verdict: `HIDDEN_ROUTING_GATE_SMOKE_BLOCKED`.
 - The fixed layout had no legal workspace geometry at the first
   environment reset, so no pair metrics or physical conclusion were produced.
-- Training remained disabled; no retry or geometry change was performed.
+- Training remained disabled; no retry followed the completed engineering
+  result and no geometry change was performed. One earlier invocation was
+  client-timeout-aborted before producing any pair, raw file, or result.
