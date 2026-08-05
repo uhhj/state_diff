@@ -104,6 +104,16 @@ def max_state_difference(
     return maximum
 
 
+def _arm_ccda_hidden_factor(task: Any):
+    method = getattr(task, "arm_ccda_hidden_factor_after_settle", None)
+    if callable(method):
+        return method()
+    legacy = getattr(task, "arm_hidden_friction_after_settle", None)
+    if callable(legacy):
+        return legacy()
+    raise AttributeError("task has no CCDA hidden-factor arm method")
+
+
 def _mark_event(task: Any, events: List[Dict[str, Any]], name: str) -> None:
     events.append(
         {
@@ -146,6 +156,7 @@ def _run_restored_branch(
     state_id: int,
     base_state: Dict[str, np.ndarray],
     config: Dict[str, Any],
+    action_generator,
     condition: str,
     action_script: Optional[List[Dict[str, Any]]],
     observation_output_dir: Optional[Path],
@@ -156,7 +167,8 @@ def _run_restored_branch(
         p.restoreState(stateId=state_id)
         env.reset_ccda_runtime_after_restore()
         task.reset_ccda_branch(condition)
-        task.arm_hidden_friction_after_settle()
+        _arm_ccda_hidden_factor(task)
+        env.reset_ccda_motion_events()
         branch_initial = capture_world_state(env, task)
 
     base_hash = array_payload_sha256(base_state)
@@ -183,7 +195,7 @@ def _run_restored_branch(
     stable_beads = _bead_positions(task)
 
     if condition == "free" and action_script is None:
-        action_script = generate_action_script(config, stable_beads)
+        action_script = action_generator(config, stable_beads)
     elif action_script is None:
         raise ValueError("hidden branch requires the free action script")
 
@@ -246,6 +258,7 @@ def _run_restored_branch(
             "hz": int(env.hz),
         },
         "events": events,
+        "motion_events": env.ccda_motion_events(),
         "observations": observations,
         "trace_hash": array_payload_sha256(trace),
         "trace_length": int(trace["phase"].shape[0]),
@@ -263,7 +276,12 @@ def run_exact_counterfactual_pair(
     execution: Optional[Dict[str, Any]] = None,
     observation_output_dir: Optional[Path] = None,
     observation_config: Optional[Dict[str, Any]] = None,
+    hidden_condition: str = "hidden_high_friction",
+    configure_environment_fn=None,
+    action_generator_fn=None,
 ):
+    configure_environment_fn = configure_environment_fn or _configure_task_environment
+    action_generator_fn = action_generator_fn or generate_action_script
     execution = dict(execution or {})
     deterministic = bool(execution.get("deterministic", True))
     control_substeps = int(execution.get("control_substeps", 1))
@@ -273,7 +291,8 @@ def run_exact_counterfactual_pair(
 
     random.seed(seed)
     np.random.seed(seed)
-    _configure_task_environment(config, "free", seed, group_id)
+    configure_environment_fn(config, "free", seed, group_id)
+    os.environ["CCDA_DEFER_HIDDEN_FACTOR_ARMING"] = "1"
     os.environ["CCDA_DEFER_HIDDEN_FRICTION_ARMING"] = "1"
 
     env = None
@@ -305,7 +324,7 @@ def run_exact_counterfactual_pair(
             else None
         )
         hidden_observation_dir = (
-            Path(observation_output_dir) / "hidden_high_friction"
+            Path(observation_output_dir) / str(hidden_condition)
             if observation_output_dir is not None
             else None
         )
@@ -315,6 +334,7 @@ def run_exact_counterfactual_pair(
             state_id,
             base_state,
             config,
+            action_generator_fn,
             "free",
             None,
             free_observation_dir,
@@ -326,7 +346,8 @@ def run_exact_counterfactual_pair(
             state_id,
             base_state,
             config,
-            "hidden_high_friction",
+            action_generator_fn,
+            str(hidden_condition),
             action_script,
             hidden_observation_dir,
             observation_config,
@@ -340,6 +361,7 @@ def run_exact_counterfactual_pair(
         pair_metadata = {
             "seed": int(seed),
             "group_id": str(group_id),
+            "hidden_condition": str(hidden_condition),
             "base_state_hash": base_state_hash,
             "free_initial_hash": free_meta["branch_initial_state_hash"],
             "hidden_initial_hash": hidden_meta[
@@ -381,6 +403,7 @@ def run_exact_counterfactual_pair(
             pair_metadata,
         )
     finally:
+        os.environ.pop("CCDA_DEFER_HIDDEN_FACTOR_ARMING", None)
         os.environ.pop("CCDA_DEFER_HIDDEN_FRICTION_ARMING", None)
         if env is not None:
             env.pause()

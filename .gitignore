@@ -196,3 +196,6 @@ reports/experiment2/phase0_hidden_friction/phase0e/videos/**/*.frames.json
 
 # Experiment2 Phase 0F raw traces and event RGB stay on the server.
 reports/experiment2/phase0_hidden_friction/phase0f/raw/
+
+# Experiment2 Phase 0G Hidden-Hook raw traces and event RGB stay on server.
+reports/experiment2/phase0_hidden_hook/phase0g/raw/

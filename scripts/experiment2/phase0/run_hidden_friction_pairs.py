@@ -258,6 +258,21 @@ def _environment_action(action: Dict[str, Any]) -> Dict[str, Any]:
             "approach_height": float(action["approach_height"]),
             "retreat_z": float(action["retreat_z"]),
         }
+    elif primitive == "pick_precise_probe_return":
+        params = {
+            "pose0": tuple_pose(action["pose0"]),
+            "pose_probe": tuple_pose(action["pose_probe"]),
+            "pose_return": tuple_pose(action["pose_return"]),
+            "lift_height": float(action["lift_height"]),
+            "hold_steps": int(action["hold_steps"]),
+            "return_hold_steps": int(action["return_hold_steps"]),
+            "post_release_steps": int(action["post_release_steps"]),
+            "approach_height": float(action["approach_height"]),
+            "retreat_z": float(action["retreat_z"]),
+            "joint_tolerance": float(action["joint_tolerance"]),
+            "cartesian_tolerance": float(action["cartesian_tolerance"]),
+            "min_achieved_fraction": float(action["min_achieved_fraction"]),
+        }
     else:
         raise ValueError(f"unsupported primitive {primitive!r}")
     return {"primitive": primitive, "params": params}

@@ -1,0 +1,121 @@
+{
+  "cartesian_tolerance": 0.0002,
+  "execution": "fixed_step",
+  "hz": 480,
+  "joint_tolerance": 0.0001,
+  "passed": true,
+  "rows": [
+    {
+      "achieved_distance": 0.0004948169969762561,
+      "achieved_fraction": 0.9895663882997221,
+      "achieved_projection": 0.0004947831941498615,
+      "after_position": [
+        0.4873903936622378,
+        0.10914859307199118,
+        0.2968486589036327
+      ],
+      "before_position": [
+        0.48689561046808794,
+        0.10915063165704958,
+        0.29685407143117726
+      ],
+      "cartesian_tolerance": 0.0002,
+      "corrections_used": 1,
+      "endpoint_error": 7.788860426201422e-06,
+      "joint_tolerance": 0.0001,
+      "label": "half_mm",
+      "repeat": 0,
+      "requested_distance": 0.0005000000000000004,
+      "requested_position": [
+        0.48739561046808794,
+        0.10915063165704958,
+        0.29685407143117726
+      ],
+      "success": true
+    },
+    {
+      "achieved_distance": 0.0009918091336225678,
+      "achieved_fraction": 0.9964955132372065,
+      "achieved_projection": 0.0009917981902609451,
+      "after_position": [
+        0.48789209437635694,
+        0.10914852461762027,
+        0.29684993975706364
+      ],
+      "before_position": [
+        0.48690034286155476,
+        0.1091526383645947,
+        0.29685980725474787
+      ],
+      "cartesian_tolerance": 0.0002,
+      "corrections_used": 1,
+      "endpoint_error": 5.820072782925097e-06,
+      "joint_tolerance": 0.0001,
+      "label": "one_mm",
+      "repeat": 0,
+      "requested_distance": 0.000995286157424832,
+      "requested_position": [
+        0.48789561046808794,
+        0.10915063165704958,
+        0.29685407143117726
+      ],
+      "success": true
+    },
+    {
+      "achieved_distance": 0.0004948169969762561,
+      "achieved_fraction": 0.9895663882997221,
+      "achieved_projection": 0.0004947831941498615,
+      "after_position": [
+        0.4873903936622378,
+        0.10914859307199118,
+        0.2968486589036327
+      ],
+      "before_position": [
+        0.48689561046808794,
+        0.10915063165704958,
+        0.29685407143117726
+      ],
+      "cartesian_tolerance": 0.0002,
+      "corrections_used": 1,
+      "endpoint_error": 7.788860426201422e-06,
+      "joint_tolerance": 0.0001,
+      "label": "half_mm",
+      "repeat": 1,
+      "requested_distance": 0.0005000000000000004,
+      "requested_position": [
+        0.48739561046808794,
+        0.10915063165704958,
+        0.29685407143117726
+      ],
+      "success": true
+    },
+    {
+      "achieved_distance": 0.0009918091336225678,
+      "achieved_fraction": 0.9964955132372065,
+      "achieved_projection": 0.0009917981902609451,
+      "after_position": [
+        0.48789209437635694,
+        0.10914852461762027,
+        0.29684993975706364
+      ],
+      "before_position": [
+        0.48690034286155476,
+        0.1091526383645947,
+        0.29685980725474787
+      ],
+      "cartesian_tolerance": 0.0002,
+      "corrections_used": 1,
+      "endpoint_error": 5.820072782925097e-06,
+      "joint_tolerance": 0.0001,
+      "label": "one_mm",
+      "repeat": 1,
+      "requested_distance": 0.000995286157424832,
+      "requested_position": [
+        0.48789561046808794,
+        0.10915063165704958,
+        0.29685407143117726
+      ],
+      "success": true
+    }
+  ]
+}
