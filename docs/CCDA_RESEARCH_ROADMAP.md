@@ -1463,3 +1463,37 @@ Agent 当前只应执行以下主线：
 - Verdict: `HIDDEN_ROUTING_GATE_RESUME5_SMOKE_BLOCKED`.
 - Scientific status: `UNTESTED`.
 - Training remained disabled.
+
+### Phase 0L Resume6 — Precise Main-Pull Acquisition
+
+- Preserved the Phase 0L through Resume5 evidence and their prior
+  scientific status.
+- Resume5 had already passed the fixed endpoint-corridor geometry,
+  all-bead probe selection, runtime initial-clearance, frozen public-layout,
+  relative-pull distance and exact collinearity gates.
+- The remaining blocker was before the first formal tension motion event.
+  The tension primitive still used legacy joint-return motion for approach
+  and contact lowering, while the exact counterfactual runner discarded the
+  primitive result returned by `Environment.step()`.
+- Resume6 retained the same pick target, lowering step, contact detector,
+  suction grasp predicate, lift height, pull direction, pull distances,
+  target plane, corridor, fixture and official outcome.
+- Tension approach and lowering reused the existing Cartesian endpoint
+  recovery path. Per-lowering-step event rows were suppressed, and one
+  `tension_pull_acquisition` result recorded approach, contact and grasp
+  success or a single failure reason.
+- Exact counterfactual metadata persisted each action result, and the routing
+  runner stopped before scientific metrics when a primitive failed.
+- The one-shot seed-71001 run was engineering blocked by that new gate when
+  the free `routing_contact_probe` preload returned `done=True` with
+  `task.done=False`. Main-pull acquisition was therefore not attempted,
+  no pair was accepted, and seeds 71002 and 71003 were not run.
+- The action/free-task/hidden-task public-layout exact match still passed.
+- The existing formal tension events and motion-validity thresholds were
+  unchanged.
+- No pick search, lowering search, grasp-threshold change, tolerance change,
+  geometry search, action-distance search, outcome search, automatic retry or
+  model training was performed.
+- Verdict: `HIDDEN_ROUTING_GATE_RESUME6_SMOKE_BLOCKED`.
+- Scientific status: `UNTESTED`.
+- Training remained disabled.

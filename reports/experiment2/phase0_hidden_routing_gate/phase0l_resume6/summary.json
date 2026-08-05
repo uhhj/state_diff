@@ -1,0 +1,48 @@
+{
+  "acquisition_motion_mode": "precise_endpoint_recovery",
+  "action_distance_search_performed": false,
+  "attempted_seed": 71001,
+  "automatic_retry_performed": false,
+  "candidate_id": "hidden_routing_gate_v1r6_precise_acquisition_v1",
+  "completed_pair_count": 0,
+  "config": "configs/experiment2/phase0/hidden_routing_gate_phase0l_resume6.json",
+  "engineering_blocked_before_pairs": true,
+  "failed_checks": [
+    "main_pull_acquisition"
+  ],
+  "failure": {
+    "acquisition": {},
+    "condition": "free",
+    "failed_action": {
+      "action_name": "routing_contact_probe",
+      "exit_gracefully": false,
+      "phase": "preload",
+      "primitive": "pick_precise_latch_probe",
+      "primitive_succeeded": false,
+      "returned_done": true,
+      "task_done": false
+    },
+    "failure_reason": "primitive_failed",
+    "group_id": "rg_071001",
+    "public_layout_match": true,
+    "seed": 71001
+  },
+  "geometry_search_performed": false,
+  "main_pull_frame": "current_endpoint_frozen_normal",
+  "official_outcome": "pulled_endpoint_target_success_gap",
+  "outcome_search_performed": false,
+  "probe_selector_mode": "all_bead_clearance_nearest_center",
+  "public_layout_mode": "frozen_at_branch_arm",
+  "runtime_main_code_sha": "2abc4d167fb732cfbddc884205945733acbb9f8c",
+  "runtime_submodule_sha": "aa1cbaf7487405027fbf1e92d8f69052975a69cd",
+  "scientific_status": "UNTESTED",
+  "stage": "Experiment2 Phase 0L Resume6",
+  "topology_id": "hidden_routing_gate_v1r4",
+  "training_performed": false,
+  "unrun_seeds": [
+    71002,
+    71003
+  ],
+  "verdict": "HIDDEN_ROUTING_GATE_RESUME6_SMOKE_BLOCKED",
+  "visualization_performed": false
+}
