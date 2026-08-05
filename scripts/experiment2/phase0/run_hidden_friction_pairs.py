@@ -42,6 +42,8 @@ TRACE_KEYS = (
     # Formal robot-observable sensor.
     "sensor_joint_motor_torque",
     "sensor_joint_motor_torque_norm",
+    "sensor_joint_reaction_force_torque",
+    "sensor_joint_reaction_force_torque_norm",
     "sensor_suction_force_xyz",
     "sensor_suction_force_norm",
     "sensor_suction_torque_xyz",

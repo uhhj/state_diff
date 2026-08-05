@@ -304,6 +304,16 @@ Push-L 保留为无柔性隐藏接触负对照。
 - 结果对约束参数连续变化；
 - 不依赖单一脚本特例。
 
+### 当前 Stage M0 状态（Phase 0H，2026-08-05）
+
+- **Hidden-Friction：BLOCKED。** 现有证据不足以建立有效 CCDA 环境，不得进入模型训练。
+- **Hidden-Hook bootstrap：BLOCKED。** Phase 0G 已证明精确运动和 fixed-step 确定性工程链路可用，但隐藏挂钩未通过完整可观测性与结果分支门禁。
+- Phase 0H 仅审计单一不可见 recessed U-hook，固定种子 `71001–71003`，不进行几何搜索或训练。
+- Phase 0H 的精确 probe 阶段全部达到未放宽的 Cartesian 容差；关节 timeout 作为可恢复事件保留在 `motion_debug.json`，不得静默删除。
+- 原始正式传感信号包括 joint motor torque、joint reaction force/torque、EE constraint reaction、grasp state 与 probe phase index；Oracle hook contact 仅用于时间对齐审计。
+- 当前新目标是在任何模型开发之前，先建立一个通过全部 Stage M0 数据门禁的有效 CCDA 环境。
+- Phase 0G 失败证据保留在 `reports/experiment2/phase0_hidden_hook/phase0g/`；Phase 0H 证据保留在 `reports/experiment2/phase0_hidden_hook/phase0h/`，不得用新报告覆盖旧失败结论。
+
 ---
 
 ## Task 3：Hidden-Clamp Fabric Fold
@@ -529,6 +539,8 @@ Acc(contact) \gg Acc(vision)
 停止条件：
 
 任一数据门禁失败。
+
+当前状态：**BLOCKED（Phase 0H）**。Hidden-Friction 与 Hidden-Hook 均未建立可供后续模型训练使用的有效 CCDA 环境；Stage M1 及以后阶段保持禁止。
 
 ---
 
@@ -1255,4 +1267,3 @@ Agent 当前只应执行以下主线：
 - Hard branch negatives；
 - 可执行性闭环；
 - 可复现的任务与证据合同。
-

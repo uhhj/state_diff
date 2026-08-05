@@ -9,6 +9,8 @@ def test_oracle_and_formal_sensor_fields_are_both_present_and_separate():
     sensor = {
         "sensor_joint_motor_torque",
         "sensor_joint_motor_torque_norm",
+        "sensor_joint_reaction_force_torque",
+        "sensor_joint_reaction_force_torque_norm",
         "sensor_suction_force_xyz",
         "sensor_suction_force_norm",
         "sensor_suction_torque_xyz",
