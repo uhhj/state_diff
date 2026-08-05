@@ -1497,3 +1497,38 @@ Agent 当前只应执行以下主线：
 - Verdict: `HIDDEN_ROUTING_GATE_RESUME6_SMOKE_BLOCKED`.
 - Scientific status: `UNTESTED`.
 - Training remained disabled.
+
+### Phase 0L Resume7 — Completed-Pair Recovery
+
+- Preserved all Phase 0L through Resume6 evidence and their prior
+  engineering and scientific status.
+- Resume6 had already passed geometry, probe selection, runtime clearance,
+  frozen public-layout, relative main-pull distance and command-collinearity
+  checks, but its explicit action-result propagation exposed an earlier
+  failure in the free `routing_contact_probe` preload.
+- Resume7 added no scientific feature, sensor feature, classifier, outcome,
+  geometry, action distance or peripheral audit gate.
+- The existing Cartesian endpoint-recovery motion was reused for routing
+  probe approach and contact lowering. Probe target, lowering step, suction
+  activation, grasp predicate, lift height and all formal probe events were
+  unchanged.
+- One `routing_probe_acquisition` event recorded only the acquisition result;
+  per-lowering-step events were not persisted.
+- Environment action completion, primitive success, task success and episode
+  termination were represented by independent fields. Experiment2 no longer
+  inferred primitive or workflow state from the legacy `done` return value.
+- Workflow termination was determined separately from task success.
+- Engineering status and scientific status were reported separately.
+- A seed counted as a completed pair only after both branch actions, existing
+  formal probe/tension motion validity, public-layout equality, traces,
+  metrics and pair persistence completed.
+- Previously completed seeds were retained in the count if a later seed was
+  engineering blocked.
+- The one-shot seed-71001 run was engineering blocked in the free
+  `routing_contact_probe` preload: precise acquisition reached contact, but
+  the unchanged suction grasp predicate returned false (`grasp_failed`).
+- Verdict: `HIDDEN_ROUTING_GATE_RESUME7_SMOKE_BLOCKED`.
+- Engineering status: `BLOCKED`.
+- Scientific status: `UNTESTED`.
+- Completed pair count: `0`.
+- No automatic retry or model training was performed.
