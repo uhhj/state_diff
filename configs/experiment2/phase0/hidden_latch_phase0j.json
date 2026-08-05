@@ -1,0 +1,80 @@
+{
+  "task_name": "ccda-hidden-latch-cable",
+  "conditions": ["free", "hidden_hook"],
+  "topology_id": "wide_stop_z_latch_v2",
+  "topology_policy": "single_fixed_topology_no_grid_search",
+  "fixed_change": {
+    "field": "latch.wall_width",
+    "phase0i_value": 0.032,
+    "phase0j_value": 0.080
+  },
+  "hz": 480,
+  "trace_stride": 4,
+  "no_action_steps": 240,
+  "post_main_steps": 240,
+  "workspace_bounds": {
+    "x": [0.25, 0.75],
+    "y": [-0.45, 0.45]
+  },
+  "execution": {
+    "deterministic": true,
+    "control_substeps": 1,
+    "post_action_settle_steps": 240
+  },
+  "observation": {
+    "width": 160,
+    "height": 120,
+    "feature_width": 32,
+    "feature_height": 24,
+    "ridge_l2": 0.01,
+    "camera_eye": [0.68, -0.82, 0.62],
+    "camera_target": [0.5, -0.02, 0.025],
+    "camera_up": [0.0, 0.0, 1.0],
+    "fov": 50.0,
+    "near": 0.01,
+    "far": 3.0
+  },
+  "action": {
+    "pick_z": 0.001,
+    "main_pull_distance": 0.08,
+    "probe_lift_height": 0.004,
+    "probe_hold_steps": 60,
+    "probe_return_hold_steps": 60,
+    "probe_post_release_steps": 120,
+    "probe_approach_height": 0.02,
+    "probe_retreat_z": 0.3,
+    "joint_tolerance": 0.0001,
+    "cartesian_tolerance": 0.0002,
+    "min_achieved_fraction": 0.8
+  },
+  "latch": {
+    "center_ratio": 0.45,
+    "stop_clearance": 0.002,
+    "roof_clearance": 0.002,
+    "wall_thickness": 0.002,
+    "wall_width": 0.080,
+    "wall_height": 0.020,
+    "roof_depth": 0.020,
+    "roof_width": 0.036,
+    "roof_thickness": 0.002,
+    "min_initial_clearance": 0.002
+  },
+  "seeds": [71001, 71002, 71003],
+  "selection_targets": {
+    "max_initial_abs_xy": 1e-12,
+    "max_arm_jump": 1e-12,
+    "max_median_no_action_drift": 0.0015,
+    "max_median_preload_visible_difference": 0.004,
+    "min_median_contact_impulse_gap": 0.02,
+    "min_median_main_branch_ade": 0.006,
+    "min_median_main_branch_fde": 0.015,
+    "min_median_branch_amplification": 2.0,
+    "max_grouped_vision_accuracy": 0.7,
+    "min_grouped_sensor_accuracy": 0.7,
+    "min_grouped_oracle_accuracy": 0.9,
+    "min_sensor_over_vision_margin": 0.1,
+    "min_median_progress_gap": 0.01,
+    "min_median_engagement_fraction": 0.1,
+    "min_seed_pass_fraction": 0.6
+  }
+}

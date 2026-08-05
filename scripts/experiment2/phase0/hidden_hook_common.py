@@ -120,6 +120,9 @@ def latch_geometry_config(config):
     latch = config["latch"]
     bounds = config["workspace_bounds"]
     return HiddenLatchGeometryConfig(
+        topology_id=str(
+            config.get("topology_id", "delayed_z_latch_v1")
+        ),
         center_ratio=latch["center_ratio"],
         stop_clearance=latch["stop_clearance"],
         roof_clearance=latch["roof_clearance"],
@@ -146,6 +149,9 @@ def configure_hidden_latch_environment(config, condition, seed, group_id):
         "CCDA_PAIR_GROUP": group_id,
         "CCDA_TRACE_STRIDE": config["trace_stride"],
         "CCDA_FRICTION_MECHANISM": "external_patch",
+        "CCDA_LATCH_TOPOLOGY_ID": str(
+            config.get("topology_id", "delayed_z_latch_v1")
+        ),
         "CCDA_LATCH_CENTER_RATIO": latch["center_ratio"],
         "CCDA_LATCH_STOP_CLEARANCE": latch["stop_clearance"],
         "CCDA_LATCH_ROOF_CLEARANCE": latch["roof_clearance"],
