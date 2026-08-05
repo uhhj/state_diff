@@ -386,6 +386,13 @@ def run_one_pair(
         )
     )
 
+    free_privileged = (
+        free_meta["privileged_state"]
+    )
+    hidden_privileged = (
+        hidden_meta["privileged_state"]
+    )
+
     row = {
         "candidate_id": (
             config["candidate_id"]
@@ -395,6 +402,32 @@ def run_one_pair(
         ),
         "group_id": group_id,
         "seed": int(seed),
+        "public_layout_mode": (
+            config["routing_gate"].get(
+                "public_layout_mode",
+                "recompute_from_action_state",
+            )
+        ),
+        "free_selected_probe_index": (
+            free_privileged.get(
+                "selected_probe_index"
+            )
+        ),
+        "hidden_selected_probe_index": (
+            hidden_privileged.get(
+                "selected_probe_index"
+            )
+        ),
+        "free_initial_fixture_clearance": (
+            free_privileged.get(
+                "routing_gate_initial_clearance"
+            )
+        ),
+        "hidden_initial_fixture_clearance": (
+            hidden_privileged.get(
+                "routing_gate_initial_clearance"
+            )
+        ),
         **metrics,
         **routing,
         **legacy_progress,
@@ -813,6 +846,12 @@ def main() -> None:
                 "fixed_center_ratio",
             )
         ),
+        "public_layout_mode": (
+            config["routing_gate"].get(
+                "public_layout_mode",
+                "recompute_from_action_state",
+            )
+        ),
         "gate": (
             "Stage M0 fixed outcome-aligned "
             "hidden routing-gate smoke"
@@ -1015,6 +1054,8 @@ def main() -> None:
         f"`{config['topology_id']}`",
         f"- Probe selector: "
         f"`{summary['probe_selector_mode']}`",
+        f"- Public layout mode: "
+        f"`{summary['public_layout_mode']}`",
         "- Official outcome: "
         "`pulled_endpoint_target_success_gap`",
         "- Official gate: "

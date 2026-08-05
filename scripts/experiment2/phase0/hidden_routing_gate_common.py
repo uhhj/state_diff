@@ -1,11 +1,18 @@
 """Configuration and fixed actions for hidden routing-gate cable."""
 from __future__ import annotations
 
+import json
 import os
 from typing import Any, Dict, List
 
 import numpy as np
 
+from ravens.tasks.ccda_hidden_routing_gate_cable import (
+    FROZEN_BRANCH_ARM_LAYOUT_MODE,
+    FROZEN_PUBLIC_LAYOUT_ENV,
+    PUBLIC_LAYOUT_MODE_ENV,
+    RECOMPUTE_ACTION_STATE_LAYOUT_MODE,
+)
 from ravens.tasks.ccda_hidden_routing_gate_geometry import (
     FIXED_CENTER_RATIO_PROBE_SELECTOR,
     WHOLE_CABLE_BARRIER_MODE,
@@ -131,6 +138,10 @@ def configure_hidden_routing_gate_environment(
         "CCDA_ROUTING_SELECTED_PROBE_INDEX",
         None,
     )
+    os.environ.pop(
+        FROZEN_PUBLIC_LAYOUT_ENV,
+        None,
+    )
 
     gate = config["routing_gate"]
     action = config["action"]
@@ -156,6 +167,12 @@ def configure_hidden_routing_gate_environment(
             gate.get(
                 "probe_selector_mode",
                 FIXED_CENTER_RATIO_PROBE_SELECTOR,
+            )
+        ),
+        PUBLIC_LAYOUT_MODE_ENV: (
+            gate.get(
+                "public_layout_mode",
+                RECOMPUTE_ACTION_STATE_LAYOUT_MODE,
             )
         ),
         "CCDA_ROUTING_PROBE_ROOF_CLEARANCE": (
@@ -234,6 +251,43 @@ def configure_hidden_routing_gate_environment(
         os.environ[name] = str(value)
 
 
+def _public_layout_for_action(
+    config,
+    positions,
+):
+    gate = config["routing_gate"]
+    mode = str(gate.get(
+        "public_layout_mode",
+        RECOMPUTE_ACTION_STATE_LAYOUT_MODE,
+    ))
+
+    if (
+        mode
+        == FROZEN_BRANCH_ARM_LAYOUT_MODE
+    ):
+        payload = os.environ.get(
+            FROZEN_PUBLIC_LAYOUT_ENV
+        )
+        if payload is None:
+            raise RuntimeError(
+                "frozen public routing layout "
+                "is missing after branch arming"
+            )
+        return json.loads(payload)
+
+    layout = (
+        compute_hidden_routing_gate_layout(
+            positions,
+            routing_geometry_config(
+                config
+            ),
+        )
+    )
+    return public_routing_layout(
+        layout
+    )
+
+
 def generate_hidden_routing_gate_action_script(
     config: Dict[str, Any],
     beads: np.ndarray,
@@ -242,13 +296,10 @@ def generate_hidden_routing_gate_action_script(
         beads,
         dtype=np.float64,
     )
-    layout = (
-        compute_hidden_routing_gate_layout(
-            positions,
-            routing_geometry_config(config),
-        )
+    public = _public_layout_for_action(
+        config,
+        positions,
     )
-    public = public_routing_layout(layout)
     action = config["action"]
 
     probe_index = int(
