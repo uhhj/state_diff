@@ -1,0 +1,184 @@
+{
+  "classifier": "grouped leave-one-seed-out ridge",
+  "classifiers": {
+    "formal_sensor_v1": {
+      "accuracy": 0.3333333333333333,
+      "feature_key": "formal_sensor_v1",
+      "groups": [
+        "hh_071001",
+        "hh_071002",
+        "hh_071003"
+      ],
+      "l2": 0.01,
+      "predictions": [
+        {
+          "condition": "free",
+          "group_id": "hh_071001",
+          "prediction": 1,
+          "score": 1.8560810475995528,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_hook",
+          "group_id": "hh_071001",
+          "prediction": -1,
+          "score": -1.0493580875779491,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hh_071002",
+          "prediction": -1,
+          "score": -0.0682847224594085,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_hook",
+          "group_id": "hh_071002",
+          "prediction": 1,
+          "score": 614.4940535427265,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hh_071003",
+          "prediction": 1,
+          "score": 0.7269463477620329,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_hook",
+          "group_id": "hh_071003",
+          "prediction": -1,
+          "score": -0.002839932273264123,
+          "truth": 1
+        }
+      ]
+    },
+    "legacy_formal_sensor": {
+      "accuracy": 0.3333333333333333,
+      "feature_key": "legacy_formal_sensor",
+      "groups": [
+        "hh_071001",
+        "hh_071002",
+        "hh_071003"
+      ],
+      "l2": 0.01,
+      "predictions": [
+        {
+          "condition": "free",
+          "group_id": "hh_071001",
+          "prediction": -1,
+          "score": -2.2158811582788775,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_hook",
+          "group_id": "hh_071001",
+          "prediction": -1,
+          "score": -3.257124368847458,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hh_071002",
+          "prediction": 1,
+          "score": 0.9724814133464704,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_hook",
+          "group_id": "hh_071002",
+          "prediction": -1,
+          "score": -625.7237000866318,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hh_071003",
+          "prediction": 1,
+          "score": 0.4627942344187833,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_hook",
+          "group_id": "hh_071003",
+          "prediction": 1,
+          "score": 0.4708692997679951,
+          "truth": 1
+        }
+      ]
+    },
+    "reaction_only": {
+      "accuracy": 0.3333333333333333,
+      "feature_key": "reaction_only",
+      "groups": [
+        "hh_071001",
+        "hh_071002",
+        "hh_071003"
+      ],
+      "l2": 0.01,
+      "predictions": [
+        {
+          "condition": "free",
+          "group_id": "hh_071001",
+          "prediction": 1,
+          "score": 5.7571937492766425,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_hook",
+          "group_id": "hh_071001",
+          "prediction": -1,
+          "score": -0.058623210649129676,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hh_071002",
+          "prediction": -1,
+          "score": -0.5962940280753739,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_hook",
+          "group_id": "hh_071002",
+          "prediction": -1,
+          "score": -113.79840891458858,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "hh_071003",
+          "prediction": -1,
+          "score": -0.047754444976536276,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_hook",
+          "group_id": "hh_071003",
+          "prediction": -1,
+          "score": -1.2578132689865538,
+          "truth": 1
+        }
+      ]
+    }
+  },
+  "formal_sensor_v1_accuracy": 0.3333333333333333,
+  "formal_sensor_v1_over_vision_margin": -0.3333333333333333,
+  "geometry_search_performed": false,
+  "group_count": 3,
+  "interpretation": "Post-hoc diagnostic only; Phase 0H remains BLOCKED regardless of corrected sensor accuracy.",
+  "legacy_formal_accuracy": 0.3333333333333333,
+  "oracle_used_as_feature": false,
+  "phase0h_maximum_vision_accuracy": 0.6666666666666666,
+  "phase0h_source_verdict": "HIDDEN_HOOK_OBSERVABILITY_BLOCKED",
+  "phase0h_verdict_changed": false,
+  "post_hoc_reanalysis": true,
+  "reaction_only_accuracy": 0.3333333333333333,
+  "ridge_l2": 0.01,
+  "source_report": "reports/experiment2/phase0_hidden_hook/phase0h",
+  "source_stage": "Phase 0H",
+  "stage": "Experiment2 Phase 0I-A",
+  "training_performed": false
+}

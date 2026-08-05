@@ -1,0 +1,650 @@
+{
+  "candidate": {
+    "id": "delayed_z_latch_v1",
+    "latch": {
+      "center_ratio": 0.45,
+      "min_initial_clearance": 0.002,
+      "roof_clearance": 0.002,
+      "roof_depth": 0.02,
+      "roof_thickness": 0.002,
+      "roof_width": 0.036,
+      "stop_clearance": 0.002,
+      "wall_height": 0.02,
+      "wall_thickness": 0.002,
+      "wall_width": 0.032
+    }
+  },
+  "candidate_id": "delayed_z_latch_v1",
+  "checks": {
+    "amplification_seed_fraction": true,
+    "arm_jump": true,
+    "branch_amplification": true,
+    "contact_informativeness": true,
+    "exact_pairing": true,
+    "fde_seed_fraction": true,
+    "formal_sensor_classifier": true,
+    "hook_engagement": true,
+    "initial_match": true,
+    "main_ade": true,
+    "main_fde": true,
+    "no_action_drift": true,
+    "oracle_classifier": true,
+    "outcome_progress_gap": false,
+    "precise_probe_execution": true,
+    "preload_visibility": true,
+    "sensor_over_vision_margin": true,
+    "vision_screen": true
+  },
+  "classifiers": {
+    "formal_sensor": {
+      "accuracy": 0.8333333333333334,
+      "feature_key": "formal_sensor",
+      "groups": [
+        "zl_071001",
+        "zl_071002",
+        "zl_071003"
+      ],
+      "l2": 0.01,
+      "predictions": [
+        {
+          "condition": "free",
+          "group_id": "zl_071001",
+          "prediction": -1,
+          "score": -0.5519291409696583,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_hook",
+          "group_id": "zl_071001",
+          "prediction": 1,
+          "score": 0.19661867121768772,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "zl_071002",
+          "prediction": -1,
+          "score": -0.06287965075874102,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_hook",
+          "group_id": "zl_071002",
+          "prediction": -1,
+          "score": -0.5778200996484821,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "zl_071003",
+          "prediction": -1,
+          "score": -0.29089291106885107,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_hook",
+          "group_id": "zl_071003",
+          "prediction": 1,
+          "score": 1.1251775782403641,
+          "truth": 1
+        }
+      ]
+    },
+    "maximum_vision_accuracy": 0.6666666666666666,
+    "oracle_contact": {
+      "accuracy": 1.0,
+      "feature_key": "oracle_contact",
+      "groups": [
+        "zl_071001",
+        "zl_071002",
+        "zl_071003"
+      ],
+      "l2": 0.01,
+      "predictions": [
+        {
+          "condition": "free",
+          "group_id": "zl_071001",
+          "prediction": -1,
+          "score": -0.9992247004511483,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_hook",
+          "group_id": "zl_071001",
+          "prediction": 1,
+          "score": 0.9346922937315134,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "zl_071002",
+          "prediction": -1,
+          "score": -0.9995795120075273,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_hook",
+          "group_id": "zl_071002",
+          "prediction": 1,
+          "score": 0.5927860032078239,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "zl_071003",
+          "prediction": -1,
+          "score": -0.9993163082551954,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_hook",
+          "group_id": "zl_071003",
+          "prediction": 1,
+          "score": 1.1479674378027993,
+          "truth": 1
+        }
+      ]
+    },
+    "sensor_over_vision_margin": 0.16666666666666674,
+    "vision_delta": {
+      "accuracy": 0.6666666666666666,
+      "feature_key": "vision_delta",
+      "groups": [
+        "zl_071001",
+        "zl_071002",
+        "zl_071003"
+      ],
+      "l2": 0.01,
+      "predictions": [
+        {
+          "condition": "free",
+          "group_id": "zl_071001",
+          "prediction": 1,
+          "score": 1.163344675821955,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_hook",
+          "group_id": "zl_071001",
+          "prediction": 1,
+          "score": 1.9144617893959532,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "zl_071002",
+          "prediction": -1,
+          "score": -0.09270114550698122,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_hook",
+          "group_id": "zl_071002",
+          "prediction": 1,
+          "score": 0.7068695034966481,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "zl_071003",
+          "prediction": -1,
+          "score": -3.564033713989504,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_hook",
+          "group_id": "zl_071003",
+          "prediction": -1,
+          "score": -0.7590991272968768,
+          "truth": 1
+        }
+      ]
+    },
+    "vision_raw": {
+      "accuracy": 0.5,
+      "feature_key": "vision_raw",
+      "groups": [
+        "zl_071001",
+        "zl_071002",
+        "zl_071003"
+      ],
+      "l2": 0.01,
+      "predictions": [
+        {
+          "condition": "free",
+          "group_id": "zl_071001",
+          "prediction": -1,
+          "score": -13.395137243219892,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_hook",
+          "group_id": "zl_071001",
+          "prediction": -1,
+          "score": -13.395137243219892,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "zl_071002",
+          "prediction": -1,
+          "score": -3.5605952892222565,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_hook",
+          "group_id": "zl_071002",
+          "prediction": -1,
+          "score": -3.531370352265577,
+          "truth": 1
+        },
+        {
+          "condition": "free",
+          "group_id": "zl_071003",
+          "prediction": -1,
+          "score": -5.025122875101397,
+          "truth": -1
+        },
+        {
+          "condition": "hidden_hook",
+          "group_id": "zl_071003",
+          "prediction": -1,
+          "score": -5.0602375014158945,
+          "truth": 1
+        }
+      ]
+    }
+  },
+  "eligible": false,
+  "maximum": {
+    "free_arm_max_abs_jump": 0.0,
+    "hidden_arm_max_abs_jump": 0.0,
+    "initial_state_difference": 0.0
+  },
+  "median": {
+    "branch_amplification": 5.001043061843033,
+    "contact_impulse_gap": 6.773607502146289,
+    "hidden_hook_engagement_fraction": 0.7434944237918215,
+    "main_branch_ade": 0.022073419331485426,
+    "main_branch_fde": 0.03964457565355797,
+    "max_no_action_drift": 0.001029403223110544,
+    "mean_cable_progress_gap": 0.002585075759336364,
+    "opposite_endpoint_progress_gap": -0.0032096964384501635,
+    "preload_end_max_abs_xy": 0.0036026989437938917
+  },
+  "pairs": [
+    {
+      "action_hash": "2d6f01c7a070ea43b07d91efa046a0ecfa4f75456b2527a2e68db1013d0764ba",
+      "action_hash_match": true,
+      "base_state_hash": "ae12b8b56200885d3ff584fd24f360df0b4c7d1c1f60563128c2062fd6381060",
+      "branch_amplification": 2.7783302972653896,
+      "candidate_id": "delayed_z_latch_v1",
+      "contact_impulse_gap": 7.458364372015461,
+      "execution": {
+        "control_substeps": 1,
+        "deterministic": true,
+        "hz": 480,
+        "post_action_settle_steps": 240
+      },
+      "formal_load_window_sample_count": {
+        "free": 21,
+        "hidden_hook": 22
+      },
+      "formal_unload_window_sample_count": {
+        "free": 34,
+        "hidden_hook": 35
+      },
+      "free_arm_max_abs_jump": 0.0,
+      "free_base_state_hash_match": true,
+      "free_events": [
+        {
+          "name": "branch_start",
+          "physics_step": 0
+        },
+        {
+          "name": "no_action_end",
+          "physics_step": 240
+        },
+        {
+          "name": "latch_probe_start",
+          "physics_step": 240
+        },
+        {
+          "name": "latch_probe_end",
+          "physics_step": 3401
+        },
+        {
+          "name": "main_pull_start",
+          "physics_step": 3401
+        },
+        {
+          "name": "main_pull_end",
+          "physics_step": 4263
+        },
+        {
+          "name": "post_main_end",
+          "physics_step": 4503
+        }
+      ],
+      "free_hidden_initial_hash_match": true,
+      "free_initial_hash": "ae12b8b56200885d3ff584fd24f360df0b4c7d1c1f60563128c2062fd6381060",
+      "free_mean_cable_progress": 0.023636465967948717,
+      "free_no_action_drift": 0.0003451221234942489,
+      "free_opposite_endpoint_progress": -0.0021980750263446286,
+      "free_post_release_contact_fraction_privileged": 0.0,
+      "free_preload_contact_fraction_privileged": 0.0,
+      "free_preload_contact_impulse": 0.0,
+      "free_probe_motion_valid": true,
+      "free_trace_hash": "e42458bdbd9990af7ac57d8e88f1469de58c7c19aa3cd598d690661490d09aa0",
+      "free_trace_length": 1125,
+      "group_id": "zl_071001",
+      "hidden_arm_max_abs_jump": 0.0,
+      "hidden_base_state_hash_match": true,
+      "hidden_condition": "hidden_hook",
+      "hidden_events": [
+        {
+          "name": "branch_start",
+          "physics_step": 0
+        },
+        {
+          "name": "no_action_end",
+          "physics_step": 240
+        },
+        {
+          "name": "latch_probe_start",
+          "physics_step": 240
+        },
+        {
+          "name": "latch_probe_end",
+          "physics_step": 2579
+        },
+        {
+          "name": "main_pull_start",
+          "physics_step": 2579
+        },
+        {
+          "name": "main_pull_end",
+          "physics_step": 3415
+        },
+        {
+          "name": "post_main_end",
+          "physics_step": 3655
+        }
+      ],
+      "hidden_hook_engagement_fraction": 0.7434944237918215,
+      "hidden_initial_hash": "ae12b8b56200885d3ff584fd24f360df0b4c7d1c1f60563128c2062fd6381060",
+      "hidden_main_contact_fraction_privileged": 0.6698564593301436,
+      "hidden_mean_cable_progress": 0.021732187185360314,
+      "hidden_no_action_drift": 0.00044890691731125056,
+      "hidden_opposite_endpoint_progress": -0.004856203613396622,
+      "hidden_post_release_contact_fraction_privileged": 0.0,
+      "hidden_preload_contact_fraction_privileged": 0.03424657534246575,
+      "hidden_preload_contact_impulse": 7.458364372015461,
+      "hidden_probe_motion_valid": true,
+      "hidden_trace_hash": "319ce908b4f3d95d2219c5aaf934c09a366a35ded318bcd534ed23d5b99475ef",
+      "hidden_trace_length": 913,
+      "initial_max_abs_xy": 4.143617965413071e-06,
+      "main_branch_ade": 0.0034499398805113157,
+      "main_branch_fde": 0.005746627694906601,
+      "max_initial_state_difference": 0.0,
+      "mean_cable_progress_gap": 0.0019042787825884026,
+      "opposite_endpoint_progress_gap": 0.002658128587051993,
+      "pairing_mode": "pybullet_save_restore_fixed_step",
+      "post_main_branch_fde": 0.0057450582074526435,
+      "preload_end_max_abs_xy": 0.0020683745559564315,
+      "probe_motion_valid": true,
+      "seed": 71001
+    },
+    {
+      "action_hash": "c8c47ccec2d1321dae0acbc57421c5f87d9a33278cc8eecf462480987f4d0ee0",
+      "action_hash_match": true,
+      "base_state_hash": "4e4da184f82c966c6f7f05332913b18073ceafb2dee462431380269f1de19447",
+      "branch_amplification": 5.001043061843033,
+      "candidate_id": "delayed_z_latch_v1",
+      "contact_impulse_gap": 6.420404480590461,
+      "execution": {
+        "control_substeps": 1,
+        "deterministic": true,
+        "hz": 480,
+        "post_action_settle_steps": 240
+      },
+      "formal_load_window_sample_count": {
+        "free": 20,
+        "hidden_hook": 20
+      },
+      "formal_unload_window_sample_count": {
+        "free": 34,
+        "hidden_hook": 33
+      },
+      "free_arm_max_abs_jump": 0.0,
+      "free_base_state_hash_match": true,
+      "free_events": [
+        {
+          "name": "branch_start",
+          "physics_step": 0
+        },
+        {
+          "name": "no_action_end",
+          "physics_step": 240
+        },
+        {
+          "name": "latch_probe_start",
+          "physics_step": 240
+        },
+        {
+          "name": "latch_probe_end",
+          "physics_step": 2570
+        },
+        {
+          "name": "main_pull_start",
+          "physics_step": 2570
+        },
+        {
+          "name": "main_pull_end",
+          "physics_step": 3351
+        },
+        {
+          "name": "post_main_end",
+          "physics_step": 3591
+        }
+      ],
+      "free_hidden_initial_hash_match": true,
+      "free_initial_hash": "4e4da184f82c966c6f7f05332913b18073ceafb2dee462431380269f1de19447",
+      "free_mean_cable_progress": 0.02936962112429985,
+      "free_no_action_drift": 0.0005038718725322261,
+      "free_opposite_endpoint_progress": -0.0020121448323097762,
+      "free_post_release_contact_fraction_privileged": 0.0,
+      "free_preload_contact_fraction_privileged": 0.0,
+      "free_preload_contact_impulse": 0.0,
+      "free_probe_motion_valid": true,
+      "free_trace_hash": "acc89c0507643cb537e0b82efc52a43697faff0ea55b26601b5a9d1fa38443a6",
+      "free_trace_length": 897,
+      "group_id": "zl_071002",
+      "hidden_arm_max_abs_jump": 0.0,
+      "hidden_base_state_hash_match": true,
+      "hidden_condition": "hidden_hook",
+      "hidden_events": [
+        {
+          "name": "branch_start",
+          "physics_step": 0
+        },
+        {
+          "name": "no_action_end",
+          "physics_step": 240
+        },
+        {
+          "name": "latch_probe_start",
+          "physics_step": 240
+        },
+        {
+          "name": "latch_probe_end",
+          "physics_step": 2479
+        },
+        {
+          "name": "main_pull_start",
+          "physics_step": 2479
+        },
+        {
+          "name": "main_pull_end",
+          "physics_step": 3241
+        },
+        {
+          "name": "post_main_end",
+          "physics_step": 3481
+        }
+      ],
+      "hidden_hook_engagement_fraction": 0.7529880478087649,
+      "hidden_initial_hash": "4e4da184f82c966c6f7f05332913b18073ceafb2dee462431380269f1de19447",
+      "hidden_main_contact_fraction_privileged": 0.675392670157068,
+      "hidden_mean_cable_progress": 0.026784545364963486,
+      "hidden_no_action_drift": 0.001029403223110544,
+      "hidden_opposite_endpoint_progress": 0.01784510738037898,
+      "hidden_post_release_contact_fraction_privileged": 0.0,
+      "hidden_preload_contact_fraction_privileged": 0.03220035778175313,
+      "hidden_preload_contact_impulse": 6.420404480590461,
+      "hidden_probe_motion_valid": true,
+      "hidden_trace_hash": "12a641454b3efc8390a9355f370a3b6fa9cd725145db8cba3358ecf893f7dff8",
+      "hidden_trace_length": 870,
+      "initial_max_abs_xy": 6.137035563555382e-06,
+      "main_branch_ade": 0.022073419331485426,
+      "main_branch_fde": 0.03964457565355797,
+      "max_initial_state_difference": 0.0,
+      "mean_cable_progress_gap": 0.002585075759336364,
+      "opposite_endpoint_progress_gap": -0.019857252212688758,
+      "pairing_mode": "pybullet_save_restore_fixed_step",
+      "post_main_branch_fde": 0.03964541906893528,
+      "preload_end_max_abs_xy": 0.00792726140593314,
+      "probe_motion_valid": true,
+      "seed": 71002
+    },
+    {
+      "action_hash": "0ab702a5899e759b2712f674bda831738f5506c8b45a034a093c3937594987b0",
+      "action_hash_match": true,
+      "base_state_hash": "c922d6ce1b8bcf96725d4024a52d035b17675842e56c1490ff9dc1da35a9e4dc",
+      "branch_amplification": 11.726194615374034,
+      "candidate_id": "delayed_z_latch_v1",
+      "contact_impulse_gap": 6.773607502146289,
+      "execution": {
+        "control_substeps": 1,
+        "deterministic": true,
+        "hz": 480,
+        "post_action_settle_steps": 240
+      },
+      "formal_load_window_sample_count": {
+        "free": 20,
+        "hidden_hook": 20
+      },
+      "formal_unload_window_sample_count": {
+        "free": 33,
+        "hidden_hook": 35
+      },
+      "free_arm_max_abs_jump": 0.0,
+      "free_base_state_hash_match": true,
+      "free_events": [
+        {
+          "name": "branch_start",
+          "physics_step": 0
+        },
+        {
+          "name": "no_action_end",
+          "physics_step": 240
+        },
+        {
+          "name": "latch_probe_start",
+          "physics_step": 240
+        },
+        {
+          "name": "latch_probe_end",
+          "physics_step": 3154
+        },
+        {
+          "name": "main_pull_start",
+          "physics_step": 3154
+        },
+        {
+          "name": "main_pull_end",
+          "physics_step": 3954
+        },
+        {
+          "name": "post_main_end",
+          "physics_step": 4194
+        }
+      ],
+      "free_hidden_initial_hash_match": true,
+      "free_initial_hash": "c922d6ce1b8bcf96725d4024a52d035b17675842e56c1490ff9dc1da35a9e4dc",
+      "free_mean_cable_progress": 0.025820741683818094,
+      "free_no_action_drift": 0.0009835903593080914,
+      "free_opposite_endpoint_progress": -0.003448663060008633,
+      "free_post_release_contact_fraction_privileged": 0.0,
+      "free_preload_contact_fraction_privileged": 0.0,
+      "free_preload_contact_impulse": 0.0,
+      "free_probe_motion_valid": true,
+      "free_trace_hash": "a1ca043e9a0b388e16165c6e62e1ebb1543382468e2c3c98639ccb1a3c4b120b",
+      "free_trace_length": 1048,
+      "group_id": "zl_071003",
+      "hidden_arm_max_abs_jump": 0.0,
+      "hidden_base_state_hash_match": true,
+      "hidden_condition": "hidden_hook",
+      "hidden_events": [
+        {
+          "name": "branch_start",
+          "physics_step": 0
+        },
+        {
+          "name": "no_action_end",
+          "physics_step": 240
+        },
+        {
+          "name": "latch_probe_start",
+          "physics_step": 240
+        },
+        {
+          "name": "latch_probe_end",
+          "physics_step": 2411
+        },
+        {
+          "name": "main_pull_start",
+          "physics_step": 2411
+        },
+        {
+          "name": "main_pull_end",
+          "physics_step": 3199
+        },
+        {
+          "name": "post_main_end",
+          "physics_step": 3439
+        }
+      ],
+      "hidden_hook_engagement_fraction": 0.7159533073929961,
+      "hidden_initial_hash": "c922d6ce1b8bcf96725d4024a52d035b17675842e56c1490ff9dc1da35a9e4dc",
+      "hidden_main_contact_fraction_privileged": 0.6294416243654822,
+      "hidden_mean_cable_progress": 0.020515944833797668,
+      "hidden_no_action_drift": 0.0012576717440519111,
+      "hidden_opposite_endpoint_progress": -0.0002389666215584694,
+      "hidden_post_release_contact_fraction_privileged": 0.0,
+      "hidden_preload_contact_fraction_privileged": 0.033210332103321034,
+      "hidden_preload_contact_impulse": 6.773607502146289,
+      "hidden_probe_motion_valid": true,
+      "hidden_trace_hash": "fd3331263047f4cfa5ed231f2a1c73edcad472a0a558d3859c3fd9cfdd1ec513",
+      "hidden_trace_length": 859,
+      "initial_max_abs_xy": 6.846710192576211e-06,
+      "main_branch_ade": 0.023850875832780026,
+      "main_branch_fde": 0.042245948955529654,
+      "max_initial_state_difference": 0.0,
+      "mean_cable_progress_gap": 0.005304796850020426,
+      "opposite_endpoint_progress_gap": -0.0032096964384501635,
+      "pairing_mode": "pybullet_save_restore_fixed_step",
+      "post_main_branch_fde": 0.04225282843571163,
+      "preload_end_max_abs_xy": 0.0036026989437938917,
+      "probe_motion_valid": true,
+      "seed": 71003
+    }
+  ],
+  "probe_motion_valid": true,
+  "score": 19.50489735791147,
+  "seed_pass_fraction": {
+    "branch_amplification": 1.0,
+    "main_fde": 0.6666666666666666
+  },
+  "valid_pairs": 3
+}

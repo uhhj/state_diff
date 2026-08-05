@@ -1,0 +1,69 @@
+{
+  "allowed_inputs": [
+    "physics_step",
+    "joint motor torque",
+    "joint reaction wrench",
+    "EE constraint reaction",
+    "grasp state",
+    "constraint availability",
+    "robot motion-event intervals"
+  ],
+  "formal_sensor_feature_version": "stage_aligned_formal_sensor_v1",
+  "oracle_used_as_formal_feature": false,
+  "rows": [
+    {
+      "condition": "free",
+      "feature_finite": true,
+      "feature_max": 246.7824263981592,
+      "feature_min": -19.248057022803465,
+      "feature_norm": 495.2969105157892,
+      "group_id": "zl_071001",
+      "seed": 71001
+    },
+    {
+      "condition": "hidden_hook",
+      "feature_finite": true,
+      "feature_max": 334.64485040738083,
+      "feature_min": -89.38308054267642,
+      "feature_norm": 648.0393213113866,
+      "group_id": "zl_071001",
+      "seed": 71001
+    },
+    {
+      "condition": "free",
+      "feature_finite": true,
+      "feature_max": 422.7152329030866,
+      "feature_min": -55.28866312919493,
+      "feature_norm": 680.1403376166301,
+      "group_id": "zl_071002",
+      "seed": 71002
+    },
+    {
+      "condition": "hidden_hook",
+      "feature_finite": true,
+      "feature_max": 323.7308698385863,
+      "feature_min": -97.90515108386623,
+      "feature_norm": 593.3677724491391,
+      "group_id": "zl_071002",
+      "seed": 71002
+    },
+    {
+      "condition": "free",
+      "feature_finite": true,
+      "feature_max": 357.09061835199145,
+      "feature_min": -112.83112991697939,
+      "feature_norm": 708.7394478956655,
+      "group_id": "zl_071003",
+      "seed": 71003
+    },
+    {
+      "condition": "hidden_hook",
+      "feature_finite": true,
+      "feature_max": 353.1173133322548,
+      "feature_min": -80.62609459066621,
+      "feature_norm": 696.2238065460733,
+      "group_id": "zl_071003",
+      "seed": 71003
+    }
+  ]
+}

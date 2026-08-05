@@ -314,6 +314,16 @@ Push-L 保留为无柔性隐藏接触负对照。
 - 当前新目标是在任何模型开发之前，先建立一个通过全部 Stage M0 数据门禁的有效 CCDA 环境。
 - Phase 0G 失败证据保留在 `reports/experiment2/phase0_hidden_hook/phase0g/`；Phase 0H 证据保留在 `reports/experiment2/phase0_hidden_hook/phase0h/`，不得用新报告覆盖旧失败结论。
 
+### Phase 0I — Formal Sensor Reanalysis and Hidden Z-Latch Smoke
+
+- Phase 0H 的 joint reaction force/torque 已接通并保留在 raw trace，但原 formal classifier 复用了未包含该通道的 legacy preload feature。
+- Phase 0I 使用固定的 49 维 robot-event-aligned formal feature 离线重算 Phase 0H：legacy、corrected 和 reaction-only accuracy 均为 `0.333333`。该 post-hoc diagnostic 不改变 Phase 0H 的 BLOCKED verdict。
+- Phase 0I 只运行单一 `delayed_z_latch_v1` topology 和 seeds `71001–71003`，未进行参数网格或模型训练。
+- Result: `HIDDEN_Z_LATCH_SMOKE_BLOCKED`。
+- Main metrics：RGB raw `0.5`、RGB delta `0.666667`、formal sensor `0.833333`、Oracle `1.0`；preload visible difference `0.003603 m`、ADE `0.022073 m`、FDE `0.039645 m`、branch amplification `5.001043`、progress gap `0.002585 m`、engagement `0.743494`。
+- 现有门禁中仅 `outcome_progress_gap` 未通过（目标 `>=0.01 m`）；因此这仍只是固定 3-seed smoke 的阶段性证据，不是 Scientific PASS。
+- Model training remains blocked unless a later expanded Stage M0 audit passes.
+
 ---
 
 ## Task 3：Hidden-Clamp Fabric Fold
