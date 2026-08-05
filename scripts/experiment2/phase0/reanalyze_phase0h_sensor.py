@@ -135,7 +135,7 @@ def main() -> None:
     ) as stream:
         writer = csv.DictWriter(stream, fieldnames=(
             "feature", "group_id", "condition", "truth", "prediction", "score"
-        ))
+        ), lineterminator="\n")
         writer.writeheader()
         for feature, classifier in results.items():
             for row in classifier["predictions"]:
