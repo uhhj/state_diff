@@ -94,17 +94,26 @@ def main() -> None:
     width = 0.24
     fig, axis = plt.subplots(figsize=(9, 5))
     for offset, name in enumerate(segment_names):
+        values = [
+            row["segments"].get(name, {}).get("progress_gap", np.nan)
+            for row in audit["rows"]
+        ]
+        positions = x + (offset - 1) * width
         axis.bar(
-            x + (offset - 1) * width,
-            [
-                row["segments"].get(name, {}).get("progress_gap", np.nan)
-                for row in audit["rows"]
-            ],
+            positions,
+            values,
             width=width,
             label=name,
         )
+        for position, value in zip(positions, values):
+            if not np.isfinite(value):
+                axis.text(
+                    position, 0.00015, "N/A", ha="center", va="bottom",
+                    rotation=90, fontsize=8, color="0.35",
+                )
     axis.axhline(0.01, linestyle="--", color="tab:red", label="official all-bead gate 0.01 m")
-    axis.set_xticks(x, [str(row["seed"]) for row in audit["rows"]])
+    axis.set_xticks(x)
+    axis.set_xticklabels([str(row["seed"]) for row in audit["rows"]])
     axis.set_xlabel("seed")
     axis.set_ylabel("segment mean progress gap (m)")
     axis.set_title("Wide-stop segment localization (diagnostic only)")
