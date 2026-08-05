@@ -10,10 +10,6 @@ from typing import Any, Dict, List
 
 import numpy as np
 
-from ravens.tasks.ccda_hidden_routing_gate_geometry import (
-    HiddenRoutingGateGeometryError,
-)
-
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 SUBMODULE_ROOT = (
@@ -22,6 +18,10 @@ SUBMODULE_ROOT = (
 for path in (REPO_ROOT, SUBMODULE_ROOT):
     if str(path) not in sys.path:
         sys.path.insert(0, str(path))
+
+from ravens.tasks.ccda_hidden_routing_gate_geometry import (
+    HiddenRoutingGateGeometryError,
+)
 
 from scripts.experiment2.phase0.common import (
     canonical_json_sha256,
@@ -807,6 +807,12 @@ def main() -> None:
         "required_provenance_report": config.get("required_provenance_report"),
         "required_preflight_report": config.get("required_preflight_report"),
         "candidate_report": candidate_report_filename,
+        "probe_selector_mode": (
+            config["routing_gate"].get(
+                "probe_selector_mode",
+                "fixed_center_ratio",
+            )
+        ),
         "gate": (
             "Stage M0 fixed outcome-aligned "
             "hidden routing-gate smoke"
@@ -1007,6 +1013,8 @@ def main() -> None:
         f"`{candidate_report_filename}`",
         f"- Topology: "
         f"`{config['topology_id']}`",
+        f"- Probe selector: "
+        f"`{summary['probe_selector_mode']}`",
         "- Official outcome: "
         "`pulled_endpoint_target_success_gap`",
         "- Official gate: "

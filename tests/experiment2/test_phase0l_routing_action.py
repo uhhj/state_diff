@@ -1,4 +1,5 @@
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -11,6 +12,7 @@ for path in (ROOT, SUBMODULE_ROOT):
         sys.path.insert(0, str(path))
 
 from scripts.experiment2.phase0.hidden_routing_gate_common import (
+    configure_hidden_routing_gate_environment,
     generate_hidden_routing_gate_action_script,
 )
 
@@ -58,3 +60,22 @@ def test_action_is_identical_for_free_and_hidden_and_endpoint_matches_layout():
     main = first[1]
     public = main["public_task_layout"]
     assert np.allclose(main["pose0"]["position"][:2], beads()[public["endpoint_index"], :2])
+
+
+def test_configure_clears_stale_selected_probe(
+    monkeypatch,
+):
+    monkeypatch.setenv(
+        "CCDA_ROUTING_SELECTED_PROBE_INDEX",
+        "20",
+    )
+    configure_hidden_routing_gate_environment(
+        config(),
+        "free",
+        71001,
+        "rg_071001",
+    )
+    assert (
+        "CCDA_ROUTING_SELECTED_PROBE_INDEX"
+        not in os.environ
+    )

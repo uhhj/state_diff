@@ -7,6 +7,7 @@ from typing import Any, Dict, List
 import numpy as np
 
 from ravens.tasks.ccda_hidden_routing_gate_geometry import (
+    FIXED_CENTER_RATIO_PROBE_SELECTOR,
     WHOLE_CABLE_BARRIER_MODE,
     HiddenRoutingGateGeometryConfig,
     compute_hidden_routing_gate_layout,
@@ -93,6 +94,18 @@ def routing_geometry_config(
         ),
         workspace_x=tuple(bounds["x"]),
         workspace_y=tuple(bounds["y"]),
+        probe_selector_mode=str(
+            gate.get(
+                "probe_selector_mode",
+                FIXED_CENTER_RATIO_PROBE_SELECTOR,
+            )
+        ),
+        probe_index_override=int(
+            os.environ.get(
+                "CCDA_ROUTING_SELECTED_PROBE_INDEX",
+                "-1",
+            )
+        ),
         topology_id=str(
             config["topology_id"]
         ),
@@ -114,6 +127,11 @@ def configure_hidden_routing_gate_environment(
             f"{condition!r}"
         )
 
+    os.environ.pop(
+        "CCDA_ROUTING_SELECTED_PROBE_INDEX",
+        None,
+    )
+
     gate = config["routing_gate"]
     action = config["action"]
     bounds = config["workspace_bounds"]
@@ -133,6 +151,12 @@ def configure_hidden_routing_gate_environment(
         ),
         "CCDA_ROUTING_CENTER_RATIO": (
             gate["center_ratio"]
+        ),
+        "CCDA_ROUTING_PROBE_SELECTOR_MODE": (
+            gate.get(
+                "probe_selector_mode",
+                FIXED_CENTER_RATIO_PROBE_SELECTOR,
+            )
         ),
         "CCDA_ROUTING_PROBE_ROOF_CLEARANCE": (
             gate["probe_roof_clearance"]
