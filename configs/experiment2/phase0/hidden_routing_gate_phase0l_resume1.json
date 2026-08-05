@@ -1,0 +1,111 @@
+{
+  "stage_name": "Experiment2 Phase 0L Resume1",
+  "resume_of": {
+    "stage": "Experiment2 Phase 0L",
+    "main_evidence_sha": "a71ae821968282d91799c2497e5766ca902eea5c",
+    "provenance_clarification_sha": "16294ea7fc00a9b2d9246e14d4be69ee183998f2",
+    "failure_class": "engineering_blocker",
+    "failed_check": "legal_workspace_geometry",
+    "completed_pair_count": 0
+  },
+  "task_name": "ccda-hidden-routing-gate-cable",
+  "conditions": ["free", "hidden_hook"],
+  "condition_semantics": {
+    "free": "routing fixture collision disabled",
+    "hidden_hook": "hidden routing-gate fixture collision enabled"
+  },
+  "topology_id": "hidden_routing_gate_v1r1",
+  "candidate_id": "hidden_routing_gate_v1r1_fixed_pull_v1",
+  "eligible_verdict": "HIDDEN_ROUTING_GATE_RESUME1_SMOKE_ELIGIBLE",
+  "blocked_verdict": "HIDDEN_ROUTING_GATE_RESUME1_SMOKE_BLOCKED",
+  "topology_policy": "single_fixed_topology_no_grid_search",
+  "action_policy": "single_fixed_probe_and_routing_pull_no_search",
+  "official_outcome": "pulled_endpoint_target_success_gap",
+  "geometry_repair": {
+    "repair_version": "fixed_barrier_coverage_width_v1",
+    "field": "routing_gate.barrier_width",
+    "phase0l_value": 0.340,
+    "resume1_value": 0.350,
+    "analytic_nominal_minimum": 0.3425896274215007,
+    "other_geometry_fields_changed": false
+  },
+  "required_provenance_report": "reports/experiment2/phase0_hidden_routing_gate/phase0l_resume1/geometry_provenance_original.json",
+  "hz": 480,
+  "trace_stride": 4,
+  "no_action_steps": 240,
+  "post_main_steps": 240,
+  "workspace_bounds": {
+    "x": [0.25, 0.75],
+    "y": [-0.45, 0.45]
+  },
+  "execution": {
+    "deterministic": true,
+    "control_substeps": 1,
+    "post_action_settle_steps": 240
+  },
+  "observation": {
+    "width": 160,
+    "height": 120,
+    "feature_width": 32,
+    "feature_height": 24,
+    "ridge_l2": 0.01,
+    "camera_eye": [0.68, -0.82, 0.62],
+    "camera_target": [0.5, -0.02, 0.025],
+    "camera_up": [0.0, 0.0, 1.0],
+    "fov": 50.0,
+    "near": 0.01,
+    "far": 3.0
+  },
+  "action": {
+    "pick_z": 0.001,
+    "stage1_pull_distance": 0.080,
+    "final_pull_distance": 0.120,
+    "probe_lift_height": 0.004,
+    "probe_hold_steps": 60,
+    "probe_return_hold_steps": 60,
+    "probe_post_release_steps": 120,
+    "probe_approach_height": 0.020,
+    "probe_retreat_z": 0.300,
+    "routing_lift_height": 0.004,
+    "routing_approach_height": 0.020,
+    "routing_retreat_z": 0.300,
+    "joint_tolerance": 0.0001,
+    "cartesian_tolerance": 0.0002,
+    "min_achieved_fraction": 0.8
+  },
+  "routing_gate": {
+    "center_ratio": 0.45,
+    "probe_roof_clearance": 0.002,
+    "probe_roof_depth": 0.022,
+    "probe_roof_width": 0.022,
+    "probe_roof_thickness": 0.002,
+    "barrier_offset": 0.065,
+    "barrier_thickness": 0.004,
+    "barrier_width": 0.350,
+    "barrier_height": 0.030,
+    "target_plane_offset": 0.085,
+    "target_zone_depth": 0.025,
+    "target_corridor_half_width": 0.035,
+    "leading_segment_size": 4,
+    "min_initial_clearance": 0.002
+  },
+  "seeds": [71001, 71002, 71003],
+  "selection_targets": {
+    "max_initial_abs_xy": 1e-12,
+    "max_arm_jump": 1e-12,
+    "max_median_no_action_drift": 0.0015,
+    "max_median_preload_visible_difference": 0.004,
+    "min_median_contact_impulse_gap": 0.02,
+    "min_median_main_branch_ade": 0.006,
+    "min_median_main_branch_fde": 0.015,
+    "min_median_branch_amplification": 2.0,
+    "max_grouped_vision_accuracy": 0.7,
+    "min_grouped_sensor_accuracy": 0.7,
+    "min_grouped_oracle_accuracy": 0.9,
+    "min_sensor_over_vision_margin": 0.1,
+    "min_median_routing_success_gap": 1.0,
+    "min_median_engagement_fraction": 0.1,
+    "min_seed_pass_fraction": 0.6
+  }
+}
+

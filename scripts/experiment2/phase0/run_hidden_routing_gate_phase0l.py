@@ -10,6 +10,10 @@ from typing import Any, Dict, List
 
 import numpy as np
 
+from ravens.tasks.ccda_hidden_routing_gate_geometry import (
+    HiddenRoutingGateGeometryError,
+)
+
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 SUBMODULE_ROOT = (
@@ -211,6 +215,68 @@ def _routing_mechanism_metrics(
             _fraction(hidden_trace, "main_pull")
         ),
     }
+
+
+def _geometry_audit_from_metadata(metadata):
+    privileged = metadata["privileged_state"]
+    layout = privileged["routing_gate_layout_privileged"]
+    audit = layout.get("geometry_audit")
+    if not isinstance(audit, dict):
+        raise RuntimeError("routing geometry audit missing")
+    selected = [row for row in audit["candidates"] if row["accepted"]]
+    if not selected:
+        raise RuntimeError(
+            "successful reset has no accepted geometry candidate"
+        )
+    return audit
+
+
+def _write_geometry_failure(
+    output_root,
+    config,
+    config_path,
+    seed,
+    error,
+    stage_name,
+    blocked_verdict,
+):
+    diagnostics = error.diagnostics
+    failure = {
+        "stage": stage_name,
+        "failure_class": "engineering_blocker",
+        "failed_check": "legal_workspace_geometry",
+        "first_requested_seed": int(seed),
+        "exception_type": type(error).__name__,
+        "exception_message": str(error),
+        "completed_pair_count": 0,
+        "training_performed": False,
+        "geometry_search_performed": False,
+        "action_search_performed": False,
+        "outcome_search_performed": False,
+        "diagnostics": diagnostics,
+    }
+    write_json(output_root / "geometry_failure_diagnostics.json", failure)
+    summary = {
+        "stage": stage_name,
+        "runtime_main_code_sha": git_sha(REPO_ROOT),
+        "runtime_submodule_sha": git_sha(SUBMODULE_ROOT),
+        "config": str(config_path.relative_to(REPO_ROOT)),
+        "config_hash": canonical_json_sha256(config),
+        "candidate_id": config["candidate_id"],
+        "topology_id": config["topology_id"],
+        "official_outcome": config["official_outcome"],
+        "engineering_blocked_before_pairs": True,
+        "completed_pair_count": 0,
+        "failed_checks": ["legal_workspace_geometry"],
+        "failure": failure,
+        "training_performed": False,
+        "geometry_search_performed": False,
+        "action_search_performed": False,
+        "outcome_search_performed": False,
+        "verdict": blocked_verdict,
+    }
+    write_json(output_root / "summary.json", summary)
+    return summary
 
 
 def run_one_pair(
@@ -456,6 +522,13 @@ def main() -> None:
             encoding="utf-8"
         )
     )
+    stage_name = str(config.get("stage_name", "Experiment2 Phase 0L"))
+    eligible_verdict = str(config.get(
+        "eligible_verdict", "HIDDEN_ROUTING_GATE_SMOKE_ELIGIBLE"
+    ))
+    blocked_verdict = str(config.get(
+        "blocked_verdict", "HIDDEN_ROUTING_GATE_SMOKE_BLOCKED"
+    ))
 
     if config["topology_policy"] != (
         "single_fixed_topology_no_grid_search"
@@ -512,27 +585,56 @@ def main() -> None:
     mechanism_rows = []
     sensor_rows = []
     alignment_rows = []
+    geometry_rows = []
 
     for seed_value in config["seeds"]:
         seed = int(seed_value)
-        (
-            result,
-            row,
-            pair_samples,
-            mechanism,
-        ) = run_one_pair(
-            config,
-            seed,
-            execution,
-            observation,
-            raw_root,
-        )
+        try:
+            (
+                result,
+                row,
+                pair_samples,
+                mechanism,
+            ) = run_one_pair(
+                config,
+                seed,
+                execution,
+                observation,
+                raw_root,
+            )
+        except HiddenRoutingGateGeometryError as error:
+            _write_geometry_failure(
+                output_root,
+                config,
+                config_path,
+                seed,
+                error,
+                stage_name,
+                blocked_verdict,
+            )
+            print(output_root / "summary.json")
+            return
         (
             free_trace,
             hidden_trace,
             free_meta,
             hidden_meta,
         ) = result[:4]
+
+        free_geometry = _geometry_audit_from_metadata(free_meta)
+        hidden_geometry = _geometry_audit_from_metadata(hidden_meta)
+        free_geometry_hash = canonical_json_sha256(free_geometry)
+        hidden_geometry_hash = canonical_json_sha256(hidden_geometry)
+        if free_geometry_hash != hidden_geometry_hash:
+            raise RuntimeError(
+                "free/hidden geometry provenance does not match"
+            )
+        geometry_rows.append({
+            "seed": seed,
+            "group_id": row["group_id"],
+            "geometry_audit_sha256": free_geometry_hash,
+            "audit": free_geometry,
+        })
 
         pair_rows.append(row)
         samples.extend(pair_samples)
@@ -678,18 +780,21 @@ def main() -> None:
     )
 
     verdict = (
-        "HIDDEN_ROUTING_GATE_SMOKE_ELIGIBLE"
+        eligible_verdict
         if (
             topology["eligible"]
             and motion_debug[
                 "all_cartesian_stages_successful"
             ]
         )
-        else "HIDDEN_ROUTING_GATE_SMOKE_BLOCKED"
+        else blocked_verdict
     )
 
     summary = {
-        "stage": "Experiment2 Phase 0L",
+        "stage": stage_name,
+        "resume_of": config.get("resume_of"),
+        "geometry_repair": config.get("geometry_repair"),
+        "required_provenance_report": config.get("required_provenance_report"),
         "gate": (
             "Stage M0 fixed outcome-aligned "
             "hidden routing-gate smoke"
@@ -805,6 +910,14 @@ def main() -> None:
         },
     )
     write_json(
+        output_root / "geometry_audit.json",
+        {
+            "engineering_provenance": True,
+            "official_model_feature": False,
+            "rows": geometry_rows,
+        },
+    )
+    write_json(
         output_root / "routing_outcome_audit.json",
         {
             "metric_version": (
@@ -914,4 +1027,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
