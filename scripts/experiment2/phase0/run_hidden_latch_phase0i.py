@@ -153,7 +153,16 @@ def _probe_motion_valid(metadata, minimum_fraction):
     )
 
 
-def run_one_pair(config, seed, execution, observation, raw_root):
+def run_one_pair(
+    config,
+    seed,
+    execution,
+    observation,
+    raw_root,
+    action_generator_fn=None,
+):
+    if action_generator_fn is None:
+        action_generator_fn = generate_hidden_latch_action_script
     group_id = f"zl_{seed:06d}"
     group_dir = raw_root / config["topology_id"] / group_id
     result = run_exact_counterfactual_pair(
@@ -165,7 +174,7 @@ def run_one_pair(config, seed, execution, observation, raw_root):
         observation_config=observation,
         hidden_condition="hidden_hook",
         configure_environment_fn=configure_hidden_latch_environment,
-        action_generator_fn=generate_hidden_latch_action_script,
+        action_generator_fn=action_generator_fn,
     )
     free_trace, hidden_trace, free_meta, hidden_meta, actions, pair_meta = result
     metrics = compute_pair_metrics(

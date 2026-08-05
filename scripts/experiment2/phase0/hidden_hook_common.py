@@ -210,3 +210,88 @@ def generate_hidden_latch_action_script(config, beads) -> List[Dict[str, Any]]:
             "pose1": _pose(main_target),
         },
     ]
+
+
+def generate_hidden_latch_tension_action_script(
+    config,
+    beads,
+) -> List[Dict[str, Any]]:
+    """Phase 0K fixed same-grasp, same-direction tension extension."""
+    if str(config.get("topology_id")) != "delayed_z_latch_v1":
+        raise ValueError("Phase 0K must restore delayed_z_latch_v1")
+    if str(config.get("intervention_id")) != (
+        "same_end_tension_extension_v1"
+    ):
+        raise ValueError("unsupported Phase 0K intervention_id")
+
+    base_actions = generate_hidden_latch_action_script(config, beads)
+    preload_actions = [
+        action for action in base_actions if action["phase"] == "preload"
+    ]
+    main_actions = [
+        action for action in base_actions if action["phase"] == "main_pull"
+    ]
+    if len(preload_actions) != 1 or len(main_actions) != 1:
+        raise ValueError("expected one preload and one base main action")
+
+    probe_action = preload_actions[0]
+    base_main = main_actions[0]
+    action = config["action"]
+    pose0 = np.asarray(base_main["pose0"]["position"], dtype=np.float64)
+    pose_stage1 = np.asarray(base_main["pose1"]["position"], dtype=np.float64)
+    if pose0.shape != (3,) or pose_stage1.shape != (3,):
+        raise ValueError("invalid base main poses")
+
+    stage1_vector = pose_stage1[:2] - pose0[:2]
+    stage1_distance = float(np.linalg.norm(stage1_vector))
+    configured_stage1 = float(action["main_pull_distance"])
+    if abs(stage1_distance - configured_stage1) > 1e-9:
+        raise ValueError(
+            "geometry stage-1 target does not match configured main_pull_distance"
+        )
+    if stage1_distance <= 1e-12:
+        raise ValueError("zero stage-1 pull distance")
+
+    direction = stage1_vector / stage1_distance
+    extension = float(action["tension_extension_distance"])
+    if not np.isfinite(extension) or extension <= 0:
+        raise ValueError("tension_extension_distance must be positive")
+    pose_final = pose_stage1.copy()
+    pose_final[:2] += direction * extension
+
+    bounds = config["workspace_bounds"]
+    x_bounds = np.asarray(bounds["x"], dtype=np.float64)
+    y_bounds = np.asarray(bounds["y"], dtype=np.float64)
+    legal = bool(
+        x_bounds[0] <= pose_final[0] <= x_bounds[1]
+        and y_bounds[0] <= pose_final[1] <= y_bounds[1]
+    )
+    if not legal:
+        raise RuntimeError(
+            "fixed Phase 0K final target leaves workspace; "
+            "do not search another extension"
+        )
+
+    final_distance = float(np.linalg.norm(pose_final[:2] - pose0[:2]))
+    expected_final = configured_stage1 + extension
+    if abs(final_distance - expected_final) > 1e-9:
+        raise RuntimeError("Phase 0K final displacement is not collinear")
+
+    main_action = {
+        "name": "latch_same_end_tension_extension",
+        "phase": "main_pull",
+        "primitive": "pick_precise_tension_extension",
+        "pose0": _pose(pose0),
+        "pose_stage1": _pose(pose_stage1),
+        "pose1": _pose(pose_final),
+        "stage1_distance": configured_stage1,
+        "extension_distance": extension,
+        "final_distance": expected_final,
+        "lift_height": float(action["tension_lift_height"]),
+        "approach_height": float(action["tension_approach_height"]),
+        "retreat_z": float(action["tension_retreat_z"]),
+        "joint_tolerance": float(action["joint_tolerance"]),
+        "cartesian_tolerance": float(action["cartesian_tolerance"]),
+        "min_achieved_fraction": float(action["min_achieved_fraction"]),
+    }
+    return [probe_action, main_action]

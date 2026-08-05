@@ -288,6 +288,18 @@ def _environment_action(action: Dict[str, Any]) -> Dict[str, Any]:
             "cartesian_tolerance": float(action["cartesian_tolerance"]),
             "min_achieved_fraction": float(action["min_achieved_fraction"]),
         }
+    elif primitive == "pick_precise_tension_extension":
+        params = {
+            "pose0": tuple_pose(action["pose0"]),
+            "pose_stage1": tuple_pose(action["pose_stage1"]),
+            "pose1": tuple_pose(action["pose1"]),
+            "lift_height": float(action["lift_height"]),
+            "approach_height": float(action["approach_height"]),
+            "retreat_z": float(action["retreat_z"]),
+            "joint_tolerance": float(action["joint_tolerance"]),
+            "cartesian_tolerance": float(action["cartesian_tolerance"]),
+            "min_achieved_fraction": float(action["min_achieved_fraction"]),
+        }
     else:
         raise ValueError(f"unsupported primitive {primitive!r}")
     return {"primitive": primitive, "params": params}
