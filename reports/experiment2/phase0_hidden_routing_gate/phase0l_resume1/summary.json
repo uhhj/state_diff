@@ -1,0 +1,41 @@
+{
+  "action_search_performed": false,
+  "candidate_id": "hidden_routing_gate_v1r1_fixed_pull_v1",
+  "completed_pair_count": 0,
+  "config": "configs/experiment2/phase0/hidden_routing_gate_phase0l_resume1.json",
+  "config_hash": "e7452b0d0f68e903cde2a799a0ca89f69a3f9b55e92f403572ccd07d558d2e43",
+  "failed_checks": [
+    "original_coverage_only",
+    "fixed_has_legal_candidate",
+    "fixed_width_justified"
+  ],
+  "failure": {
+    "failure_class": "engineering_preflight_blocker",
+    "fixed_accepted_candidate_count": 0,
+    "fixed_rejection_counts": {"workspace": 4},
+    "fixed_width_justified": false,
+    "original_coverage_only": false,
+    "original_rejection_counts": {"workspace": 4},
+    "reason": "settled seed-71001 geometry contradicted the preregistered barrier-coverage diagnosis"
+  },
+  "geometry_search_performed": false,
+  "official_outcome": "pulled_endpoint_target_success_gap",
+  "outcome_search_performed": false,
+  "original_phase0l_evidence_preserved": true,
+  "original_phase0l_summary_sha256": "28cc26ae9ca81791f5a8224bb8f392b1b574032bbe5ef7935894fc5d2735dfcd",
+  "provenance_passed": false,
+  "provenance_report": "reports/experiment2/phase0_hidden_routing_gate/phase0l_resume1/geometry_provenance_original.json",
+  "provenance_report_sha256": "a59de64c10645dc8d15c3087234b20c5a0f18f114dcb6361eb81d506f7258601",
+  "provenance_seed": 71001,
+  "raw_file_count": 0,
+  "runtime_main_code_sha": "cc28b7140ea19cf070d8524281b3c7b2477e670d",
+  "runtime_submodule_sha": "18796160ac900f51d2032834254f5d7bb5955604",
+  "scientific_metrics_computed": false,
+  "scientific_pair_completed": false,
+  "scientific_status": "UNTESTED",
+  "smoke_run_performed": false,
+  "stage": "Experiment2 Phase 0L Resume1",
+  "topology_id": "hidden_routing_gate_v1r1",
+  "training_performed": false,
+  "verdict": "HIDDEN_ROUTING_GATE_RESUME1_SMOKE_BLOCKED"
+}

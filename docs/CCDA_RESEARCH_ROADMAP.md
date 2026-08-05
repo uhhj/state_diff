@@ -1301,6 +1301,24 @@ Agent 当前只应执行以下主线：
 - 可执行性闭环；
 - 可复现的任务与证据合同。
 
+### Phase 0L Resume1 — Routing-Gate Geometry Provenance
+
+- Preserved the original Phase 0L engineering BLOCKED evidence.
+- Added complete rejection provenance for all four fixed endpoint/normal
+  geometry candidates.
+- Pre-registered one fixed engineering correction:
+  `barrier_width: 0.340 m -> 0.350 m`.
+- The one-shot seed-71001 capture contradicted the nominal straight-cable
+  diagnosis: the settled cable required at most `0.098931884 m`, so the
+  original width already had positive coverage margin.
+- All four original and repaired candidates failed only the unchanged
+  workspace predicate; the repaired geometry had zero accepted candidates.
+- The required preflight therefore failed and the three-seed smoke was not run.
+- No workspace, target, action, outcome, threshold or classifier field changed.
+- No geometry grid search or automatic retry was performed.
+- Verdict: `HIDDEN_ROUTING_GATE_RESUME1_SMOKE_BLOCKED`.
+- Scientific status remained `UNTESTED`; training remained disabled.
+
 ### Phase 0L — Hidden Routing-Gate Outcome-Aligned Smoke
 
 - Closed the prior `delayed_z_latch + whole-cable mean progress`
