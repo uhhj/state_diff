@@ -324,6 +324,18 @@ Push-L 保留为无柔性隐藏接触负对照。
 - 现有门禁中仅 `outcome_progress_gap` 未通过（目标 `>=0.01 m`）；因此这仍只是固定 3-seed smoke 的阶段性证据，不是 Scientific PASS。
 - Model training remains blocked unless a later expanded Stage M0 audit passes.
 
+### Phase 0J — Outcome Localization and Fixed Wide-Stop Z-Latch Smoke
+
+- Phase 0I established low-leakage, sensor-observable future deformation branches but failed the unchanged task-level mean progress-gap gate.
+- Phase 0J preserved the Phase 0I probe, main action, 49D formal sensor feature, thresholds and seeds. The only physical change was stop-wall tangent width: `0.032 m -> 0.080 m`.
+- No geometry grid search, action search or model training was run. Outcome decomposition was diagnostic only and did not replace the official `mean_cable_progress_gap >= 0.01 m` gate.
+- Phase 0I offline outcome medians were: all `0.002585 m`, blocked `0.001884 m`, pulled-side `-0.000832 m`, trailing-side `0.004282 m`; motion-difference RMS normal/tangent/Z was `0.050417 / 0.008770 / 0.004611 m`.
+- Verdict: `HIDDEN_WIDE_STOP_SMOKE_BLOCKED`.
+- Phase 0J metrics: RGB raw `0.5`, RGB delta `0.833333`, formal sensor `0.833333`, Oracle `1.0`; preload `0.004502 m`, ADE `0.004668 m`, FDE `0.007658 m`, branch amplification `1.700896`, official progress gap `0.003728 m`, engagement `0.740909`.
+- Failed checks: `preload_visibility`, `main_ade`, `main_fde`, `branch_amplification`, `vision_screen`, `sensor_over_vision_margin`, `outcome_progress_gap`, `fde_seed_fraction`, and `amplification_seed_fraction`.
+- Wide-stop tangent projection covered all beads for seeds `71001/71002` and the pulled endpoint for seed `71003`; blocked-segment median was `0.003728 m`, pulled-side was unavailable, and the only non-empty trailing-side diagnostic was `0.001976 m`. Missing empty-segment statistics were not invented and were not treated as gates.
+- Training remains blocked; this failed fixed-topology smoke does not authorize expanded validation, new geometry, new actions or training.
+
 ---
 
 ## Task 3：Hidden-Clamp Fabric Fold

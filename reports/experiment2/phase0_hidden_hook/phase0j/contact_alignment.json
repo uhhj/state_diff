@@ -1,0 +1,245 @@
+{
+  "oracle_is_privileged_audit_only": true,
+  "rows": [
+    {
+      "alignment_peak_window_radius_samples": 30,
+      "condition": "free",
+      "formal_sensor_peak_alignment": {
+        "ee_constraint_force_norm": {
+          "peak_lag_from_oracle_contact_steps": null,
+          "peak_physics_step": 3932,
+          "peak_value": 432.8704296750016,
+          "post_contact_window_mean": null,
+          "pre_contact_window_mean": null
+        },
+        "ee_constraint_torque_norm": {
+          "peak_lag_from_oracle_contact_steps": null,
+          "peak_physics_step": 3932,
+          "peak_value": 0.47658927668298956,
+          "post_contact_window_mean": null,
+          "pre_contact_window_mean": null
+        },
+        "joint_motor_torque_norm": {
+          "peak_lag_from_oracle_contact_steps": null,
+          "peak_physics_step": 3420,
+          "peak_value": 340.3788824333484,
+          "post_contact_window_mean": null,
+          "pre_contact_window_mean": null
+        },
+        "joint_reaction_force_torque_norm": {
+          "peak_lag_from_oracle_contact_steps": null,
+          "peak_physics_step": 3420,
+          "peak_value": 1461.3794657374115,
+          "post_contact_window_mean": null,
+          "pre_contact_window_mean": null
+        }
+      },
+      "group_id": "zl_071001",
+      "oracle_contact_detected": false,
+      "oracle_contact_sample_fraction": 0.0,
+      "oracle_first_contact_physics_step": null,
+      "oracle_is_privileged_audit_only": true,
+      "seed": 71001
+    },
+    {
+      "alignment_peak_window_radius_samples": 30,
+      "condition": "hidden_hook",
+      "formal_sensor_peak_alignment": {
+        "ee_constraint_force_norm": {
+          "peak_lag_from_oracle_contact_steps": 0,
+          "peak_physics_step": 1152,
+          "peak_value": 54.939632244885274,
+          "post_contact_window_mean": 49.16040325980653,
+          "pre_contact_window_mean": 1.9303878898331164
+        },
+        "ee_constraint_torque_norm": {
+          "peak_lag_from_oracle_contact_steps": -8,
+          "peak_physics_step": 1144,
+          "peak_value": 0.12782666163282055,
+          "post_contact_window_mean": 0.04056680731273038,
+          "pre_contact_window_mean": 0.021443658603547515
+        },
+        "joint_motor_torque_norm": {
+          "peak_lag_from_oracle_contact_steps": 16,
+          "peak_physics_step": 1168,
+          "peak_value": 197.973938365943,
+          "post_contact_window_mean": 76.68412658223758,
+          "pre_contact_window_mean": 31.736541833108596
+        },
+        "joint_reaction_force_torque_norm": {
+          "peak_lag_from_oracle_contact_steps": 88,
+          "peak_physics_step": 1240,
+          "peak_value": 857.493213252067,
+          "post_contact_window_mean": 372.9430746443716,
+          "pre_contact_window_mean": 231.97506632364724
+        }
+      },
+      "group_id": "zl_071001",
+      "oracle_contact_detected": true,
+      "oracle_contact_sample_fraction": 0.21639344262295082,
+      "oracle_first_contact_physics_step": 1152,
+      "oracle_is_privileged_audit_only": true,
+      "seed": 71001
+    },
+    {
+      "alignment_peak_window_radius_samples": 30,
+      "condition": "free",
+      "formal_sensor_peak_alignment": {
+        "ee_constraint_force_norm": {
+          "peak_lag_from_oracle_contact_steps": null,
+          "peak_physics_step": 3020,
+          "peak_value": 104.1951300934781,
+          "post_contact_window_mean": null,
+          "pre_contact_window_mean": null
+        },
+        "ee_constraint_torque_norm": {
+          "peak_lag_from_oracle_contact_steps": null,
+          "peak_physics_step": 3020,
+          "peak_value": 0.2884985381581725,
+          "post_contact_window_mean": null,
+          "pre_contact_window_mean": null
+        },
+        "joint_motor_torque_norm": {
+          "peak_lag_from_oracle_contact_steps": null,
+          "peak_physics_step": 3112,
+          "peak_value": 2517.414547032005,
+          "post_contact_window_mean": null,
+          "pre_contact_window_mean": null
+        },
+        "joint_reaction_force_torque_norm": {
+          "peak_lag_from_oracle_contact_steps": null,
+          "peak_physics_step": 3020,
+          "peak_value": 9350.838064605863,
+          "post_contact_window_mean": null,
+          "pre_contact_window_mean": null
+        }
+      },
+      "group_id": "zl_071002",
+      "oracle_contact_detected": false,
+      "oracle_contact_sample_fraction": 0.0,
+      "oracle_first_contact_physics_step": null,
+      "oracle_is_privileged_audit_only": true,
+      "seed": 71002
+    },
+    {
+      "alignment_peak_window_radius_samples": 30,
+      "condition": "hidden_hook",
+      "formal_sensor_peak_alignment": {
+        "ee_constraint_force_norm": {
+          "peak_lag_from_oracle_contact_steps": 80,
+          "peak_physics_step": 1188,
+          "peak_value": 64.41150030823715,
+          "post_contact_window_mean": 48.03354777321531,
+          "pre_contact_window_mean": 2.2495700562850605
+        },
+        "ee_constraint_torque_norm": {
+          "peak_lag_from_oracle_contact_steps": -8,
+          "peak_physics_step": 1100,
+          "peak_value": 0.13527088451875344,
+          "post_contact_window_mean": 0.08823954221426707,
+          "pre_contact_window_mean": 0.025953729748715838
+        },
+        "joint_motor_torque_norm": {
+          "peak_lag_from_oracle_contact_steps": 4,
+          "peak_physics_step": 1112,
+          "peak_value": 305.2609284989285,
+          "post_contact_window_mean": 97.32159396204273,
+          "pre_contact_window_mean": 34.386469728306565
+        },
+        "joint_reaction_force_torque_norm": {
+          "peak_lag_from_oracle_contact_steps": 4,
+          "peak_physics_step": 1112,
+          "peak_value": 978.8333367696436,
+          "post_contact_window_mean": 410.35296710826117,
+          "pre_contact_window_mean": 229.35350805538445
+        }
+      },
+      "group_id": "zl_071002",
+      "oracle_contact_detected": true,
+      "oracle_contact_sample_fraction": 0.23279816513761467,
+      "oracle_first_contact_physics_step": 1108,
+      "oracle_is_privileged_audit_only": true,
+      "seed": 71002
+    },
+    {
+      "alignment_peak_window_radius_samples": 30,
+      "condition": "free",
+      "formal_sensor_peak_alignment": {
+        "ee_constraint_force_norm": {
+          "peak_lag_from_oracle_contact_steps": null,
+          "peak_physics_step": 3320,
+          "peak_value": 266.9609278281009,
+          "post_contact_window_mean": null,
+          "pre_contact_window_mean": null
+        },
+        "ee_constraint_torque_norm": {
+          "peak_lag_from_oracle_contact_steps": null,
+          "peak_physics_step": 3352,
+          "peak_value": 0.2522008271505877,
+          "post_contact_window_mean": null,
+          "pre_contact_window_mean": null
+        },
+        "joint_motor_torque_norm": {
+          "peak_lag_from_oracle_contact_steps": null,
+          "peak_physics_step": 3132,
+          "peak_value": 3473.7918475234005,
+          "post_contact_window_mean": null,
+          "pre_contact_window_mean": null
+        },
+        "joint_reaction_force_torque_norm": {
+          "peak_lag_from_oracle_contact_steps": null,
+          "peak_physics_step": 3132,
+          "peak_value": 11598.209567981858,
+          "post_contact_window_mean": null,
+          "pre_contact_window_mean": null
+        }
+      },
+      "group_id": "zl_071003",
+      "oracle_contact_detected": false,
+      "oracle_contact_sample_fraction": 0.0,
+      "oracle_first_contact_physics_step": null,
+      "oracle_is_privileged_audit_only": true,
+      "seed": 71003
+    },
+    {
+      "alignment_peak_window_radius_samples": 30,
+      "condition": "hidden_hook",
+      "formal_sensor_peak_alignment": {
+        "ee_constraint_force_norm": {
+          "peak_lag_from_oracle_contact_steps": 16,
+          "peak_physics_step": 1132,
+          "peak_value": 57.66779848465372,
+          "post_contact_window_mean": 56.79733041226564,
+          "pre_contact_window_mean": 1.7483638091430052
+        },
+        "ee_constraint_torque_norm": {
+          "peak_lag_from_oracle_contact_steps": 4,
+          "peak_physics_step": 1120,
+          "peak_value": 0.09450894426472133,
+          "post_contact_window_mean": 0.08347718767690807,
+          "pre_contact_window_mean": 0.00807009531504722
+        },
+        "joint_motor_torque_norm": {
+          "peak_lag_from_oracle_contact_steps": 4,
+          "peak_physics_step": 1120,
+          "peak_value": 331.9949465019695,
+          "post_contact_window_mean": 106.47275964323362,
+          "pre_contact_window_mean": 83.82943461978962
+        },
+        "joint_reaction_force_torque_norm": {
+          "peak_lag_from_oracle_contact_steps": 76,
+          "peak_physics_step": 1192,
+          "peak_value": 1167.0476905498656,
+          "post_contact_window_mean": 414.5192879124144,
+          "pre_contact_window_mean": 330.86919802982146
+        }
+      },
+      "group_id": "zl_071003",
+      "oracle_contact_detected": true,
+      "oracle_contact_sample_fraction": 0.2155688622754491,
+      "oracle_first_contact_physics_step": 1116,
+      "oracle_is_privileged_audit_only": true,
+      "seed": 71003
+    }
+  ]
+}

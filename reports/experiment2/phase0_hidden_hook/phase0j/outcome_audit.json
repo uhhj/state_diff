@@ -1,0 +1,2299 @@
+{
+  "changes_official_progress_gate": false,
+  "diagnostic_only": true,
+  "metric_version": "hidden_latch_outcome_decomposition_v1",
+  "rows": [
+    {
+      "blocked_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
+      ],
+      "changes_official_progress_gate": false,
+      "diagnostic_only": true,
+      "endpoint_index": 0,
+      "final_shape_difference_components": {
+        "normal_rms": 0.007460077759422697,
+        "tangent_rms": 0.005676337248333673,
+        "vertical_rms": 0.0026875198171970273
+      },
+      "group_id": "zl_071001",
+      "halfway_crossing": {
+        "fraction_gap": 0.041666666666666685,
+        "free_fraction": 0.2916666666666667,
+        "hidden_fraction": 0.25
+      },
+      "halfway_target_offset": 0.04,
+      "main_direction_xy": [
+        -0.8627819119446746,
+        0.5055762775497796
+      ],
+      "main_pull_distance": 0.08,
+      "metric_version": "hidden_latch_outcome_decomposition_v1",
+      "motion_difference_components": {
+        "normal_rms": 0.007907334442956528,
+        "tangent_rms": 0.005853299448425517,
+        "vertical_rms": 0.002890572967069779
+      },
+      "ordered_partition_error": "empty pulled or trailing segment",
+      "ordered_partition_valid": false,
+      "per_bead": [
+        {
+          "bead_index": 0,
+          "final_shape_difference_xyz": [
+            0.0022328099342272534,
+            -0.020514516937737926,
+            -2.434847374257511e-06
+          ],
+          "free_crossed_halfway_plane": true,
+          "free_progress": 0.07843064235353883,
+          "free_tangent_motion": 0.0013689628461979325,
+          "free_vertical_motion": 2.3657118447062767e-06,
+          "hidden_crossed_halfway_plane": true,
+          "hidden_progress": 0.09029937901582974,
+          "hidden_tangent_motion": 0.017791874538271323,
+          "hidden_vertical_motion": 7.544240176284196e-06,
+          "motion_difference_xyz": [
+            0.001937096750051992,
+            -0.02016994285032525,
+            -5.17852833157792e-06
+          ],
+          "progress_gap": -0.011868736662290907,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 1,
+          "final_shape_difference_xyz": [
+            -0.001349439051272272,
+            0.005317561242098423,
+            -1.5888295945330234e-05
+          ],
+          "free_crossed_halfway_plane": true,
+          "free_progress": 0.0742605536982873,
+          "free_tangent_motion": 0.003290899361722284,
+          "free_vertical_motion": 5.526517472187117e-07,
+          "hidden_crossed_halfway_plane": true,
+          "hidden_progress": 0.07020545866537765,
+          "hidden_tangent_motion": -0.0009135052934201721,
+          "hidden_vertical_motion": 6.882500844753413e-06,
+          "motion_difference_xyz": [
+            -0.0013730153907512421,
+            0.005677644138801952,
+            -6.329849097534701e-06
+          ],
+          "progress_gap": 0.004055095032909642,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 2,
+          "final_shape_difference_xyz": [
+            -0.0015148484249602467,
+            0.0076028399519765255,
+            -6.198316465177989e-05
+          ],
+          "free_crossed_halfway_plane": true,
+          "free_progress": 0.07731208874214376,
+          "free_tangent_motion": 0.013843194788397229,
+          "free_vertical_motion": 2.0828204306110737e-06,
+          "hidden_crossed_halfway_plane": true,
+          "hidden_progress": 0.0719196580562331,
+          "hidden_tangent_motion": 0.008129354466125317,
+          "hidden_vertical_motion": 6.467400489392275e-05,
+          "motion_difference_xyz": [
+            -0.0017637095365710675,
+            0.00765608311092425,
+            -6.259118446331167e-05
+          ],
+          "progress_gap": 0.005392430685910665,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 3,
+          "final_shape_difference_xyz": [
+            -0.011902680732905513,
+            0.0007630122388117555,
+            -9.544650011044428e-05
+          ],
+          "free_crossed_halfway_plane": true,
+          "free_progress": 0.06229327620334838,
+          "free_tangent_motion": -0.009962436814160126,
+          "free_vertical_motion": 2.92230141835971e-07,
+          "hidden_crossed_halfway_plane": true,
+          "hidden_progress": 0.051777410256681984,
+          "hidden_tangent_motion": -0.004712745890614205,
+          "hidden_vertical_motion": 9.532651893233175e-05,
+          "motion_difference_xyz": [
+            -0.011727018122631938,
+            0.0007872339883925328,
+            -9.503428879049577e-05
+          ],
+          "progress_gap": 0.010515865946666397,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 4,
+          "final_shape_difference_xyz": [
+            -0.01040887346487751,
+            0.007341054701225758,
+            -0.0003917659984502449
+          ],
+          "free_crossed_halfway_plane": true,
+          "free_progress": 0.06324997378652018,
+          "free_tangent_motion": -0.008074923716174652,
+          "free_vertical_motion": -3.62658036238625e-07,
+          "hidden_crossed_halfway_plane": true,
+          "hidden_progress": 0.050715899798660306,
+          "hidden_tangent_motion": -0.009208055328184458,
+          "hidden_vertical_motion": 0.0003917974559296475,
+          "motion_difference_xyz": [
+            -0.010241287857327863,
+            0.007314575928010492,
+            -0.0003921601139658861
+          ],
+          "progress_gap": 0.012534073987859877,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 5,
+          "final_shape_difference_xyz": [
+            -0.010560208084380796,
+            0.006960247937502495,
+            -0.0015501856407732564
+          ],
+          "free_crossed_halfway_plane": true,
+          "free_progress": 0.05700390587653403,
+          "free_tangent_motion": 0.004400435057422072,
+          "free_vertical_motion": 2.3677131503812773e-06,
+          "hidden_crossed_halfway_plane": true,
+          "hidden_progress": 0.04442724733148086,
+          "hidden_tangent_motion": 0.0037425405436238186,
+          "hidden_vertical_motion": 0.0015514561066065245,
+          "motion_difference_xyz": [
+            -0.010518297646069763,
+            0.006926079697695375,
+            -0.0015490883934561432
+          ],
+          "progress_gap": 0.012576658545053174,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 6,
+          "final_shape_difference_xyz": [
+            -0.0058823544613632595,
+            0.013876699907225787,
+            -0.0015516064252891525
+          ],
+          "free_crossed_halfway_plane": true,
+          "free_progress": 0.04028798553865687,
+          "free_tangent_motion": 0.02153558780777041,
+          "free_vertical_motion": 1.2891179025798644e-06,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.028326387306576408,
+          "hidden_tangent_motion": 0.012560752430269972,
+          "hidden_vertical_motion": 0.0015517668726130196,
+          "motion_difference_xyz": [
+            -0.005782786730809675,
+            0.013790825934109796,
+            -0.0015504777547104397
+          ],
+          "progress_gap": 0.01196159823208046,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 7,
+          "final_shape_difference_xyz": [
+            -0.00474074424767007,
+            0.013679355186498987,
+            1.2520490164152562e-06
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.024323363052162962,
+          "free_tangent_motion": 0.019372192716890384,
+          "free_vertical_motion": 1.208020619216342e-06,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.013491693894133204,
+          "hidden_tangent_motion": 0.010035510497523121,
+          "hidden_vertical_motion": -7.346858068276244e-07,
+          "motion_difference_xyz": [
+            -0.004624963184584163,
+            0.013531755509012977,
+            1.9427064260439664e-06
+          ],
+          "progress_gap": 0.010831669158029758,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 8,
+          "final_shape_difference_xyz": [
+            -0.0025435021040925987,
+            0.011836907344926872,
+            4.963523712337575e-07
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.01577721831824889,
+          "free_tangent_motion": 0.01573935641672666,
+          "free_vertical_motion": 6.524078805976441e-07,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.007835635121917608,
+          "hidden_tangent_motion": 0.006941034000179865,
+          "hidden_vertical_motion": 3.299500900546745e-07,
+          "motion_difference_xyz": [
+            -0.002403631237957893,
+            0.011606109506706985,
+            3.224577905429696e-07
+          ],
+          "progress_gap": 0.007941583196331283,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 9,
+          "final_shape_difference_xyz": [
+            -0.0020920175982320766,
+            0.011458521260346244,
+            -1.6464098303327172e-05
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.007234656065385425,
+          "free_tangent_motion": 0.011374653921270602,
+          "free_vertical_motion": -1.0761915864458682e-05,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.00036616360396597627,
+          "hidden_tangent_motion": 0.0031758961685920606,
+          "hidden_vertical_motion": 1.6555343270736184e-06,
+          "motion_difference_xyz": [
+            -0.0017809136329094422,
+            0.010546286740450384,
+            -1.24174501915323e-05
+          ],
+          "progress_gap": 0.006868492461419449,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 10,
+          "final_shape_difference_xyz": [
+            -0.0001513368230020018,
+            0.0016637112373402707,
+            -2.1009740200283664e-06
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": -0.0001596513561481507,
+          "free_tangent_motion": 0.0010112528778815028,
+          "free_vertical_motion": 1.339864111650664e-06,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": -0.0004877464813406026,
+          "hidden_tangent_motion": -0.0005793188635817501,
+          "hidden_vertical_motion": 2.019268306243348e-06,
+          "motion_difference_xyz": [
+            0.0005210808008115908,
+            0.0015381936402618646,
+            -6.794041945926838e-07
+          ],
+          "progress_gap": 0.0003280951251924519,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 11,
+          "final_shape_difference_xyz": [
+            -0.00033381581158192786,
+            0.0013143823309861302,
+            -7.104950152545149e-06
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.0005665922436664393,
+          "free_tangent_motion": -0.0030734743049272905,
+          "free_vertical_motion": -3.4028837805552548e-06,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.00011689122226072658,
+          "hidden_tangent_motion": -0.003819717703009404,
+          "hidden_vertical_motion": 1.0893964823666807e-05,
+          "motion_difference_xyz": [
+            -1.071094770344061e-05,
+            0.0008712034741860109,
+            -1.4296848604222062e-05
+          ],
+          "progress_gap": 0.00044970102140571276,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 12,
+          "final_shape_difference_xyz": [
+            0.0006719628213962547,
+            0.0015616274704455257,
+            -4.1828334521442495e-06
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.0011667649169339143,
+          "free_tangent_motion": -0.0036137838875362717,
+          "free_vertical_motion": 1.202932925441387e-06,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.0010752936073268077,
+          "hidden_tangent_motion": -0.004752056792042667,
+          "hidden_vertical_motion": 4.889331526644787e-06,
+          "motion_difference_xyz": [
+            0.0004965639865052163,
+            0.0010283269970786102,
+            -3.6863986012034e-06
+          ],
+          "progress_gap": 9.147130960710653e-05,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 13,
+          "final_shape_difference_xyz": [
+            0.00111371341589378,
+            0.0009124623734928505,
+            -1.4172571610901637e-05
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.0033764744982081184,
+          "free_tangent_motion": -0.002304435573758065,
+          "free_vertical_motion": 9.238353808902269e-07,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.004839637091770383,
+          "hidden_tangent_motion": -0.0024317689346857263,
+          "hidden_vertical_motion": 8.584629061896172e-06,
+          "motion_difference_xyz": [
+            0.0013267669465852894,
+            -0.0006298793769077826,
+            -7.660793681005945e-06
+          ],
+          "progress_gap": -0.0014631625935622645,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 14,
+          "final_shape_difference_xyz": [
+            0.0007020463711896463,
+            0.00012113136858227236,
+            -7.565598228494955e-05
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.0034159053811751313,
+          "free_tangent_motion": -0.0016669740724726593,
+          "free_vertical_motion": -1.090345382516282e-05,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.004899860879832743,
+          "hidden_tangent_motion": -0.0015815791662924868,
+          "hidden_vertical_motion": 6.466305970233288e-05,
+          "motion_difference_xyz": [
+            0.001237156323584343,
+            -0.0008239298774853077,
+            -7.55665135274957e-05
+          ],
+          "progress_gap": -0.0014839554986576116,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 15,
+          "final_shape_difference_xyz": [
+            0.00029534757409760415,
+            0.0006079307038949766,
+            -0.0003078065073623187
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.0020112662909756596,
+          "free_tangent_motion": -0.0024380934447162574,
+          "free_vertical_motion": -4.040089705894569e-05,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.0035073881153787445,
+          "hidden_tangent_motion": -0.002204286099250963,
+          "hidden_vertical_motion": 0.000216635035281988,
+          "motion_difference_xyz": [
+            0.001172619400776509,
+            -0.0009581284512899524,
+            -0.0002570359323409337
+          ],
+          "progress_gap": -0.0014961218244030849,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 16,
+          "final_shape_difference_xyz": [
+            0.0005560018613059992,
+            0.001127847545638605,
+            -0.000924704116767424
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.0035147986486220727,
+          "free_tangent_motion": -0.0025692295330795654,
+          "free_vertical_motion": -0.0008776155413436557,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.005460342409535218,
+          "hidden_tangent_motion": -0.0032252023118797156,
+          "hidden_vertical_motion": 3.307879380197096e-05,
+          "motion_difference_xyz": [
+            0.002010224241492442,
+            -0.000417659324175812,
+            -0.0009106943351456266
+          ],
+          "progress_gap": -0.0019455437609131455,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 17,
+          "final_shape_difference_xyz": [
+            -0.006007037576752028,
+            0.00298376703116221,
+            0.002325205063941408
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.015673879607778968,
+          "free_tangent_motion": -0.003883782705757991,
+          "free_vertical_motion": 0.0021659791752239622,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.005833241443841923,
+          "hidden_tangent_motion": -0.00334589198946035,
+          "hidden_vertical_motion": -0.00016557483030010117,
+          "motion_difference_xyz": [
+            -0.008762269395911682,
+            0.004511110831013021,
+            0.0023315540055240634
+          ],
+          "progress_gap": 0.009840638163937045,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 18,
+          "final_shape_difference_xyz": [
+            -0.006962752537361894,
+            0.007817648130212185,
+            2.5369324668166396e-05
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.01958251324770729,
+          "free_tangent_motion": 0.002387870895043597,
+          "free_vertical_motion": -0.0006480441977010885,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.006645879858448049,
+          "hidden_tangent_motion": -0.0014172908367714634,
+          "hidden_vertical_motion": -0.001249937495068053,
+          "motion_difference_xyz": [
+            -0.009237693785866474,
+            0.009823479667201984,
+            0.0006018932973669644
+          ],
+          "progress_gap": 0.012936633389259242,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 19,
+          "final_shape_difference_xyz": [
+            -0.004976963121099132,
+            0.01005198258884854,
+            0.00010295481217336908
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.014609537558593733,
+          "free_tangent_motion": 0.01145407691903399,
+          "free_vertical_motion": -0.002570793316303939,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.0039502328772356675,
+          "hidden_tangent_motion": 0.0008311358680673636,
+          "hidden_vertical_motion": -0.0063727991241457815,
+          "motion_difference_xyz": [
+            -0.003825948279804481,
+            0.014554372972498508,
+            0.0038020058078418427
+          ],
+          "progress_gap": 0.010659304681358065,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 20,
+          "final_shape_difference_xyz": [
+            -0.0025654266348701937,
+            0.005249199490441003,
+            -0.0017544052224007563
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.004466488674625915,
+          "free_tangent_motion": 0.004796732408999369,
+          "free_vertical_motion": -0.0024231574736078825,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": -0.0009192728001876701,
+          "hidden_tangent_motion": 0.0015510294070785733,
+          "hidden_vertical_motion": -0.0006546500033925429,
+          "motion_difference_xyz": [
+            -0.003005787140774374,
+            0.005523247079809057,
+            -0.0017685074702153396
+          ],
+          "progress_gap": 0.005385761474813585,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 21,
+          "final_shape_difference_xyz": [
+            0.004923923373665373,
+            0.000550539168339359,
+            0.00897670809613422
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": -0.0025195750717764854,
+          "free_tangent_motion": 0.0035371434430803935,
+          "free_vertical_motion": 0.009145019175045451,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.0030078493256787925,
+          "hidden_tangent_motion": 0.0007302397330854592,
+          "hidden_vertical_motion": -0.000606185187507555,
+          "motion_difference_xyz": [
+            0.006188065718906011,
+            -0.0003727889017492436,
+            0.009751204362553006
+          ],
+          "progress_gap": -0.005527424397455278,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 22,
+          "final_shape_difference_xyz": [
+            0.006888612134712646,
+            7.699048025572308e-05,
+            -0.008252194877445444
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": -0.008095472013283795,
+          "free_tangent_motion": 0.005414538108628624,
+          "free_vertical_motion": -0.008276619899226432,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.00021154711831849083,
+          "hidden_tangent_motion": 0.0024314701094179814,
+          "hidden_vertical_motion": -3.173498762130619e-05,
+          "motion_difference_xyz": [
+            0.008675314263643596,
+            -0.0016260946982703528,
+            -0.008244884911605126
+          ],
+          "progress_gap": -0.008307019131602287,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 23,
+          "final_shape_difference_xyz": [
+            -0.0016912370570189017,
+            0.0028155667824820707,
+            -0.0031995619823076095
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": -0.002130337667500555,
+          "free_tangent_motion": 0.0031515502861194844,
+          "free_vertical_motion": -0.00226579595922407,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": -0.0013183516988535874,
+          "hidden_tangent_motion": 0.0022661887726242854,
+          "hidden_vertical_motion": 0.0005999414340574294,
+          "motion_difference_xyz": [
+            0.0011481845847802208,
+            0.00035335305592443245,
+            -0.0028657373932814995
+          ],
+          "progress_gap": -0.0008119859686469679,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        }
+      ],
+      "probe_index": 12,
+      "seed": 71001,
+      "segment_indices": {
+        "all": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ],
+        "blocked": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ]
+      },
+      "segments": {
+        "all": {
+          "bead_count": 24,
+          "free_max_progress": 0.07843064235353883,
+          "free_mean_progress": 0.02315220202476687,
+          "free_min_progress": -0.008095472013283795,
+          "hidden_max_progress": 0.09029937901582974,
+          "hidden_mean_progress": 0.019424488584170937,
+          "hidden_min_progress": -0.0013183516988535874,
+          "progress_gap": 0.003727713440595932
+        },
+        "blocked": {
+          "bead_count": 24,
+          "free_max_progress": 0.07843064235353883,
+          "free_mean_progress": 0.02315220202476687,
+          "free_min_progress": -0.008095472013283795,
+          "hidden_max_progress": 0.09029937901582974,
+          "hidden_mean_progress": 0.019424488584170937,
+          "hidden_min_progress": -0.0013183516988535874,
+          "progress_gap": 0.003727713440595932
+        }
+      },
+      "tangent_direction_xy": [
+        0.5055762775497796,
+        0.8627819119446746
+      ]
+    },
+    {
+      "blocked_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
+      ],
+      "changes_official_progress_gate": false,
+      "diagnostic_only": true,
+      "endpoint_index": 0,
+      "final_shape_difference_components": {
+        "normal_rms": 0.00751707673770558,
+        "tangent_rms": 0.006060943674585795,
+        "vertical_rms": 0.006420693775307786
+      },
+      "group_id": "zl_071002",
+      "halfway_crossing": {
+        "fraction_gap": -0.041666666666666685,
+        "free_fraction": 0.25,
+        "hidden_fraction": 0.2916666666666667
+      },
+      "halfway_target_offset": 0.03999999999999999,
+      "main_direction_xy": [
+        -0.874219110634453,
+        0.4855316123606227
+      ],
+      "main_pull_distance": 0.07999999999999997,
+      "metric_version": "hidden_latch_outcome_decomposition_v1",
+      "motion_difference_components": {
+        "normal_rms": 0.007003061938774317,
+        "tangent_rms": 0.005601020791171793,
+        "vertical_rms": 0.006250729175962571
+      },
+      "ordered_partition_error": "empty pulled or trailing segment",
+      "ordered_partition_valid": false,
+      "per_bead": [
+        {
+          "bead_index": 0,
+          "final_shape_difference_xyz": [
+            0.00576650341714946,
+            -0.008876983745468265,
+            -0.0001314967452639244
+          ],
+          "free_crossed_halfway_plane": true,
+          "free_progress": 0.0786261794614447,
+          "free_tangent_motion": 0.004347603823360371,
+          "free_vertical_motion": 5.226523981483738e-06,
+          "hidden_crossed_halfway_plane": true,
+          "hidden_progress": 0.08681823214380129,
+          "hidden_tangent_motion": 0.009941259853540697,
+          "hidden_vertical_motion": 0.0001357140236555301,
+          "motion_difference_xyz": [
+            0.004445752178916185,
+            -0.00886758154730704,
+            -0.00013048749967404637
+          ],
+          "progress_gap": -0.00819205268235658,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 1,
+          "final_shape_difference_xyz": [
+            0.0018495338119769444,
+            -0.0048374412328638025,
+            -0.000516759358190089
+          ],
+          "free_crossed_halfway_plane": true,
+          "free_progress": 0.07003257589181433,
+          "free_tangent_motion": 0.006317159082799926,
+          "free_vertical_motion": -1.875880599792011e-06,
+          "hidden_crossed_halfway_plane": true,
+          "hidden_progress": 0.07388623158980895,
+          "hidden_tangent_motion": 0.0097079273873181,
+          "hidden_vertical_motion": 0.0005167207989109183,
+          "motion_difference_xyz": [
+            0.0017226142549582324,
+            -0.004835346116073391,
+            -0.0005185966795107104
+          ],
+          "progress_gap": -0.003853655697994618,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 2,
+          "final_shape_difference_xyz": [
+            2.327186190242969e-05,
+            0.0016207439489269587,
+            -0.0020607524381495886
+          ],
+          "free_crossed_halfway_plane": true,
+          "free_progress": 0.0768001071125243,
+          "free_tangent_motion": 0.02049289449018778,
+          "free_vertical_motion": -1.028488820222287e-06,
+          "hidden_crossed_halfway_plane": true,
+          "hidden_progress": 0.07593338960074628,
+          "hidden_tangent_motion": 0.019055815407498178,
+          "hidden_vertical_motion": 0.0020594405135867157,
+          "motion_difference_xyz": [
+            -5.995368820987945e-05,
+            0.001677140748535047,
+            -0.002060469002406938
+          ],
+          "progress_gap": 0.0008667175117780257,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 3,
+          "final_shape_difference_xyz": [
+            0.0016533294831230227,
+            -0.0020866914405633513,
+            -0.011495009647582405
+          ],
+          "free_crossed_halfway_plane": true,
+          "free_progress": 0.06371364513739441,
+          "free_tangent_motion": -0.004562917652862861,
+          "free_vertical_motion": -1.948005524719451e-06,
+          "hidden_crossed_halfway_plane": true,
+          "hidden_progress": 0.06596660557342922,
+          "hidden_tangent_motion": -0.0034995429026727295,
+          "hidden_vertical_motion": 0.011492257323489002,
+          "motion_difference_xyz": [
+            0.0014532790116815741,
+            -0.002023506041475026,
+            -0.011494205329013721
+          ],
+          "progress_gap": -0.0022529604360348038,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 4,
+          "final_shape_difference_xyz": [
+            0.0016635992236623265,
+            -0.0020369682702107636,
+            -0.011924023901007115
+          ],
+          "free_crossed_halfway_plane": true,
+          "free_progress": 0.06273841848636617,
+          "free_tangent_motion": -0.00929750170889913,
+          "free_vertical_motion": 9.999028197241536e-07,
+          "hidden_crossed_halfway_plane": true,
+          "hidden_progress": 0.06501793741707189,
+          "hidden_tangent_motion": -0.008173558660097446,
+          "hidden_vertical_motion": 0.011924747651730475,
+          "motion_difference_xyz": [
+            0.0014470891315897516,
+            -0.002089350994359293,
+            -0.011923747748910751
+          ],
+          "progress_gap": -0.002279518930705715,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 5,
+          "final_shape_difference_xyz": [
+            0.009432764831422191,
+            -0.0008454715179773836,
+            -0.0007211895873515872
+          ],
+          "free_crossed_halfway_plane": true,
+          "free_progress": 0.056265415702730234,
+          "free_tangent_motion": 0.003922065298716415,
+          "free_vertical_motion": 8.224473906368393e-07,
+          "hidden_crossed_halfway_plane": true,
+          "hidden_progress": 0.06486918980478734,
+          "hidden_tangent_motion": 0.0001592542811704109,
+          "hidden_vertical_motion": 0.0007234751715224121,
+          "motion_difference_xyz": [
+            0.009348547443957522,
+            -0.000887883010913762,
+            -0.0007226527241317752
+          ],
+          "progress_gap": -0.008603774102057107,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 6,
+          "final_shape_difference_xyz": [
+            0.007217320541423211,
+            -0.004155750090079312,
+            -0.0029424309737591013
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.03924135771312255,
+          "free_tangent_motion": 0.013949581032750635,
+          "free_vertical_motion": 3.539113885060556e-06,
+          "hidden_crossed_halfway_plane": true,
+          "hidden_progress": 0.047458208466178306,
+          "hidden_tangent_motion": 0.01412745696320494,
+          "hidden_vertical_motion": 0.0029442900913436284,
+          "motion_difference_xyz": [
+            0.007096963570238812,
+            -0.004145043332382796,
+            -0.002940750977458568
+          ],
+          "progress_gap": -0.008216850753055754,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 7,
+          "final_shape_difference_xyz": [
+            0.006243564114860822,
+            -0.004821282981854039,
+            -2.580947801355052e-07
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.019268754392836603,
+          "free_tangent_motion": 0.01452020774384562,
+          "free_vertical_motion": -9.814802598004033e-07,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.026883210575354033,
+          "hidden_tangent_motion": 0.015687754556901586,
+          "hidden_vertical_motion": -1.7155708100643693e-06,
+          "motion_difference_xyz": [
+            0.006089822225195829,
+            -0.004717750924080874,
+            7.340905502639661e-07
+          ],
+          "progress_gap": -0.00761445618251743,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 8,
+          "final_shape_difference_xyz": [
+            0.0017588423535699338,
+            -0.004141641256971182,
+            3.0353604729780465e-07
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.007374631943106953,
+          "free_tangent_motion": 0.011402844360929542,
+          "free_vertical_motion": -4.6950212329640445e-07,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.010938791845532474,
+          "hidden_tangent_motion": 0.014320837210943948,
+          "hidden_vertical_motion": 6.554200847894501e-07,
+          "motion_difference_xyz": [
+            0.0016990789267331552,
+            -0.004281477418313029,
+            -1.1249222080858545e-06
+          ],
+          "progress_gap": -0.0035641599024255205,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 9,
+          "final_shape_difference_xyz": [
+            5.566231071618688e-06,
+            -0.002828290253384033,
+            -4.1710502592983215e-06
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.0007220264835551202,
+          "free_tangent_motion": 0.007876831740544448,
+          "free_vertical_motion": -7.918910906691209e-07,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.002120943346644241,
+          "hidden_tangent_motion": 0.010511591609691718,
+          "hidden_vertical_motion": 4.295959018152731e-06,
+          "motion_difference_xyz": [
+            -5.629935154882748e-05,
+            -0.0029825757896354,
+            -5.087850108821852e-06
+          ],
+          "progress_gap": -0.0013989168630891206,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 10,
+          "final_shape_difference_xyz": [
+            -0.0004290250917595717,
+            -3.312488319041906e-05,
+            -2.0137743957089442e-05
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": -0.0014351787535362792,
+          "free_tangent_motion": 0.00038240750893944693,
+          "free_vertical_motion": -4.630369244668087e-06,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": -0.0017756725981549811,
+          "hidden_tangent_motion": 0.0005621658033433119,
+          "hidden_vertical_motion": 1.4626108131263714e-05,
+          "motion_difference_xyz": [
+            -0.0003849445605361712,
+            8.172389113672573e-06,
+            -1.92564773759318e-05
+          ],
+          "progress_gap": 0.0003404938446187019,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 11,
+          "final_shape_difference_xyz": [
+            0.00021080549004004467,
+            0.001913841756095297,
+            -5.673597652692489e-05
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": -0.00029522425762471514,
+          "free_tangent_motion": -0.006944840369276038,
+          "free_vertical_motion": -2.2369602871351313e-05,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": -0.0012609980661416635,
+          "hidden_tangent_motion": -0.008206581558229155,
+          "hidden_vertical_motion": 3.288577339618636e-05,
+          "motion_difference_xyz": [
+            -0.00023168268610151976,
+            0.001571951974482344,
+            -5.5255376267537674e-05
+          ],
+          "progress_gap": 0.0009657738085169483,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 12,
+          "final_shape_difference_xyz": [
+            0.005102912320130826,
+            0.005902490543495023,
+            -0.00020144863894958412
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.0014049374689556384,
+          "free_tangent_motion": -0.008983239284941269,
+          "free_vertical_motion": -7.996668842878609e-05,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.0026226309709215523,
+          "hidden_tangent_motion": -0.015956335022793162,
+          "hidden_vertical_motion": 0.00011779912659111089,
+          "motion_difference_xyz": [
+            0.004450189347058209,
+            0.005504784864943213,
+            -0.00019776581501989698
+          ],
+          "progress_gap": -0.0012176935019659139,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 13,
+          "final_shape_difference_xyz": [
+            0.004413077968685286,
+            0.006579007556563786,
+            -0.0007646575362429053
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.007535382107333394,
+          "free_tangent_motion": -0.005838193502776789,
+          "free_vertical_motion": -0.0002930789964292659,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.008738128838673,
+          "hidden_tangent_motion": -0.012185148835257835,
+          "hidden_vertical_motion": 0.0004588708815471019,
+          "motion_difference_xyz": [
+            0.004133111633950581,
+            0.004964658086269391,
+            -0.0007519498779763678
+          ],
+          "progress_gap": -0.0012027467313396063,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 14,
+          "final_shape_difference_xyz": [
+            0.007147107885337012,
+            0.010645737228345137,
+            -0.0031525725075376883
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.007623751626531108,
+          "free_tangent_motion": -0.0029306852106945566,
+          "free_vertical_motion": -0.0011802048781465648,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.009211908044007216,
+          "hidden_tangent_motion": -0.014119429564721009,
+          "hidden_vertical_motion": 0.001925902889547245,
+          "motion_difference_xyz": [
+            0.006820885777335639,
+            0.009010313992235217,
+            -0.00310610776769381
+          ],
+          "progress_gap": -0.0015881564174761078,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 15,
+          "final_shape_difference_xyz": [
+            0.007189955373142598,
+            0.0073339984929236685,
+            -0.00956533223490301
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.0027672750389798858,
+          "free_tangent_motion": -0.006363643182335721,
+          "free_vertical_motion": -0.005801158356252385,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.006102188313982886,
+          "hidden_tangent_motion": -0.014766752765847995,
+          "hidden_vertical_motion": 0.0034083081013354475,
+          "motion_difference_xyz": [
+            0.006995420262241869,
+            0.005726953167166898,
+            -0.009209466457587832
+          ],
+          "progress_gap": -0.0033349132750030005,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 16,
+          "final_shape_difference_xyz": [
+            -0.003646401865522453,
+            0.00480225199968308,
+            -0.0025528039598091534
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.006291311769713754,
+          "free_tangent_motion": -0.011672715881779011,
+          "free_vertical_motion": -0.0024252294176543617,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.0015597946785090811,
+          "hidden_tangent_motion": -0.012811553805992781,
+          "hidden_vertical_motion": 8.691906222107679e-05,
+          "motion_difference_xyz": [
+            -0.0035834408498637282,
+            0.0032928949994673953,
+            -0.0025121484798754385
+          ],
+          "progress_gap": 0.0047315170912046725,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 17,
+          "final_shape_difference_xyz": [
+            -0.009362044526365576,
+            0.010254924778960693,
+            0.007451443938979432
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.015270793697294349,
+          "free_tangent_motion": -0.009797707402523826,
+          "free_vertical_motion": 0.007390725815749735,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.001807224148800115,
+          "hidden_tangent_motion": -0.012940049049085103,
+          "hidden_vertical_motion": -4.130634222505782e-05,
+          "motion_difference_xyz": [
+            -0.010244403590406903,
+            0.009284083750576183,
+            0.007432032157974793
+          ],
+          "progress_gap": 0.013463569548494234,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 18,
+          "final_shape_difference_xyz": [
+            -0.012151674780695232,
+            0.009202145901455398,
+            -0.00601534530250612
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.022623884834556688,
+          "free_tangent_motion": -0.003228411742446015,
+          "free_vertical_motion": -0.0008807685947799767,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.007127210045884854,
+          "hidden_tangent_motion": -0.0048597851617784085,
+          "hidden_vertical_motion": 0.005090165139596973,
+          "motion_difference_xyz": [
+            -0.012755405884893323,
+            0.008950303316133494,
+            -0.005970933734376949
+          ],
+          "progress_gap": 0.015496674788671835,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 19,
+          "final_shape_difference_xyz": [
+            0.01239927322998946,
+            -0.0028771221343522058,
+            -0.009025185938969102
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.019111403972575283,
+          "free_tangent_motion": 0.005027479728314424,
+          "free_vertical_motion": -0.004181027683584201,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.03051362665930491,
+          "hidden_tangent_motion": 0.002472366248409694,
+          "hidden_vertical_motion": 0.004598268770381499,
+          "motion_difference_xyz": [
+            0.011208629344111265,
+            -0.003302410531610289,
+            -0.0087792964539657
+          ],
+          "progress_gap": -0.011402222686729628,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 20,
+          "final_shape_difference_xyz": [
+            0.016893151926360206,
+            -0.0027265089647192584,
+            -0.005121682522519513
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.006294403091390359,
+          "free_tangent_motion": -0.007101406349960419,
+          "free_vertical_motion": -0.0006447745984759397,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.021414463885344334,
+          "hidden_tangent_motion": -0.010025801296483,
+          "hidden_vertical_motion": 0.004155976277764258,
+          "motion_difference_xyz": [
+            0.014638132293593675,
+            -0.004784705546986248,
+            -0.004800750876240198
+          ],
+          "progress_gap": -0.015120060793953975,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 21,
+          "final_shape_difference_xyz": [
+            0.013069980068365128,
+            -0.0021130216802451654,
+            -0.014284711279245566
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.004154407267646483,
+          "free_tangent_motion": 0.008443906353848245,
+          "free_vertical_motion": -0.009930105190535134,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.010850621280468759,
+          "hidden_tangent_motion": 0.008723129911976938,
+          "hidden_vertical_motion": 0.0030297406210152873,
+          "motion_difference_xyz": [
+            0.0057183863945201585,
+            -0.003495326157012847,
+            -0.012959845811550422
+          ],
+          "progress_gap": -0.006696214012822276,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 22,
+          "final_shape_difference_xyz": [
+            -0.006236693567178153,
+            -0.00969168146893766,
+            -0.00947429615049361
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.003067170257326066,
+          "free_tangent_motion": 0.003763944588094653,
+          "free_vertical_motion": -2.1351357454941697e-06,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.0037295291249721868,
+          "hidden_tangent_motion": 0.015797572918130956,
+          "hidden_vertical_motion": 0.009475566355695542,
+          "motion_difference_xyz": [
+            -0.005263660185436558,
+            -0.010841624025359473,
+            -0.009477701491441035
+          ],
+          "progress_gap": -0.0006623588676461208,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 23,
+          "final_shape_difference_xyz": [
+            -0.009954293963355454,
+            -0.010573151847787496,
+            0.009979552395428
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": -0.0003113737038507624,
+          "free_tangent_motion": 0.0015566615646462555,
+          "free_vertical_motion": -3.2052656183736983e-06,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": -0.0024409201761057273,
+          "hidden_tangent_motion": 0.01620339300166196,
+          "hidden_vertical_motion": -0.009980610157740481,
+          "motion_difference_xyz": [
+            -0.008973141353456726,
+            -0.011770490398298722,
+            0.009977404892122108
+          ],
+          "progress_gap": 0.0021295464722549647,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        }
+      ],
+      "probe_index": 12,
+      "seed": 71002,
+      "segment_indices": {
+        "all": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ],
+        "blocked": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ]
+      },
+      "segments": {
+        "all": {
+          "bead_count": 24,
+          "free_max_progress": 0.0786261794614447,
+          "free_mean_progress": 0.023703585697591113,
+          "free_min_progress": -0.0014351787535362792,
+          "hidden_max_progress": 0.08681823214380129,
+          "hidden_mean_progress": 0.025753853146409194,
+          "hidden_min_progress": -0.0024409201761057273,
+          "progress_gap": -0.0020502674488180814
+        },
+        "blocked": {
+          "bead_count": 24,
+          "free_max_progress": 0.0786261794614447,
+          "free_mean_progress": 0.023703585697591113,
+          "free_min_progress": -0.0014351787535362792,
+          "hidden_max_progress": 0.08681823214380129,
+          "hidden_mean_progress": 0.025753853146409194,
+          "hidden_min_progress": -0.0024409201761057273,
+          "progress_gap": -0.0020502674488180814
+        }
+      },
+      "tangent_direction_xy": [
+        0.4855316123606225,
+        0.8742191106344532
+      ]
+    },
+    {
+      "blocked_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "changes_official_progress_gate": false,
+      "diagnostic_only": true,
+      "endpoint_index": 0,
+      "final_shape_difference_components": {
+        "normal_rms": 0.006133613397266074,
+        "tangent_rms": 0.0064540019354792704,
+        "vertical_rms": 0.0048131208037047336
+      },
+      "group_id": "zl_071003",
+      "halfway_crossing": {
+        "fraction_gap": 0.0,
+        "free_fraction": 0.125,
+        "hidden_fraction": 0.125
+      },
+      "halfway_target_offset": 0.04,
+      "main_direction_xy": [
+        0.7302286968156754,
+        0.6832027885971197
+      ],
+      "main_pull_distance": 0.08,
+      "metric_version": "hidden_latch_outcome_decomposition_v1",
+      "motion_difference_components": {
+        "normal_rms": 0.006013799581649338,
+        "tangent_rms": 0.006243932610975608,
+        "vertical_rms": 0.0048249376780137585
+      },
+      "ordered_partition_error": "empty pulled or trailing segment",
+      "ordered_partition_valid": false,
+      "per_bead": [
+        {
+          "bead_index": 0,
+          "final_shape_difference_xyz": [
+            0.0036724581803920797,
+            -0.0032848839266702012,
+            -0.00011375915783460276
+          ],
+          "free_crossed_halfway_plane": true,
+          "free_progress": 0.08374519134985503,
+          "free_tangent_motion": 0.005752931536600461,
+          "free_vertical_motion": -5.24344586349916e-07,
+          "hidden_crossed_halfway_plane": true,
+          "hidden_progress": 0.08416184051868154,
+          "hidden_tangent_motion": 0.000844309554729937,
+          "hidden_vertical_motion": 0.00011290921352107453,
+          "motion_difference_xyz": [
+            0.0030493350466015423,
+            -0.0038690725069910337,
+            -0.00011343355810742445
+          ],
+          "progress_gap": -0.00041664916882651337,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 1,
+          "final_shape_difference_xyz": [
+            0.004769868960869839,
+            0.013390527609390523,
+            -0.00043491062783842724
+          ],
+          "free_crossed_halfway_plane": true,
+          "free_progress": 0.07298885175814927,
+          "free_tangent_motion": 0.0025665149048272537,
+          "free_vertical_motion": -3.3693454929368052e-06,
+          "hidden_crossed_halfway_plane": true,
+          "hidden_progress": 0.06086155429535926,
+          "hidden_tangent_motion": 0.008781927111169738,
+          "hidden_vertical_motion": 0.0004340154729354827,
+          "motion_difference_xyz": [
+            0.004609313670495441,
+            0.012824075800334622,
+            -0.0004373848184284195
+          ],
+          "progress_gap": 0.01212729746279001,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 2,
+          "final_shape_difference_xyz": [
+            0.0027724333531871093,
+            0.023133087050057455,
+            -0.0017148193084128033
+          ],
+          "free_crossed_halfway_plane": true,
+          "free_progress": 0.06206358458927796,
+          "free_tangent_motion": -0.02259200190534099,
+          "free_vertical_motion": 2.2101907108306937e-06,
+          "hidden_crossed_halfway_plane": true,
+          "hidden_progress": 0.044395287720220486,
+          "hidden_tangent_motion": -0.00783519284440078,
+          "hidden_vertical_motion": 0.001716073404206501,
+          "motion_difference_xyz": [
+            0.002820004296414713,
+            0.022846875140429934,
+            -0.0017138632134956703
+          ],
+          "progress_gap": 0.017668296869057472,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 3,
+          "final_shape_difference_xyz": [
+            -0.0029306721130800684,
+            0.01777763507183233,
+            -0.014357555843850331
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.03733935188243001,
+          "free_tangent_motion": -0.014320862013792166,
+          "free_vertical_motion": -7.749530877019031e-07,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.02725818510740699,
+          "hidden_tangent_motion": 0.00014762424669582767,
+          "hidden_vertical_motion": 0.014355622170371294,
+          "motion_difference_xyz": [
+            -0.002523352883437968,
+            0.017452785119900005,
+            -0.014356397123458996
+          ],
+          "progress_gap": 0.01008116677502302,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 4,
+          "final_shape_difference_xyz": [
+            -0.0006038517870869953,
+            0.01567639694336659,
+            -0.01634306656283762
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.0143514931434994,
+          "free_tangent_motion": -0.021980126049775568,
+          "free_vertical_motion": 7.596465099431529e-07,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.003761671621340651,
+          "hidden_tangent_motion": -0.01041920341744422,
+          "hidden_vertical_motion": 0.016343510689743827,
+          "motion_difference_xyz": [
+            -0.00016546301152775555,
+            0.01567711306247882,
+            -0.016342751043233884
+          ],
+          "progress_gap": 0.01058982152215875,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 5,
+          "final_shape_difference_xyz": [
+            0.00010594333145730328,
+            0.01092011425300815,
+            -0.007757051110612713
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.009103684597781131,
+          "free_tangent_motion": -0.03063663541380872,
+          "free_vertical_motion": 1.5005181121761912e-07,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.0016640965684534478,
+          "hidden_tangent_motion": -0.022694658376351453,
+          "hidden_vertical_motion": 0.007755537434095713,
+          "motion_difference_xyz": [
+            6.619812536357017e-06,
+            0.010882206829852858,
+            -0.007755387382284496
+          ],
+          "progress_gap": 0.007439588029327683,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 6,
+          "final_shape_difference_xyz": [
+            -0.008653036020518812,
+            0.011320419040522944,
+            -8.224080168140607e-07
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.009307635560789325,
+          "free_tangent_motion": -0.027269510272461352,
+          "free_vertical_motion": 6.8437598140652645e-09,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.008017339344213932,
+          "hidden_tangent_motion": -0.013834190280145353,
+          "hidden_vertical_motion": 7.949534173998588e-07,
+          "motion_difference_xyz": [
+            -0.008236836759708877,
+            0.010692390182571121,
+            -7.881096575857935e-07
+          ],
+          "progress_gap": 0.0012902962165753928,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 7,
+          "final_shape_difference_xyz": [
+            -0.00012106834490210883,
+            0.0049202609429029875,
+            -1.9021001506453958e-06
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.01084222149906056,
+          "free_tangent_motion": -0.015625121122324694,
+          "free_vertical_motion": -7.651383446280816e-07,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.007465173480819384,
+          "hidden_tangent_motion": -0.011938896320051792,
+          "hidden_vertical_motion": 1.7587341023016581e-06,
+          "motion_difference_xyz": [
+            -5.2421690864501436e-05,
+            0.004998995756822111,
+            -2.5238724469297397e-06
+          ],
+          "progress_gap": 0.0033770480182411756,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 8,
+          "final_shape_difference_xyz": [
+            0.0012420737992437925,
+            0.003753407745534676,
+            -2.681408138078059e-06
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.009977182795289176,
+          "free_tangent_motion": -0.0077728971495311236,
+          "free_vertical_motion": -1.5923213356637198e-06,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.006283357617295574,
+          "hidden_tangent_motion": -0.005540261676360288,
+          "hidden_vertical_motion": 7.958882674999682e-07,
+          "motion_difference_xyz": [
+            0.001171994364800033,
+            0.004153966154233468,
+            -2.388209603163688e-06
+          ],
+          "progress_gap": 0.003693825177993602,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 9,
+          "final_shape_difference_xyz": [
+            0.0027570856901704133,
+            0.0017468975188323355,
+            -4.98570656039081e-06
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.007952504301183548,
+          "free_tangent_motion": -0.0007931701014212483,
+          "free_vertical_motion": 8.751143904120809e-07,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.004840215131213787,
+          "hidden_tangent_motion": -0.0015754800695635825,
+          "hidden_vertical_motion": 5.722922449468912e-07,
+          "motion_difference_xyz": [
+            0.002807159216482724,
+            0.001555059451301466,
+            3.028221454651897e-07
+          ],
+          "progress_gap": 0.0031122891699697603,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 10,
+          "final_shape_difference_xyz": [
+            0.002703571156471629,
+            -0.0005188581854835839,
+            -3.3142736585965726e-06
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.0029102728848746976,
+          "free_tangent_motion": 0.003052847756508017,
+          "free_vertical_motion": 5.767083780736093e-07,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.0010464047933978174,
+          "hidden_tangent_motion": 0.000811005645503928,
+          "hidden_vertical_motion": -9.963239971025675e-06,
+          "motion_difference_xyz": [
+            0.002892682749307929,
+            -0.00036365756551082207,
+            1.0539948349099285e-05
+          ],
+          "progress_gap": 0.0018638680914768802,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 11,
+          "final_shape_difference_xyz": [
+            0.002678791604187325,
+            -0.0005388637754522585,
+            1.5474256434368228e-05
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.00011862075723453641,
+          "free_tangent_motion": 0.0031867036405281053,
+          "free_vertical_motion": 1.919985454859087e-05,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": -0.0011968190617468002,
+          "hidden_tangent_motion": 0.0009670051272740697,
+          "hidden_vertical_motion": -5.289049597676648e-05,
+          "motion_difference_xyz": [
+            0.0024770761188542267,
+            -0.0007221754000974467,
+            7.209035052535735e-05
+          ],
+          "progress_gap": 0.0013154398189813366,
+          "segments": [
+            "all",
+            "blocked"
+          ]
+        },
+        {
+          "bead_index": 12,
+          "final_shape_difference_xyz": [
+            0.00220598204022987,
+            -0.0006713481602669269,
+            5.777391494251206e-05
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": -0.0007546373743682859,
+          "free_tangent_motion": 0.0027188905304409306,
+          "free_vertical_motion": 6.32117756173764e-05,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": -0.0014199127162551704,
+          "hidden_tangent_motion": 0.0008487281280462567,
+          "hidden_vertical_motion": -3.8783775189812214e-05,
+          "motion_difference_xyz": [
+            0.0017635033143751921,
+            -0.0009111282851723135,
+            0.00010199555080718861
+          ],
+          "progress_gap": 0.0006652753418868845,
+          "segments": [
+            "all",
+            "trailing_side"
+          ]
+        },
+        {
+          "bead_index": 13,
+          "final_shape_difference_xyz": [
+            0.0010144147491266686,
+            0.0013264934697409525,
+            0.0002243606461621384
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.00041869007793273686,
+          "free_tangent_motion": -0.0013185654705792215,
+          "free_vertical_motion": 0.00024230919403885314,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": -0.00017792859010409422,
+          "hidden_tangent_motion": -0.0020033171292789735,
+          "hidden_vertical_motion": -0.00015543397537939006,
+          "motion_difference_xyz": [
+            0.0009034923151766128,
+            -9.241377364282988e-05,
+            0.0003977431694182432
+          ],
+          "progress_gap": 0.0005966186680368311,
+          "segments": [
+            "all",
+            "trailing_side"
+          ]
+        },
+        {
+          "bead_index": 14,
+          "final_shape_difference_xyz": [
+            0.0013485376557731965,
+            0.0020984962091009085,
+            0.0008931403063584982
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.0021918608273380218,
+          "free_tangent_motion": -0.001980037417073383,
+          "free_vertical_motion": 0.0009616217719377682,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.0005684453878169234,
+          "hidden_tangent_motion": -0.0022532223951195383,
+          "hidden_vertical_motion": -0.0006016733373129819,
+          "motion_difference_xyz": [
+            0.0013721052795959143,
+            0.00090963444482417,
+            0.00156329510925075
+          ],
+          "progress_gap": 0.0016234154395210984,
+          "segments": [
+            "all",
+            "trailing_side"
+          ]
+        },
+        {
+          "bead_index": 15,
+          "final_shape_difference_xyz": [
+            0.0016880102122224794,
+            0.0013528776323551983,
+            -0.00018025561706695812
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.0017867779446889167,
+          "free_tangent_motion": -0.00037938445885051615,
+          "free_vertical_motion": 9.858092642630028e-05,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": -4.713934446305809e-05,
+          "hidden_tangent_motion": -0.0014322164089741207,
+          "hidden_vertical_motion": -0.0027309010946669522,
+          "motion_difference_xyz": [
+            0.0020584767563737727,
+            0.00048412930310043345,
+            0.0028294820210932525
+          ],
+          "progress_gap": 0.001833917289151975,
+          "segments": [
+            "all",
+            "trailing_side"
+          ]
+        },
+        {
+          "bead_index": 16,
+          "final_shape_difference_xyz": [
+            7.753587202502521e-05,
+            0.0009284843738771587,
+            6.803888582785841e-05
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.0008446319567994743,
+          "free_tangent_motion": -0.0006731153469329706,
+          "free_vertical_motion": 0.0004116097405122386,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": -0.0022276141719761683,
+          "hidden_tangent_motion": -0.0015030520672066213,
+          "hidden_vertical_motion": -0.0006783174226575352,
+          "motion_difference_xyz": [
+            0.0028104573685629464,
+            0.0014929235127513207,
+            0.0010899271631697738
+          ],
+          "progress_gap": 0.0030722461287756428,
+          "segments": [
+            "all",
+            "trailing_side"
+          ]
+        },
+        {
+          "bead_index": 17,
+          "final_shape_difference_xyz": [
+            -0.001979428354967394,
+            0.0026775681844542487,
+            0.0009827926580054207
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 4.90165672971945e-05,
+          "free_tangent_motion": -0.003458038685577051,
+          "free_vertical_motion": 6.32686884398069e-05,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 1.0900095199705128e-05,
+          "hidden_tangent_motion": 0.00012579155766464085,
+          "hidden_vertical_motion": 0.002402415045800608,
+          "motion_difference_xyz": [
+            -0.0024206490742944564,
+            0.002643056968159474,
+            -0.002339146357360801
+          ],
+          "progress_gap": 3.811647209748937e-05,
+          "segments": [
+            "all",
+            "trailing_side"
+          ]
+        },
+        {
+          "bead_index": 18,
+          "final_shape_difference_xyz": [
+            -0.0018789115466978368,
+            0.004189871955077751,
+            0.0004521747300372638
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.0011348670096130078,
+          "free_tangent_motion": -0.0048445002318214855,
+          "free_vertical_motion": -0.0011865139002742954,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.0005502439432571596,
+          "hidden_tangent_motion": -0.0015014532870087072,
+          "hidden_vertical_motion": -0.0015643025423231942,
+          "motion_difference_xyz": [
+            -0.0018570704552337558,
+            0.002840604923116774,
+            0.00037778864204889885
+          ],
+          "progress_gap": 0.0005846230663558482,
+          "segments": [
+            "all",
+            "trailing_side"
+          ]
+        },
+        {
+          "bead_index": 19,
+          "final_shape_difference_xyz": [
+            0.0045481980123913135,
+            0.00831787938457379,
+            0.0018179206984193568
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.005942377531098119,
+          "free_tangent_motion": -0.0029725708215979814,
+          "free_vertical_motion": -0.005944332936587482,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": -0.0019047896828804384,
+          "hidden_tangent_motion": -0.0011101299396336893,
+          "hidden_vertical_motion": -0.007290308010282761,
+          "motion_difference_xyz": [
+            0.004457801884202972,
+            0.006721214301311063,
+            0.0013459750736952792
+          ],
+          "progress_gap": 0.007847167213978557,
+          "segments": [
+            "all",
+            "trailing_side"
+          ]
+        },
+        {
+          "bead_index": 20,
+          "final_shape_difference_xyz": [
+            -0.0008831788956555342,
+            0.0009384127347241145,
+            -0.0020936045521297783
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.007179353337272956,
+          "free_tangent_motion": 0.006806252537939551,
+          "free_vertical_motion": -0.0004853462428561599,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.006831565462902257,
+          "hidden_tangent_motion": 0.00782452360801168,
+          "hidden_vertical_motion": 0.0005570415262716316,
+          "motion_difference_xyz": [
+            -0.00044172094835104314,
+            0.0009811804021142012,
+            -0.0010423877691277915
+          ],
+          "progress_gap": 0.00034778787437069955,
+          "segments": [
+            "all",
+            "trailing_side"
+          ]
+        },
+        {
+          "bead_index": 21,
+          "final_shape_difference_xyz": [
+            -0.0007694090934679543,
+            0.0017277793177918888,
+            -0.0030354603513802966
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.00398308298178604,
+          "free_tangent_motion": -0.0019365878448278375,
+          "free_vertical_motion": 0.0010687124258328563,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.0028391129893773855,
+          "hidden_tangent_motion": -0.0013379077810515496,
+          "hidden_vertical_motion": 0.0024381514369146914,
+          "motion_difference_xyz": [
+            0.0004263398277033481,
+            0.0012187368516659025,
+            -0.0013694390110818352
+          ],
+          "progress_gap": 0.0011439699924086547,
+          "segments": [
+            "all",
+            "trailing_side"
+          ]
+        },
+        {
+          "bead_index": 22,
+          "final_shape_difference_xyz": [
+            0.002297083824979229,
+            0.0025014477254073353,
+            8.128163796223067e-05
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.005244652867982574,
+          "free_tangent_motion": 0.0010219489696615745,
+          "free_vertical_motion": -6.358483975978102e-05,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.0027846976620165232,
+          "hidden_tangent_motion": 0.0006903529260376439,
+          "hidden_vertical_motion": -8.527480643195223e-05,
+          "motion_difference_xyz": [
+            0.0020228772259691663,
+            0.0014385073097352707,
+            2.1689966672171213e-05
+          ],
+          "progress_gap": 0.0024599552059660504,
+          "segments": [
+            "all",
+            "trailing_side"
+          ]
+        },
+        {
+          "bead_index": 23,
+          "final_shape_difference_xyz": [
+            0.0038983495793777356,
+            0.0009848325924095014,
+            0.0006852927889829351
+          ],
+          "free_crossed_halfway_plane": false,
+          "free_progress": 0.007528400961650783,
+          "free_tangent_motion": 0.0036151625028776665,
+          "free_vertical_motion": -0.0009610191057872423,
+          "hidden_crossed_halfway_plane": false,
+          "hidden_progress": 0.00403543026236981,
+          "hidden_tangent_motion": 0.0014595572349056076,
+          "hidden_vertical_motion": -0.0007578606082750163,
+          "motion_difference_xyz": [
+            0.004023382971944434,
+            0.0008123224965565501,
+            -0.00020315849751222602
+          ],
+          "progress_gap": 0.0034929706992809723,
+          "segments": [
+            "all",
+            "trailing_side"
+          ]
+        }
+      ],
+      "probe_index": 4,
+      "seed": 71003,
+      "segment_indices": {
+        "all": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ],
+        "blocked": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "trailing_side": [
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ]
+      },
+      "segments": {
+        "all": {
+          "bead_count": 24,
+          "free_max_progress": 0.08374519134985503,
+          "free_mean_progress": 0.014843736242021505,
+          "free_min_progress": -0.0007546373743682859,
+          "hidden_max_progress": 0.08416184051868154,
+          "hidden_mean_progress": 0.01085005493474654,
+          "hidden_min_progress": -0.0022276141719761683,
+          "progress_gap": 0.003993681307274965
+        },
+        "blocked": {
+          "bead_count": 12,
+          "free_max_progress": 0.08374519134985503,
+          "free_mean_progress": 0.02672504959328539,
+          "free_min_progress": 0.00011862075723453641,
+          "hidden_max_progress": 0.08416184051868154,
+          "hidden_mean_progress": 0.020713192261388007,
+          "hidden_min_progress": -0.0011968190617468002,
+          "progress_gap": 0.0060118573318973835
+        },
+        "trailing_side": {
+          "bead_count": 12,
+          "free_max_progress": 0.007528400961650783,
+          "free_mean_progress": 0.0029624228907576284,
+          "free_min_progress": -0.0007546373743682859,
+          "hidden_max_progress": 0.006831565462902257,
+          "hidden_mean_progress": 0.0009869176081050695,
+          "hidden_min_progress": -0.0022276141719761683,
+          "progress_gap": 0.001975505282652559
+        }
+      },
+      "tangent_direction_xy": [
+        0.6832027885971197,
+        -0.7302286968156754
+      ]
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "formal_sensor_feature_version": "stage_aligned_formal_sensor_v1",
+  "oracle_used_as_formal_feature": false,
+  "rows": [
+    {
+      "condition": "free",
+      "feature_finite": true,
+      "feature_max": 247.95026606452828,
+      "feature_min": -18.187550613428215,
+      "feature_norm": 492.8417126933651,
+      "group_id": "zl_071001",
+      "seed": 71001
+    },
+    {
+      "condition": "hidden_hook",
+      "feature_finite": true,
+      "feature_max": 334.8533648089337,
+      "feature_min": -88.726177072294,
+      "feature_norm": 649.3966021246399,
+      "group_id": "zl_071001",
+      "seed": 71001
+    },
+    {
+      "condition": "free",
+      "feature_finite": true,
+      "feature_max": 423.23079741488203,
+      "feature_min": -55.828849404092665,
+      "feature_norm": 678.9741851826644,
+      "group_id": "zl_071002",
+      "seed": 71002
+    },
+    {
+      "condition": "hidden_hook",
+      "feature_finite": true,
+      "feature_max": 489.81684227180693,
+      "feature_min": -121.31672900379687,
+      "feature_norm": 762.9414682841574,
+      "group_id": "zl_071002",
+      "seed": 71002
+    },
+    {
+      "condition": "free",
+      "feature_finite": true,
+      "feature_max": 300.95566998584485,
+      "feature_min": -63.904343306070274,
+      "feature_norm": 569.8530628528482,
+      "group_id": "zl_071003",
+      "seed": 71003
+    },
+    {
+      "condition": "hidden_hook",
+      "feature_finite": true,
+      "feature_max": 401.1358207033535,
+      "feature_min": -132.83658361400967,
+      "feature_norm": 734.1015740888668,
+      "group_id": "zl_071003",
+      "seed": 71003
+    }
+  ]
+}
