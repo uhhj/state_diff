@@ -152,26 +152,51 @@ def _capture_event_observation(
 
 def _action_execution_result(
     action,
-    done,
     info,
 ):
-    extras = dict(
+    status = (
         (info or {}).get(
-            "extras",
-            {},
+            "ccda_execution_status"
         )
     )
-    returned_done = bool(done)
-    task_done = bool(
-        extras.get(
-            "task.done",
-            False,
+    if not isinstance(status, dict):
+        raise RuntimeError(
+            "Environment.step did not return "
+            "ccda_execution_status"
+        )
+
+    primitive_succeeded = (
+        status.get(
+            "primitive_succeeded"
+        )
+        is True
+    )
+    termination_reason = (
+        status.get(
+            "termination_reason"
         )
     )
-    primitive_succeeded = not (
-        returned_done
-        and not task_done
+    workflow_should_stop = bool(
+        not primitive_succeeded
+        or termination_reason
+        == "task_exit_gracefully"
     )
+
+    if not primitive_succeeded:
+        workflow_stop_reason = (
+            termination_reason
+            or "primitive_failed"
+        )
+    elif (
+        termination_reason
+        == "task_exit_gracefully"
+    ):
+        workflow_stop_reason = (
+            "task_exit_gracefully"
+        )
+    else:
+        workflow_stop_reason = None
+
     return {
         "action_name": str(
             action["name"]
@@ -182,16 +207,35 @@ def _action_execution_result(
         "primitive": str(
             action["primitive"]
         ),
-        "primitive_succeeded": bool(
-            primitive_succeeded
-        ),
-        "returned_done": returned_done,
-        "task_done": task_done,
-        "exit_gracefully": bool(
-            extras.get(
-                "exit_gracefully",
+        "action_completed": bool(
+            status.get(
+                "action_completed",
                 False,
             )
+        ),
+        "primitive_succeeded": (
+            primitive_succeeded
+        ),
+        "task_success": bool(
+            status.get(
+                "task_success",
+                False,
+            )
+        ),
+        "episode_terminated": bool(
+            status.get(
+                "episode_terminated",
+                False,
+            )
+        ),
+        "termination_reason": (
+            termination_reason
+        ),
+        "workflow_should_stop": (
+            workflow_should_stop
+        ),
+        "workflow_stop_reason": (
+            workflow_stop_reason
         ),
     }
 
@@ -265,7 +309,7 @@ def _run_restored_branch(
         (
             _,
             _,
-            returned_done,
+            _legacy_done,
             returned_info,
         ) = env.step(
             _environment_action(action)
@@ -273,7 +317,6 @@ def _run_restored_branch(
         action_result = (
             _action_execution_result(
                 action,
-                returned_done,
                 returned_info,
             )
         )
@@ -281,8 +324,8 @@ def _run_restored_branch(
             action_result
         )
         _mark_event(task, events, action["name"] + "_end")
-        if not action_result[
-            "primitive_succeeded"
+        if action_result[
+            "workflow_should_stop"
         ]:
             branch_action_failed = True
             break
@@ -305,7 +348,7 @@ def _run_restored_branch(
         (
             _,
             _,
-            returned_done,
+            _legacy_done,
             returned_info,
         ) = env.step(
             _environment_action(
@@ -315,7 +358,6 @@ def _run_restored_branch(
         main_result = (
             _action_execution_result(
                 main_action,
-                returned_done,
                 returned_info,
             )
         )
@@ -324,8 +366,8 @@ def _run_restored_branch(
         )
         _mark_event(task, events, "main_pull_end")
 
-        if main_result[
-            "primitive_succeeded"
+        if not main_result[
+            "workflow_should_stop"
         ]:
             task.set_ccda_phase("post_main")
             env.step_physics(
@@ -363,14 +405,41 @@ def _run_restored_branch(
         "action_results": (
             action_results
         ),
-        "all_actions_succeeded": bool(
-            action_results
+        "planned_action_count": int(
+            len(action_script)
+        ),
+        "executed_action_count": int(
+            len(action_results)
+        ),
+        "all_planned_actions_succeeded": bool(
+            len(action_results)
+            == len(action_script)
             and all(
                 row[
                     "primitive_succeeded"
                 ]
                 for row in action_results
             )
+        ),
+        "workflow_should_stop": bool(
+            any(
+                row[
+                    "workflow_should_stop"
+                ]
+                for row in action_results
+            )
+        ),
+        "workflow_stop_reason": next(
+            (
+                row[
+                    "workflow_stop_reason"
+                ]
+                for row in action_results
+                if row[
+                    "workflow_should_stop"
+                ]
+            ),
+            None,
         ),
         "observations": observations,
         "trace_hash": array_payload_sha256(trace),

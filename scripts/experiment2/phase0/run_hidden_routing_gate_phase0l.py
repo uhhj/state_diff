@@ -175,6 +175,23 @@ def _first_action_failure(
     free_metadata,
     hidden_metadata,
 ):
+    acquisition_stage = {
+        "pick_precise_latch_probe": (
+            "routing_probe_acquisition"
+        ),
+        "pick_precise_tension_extension": (
+            "tension_pull_acquisition"
+        ),
+    }
+    formal_prefix = {
+        "pick_precise_latch_probe": (
+            "latch_probe_"
+        ),
+        "pick_precise_tension_extension": (
+            "tension_pull_"
+        ),
+    }
+
     for condition, metadata in (
         ("free", free_metadata),
         (
@@ -189,38 +206,121 @@ def _first_action_failure(
                 "action_results",
                 [],
             )
-            if not bool(
+            if bool(
                 row.get(
-                    "primitive_succeeded"
+                    "workflow_should_stop"
                 )
             )
         ]
         if not failures:
             continue
 
-        failure = dict(
+        action = dict(
             failures[0]
+        )
+        primitive = str(
+            action["primitive"]
+        )
+        events = list(
+            metadata.get(
+                "motion_events",
+                [],
+            )
+        )
+
+        expected_acquisition = (
+            acquisition_stage.get(
+                primitive
+            )
         )
         acquisition = next(
             (
                 dict(event)
-                for event
-                in metadata.get(
-                    "motion_events",
-                    [],
-                )
+                for event in events
                 if event.get("stage")
-                == (
-                    "tension_pull_"
-                    "acquisition"
+                == expected_acquisition
+            ),
+            None,
+        )
+
+        prefix = formal_prefix.get(
+            primitive
+        )
+        formal_failure = next(
+            (
+                dict(event)
+                for event in events
+                if (
+                    prefix is not None
+                    and str(
+                        event.get(
+                            "stage",
+                            "",
+                        )
+                    ).startswith(prefix)
+                    and not bool(
+                        event.get(
+                            "success",
+                            False,
+                        )
+                    )
                 )
             ),
             None,
         )
+
+        if (
+            acquisition is not None
+            and not bool(
+                acquisition.get(
+                    "success",
+                    False,
+                )
+            )
+        ):
+            failure_reason = (
+                acquisition.get(
+                    "failure_reason"
+                )
+                or "acquisition_failed"
+            )
+        elif formal_failure is not None:
+            failure_reason = str(
+                formal_failure[
+                    "stage"
+                ]
+            )
+        else:
+            failure_reason = (
+                action.get(
+                    "workflow_stop_reason"
+                )
+                or "primitive_failed"
+            )
+
+        phase = str(
+            action["phase"]
+        )
+        failed_check = (
+            "preload_action_execution"
+            if phase == "preload"
+            else "main_pull_action_execution"
+        )
+
         return {
             "condition": condition,
-            "action": failure,
+            "phase": phase,
+            "failed_check": (
+                failed_check
+            ),
+            "action": action,
             "acquisition": acquisition,
+            "formal_failure": (
+                formal_failure
+            ),
+            "failure_reason": (
+                failure_reason
+            ),
         }
     return None
 
@@ -312,7 +412,12 @@ def _write_geometry_failure(
     error,
     stage_name,
     blocked_verdict,
+    completed_seeds=(),
 ):
+    completed_seeds = [
+        int(value)
+        for value in completed_seeds
+    ]
     diagnostics = error.diagnostics
     failure = {
         "stage": stage_name,
@@ -321,7 +426,9 @@ def _write_geometry_failure(
         "first_requested_seed": int(seed),
         "exception_type": type(error).__name__,
         "exception_message": str(error),
-        "completed_pair_count": 0,
+        "completed_pair_count": len(
+            completed_seeds
+        ),
         "training_performed": False,
         "geometry_search_performed": False,
         "action_search_performed": False,
@@ -339,7 +446,22 @@ def _write_geometry_failure(
         "topology_id": config["topology_id"],
         "official_outcome": config["official_outcome"],
         "engineering_blocked_before_pairs": True,
-        "completed_pair_count": 0,
+        "engineering_status": "BLOCKED",
+        "scientific_status": "UNTESTED",
+        "completed_pair_count": len(
+            completed_seeds
+        ),
+        "completed_seeds": completed_seeds,
+        "attempted_seed": int(seed),
+        "unrun_seeds": [
+            int(value)
+            for value in config["seeds"]
+            if (
+                int(value)
+                not in completed_seeds
+                and int(value) != int(seed)
+            )
+        ],
         "failed_checks": ["legal_workspace_geometry"],
         "failure": failure,
         "training_performed": False,
@@ -360,7 +482,12 @@ def _write_action_failure(
     error,
     stage_name,
     blocked_verdict,
+    completed_seeds,
 ):
+    completed_seeds = [
+        int(value)
+        for value in completed_seeds
+    ]
     diagnostics = dict(
         error.diagnostics
     )
@@ -398,6 +525,12 @@ def _write_action_failure(
                 "main_pull_frame"
             )
         ),
+        "probe_acquisition_motion_mode": (
+            config["action"].get(
+                "probe_acquisition_motion_mode",
+                "legacy_joint_return",
+            )
+        ),
         "acquisition_motion_mode": (
             config["action"].get(
                 "acquisition_motion_mode"
@@ -409,18 +542,32 @@ def _write_action_failure(
         "engineering_blocked_before_pairs": (
             True
         ),
-        "completed_pair_count": 0,
+        "engineering_status": "BLOCKED",
+        "scientific_status": "UNTESTED",
+        "completed_pair_count": int(
+            len(completed_seeds)
+        ),
+        "completed_seeds": (
+            completed_seeds
+        ),
         "attempted_seed": int(seed),
         "unrun_seeds": [
             int(value)
             for value in config["seeds"]
-            if int(value) != int(seed)
+            if (
+                int(value)
+                not in completed_seeds
+                and int(value) != int(seed)
+            )
         ],
         "failure": diagnostics,
         "failed_checks": [
-            "main_pull_acquisition"
+            str(
+                diagnostics[
+                    "failed_check"
+                ]
+            )
         ],
-        "scientific_status": "UNTESTED",
         "training_performed": False,
         "geometry_search_performed": False,
         "action_distance_search_performed": (
@@ -494,12 +641,6 @@ def run_one_pair(
         )
     )
     if action_failure is not None:
-        acquisition = (
-            action_failure[
-                "acquisition"
-            ]
-            or {}
-        )
         raise RoutingActionExecutionError({
             "seed": int(seed),
             "group_id": group_id,
@@ -508,18 +649,120 @@ def run_one_pair(
                     "condition"
                 ]
             ),
+            "phase": (
+                action_failure[
+                    "phase"
+                ]
+            ),
+            "failed_check": (
+                action_failure[
+                    "failed_check"
+                ]
+            ),
             "failed_action": (
                 action_failure["action"]
             ),
             "failure_reason": (
-                acquisition.get(
-                    "failure_reason",
-                    "primitive_failed",
-                )
+                action_failure[
+                    "failure_reason"
+                ]
             ),
-            "acquisition": acquisition,
+            "acquisition": (
+                action_failure[
+                    "acquisition"
+                ]
+            ),
+            "formal_failure": (
+                action_failure[
+                    "formal_failure"
+                ]
+            ),
             "public_layout_match": True,
         })
+
+    minimum_fraction = float(
+        config["action"][
+            "min_achieved_fraction"
+        ]
+    )
+
+    try:
+        free_probe_valid = (
+            _probe_motion_valid(
+                free_meta,
+                minimum_fraction,
+            )
+        )
+        hidden_probe_valid = (
+            _probe_motion_valid(
+                hidden_meta,
+                minimum_fraction,
+            )
+        )
+        free_routing_valid = (
+            tension_motion_valid(
+                free_meta,
+                minimum_fraction,
+            )
+        )
+        hidden_routing_valid = (
+            tension_motion_valid(
+                hidden_meta,
+                minimum_fraction,
+            )
+        )
+    except ValueError as error:
+        raise RoutingActionExecutionError({
+            "seed": int(seed),
+            "group_id": group_id,
+            "condition": "pair",
+            "phase": "formal_motion",
+            "failed_check": (
+                "formal_motion_execution"
+            ),
+            "failure_reason": str(error),
+            "failed_action": None,
+            "acquisition": None,
+            "formal_failure": None,
+            "public_layout_match": True,
+        })
+
+    if not all((
+        free_probe_valid,
+        hidden_probe_valid,
+        free_routing_valid,
+        hidden_routing_valid,
+    )):
+        raise RoutingActionExecutionError({
+            "seed": int(seed),
+            "group_id": group_id,
+            "condition": "pair",
+            "phase": "formal_motion",
+            "failed_check": (
+                "formal_motion_execution"
+            ),
+            "failure_reason": (
+                "one or more existing formal "
+                "motion validity checks failed"
+            ),
+            "failed_action": None,
+            "acquisition": None,
+            "formal_failure": None,
+            "public_layout_match": True,
+            "free_probe_motion_valid": (
+                free_probe_valid
+            ),
+            "hidden_probe_motion_valid": (
+                hidden_probe_valid
+            ),
+            "free_routing_motion_valid": (
+                free_routing_valid
+            ),
+            "hidden_routing_motion_valid": (
+                hidden_routing_valid
+            ),
+        })
+
     metrics = compute_pair_metrics(
         free_trace,
         hidden_trace,
@@ -548,36 +791,6 @@ def run_one_pair(
         free_trace,
         hidden_trace,
     )
-    minimum_fraction = float(
-        config["action"][
-            "min_achieved_fraction"
-        ]
-    )
-    free_probe_valid = (
-        _probe_motion_valid(
-            free_meta,
-            minimum_fraction,
-        )
-    )
-    hidden_probe_valid = (
-        _probe_motion_valid(
-            hidden_meta,
-            minimum_fraction,
-        )
-    )
-    free_routing_valid = (
-        tension_motion_valid(
-            free_meta,
-            minimum_fraction,
-        )
-    )
-    hidden_routing_valid = (
-        tension_motion_valid(
-            hidden_meta,
-            minimum_fraction,
-        )
-    )
-
     free_privileged = (
         free_meta["privileged_state"]
     )
@@ -606,11 +819,20 @@ def run_one_pair(
                 "frozen_absolute_targets",
             )
         ),
+        "probe_acquisition_motion_mode": (
+            config["action"].get(
+                "probe_acquisition_motion_mode",
+                "legacy_joint_return",
+            )
+        ),
         "acquisition_motion_mode": (
             config["action"].get(
                 "acquisition_motion_mode",
                 "legacy_joint_return",
             )
+        ),
+        "engineering_pair_status": (
+            "COMPLETE"
         ),
         "free_selected_probe_index": (
             free_privileged.get(
@@ -817,6 +1039,7 @@ def main() -> None:
     )
 
     pair_rows = []
+    completed_seeds = []
     samples = []
     pair_runs = []
     mechanism_rows = []
@@ -848,6 +1071,7 @@ def main() -> None:
                 error,
                 stage_name,
                 blocked_verdict,
+                completed_seeds,
             )
             print(output_root / "summary.json")
             return
@@ -860,11 +1084,15 @@ def main() -> None:
                 error,
                 stage_name,
                 blocked_verdict,
+                completed_seeds,
             )
             print(
                 output_root / "summary.json"
             )
             return
+        completed_seeds.append(
+            seed
+        )
         (
             free_trace,
             hidden_trace,
@@ -984,6 +1212,12 @@ def main() -> None:
             config["routing_gate"]
         ),
         "action": {
+            "probe_acquisition_motion_mode": (
+                config["action"].get(
+                    "probe_acquisition_motion_mode",
+                    "legacy_joint_return",
+                )
+            ),
             "main_pull_frame": (
                 config["action"].get(
                     "main_pull_frame",
@@ -1062,6 +1296,12 @@ def main() -> None:
         )
         else blocked_verdict
     )
+    engineering_status = "COMPLETE"
+    scientific_status = (
+        "ELIGIBLE"
+        if verdict == eligible_verdict
+        else "BLOCKED"
+    )
 
     summary = {
         "stage": stage_name,
@@ -1086,6 +1326,12 @@ def main() -> None:
             config["action"].get(
                 "main_pull_frame",
                 "frozen_absolute_targets",
+            )
+        ),
+        "probe_acquisition_motion_mode": (
+            config["action"].get(
+                "probe_acquisition_motion_mode",
+                "legacy_joint_return",
             )
         ),
         "acquisition_motion_mode": (
@@ -1139,6 +1385,19 @@ def main() -> None:
         "outcome_search_performed": False,
         "phase0i_phase0j_phase0k_"
         "verdicts_changed": False,
+        "engineering_status": (
+            engineering_status
+        ),
+        "scientific_status": (
+            scientific_status
+        ),
+        "completed_pair_count": int(
+            len(pair_rows)
+        ),
+        "completed_seeds": [
+            int(row["seed"])
+            for row in pair_rows
+        ],
         "seeds": [
             int(value)
             for value in config["seeds"]
@@ -1300,6 +1559,8 @@ def main() -> None:
         f"`{summary['public_layout_mode']}`",
         f"- Main pull frame: "
         f"`{summary['main_pull_frame']}`",
+        f"- Probe acquisition motion mode: "
+        f"`{summary['probe_acquisition_motion_mode']}`",
         f"- Acquisition motion mode: "
         f"`{summary['acquisition_motion_mode']}`",
         "- Official outcome: "
@@ -1318,6 +1579,12 @@ def main() -> None:
         f"`{topology['median']['endpoint_target_margin_gap']:.9f}`",
         f"- Failed checks: `{failed_checks}`",
         f"- Verdict: `{verdict}`",
+        f"- Engineering status: "
+        f"`{engineering_status}`",
+        f"- Scientific status: "
+        f"`{scientific_status}`",
+        f"- Completed pair count: "
+        f"`{len(pair_rows)}`",
         "- Training performed: `False`",
         "- Geometry search performed: `False`",
         "- Action search performed: `False`",

@@ -424,6 +424,12 @@ def generate_hidden_routing_gate_action_script(
             "primitive": (
                 "pick_precise_latch_probe"
             ),
+            "acquisition_motion_mode": str(
+                action.get(
+                    "probe_acquisition_motion_mode",
+                    "legacy_joint_return",
+                )
+            ),
             "pose0": _pose(probe_start),
             "lift_height": float(
                 action["probe_lift_height"]

@@ -42,34 +42,43 @@ def action():
 def test_failed_environment_step_is_preserved():
     result = _action_execution_result(
         action(),
-        True,
         {
-            "extras": {
-                "task.done": False,
+            "ccda_execution_status": {
+                "action_executed": True,
+                "action_completed": True,
+                "primitive_succeeded": False,
+                "task_success": False,
+                "episode_terminated": True,
+                "termination_reason": "primitive_failed",
             }
         },
     )
     assert not result[
         "primitive_succeeded"
     ]
-    assert result["returned_done"]
-    assert not result["task_done"]
+    assert result["episode_terminated"]
+    assert result["workflow_should_stop"]
 
 
 def test_successful_environment_step_is_preserved():
     result = _action_execution_result(
         action(),
-        False,
         {
-            "extras": {
-                "task.done": False,
+            "ccda_execution_status": {
+                "action_executed": True,
+                "action_completed": True,
+                "primitive_succeeded": True,
+                "task_success": False,
+                "episode_terminated": False,
+                "termination_reason": None,
             }
         },
     )
     assert result[
         "primitive_succeeded"
     ]
-    assert not result["returned_done"]
+    assert not result["episode_terminated"]
+    assert not result["workflow_should_stop"]
 
 
 def test_runner_returns_acquisition_reason():
@@ -83,9 +92,11 @@ def test_runner_returns_acquisition_reason():
                 "primitive_succeeded": (
                     False
                 ),
-                "returned_done": True,
-                "task_done": False,
-                "exit_gracefully": False,
+                "task_success": False,
+                "episode_terminated": True,
+                "termination_reason": "primitive_failed",
+                "workflow_should_stop": True,
+                "workflow_stop_reason": "primitive_failed",
             }
         ],
         "motion_events": [
