@@ -1,6 +1,7 @@
 import inspect
 
 from ravens.environment import Environment
+from ravens.tasks.ccda_hidden_latch_cable import CCDAHiddenLatchCable
 from scripts.experiment2.phase0.run_hidden_friction_pairs import TRACE_KEYS
 
 
@@ -27,3 +28,9 @@ def test_formal_sensor_does_not_read_hidden_hook_state():
     source = inspect.getsource(Environment.ccda_sensor_observation)
     for forbidden in ("hook_body_ids", "hook_layout", "hidden_condition"):
         assert forbidden not in source
+
+
+def test_phase0i_latch_reuses_trace_with_reaction_wrench():
+    source = inspect.getsource(CCDAHiddenLatchCable.physics_step_hook)
+    assert "sensor_joint_reaction_force_torque" in source
+    assert "sensor_joint_reaction_force_torque_norm" in source
