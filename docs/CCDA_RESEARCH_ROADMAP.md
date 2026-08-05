@@ -1532,3 +1532,40 @@ Agent 当前只应执行以下主线：
 - Scientific status: `UNTESTED`.
 - Completed pair count: `0`.
 - No automatic retry or model training was performed.
+
+### Phase 0L Resume8 — Target-Aware Rigid-Bead Grasp
+
+- Preserved all Phase 0L through Resume7 evidence and their prior
+  engineering and scientific status.
+- Resume7 had already passed geometry, probe selection, runtime clearance,
+  frozen public-layout, relative main-pull command, precise approach/lowering,
+  explicit execution-state and completed-pair accounting work.
+- The remaining seed-71001 failure occurred after target-region contact but
+  before a rigid suction constraint was created.
+- The cable representation was confirmed to use rigid beads registered in
+  `env.objects` and `task.cable_bead_IDs`.
+- The prior generic suction path treated any rigid contact as contact and
+  selected only the last rigid contact object during activation. This could
+  miss the intended bead or attach to a different bead.
+- Resume8 added no scientific metric, sensor feature, classifier, outcome,
+  geometry, action distance, scientific threshold or peripheral audit gate.
+- The frozen public `probe_index` and `endpoint_index` were passed as public
+  bead indices to the preload and main-pull primitives.
+- Runtime branch code resolved each public bead index to the branch-local
+  PyBullet body ID.
+- Contact lowering stopped only on contact with the selected target bead.
+- Suction activation created a rigid constraint only when the selected bead
+  itself was in contact. It did not fall back to another rigid object.
+- Target constraint identity was required for target-grasp success.
+- Probe target, endpoint target, pick pose, lowering step, approach height,
+  suction thresholds, grasp predicate, motion tolerances, lift heights,
+  pull distances, fixture, target plane, corridor, seeds and official outcome
+  were unchanged.
+- First fixed three-seed run verdict:
+  `HIDDEN_ROUTING_GATE_RESUME8_SMOKE_BLOCKED`.
+- First completed pair count: `0`.
+- Because fewer than three pairs completed, no repeat run was performed.
+- Completed-pair repeatability: `N/A`.
+- Engineering status: `BLOCKED`.
+- Scientific status: `UNTESTED`.
+- No automatic retry or model training was performed.
