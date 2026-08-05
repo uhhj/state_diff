@@ -31,7 +31,12 @@ def main():
 
     summary = load_json(root / "summary.json")
     outcome = load_json(root / "routing_outcome_audit.json")
-    topology = load_json(root / "candidate_hidden_routing_gate_v1.json")
+    candidate_report = str(summary.get(
+        "candidate_report",
+        "candidate_hidden_routing_gate_v1.json",
+    ))
+    topology = load_json(root / candidate_report)
+    stage_name = str(summary.get("stage", "Experiment2 Phase 0L"))
     rows = sorted(outcome["rows"], key=lambda row: int(row["seed"]))
     labels = [str(row["seed"]) for row in rows]
     x = np.arange(len(rows))
@@ -46,7 +51,7 @@ def main():
            label="free - hidden gap")
     ax.axhline(1.0, color="black", linestyle="--", linewidth=1, label="official gate")
     ax.set(xticks=x, xticklabels=labels, xlabel="seed", ylabel="binary outcome",
-           title="Phase 0L endpoint routing success by seed")
+           title=f"{stage_name} endpoint routing success by seed")
     ax.set_ylim(-1.1, 1.25)
     ax.grid(axis="y", alpha=0.25)
     ax.legend()
@@ -61,7 +66,7 @@ def main():
             label="hidden target margin")
     ax.axhline(0.0, color="black", linestyle="--", label="target plane")
     ax.set(xticks=x, xticklabels=labels, xlabel="seed", ylabel="normal margin (m)",
-           title="Phase 0L pulled-endpoint target margin")
+           title=f"{stage_name} pulled-endpoint target margin")
     ax.grid(alpha=0.25)
     ax.legend()
     fig.tight_layout()
@@ -81,7 +86,7 @@ def main():
     ax.bar(physical_labels, physical_values)
     ax.set_yscale("symlog", linthresh=1e-3)
     ax.set(ylabel="median value (symlog)",
-           title="Phase 0L physical observability metrics")
+           title=f"{stage_name} physical observability metrics")
     ax.grid(axis="y", alpha=0.25)
     fig.tight_layout()
     fig.savefig(root / "physical_observability_metrics.png")
@@ -98,7 +103,7 @@ def main():
     fig, ax = plt.subplots(figsize=(9, 5), dpi=args.dpi)
     ax.bar(classifier_labels, classifier_values)
     ax.set_ylim(0, 1.05)
-    ax.set(ylabel="grouped accuracy", title="Phase 0L classifier audit")
+    ax.set(ylabel="grouped accuracy", title=f"{stage_name} classifier audit")
     ax.grid(axis="y", alpha=0.25)
     fig.tight_layout()
     fig.savefig(root / "classifier_accuracy.png")

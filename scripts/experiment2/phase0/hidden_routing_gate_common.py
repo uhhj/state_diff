@@ -7,6 +7,7 @@ from typing import Any, Dict, List
 import numpy as np
 
 from ravens.tasks.ccda_hidden_routing_gate_geometry import (
+    WHOLE_CABLE_BARRIER_MODE,
     HiddenRoutingGateGeometryConfig,
     compute_hidden_routing_gate_layout,
     public_routing_layout,
@@ -61,6 +62,14 @@ def routing_geometry_config(
         barrier_width=gate[
             "barrier_width"
         ],
+        barrier_mode=str(gate.get(
+            "barrier_mode",
+            WHOLE_CABLE_BARRIER_MODE,
+        )),
+        barrier_safety_margin=float(gate.get(
+            "barrier_safety_margin",
+            0.0,
+        )),
         barrier_height=gate[
             "barrier_height"
         ],
@@ -145,6 +154,18 @@ def configure_hidden_routing_gate_environment(
         ),
         "CCDA_ROUTING_BARRIER_WIDTH": (
             gate["barrier_width"]
+        ),
+        "CCDA_ROUTING_BARRIER_MODE": (
+            gate.get(
+                "barrier_mode",
+                WHOLE_CABLE_BARRIER_MODE,
+            )
+        ),
+        "CCDA_ROUTING_BARRIER_SAFETY_MARGIN": (
+            gate.get(
+                "barrier_safety_margin",
+                0.0,
+            )
         ),
         "CCDA_ROUTING_BARRIER_HEIGHT": (
             gate["barrier_height"]

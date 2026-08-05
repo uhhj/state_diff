@@ -760,6 +760,16 @@ def main() -> None:
             classifier("oracle_contact"),
         )
     )
+    candidate_report_filename = str(config.get(
+        "candidate_report_filename",
+        "candidate_hidden_routing_gate_v1.json",
+    ))
+    if Path(candidate_report_filename).name != candidate_report_filename:
+        raise ValueError(
+            "candidate_report_filename must be a plain filename"
+        )
+    if not candidate_report_filename.endswith(".json"):
+        raise ValueError("candidate report must be JSON")
     motion_debug = _motion_debug(
         pair_runs
     )
@@ -795,6 +805,8 @@ def main() -> None:
         "resume_of": config.get("resume_of"),
         "geometry_repair": config.get("geometry_repair"),
         "required_provenance_report": config.get("required_provenance_report"),
+        "required_preflight_report": config.get("required_preflight_report"),
+        "candidate_report": candidate_report_filename,
         "gate": (
             "Stage M0 fixed outcome-aligned "
             "hidden routing-gate smoke"
@@ -859,7 +871,7 @@ def main() -> None:
 
     write_json(
         output_root
-        / "candidate_hidden_routing_gate_v1.json",
+        / candidate_report_filename,
         topology,
     )
     write_json(
@@ -987,10 +999,12 @@ def main() -> None:
     )
 
     lines = [
-        "# Phase 0L 鈥?Hidden Routing-Gate Smoke",
+        f"# {stage_name} — Hidden Routing-Gate Smoke",
         "",
         f"- Candidate: "
         f"`{config['candidate_id']}`",
+        f"- Candidate report: "
+        f"`{candidate_report_filename}`",
         f"- Topology: "
         f"`{config['topology_id']}`",
         "- Official outcome: "
