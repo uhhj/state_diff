@@ -1,0 +1,8 @@
+{
+  "engineering_blocked_before_pair_metrics": true,
+  "legacy_mean_progress_is_gate": false,
+  "metric_version": "pulled_endpoint_target_success_v1",
+  "official_outcome": true,
+  "rows": [],
+  "scientific_status": "UNTESTED"
+}

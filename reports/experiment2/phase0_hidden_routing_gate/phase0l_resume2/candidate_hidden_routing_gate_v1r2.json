@@ -1,0 +1,12 @@
+{
+  "accepted_candidate_count": 2,
+  "candidate_count": 4,
+  "id": "hidden_routing_gate_v1r2_fixed_pull_v1",
+  "offline_geometry_preflight_passed": true,
+  "official_outcome": "pulled_endpoint_target_success_gap",
+  "rejection_counts": {"workspace": 2},
+  "runtime_reset_status": "engineering_blocked_before_action",
+  "selected_endpoint_index": 0,
+  "selected_normal_sign": -1.0,
+  "topology_id": "hidden_routing_gate_v1r2"
+}

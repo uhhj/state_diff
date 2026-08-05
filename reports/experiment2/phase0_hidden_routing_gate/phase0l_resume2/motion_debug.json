@@ -1,0 +1,14 @@
+{
+  "all_cartesian_stages_successful": false,
+  "engineering_blocked_before_motion": true,
+  "event_count": 0,
+  "failure_count": 1,
+  "failures": [
+    {
+      "reason": "hidden hook too close to initial cable: -0.005694587712671802",
+      "stage": "post_settle_hidden_factor_arm"
+    }
+  ],
+  "recovered_joint_timeout_count": 0,
+  "rows": []
+}

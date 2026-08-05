@@ -1,0 +1,547 @@
+{
+  "accepted_candidate_count": 2,
+  "accepted_candidates": [
+    {
+      "accepted": true,
+      "barrier_center_tangent_coordinate": -0.040745937772433516,
+      "barrier_center_xy": [
+        0.36328830957459735,
+        -0.35084010645782643
+      ],
+      "barrier_mode": "endpoint_corridor",
+      "barrier_safety_margin": 0.005,
+      "barrier_surface_clearance": 0.01543505959994762,
+      "barrier_tangent_center_error": 0.0,
+      "barrier_tangent_reference": -0.040745937772433516,
+      "barrier_width_shortfall": 0.0,
+      "boxes": [
+        {
+          "center_xy": [
+            0.3731103910920492,
+            -0.41329963652403234
+          ],
+          "center_z": 0.013055655165678196,
+          "half_extents": [
+            0.011,
+            0.011,
+            0.001
+          ],
+          "name": "probe_roof",
+          "yaw": -2.419531066465853
+        },
+        {
+          "center_xy": [
+            0.36328830957459735,
+            -0.35084010645782643
+          ],
+          "center_z": 0.015,
+          "half_extents": [
+            0.04866025403784439,
+            0.002,
+            0.015
+          ],
+          "name": "routing_barrier",
+          "yaw": -2.419531066465853
+        }
+      ],
+      "component_workspace_margin": {
+        "final_target": 0.07693698452907227,
+        "probe_roof": 0.0211752061782024,
+        "routing_barrier": 0.06549782746555344,
+        "stage1_target": 0.1033743118349087,
+        "target_plane": 0.1000696459216791,
+        "target_zone": 0.057280749982521306
+      },
+      "configured_barrier_width": 0.0,
+      "coverage_margin": 0.0049999999999999975,
+      "coverage_reference": "pulled_endpoint_target_corridor",
+      "endpoint_index": 0,
+      "expected_minimum_clearance": 0.002,
+      "full_cable_required_width_diagnostic": 0.09629554723247219,
+      "max_abs_tangent_coordinate": 0.03948751957839171,
+      "minimum_clearance": 0.002049999999999998,
+      "normal_sign": -1.0,
+      "normal_xy": [
+        -0.66093318264591,
+        0.750444753514573
+      ],
+      "probe_index": 10,
+      "probe_roof_surface_clearance": 0.002049999999999998,
+      "public_task": {
+        "endpoint_index": 0,
+        "final_target_xy": [
+          0.32693698452907227,
+          -0.3095656450145249
+        ],
+        "layout_version": "ccda_hidden_routing_gate_public_v1",
+        "leading_segment_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "normal_xy": [
+          -0.66093318264591,
+          0.750444753514573
+        ],
+        "probe_index": 10,
+        "stage1_target_xy": [
+          0.3533743118349087,
+          -0.3395834351551078
+        ],
+        "tangent_xy": [
+          -0.750444753514573,
+          -0.66093318264591
+        ],
+        "target_corridor_half_width": 0.035,
+        "target_plane_point_xy": [
+          0.3500696459216791,
+          -0.3358312113875349
+        ],
+        "target_zone_center_xy": [
+          0.3418079811386052,
+          -0.32645065196860273
+        ],
+        "target_zone_depth": 0.025,
+        "target_zone_half_extents_xy": [
+          0.0125,
+          0.035
+        ],
+        "target_zone_yaw": 2.2928579139188368,
+        "topology_id": "hidden_routing_gate_v1r2"
+      },
+      "rejection_reasons": [],
+      "required_barrier_width": 0.08732050807568878,
+      "resolved_barrier_width": 0.09732050807568877,
+      "roof_bottom_z": 0.012055655165678197,
+      "tangent_projection_max": -0.0012584181940418215,
+      "tangent_projection_midpoint": -0.03764311351819044,
+      "tangent_projection_min": -0.07402780884233906,
+      "tangent_xy": [
+        -0.750444753514573,
+        -0.66093318264591
+      ],
+      "workspace_margin": 0.0211752061782024
+    },
+    {
+      "accepted": true,
+      "barrier_center_tangent_coordinate": 0.0012584181940417938,
+      "barrier_center_xy": [
+        0.3336551076776893,
+        -0.37693871844756555
+      ],
+      "barrier_mode": "endpoint_corridor",
+      "barrier_safety_margin": 0.005,
+      "barrier_surface_clearance": 0.015435059599947627,
+      "barrier_tangent_center_error": -2.7755575615628914e-17,
+      "barrier_tangent_reference": 0.0012584181940418215,
+      "barrier_width_shortfall": 0.0,
+      "boxes": [
+        {
+          "center_xy": [
+            0.3731103910920492,
+            -0.41329963652403234
+          ],
+          "center_z": 0.013055655165678196,
+          "half_extents": [
+            0.011,
+            0.011,
+            0.001
+          ],
+          "name": "probe_roof",
+          "yaw": 0.7220615871239401
+        },
+        {
+          "center_xy": [
+            0.3336551076776893,
+            -0.37693871844756555
+          ],
+          "center_z": 0.015,
+          "half_extents": [
+            0.04866025403784439,
+            0.002,
+            0.015
+          ],
+          "name": "routing_barrier",
+          "yaw": 0.7220615871239401
+        }
+      ],
+      "component_workspace_margin": {
+        "final_target": 0.047303782632164226,
+        "probe_roof": 0.0211752061782024,
+        "routing_barrier": 0.03939921547581432,
+        "stage1_target": 0.07374110993800065,
+        "target_plane": 0.07043644402477112,
+        "target_zone": 0.027647548085613316
+      },
+      "configured_barrier_width": 0.0,
+      "coverage_margin": 0.0049999999999999975,
+      "coverage_reference": "pulled_endpoint_target_corridor",
+      "endpoint_index": 23,
+      "expected_minimum_clearance": 0.002,
+      "full_cable_required_width_diagnostic": 0.1628592893722833,
+      "max_abs_tangent_coordinate": 0.07276939064829727,
+      "minimum_clearance": 0.002049999999999998,
+      "normal_sign": -1.0,
+      "normal_xy": [
+        -0.66093318264591,
+        0.750444753514573
+      ],
+      "probe_index": 10,
+      "probe_roof_surface_clearance": 0.002049999999999998,
+      "public_task": {
+        "endpoint_index": 23,
+        "final_target_xy": [
+          0.2973037826321642,
+          -0.335664257004264
+        ],
+        "layout_version": "ccda_hidden_routing_gate_public_v1",
+        "leading_segment_indices": [
+          20,
+          21,
+          22,
+          23
+        ],
+        "normal_xy": [
+          -0.66093318264591,
+          0.750444753514573
+        ],
+        "probe_index": 10,
+        "stage1_target_xy": [
+          0.32374110993800065,
+          -0.3656820471448469
+        ],
+        "tangent_xy": [
+          0.750444753514573,
+          0.66093318264591
+        ],
+        "target_corridor_half_width": 0.035,
+        "target_plane_point_xy": [
+          0.3204364440247711,
+          -0.3619298233772741
+        ],
+        "target_zone_center_xy": [
+          0.31217477924169723,
+          -0.3525492639583419
+        ],
+        "target_zone_depth": 0.025,
+        "target_zone_half_extents_xy": [
+          0.0125,
+          0.035
+        ],
+        "target_zone_yaw": 2.2928579139188368,
+        "topology_id": "hidden_routing_gate_v1r2"
+      },
+      "rejection_reasons": [],
+      "required_barrier_width": 0.08732050807568878,
+      "resolved_barrier_width": 0.09732050807568877,
+      "roof_bottom_z": 0.012055655165678197,
+      "tangent_projection_max": 0.07402780884233906,
+      "tangent_projection_midpoint": 0.03764311351819044,
+      "tangent_projection_min": 0.0012584181940418215,
+      "tangent_xy": [
+        0.750444753514573,
+        0.66093318264591
+      ],
+      "workspace_margin": 0.0211752061782024
+    }
+  ],
+  "accepted_count_ok": true,
+  "accepted_geometry_ok": true,
+  "action_search_performed": false,
+  "barrier_mode": "endpoint_corridor",
+  "barrier_safety_margin": 0.005,
+  "barrier_width_source": "derived_formula",
+  "candidate_count": 4,
+  "config": "configs/experiment2/phase0/hidden_routing_gate_phase0l_resume2.json",
+  "config_hash": "451eef736c9d5cca00b86445e007dadb76be10a6f409a54da2a409a142b27665",
+  "corridor_required_width": 0.08732050807568878,
+  "engineering_only": true,
+  "geometry_search_performed": false,
+  "no_parameter_search": true,
+  "outcome_search_performed": false,
+  "passed": true,
+  "rejected_candidates": [
+    {
+      "accepted": false,
+      "barrier_center_tangent_coordinate": -0.040745937772433516,
+      "barrier_center_xy": [
+        0.4492096233185656,
+        -0.44839792441472087
+      ],
+      "barrier_mode": "endpoint_corridor",
+      "barrier_safety_margin": 0.005,
+      "barrier_surface_clearance": 0.03624220942608023,
+      "barrier_tangent_center_error": 0.0,
+      "barrier_tangent_reference": -0.040745937772433516,
+      "barrier_width_shortfall": 0.0,
+      "boxes": [
+        {
+          "center_xy": [
+            0.3731103910920492,
+            -0.41329963652403234
+          ],
+          "center_z": 0.013055655165678196,
+          "half_extents": [
+            0.011,
+            0.011,
+            0.001
+          ],
+          "name": "probe_roof",
+          "yaw": -2.419531066465853
+        },
+        {
+          "center_xy": [
+            0.4492096233185656,
+            -0.44839792441472087
+          ],
+          "center_z": 0.015,
+          "half_extents": [
+            0.04866025403784439,
+            0.002,
+            0.015
+          ],
+          "name": "routing_barrier",
+          "yaw": -2.419531066465853
+        }
+      ],
+      "component_workspace_margin": {
+        "final_target": -0.03967238585802241,
+        "probe_roof": 0.0211752061782024,
+        "routing_barrier": -0.032059990491341006,
+        "stage1_target": -0.009654595717439485,
+        "target_plane": -0.013406819485012378,
+        "target_zone": -0.05530059971548357
+      },
+      "configured_barrier_width": 0.0,
+      "coverage_margin": 0.0049999999999999975,
+      "coverage_reference": "pulled_endpoint_target_corridor",
+      "endpoint_index": 0,
+      "expected_minimum_clearance": 0.002,
+      "full_cable_required_width_diagnostic": 0.09629554723247222,
+      "max_abs_tangent_coordinate": 0.03948751957839172,
+      "minimum_clearance": 0.002049999999999998,
+      "normal_sign": 1.0,
+      "normal_xy": [
+        0.66093318264591,
+        -0.750444753514573
+      ],
+      "probe_index": 10,
+      "probe_roof_surface_clearance": 0.002049999999999998,
+      "public_task": {
+        "endpoint_index": 0,
+        "final_target_xy": [
+          0.4855609483640907,
+          -0.4896723858580224
+        ],
+        "layout_version": "ccda_hidden_routing_gate_public_v1",
+        "leading_segment_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "normal_xy": [
+          0.66093318264591,
+          -0.750444753514573
+        ],
+        "probe_index": 10,
+        "stage1_target_xy": [
+          0.45912362105825427,
+          -0.4596545957174395
+        ],
+        "tangent_xy": [
+          -0.750444753514573,
+          -0.66093318264591
+        ],
+        "target_corridor_half_width": 0.035,
+        "target_plane_point_xy": [
+          0.46242828697148386,
+          -0.4634068194850124
+        ],
+        "target_zone_center_xy": [
+          0.47068995175455774,
+          -0.47278737890394457
+        ],
+        "target_zone_depth": 0.025,
+        "target_zone_half_extents_xy": [
+          0.0125,
+          0.035
+        ],
+        "target_zone_yaw": -0.8487347396709565,
+        "topology_id": "hidden_routing_gate_v1r2"
+      },
+      "rejection_reasons": [
+        "workspace"
+      ],
+      "required_barrier_width": 0.08732050807568878,
+      "resolved_barrier_width": 0.09732050807568877,
+      "roof_bottom_z": 0.012055655165678197,
+      "tangent_projection_max": -0.0012584181940418215,
+      "tangent_projection_midpoint": -0.03764311351819044,
+      "tangent_projection_min": -0.07402780884233906,
+      "tangent_xy": [
+        -0.750444753514573,
+        -0.66093318264591
+      ],
+      "workspace_margin": -0.05530059971548357
+    },
+    {
+      "accepted": false,
+      "barrier_center_tangent_coordinate": 0.001258418194041766,
+      "barrier_center_xy": [
+        0.4195764214216576,
+        -0.47449653640446
+      ],
+      "barrier_mode": "endpoint_corridor",
+      "barrier_safety_margin": 0.005,
+      "barrier_surface_clearance": 0.036260059748615646,
+      "barrier_tangent_center_error": -5.551115123125783e-17,
+      "barrier_tangent_reference": 0.0012584181940418215,
+      "barrier_width_shortfall": 0.0,
+      "boxes": [
+        {
+          "center_xy": [
+            0.3731103910920492,
+            -0.41329963652403234
+          ],
+          "center_z": 0.013055655165678196,
+          "half_extents": [
+            0.011,
+            0.011,
+            0.001
+          ],
+          "name": "probe_roof",
+          "yaw": 0.7220615871239401
+        },
+        {
+          "center_xy": [
+            0.4195764214216576,
+            -0.47449653640446
+          ],
+          "center_z": 0.015,
+          "half_extents": [
+            0.04866025403784439,
+            0.002,
+            0.015
+          ],
+          "name": "routing_barrier",
+          "yaw": 0.7220615871239401
+        }
+      ],
+      "component_workspace_margin": {
+        "final_target": -0.06577099784776147,
+        "probe_roof": 0.0211752061782024,
+        "routing_barrier": -0.05815860248108001,
+        "stage1_target": -0.0357532077071786,
+        "target_plane": -0.03950543147475144,
+        "target_zone": -0.08139921170522263
+      },
+      "configured_barrier_width": 0.0,
+      "coverage_margin": 0.0049999999999999975,
+      "coverage_reference": "pulled_endpoint_target_corridor",
+      "endpoint_index": 23,
+      "expected_minimum_clearance": 0.002,
+      "full_cable_required_width_diagnostic": 0.1628592893722833,
+      "max_abs_tangent_coordinate": 0.07276939064829727,
+      "minimum_clearance": 0.002049999999999998,
+      "normal_sign": 1.0,
+      "normal_xy": [
+        0.66093318264591,
+        -0.750444753514573
+      ],
+      "probe_index": 10,
+      "probe_roof_surface_clearance": 0.002049999999999998,
+      "public_task": {
+        "endpoint_index": 23,
+        "final_target_xy": [
+          0.45592774646718265,
+          -0.5157709978477615
+        ],
+        "layout_version": "ccda_hidden_routing_gate_public_v1",
+        "leading_segment_indices": [
+          20,
+          21,
+          22,
+          23
+        ],
+        "normal_xy": [
+          0.66093318264591,
+          -0.750444753514573
+        ],
+        "probe_index": 10,
+        "stage1_target_xy": [
+          0.4294904191613462,
+          -0.4857532077071786
+        ],
+        "tangent_xy": [
+          0.750444753514573,
+          0.66093318264591
+        ],
+        "target_corridor_half_width": 0.035,
+        "target_plane_point_xy": [
+          0.43279508507457576,
+          -0.48950543147475145
+        ],
+        "target_zone_center_xy": [
+          0.44105674985764964,
+          -0.49888599089368363
+        ],
+        "target_zone_depth": 0.025,
+        "target_zone_half_extents_xy": [
+          0.0125,
+          0.035
+        ],
+        "target_zone_yaw": -0.8487347396709565,
+        "topology_id": "hidden_routing_gate_v1r2"
+      },
+      "rejection_reasons": [
+        "workspace"
+      ],
+      "required_barrier_width": 0.08732050807568878,
+      "resolved_barrier_width": 0.09732050807568877,
+      "roof_bottom_z": 0.012055655165678197,
+      "tangent_projection_max": 0.07402780884233906,
+      "tangent_projection_midpoint": 0.03764311351819044,
+      "tangent_projection_min": 0.0012584181940418215,
+      "tangent_xy": [
+        0.750444753514573,
+        0.66093318264591
+      ],
+      "workspace_margin": -0.08139921170522263
+    }
+  ],
+  "rejection_counts": {
+    "workspace": 2
+  },
+  "resolved_barrier_width": 0.09732050807568877,
+  "runtime_main_sha": "69bd238c3dc68d64ef626a04c1528518e6ddfbba",
+  "runtime_submodule_sha": "65d8a4419fac36b496de71a544eea4d3263d847c",
+  "scientific_metrics_computed": false,
+  "scientific_pair_completed": false,
+  "selected_candidate": {
+    "barrier_mode": "endpoint_corridor",
+    "barrier_surface_clearance": 0.01543505959994762,
+    "component_workspace_margin": {
+      "final_target": 0.07693698452907227,
+      "probe_roof": 0.0211752061782024,
+      "routing_barrier": 0.06549782746555344,
+      "stage1_target": 0.1033743118349087,
+      "target_plane": 0.1000696459216791,
+      "target_zone": 0.057280749982521306
+    },
+    "coverage_margin": 0.0049999999999999975,
+    "endpoint_index": 0,
+    "normal_sign": -1.0,
+    "probe_roof_surface_clearance": 0.002049999999999998,
+    "public_task_layout_sha256": "07fca71a89445d4fb4e42f86031d8882e4944915cc4a8e02384d7dbd20a6c5fd",
+    "resolved_barrier_width": 0.09732050807568877,
+    "workspace_margin": 0.0211752061782024
+  },
+  "source_resume1_provenance": "reports/experiment2/phase0_hidden_routing_gate/phase0l_resume1/geometry_provenance_original.json",
+  "source_resume1_provenance_sha256": "a59de64c10645dc8d15c3087234b20c5a0f18f114dcb6361eb81d506f7258601",
+  "source_seed": 71001,
+  "stage": "Experiment2 Phase 0L Resume2 Geometry Preflight",
+  "training_performed": false,
+  "width_match": true
+}

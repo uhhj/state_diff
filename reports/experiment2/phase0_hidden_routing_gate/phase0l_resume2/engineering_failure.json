@@ -1,0 +1,21 @@
+{
+  "action_started": false,
+  "attempt_scope": "single_fixed_three_seed_phase0l_resume2_smoke",
+  "clearance_m": -0.005694587712671802,
+  "completed_pair_count": 0,
+  "condition": "hidden_hook",
+  "exception_message": "hidden hook too close to initial cable: -0.005694587712671802",
+  "exception_type": "RuntimeError",
+  "failure_class": "engineering_reset_clearance_blocker",
+  "failure_location": "arm_ccda_hidden_factor_after_settle",
+  "first_requested_seed": 71001,
+  "geometry_changed_after_failure": false,
+  "minimum_required_clearance_m": 0.002,
+  "phase": "post_settle_pre_action",
+  "remaining_seeds_not_run": [71002, 71003],
+  "retry_after_physical_failure": false,
+  "scientific_metrics_computed": false,
+  "scientific_pair_completed": false,
+  "simulation_started": true,
+  "training_performed": false
+}

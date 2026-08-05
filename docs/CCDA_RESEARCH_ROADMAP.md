@@ -1337,3 +1337,33 @@ Agent 当前只应执行以下主线：
 - Training remained disabled; no retry followed the completed engineering
   result and no geometry change was performed. One earlier invocation was
   client-timeout-aborted before producing any pair, raw file, or result.
+
+### Phase 0L Resume2 — Endpoint-Corridor Barrier Constructor
+
+- Preserved the original Phase 0L and Resume1 engineering BLOCKED
+  evidence and their `UNTESTED` scientific status.
+- Replaced the whole-settled-cable barrier coverage predicate with a
+  constructor aligned to the pre-registered pulled-endpoint routing
+  corridor.
+- The barrier tangent center was fixed to the pulled endpoint routing
+  centerline.
+- Barrier width was derived rather than tuned:
+  `2 * (corridor_half_width + sqrt(3) * bead_radius + 0.005 m)`,
+  giving `0.097320508 m`.
+- Workspace, barrier normal offset, target plane, corridor, action,
+  sensor feature, scientific thresholds, seeds and official outcome
+  were unchanged.
+- The Resume1 seed-71001 settled geometry was used for one offline
+  engineering preflight; no scientific pair was produced by that
+  preflight.
+- The preflight passed with two legal endpoint-corridor candidates, but
+  the fixed smoke was engineering BLOCKED during seed 71001 reset because
+  the post-settle hidden-fixture clearance was `-0.005694588 m`, below the
+  fixed `0.002 m` minimum. No action or pair metric was produced.
+- Seeds 71002 and 71003 were not run, and no retry or geometry change
+  followed the physical failure.
+- No geometry grid, width scan, action search, outcome search or model
+  training was performed.
+- Verdict: `HIDDEN_ROUTING_GATE_RESUME2_SMOKE_BLOCKED`.
+- Scientific status: `UNTESTED`.
+- Training remained disabled.

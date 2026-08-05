@@ -1,0 +1,33 @@
+{
+  "engineering_provenance": true,
+  "official_model_feature": false,
+  "offline_preflight_report": "corridor_geometry_preflight.json",
+  "offline_preflight_sha256": "48ced6614d824b9d33758d8a7d529c3998b366e950ef27842b44e59db6ba2274",
+  "offline_preflight_status": "passed",
+  "runtime_failure": {
+    "clearance_m": -0.005694587712671802,
+    "failure_location": "arm_ccda_hidden_factor_after_settle",
+    "minimum_required_clearance_m": 0.002,
+    "phase": "post_settle_pre_action",
+    "seed": 71001
+  },
+  "runtime_status": "engineering_blocked",
+  "selected_candidate": {
+    "barrier_mode": "endpoint_corridor",
+    "barrier_safety_margin": 0.005,
+    "component_workspace_margin": {
+      "final_target": 0.07693698452907227,
+      "probe_roof": 0.0211752061782024,
+      "routing_barrier": 0.06549782746555344,
+      "stage1_target": 0.1033743118349087,
+      "target_plane": 0.1000696459216791,
+      "target_zone": 0.057280749982521306
+    },
+    "coverage_margin": 0.0049999999999999975,
+    "endpoint_index": 0,
+    "minimum_clearance": 0.002049999999999998,
+    "normal_sign": -1.0,
+    "resolved_barrier_width": 0.09732050807568877,
+    "workspace_margin": 0.0211752061782024
+  }
+}
