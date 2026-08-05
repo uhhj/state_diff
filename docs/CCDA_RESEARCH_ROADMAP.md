@@ -1569,3 +1569,34 @@ Agent 当前只应执行以下主线：
 - Engineering status: `BLOCKED`.
 - Scientific status: `UNTESTED`.
 - No automatic retry or model training was performed.
+
+### Phase 0L Resume9 — Single-Pass Target Descent
+
+- Preserved all Phase 0L through Resume8 evidence and their prior
+  engineering and scientific status.
+- Resume8 had already fixed the target-bead identity for both preload and
+  main pull. The seed-71001 preload correctly resolved public probe index
+  `7` to branch-local body ID `11`, but no target contact formed.
+- The failed acquisition executed `21` precise lowering commands and consumed
+  `131326` physics steps before reaching the unchanged floor limit.
+- Resume9 added no scientific metric, sensor feature, classifier, outcome,
+  geometry, action distance, scientific threshold or peripheral audit gate.
+- The target bead, world-frame pick XY, `pick_z`, floor limit, motion
+  tolerances, target-only contact predicate, target-only constraint predicate,
+  fixture, target plane, corridor, seeds and official outcome were unchanged.
+- The repeated micro-step descent was replaced by at most two fixed Cartesian
+  commands on the same vertical line: one to the existing `pick_z`, followed
+  only when needed by one to the existing floor limit.
+- Runtime target tracking, proximity capture, suction-mount changes, collision
+  enlargement and forced constraints were not used.
+- Existing formal probe and tension motion events were unchanged.
+- The seed-71001 free preload used both fixed descent commands and consumed
+  `8820` acquisition physics steps, but target contact still did not form.
+- First fixed three-seed run verdict:
+  `HIDDEN_ROUTING_GATE_RESUME9_SMOKE_BLOCKED`.
+- First completed pair count: `0`.
+- Because fewer than three pairs completed, no repeat run was performed.
+- Completed-pair repeatability: `N/A`.
+- Engineering status: `BLOCKED`.
+- Scientific status: `UNTESTED`.
+- No automatic retry or model training was performed.

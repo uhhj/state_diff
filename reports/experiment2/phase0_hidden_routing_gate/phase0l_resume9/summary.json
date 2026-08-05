@@ -1,0 +1,147 @@
+{
+  "acquisition_descent_mode": "single_pass_target",
+  "acquisition_motion_mode": "precise_endpoint_recovery",
+  "action_distance_search_performed": false,
+  "action_results": {
+    "free": [
+      {
+        "action_completed": true,
+        "action_name": "routing_contact_probe",
+        "episode_terminated": true,
+        "phase": "preload",
+        "primitive": "pick_precise_latch_probe",
+        "primitive_succeeded": false,
+        "task_success": false,
+        "termination_reason": "primitive_failed",
+        "workflow_should_stop": true,
+        "workflow_stop_reason": "primitive_failed"
+      }
+    ],
+    "hidden_hook": [
+      {
+        "action_completed": true,
+        "action_name": "routing_contact_probe",
+        "episode_terminated": true,
+        "phase": "preload",
+        "primitive": "pick_precise_latch_probe",
+        "primitive_succeeded": false,
+        "task_success": false,
+        "termination_reason": "primitive_failed",
+        "workflow_should_stop": true,
+        "workflow_stop_reason": "primitive_failed"
+      }
+    ]
+  },
+  "attempted_seed": 71001,
+  "automatic_retry_performed": false,
+  "candidate_id": "hidden_routing_gate_v1r9_single_pass_target_v1",
+  "completed_pair_count": 0,
+  "completed_seeds": [],
+  "config": "configs/experiment2/phase0/hidden_routing_gate_phase0l_resume9.json",
+  "engineering_blocked_before_pairs": true,
+  "engineering_status": "BLOCKED",
+  "failed_checks": [
+    "preload_action_execution"
+  ],
+  "failure": {
+    "acquisition": {
+      "achieved_fraction": 0.0,
+      "acquisition_descent_mode": "single_pass_target",
+      "approach_success": true,
+      "constraint_available_after": false,
+      "contact_detected": false,
+      "descent_command_count": 2,
+      "failure_reason": "contact_not_detected",
+      "grasp_active_after": false,
+      "joint_motion_success": true,
+      "joint_timeout_count": 0,
+      "label": "routing_probe_acquisition",
+      "lower_step_count": 2,
+      "physics_step_count": 8820,
+      "physics_step_end": 9060,
+      "physics_step_start": 240,
+      "primitive": "pick_precise_latch_probe",
+      "stage": "routing_probe_acquisition",
+      "success": false,
+      "target_bead_index": 7,
+      "target_body_id": 11,
+      "target_constraint_created": false,
+      "target_contact_detected": false,
+      "timeout_reason": "contact_not_detected"
+    },
+    "condition": "free",
+    "failed_action": {
+      "action_completed": true,
+      "action_name": "routing_contact_probe",
+      "episode_terminated": true,
+      "phase": "preload",
+      "primitive": "pick_precise_latch_probe",
+      "primitive_succeeded": false,
+      "task_success": false,
+      "termination_reason": "primitive_failed",
+      "workflow_should_stop": true,
+      "workflow_stop_reason": "primitive_failed"
+    },
+    "failed_check": "preload_action_execution",
+    "failure_reason": "contact_not_detected",
+    "formal_failure": null,
+    "free_action_results": [
+      {
+        "action_completed": true,
+        "action_name": "routing_contact_probe",
+        "episode_terminated": true,
+        "phase": "preload",
+        "primitive": "pick_precise_latch_probe",
+        "primitive_succeeded": false,
+        "task_success": false,
+        "termination_reason": "primitive_failed",
+        "workflow_should_stop": true,
+        "workflow_stop_reason": "primitive_failed"
+      }
+    ],
+    "free_initial_fixture_clearance": 0.0020508191434599234,
+    "group_id": "rg_071001",
+    "hidden_action_results": [
+      {
+        "action_completed": true,
+        "action_name": "routing_contact_probe",
+        "episode_terminated": true,
+        "phase": "preload",
+        "primitive": "pick_precise_latch_probe",
+        "primitive_succeeded": false,
+        "task_success": false,
+        "termination_reason": "primitive_failed",
+        "workflow_should_stop": true,
+        "workflow_stop_reason": "primitive_failed"
+      }
+    ],
+    "hidden_initial_fixture_clearance": 0.0020508191434599234,
+    "phase": "preload",
+    "public_layout_match": true,
+    "seed": 71001,
+    "selected_probe_index": 7
+  },
+  "free_initial_fixture_clearance": 0.0020508191434599234,
+  "geometry_search_performed": false,
+  "hidden_initial_fixture_clearance": 0.0020508191434599234,
+  "main_pull_frame": "current_endpoint_frozen_normal",
+  "official_outcome": "pulled_endpoint_target_success_gap",
+  "outcome_search_performed": false,
+  "probe_acquisition_motion_mode": "precise_endpoint_recovery",
+  "probe_selector_mode": "all_bead_clearance_nearest_center",
+  "public_layout_mode": "frozen_at_branch_arm",
+  "runtime_main_code_sha": "561b175eb7ad5bf4b344db476d53496dd7b6f810",
+  "runtime_submodule_sha": "e4dfc51358214e8a9f13169521f275425acd2835",
+  "scientific_status": "UNTESTED",
+  "selected_probe_index": 7,
+  "stage": "Experiment2 Phase 0L Resume9",
+  "target_grasp_mode": "selected_bead_only",
+  "topology_id": "hidden_routing_gate_v1r4",
+  "training_performed": false,
+  "unrun_seeds": [
+    71002,
+    71003
+  ],
+  "verdict": "HIDDEN_ROUTING_GATE_RESUME9_SMOKE_BLOCKED",
+  "visualization_performed": false
+}
