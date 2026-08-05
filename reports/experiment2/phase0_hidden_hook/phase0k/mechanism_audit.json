@@ -1,0 +1,59 @@
+{
+  "intervention_id": "same_end_tension_extension_v1",
+  "metrics_are_additional_gates": false,
+  "oracle_is_privileged_audit_only": true,
+  "rows": [
+    {
+      "formal_load_window_sample_count": {
+        "free": 21,
+        "hidden_hook": 22
+      },
+      "formal_unload_window_sample_count": {
+        "free": 34,
+        "hidden_hook": 34
+      },
+      "free_post_release_contact_fraction_privileged": 0.0,
+      "free_preload_contact_fraction_privileged": 0.0,
+      "group_id": "zl_071001",
+      "hidden_main_contact_fraction_privileged": 0.1498422712933754,
+      "hidden_post_release_contact_fraction_privileged": 0.0,
+      "hidden_preload_contact_fraction_privileged": 0.034071550255536626,
+      "seed": 71001
+    },
+    {
+      "formal_load_window_sample_count": {
+        "free": 20,
+        "hidden_hook": 20
+      },
+      "formal_unload_window_sample_count": {
+        "free": 34,
+        "hidden_hook": 35
+      },
+      "free_post_release_contact_fraction_privileged": 0.0,
+      "free_preload_contact_fraction_privileged": 0.0,
+      "group_id": "zl_071002",
+      "hidden_main_contact_fraction_privileged": 0.9472154963680387,
+      "hidden_post_release_contact_fraction_privileged": 0.0,
+      "hidden_preload_contact_fraction_privileged": 0.03237410071942446,
+      "seed": 71002
+    },
+    {
+      "formal_load_window_sample_count": {
+        "free": 20,
+        "hidden_hook": 20
+      },
+      "formal_unload_window_sample_count": {
+        "free": 33,
+        "hidden_hook": 33
+      },
+      "free_post_release_contact_fraction_privileged": 0.0,
+      "free_preload_contact_fraction_privileged": 0.0,
+      "group_id": "zl_071003",
+      "hidden_main_contact_fraction_privileged": 0.6611842105263158,
+      "hidden_post_release_contact_fraction_privileged": 0.0,
+      "hidden_preload_contact_fraction_privileged": 0.0335195530726257,
+      "seed": 71003
+    }
+  ],
+  "topology": "delayed_z_latch_v1"
+}

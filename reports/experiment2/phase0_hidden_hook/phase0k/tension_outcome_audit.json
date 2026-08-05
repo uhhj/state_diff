@@ -1,0 +1,124 @@
+{
+  "changes_official_progress_gate": false,
+  "diagnostic_only": true,
+  "median": {
+    "final_minus_stage1_gap": -0.0008315031408031373,
+    "final_progress_gap": -0.009326183800867076,
+    "stage1_branch_distance": 0.021346563642732727,
+    "stage1_progress_gap": 0.0015570053300702075,
+    "stage2_branch_distance": 0.022846167344080515,
+    "stage2_minus_stage1_gap": -0.0008049758257636166,
+    "stage2_progress_gap": -0.009299656485827555
+  },
+  "metric_version": "same_end_tension_extension_metrics_v1",
+  "rows": [
+    {
+      "changes_official_progress_gate": false,
+      "diagnostic_only": true,
+      "final": {
+        "free_mean_progress": 0.040298611232480235,
+        "hidden_mean_progress": 0.0384925213053665,
+        "maximum_bead_branch_distance": 0.02806354497476549,
+        "mean_bead_branch_distance": 0.008520558329343007,
+        "mean_progress_gap": 0.0018060899271137368
+      },
+      "final_minus_stage1_progress_gap": 0.0002490845970435293,
+      "free_tension_motion_valid": true,
+      "group_id": "zl_071001",
+      "hidden_tension_motion_valid": true,
+      "main_direction_xy": [
+        -0.8659434979639579,
+        0.5001418382158653
+      ],
+      "metric_version": "same_end_tension_extension_metrics_v1",
+      "seed": 71001,
+      "stage1": {
+        "free_mean_progress": 0.027287434826565465,
+        "hidden_mean_progress": 0.025730429496495257,
+        "maximum_bead_branch_distance": 0.04912817333349541,
+        "mean_bead_branch_distance": 0.013438986717713713,
+        "mean_progress_gap": 0.0015570053300702075
+      },
+      "stage2": {
+        "free_mean_progress": 0.03966201144671893,
+        "hidden_mean_progress": 0.03781589755006253,
+        "maximum_bead_branch_distance": 0.02510543897214243,
+        "mean_bead_branch_distance": 0.00774476562846423,
+        "mean_progress_gap": 0.0018461138966563984
+      },
+      "stage2_minus_stage1_progress_gap": 0.0002891085665861909
+    },
+    {
+      "changes_official_progress_gate": false,
+      "diagnostic_only": true,
+      "final": {
+        "free_mean_progress": 0.04160043275950037,
+        "hidden_mean_progress": 0.058792849685361304,
+        "maximum_bead_branch_distance": 0.1259070967543181,
+        "mean_bead_branch_distance": 0.0699028232751018,
+        "mean_progress_gap": -0.01719241692586093
+      },
+      "final_minus_stage1_progress_gap": -0.03118387945558774,
+      "free_tension_motion_valid": true,
+      "group_id": "zl_071002",
+      "hidden_tension_motion_valid": true,
+      "main_direction_xy": [
+        -0.8725914344245636,
+        0.48845080465578367
+      ],
+      "metric_version": "same_end_tension_extension_metrics_v1",
+      "seed": 71002,
+      "stage1": {
+        "free_mean_progress": 0.030374255637519453,
+        "hidden_mean_progress": 0.016382793107792646,
+        "maximum_bead_branch_distance": 0.06265181633198025,
+        "mean_bead_branch_distance": 0.033536097356064574,
+        "mean_progress_gap": 0.013991462529726807
+      },
+      "stage2": {
+        "free_mean_progress": 0.04164143384120341,
+        "hidden_mean_progress": 0.05771944158174763,
+        "maximum_bead_branch_distance": 0.12395526129122085,
+        "mean_bead_branch_distance": 0.07018631680011406,
+        "mean_progress_gap": -0.01607800774054422
+      },
+      "stage2_minus_stage1_progress_gap": -0.03006947027027103
+    },
+    {
+      "changes_official_progress_gate": false,
+      "diagnostic_only": true,
+      "final": {
+        "free_mean_progress": 0.046304142345271054,
+        "hidden_mean_progress": 0.05563032614613813,
+        "maximum_bead_branch_distance": 0.07193900628407288,
+        "mean_bead_branch_distance": 0.02327358715769855,
+        "mean_progress_gap": -0.009326183800867076
+      },
+      "final_minus_stage1_progress_gap": -0.0008315031408031373,
+      "free_tension_motion_valid": true,
+      "group_id": "zl_071003",
+      "hidden_tension_motion_valid": true,
+      "main_direction_xy": [
+        -0.8580545556122522,
+        0.5135585454386484
+      ],
+      "metric_version": "same_end_tension_extension_metrics_v1",
+      "seed": 71003,
+      "stage1": {
+        "free_mean_progress": 0.03141628145877441,
+        "hidden_mean_progress": 0.03991096211883835,
+        "maximum_bead_branch_distance": 0.060363779091233194,
+        "mean_bead_branch_distance": 0.021346563642732727,
+        "mean_progress_gap": -0.008494680660063939
+      },
+      "stage2": {
+        "free_mean_progress": 0.046121550248155764,
+        "hidden_mean_progress": 0.05542120673398332,
+        "maximum_bead_branch_distance": 0.07190063058065317,
+        "mean_bead_branch_distance": 0.022846167344080515,
+        "mean_progress_gap": -0.009299656485827555
+      },
+      "stage2_minus_stage1_progress_gap": -0.0008049758257636166
+    }
+  ]
+}

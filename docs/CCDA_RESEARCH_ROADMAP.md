@@ -336,6 +336,17 @@ Push-L 保留为无柔性隐藏接触负对照。
 - Wide-stop tangent projection covered all beads for seeds `71001/71002` and the pulled endpoint for seed `71003`; blocked-segment median was `0.003728 m`, pulled-side was unavailable, and the only non-empty trailing-side diagnostic was `0.001976 m`. Missing empty-segment statistics were not invented and were not treated as gates.
 - Training remains blocked; this failed fixed-topology smoke does not authorize expanded validation, new geometry, new actions or training.
 
+### Phase 0K — Fixed Same-End Tension Extension
+
+- Restored the Phase 0I `delayed_z_latch_v1` geometry with `wall_width=0.032 m`; the Phase 0I probe, observation, 49D formal sensor feature, seeds, execution settings and scientific thresholds were unchanged.
+- Replaced the single `0.080 m` main pull with one continuous-grasp, collinear `0.080 m + 0.040 m` intervention. No re-grasp, geometry search, action search, extension search or model training was performed.
+- Stage-1 and stage-2 tension metrics were diagnostic only. The official gate remained final median `mean_cable_progress_gap >= 0.01 m`.
+- Verdict: `HIDDEN_TENSION_EXTENSION_SMOKE_BLOCKED`.
+- Main metrics: RGB raw `0.5`, RGB delta `0.666667`, formal sensor `0.833333`, Oracle `1.0`, sensor-over-vision margin `0.166667`; preload `0.003816 m`, ADE `0.014014 m`, FDE `0.022885 m`, branch amplification `5.997040`, engagement `0.691617`.
+- Tension diagnostics: stage-1 gap `0.001557 m`, stage-2 gap `-0.009300 m`, final official gap `-0.009326 m`, median stage-2-minus-stage-1 change `-0.000805 m`; stage-1/stage-2 branch distance `0.021347 / 0.022846 m`.
+- All Cartesian stages and free/hidden grasp-retention checks passed for all three seeds. The only failed formal check was `outcome_progress_gap`.
+- The fixed continuous-grasp tension extension did not convert the Phase 0I local deformation branch into a sufficient and stable final task-level mean progress gap. The hidden Z-latch environment family remains blocked for training.
+
 ---
 
 ## Task 3：Hidden-Clamp Fabric Fold
