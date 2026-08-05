@@ -9,11 +9,20 @@ from pathlib import Path
 
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-if str(REPO_ROOT) not in sys.path:
-    sys.path.insert(
-        0,
-        str(REPO_ROOT),
-    )
+SUBMODULE_ROOT = (
+    REPO_ROOT
+    / "external"
+    / "deformable-ravens"
+)
+for path in (
+    REPO_ROOT,
+    SUBMODULE_ROOT,
+):
+    if str(path) not in sys.path:
+        sys.path.insert(
+            0,
+            str(path),
+        )
 
 from scripts.experiment2.phase0.common import (
     canonical_json_sha256,
@@ -118,4 +127,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
