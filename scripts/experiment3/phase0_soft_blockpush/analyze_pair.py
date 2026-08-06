@@ -153,8 +153,6 @@ def analyze(pair_dir: Path, report_dir: Path) -> Dict[str, Any]:
                               *[v for v in high.values() if v.dtype.kind not in "USO"]),
         "node_count": metadata["node_count"] == 72,
         "visible_count": metadata["visible_count"] == 24,
-        "initial_pusher_clearance": (
-            0.0 <= metadata["initial_pusher_node_signed_distance"] <= 0.002),
         "execution": not any(metadata["branches"][name]["execution_failures"]
                              for name in metadata["conditions"]),
     }
@@ -198,6 +196,12 @@ def analyze(pair_dir: Path, report_dir: Path) -> Dict[str, Any]:
         full, full_gates)
     metrics = {
         "verdict": verdict, "failure_cause": failure_cause,
+        "setup_diagnostics": {
+            "initial_pusher_node_signed_distance_m": metadata[
+                "initial_pusher_node_signed_distance"],
+            "initial_pusher_clearance_within_2mm": (
+                0.0 <= metadata["initial_pusher_node_signed_distance"] <= 0.002),
+        },
         "engineering_gate": engineering, "no_action_gate": no_action,
         "mechanism_gate": mechanism, "full_gate": full_gates if full else None,
         "no_action_final_visible_rmse_m": float(no_action_visible[-1]),
