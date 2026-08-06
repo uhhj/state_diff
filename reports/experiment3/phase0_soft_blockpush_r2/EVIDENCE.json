@@ -1,0 +1,66 @@
+{
+  "verdict": "PHASE0B_R2_NO_PROFILE_PASSED",
+  "starting_sha": "2620d25df8ba1f6dc823700a41d2baa632e711b1",
+  "branch": "Experiment3",
+  "submodule_gitlink": "282b93535b125d1a4487df85ad24aa41551957af",
+  "tests": {"passed": 24, "failed": 0},
+  "pip_check": {
+    "known_pre_existing_only": true,
+    "conflict": "multiprocess 0.70.14 requires dill>=0.3.6; installed dill is 0.3.5.1"
+  },
+  "mechanics_validation": {
+    "profile": "kv_r2_a8_z025",
+    "verdict": "PHASE0B_R2_MICROSTEP_VALIDATION_COMPLETE",
+    "selected_microsteps": 8,
+    "micro_timestep_s": 0.0005208333333333333,
+    "adjacent_pair": [8, 16],
+    "two_node": {
+      "4": {"peak_extension_m": 0.0002597093162336663, "final_energy_ratio": 2.8126349233046577e-230, "stable": true},
+      "8": {"peak_extension_m": 0.0002748975104198102, "final_energy_ratio": 3.728831424934609e-222, "stable": true},
+      "16": {"peak_extension_m": 0.0002798746983577686, "final_energy_ratio": 3.836569016663216e-217, "stable": true},
+      "32": {"peak_extension_m": 0.00028186340852399266, "final_energy_ratio": 1.8172638716169752e-28, "stable": true}
+    },
+    "cube": {
+      "4": {"peak_primary_displacement_m": 0.00008657726847060166, "stable": true},
+      "8": {"peak_primary_displacement_m": 0.00008657797292845352, "stable": true},
+      "16": {"peak_primary_displacement_m": 0.00008657830493100007, "stable": true},
+      "32": {"peak_primary_displacement_m": 0.00008657846616855441, "stable": true}
+    }
+  },
+  "profile_trials": [
+    {
+      "profile": "kv_r2_a6_z025",
+      "mode": "axial",
+      "verdict": "PHASE0B_R2_AXIAL_TOO_STIFF",
+      "peak_primary_displacement_m": 0.0005884064456616878,
+      "peak_lateral_leakage_m": 3.953565352105285e-17,
+      "peak_rigid_aligned_rmse_m": 0.00011550028637627103,
+      "recovery_ratio": 3.930896154671992e-14,
+      "structural_edge_ratio_min": 0.9891932352404735,
+      "structural_edge_ratio_max": 1.0129271249311065,
+      "force_cap_fraction": 0.0,
+      "anchor_drift_m": 0.0,
+      "no_action_drift_m": 0.0
+    },
+    {
+      "profile": "kv_r2_a4_z025",
+      "mode": "axial",
+      "verdict": "PHASE0B_R2_AXIAL_TOO_STIFF",
+      "peak_primary_displacement_m": 0.0008814383524944902,
+      "peak_lateral_leakage_m": 4.39700979931033e-17,
+      "peak_rigid_aligned_rmse_m": 0.00017302182449478224,
+      "recovery_ratio": 1.207076738743442e-13,
+      "structural_edge_ratio_min": 0.9835769578609579,
+      "structural_edge_ratio_max": 1.0193697784668543,
+      "force_cap_fraction": 0.0,
+      "anchor_drift_m": 0.0,
+      "no_action_drift_m": 0.0
+    }
+  ],
+  "shear_run": false,
+  "table_settle_run": false,
+  "material_frozen": false,
+  "pair_run": false,
+  "training_run": false,
+  "server_evidence_root": "/data/Experiment3/reports/phase0_soft_blockpush_r2"
+}
