@@ -136,6 +136,8 @@ class SoftBlockPushEnv(gym.Env):
         self._target_effector_pose = start_pose
         for _ in range(int(self.config["execution"]["pre_snapshot_settle_steps"])):
             client.stepSimulation()
+        self.settle_recenter_xy_offset = self.soft_block.recenter_xy(
+            tuple(soft_cfg["center_xy"]))
         self.floor.set_condition("uniform_low")
         self.initial_pusher_node_signed_distance = self._minimum_pusher_node_distance()
         self.clear_trace()

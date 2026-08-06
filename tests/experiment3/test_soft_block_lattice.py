@@ -39,5 +39,8 @@ def test_lattice_short_bullet_settle_is_finite():
         assert lattice.positions().shape == (72, 3)
         assert np.all(np.isfinite(lattice.positions()))
         assert np.all(np.isfinite(lattice.structural_edge_ratios()))
+        offset = lattice.recenter_xy((.4, -.15))
+        assert offset.shape == (2,)
+        assert np.allclose(lattice.center_of_mass()[:2], [.4, -.15])
     finally:
         client.disconnect()

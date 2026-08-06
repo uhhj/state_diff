@@ -238,6 +238,19 @@ class SoftBlockLattice:
         """Return the equal-mass node center of mass."""
         return np.mean(self.positions(), axis=0)
 
+    def recenter_xy(self, center_xy: Tuple[float, float]) -> np.ndarray:
+        """Rigidly recenter a settled lattice in XY and clear residual velocity."""
+        offset = np.asarray(center_xy, dtype=np.float64) - self.center_of_mass()[:2]
+        for body in self.body_ids:
+            position, orientation = self.client.getBasePositionAndOrientation(body)
+            shifted = np.asarray(position, dtype=np.float64)
+            shifted[:2] += offset
+            self.client.resetBasePositionAndOrientation(
+                body, shifted.tolist(), orientation)
+            self.client.resetBaseVelocity(
+                body, linearVelocity=[0, 0, 0], angularVelocity=[0, 0, 0])
+        return offset
+
     def visible_positions(self) -> np.ndarray:
         """Return top-layer keypoints in fixed order."""
         return self.positions()[self.top_indices]

@@ -215,6 +215,7 @@ def run_pair(config: Dict[str, Any], stop_after_probe: bool = False):
             "shear_rest_lengths": [edge["rest_length"] for edge in edge_meta["shear"]],
             "initial_pusher_node_signed_distance": (
                 env.initial_pusher_node_signed_distance),
+            "settle_recenter_xy_offset": env.settle_recenter_xy_offset.tolist(),
             "config": config, "branches": branch_meta}
         write_json(pair_dir / "metadata.json", metadata)
         return pair_dir, metadata
