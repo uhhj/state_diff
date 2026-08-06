@@ -1,0 +1,110 @@
+{
+  "branch": "Experiment3",
+  "ending_code_sha": "c44137838b7930b7ffce05d44b7011834a5826b2",
+  "execution": {
+    "axial": {
+      "anchor_drift_m": 0.0,
+      "classification_revision": "r2r2_decoupled_shear",
+      "common_gate": {
+        "anchor_drift": true,
+        "edge_ratios": true,
+        "force_cap": true,
+        "no_action": true,
+        "recovery": true
+      },
+      "engineering_gate": {
+        "anchor_count": true,
+        "dynamic_mass": true,
+        "finite": true,
+        "force_evaluations": true,
+        "load_count": true,
+        "net_residual": true,
+        "no_collapse": true,
+        "no_fixture": true,
+        "node_count": true,
+        "phase_lengths": true,
+        "selected_microsteps": true,
+        "static_anchor_mass": true
+      },
+      "force_cap_fraction": 0.0,
+      "legacy_r2_verdict": "PHASE0B_R2_AXIAL_COMPLETE",
+      "max_net_internal_force_residual_n": 2.0893338223495178e-17,
+      "microsteps_per_outer": 8,
+      "mode": "axial",
+      "no_action_visible_peak_drift_m": 0.0,
+      "peak_lateral_leakage_m": 6.25503954281047e-17,
+      "peak_primary_displacement_m": 0.0020076506027271734,
+      "peak_rigid_aligned_rmse_m": 0.0004018896788199146,
+      "primary_recovery_ratio": 2.0845650155584556e-10,
+      "profile_name": "kv_r2r2_s10p5_z025",
+      "rigid_recovery_ratio": 2.1440294048963997e-10,
+      "structural_edge_ratio_max": 1.0459850224537224,
+      "structural_edge_ratio_min": 0.9631189709542421,
+      "verdict": "PHASE0B_R2_AXIAL_COMPLETE"
+    },
+    "pair_run": false,
+    "profiles_run": [
+      "kv_r2r2_s12p5_z025",
+      "kv_r2r2_s10p5_z025"
+    ],
+    "reason": "second_profile_failed",
+    "selected_profile": null,
+    "shear": {
+      "anchor_drift_m": 0.0,
+      "classification_revision": "r2r2_decoupled_shear",
+      "common_gate": {
+        "anchor_drift": true,
+        "edge_ratios": true,
+        "force_cap": true,
+        "no_action": true,
+        "recovery": true
+      },
+      "engineering_gate": {
+        "anchor_count": true,
+        "dynamic_mass": true,
+        "finite": true,
+        "force_evaluations": true,
+        "load_count": true,
+        "net_residual": true,
+        "no_collapse": true,
+        "no_fixture": true,
+        "node_count": true,
+        "phase_lengths": true,
+        "selected_microsteps": true,
+        "static_anchor_mass": true
+      },
+      "force_cap_fraction": 0.0,
+      "legacy_r2_verdict": "PHASE0B_R2_SHEAR_TOO_SOFT",
+      "max_net_internal_force_residual_n": 1.1141800869279564e-16,
+      "microsteps_per_outer": 8,
+      "mode": "shear",
+      "no_action_visible_peak_drift_m": 0.0,
+      "peak_lateral_leakage_m": 0.003957647296378074,
+      "peak_primary_displacement_m": 0.02054848037209069,
+      "peak_rigid_aligned_rmse_m": 0.0014228135437326262,
+      "primary_recovery_ratio": 0.052753156670208017,
+      "profile_name": "kv_r2r2_s10p5_z025",
+      "rigid_recovery_ratio": 0.04894527447466423,
+      "structural_edge_ratio_max": 1.2397977854442768,
+      "structural_edge_ratio_min": 0.7457622397702597,
+      "verdict": "PHASE0B_R2_SHEAR_TOO_SOFT"
+    },
+    "table_settle": null,
+    "training_run": false,
+    "verdict": "PHASE0B_R2R2_NO_PROFILE_PASSED"
+  },
+  "frozen": null,
+  "pair_run": false,
+  "pip_check": {
+    "conflict": "multiprocess 0.70.14 / dill 0.3.5.1",
+    "known_pre_existing_only": true
+  },
+  "starting_sha": "98869dc969e758e1b3de6a9a92c45916737a1e7c",
+  "submodule_gitlink": "282b93535b125d1a4487df85ad24aa41551957af",
+  "tests": {
+    "failed": 0,
+    "passed": 24
+  },
+  "training_run": false,
+  "verdict": "PHASE0B_R2R2_NO_PROFILE_PASSED"
+}
