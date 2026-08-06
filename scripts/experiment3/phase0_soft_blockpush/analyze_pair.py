@@ -61,7 +61,7 @@ def classify_verdict(engineering_pass: bool, no_action_pass: bool,
     if all(gates.values()):
         return "PHASE0B_SINGLE_PAIR_COMPLETE", None
     if (gates.get("visible", False) and gates.get("full", False)
-            and gates.get("progress", False) and not gates.get("rigid", False)):
+            and gates.get("com", True) and not gates.get("rigid", False)):
         return ("PHASE0B_SINGLE_PAIR_SCIENTIFIC_FAIL",
                 "translation_only_no_deformation_branch")
     return "PHASE0B_SINGLE_PAIR_SCIENTIFIC_FAIL", "full_pair_gate"
@@ -188,6 +188,7 @@ def analyze(pair_dir: Path, report_dir: Path) -> Dict[str, Any]:
         "full": float(full_gap[-1]) >= analysis_cfg["final_full_rmse_min_m"],
         "rigid": float(rigid_gap[-1]) >= analysis_cfg["final_rigid_aligned_rmse_min_m"],
         "progress": abs(float(progress_gap[-1])) >= analysis_cfg["target_progress_gap_min_m"],
+        "com": float(com_gap[-1]) >= analysis_cfg["final_full_rmse_min_m"],
         "amplification": amplification >= analysis_cfg["branch_amplification_min"],
         "edge_ratios": no_action["edge_ratios"],
     }
