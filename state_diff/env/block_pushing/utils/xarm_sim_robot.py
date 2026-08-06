@@ -38,9 +38,15 @@ class XArmSimRobot:
         initial_joint_positions=HOME_JOINT_POSITIONS,
         end_effector="none",
         color="default",
+        motor_force_limit=5 * 240.0,
+        position_gain=None,
+        velocity_gain=None,
     ):
         self._pybullet_client = pybullet_client
         self.initial_joint_positions = initial_joint_positions
+        self._motor_force_limit = float(motor_force_limit)
+        self._position_gain = position_gain
+        self._velocity_gain = velocity_gain
 
         if color == "default":
             self.xarm = utils_pybullet.load_urdf(
@@ -146,6 +152,28 @@ class XArmSimRobot:
         joint_torques = np.array([state[3] for state in joint_states])
         return joint_positions, joint_velocities, joint_torques
 
+    @property
+    def joint_indices(self):
+        """Return the six revolute joint indices in fixed order."""
+        return tuple(self._joint_indices)
+
+    @property
+    def motor_force_limit(self):
+        """Return the configured per-joint motor force limit."""
+        return self._motor_force_limit
+
+    def enable_joint_force_torque_sensors(self):
+        """Enable reaction-wrench sensing on every controlled joint."""
+        for joint_index in self._joint_indices:
+            self._pybullet_client.enableJointForceTorqueSensor(
+                self.xarm, int(joint_index), enableSensor=True)
+
+    def get_joint_reaction_wrenches(self):
+        """Return measured joint reaction wrenches with shape [6, 6]."""
+        states = self._pybullet_client.getJointStates(
+            self.xarm, self._joint_indices)
+        return np.asarray([state[2] for state in states], dtype=np.float64)
+
     def get_joint_positions(self):
         joint_states = self._pybullet_client.getJointStates(
             self.xarm, self._joint_indices
@@ -195,26 +223,66 @@ class XArmSimRobot:
             )
         )
 
+    def inverse_kinematics_fixed_rest(
+        self,
+        world_effector_pose,
+        rest_joint_positions,
+        max_iterations=100,
+        residual_threshold=1e-10,
+    ):
+        """Solve IK using one explicit, branch-independent rest vector."""
+        rest = np.asarray(rest_joint_positions, dtype=np.float64)
+        if rest.shape != (self._n_joints,):
+            raise ValueError("expected {}, got {}".format(
+                (self._n_joints,), rest.shape))
+        return np.asarray(
+            self._pybullet_client.calculateInverseKinematics(
+                self.xarm,
+                self.effector_link,
+                world_effector_pose.translation,
+                world_effector_pose.rotation.as_quat(),
+                lowerLimits=[-17] * self._n_joints,
+                upperLimits=[17] * self._n_joints,
+                jointRanges=[17] * self._n_joints,
+                restPoses=rest.tolist(),
+                maxNumIterations=max_iterations,
+                residualThreshold=residual_threshold,
+            ),
+            dtype=np.float64,
+        )
+
     def set_target_effector_pose(self, world_effector_pose):
         target_joint_positions = self.inverse_kinematics(world_effector_pose)
         self.set_target_joint_positions(target_joint_positions)
 
     def set_target_joint_velocities(self, target_joint_velocities):
+        kwargs = dict(
+            targetVelocities=target_joint_velocities,
+            forces=[self._motor_force_limit] * self._n_joints,
+        )
+        if self._velocity_gain is not None:
+            kwargs["velocityGains"] = [float(self._velocity_gain)] * self._n_joints
         self._pybullet_client.setJointMotorControlArray(
             self.xarm,
             self._joint_indices,
             pybullet.VELOCITY_CONTROL,
-            targetVelocities=target_joint_velocities,
-            forces=[5 * 240.0] * 6,
+            **kwargs,
         )
 
     def set_target_joint_positions(self, target_joint_positions):
+        kwargs = dict(
+            targetPositions=target_joint_positions,
+            forces=[self._motor_force_limit] * self._n_joints,
+        )
+        if self._position_gain is not None:
+            kwargs["positionGains"] = [float(self._position_gain)] * self._n_joints
+        if self._velocity_gain is not None:
+            kwargs["velocityGains"] = [float(self._velocity_gain)] * self._n_joints
         self._pybullet_client.setJointMotorControlArray(
             self.xarm,
             self._joint_indices,
             pybullet.POSITION_CONTROL,
-            targetPositions=target_joint_positions,
-            forces=[5 * 240.0] * 6,
+            **kwargs,
         )
 
     def set_alpha_transparency(self, alpha):
