@@ -8,6 +8,7 @@ import pybullet_utils.bullet_client as bullet_client
 from state_diff.env.block_pushing.angle_elastic_soft_block import (
     AngleElasticParameters, evaluate_angle_constraints)
 from state_diff.env.block_pushing.kelvin_voigt_soft_block import SpringStepStats
+from state_diff.env.block_pushing.kelvin_voigt_soft_block import evaluate_edge_family
 from state_diff.env.block_pushing.manual_microstep_integrator import (
     ManualMicrostepConfig, ManualMicrostepIntegrator)
 
@@ -29,6 +30,8 @@ class AngleCell:
             basePosition=position.tolist()))
             for index, position in enumerate(locations)]
         self.triplets = np.asarray([[0, 1, 2]], dtype=np.int64)
+        self.arm_pairs = np.asarray([[0, 1], [0, 2]], dtype=np.int64)
+        self.arm_rest_lengths = np.full(2, arm_length_m, dtype=np.float64)
         self.rest_cosines = np.asarray([parameters.rest_cosine])
         self.node_mass_kg = node_mass_kg
 
@@ -52,18 +55,26 @@ class AngleCell:
             positions, self.velocities(), self.triplets, self.rest_cosines,
             self.parameters.stiffness_n_m, self.parameters.damping_n_m_s,
             self.parameters.force_cap_n)
-        forces = np.concatenate([
-            evaluation.force_center_n, evaluation.force_first_n,
-            evaluation.force_second_n], axis=0)
+        arm_evaluation = evaluate_edge_family(
+            positions, self.velocities(), self.arm_pairs, self.arm_rest_lengths,
+            10.0, 0.02282177322938192, self.parameters.force_cap_n)
+        forces = np.zeros((3, 3), dtype=np.float64)
+        np.add.at(forces, self.arm_pairs[:, 0], arm_evaluation.edge_forces_on_a)
+        np.add.at(forces, self.arm_pairs[:, 1], -arm_evaluation.edge_forces_on_a)
+        forces[0] += evaluation.force_center_n[0]
+        forces[1] += evaluation.force_first_n[0]
+        forces[2] += evaluation.force_second_n[0]
         for body, force, position in zip(self.body_ids, forces, positions):
             self.client.applyExternalForce(body, -1, force.tolist(),
                                            position.tolist(), self.client.WORLD_FRAME)
         arms = np.linalg.norm(positions[1:] - positions[0], axis=1)
         return SpringStepStats(
-            {"angle": float(evaluation.energy_j[0])},
-            float(evaluation.max_uncapped_force_n[0]),
+            {"structural": float(np.sum(arm_evaluation.energy_j)),
+             "angle": float(evaluation.energy_j[0])},
+            max(float(evaluation.max_uncapped_force_n[0]),
+                float(np.max(arm_evaluation.uncapped_force_norm_n))),
             float(max(np.linalg.norm(force) for force in forces)),
-            int(evaluation.capped[0]), 1,
+            int(evaluation.capped[0]) + int(np.sum(arm_evaluation.capped)), 3,
             float(np.linalg.norm(np.sum(forces, axis=0))),
             float(np.min(arms)), float(np.max(arms)))
 
