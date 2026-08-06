@@ -4,6 +4,8 @@ Phase 0B established a strict hidden-friction Pair, early physics-rate sensor re
 
 R1 preserves that implementation as `p2p_legacy` and introduces an explicit Kelvin–Voigt mass-spring material. Structural, shear, and bending edges apply equal-and-opposite axial spring/damper forces before every Bullet step; they create no internal P2P constraints. Spring energy, maximum force, cap activity, and evaluation counts are recorded.
 
+The explicit network uses two deterministic Bullet internal integration substeps per 240 Hz outer physics step. Spring forces are evaluated once before each outer step; policy/trace timing remains 240 Hz and solver iterations remain frozen at 80. This numerical-stability setting is recorded in coupon and Pair metadata.
+
 ## Gated workflow
 
 1. An XArm-free material coupon fixes one face, loads the opposite face, and checks millimetre-scale rigid-aligned deformation, face-relative displacement, structural stability, force-cap activity, and elastic recovery.

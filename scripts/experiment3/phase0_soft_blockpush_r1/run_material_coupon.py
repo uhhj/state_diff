@@ -15,6 +15,8 @@ if str(REPO_ROOT) not in sys.path:
 from scripts.experiment3.phase0_soft_blockpush_r1.common import (  # noqa: E402
     SPRING_FIELDS, load_config, trace_arrays, with_material_profile, write_json)
 from state_diff.env.block_pushing.material_coupon import MaterialCoupon  # noqa: E402
+from state_diff.env.block_pushing.kelvin_voigt_soft_block import (  # noqa: E402
+    KELVIN_VOIGT_BULLET_SUBSTEPS)
 
 
 FIELDS = ("physics_step", "phase", "node_positions", "node_velocities",
@@ -58,6 +60,7 @@ def run_coupon(config_path: str, material_profile_path: str) -> Path:
             "load_indices": coupon.load_indices.tolist(),
             "fixture_constraint_ids": coupon.fixture_constraint_ids,
             "internal_constraint_count": len(coupon.block.constraint_ids),
+            "bullet_internal_substeps": KELVIN_VOIGT_BULLET_SUBSTEPS,
             "node_count": len(coupon.block.body_ids),
             "top_indices": coupon.block.top_indices.tolist(),
             "structural_edges": coupon.block.edges["structural"].tolist(),

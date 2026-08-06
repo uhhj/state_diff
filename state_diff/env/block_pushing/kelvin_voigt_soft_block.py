@@ -12,6 +12,9 @@ from state_diff.env.block_pushing.soft_block_lattice import (
     SoftBlockConfig, build_edge_metadata, initial_node_positions, node_index)
 
 
+KELVIN_VOIGT_BULLET_SUBSTEPS = 2
+
+
 @dataclass(frozen=True)
 class KelvinVoigtMaterial:
     """Positive axial stiffness and damping coefficients by edge family."""

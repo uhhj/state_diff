@@ -11,7 +11,8 @@ from scripts.experiment3.phase0_soft_blockpush.common import (
     floor_config, soft_block_config)
 from state_diff.env.block_pushing.friction_tiles import FrictionTileFloor
 from state_diff.env.block_pushing.kelvin_voigt_soft_block import (
-    KelvinVoigtSoftBlock, load_material_profile)
+    KELVIN_VOIGT_BULLET_SUBSTEPS, KelvinVoigtSoftBlock,
+    load_material_profile)
 from state_diff.env.block_pushing.soft_block_lattice import node_index
 
 
@@ -39,6 +40,8 @@ class MaterialCoupon:
         client = self.client
         client.resetSimulation()
         client.setTimeStep(float(physics["fixed_timestep"]))
+        client.setPhysicsEngineParameter(
+            numSubSteps=KELVIN_VOIGT_BULLET_SUBSTEPS)
         client.setPhysicsEngineParameter(
             numSolverIterations=int(physics["solver_iterations"]),
             deterministicOverlappingPairs=int(

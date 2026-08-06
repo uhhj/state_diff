@@ -22,6 +22,8 @@ from scripts.experiment3.phase0_soft_blockpush_r1.common import (  # noqa: E402
     SPRING_FIELDS, load_config, trace_arrays, with_material_profile, write_json)
 from state_diff.env.block_pushing.soft_block_pushing import (  # noqa: E402
     LOWDIM_LAYOUT, SoftBlockPushEnv)
+from state_diff.env.block_pushing.kelvin_voigt_soft_block import (  # noqa: E402
+    KELVIN_VOIGT_BULLET_SUBSTEPS)
 
 
 CONDITIONS = ("uniform_low", "right_local_high")
@@ -201,6 +203,7 @@ def run_pair(config_path: str, frozen_material_report: str,
                                     config["physics"]["policy_hz"]),
             "policy_hz": config["physics"]["policy_hz"],
             "physics_hz": config["physics"]["physics_hz"],
+            "bullet_internal_substeps": KELVIN_VOIGT_BULLET_SUBSTEPS,
             "lowdim_layout": LOWDIM_LAYOUT,
             "structural_edges": env.soft_block.edges["structural"].tolist(),
             "structural_rest_lengths": [e["rest_length"] for e in

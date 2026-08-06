@@ -4,7 +4,8 @@ import pybullet_utils.bullet_client as bullet_client
 import pytest
 
 from state_diff.env.block_pushing.kelvin_voigt_soft_block import (
-    KelvinVoigtMaterial, KelvinVoigtSoftBlock, kelvin_voigt_edge_force)
+    KELVIN_VOIGT_BULLET_SUBSTEPS, KelvinVoigtMaterial,
+    KelvinVoigtSoftBlock, kelvin_voigt_edge_force)
 from state_diff.env.block_pushing.soft_block_lattice import (
     SoftBlockConfig, build_edge_metadata, build_edge_pairs)
 
@@ -32,6 +33,7 @@ def test_edge_force_sign_damping_cap_energy_and_collapse():
 
 
 def test_edge_pairs_preserve_legacy_order_and_counts():
+    assert KELVIN_VOIGT_BULLET_SUBSTEPS == 2
     config = SoftBlockConfig()
     pairs = build_edge_pairs(config); metadata = build_edge_metadata(config)
     assert {key: len(value) for key, value in pairs.items()} == {
