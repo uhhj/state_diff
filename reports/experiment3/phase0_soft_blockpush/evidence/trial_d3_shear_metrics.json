@@ -1,0 +1,85 @@
+{
+  "branch_amplification": 5.488269277171715,
+  "engineering_gate": {
+    "all_finite": true,
+    "execution": true,
+    "fixed_commands": true,
+    "formal_finite": true,
+    "formal_nonzero_channels": true,
+    "initial_state": true,
+    "node_count": true,
+    "phases": true,
+    "physics_steps": true,
+    "visible_count": true
+  },
+  "failure_cause": "translation_only_no_deformation_branch",
+  "final_com_gap_m": 0.005420905854335964,
+  "final_full_rmse_m": 0.004450926099188528,
+  "final_rigid_aligned_rmse_m": 2.109521911423881e-06,
+  "final_target_progress_gap_m": -5.883843844359249e-05,
+  "final_visible_rmse_m": 0.004451012401321121,
+  "formal_channels": {
+    "ee_contact_wrench": {
+      "onset_index": 145,
+      "onset_phase": "probe",
+      "threshold": 0.0
+    },
+    "ee_tracking_error_xyz": {
+      "onset_index": 143,
+      "onset_phase": "probe",
+      "threshold": 0.0
+    },
+    "joint_motor_torque": {
+      "onset_index": 143,
+      "onset_phase": "probe",
+      "threshold": 0.0
+    },
+    "joint_reaction_wrench": {
+      "onset_index": 143,
+      "onset_phase": "probe",
+      "threshold": 0.0
+    }
+  },
+  "free_patch_stick_ratio_probe_mean": 0.6076388888888888,
+  "free_patch_tangential_force_probe_mean_n": 0.007876858398578055,
+  "full_gate": {
+    "amplification": true,
+    "com": true,
+    "edge_ratios": true,
+    "full": true,
+    "progress": false,
+    "rigid": false,
+    "visible": true
+  },
+  "fused_formal_sensor_onset_index": 143,
+  "fused_formal_sensor_onset_phase": "probe",
+  "high_patch_stick_ratio_probe_mean": 0.6006944444444445,
+  "high_patch_tangential_force_probe_mean_n": 0.1336583161819126,
+  "mechanism_gate": {
+    "formal_fused_onset": true,
+    "high_friction_response": true,
+    "oracle_onset_in_probe": true,
+    "sensor_leads_visible": true
+  },
+  "no_action_final_visible_rmse_m": 9.454015044667611e-08,
+  "no_action_gate": {
+    "edge_ratios": true,
+    "final_visible": true,
+    "floor_penetration": true,
+    "nodes_finite": true,
+    "peak_visible": true
+  },
+  "no_action_peak_visible_rmse_m": 9.468775755416733e-08,
+  "oracle_friction_load_onset_index": 145,
+  "oracle_friction_load_onset_phase": "probe",
+  "sensor_to_visual_lead_steps": 3,
+  "setup_diagnostics": {
+    "initial_pusher_clearance_within_2mm": false,
+    "initial_pusher_node_signed_distance_m": 0.00210656682296617
+  },
+  "structural_edge_ratio_max": 1.006336595757302,
+  "structural_edge_ratio_min": 0.9809475791993826,
+  "verdict": "PHASE0B_SINGLE_PAIR_SCIENTIFIC_FAIL",
+  "visible_divergence_onset_index": 146,
+  "visible_divergence_onset_phase": "probe"
+}
