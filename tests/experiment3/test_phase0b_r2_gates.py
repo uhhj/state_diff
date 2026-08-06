@@ -1,5 +1,8 @@
 from pathlib import Path
 
+import json
+import numpy as np
+
 from scripts.experiment3.phase0_soft_blockpush_r2.analyze_table_settle import (
     classify_table)
 from scripts.experiment3.phase0_soft_blockpush_r2.common import (
@@ -26,6 +29,9 @@ def test_phase_config_is_frozen_and_selection_requires_reference(tmp_path):
         pass
     else:
         raise AssertionError("32 cannot be frozen without a 2M reference")
+
+    write_json(path, {"numpy_gate": np.bool_(True)})
+    assert json.loads(path.read_text(encoding="utf-8"))["numpy_gate"] is True
 
 
 def test_table_and_profile_gates_are_closed_world():

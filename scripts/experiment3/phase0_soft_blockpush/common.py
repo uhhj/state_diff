@@ -101,6 +101,8 @@ def write_json(path: str, payload: Any) -> None:
             return None if not np.isfinite(value) else float(value)
         if isinstance(value, (np.integer,)):
             return int(value)
+        if isinstance(value, (np.bool_,)):
+            return bool(value)
         return value
     target = Path(path)
     target.parent.mkdir(parents=True, exist_ok=True)
