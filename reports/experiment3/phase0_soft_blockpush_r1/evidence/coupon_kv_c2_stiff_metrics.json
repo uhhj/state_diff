@@ -1,0 +1,35 @@
+{
+  "com_drift_peak_m": 0.161210816341499,
+  "edge_ratio_max": 365.0237650904539,
+  "edge_ratio_min": 0.01290162635477543,
+  "engineering_gate": {
+    "anchor_count": true,
+    "finite": true,
+    "floor": false,
+    "force_evaluations": true,
+    "load_count": true,
+    "no_collapsed_edge": true,
+    "no_internal_constraints": true,
+    "node_count": true,
+    "phase_lengths": true
+  },
+  "force_cap_fraction": 0.7997911241319444,
+  "material_profile": {
+    "bending_damping_ns_per_m": 0.006,
+    "bending_stiffness_n_per_m": 1.2,
+    "profile_name": "kv_c2_stiff",
+    "shear_damping_ns_per_m": 0.018,
+    "shear_stiffness_n_per_m": 4.5,
+    "structural_damping_ns_per_m": 0.03,
+    "structural_stiffness_n_per_m": 12.0
+  },
+  "material_profile_path": "configs/experiment3/material_profiles/soft_block_kv_c2_stiff.json",
+  "no_action_visible_peak_m": 0.2508195223424892,
+  "peak_face_relative_displacement_m": 0.34810212934135587,
+  "peak_rigid_aligned_rmse_m": 0.7816328249609087,
+  "peak_shear_strain_rms": 136.64325296003088,
+  "peak_structural_strain_rms": 191.11351886957215,
+  "profile_name": "kv_c2_stiff",
+  "recovery_ratio": 0.9067175897286879,
+  "verdict": "PHASE0B_R1_COUPON_ENGINEERING_BLOCKED"
+}

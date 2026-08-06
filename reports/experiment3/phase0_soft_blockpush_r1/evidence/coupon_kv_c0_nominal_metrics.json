@@ -1,0 +1,35 @@
+{
+  "com_drift_peak_m": 0.02206811138751246,
+  "edge_ratio_max": 1.6685144033532533,
+  "edge_ratio_min": 0.33303008136706536,
+  "engineering_gate": {
+    "anchor_count": true,
+    "finite": true,
+    "floor": true,
+    "force_evaluations": true,
+    "load_count": true,
+    "no_collapsed_edge": true,
+    "no_internal_constraints": true,
+    "node_count": true,
+    "phase_lengths": true
+  },
+  "force_cap_fraction": 0.0,
+  "material_profile": {
+    "bending_damping_ns_per_m": 0.004,
+    "bending_stiffness_n_per_m": 0.8,
+    "profile_name": "kv_c0_nominal",
+    "shear_damping_ns_per_m": 0.012,
+    "shear_stiffness_n_per_m": 3.0,
+    "structural_damping_ns_per_m": 0.02,
+    "structural_stiffness_n_per_m": 8.0
+  },
+  "material_profile_path": "configs/experiment3/material_profiles/soft_block_kv_c0.json",
+  "no_action_visible_peak_m": 0.0006932591774783667,
+  "peak_face_relative_displacement_m": 0.047485681107223204,
+  "peak_rigid_aligned_rmse_m": 0.0031699537033713344,
+  "peak_shear_strain_rms": 0.15629040643354286,
+  "peak_structural_strain_rms": 0.15914910393185963,
+  "profile_name": "kv_c0_nominal",
+  "recovery_ratio": 0.20728500186643647,
+  "verdict": "PHASE0B_R1_COUPON_UNSTABLE"
+}
