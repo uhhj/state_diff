@@ -50,11 +50,15 @@ def evaluate_confirmation(two: dict, cube: dict, config: dict) -> dict:
             cube[8]["recovery_ratio"], cube[16]["recovery_ratio"], 1e-6)}
     zero_cap = all(two[m]["gate"]["zero_cap"] and cube[m]["gate"]["zero_cap"]
                    for m in (8, 16))
-    passed = (all(two[m]["stable"] and cube[m]["stable"] for m in (8, 16))
+    aligned_energy = all(two[m].get("energy_measurement") == "post_step_aligned"
+                         for m in (8, 16))
+    passed = (aligned_energy
+              and all(two[m]["stable"] and cube[m]["stable"] for m in (8, 16))
               and zero_cap and all(value <= .05 for value in errors.values()))
     return {"verdict": COMPLETE if passed else BLOCKED,
             "relative_errors": errors, "maximum_relative_error": max(errors.values()),
-            "zero_cap": zero_cap, "selection_reopened": False,
+            "zero_cap": zero_cap, "aligned_energy": aligned_energy,
+            "selection_reopened": False,
             "retained_microsteps": 8 if passed else None}
 
 
@@ -81,8 +85,18 @@ def analyze(confirmation_dir: Path, report_dir: Path) -> dict:
             _load(confirmation_dir / "cube_{}.npz".format(microsteps)),
             config, microsteps)
     decision = evaluate_confirmation(two, cube, config)
+    diagnostics = {"m{}".format(m): {
+        "increase_count": two[m]["energy_increase_count"],
+        "increase_fraction": two[m]["energy_increase_fraction"],
+        "cumulative_positive_injection_ratio":
+            two[m]["cumulative_positive_energy_injection_ratio"],
+        "max_positive_increment_ratio":
+            two[m]["max_positive_energy_increment_ratio"],
+        "max_total_energy_ratio": two[m]["max_total_energy_ratio"]}
+        for m in (8, 16)}
     summary = dict(decision, profile=metadata["material_profile"],
                    two_node=two, cube=cube,
+                   energy_diagnostics=diagnostics,
                    prior_r2_selection=metadata["prior_r2_selection"])
     write_json(report_dir / "summary.json", summary)
     selection = {

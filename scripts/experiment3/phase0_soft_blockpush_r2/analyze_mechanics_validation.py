@@ -24,14 +24,38 @@ def _load(path: Path) -> dict:
         return {key: source[key] for key in source.files}
 
 
+def _aligned_energy_series(data: dict) -> np.ndarray:
+    """Return post-step aligned total energy.
+
+    New traces use total_energy with aligned semantics. Older
+    synthetic/legacy fixtures remain readable.
+    """
+    if "aligned_total_energy" in data:
+        return np.asarray(data["aligned_total_energy"], dtype=np.float64)
+    return np.asarray(data["total_energy"], dtype=np.float64)
+
+
 def summarize_two_node(data: dict, config: dict, microsteps: int) -> dict:
     """Summarize oscillator stability and convergence observables."""
     settings = config["mechanics_validation"]
-    extension, energy = data["extension"], data["total_energy"]
+    extension = np.asarray(data["extension"], dtype=np.float64)
+    energy = _aligned_energy_series(data)
+    energy_scale = max(float(energy[0]), 1e-30)
+    increment_tolerance = max(float(energy[0]) * 1e-10, 1e-15)
+    energy_delta = np.diff(energy)
+    positive_mask = energy_delta > increment_tolerance
+    positive_delta = np.where(positive_mask, energy_delta, 0.0)
+    energy_increase_count = int(np.count_nonzero(positive_mask))
+    energy_increase_fraction = float(
+        energy_increase_count / max(len(energy_delta), 1))
+    cumulative_positive_injection_ratio = float(
+        np.sum(positive_delta) / energy_scale)
+    max_positive_increment_ratio = float(
+        np.max(positive_delta, initial=0.0) / energy_scale)
+    max_total_energy_ratio = float(np.max(energy) / energy_scale)
     crossing = np.flatnonzero(np.signbit(extension) != np.signbit(extension[0]))
     crossing_time = (float((crossing[0] + 1) * config["physics"]["outer_timestep_s"])
                      if len(crossing) else None)
-    increases = np.diff(energy) > max(float(energy[0]) * 1e-10, 1e-15)
     ratio = data["edge_length"] / config["soft_block"]["spacing_m"][0]
     gate = {
         "finite": all(np.all(np.isfinite(value)) for value in data.values()),
@@ -40,7 +64,7 @@ def summarize_two_node(data: dict, config: dict, microsteps: int) -> dict:
                        float(np.max(ratio)) <= settings["edge_ratio_max"]),
         "final_energy": float(energy[-1] / max(energy[0], 1e-30)) <=
                         settings["final_energy_ratio_max"],
-        "energy_increase": float(np.mean(increases)) <=
+        "energy_increase": energy_increase_fraction <=
                            settings["energy_increase_fraction_max"],
         "zero_crossing": crossing_time is not None,
     }
@@ -51,7 +75,13 @@ def summarize_two_node(data: dict, config: dict, microsteps: int) -> dict:
             "first_zero_crossing_time_s": crossing_time,
             "edge_ratio_min": float(np.min(ratio)),
             "edge_ratio_max": float(np.max(ratio)),
-            "energy_increase_fraction": float(np.mean(increases))}
+            "energy_measurement": "post_step_aligned",
+            "energy_increase_count": energy_increase_count,
+            "energy_increase_fraction": energy_increase_fraction,
+            "cumulative_positive_energy_injection_ratio":
+                cumulative_positive_injection_ratio,
+            "max_positive_energy_increment_ratio": max_positive_increment_ratio,
+            "max_total_energy_ratio": max_total_energy_ratio}
 
 
 def summarize_cube(data: dict, config: dict, microsteps: int) -> dict:

@@ -20,6 +20,11 @@ PROFILES = ROOT / "configs/experiment3/material_profiles_r2r1"
 
 def _summary(value=1.0, stable=True, zero_cap=True):
     return {"stable": stable, "gate": {"zero_cap": zero_cap},
+            "energy_measurement": "post_step_aligned",
+            "energy_increase_count": 0, "energy_increase_fraction": 0.0,
+            "cumulative_positive_energy_injection_ratio": 0.0,
+            "max_positive_energy_increment_ratio": 0.0,
+            "max_total_energy_ratio": 1.0,
             "peak_extension_m": value, "first_zero_crossing_time_s": value,
             "final_energy_ratio": value,
             "peak_primary_face_displacement_m": value,
@@ -38,6 +43,16 @@ def test_confirmation_pass_failure_cap_and_no_m16_selection():
     two[8] = _summary(1.0, zero_cap=False)
     blocked = analyzer.evaluate_confirmation(two, cube, config)
     assert blocked["verdict"].endswith("BLOCKED") and blocked["retained_microsteps"] is None
+
+
+def test_unaligned_energy_blocks_confirmation():
+    config = load_config(str(CONFIG))
+    two = {8: _summary(1.0), 16: _summary(1.01)}
+    cube = copy.deepcopy(two)
+    two[8]["energy_measurement"] = "pre_step_misaligned"
+    result = analyzer.evaluate_confirmation(two, cube, config)
+    assert result["verdict"].endswith("BLOCKED")
+    assert result["aligned_energy"] is False
 
 
 def test_runner_requires_a1p5_prior_m8_and_runs_only_8_16(tmp_path, monkeypatch):

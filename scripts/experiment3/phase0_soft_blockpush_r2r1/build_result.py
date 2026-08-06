@@ -20,6 +20,21 @@ def _git(*args: str) -> str:
     return subprocess.check_output(["git", *args], cwd=REPO_ROOT, text=True).strip()
 
 
+def confirmation_failure_text(confirmation: dict) -> str:
+    """Explain the actual aligned-energy family-confirmation failure."""
+    if confirmation.get("verdict", "").endswith("COMPLETE"):
+        return "none"
+    two_m8 = confirmation.get("two_node", {}).get("8", {})
+    if not confirmation.get("aligned_energy", False):
+        return "family confirmation did not use post-step aligned energy"
+    if not two_m8.get("stable", False):
+        return ("A1.5 M8 two-node aligned-energy stability gate failed: "
+                "increase_fraction={:.10g}, positive_injection_ratio={:.10g}").format(
+            two_m8.get("energy_increase_fraction", float("nan")),
+            two_m8.get("cumulative_positive_energy_injection_ratio", float("nan")))
+    return "A1.5 M8/M16 family convergence or boundedness gate failed"
+
+
 def build_result(config_path: str, starting_sha: str,
                  committed_report_dir: str, tests_passed: int = 0,
                  tests_failed: int = 0) -> dict:
@@ -62,12 +77,8 @@ def build_result(config_path: str, starting_sha: str,
                            execution.get("table_settle"))
     def value(section: object, key: str) -> object:
         return section.get(key) if isinstance(section, dict) else "not run"
-    confirmation_failure = (
-        "A1.5 M8 two-node energy increase fraction {} exceeded the fixed 0.02 gate"
-        .format(confirmation.get("two_node", {}).get("8", {}).get(
-            "energy_increase_fraction")))
     failure = {
-        "PHASE0B_R2R1_ENGINEERING_BLOCKED": confirmation_failure,
+        "PHASE0B_R2R1_ENGINEERING_BLOCKED": confirmation_failure_text(confirmation),
         "PHASE0B_R2R1_NO_PROFILE_PASSED": execution.get("reason"),
         "PHASE0B_R2R1_TABLE_SETTLE_FAILED": "table-settle gate failed",
         "PHASE0B_R2R1_MATERIAL_CALIBRATION_COMPLETE": "none"}[verdict]
@@ -88,6 +99,7 @@ def build_result(config_path: str, starting_sha: str,
 
 - Profile: `kv_r2r1_a1p50_z025`.
 - M8/M16 verdict: `{confirmation}`.
+- Energy measurement: post-step aligned.
 - Maximum relative error: `{maximum_error}`.
 - M retained for calibration: `{retained}`; prior M8 selection reopened: no.
 

@@ -46,6 +46,10 @@ def test_short_real_two_node_and_cube_are_finite_and_anchored():
     two = run_two_node_validation(config, material, 4)
     cube = run_cube_validation(config, material, 4, soft_block_config(config, (2, 2, 2)))
     assert all(np.all(np.isfinite(value)) for value in two.values())
+    assert "pre_step_spring_energy" in two
+    np.testing.assert_allclose(
+        two["total_energy"], two["kinetic_energy"] + two["spring_energy"],
+        rtol=0, atol=1e-15)
     assert np.sum(two["capped_force_count"]) == 0
     assert cube["phase"].tolist() == [
         "no_action", "no_action", "load_ramp", "load_ramp",

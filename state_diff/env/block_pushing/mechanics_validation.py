@@ -78,20 +78,31 @@ def run_two_node_validation(config: dict, material: KelvinVoigtMaterial,
         for outer in range(1, int(settings["two_node_duration_outer_steps"]) + 1):
             stats = integrator.advance_outer_step(spring)
             position = np.asarray(client.getBasePositionAndOrientation(
-                spring.body_ids[1])[0])
-            velocity = np.asarray(client.getBaseVelocity(spring.body_ids[1])[0])
+                spring.body_ids[1])[0], dtype=np.float64)
+            velocity = np.asarray(client.getBaseVelocity(
+                spring.body_ids[1])[0], dtype=np.float64)
             length = float(np.linalg.norm(position))
+            extension = length - spring.rest_length
             kinetic = .5 * mass * float(np.dot(velocity, velocity))
-            spring_energy = stats.final_energy_by_kind_j["structural"]
+            # Use post-step position and velocity for a time-aligned
+            # mechanical-energy sample. The integrator telemetry is
+            # retained separately because it is evaluated before the
+            # final microstep advance.
+            spring_energy = (.5 * material.structural_stiffness_n_per_m
+                             * extension ** 2)
+            pre_step_spring_energy = float(
+                stats.final_energy_by_kind_j["structural"])
             rows.append((outer, position, velocity, length,
-                         length - spring.rest_length, kinetic, spring_energy,
-                         kinetic + spring_energy, stats.capped_force_count,
+                         extension, kinetic, spring_energy,
+                         kinetic + spring_energy, pre_step_spring_energy,
+                         stats.capped_force_count,
                          stats.max_net_internal_force_residual_n))
     finally:
         client.disconnect()
     names = ("outer_step", "dynamic_position", "dynamic_velocity", "edge_length",
              "extension", "kinetic_energy", "spring_energy", "total_energy",
-             "capped_force_count", "net_internal_force_residual")
+             "pre_step_spring_energy", "capped_force_count",
+             "net_internal_force_residual")
     return {name: np.asarray([row[i] for row in rows]) for i, name in enumerate(names)}
 
 
