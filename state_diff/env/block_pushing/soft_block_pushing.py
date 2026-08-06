@@ -14,6 +14,8 @@ from scipy.spatial import transform
 from state_diff.env.block_pushing import block_pushing
 from state_diff.env.block_pushing.friction_tiles import (
     CONDITIONS, FrictionTileFloor)
+from state_diff.env.block_pushing.kelvin_voigt_soft_block import (
+    KelvinVoigtSoftBlock, load_material_profile, zero_spring_stats)
 from state_diff.env.block_pushing.soft_block_lattice import SoftBlockLattice
 from state_diff.env.block_pushing.utils import utils_pybullet, xarm_sim_robot
 from state_diff.env.block_pushing.utils.pose3d import Pose3d
@@ -115,10 +117,24 @@ class SoftBlockPushEnv(gym.Env):
             rotation=transform.Rotation.identity(),
             translation=np.array([goal[0], goal[1], 0.0001]))
         soft_cfg = self.config["soft_block"]
-        self.soft_block = SoftBlockLattice(
-            client, soft_block_config(self.config),
-            center_xy=tuple(soft_cfg["center_xy"]),
-            yaw_deg=float(soft_cfg["yaw_deg"]))
+        material_model = soft_cfg.get("material_model", "p2p_legacy")
+        self.material_model = material_model
+        self.material_profile = None
+        if material_model == "p2p_legacy":
+            self.soft_block = SoftBlockLattice(
+                client, soft_block_config(self.config),
+                center_xy=tuple(soft_cfg["center_xy"]),
+                yaw_deg=float(soft_cfg["yaw_deg"]))
+        elif material_model == "kelvin_voigt":
+            material, self.material_profile = load_material_profile(
+                soft_cfg["material_profile_path"])
+            self.soft_block = KelvinVoigtSoftBlock(
+                client, soft_block_config(self.config), material,
+                force_cap_n=float(soft_cfg["spring_force_cap_n"]),
+                center_xy=tuple(soft_cfg["center_xy"]),
+                yaw_deg=float(soft_cfg["yaw_deg"]))
+        else:
+            raise ValueError("unknown material_model: {}".format(material_model))
         self._robot.enable_joint_force_torque_sensors()
         start_pose = Pose3d(
             rotation=block_pushing.EFFECTOR_DOWN_ROTATION,
@@ -134,8 +150,9 @@ class SoftBlockPushEnv(gym.Env):
         self._robot.set_target_joint_positions(start_joints)
         self._start_joint_positions = np.asarray(start_joints, dtype=np.float64)
         self._target_effector_pose = start_pose
+        self._last_spring_stats = zero_spring_stats()
         for _ in range(int(self.config["execution"]["pre_snapshot_settle_steps"])):
-            client.stepSimulation()
+            self._advance_physics(record_trace=False)
         self.settle_recenter_xy_offset = self.soft_block.recenter_xy(
             tuple(soft_cfg["center_xy"]))
         self.floor.set_condition("uniform_low")
@@ -274,9 +291,21 @@ class SoftBlockPushEnv(gym.Env):
 
     def step_one_physics(self) -> None:
         """Advance exactly one Bullet step and append one stride-selected sample."""
+        self._advance_physics(record_trace=True)
+
+    def _prepare_physics_step(self):
+        """Apply model-specific internal forces before advancing Bullet."""
+        if hasattr(self.soft_block, "apply_internal_forces"):
+            return self.soft_block.apply_internal_forces()
+        return zero_spring_stats()
+
+    def _advance_physics(self, record_trace: bool) -> None:
+        """Apply internal mechanics, advance one step, and optionally trace."""
+        self._last_spring_stats = self._prepare_physics_step()
         self._pybullet_client.stepSimulation()
         self._physics_step += 1
-        if self._physics_step % int(self.config["execution"]["trace_stride"]) == 0:
+        if (record_trace and self._physics_step
+                % int(self.config["execution"]["trace_stride"]) == 0):
             self._trace.append(self.trace_sample())
 
     def _minimum_pusher_node_distance(self) -> float:
@@ -359,6 +388,20 @@ class SoftBlockPushEnv(gym.Env):
             "goal_xy": observation["goal_xy"].tolist(),
             "oracle_patch_contact_count": len(
                 oracle["oracle_patch_contact_node_indices"]),
+            "spring_energy_structural_j": float(
+                self._last_spring_stats.energy_by_kind_j["structural"]),
+            "spring_energy_shear_j": float(
+                self._last_spring_stats.energy_by_kind_j["shear"]),
+            "spring_energy_bending_j": float(
+                self._last_spring_stats.energy_by_kind_j["bending"]),
+            "spring_energy_total_j": float(sum(
+                self._last_spring_stats.energy_by_kind_j.values())),
+            "spring_max_abs_force_n": float(
+                self._last_spring_stats.max_abs_force_n),
+            "spring_capped_force_count": int(
+                self._last_spring_stats.capped_force_count),
+            "spring_force_evaluation_count": int(
+                self._last_spring_stats.force_evaluation_count),
         }
         row.update(oracle)
         return row

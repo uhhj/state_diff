@@ -35,10 +35,20 @@ def validate_config(config: Dict[str, Any]) -> None:
     for value in config["execution"].values():
         if int(value) <= 0:
             raise ValueError("execution values must be positive")
-    if float(config["analysis"]["sigma_multiplier"]) != 5.0:
-        raise ValueError("Phase 0B requires a 5-sigma threshold")
-    if int(config["analysis"]["consecutive_samples"]) != 3:
-        raise ValueError("Phase 0B requires three consecutive samples")
+    if config.get("phase_name") == "phase0b-r1-compliant-soft-block":
+        steps_per_policy = int(config["physics"]["physics_hz"] //
+                               config["physics"]["policy_hz"])
+        phase_keys = ("no_action_steps", "probe_command_steps",
+                      "post_probe_steps", "test_command_steps",
+                      "post_test_steps")
+        if any(int(config["execution"][key]) % steps_per_policy
+               for key in phase_keys):
+            raise ValueError("R1 phases must align to policy-rate bins")
+    else:
+        if float(config["analysis"]["sigma_multiplier"]) != 5.0:
+            raise ValueError("Phase 0B requires a 5-sigma threshold")
+        if int(config["analysis"]["consecutive_samples"]) != 3:
+            raise ValueError("Phase 0B requires three consecutive samples")
     soft_block_config(config).validate()
     floor_config(config).validate()
 
@@ -56,9 +66,9 @@ def soft_block_config(config: Dict[str, Any]) -> SoftBlockConfig:
         node_rolling_friction=float(payload["node_rolling_friction"]),
         linear_damping=float(payload["linear_damping"]),
         angular_damping=float(payload["angular_damping"]),
-        structural_max_force_n=float(payload["structural_max_force_n"]),
-        shear_max_force_n=float(payload["shear_max_force_n"]),
-        bending_max_force_n=float(payload["bending_max_force_n"]))
+        structural_max_force_n=float(payload.get("structural_max_force_n", .8)),
+        shear_max_force_n=float(payload.get("shear_max_force_n", .35)),
+        bending_max_force_n=float(payload.get("bending_max_force_n", .15)))
 
 
 def floor_config(config: Dict[str, Any]) -> FrictionFloorConfig:

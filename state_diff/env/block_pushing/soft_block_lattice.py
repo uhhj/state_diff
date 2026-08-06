@@ -74,10 +74,9 @@ def initial_node_positions(
     return local
 
 
-def build_edge_metadata(config: SoftBlockConfig) -> Dict[str, List[dict]]:
-    """Build sorted, duplicate-free structural, shear, and bending edges."""
+def build_edge_pairs(config: SoftBlockConfig) -> Dict[str, np.ndarray]:
+    """Return sorted duplicate-free [E,2] pairs for each edge family."""
     config.validate()
-    positions = initial_node_positions(config, (0.0, 0.0))
     pairs = {"structural": set(), "shear": set(), "bending": set()}
 
     def add(kind: str, first: Tuple[int, int, int], second: Tuple[int, int, int]):
@@ -115,6 +114,14 @@ def build_edge_metadata(config: SoftBlockConfig) -> Dict[str, List[dict]]:
             for i in range(config.nx):
                 add("shear", (i, j, k), (i, j + 1, k + 1))
                 add("shear", (i, j + 1, k), (i, j, k + 1))
+    return {kind: np.asarray(sorted(pairs[kind]), dtype=np.int64)
+            for kind in ("structural", "shear", "bending")}
+
+
+def build_edge_metadata(config: SoftBlockConfig) -> Dict[str, List[dict]]:
+    """Build legacy edge metadata while preserving order and semantics."""
+    positions = initial_node_positions(config, (0.0, 0.0))
+    pairs = build_edge_pairs(config)
     forces = {
         "structural": config.structural_max_force_n,
         "shear": config.shear_max_force_n,
@@ -125,7 +132,7 @@ def build_edge_metadata(config: SoftBlockConfig) -> Dict[str, List[dict]]:
             {"a": int(a), "b": int(b), "kind": kind,
              "rest_length": float(np.linalg.norm(positions[a] - positions[b])),
              "max_force": float(forces[kind])}
-            for a, b in sorted(pairs[kind])]
+            for a, b in pairs[kind]]
     return result
 
 
