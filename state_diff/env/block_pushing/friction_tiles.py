@@ -81,6 +81,9 @@ class FrictionTileFloor:
             body_id = int(client.createMultiBody(
                 baseMass=0.0, baseCollisionShapeIndex=collision,
                 baseVisualShapeIndex=-1, basePosition=center))
+            # Some supported PyBullet builds synthesize a visual entry from the
+            # collision box even when visualShapeIndex is -1. Force it transparent.
+            client.changeVisualShape(body_id, -1, rgbaColor=[0, 0, 0, 0])
             mu = (config.patch_free_lateral_friction if name == "patch"
                   else config.outer_lateral_friction)
             client.changeDynamics(

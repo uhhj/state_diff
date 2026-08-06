@@ -34,7 +34,8 @@ def test_condition_switch_changes_patch_dynamics_only():
         poses = floor.poses()
         before = {name: client.getDynamicsInfo(body, -1)
                   for name, body in ids.items()}
-        assert client.getVisualShapeData(floor.patch_body_id) == ()
+        visuals = client.getVisualShapeData(floor.patch_body_id)
+        assert not visuals or all(np.isclose(shape[7][3], 0.0) for shape in visuals)
         assert all(np.isclose(client.getAABB(body)[1][2], 0.0)
                    for body in ids.values())
         floor.set_condition("right_local_high")

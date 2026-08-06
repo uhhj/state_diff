@@ -25,7 +25,8 @@ def test_soft_env_observation_sensors_render_and_restore():
         assert np.asarray(sample["ee_contact_wrench"]).shape == (6,)
         image = env.render()
         assert image.shape == (240, 320, 3)
-        assert env.pybullet_client.getVisualShapeData(env.floor.patch_body_id) == ()
+        visuals = env.pybullet_client.getVisualShapeData(env.floor.patch_body_id)
+        assert not visuals or all(np.isclose(shape[7][3], 0.0) for shape in visuals)
         for _ in range(2):
             env.step_one_physics()
         assert np.all(np.isfinite(env.soft_block.positions()))
