@@ -1,0 +1,144 @@
+{
+  "branch": "Experiment3",
+  "ending_code_sha": "9f46781181ff077a77bf35ec2bbb117bf8a8a96c",
+  "execution": {
+    "axial": null,
+    "pair_run": false,
+    "profiles_run": [],
+    "reason": "family_confirmation_failed",
+    "selected_profile": null,
+    "shear": null,
+    "table_settle": null,
+    "training_run": false,
+    "verdict": "PHASE0B_R2R1_ENGINEERING_BLOCKED"
+  },
+  "family_confirmation": {
+    "cube": {
+      "16": {
+        "edge_ratio_max": 1.0436521354241324,
+        "edge_ratio_min": 0.97987821743182,
+        "gate": {
+          "edge_ratio": true,
+          "finite": true,
+          "net_residual": true,
+          "no_collapse": true,
+          "recovery_bounded": true,
+          "zero_cap": true
+        },
+        "microsteps": 16,
+        "peak_primary_face_displacement_m": 0.00045827331670744145,
+        "peak_rigid_aligned_rmse_m": 0.0001333112604478879,
+        "recovery_ratio": 5.204851979175636e-15,
+        "stable": true
+      },
+      "8": {
+        "edge_ratio_max": 1.0436519028493938,
+        "edge_ratio_min": 0.9800485927597816,
+        "gate": {
+          "edge_ratio": true,
+          "finite": true,
+          "net_residual": true,
+          "no_collapse": true,
+          "recovery_bounded": true,
+          "zero_cap": true
+        },
+        "microsteps": 8,
+        "peak_primary_face_displacement_m": 0.0004582708754764229,
+        "peak_rigid_aligned_rmse_m": 0.00013331054987516028,
+        "recovery_ratio": 4.731708823338848e-16,
+        "stable": true
+      }
+    },
+    "maximum_relative_error": 0.0190176636072027,
+    "prior_r2_selection": {
+      "micro_timestep_s": 0.0005208333333333333,
+      "microsteps_per_outer": 8,
+      "outer_timestep_s": 0.004166666666666667,
+      "selection_evidence": "mechanics_validation/summary.json",
+      "verdict": "PHASE0B_R2_MICROSTEP_VALIDATION_COMPLETE"
+    },
+    "profile": {
+      "base_stiffness_n_per_m": {
+        "bending": 0.8,
+        "shear": 3.0,
+        "structural": 8.0
+      },
+      "bending_damping_ns_per_m": 0.007905694150420948,
+      "bending_stiffness_n_per_m": 1.2000000000000002,
+      "damping_ratio": 0.25,
+      "node_mass_kg": 0.00041666666666666664,
+      "profile_name": "kv_r2r1_a1p50_z025",
+      "profile_version": 2,
+      "shear_damping_ns_per_m": 0.015309310892394862,
+      "shear_stiffness_n_per_m": 4.5,
+      "stiffness_multiplier": 1.5,
+      "structural_damping_ns_per_m": 0.024999999999999998,
+      "structural_stiffness_n_per_m": 12.0
+    },
+    "relative_errors": {
+      "cube_peak_primary": 5.327019770843077e-06,
+      "cube_peak_rigid": 5.330177850121548e-06,
+      "cube_recovery": 4.7316810968417515e-09,
+      "two_final_energy_ratio": 1.3644624990705167e-21,
+      "two_peak_extension": 0.0190176636072027,
+      "two_zero_crossing": 0.0
+    },
+    "retained_microsteps": null,
+    "selection_reopened": false,
+    "two_node": {
+      "16": {
+        "edge_ratio_max": 1.0364079468247556,
+        "edge_ratio_min": 0.9744994943065203,
+        "energy_increase_fraction": 0.014613778705636743,
+        "final_energy_ratio": 1.8051616942576957e-27,
+        "first_zero_crossing_time_s": 0.0125,
+        "gate": {
+          "edge_ratio": true,
+          "energy_increase": true,
+          "final_energy": true,
+          "finite": true,
+          "zero_cap": true,
+          "zero_crossing": true
+        },
+        "microsteps": 16,
+        "peak_extension_m": 0.0003822834416599332,
+        "stable": true
+      },
+      "8": {
+        "edge_ratio_max": 1.0357155527394135,
+        "edge_ratio_min": 0.9742363682610494,
+        "energy_increase_fraction": 0.020876826722338204,
+        "final_energy_ratio": 4.40699195187179e-28,
+        "first_zero_crossing_time_s": 0.0125,
+        "gate": {
+          "edge_ratio": true,
+          "energy_increase": false,
+          "final_energy": true,
+          "finite": true,
+          "zero_cap": true,
+          "zero_crossing": true
+        },
+        "microsteps": 8,
+        "peak_extension_m": 0.0003750133037638409,
+        "stable": false
+      }
+    },
+    "verdict": "PHASE0B_R2R1_FAMILY_CONFIRMATION_BLOCKED",
+    "zero_cap": true
+  },
+  "frozen": null,
+  "pair_run": false,
+  "pip_check": {
+    "conflict": "multiprocess 0.70.14 requires dill>=0.3.6; installed dill is 0.3.5.1",
+    "known_pre_existing_only": true
+  },
+  "prior_r2_microsteps": 8,
+  "starting_sha": "ce88eddf0b05a500e79e03ff4ec4bfd4984e5a84",
+  "submodule_gitlink": "282b93535b125d1a4487df85ad24aa41551957af",
+  "tests": {
+    "failed": 0,
+    "passed": 46
+  },
+  "training_run": false,
+  "verdict": "PHASE0B_R2R1_ENGINEERING_BLOCKED"
+}
