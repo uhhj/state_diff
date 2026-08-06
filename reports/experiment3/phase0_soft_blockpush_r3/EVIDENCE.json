@@ -1,0 +1,115 @@
+{
+  "angle_constraint_count": 121,
+  "branch": "Experiment3",
+  "ending_code_sha": "6462b4a2e25c5ee1397567cab60688d5fb2a10eb",
+  "execution": {
+    "axial": {
+      "anchor_drift_m": 0.0,
+      "angle_constraint_count": 121,
+      "angle_damping_n_m_s": 1.7771334010141165e-06,
+      "angle_stiffness_n_m": 0.00055,
+      "common_gate": {
+        "anchor_drift": true,
+        "edge_ratios": true,
+        "force_cap": true,
+        "no_action": true,
+        "recovery": true
+      },
+      "engineering_gate": {
+        "anchor_count": true,
+        "dynamic_mass": true,
+        "finite": true,
+        "force_evaluations": true,
+        "load_count": true,
+        "net_residual": true,
+        "no_collapse": true,
+        "no_fixture": true,
+        "node_count": true,
+        "phase_lengths": true,
+        "selected_microsteps": true,
+        "static_anchor_mass": true
+      },
+      "force_cap_fraction": 0.0,
+      "max_net_internal_force_residual_n": 2.4537485741028472e-17,
+      "microsteps_per_outer": 8,
+      "mode": "axial",
+      "no_action_visible_peak_drift_m": 0.0,
+      "peak_angle_energy_j": 1.106673752634039e-07,
+      "peak_lateral_leakage_m": 1.3903584270230945e-05,
+      "peak_primary_displacement_m": 0.002792976335359456,
+      "peak_rigid_aligned_rmse_m": 0.0005480578648421735,
+      "primary_recovery_ratio": 1.0582843194243867e-06,
+      "profile_name": "kv_angle_r3_a055_z025",
+      "rigid_recovery_ratio": 0.00035675695112354555,
+      "structural_edge_ratio_max": 1.059761670217288,
+      "structural_edge_ratio_min": 0.9458452647853317,
+      "verdict": "PHASE0B_R2_AXIAL_COMPLETE"
+    },
+    "pair_run": false,
+    "profiles_run": [
+      "kv_angle_r3_a055_z025"
+    ],
+    "reason": "start_profile_shear_not_selectable",
+    "selected_profile": null,
+    "shear": {
+      "anchor_drift_m": 0.0,
+      "angle_constraint_count": 121,
+      "angle_damping_n_m_s": 1.7771334010141165e-06,
+      "angle_stiffness_n_m": 0.00055,
+      "common_gate": {
+        "anchor_drift": true,
+        "edge_ratios": false,
+        "force_cap": true,
+        "no_action": true,
+        "recovery": true
+      },
+      "engineering_gate": {
+        "anchor_count": true,
+        "dynamic_mass": true,
+        "finite": true,
+        "force_evaluations": true,
+        "load_count": true,
+        "net_residual": true,
+        "no_collapse": true,
+        "no_fixture": true,
+        "node_count": true,
+        "phase_lengths": true,
+        "selected_microsteps": true,
+        "static_anchor_mass": true
+      },
+      "force_cap_fraction": 0.0,
+      "max_net_internal_force_residual_n": 8.583492405603528e-17,
+      "microsteps_per_outer": 8,
+      "mode": "shear",
+      "no_action_visible_peak_drift_m": 0.0,
+      "peak_angle_energy_j": 0.00016085057400438664,
+      "peak_lateral_leakage_m": 0.007835137273619916,
+      "peak_primary_displacement_m": 0.02911668374035296,
+      "peak_rigid_aligned_rmse_m": 0.001929777170245079,
+      "primary_recovery_ratio": 0.13804640336918686,
+      "profile_name": "kv_angle_r3_a055_z025",
+      "rigid_recovery_ratio": 0.13095856523965885,
+      "structural_edge_ratio_max": 1.347206092261045,
+      "structural_edge_ratio_min": 0.6439696118049111,
+      "verdict": "PHASE0B_R2_SHEAR_UNSTABLE"
+    },
+    "table_settle": null,
+    "training_run": false,
+    "verdict": "PHASE0B_R3_NO_PROFILE_PASSED"
+  },
+  "frozen": false,
+  "microsteps_per_outer": 8,
+  "pair_run": false,
+  "pip_check": {
+    "conflict": "multiprocess 0.70.14 / dill 0.3.5.1",
+    "known_pre_existing_only": true
+  },
+  "starting_sha": "8b8e2a2a4ec9339389e962cb0b40e26fe7aaabff",
+  "submodule_gitlink": "282b93535b125d1a4487df85ad24aa41551957af",
+  "tests": {
+    "failed": 0,
+    "passed": 22
+  },
+  "training_run": false,
+  "verdict": "PHASE0B_R3_NO_PROFILE_PASSED"
+}
