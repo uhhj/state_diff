@@ -62,8 +62,12 @@ def build_result(config_path: str, starting_sha: str,
                            execution.get("table_settle"))
     def value(section: object, key: str) -> object:
         return section.get(key) if isinstance(section, dict) else "not run"
+    confirmation_failure = (
+        "A1.5 M8 two-node energy increase fraction {} exceeded the fixed 0.02 gate"
+        .format(confirmation.get("two_node", {}).get("8", {}).get(
+            "energy_increase_fraction")))
     failure = {
-        "PHASE0B_R2R1_ENGINEERING_BLOCKED": "family confirmation or compatibility evidence failed",
+        "PHASE0B_R2R1_ENGINEERING_BLOCKED": confirmation_failure,
         "PHASE0B_R2R1_NO_PROFILE_PASSED": execution.get("reason"),
         "PHASE0B_R2R1_TABLE_SETTLE_FAILED": "table-settle gate failed",
         "PHASE0B_R2R1_MATERIAL_CALIBRATION_COMPLETE": "none"}[verdict]
@@ -85,7 +89,7 @@ def build_result(config_path: str, starting_sha: str,
 - Profile: `kv_r2r1_a1p50_z025`.
 - M8/M16 verdict: `{confirmation}`.
 - Maximum relative error: `{maximum_error}`.
-- M retained: `8`; selection reopened: no.
+- M retained for calibration: `{retained}`; prior M8 selection reopened: no.
 
 ## Calibration
 
@@ -104,6 +108,7 @@ Next permitted task: {next_task}.
         gitlink=evidence["submodule_gitlink"], passed=tests_passed,
         failed_tests=tests_failed, confirmation=confirmation["verdict"],
         maximum_error=confirmation.get("maximum_relative_error"),
+        retained=confirmation.get("retained_microsteps"),
         profiles=", ".join(execution.get("profiles_run", [])),
         axial_verdict=value(axial, "verdict"),
         axial_peak=value(axial, "peak_primary_displacement_m"),
