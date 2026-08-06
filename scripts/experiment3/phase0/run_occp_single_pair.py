@@ -1,7 +1,8 @@
-"""Run one exact free/right-hidden-jam OCCP counterfactual pair."""
+"""Run one exact free/right-hidden-jam OCCP R1 counterfactual pair."""
 from __future__ import annotations
 
 import argparse
+import copy
 import random
 import sys
 from pathlib import Path
@@ -20,20 +21,14 @@ from ravens.ccda_video import CCDAVideoRecorder  # noqa: E402
 from ravens.tasks.ccda_occp_geometry import (  # noqa: E402
     OCCPGeometryConfig, compute_occp_layout)
 
+from scripts.experiment3.phase0.occp_commands import (  # noqa: E402
+    build_fixed_command_script, command_arrays, copy_fixed_command_script,
+    execute_fixed_command_phase)
 from scripts.experiment3.phase0.occp_common import (  # noqa: E402
-    CONDITIONS,
-    build_action_script,
-    copy_action_script,
-    load_config,
-    trace_to_arrays,
-    write_json,
-)
+    CONDITIONS, config_schema, load_config, trace_to_arrays, write_json)
 from scripts.experiment3.phase0.occp_snapshot import (  # noqa: E402
-    capture_python_runtime_state,
-    capture_world_state,
-    max_state_difference,
-    restore_python_runtime_state,
-)
+    capture_python_runtime_state, capture_world_state, max_state_difference,
+    restore_python_runtime_state)
 
 
 def camera_config(config):
@@ -41,13 +36,10 @@ def camera_config(config):
     return {
         'image_size': image_size,
         'intrinsics': (450., 0., image_size[1] / 2,
-                       0., 450., image_size[0] / 2,
-                       0., 0., 1.),
+                       0., 450., image_size[0] / 2, 0., 0., 1.),
         'position': np.asarray([0.50, 0.0, 0.75], dtype=np.float64),
         'rotation': p.getQuaternionFromEuler([0., np.pi, -np.pi / 2]),
-        'zrange': (0.01, 3.0),
-        'noise': False,
-    }
+        'zrange': (0.01, 3.0), 'noise': False}
 
 
 def grasp_status(env, active_bead_id):
@@ -59,18 +51,16 @@ def grasp_status(env, active_bead_id):
                 active_bead_id)
         except Exception:
             child_matches = False
-    return {
-        'activated': bool(getattr(env.ee, 'activated', False)),
-        'constraint_available': constraint is not None,
-        'constraint_id': None if constraint is None else int(constraint),
-        'child_matches_active_bead': bool(child_matches),
-        'retained': bool(
-            getattr(env.ee, 'activated', False)
-            and constraint is not None and child_matches),
-    }
+    retained = bool(getattr(env.ee, 'activated', False)
+                    and constraint is not None and child_matches)
+    return {'activated': bool(getattr(env.ee, 'activated', False)),
+            'constraint_available': constraint is not None,
+            'constraint_id': None if constraint is None else int(constraint),
+            'child_matches_active_bead': bool(child_matches),
+            'retained': retained}
 
 
-def acquire_active_endpoint(env, task, speed, z_offset, settle_seconds):
+def acquire_active_endpoint(env, task, speed, z_offset):
     active_id = int(task.cable_bead_IDs[task._layout['active_endpoint_index']])
     bead_position = np.asarray(
         p.getBasePositionAndOrientation(active_id)[0], dtype=np.float64)
@@ -88,64 +78,41 @@ def acquire_active_endpoint(env, task, speed, z_offset, settle_seconds):
     env.step_physics(4)
     status = grasp_status(env, active_id)
     if not (approach_ok and contact_ok and status['retained']):
-        raise RuntimeError(
-            'active-endpoint grasp failed: approach_ok={}, contact_ok={}, status={}'
-            .format(approach_ok, contact_ok, status))
-    env.settle_for_seconds(float(settle_seconds))
-    ee_state = p.getLinkState(
-        env.ur5, env.ee_tip_link, computeForwardKinematics=True)
-    return {
-        'active_bead_id': active_id,
-        'approach_target': approach.astype(float).tolist(),
-        'contact_target': contact.astype(float).tolist(),
-        'approach_succeeded': bool(approach_ok),
-        'contact_succeeded': bool(contact_ok),
-        'grasp': status,
-        'ee_position_after_settle': [float(value) for value in ee_state[0]],
-        'ee_orientation_after_settle': [float(value) for value in ee_state[1]],
-    }
+        raise RuntimeError('active-endpoint grasp failed: {}'.format(status))
+    ee_state = p.getLinkState(env.ur5, env.ee_tip_link,
+                              computeForwardKinematics=True)
+    return {'active_bead_id': active_id,
+            'approach_target': approach.astype(float).tolist(),
+            'contact_target': contact.astype(float).tolist(),
+            'approach_succeeded': bool(approach_ok),
+            'contact_succeeded': bool(contact_ok), 'grasp': status,
+            'ee_position': [float(value) for value in ee_state[0]],
+            'ee_orientation': [float(value) for value in ee_state[1]]}
 
 
 def _layout_payload(layout):
-    payload = {}
+    result = {}
     for key, value in layout.items():
-        if isinstance(value, np.ndarray):
-            payload[key] = value.astype(float).tolist()
-        else:
-            payload[key] = value
-    return payload
+        result[key] = value.tolist() if isinstance(value, np.ndarray) else value
+    return result
 
 
-def _execute_action(env, task, action, joint_tolerance):
-    start_step = task.physics_step_count()
-    target_position = np.asarray(action['target_position'], dtype=np.float64)
-    target_orientation = np.asarray(
-        action['target_orientation'], dtype=np.float64)
-    task.set_ccda_phase(action['phase'])
-    task.set_ee_target_position(target_position)
-    succeeded = env.movep(
-        target_position.tolist() + target_orientation.tolist(),
-        speed=float(action['speed']),
-        joint_tolerance=float(joint_tolerance))
-    ee_state = p.getLinkState(
-        env.ur5, env.ee_tip_link, computeForwardKinematics=True)
-    actual = np.asarray(ee_state[0], dtype=np.float64)
+def _oracle_summary(arrays):
+    contact = np.asarray(arrays['oracle_pin_contact_count']) > 0
+    force = np.asarray(arrays['oracle_pin_contact_force']) > 0
+    indices = np.flatnonzero(contact | force)
     return {
-        'name': action['name'],
-        'phase': action['phase'],
-        'target_position': target_position.astype(float).tolist(),
-        'actual_position': actual.astype(float).tolist(),
-        'endpoint_error': float(np.linalg.norm(actual - target_position)),
-        'succeeded': bool(succeeded),
-        'start_physics_step': int(start_step),
-        'end_physics_step': int(task.physics_step_count()),
-    }
+        'contact_samples': int(np.count_nonzero(contact | force)),
+        'first_contact_step': (None if not len(indices) else int(
+            arrays['physics_step'][indices[0]])),
+        'minimum_signed_distance': float(np.min(
+            arrays['oracle_pin_min_signed_distance'])),
+        'peak_contact_force': float(np.max(arrays['oracle_pin_contact_force']))}
 
 
-def run_branch(
-        *, env, task, condition, state_id, base_world_state,
-        python_runtime_state, action_script, config, pair_dir,
-        active_bead_id):
+def run_branch(*, env, task, condition, state_id, base_world_state,
+               python_runtime_state, command_script, config, pair_dir,
+               active_bead_id, stop_after_probe):
     branch_dir = pair_dir / condition
     branch_dir.mkdir(parents=True, exist_ok=True)
     env.pause()
@@ -156,100 +123,114 @@ def run_branch(
         task.reset_branch_runtime(condition)
         arm = task.arm_condition(condition)
         initial_state = capture_world_state(env, task)
-
     recorder = CCDAVideoRecorder(
-        camera_config(config),
-        branch_dir / 'video.mp4',
+        camera_config(config), branch_dir / 'video.mp4',
         fps=float(config['camera']['fps']),
         stride=int(config['camera']['frame_stride']))
     env.set_ccda_video_recorder(recorder)
-    action_records = []
-    execution_failure = None
+    records, failures = [], []
+    boundaries = {}
     try:
         task.set_ccda_phase('no_action')
+        boundaries['no_action_start'] = task.physics_step_count()
         env.step_physics(int(config['execution']['no_action_steps']))
-
-        probe_record = _execute_action(
-            env, task, action_script[0], config['motion']['joint_tolerance'])
-        action_records.append(probe_record)
-        if not probe_record['succeeded']:
-            execution_failure = 'probe_movep_failed'
-        else:
-            env.step_physics(int(config['execution']['post_probe_steps']))
-            test_record = _execute_action(
-                env, task, action_script[1], config['motion']['joint_tolerance'])
-            action_records.append(test_record)
-            if not test_record['succeeded']:
-                execution_failure = 'test_pull_movep_failed'
-            else:
-                task.set_ccda_phase('post_test')
-                env.step_physics(int(config['execution']['post_test_steps']))
+        boundaries['no_action_end'] = task.physics_step_count()
+        probe = execute_fixed_command_phase(
+            env, task, command_script['phases'][0],
+            position_gains=config['motion']['position_gain'])
+        records.append(probe)
+        task.set_ccda_phase('post_probe')
+        boundaries['probe_end'] = task.physics_step_count()
+        env.step_physics(int(config['execution']['post_probe_steps']))
+        boundaries['post_probe_end'] = task.physics_step_count()
+        if not stop_after_probe:
+            test = execute_fixed_command_phase(
+                env, task, command_script['phases'][1],
+                position_gains=config['motion']['position_gain'])
+            records.append(test)
+            task.set_ccda_phase('post_test')
+            boundaries['test_end'] = task.physics_step_count()
+            env.step_physics(int(config['execution']['post_test_steps']))
+            boundaries['post_test_end'] = task.physics_step_count()
+        for record in records:
+            if record['actual_physics_steps'] != record['expected_physics_steps']:
+                failures.append(record['phase'] + '_physics_step_mismatch')
+            if record['endpoint_error'] > config['motion']['max_endpoint_error_m']:
+                failures.append(record['phase'] + '_endpoint_error')
+            if not record['grasp_retained']:
+                failures.append(record['phase'] + '_grasp_lost')
     finally:
         env.set_ccda_video_recorder(None)
         video = recorder.close()
-
     trace = task.ccda_trace()
     if not trace:
-        raise RuntimeError('{} branch produced an empty trace'.format(condition))
+        raise RuntimeError('{} produced an empty trace'.format(condition))
     arrays = trace_to_arrays(trace)
     np.savez_compressed(branch_dir / 'trajectory.npz', **arrays)
     write_json(branch_dir / 'trace.json', trace)
+    status = grasp_status(env, active_bead_id)
+    if not status['retained']:
+        failures.append('final_grasp_lost')
     metadata = {
-        'condition': condition,
-        'arm': arm,
+        'condition': condition, 'arm': arm,
         'initial_full_state_max_abs': max_state_difference(
             base_world_state, initial_state),
-        'action_script': action_script,
-        'action_records': action_records,
-        'execution_failure': execution_failure,
-        'grasp': grasp_status(env, active_bead_id),
+        'phase_boundaries': boundaries, 'command_records': records,
+        'command_count': int(sum(r['command_count'] for r in records)),
+        'command_physics_steps': int(sum(
+            r['actual_physics_steps'] for r in records)),
+        'execution_failures': failures, 'grasp': status,
         'physics_steps': task.physics_step_count(),
-        'trace_samples': len(trace),
-        'privileged_state': task.ccda_privileged_state(),
-        'video': video,
-    }
+        'trace_samples': len(trace), 'oracle': _oracle_summary(arrays),
+        'privileged_state': task.ccda_privileged_state(), 'video': video}
     write_json(branch_dir / 'metadata.json', metadata)
-    return metadata, initial_state
+    return metadata, initial_state, arrays
 
 
-def run_pair(config):
+def _geometry_from_config(config):
+    payload = dict(config['geometry'])
+    payload.update({
+        'probe_spacing_scale': config['motion']['probe_spacing_scale'],
+        'test_spacing_scale': config['motion']['test_spacing_scale'],
+        'test_angle_deg': config['motion']['test_angle_deg']})
+    return OCCPGeometryConfig(**payload)
+
+
+def run_pair(config, stop_after_probe=False):
+    if config_schema(config) != 'r1':
+        raise RuntimeError(
+            'legacy Phase 0A config is preserved evidence and is not interpreted '
+            'with R1 diameter-based geometry')
     seed = int(config['seed'])
     random.seed(seed)
     np.random.seed(seed)
-    pair_dir = Path(config['output_root']) / ('pair_' + config['pair_id'])
+    pair_id = config['pair_id'] + ('_probe_only' if stop_after_probe else '')
+    pair_dir = Path(config['output_root']) / ('pair_' + pair_id)
     pair_dir.mkdir(parents=True, exist_ok=True)
-
     execution = config['execution']
     env = Environment(
-        disp=False,
-        hz=int(execution['hz']),
+        disp=False, hz=int(execution['hz']),
         deterministic=bool(execution['deterministic']),
         control_substeps=int(execution['control_substeps']),
         post_action_settle_steps=int(execution['post_action_settle_steps']))
     state_id = None
     try:
+        geometry = _geometry_from_config(config)
+        layout = compute_occp_layout(geometry, 'free')
         task = tasks.names[config['task_name']]()
-        geometry_overrides = config.get('geometry', {})
-        geometry = OCCPGeometryConfig(
-            probe_spacing_scale=float(config['motion']['probe_spacing_scale']),
-            test_spacing_scale=float(config['motion']['test_spacing_scale']),
-            test_angle_deg=float(config['motion']['test_angle_deg']),
-            jam_clearance_scale=float(
-                geometry_overrides.get('jam_clearance_scale', 0.10)),
-            pin_from_active_exit_spacing=float(
-                geometry_overrides.get('pin_from_active_exit_spacing', 5.0)))
         task.configure_audit(
-            pair_id=config['pair_id'],
-            seed=seed,
-            trace_stride=int(config['trace']['stride']),
-            settle_seconds=float(execution['initial_settle_seconds']),
+            pair_id=pair_id, seed=seed, trace_stride=config['trace']['stride'],
+            settle_seconds=execution['initial_settle_seconds'],
             geometry_config=geometry)
         env.reset(task)
         acquisition = acquire_active_endpoint(
-            env, task,
-            speed=float(config['motion']['speed']),
-            z_offset=float(config['motion']['grasp_height_offset']),
-            settle_seconds=float(execution['initial_settle_seconds']))
+            env, task, speed=config['motion']['acquisition_speed'],
+            z_offset=config['motion']['grasp_height_offset'])
+        task.release_active_endpoint_stabilizer()
+        env.step_physics(int(execution['pre_snapshot_settle_steps']))
+        post_release_grasp = grasp_status(env, acquisition['active_bead_id'])
+        if not post_release_grasp['retained']:
+            raise RuntimeError('grasp lost after active stabilizer release')
         task.reset_branch_runtime('free')
         env.pause()
         with env._ccda_step_lock:
@@ -257,42 +238,52 @@ def run_pair(config):
             python_runtime_state = capture_python_runtime_state(env, task)
             state_id = int(p.saveState())
         np.savez_compressed(pair_dir / 'base_state.npz', **base_world_state)
-
-        active_position = np.asarray(
-            p.getBasePositionAndOrientation(acquisition['active_bead_id'])[0])
-        action_script = build_action_script(
-            active_position,
-            acquisition['ee_orientation_after_settle'],
-            compute_occp_layout(geometry, 'free'),
-            config['motion']['speed'])
-        jam_action_script = copy_action_script(action_script)
-        if action_script != jam_action_script:
-            raise RuntimeError('paired action payloads differ')
-        write_json(pair_dir / 'action_script.json', action_script)
-
-        branch_metadata = {}
-        initial_states = {}
-        for condition, actions in zip(
-                CONDITIONS, (action_script, jam_action_script)):
-            branch_metadata[condition], initial_states[condition] = run_branch(
-                env=env,
-                task=task,
-                condition=condition,
-                state_id=state_id,
+        script = build_fixed_command_script(
+            env, start_ee_position=acquisition['ee_position'],
+            orientation=acquisition['ee_orientation'], layout=layout,
+            probe_command_steps=config['motion']['probe_command_steps'],
+            test_command_steps=config['motion']['test_command_steps'],
+            control_substeps=execution['control_substeps'])
+        jam_script = copy_fixed_command_script(script)
+        free_arrays = command_arrays(script)
+        jam_arrays = command_arrays(jam_script)
+        arrays_equal = all(np.array_equal(free_arrays[k], jam_arrays[k])
+                           for k in free_arrays)
+        if not arrays_equal:
+            raise RuntimeError('paired fixed command arrays differ')
+        write_json(pair_dir / 'fixed_command_script.json', script)
+        np.savez_compressed(pair_dir / 'fixed_command_arrays.npz', **free_arrays)
+        branch_metadata, initial_states, traces = {}, {}, {}
+        for condition, commands in zip(CONDITIONS, (script, jam_script)):
+            branch_metadata[condition], initial_states[condition], traces[condition] = run_branch(
+                env=env, task=task, condition=condition, state_id=state_id,
                 base_world_state=base_world_state,
                 python_runtime_state=python_runtime_state,
-                action_script=actions,
-                config=config,
-                pair_dir=pair_dir,
-                active_bead_id=acquisition['active_bead_id'])
-
-        pair_metadata = {
-            'pair_id': config['pair_id'],
-            'seed': seed,
+                command_script=commands, config=config, pair_dir=pair_dir,
+                active_bead_id=acquisition['active_bead_id'],
+                stop_after_probe=stop_after_probe)
+        free_trace, jam_trace = traces[CONDITIONS[0]], traces[CONDITIONS[1]]
+        step_equal = np.array_equal(
+            free_trace['physics_step'], jam_trace['physics_step'])
+        phase_equal = np.array_equal(free_trace['phase'], jam_trace['phase'])
+        visible = layout['visible_readout_indices']
+        metadata = {
+            'pair_id': pair_id, 'seed': seed,
             'dataset_role': config['dataset_role'],
-            'conditions': list(CONDITIONS),
-            'pairing_mode': 'pybullet_save_restore_fixed_step',
-            'action_payload_equal': action_script == jam_action_script,
+            'conditions': list(CONDITIONS), 'stop_after_probe': stop_after_probe,
+            'pairing_mode': 'pybullet_save_restore_fixed_low_level_commands',
+            'active_stabilizer_released': task.active_endpoint_stabilizer_id is None,
+            'pre_snapshot_settle_steps': execution['pre_snapshot_settle_steps'],
+            'grasp_after_stabilizer_release': post_release_grasp,
+            'fixed_command_arrays_equal': arrays_equal,
+            'free_physics_steps': branch_metadata['free']['physics_steps'],
+            'jam_physics_steps': branch_metadata['right_hidden_jam']['physics_steps'],
+            'physics_step_arrays_equal': bool(step_equal),
+            'phase_arrays_equal': bool(phase_equal),
+            'probe_command_steps_equal': bool(np.array_equal(
+                free_arrays['probe_joint_targets'], jam_arrays['probe_joint_targets'])),
+            'test_command_steps_equal': bool(np.array_equal(
+                free_arrays['test_joint_targets'], jam_arrays['test_joint_targets'])),
             'base_to_free_max_abs': max_state_difference(
                 base_world_state, initial_states['free']),
             'base_to_jam_max_abs': max_state_difference(
@@ -300,47 +291,19 @@ def run_pair(config):
             'free_to_jam_max_abs': max_state_difference(
                 initial_states['free'], initial_states['right_hidden_jam']),
             'initial_visible_bead_rmse': float(np.sqrt(np.mean(np.square(
-                initial_states['free']['bead_positions'][
-                    compute_occp_layout(geometry, 'free')[
-                        'visible_readout_indices']]
-                - initial_states['right_hidden_jam']['bead_positions'][
-                    compute_occp_layout(geometry, 'free')[
-                        'visible_readout_indices']])))),
+                initial_states['free']['bead_positions'][visible]
+                - initial_states['right_hidden_jam']['bead_positions'][visible])))),
             'initial_robot_state_rmse': float(np.sqrt(np.mean(np.square(
-                np.concatenate([
-                    initial_states['free']['joint_positions'],
-                    initial_states['free']['ee_position'],
-                    initial_states['free']['ee_orientation']])
-                - np.concatenate([
-                    initial_states['right_hidden_jam']['joint_positions'],
-                    initial_states['right_hidden_jam']['ee_position'],
-                    initial_states['right_hidden_jam']['ee_orientation']]))))),
-            'initial_velocity_rmse': float(np.sqrt(np.mean(np.square(
-                np.concatenate([
-                    initial_states['free']['bead_linear_velocities'].reshape(-1),
-                    initial_states['free']['bead_angular_velocities'].reshape(-1),
-                    initial_states['free']['joint_velocities'],
-                    initial_states['free']['ee_linear_velocity'],
-                    initial_states['free']['ee_angular_velocity']])
-                - np.concatenate([
-                    initial_states['right_hidden_jam'][
-                        'bead_linear_velocities'].reshape(-1),
-                    initial_states['right_hidden_jam'][
-                        'bead_angular_velocities'].reshape(-1),
-                    initial_states['right_hidden_jam']['joint_velocities'],
-                    initial_states['right_hidden_jam']['ee_linear_velocity'],
-                    initial_states['right_hidden_jam']['ee_angular_velocity']]))))),
-            'acquisition': acquisition,
-            'layout': _layout_payload(compute_occp_layout(geometry, 'free')),
-            'execution': execution,
-            'motion': config['motion'],
-            'trace': config['trace'],
-            'geometry': geometry_overrides,
-            'smoke_debug_history': config.get('smoke_debug_history', []),
-            'branches': branch_metadata,
-        }
-        write_json(pair_dir / 'metadata.json', pair_metadata)
-        return pair_dir, pair_metadata
+                np.concatenate([initial_states['free']['joint_positions'],
+                                initial_states['free']['ee_position']])
+                - np.concatenate([initial_states['right_hidden_jam']['joint_positions'],
+                                  initial_states['right_hidden_jam']['ee_position']]))))),
+            'acquisition': acquisition, 'layout': _layout_payload(layout),
+            'execution': execution, 'motion': config['motion'],
+            'geometry': config['geometry'], 'analysis': config['analysis'],
+            'trace': config['trace'], 'branches': branch_metadata}
+        write_json(pair_dir / 'metadata.json', metadata)
+        return pair_dir, metadata
     finally:
         if state_id is not None and p.isConnected():
             try:
@@ -353,10 +316,13 @@ def run_pair(config):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--config', required=True)
+    parser.add_argument('--stop-after-probe', action='store_true')
     args = parser.parse_args()
-    pair_dir, metadata = run_pair(load_config(args.config))
+    pair_dir, metadata = run_pair(
+        load_config(args.config), stop_after_probe=args.stop_after_probe)
     print('pair_dir={}'.format(pair_dir))
-    print('action_payload_equal={}'.format(metadata['action_payload_equal']))
+    print('fixed_command_arrays_equal={}'.format(
+        metadata['fixed_command_arrays_equal']))
 
 
 if __name__ == '__main__':

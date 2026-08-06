@@ -9,6 +9,14 @@ import numpy as np
 
 
 CONDITIONS = ('free', 'right_hidden_jam')
+LEGACY_GEOMETRY_FIELDS = {
+    'jam_clearance_scale', 'free_clearance_scale', 'pin_radius_scale',
+    'occluder_length_x', 'occluder_width_y'}
+
+
+def config_schema(config):
+    return ('r1' if 'acquisition_speed' in config.get('motion', {})
+            else 'legacy_phase0a')
 
 
 def load_config(path):
@@ -28,6 +36,7 @@ def validate_config(config):
     execution = config['execution']
     if not execution.get('deterministic'):
         raise ValueError('the Phase 0A pair must be deterministic')
+    schema = config_schema(config)
     for name in (
             'hz', 'control_substeps', 'no_action_steps',
             'post_probe_steps', 'post_test_steps'):
@@ -38,7 +47,8 @@ def validate_config(config):
     if float(execution['initial_settle_seconds']) < 0:
         raise ValueError('initial_settle_seconds must be non-negative')
     motion = config['motion']
-    if float(motion['speed']) <= 0 or float(motion['joint_tolerance']) <= 0:
+    speed_key = 'acquisition_speed' if schema == 'r1' else 'speed'
+    if float(motion[speed_key]) <= 0 or float(motion['joint_tolerance']) <= 0:
         raise ValueError('motion speed and tolerance must be positive')
     if float(motion['grasp_height_offset']) < 0:
         raise ValueError('grasp_height_offset must be non-negative')
@@ -51,6 +61,20 @@ def validate_config(config):
         raise ValueError('camera fps must be positive')
     if int(config['camera']['frame_stride']) <= 0:
         raise ValueError('camera frame_stride must be positive')
+    geometry = config.get('geometry', {})
+    if schema == 'r1':
+        legacy = sorted(LEGACY_GEOMETRY_FIELDS.intersection(geometry))
+        if legacy:
+            raise ValueError(
+                'R1 config contains legacy geometry fields: {}'.format(legacy))
+        for name in ('pre_snapshot_settle_steps',):
+            if int(execution[name]) <= 0:
+                raise ValueError('{} must be positive'.format(name))
+        for name in ('probe_command_steps', 'test_command_steps'):
+            if int(motion[name]) <= 0:
+                raise ValueError('{} must be positive'.format(name))
+        if int(config['trace']['stride']) != 1:
+            raise ValueError('R1 trace stride must be one')
 
 
 def write_json(path, payload):
@@ -103,6 +127,8 @@ def trace_to_arrays(trace):
         'sensor_suction_force_xyz', 'sensor_suction_torque_xyz',
         'sensor_grasp_active', 'sensor_constraint_available',
         'oracle_pin_contact_force', 'oracle_pin_contact_count')
+    fixed_fields = fixed_fields + (
+        'oracle_pin_min_signed_distance', 'visible_mask')
     return {
         field: np.asarray([row[field] for row in trace])
         for field in fixed_fields

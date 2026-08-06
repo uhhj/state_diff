@@ -6,6 +6,8 @@ import pybullet as p
 
 
 def capture_world_state(env, task):
+    if getattr(task, 'active_endpoint_stabilizer_id', None) is not None:
+        raise RuntimeError('temporary active stabilizer must be released')
     bead_pose = [
         p.getBasePositionAndOrientation(body_id)
         for body_id in task.cable_bead_IDs]
