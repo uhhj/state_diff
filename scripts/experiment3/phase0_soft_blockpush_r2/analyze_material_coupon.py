@@ -91,7 +91,9 @@ def analyze(coupon_dir: Path, report_dir: Path) -> dict:
         np.repeat(visible[0:1], len(visible), axis=0), visible)
     anchor_drift = float(np.max(np.linalg.norm(
         positions[:, anchor] - positions[0:1, anchor], axis=2)))
-    expected_evals = 512 * metadata["microstep_selection"]["microsteps_per_outer"]
+    expected_evals = metadata.get(
+        "internal_evaluations_per_microstep", 512
+    ) * metadata["microstep_selection"]["microsteps_per_outer"]
     coupon = config["coupon"]
     expected_lengths = {"no_action": coupon["no_action_outer_steps"],
                         "load_ramp": coupon["load_ramp_outer_steps"],

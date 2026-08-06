@@ -119,7 +119,9 @@ def analyze(settle_dir: Path, report_dir: Path) -> dict:
     cap_fraction = float(np.sum(data["spring_capped_force_count"])
                          / np.sum(data["spring_force_evaluation_count"]))
     settle = config["table_settle"]
-    expected_evals = 512 * metadata["microstep_selection"]["microsteps_per_outer"]
+    expected_evals = metadata.get(
+        "internal_evaluations_per_microstep", 512
+    ) * metadata["microstep_selection"]["microsteps_per_outer"]
     engineering = {
         "finite": all(np.all(np.isfinite(value)) for value in data.values()
                       if value.dtype.kind not in "USO"),

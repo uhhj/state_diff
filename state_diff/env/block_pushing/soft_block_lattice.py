@@ -1,8 +1,17 @@
 """Deterministic node-and-constraint representation of a small soft block."""
 from dataclasses import dataclass
-from typing import Dict, List, Tuple
+from typing import Dict, List, NamedTuple, Tuple
 
 import numpy as np
+
+
+class AngleTriplet(NamedTuple):
+    """Indices and plane label for one deterministic orthogonal corner."""
+
+    center: int
+    first: int
+    second: int
+    plane: str
 
 
 @dataclass(frozen=True)
@@ -45,6 +54,34 @@ class SoftBlockConfig:
 def node_index(i: int, j: int, k: int, config: SoftBlockConfig) -> int:
     """Map integer grid coordinates to the fixed flat node index."""
     return (k * config.ny + j) * config.nx + i
+
+
+def build_angle_triplets(config: SoftBlockConfig) -> List[AngleTriplet]:
+    """Build one deterministic right-angle triplet per grid-cell corner."""
+    config.validate()
+    result: List[AngleTriplet] = []
+    for k in range(config.nz):
+        for j in range(config.ny - 1):
+            for i in range(config.nx - 1):
+                result.append(AngleTriplet(
+                    node_index(i, j, k, config),
+                    node_index(i + 1, j, k, config),
+                    node_index(i, j + 1, k, config), "xy"))
+    for k in range(config.nz - 1):
+        for j in range(config.ny):
+            for i in range(config.nx - 1):
+                result.append(AngleTriplet(
+                    node_index(i, j, k, config),
+                    node_index(i + 1, j, k, config),
+                    node_index(i, j, k + 1, config), "xz"))
+    for k in range(config.nz - 1):
+        for j in range(config.ny - 1):
+            for i in range(config.nx):
+                result.append(AngleTriplet(
+                    node_index(i, j, k, config),
+                    node_index(i, j + 1, k, config),
+                    node_index(i, j, k + 1, config), "yz"))
+    return result
 
 
 def initial_node_positions(

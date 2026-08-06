@@ -20,7 +20,7 @@ class TableSettleCoupon:
     def __init__(self, config: Dict[str, Any], material_profile_path: str,
                  microsteps_per_outer: int):
         self.config = config
-        self.material, self.material_profile = load_material_profile(
+        self.material, self.material_profile = self._load_profile(
             material_profile_path)
         self.material_profile_path = material_profile_path
         self.client = bullet_client.BulletClient(pybullet.DIRECT)
@@ -44,10 +44,7 @@ class TableSettleCoupon:
             lateralFriction=float(settle["floor_lateral_friction"]),
             rollingFriction=0.0, restitution=0.0)
         soft = config["soft_block"]
-        self.block = KelvinVoigtSoftBlock(
-            self.client, soft_block_config(config), self.material,
-            float(soft["spring_force_cap_n"]), tuple(soft["center_xy"]),
-            float(soft["yaw_deg"]))
+        self.block = self._create_block(soft_block_config(config), soft)
         self.integrator = ManualMicrostepIntegrator(
             self.client, ManualMicrostepConfig(
                 float(physics["outer_timestep_s"]), microsteps_per_outer))
@@ -72,10 +69,7 @@ class TableSettleCoupon:
                     "node_velocities": velocities.tolist(),
                     "visible_keypoints": self.block.visible_positions().tolist(),
                     "contact_count": contacts,
-                    "spring_energy_structural_j": stats.final_energy_by_kind_j["structural"],
-                    "spring_energy_shear_j": stats.final_energy_by_kind_j["shear"],
-                    "spring_energy_bending_j": stats.final_energy_by_kind_j["bending"],
-                    "spring_energy_total_j": sum(stats.final_energy_by_kind_j.values()),
+                    **self._energy_fields(stats),
                     "spring_max_uncapped_edge_force_n": stats.max_uncapped_edge_force_n,
                     "spring_max_applied_edge_force_n": stats.max_applied_edge_force_n,
                     "spring_capped_force_count": stats.capped_force_count,
@@ -87,6 +81,22 @@ class TableSettleCoupon:
                 if frame_callback is not None:
                     frame_callback(outer, phase)
         return list(self.trace)
+
+    def _load_profile(self, path: str):
+        return load_material_profile(path)
+
+    def _create_block(self, block_config, soft: dict):
+        return KelvinVoigtSoftBlock(
+            self.client, block_config, self.material,
+            float(soft["spring_force_cap_n"]), tuple(soft["center_xy"]),
+            float(soft["yaw_deg"]))
+
+    def _energy_fields(self, stats) -> dict:
+        return {
+            "spring_energy_structural_j": stats.final_energy_by_kind_j["structural"],
+            "spring_energy_shear_j": stats.final_energy_by_kind_j["shear"],
+            "spring_energy_bending_j": stats.final_energy_by_kind_j["bending"],
+            "spring_energy_total_j": sum(stats.final_energy_by_kind_j.values())}
 
     def render(self, width: int = 320, height: int = 240) -> np.ndarray:
         """Render an oblique audit view."""

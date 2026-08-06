@@ -28,7 +28,7 @@ class MaterialCouponR2:
         if mode not in COUPON_MODES:
             raise ValueError("unknown coupon mode")
         self.config, self.mode = config, mode
-        self.material, self.material_profile = load_material_profile(
+        self.material, self.material_profile = self._load_profile(
             material_profile_path)
         self.material_profile_path = material_profile_path
         self.client = bullet_client.BulletClient(pybullet.DIRECT)
@@ -46,10 +46,7 @@ class MaterialCouponR2:
             node_index(0, j, k, block_config)
             for k in range(block_config.nz) for j in range(block_config.ny)], dtype=int)
         soft = config["soft_block"]
-        self.block = KelvinVoigtSoftBlock(
-            self.client, block_config, self.material,
-            soft["spring_force_cap_n"], tuple(soft["center_xy"]), soft["yaw_deg"],
-            static_indices=self.anchor_indices.tolist())
+        self.block = self._create_block(block_config, soft)
         self.integrator = ManualMicrostepIntegrator(
             self.client, ManualMicrostepConfig(
                 physics["outer_timestep_s"], microsteps_per_outer))
@@ -101,10 +98,7 @@ class MaterialCouponR2:
                     "primary_face_displacement_m": primary,
                     "lateral_face_displacement_m": lateral,
                     "rigid_aligned_rmse_m": rigid,
-                    "spring_energy_structural_j": stats.final_energy_by_kind_j["structural"],
-                    "spring_energy_shear_j": stats.final_energy_by_kind_j["shear"],
-                    "spring_energy_bending_j": stats.final_energy_by_kind_j["bending"],
-                    "spring_energy_total_j": sum(stats.final_energy_by_kind_j.values()),
+                    **self._energy_fields(stats),
                     "spring_max_uncapped_edge_force_n": stats.max_uncapped_edge_force_n,
                     "spring_max_applied_edge_force_n": stats.max_applied_edge_force_n,
                     "spring_capped_force_count": stats.capped_force_count,
@@ -116,6 +110,22 @@ class MaterialCouponR2:
                 if frame_callback is not None:
                     frame_callback(outer, phase)
         return list(self.trace)
+
+    def _load_profile(self, path: str):
+        return load_material_profile(path)
+
+    def _create_block(self, block_config, soft: dict):
+        return KelvinVoigtSoftBlock(
+            self.client, block_config, self.material,
+            soft["spring_force_cap_n"], tuple(soft["center_xy"]), soft["yaw_deg"],
+            static_indices=self.anchor_indices.tolist())
+
+    def _energy_fields(self, stats) -> dict:
+        return {
+            "spring_energy_structural_j": stats.final_energy_by_kind_j["structural"],
+            "spring_energy_shear_j": stats.final_energy_by_kind_j["shear"],
+            "spring_energy_bending_j": stats.final_energy_by_kind_j["bending"],
+            "spring_energy_total_j": sum(stats.final_energy_by_kind_j.values())}
 
     def render(self, width: int = 320, height: int = 240) -> np.ndarray:
         """Render an oblique view without floor or task objects."""

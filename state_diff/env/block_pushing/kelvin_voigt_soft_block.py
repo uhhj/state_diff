@@ -78,6 +78,14 @@ class EdgeFamilyEvaluation:
     edge_lengths_m: np.ndarray
 
 
+@dataclass(frozen=True)
+class InternalForceEvaluation:
+    """Aggregated node forces and telemetry before Bullet application."""
+
+    node_forces_n: np.ndarray
+    stats: SpringStepStats
+
+
 def zero_spring_stats() -> SpringStepStats:
     """Return zero telemetry for legacy or not-yet-stepped mechanics."""
     return SpringStepStats(
@@ -285,9 +293,15 @@ class KelvinVoigtSoftBlock:
                 body, linearVelocity=[0, 0, 0], angularVelocity=[0, 0, 0])
         return offset
 
-    def apply_internal_forces(self) -> SpringStepStats:
-        """Evaluate every edge, aggregate node forces, and apply once per node."""
-        positions, velocities = self.positions(), self.velocities()
+    def compute_internal_forces(
+        self, positions: Optional[np.ndarray] = None,
+        velocities: Optional[np.ndarray] = None,
+    ) -> InternalForceEvaluation:
+        """Aggregate all edge forces without mutating Bullet state."""
+        positions = self.positions() if positions is None else np.asarray(
+            positions, dtype=np.float64)
+        velocities = self.velocities() if velocities is None else np.asarray(
+            velocities, dtype=np.float64)
         node_forces = np.zeros((self.config.num_nodes, 3), dtype=np.float64)
         energies = {"structural": 0.0, "shear": 0.0, "bending": 0.0}
         capped_count, evaluations = 0, 0
@@ -315,10 +329,23 @@ class KelvinVoigtSoftBlock:
             min_length = min(min_length, float(np.min(evaluation.edge_lengths_m)))
             max_length = max(max_length, float(np.max(evaluation.edge_lengths_m)))
         residual = float(np.linalg.norm(np.sum(node_forces, axis=0)))
+        stats = SpringStepStats(
+            energies, max_uncapped, max_applied, capped_count, evaluations,
+            residual, min_length, max_length)
+        return InternalForceEvaluation(node_forces, stats)
+
+    def apply_node_forces(
+        self, node_forces: np.ndarray, positions: np.ndarray,
+    ) -> None:
+        """Apply one already-aggregated force at each node position."""
         for body, force, position in zip(self.body_ids, node_forces, positions):
             self.client.applyExternalForce(
                 objectUniqueId=body, linkIndex=-1, forceObj=force.tolist(),
                 posObj=position.tolist(), flags=self.client.WORLD_FRAME)
-        return SpringStepStats(
-            energies, max_uncapped, max_applied, capped_count, evaluations,
-            residual, min_length, max_length)
+
+    def apply_internal_forces(self) -> SpringStepStats:
+        """Evaluate every edge, aggregate node forces, and apply once per node."""
+        positions, velocities = self.positions(), self.velocities()
+        evaluation = self.compute_internal_forces(positions, velocities)
+        self.apply_node_forces(evaluation.node_forces_n, positions)
+        return evaluation.stats
