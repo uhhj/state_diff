@@ -31,6 +31,8 @@ def load_profile(path: str):
 
 
 def choose_next_profile(shear_verdict: str):
+    if "_SHEAR_" not in shear_verdict:
+        return None
     if shear_verdict.endswith("TOO_SOFT"):
         return STIFFER_PROFILE
     if shear_verdict.endswith("TOO_STIFF"):
