@@ -4,7 +4,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 import json
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict, List, Optional, Sequence, Tuple
 
 import numpy as np
 
@@ -52,15 +52,37 @@ class SpringStepStats:
     """Auditable aggregate telemetry from one internal-force evaluation."""
 
     energy_by_kind_j: Dict[str, float]
-    max_abs_force_n: float
+    max_uncapped_edge_force_n: float
+    max_applied_edge_force_n: float
     capped_force_count: int
     force_evaluation_count: int
+    net_internal_force_residual_n: float
+    min_edge_length_m: float
+    max_edge_length_m: float
+
+    @property
+    def max_abs_force_n(self) -> float:
+        """Return the legacy name for maximum applied edge force."""
+        return self.max_applied_edge_force_n
+
+
+@dataclass(frozen=True)
+class EdgeFamilyEvaluation:
+    """Vectorized forces and telemetry for one deterministic edge family."""
+
+    edge_forces_on_a: np.ndarray
+    energy_j: np.ndarray
+    capped: np.ndarray
+    uncapped_force_norm_n: np.ndarray
+    applied_force_norm_n: np.ndarray
+    edge_lengths_m: np.ndarray
 
 
 def zero_spring_stats() -> SpringStepStats:
     """Return zero telemetry for legacy or not-yet-stepped mechanics."""
     return SpringStepStats(
-        {"structural": 0.0, "shear": 0.0, "bending": 0.0}, 0.0, 0, 0)
+        {"structural": 0.0, "shear": 0.0, "bending": 0.0},
+        0.0, 0.0, 0, 0, 0.0, 0.0, 0.0)
 
 
 def material_from_dict(payload: dict) -> KelvinVoigtMaterial:
@@ -77,6 +99,17 @@ def material_from_dict(payload: dict) -> KelvinVoigtMaterial:
 def load_material_profile(path: str) -> Tuple[KelvinVoigtMaterial, dict]:
     """Load a material profile and return both typed and raw forms."""
     payload = json.loads(Path(path).read_text(encoding="utf-8"))
+    if int(payload.get("profile_version", 1)) == 2:
+        multiplier = float(payload["stiffness_multiplier"])
+        damping_ratio = float(payload["damping_ratio"])
+        reduced_mass = float(payload["node_mass_kg"]) / 2.0
+        for kind in ("structural", "shear", "bending"):
+            stiffness = float(payload["base_stiffness_n_per_m"][kind]) * multiplier
+            damping = 2.0 * damping_ratio * np.sqrt(stiffness * reduced_mass)
+            if abs(stiffness - float(payload[kind + "_stiffness_n_per_m"])) > 1e-12:
+                raise ValueError("R2 stiffness coefficient mismatch for " + kind)
+            if abs(damping - float(payload[kind + "_damping_ns_per_m"])) > 1e-12:
+                raise ValueError("R2 damping coefficient mismatch for " + kind)
     return material_from_dict(payload), payload
 
 
@@ -111,12 +144,48 @@ def kelvin_voigt_edge_force(
     return force, capped, float(energy)
 
 
+def evaluate_edge_family(
+    positions: np.ndarray, velocities: np.ndarray, pairs: np.ndarray,
+    rest_lengths_m: np.ndarray, stiffness_n_per_m: float,
+    damping_ns_per_m: float, force_cap_n: float,
+) -> EdgeFamilyEvaluation:
+    """Vectorize deterministic Kelvin-Voigt evaluation for one edge family."""
+    positions = np.asarray(positions, dtype=np.float64)
+    velocities = np.asarray(velocities, dtype=np.float64)
+    pairs = np.asarray(pairs, dtype=np.int64)
+    rest = np.asarray(rest_lengths_m, dtype=np.float64)
+    a, b = pairs[:, 0], pairs[:, 1]
+    delta = positions[b] - positions[a]
+    lengths = np.linalg.norm(delta, axis=1)
+    if np.any(lengths <= 1e-12):
+        raise FloatingPointError("collapsed spring edge")
+    direction = delta / lengths[:, None]
+    relative_velocity = velocities[b] - velocities[a]
+    extension = lengths - rest
+    scalar = (float(stiffness_n_per_m) * extension
+              + float(damping_ns_per_m)
+              * np.sum(relative_velocity * direction, axis=1))
+    uncapped = scalar[:, None] * direction
+    uncapped_norm = np.linalg.norm(uncapped, axis=1)
+    scale = np.minimum(
+        1.0, float(force_cap_n) / np.maximum(uncapped_norm, 1e-30))
+    applied = uncapped * scale[:, None]
+    return EdgeFamilyEvaluation(
+        edge_forces_on_a=applied,
+        energy_j=0.5 * float(stiffness_n_per_m) * extension ** 2,
+        capped=uncapped_norm > float(force_cap_n),
+        uncapped_force_norm_n=uncapped_norm,
+        applied_force_norm_n=np.linalg.norm(applied, axis=1),
+        edge_lengths_m=lengths)
+
+
 class KelvinVoigtSoftBlock:
     """Dynamic sphere nodes coupled only by explicit Kelvin-Voigt forces."""
 
     def __init__(self, client, config: SoftBlockConfig,
                  material: KelvinVoigtMaterial, force_cap_n: float,
-                 center_xy: Tuple[float, float], yaw_deg: float = 0.0):
+                 center_xy: Tuple[float, float], yaw_deg: float = 0.0,
+                 static_indices: Optional[Sequence[int]] = None):
         config.validate()
         material.validate()
         if force_cap_n <= 0:
@@ -125,6 +194,9 @@ class KelvinVoigtSoftBlock:
         self.config = config
         self.material = material
         self.force_cap_n = float(force_cap_n)
+        self.static_indices = np.asarray(
+            sorted(set([] if static_indices is None else static_indices)),
+            dtype=np.int64)
         self.initial_positions = initial_node_positions(config, center_xy, yaw_deg)
         self.edge_metadata = build_edge_metadata(config)
         self.edges = {kind: np.asarray(
@@ -147,9 +219,11 @@ class KelvinVoigtSoftBlock:
             self.client.GEOM_SPHERE, radius=self.config.node_radius_m,
             rgbaColor=[0.20, 0.55, 0.92, 1.0])
         mass = self.config.total_mass_kg / self.config.num_nodes
-        for position in self.initial_positions:
+        static_set = set(self.static_indices.tolist())
+        for index, position in enumerate(self.initial_positions):
             body = int(self.client.createMultiBody(
-                baseMass=mass, baseCollisionShapeIndex=collision,
+                baseMass=0.0 if index in static_set else mass,
+                baseCollisionShapeIndex=collision,
                 baseVisualShapeIndex=visual, basePosition=position.tolist()))
             self.client.changeDynamics(
                 body, -1, lateralFriction=self.config.node_lateral_friction,
@@ -216,22 +290,35 @@ class KelvinVoigtSoftBlock:
         positions, velocities = self.positions(), self.velocities()
         node_forces = np.zeros((self.config.num_nodes, 3), dtype=np.float64)
         energies = {"structural": 0.0, "shear": 0.0, "bending": 0.0}
-        capped_count, evaluations, maximum = 0, 0, 0.0
+        capped_count, evaluations = 0, 0
+        max_uncapped, max_applied = 0.0, 0.0
+        min_length, max_length = float("inf"), 0.0
         for kind in ("structural", "shear", "bending"):
             stiffness, damping = self.material.coefficients(kind)
-            for edge in self.edge_metadata[kind]:
-                a, b = int(edge["a"]), int(edge["b"])
-                force, capped, energy = kelvin_voigt_edge_force(
-                    positions[a], velocities[a], positions[b], velocities[b],
-                    edge["rest_length"], stiffness, damping, self.force_cap_n)
-                node_forces[a] += force
-                node_forces[b] -= force
-                energies[kind] += energy
-                capped_count += int(capped)
-                evaluations += 1
-                maximum = max(maximum, float(np.linalg.norm(force)))
+            pairs = self.edges[kind]
+            if len(pairs) == 0:
+                continue
+            evaluation = evaluate_edge_family(
+                positions, velocities, pairs,
+                np.asarray([edge["rest_length"]
+                            for edge in self.edge_metadata[kind]]),
+                stiffness, damping, self.force_cap_n)
+            np.add.at(node_forces, pairs[:, 0], evaluation.edge_forces_on_a)
+            np.add.at(node_forces, pairs[:, 1], -evaluation.edge_forces_on_a)
+            energies[kind] = float(np.sum(evaluation.energy_j))
+            capped_count += int(np.sum(evaluation.capped))
+            evaluations += len(pairs)
+            max_uncapped = max(max_uncapped, float(np.max(
+                evaluation.uncapped_force_norm_n)))
+            max_applied = max(max_applied, float(np.max(
+                evaluation.applied_force_norm_n)))
+            min_length = min(min_length, float(np.min(evaluation.edge_lengths_m)))
+            max_length = max(max_length, float(np.max(evaluation.edge_lengths_m)))
+        residual = float(np.linalg.norm(np.sum(node_forces, axis=0)))
         for body, force, position in zip(self.body_ids, node_forces, positions):
             self.client.applyExternalForce(
                 objectUniqueId=body, linkIndex=-1, forceObj=force.tolist(),
                 posObj=position.tolist(), flags=self.client.WORLD_FRAME)
-        return SpringStepStats(energies, maximum, capped_count, evaluations)
+        return SpringStepStats(
+            energies, max_uncapped, max_applied, capped_count, evaluations,
+            residual, min_length, max_length)
