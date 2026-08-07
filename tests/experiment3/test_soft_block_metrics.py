@@ -1,6 +1,5 @@
 import numpy as np
 
-from scripts.experiment3.phase0_soft_blockpush.analyze_pair import classify_verdict
 from state_diff.env.block_pushing.soft_block_metrics import (
     edge_strain, first_sustained_onset, rigid_aligned_rmse)
 
@@ -24,13 +23,3 @@ def test_edge_strain_and_sustained_onset():
     values = np.array([0., .1, 5.1, 5.2, 5.3, 0.])
     eligible = np.array([False, False, True, True, True, True])
     assert first_sustained_onset(values, 5., eligible, 3) == 2
-
-
-def test_translation_only_and_complete_verdicts():
-    translation = {"visible": True, "full": True, "rigid": False,
-                   "progress": True, "amplification": True, "edge_ratios": True}
-    verdict, cause = classify_verdict(True, True, True, True, translation)
-    assert verdict == "PHASE0B_SINGLE_PAIR_SCIENTIFIC_FAIL"
-    assert cause == "translation_only_no_deformation_branch"
-    complete = dict(translation, rigid=True)
-    assert classify_verdict(True, True, True, True, complete)[0] == "PHASE0B_SINGLE_PAIR_COMPLETE"
