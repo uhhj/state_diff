@@ -145,3 +145,39 @@ def test_r7_only_adds_spatial_repeat_corrected_load_audit():
             == r7["analysis"]["future_vs_repeat_multiplier"] == 3.0)
     assert diagnostic["mechanical_reference_floor_n"] == 0.05
     assert "oracle_internal_constraint_segments" not in diagnostic
+
+
+def test_r8_doubles_excursion_at_fixed_probe_speed():
+    r7 = _load("ohj_cable_phase0d_r7_spatial_loadpath.json")
+    r8 = _load("ohj_cable_phase0d_r8_probe2mm_fixedspeed.json")
+    assert r8["execution"] == r7["execution"]
+    assert r8["geometry"] == r7["geometry"]
+    assert r8["state"] == r7["state"]
+    assert r8["sensor"] == r7["sensor"]
+    assert r8["diagnostic"] == r7["diagnostic"]
+    assert r8["analysis"] == r7["analysis"]
+    assert r8["control_relevance"] == r7["control_relevance"]
+    r7_motion = dict(r7["motion"])
+    r8_motion = dict(r8["motion"])
+    r7_delta = r7_motion.pop("probe_delta_xyz_m")
+    r8_delta = r8_motion.pop("probe_delta_xyz_m")
+    r7_forward = r7_motion.pop("probe_forward_steps")
+    r8_forward = r8_motion.pop("probe_forward_steps")
+    r7_return = r7_motion.pop("probe_return_steps")
+    r8_return = r8_motion.pop("probe_return_steps")
+    assert r7_motion == r8_motion
+    assert r7_delta == [0.001, 0.0, 0.0]
+    assert r8_delta == [0.002, 0.0, 0.0]
+    assert r7_forward == r7_return == 24
+    assert r8_forward == r8_return == 48
+    hz = r8["execution"]["hz"]
+    r7_speed = r7_delta[0] / (r7_forward / hz)
+    r8_speed = r8_delta[0] / (r8_forward / hz)
+    assert abs(r7_speed - 0.01) < 1e-12
+    assert abs(r8_speed - r7_speed) < 1e-12
+    repair = r8["repair"]
+    assert repair["mode"] == (
+        "single_fixed_speed_probe_excursion_amplification")
+    assert repair["stop_after_this_trial"] is True
+    assert repair["baseline"]["result_sha"] == (
+        "aa5600408d835f344b580f155e61780c737930d1")

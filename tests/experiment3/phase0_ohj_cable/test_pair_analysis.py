@@ -3,7 +3,8 @@ import copy
 import numpy as np
 
 from scripts.experiment3.phase0_ohj_cable.analyze_pair import (
-    evaluate_pair, probe_contact_diagnostics, recovery_curve,
+    evaluate_pair, probe_amplification_diagnostics,
+    probe_contact_diagnostics, recovery_curve,
     repeatability_by_phase)
 from scripts.experiment3.phase0_ohj_cable.common import load_config
 
@@ -272,3 +273,26 @@ def test_r7_privileged_profile_cannot_pass_gate3():
     assert metrics["verdict"] == "PHASE0D_SENSOR_NOT_OBSERVABLE"
     assert metrics["load_path_diagnostic"][
         "proximal_branch_specific_vs_repeat"] is True
+
+
+def test_r8_amplification_comparison_is_report_only():
+    r8 = load_config(
+        "configs/experiment3/phase0/"
+        "ohj_cable_phase0d_r8_probe2mm_fixedspeed.json")
+    load_path = {
+        "contact_reference_peak_excess_n": 0.60,
+        "proximal_repeat_corrected_excess_n": 0.04433220822202633,
+        "proximal_retention_ratio": 0.07365280018497582,
+    }
+    result = probe_amplification_diagnostics(
+        r8,
+        post_probe_rmse_m=1.0e-4,
+        formal_sensor_peak=0.6676378231817074,
+        load_path=load_path,
+    )
+    assert result["report_only"] is True
+    assert result["stop_after_this_trial"] is True
+    assert np.isclose(result["gain_ratio"]["probe_amplitude"], 2.0)
+    assert np.isclose(result["gain_ratio"]["probe_speed"], 1.0)
+    assert np.isclose(result["gain_ratio"]["proximal_excess"], 2.0)
+    assert np.isclose(result["gain_ratio"]["formal_sensor_peak"], 2.0)

@@ -83,6 +83,8 @@ def build_result(config_path):
     sensor_field = config["sensor"].get("trace_field", "formal_wrench")
     diagnostic_mode = config.get("diagnostic", {}).get("mode")
     load_path = pair.get("load_path_diagnostic")
+    repair_mode = config.get("repair", {}).get("mode")
+    amplification = pair.get("probe_amplification_diagnostic")
     repeat_floor = float(pair["repeat_peak_visible_rmse_m"])
     equiv_threshold = float(
         config["analysis"]["post_probe_visible_rmse_max_m"])
@@ -93,28 +95,67 @@ def build_result(config_path):
             "Generate physics_pairs, then train B0 StateDiff and B1 "
             "StateDiff-FT.")
     elif verdict == "PHASE0D_OBSERVABLE_EQUIVALENCE_FAIL":
-        if hold_repair and repeat_floor > equiv_threshold:
+        if repair_mode == "single_fixed_speed_probe_excursion_amplification":
             next_task = (
-                "Same-condition repeatability remains unresolved after "
-                "canonical motor-hold repair. Stop probe/contact tuning and "
-                "isolate same-world restore against fresh-world branch "
-                "execution.")
-        elif hold_repair:
-            next_task = (
-                "The repeat floor is now below the observable-equivalence "
-                "scale, so the remaining post-probe mismatch is "
-                "JAM-specific. Reduce the zero-net probe from 1.0 mm to "
-                "0.5 mm while keeping 240-step settle and 0.5 mm clearance "
-                "fixed.")
-        elif probe_mm > 1.0 + 1e-9:
-            next_task = (
-                "Reduce zero-net probe amplitude to 1.0 mm.")
-        else:
-            next_task = (
-                "Prepare the canonical-hold same-condition repeatability "
+                "The one-shot 2 mm fixed-speed zero-net probe does not "
+                "preserve the required observable equivalence. Reject this "
+                "excursion amplification. Do not continue a 3/4/5 mm "
+                "amplitude sweep; return to the 1 mm R7S probe and plan a "
+                "different mechanical information-gathering probe/coupling "
                 "repair.")
+        else:
+            if hold_repair and repeat_floor > equiv_threshold:
+                next_task = (
+                    "Same-condition repeatability remains unresolved after "
+                    "canonical motor-hold repair. Stop probe/contact tuning "
+                    "and isolate same-world restore against fresh-world "
+                    "branch execution.")
+            elif hold_repair:
+                next_task = (
+                    "The repeat floor is now below the observable-equivalence "
+                    "scale, so the remaining post-probe mismatch is "
+                    "JAM-specific. Reduce the zero-net probe from 1.0 mm to "
+                    "0.5 mm while keeping 240-step settle and 0.5 mm "
+                    "clearance fixed.")
+            elif probe_mm > 1.0 + 1e-9:
+                next_task = "Reduce zero-net probe amplitude to 1.0 mm."
+            else:
+                next_task = (
+                    "Prepare the canonical-hold same-condition repeatability "
+                    "repair.")
     elif verdict == "PHASE0D_SENSOR_NOT_OBSERVABLE":
-        if diagnostic_mode == (
+        if repair_mode == "single_fixed_speed_probe_excursion_amplification":
+            route = load_path["route_hint"]
+            if route == "repair_physical_grasp_sensing_coupling":
+                next_task = (
+                    "The 2 mm fixed-speed probe preserves observable "
+                    "equivalence and produces a mechanically-large repeat-"
+                    "corrected branch-specific load at the gripper-proximal "
+                    "cable segment, but the deployable 18D sensor still "
+                    "fails Gate 3. Stop probe-amplitude tuning and prepare a "
+                    "minimal physical grasp/sensing-coupling repair.")
+            elif route == "amplify_probe_or_mechanical_signal":
+                next_task = (
+                    "The one-shot 2 mm fixed-speed probe still leaves the "
+                    "gripper-proximal branch-specific excess below the "
+                    "mechanical reference scale and Gate 3 remains false. "
+                    "Stop scalar amplitude escalation; do not try 3/4/5 mm. "
+                    "Prepare a different minimal mechanical information-"
+                    "gathering probe/coupling repair while preserving Gate 2.")
+            elif route == "repair_mechanical_load_transmission":
+                next_task = (
+                    "The actual hidden-contact region retains a repeat-"
+                    "corrected branch-specific signal under the 2 mm probe, "
+                    "but the gripper-proximal segment does not. Stop "
+                    "amplitude tuning and repair mechanical load transmission "
+                    "/ probe mechanics.")
+            else:
+                next_task = (
+                    "The 2 mm fixed-speed probe does not establish a stable "
+                    "repeat-corrected branch-specific signal in the actual "
+                    "hidden-contact reference region. Stop tactile/gripper "
+                    "work and redesign the hidden-interaction/probe mechanics.")
+        elif diagnostic_mode == (
                 "spatial_repeat_corrected_load_path_information"):
             route = load_path["route_hint"]
             if route == "repair_physical_grasp_sensing_coupling":
@@ -243,6 +284,24 @@ def build_result(config_path):
                     large=probe["mechanically_large_excess"],
                     emergence=row["probe_emergence_excess_n"]))
         load_path_text = "\n".join(load_path_lines)
+    if amplification is None:
+        amplification_text = (
+            "Fixed-speed probe amplification comparison: not configured")
+    else:
+        amplification_text = (
+            "Fixed-speed probe amplification comparison:\n"
+            "- Report only: {}\n"
+            "- Stop after this trial: {}\n"
+            "- Baseline: {}\n"
+            "- Current: {}\n"
+            "- Gain ratios: {}"
+        ).format(
+            amplification["report_only"],
+            amplification["stop_after_this_trial"],
+            amplification["baseline"],
+            amplification["current"],
+            amplification["gain_ratio"],
+        )
     text = """Verdict: {verdict}
 
 Repository:
@@ -259,6 +318,7 @@ Repair:
 
 Frozen:
 - Probe amplitude: {probe_mm} mm
+- Probe forward/hold/return: {probe_forward_steps}/{probe_hold_steps}/{probe_return_steps}
 - Jam clearance: {clearance_mm} mm
 - Post-probe settle: {settle_steps} steps / {settle_s} s
 - State: {state_dim}D
@@ -314,6 +374,8 @@ Key values:
 
 {load_path_text}
 
+{amplification_text}
+
 Leakage statement:
 - Internal cable constraint force used as formal sensor: No
 - Internal cable constraint force used for Gate 3: No
@@ -342,6 +404,9 @@ Next task: {next_task}
         sub_end=ending_submodule,
         hold_repair=hold_repair,
         probe_mm=probe_mm,
+        probe_forward_steps=config["motion"]["probe_forward_steps"],
+        probe_hold_steps=config["motion"]["probe_hold_steps"],
+        probe_return_steps=config["motion"]["probe_return_steps"],
         clearance_mm=clearance_mm,
         settle_steps=config["execution"]["post_probe_steps"],
         settle_s=(config["execution"]["post_probe_steps"]
@@ -394,6 +459,7 @@ Next task: {next_task}
         repeat_phases=repeatability["phases"],
         control_verdict=control_show.get("verdict", "not run"),
         load_path_text=load_path_text,
+        amplification_text=amplification_text,
         oracle_diagnostic="Yes" if load_path is not None else "No",
         passed=tests_passed, failed=tests_failed, pip_check=pip_check,
         next_task=next_task)

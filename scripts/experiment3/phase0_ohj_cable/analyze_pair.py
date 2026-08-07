@@ -266,6 +266,74 @@ def load_path_diagnostics(free, jam, repeat, config):
     }
 
 
+def _ratio_or_none(current, baseline):
+    baseline = float(baseline)
+    if abs(baseline) <= LOAD_PATH_NUMERIC_EPS_N:
+        return None
+    return float(float(current) / baseline)
+
+
+def probe_amplification_diagnostics(
+        config, *, post_probe_rmse_m, formal_sensor_peak, load_path):
+    repair = config.get("repair")
+    if (not repair or repair.get("mode")
+            != "single_fixed_speed_probe_excursion_amplification"):
+        return None
+    baseline = repair["baseline"]
+    motion = config["motion"]
+    hz = float(config["execution"]["hz"])
+    amplitude = float(np.linalg.norm(np.asarray(
+        motion["probe_delta_xyz_m"], dtype=np.float64)))
+    forward_steps = int(motion["probe_forward_steps"])
+    speed = float(amplitude / (forward_steps / hz))
+    current = {
+        "probe_amplitude_m": amplitude,
+        "probe_forward_steps": forward_steps,
+        "probe_return_steps": int(motion["probe_return_steps"]),
+        "probe_speed_m_s": speed,
+        "post_probe_rmse_m": float(post_probe_rmse_m),
+        "formal_sensor_peak_fused_gap": float(formal_sensor_peak),
+        "contact_reference_peak_excess_n": float(
+            load_path["contact_reference_peak_excess_n"]),
+        "proximal_excess_n": float(
+            load_path["proximal_repeat_corrected_excess_n"]),
+        "proximal_retention_ratio": (
+            None if load_path["proximal_retention_ratio"] is None
+            else float(load_path["proximal_retention_ratio"])),
+    }
+    return {
+        "mode": repair["mode"],
+        "report_only": True,
+        "stop_after_this_trial": bool(repair["stop_after_this_trial"]),
+        "baseline": dict(baseline),
+        "current": current,
+        "gain_ratio": {
+            "probe_amplitude": _ratio_or_none(
+                current["probe_amplitude_m"],
+                baseline["probe_amplitude_m"]),
+            "probe_speed": _ratio_or_none(
+                current["probe_speed_m_s"], baseline["probe_speed_m_s"]),
+            "post_probe_rmse": _ratio_or_none(
+                current["post_probe_rmse_m"],
+                baseline["post_probe_rmse_m"]),
+            "formal_sensor_peak": _ratio_or_none(
+                current["formal_sensor_peak_fused_gap"],
+                baseline["formal_sensor_peak_fused_gap"]),
+            "contact_reference_peak_excess": _ratio_or_none(
+                current["contact_reference_peak_excess_n"],
+                baseline["contact_reference_peak_excess_n"]),
+            "proximal_excess": _ratio_or_none(
+                current["proximal_excess_n"],
+                baseline["proximal_excess_n"]),
+            "proximal_retention": (
+                None if current["proximal_retention_ratio"] is None
+                else _ratio_or_none(
+                    current["proximal_retention_ratio"],
+                    baseline["proximal_retention_ratio"])),
+        },
+    }
+
+
 def repeatability_by_phase(free, repeat, config):
     threshold = float(
         config["analysis"]["post_probe_visible_rmse_max_m"])
@@ -561,6 +629,13 @@ def evaluate_pair(free, jam, repeat, branch_metadata, config):
         verdict = "PHASE0D_FUTURE_BRANCH_NOT_ESTABLISHED"
     else:
         verdict = "PHASE0D_PAIR_COMPLETE"
+    formal_sensor_peak = float(np.max(fused[probe]))
+    amplification = probe_amplification_diagnostics(
+        config,
+        post_probe_rmse_m=post_rmse,
+        formal_sensor_peak=formal_sensor_peak,
+        load_path=load_path,
+    )
     return {
         "verdict": verdict,
         "engineering": {"commands_equal": commands_equal,
@@ -589,7 +664,8 @@ def evaluate_pair(free, jam, repeat, branch_metadata, config):
         "sensor_onset_phase": (None if sensor_index is None
                                else str(phase[sensor_index])),
         "sensor_trigger": trigger,
-        "peak_fused_sensor_gap": float(np.max(fused[probe])),
+        "peak_fused_sensor_gap": formal_sensor_peak,
+        "probe_amplification_diagnostic": amplification,
         "peak_force_norm_gap_n": float(np.max(np.linalg.norm(gap[probe, :3], axis=1))),
         "peak_torque_norm_gap_nm": float(np.max(np.linalg.norm(gap[probe, 3:], axis=1))),
         "future_peak_visible_rmse_m": future_peak,
@@ -632,6 +708,7 @@ def analyze(config_path):
     repeatability = metrics["repeatability_by_phase"]
     probe_contact = metrics["probe_contact"]
     load_path = metrics["load_path_diagnostic"]
+    amplification = metrics["probe_amplification_diagnostic"]
     summary = (
         "# OHJ Phase 0D pair\n\n"
         "- Verdict: `{}`\n"
@@ -724,6 +801,21 @@ def analyze(config_path):
             load_path["proximal_repeat_corrected_excess_n"],
             load_path["proximal_mechanically_large_excess"],
             load_path["proximal_retention_ratio"], load_path["route_hint"])
+    if amplification is not None:
+        summary += (
+            "\n## Fixed-speed probe amplification comparison\n\n"
+            "- Report only: `{}`\n"
+            "- Stop after this trial: `{}`\n"
+            "- Baseline: `{}`\n"
+            "- Current: `{}`\n"
+            "- Gain ratios: `{}`\n"
+        ).format(
+            amplification["report_only"],
+            amplification["stop_after_this_trial"],
+            amplification["baseline"],
+            amplification["current"],
+            amplification["gain_ratio"],
+        )
     (output / "pair_summary.md").write_text(summary, encoding="utf-8")
     return metrics
 
