@@ -1,0 +1,159 @@
+{
+  "control_relevance": null,
+  "gates": {
+    "control_relevance": null,
+    "initial_observable_equivalence": true,
+    "post_probe_observable_equivalence": false,
+    "same_action_future_divergence": false,
+    "sensor_observability": false
+  },
+  "pair": {
+    "engineering": {
+      "commands_equal": true,
+      "finite": true,
+      "trace_alignment": true
+    },
+    "final_extraction_progress_m": {
+      "free": 0.009250455468371332,
+      "free_repeat": 0.00989820229103433,
+      "jam_right": 0.015086696494846508
+    },
+    "future_branch_to_repeat_ratio": 1.0989204128608698,
+    "future_peak_visible_rmse_m": 0.0067192108113922925,
+    "future_visible_threshold_m": 0.018343123121809697,
+    "gates": {
+      "initial_observable_equivalence": true,
+      "post_probe_observable_equivalence": false,
+      "same_action_future_divergence": false,
+      "sensor_observability": false
+    },
+    "initial_51d_rmse_m": 0.0,
+    "oracle": {
+      "free_peak_latch_force_n": 0.0,
+      "jam_contact_samples": 504,
+      "jam_peak_latch_force_n": 3.9543427102670208
+    },
+    "peak_force_norm_gap_n": 7.179347826257676,
+    "peak_fused_sensor_gap": 0.7869381745321995,
+    "peak_torque_norm_gap_nm": 0.04203727740155371,
+    "post_probe_51d_rmse_m": 0.006522088299712606,
+    "post_probe_ee_rmse_m": 0.0007161648455284883,
+    "post_probe_keypoint_rmse_m": 0.006720430214703735,
+    "recovery": {
+      "checkpoints": [
+        {
+          "branch_excess_over_repeat_m": 0.00037697852090995757,
+          "free_jam": {
+            "ee_rmse_m": 0.005701795302051411,
+            "keypoint_rmse_m": 0.0072104079015718955,
+            "rmse_51d_m": 0.007130506884792735
+          },
+          "free_repeat": {
+            "ee_rmse_m": 0.005758526149983215,
+            "keypoint_rmse_m": 0.006810891313413188,
+            "rmse_51d_m": 0.006753528363882777
+          },
+          "post_probe_steps": 0,
+          "time_s": 0.0
+        },
+        {
+          "branch_excess_over_repeat_m": 0.0003800017016346441,
+          "free_jam": {
+            "ee_rmse_m": 0.004349887889592295,
+            "keypoint_rmse_m": 0.007233603659172663,
+            "rmse_51d_m": 0.007096485770808801
+          },
+          "free_repeat": {
+            "ee_rmse_m": 0.004393645172997926,
+            "keypoint_rmse_m": 0.006835502781291887,
+            "rmse_51d_m": 0.006716484069174157
+          },
+          "post_probe_steps": 24,
+          "time_s": 0.1
+        },
+        {
+          "branch_excess_over_repeat_m": 0.00038847720848416735,
+          "free_jam": {
+            "ee_rmse_m": 0.003380458875208739,
+            "keypoint_rmse_m": 0.007231631446031685,
+            "rmse_51d_m": 0.007063457727448683
+          },
+          "free_repeat": {
+            "ee_rmse_m": 0.0034144446568193025,
+            "keypoint_rmse_m": 0.006827255906799995,
+            "rmse_51d_m": 0.006674980518964516
+          },
+          "post_probe_steps": 48,
+          "time_s": 0.2
+        },
+        {
+          "branch_excess_over_repeat_m": 0.0005676432188586695,
+          "free_jam": {
+            "ee_rmse_m": 0.0017799842584216928,
+            "keypoint_rmse_m": 0.0071731279440179685,
+            "rmse_51d_m": 0.006972334303939907
+          },
+          "free_repeat": {
+            "ee_rmse_m": 0.0017231227333244312,
+            "keypoint_rmse_m": 0.006587734826299956,
+            "rmse_51d_m": 0.006404691085081238
+          },
+          "post_probe_steps": 120,
+          "time_s": 0.5
+        },
+        {
+          "branch_excess_over_repeat_m": 0.0005874024400898525,
+          "free_jam": {
+            "ee_rmse_m": 0.0007161648455284883,
+            "keypoint_rmse_m": 0.006720430214703735,
+            "rmse_51d_m": 0.006522088299712606
+          },
+          "free_repeat": {
+            "ee_rmse_m": 0.0006197518878194196,
+            "keypoint_rmse_m": 0.006115371737926335,
+            "rmse_51d_m": 0.0059346858596227535
+          },
+          "post_probe_steps": 240,
+          "time_s": 1.0
+        }
+      ],
+      "final_branch_excess_fraction_of_free_jam": 0.09006355220853668,
+      "final_branch_excess_over_repeat_m": 0.0005874024400898525,
+      "final_free_jam_rmse_m": 0.006522088299712606,
+      "final_free_repeat_rmse_m": 0.0059346858596227535,
+      "final_repeat_fraction_of_free_jam": 0.9099364477914633,
+      "immediate_free_jam_rmse_m": 0.007130506884792735,
+      "post_probe_jam_latch_contact_fraction": 1.0,
+      "post_probe_jam_latch_contact_samples": 240,
+      "post_probe_jam_peak_latch_force_n": 0.9360980028638053,
+      "recovery_fraction": 0.08532613387944499
+    },
+    "repeat_peak_visible_rmse_m": 0.006114374373936565,
+    "sensor_onset_phase": null,
+    "sensor_onset_step": null,
+    "sensor_trigger": null,
+    "verdict": "PHASE0D_OBSERVABLE_EQUIVALENCE_FAIL"
+  },
+  "repository": {
+    "branch": "Experiment3",
+    "clean_before_result": true,
+    "ending_main_sha": "281c18cfb6945f38a49c66f7480a7b58d03b84fa",
+    "ending_submodule_sha": "7704cc7c5a413971deacf73544d773a51891b5c9",
+    "remote_tip": "281c18cfb6945f38a49c66f7480a7b58d03b84fa",
+    "remote_tip_matches": true,
+    "starting_main_sha": "37cadd94c4ad257bb2dbe2eb3b366f128ba89413",
+    "starting_submodule_sha": "7704cc7c5a413971deacf73544d773a51891b5c9"
+  },
+  "tests": {
+    "failed": 0,
+    "passed": 12,
+    "pip_check": "known multiprocess/dill conflict only"
+  },
+  "training": {
+    "B0": false,
+    "B1": false,
+    "CFPM": false,
+    "IDM": false
+  },
+  "verdict": "PHASE0D_OBSERVABLE_EQUIVALENCE_FAIL"
+}
