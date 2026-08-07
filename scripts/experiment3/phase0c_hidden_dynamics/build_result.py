@@ -98,7 +98,7 @@ def build_result(config_path: str) -> dict:
         "highrate_pair": highrate,
         "control_relevance": control,
         "training": {"StateDiff_B0": False, "StateDiff_FT_B1": False,
-                     "CFPM_B2": False, "B3": False},
+                     "CFPM_B2": False, "IDM": False, "B3": False},
     }
     destination = REPO_ROOT / "reports/experiment3/phase0c_r1_highrate"
     write_json(destination / "EVIDENCE.json", evidence)
@@ -168,6 +168,7 @@ Training:
 - StateDiff B0: No
 - StateDiff-FT B1: No
 - CFPM B2: No
+- IDM: No
 - B3: No
 
 Failure cause: {failure}
