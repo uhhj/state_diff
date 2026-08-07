@@ -66,7 +66,9 @@ def trace_to_arrays(trace):
         "gripper_surface_tactile_patch_contact_count",
         "formal_sensor_spatial",
         "joint_motor_torque", "joint_reaction_wrench",
-        "extraction_progress_m", "oracle_latch_contact_force",
+        "extraction_progress_m", "oracle_latch_contact_bead_mask",
+        "oracle_internal_cable_constraint_force_xyz",
+        "oracle_latch_contact_force",
         "oracle_latch_contact_count")
     return {name: np.asarray([row[name] for row in trace]) for name in fields}
 

@@ -83,6 +83,188 @@ PROBE_PHASES = (
     "probe_return",
 )
 
+LOAD_PATH_NUMERIC_EPS_N = 1e-12
+
+
+def sustained_window_peak(values, consecutive):
+    values = np.asarray(values, dtype=np.float64)
+    width = int(consecutive)
+    if len(values) < width:
+        return None
+    return float(max(
+        np.min(values[start:start + width])
+        for start in range(len(values) - width + 1)))
+
+
+def repeat_corrected_signal_stats(
+        branch_gap, repeat_gap, mask, *, consecutive,
+        repeat_multiplier, mechanical_floor):
+    branch_values = np.asarray(branch_gap[mask], dtype=np.float64)
+    repeat_values = np.asarray(repeat_gap[mask], dtype=np.float64)
+    branch_sustained = sustained_window_peak(branch_values, consecutive)
+    repeat_sustained = sustained_window_peak(repeat_values, consecutive)
+    if branch_sustained is None or repeat_sustained is None:
+        raise ValueError("load-path diagnostic window is too short")
+    excess = max(0.0, branch_sustained - repeat_sustained)
+    repeat_near_zero = bool(
+        repeat_sustained <= LOAD_PATH_NUMERIC_EPS_N)
+    ratio = (None if repeat_near_zero else float(
+        branch_sustained / repeat_sustained))
+    branch_specific = bool(
+        branch_sustained > LOAD_PATH_NUMERIC_EPS_N
+        and branch_sustained >= float(repeat_multiplier) * max(
+            repeat_sustained, LOAD_PATH_NUMERIC_EPS_N))
+    return {
+        "branch_peak_gap_n": float(np.max(branch_values)),
+        "repeat_peak_gap_n": float(np.max(repeat_values)),
+        "branch_median_gap_n": float(np.median(branch_values)),
+        "repeat_median_gap_n": float(np.median(repeat_values)),
+        "branch_sustained_gap_n": branch_sustained,
+        "repeat_sustained_gap_n": repeat_sustained,
+        "repeat_corrected_excess_n": float(excess),
+        "branch_over_repeat_ratio": ratio,
+        "repeat_near_zero": repeat_near_zero,
+        "branch_specific_vs_repeat": branch_specific,
+        "mechanically_large_excess": bool(
+            excess >= float(mechanical_floor)),
+    }
+
+
+def contact_adjacent_constraint_indices(contact_bead_indices, num_constraints):
+    indices = set()
+    for bead in np.asarray(contact_bead_indices, dtype=np.int64):
+        bead = int(bead)
+        if bead > 0:
+            indices.add(bead - 1)
+        if bead < int(num_constraints):
+            indices.add(bead)
+    return sorted(indices)
+
+
+def load_path_diagnostics(free, jam, repeat, config):
+    diagnostic = config.get("diagnostic")
+    if (not diagnostic or diagnostic.get("mode")
+            != "spatial_repeat_corrected_load_path_information"):
+        return None
+    free_force = np.asarray(
+        free["oracle_internal_cable_constraint_force_xyz"],
+        dtype=np.float64)
+    jam_force = np.asarray(
+        jam["oracle_internal_cable_constraint_force_xyz"],
+        dtype=np.float64)
+    repeat_force = np.asarray(
+        repeat["oracle_internal_cable_constraint_force_xyz"],
+        dtype=np.float64)
+    phase = free["phase"].astype(str)
+    no_action = phase == "no_action"
+    probe = np.isin(phase, PROBE_PHASES)
+    branch_gap = np.linalg.norm(free_force - jam_force, axis=2)
+    repeat_gap = np.linalg.norm(free_force - repeat_force, axis=2)
+    num_constraints = int(branch_gap.shape[1])
+    consecutive = int(diagnostic["consecutive_samples"])
+    repeat_multiplier = float(diagnostic["branch_vs_repeat_multiplier"])
+    mechanical_floor = float(diagnostic["mechanical_reference_floor_n"])
+    rows = []
+    for segment in range(num_constraints):
+        no_action_stats = repeat_corrected_signal_stats(
+            branch_gap[:, segment], repeat_gap[:, segment], no_action,
+            consecutive=consecutive,
+            repeat_multiplier=repeat_multiplier,
+            mechanical_floor=mechanical_floor)
+        probe_stats = repeat_corrected_signal_stats(
+            branch_gap[:, segment], repeat_gap[:, segment], probe,
+            consecutive=consecutive,
+            repeat_multiplier=repeat_multiplier,
+            mechanical_floor=mechanical_floor)
+        rows.append({
+            "constraint_index": int(segment),
+            "beads": [int(segment), int(segment + 1)],
+            "no_action": no_action_stats,
+            "probe": probe_stats,
+            "probe_emergence_excess_n": float(
+                probe_stats["repeat_corrected_excess_n"]
+                - no_action_stats["repeat_corrected_excess_n"]),
+        })
+    jam_contact_mask = np.asarray(
+        jam["oracle_latch_contact_bead_mask"], dtype=np.int8)
+    probe_contact_bead_indices = np.flatnonzero(np.any(
+        jam_contact_mask[probe] > 0, axis=0)).astype(int).tolist()
+    contact_reference_constraints = contact_adjacent_constraint_indices(
+        probe_contact_bead_indices, num_constraints)
+    if not contact_reference_constraints:
+        raise ValueError("R7S requires actual JAM latch contact during probe")
+    branch_specific_segments = [
+        int(row["constraint_index"]) for row in rows
+        if row["probe"]["branch_specific_vs_repeat"]]
+    contact_reference_specific = [
+        int(index) for index in contact_reference_constraints
+        if rows[index]["probe"]["branch_specific_vs_repeat"]]
+    reference_candidates = (contact_reference_specific
+                            if contact_reference_specific
+                            else contact_reference_constraints)
+    contact_reference_peak = max(
+        reference_candidates,
+        key=lambda index: rows[index]["probe"][
+            "repeat_corrected_excess_n"])
+    contact_reference_peak_excess = float(
+        rows[contact_reference_peak]["probe"][
+            "repeat_corrected_excess_n"])
+    global_peak_segment = max(
+        range(num_constraints),
+        key=lambda index: rows[index]["probe"][
+            "repeat_corrected_excess_n"])
+    global_peak_excess = float(
+        rows[global_peak_segment]["probe"]["repeat_corrected_excess_n"])
+    proximal_index = num_constraints - 1
+    proximal = rows[proximal_index]["probe"]
+    proximal_excess = float(proximal["repeat_corrected_excess_n"])
+    retention_ratio = (
+        None if contact_reference_peak_excess <= LOAD_PATH_NUMERIC_EPS_N
+        else float(proximal_excess / contact_reference_peak_excess))
+    contact_reference_has_signal = bool(contact_reference_specific)
+    proximal_specific = bool(proximal["branch_specific_vs_repeat"])
+    proximal_large = bool(proximal["mechanically_large_excess"])
+    if not contact_reference_has_signal:
+        route_hint = "repair_hidden_interaction_or_probe_source_mechanics"
+    elif not proximal_specific:
+        route_hint = "repair_mechanical_load_transmission"
+    elif proximal_large:
+        route_hint = "repair_physical_grasp_sensing_coupling"
+    else:
+        route_hint = "amplify_probe_or_mechanical_signal"
+    return {
+        "method": "spatial_repeat_corrected_pair_level_load_profile",
+        "interpretation_limit": (
+            "pair-level oracle mechanism diagnostic; not a mutual-"
+            "information or held-out prediction claim"),
+        "branch_vs_repeat_multiplier": repeat_multiplier,
+        "mechanical_reference_floor_n": mechanical_floor,
+        "num_constraints": num_constraints,
+        "probe_contact_bead_indices": probe_contact_bead_indices,
+        "contact_reference_constraint_indices": contact_reference_constraints,
+        "contact_reference_branch_specific_segment_indices": (
+            contact_reference_specific),
+        "contact_reference_has_branch_specific_signal": (
+            contact_reference_has_signal),
+        "contact_reference_peak_segment_index": int(contact_reference_peak),
+        "contact_reference_peak_excess_n": contact_reference_peak_excess,
+        "global_peak_segment_index": int(global_peak_segment),
+        "global_peak_excess_n": global_peak_excess,
+        "global_peak_is_contact_adjacent": bool(
+            global_peak_segment in contact_reference_constraints),
+        "branch_specific_segment_indices": branch_specific_segments,
+        "furthest_branch_specific_segment_toward_gripper": (
+            None if not branch_specific_segments
+            else int(max(branch_specific_segments))),
+        "gripper_proximal_constraint_index": int(proximal_index),
+        "proximal_branch_specific_vs_repeat": proximal_specific,
+        "proximal_repeat_corrected_excess_n": proximal_excess,
+        "proximal_mechanically_large_excess": proximal_large,
+        "proximal_retention_ratio": retention_ratio,
+        "segments": rows,
+        "route_hint": route_hint,
+    }
+
 
 def repeatability_by_phase(free, repeat, config):
     threshold = float(
@@ -242,6 +424,7 @@ def evaluate_pair(free, jam, repeat, branch_metadata, config):
     recovery = recovery_curve(free, jam, repeat, config)
     repeatability = repeatability_by_phase(free, repeat, config)
     probe_contact = probe_contact_diagnostics(free, jam)
+    load_path = load_path_diagnostics(free, jam, repeat, config)
 
     phase = free["phase"].astype(str)
     steps = free["physics_step"].astype(np.int64)
@@ -393,6 +576,7 @@ def evaluate_pair(free, jam, repeat, branch_metadata, config):
         "recovery": recovery,
         "repeatability_by_phase": repeatability,
         "probe_contact": probe_contact,
+        "load_path_diagnostic": load_path,
         "sensor_trace_field": sensor_field,
         "grasp_only_peak_fused_gap": float(np.max(grasp_fused[probe])),
         "tactile_only_peak_fused_gap": tactile_peak,
@@ -447,6 +631,7 @@ def analyze(config_path):
     recovery = metrics["recovery"]
     repeatability = metrics["repeatability_by_phase"]
     probe_contact = metrics["probe_contact"]
+    load_path = metrics["load_path_diagnostic"]
     summary = (
         "# OHJ Phase 0D pair\n\n"
         "- Verdict: `{}`\n"
@@ -502,6 +687,43 @@ def analyze(config_path):
         metrics["repeat_peak_visible_rmse_m"],
         repeatability["first_phase_above_equivalence_threshold"],
         repeatability["phases"])
+    if load_path is not None:
+        summary += (
+            "\n## Spatial repeat-corrected load-path audit\n\n"
+            "- Method: `{}`\n"
+            "- Interpretation limit: `{}`\n"
+            "- Probe contact bead indices: `{}`\n"
+            "- Contact reference constraint indices: `{}`\n"
+            "- Contact reference branch-specific indices: `{}`\n"
+            "- Contact reference peak segment/excess: `{}` / `{} N`\n"
+            "- Global peak segment/excess: `{}` / `{} N`\n"
+            "- Global peak contact-adjacent: `{}`\n"
+            "- Branch-specific segment indices: `{}`\n"
+            "- Furthest branch-specific segment toward gripper: `{}`\n"
+            "- Proximal constraint index: `{}`\n"
+            "- Proximal branch-specific: `{}`\n"
+            "- Proximal excess: `{} N`\n"
+            "- Proximal mechanically large: `{}`\n"
+            "- Proximal retention ratio: `{}`\n"
+            "- Route hint: `{}`\n"
+        ).format(
+            load_path["method"], load_path["interpretation_limit"],
+            load_path["probe_contact_bead_indices"],
+            load_path["contact_reference_constraint_indices"],
+            load_path[
+                "contact_reference_branch_specific_segment_indices"],
+            load_path["contact_reference_peak_segment_index"],
+            load_path["contact_reference_peak_excess_n"],
+            load_path["global_peak_segment_index"],
+            load_path["global_peak_excess_n"],
+            load_path["global_peak_is_contact_adjacent"],
+            load_path["branch_specific_segment_indices"],
+            load_path["furthest_branch_specific_segment_toward_gripper"],
+            load_path["gripper_proximal_constraint_index"],
+            load_path["proximal_branch_specific_vs_repeat"],
+            load_path["proximal_repeat_corrected_excess_n"],
+            load_path["proximal_mechanically_large_excess"],
+            load_path["proximal_retention_ratio"], load_path["route_hint"])
     (output / "pair_summary.md").write_text(summary, encoding="utf-8")
     return metrics
 

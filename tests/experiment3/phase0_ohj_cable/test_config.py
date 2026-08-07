@@ -127,3 +127,21 @@ def test_r6_only_adds_spatial_tactile():
     assert r6["sensor"]["tactile_patch_count"] == 4
     assert r6["sensor"]["tactile_patch_layout"] == "tip_xy_quadrants"
     assert len(r6["sensor"]["channel_floor"]) == 18
+
+
+def test_r7_only_adds_spatial_repeat_corrected_load_audit():
+    r6 = _load("ohj_cable_phase0d_r6_tactile4patch18d.json")
+    r7 = _load("ohj_cable_phase0d_r7_spatial_loadpath.json")
+    assert r7["execution"] == r6["execution"]
+    assert r7["geometry"] == r6["geometry"]
+    assert r7["motion"] == r6["motion"]
+    assert r7["state"] == r6["state"]
+    assert r7["sensor"] == r6["sensor"]
+    assert r7["analysis"] == r6["analysis"]
+    diagnostic = r7["diagnostic"]
+    assert diagnostic["mode"] == (
+        "spatial_repeat_corrected_load_path_information")
+    assert (diagnostic["branch_vs_repeat_multiplier"]
+            == r7["analysis"]["future_vs_repeat_multiplier"] == 3.0)
+    assert diagnostic["mechanical_reference_floor_n"] == 0.05
+    assert "oracle_internal_constraint_segments" not in diagnostic

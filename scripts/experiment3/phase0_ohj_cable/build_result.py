@@ -81,6 +81,8 @@ def build_result(config_path):
     clearance_mm = 1000.0 * float(
         config["geometry"]["jam_surface_clearance_m"])
     sensor_field = config["sensor"].get("trace_field", "formal_wrench")
+    diagnostic_mode = config.get("diagnostic", {}).get("mode")
+    load_path = pair.get("load_path_diagnostic")
     repeat_floor = float(pair["repeat_peak_visible_rmse_m"])
     equiv_threshold = float(
         config["analysis"]["post_probe_visible_rmse_max_m"])
@@ -112,7 +114,39 @@ def build_result(config_path):
                 "Prepare the canonical-hold same-condition repeatability "
                 "repair.")
     elif verdict == "PHASE0D_SENSOR_NOT_OBSERVABLE":
-        if sensor_field == "formal_wrench":
+        if diagnostic_mode == (
+                "spatial_repeat_corrected_load_path_information"):
+            route = load_path["route_hint"]
+            if route == "repair_physical_grasp_sensing_coupling":
+                next_task = (
+                    "Actual JAM contact-adjacent internal cable constraints "
+                    "show a repeat-corrected branch-specific signal, and "
+                    "that signal remains branch-specific with a mechanically "
+                    "large excess at the gripper-proximal constraint. The "
+                    "deployable 18D sensor still fails Gate 3. Freeze "
+                    "probe/task physics and prepare a minimal physical "
+                    "pinch/tactile grasp repair.")
+            elif route == "amplify_probe_or_mechanical_signal":
+                next_task = (
+                    "A repeat-corrected branch-specific internal signal "
+                    "reaches the gripper-proximal segment, but its mechanical "
+                    "excess is below the reference force scale. Preserve "
+                    "Gate 2 and prepare one minimal probe/mechanical-signal "
+                    "amplification repair.")
+            elif route == "repair_mechanical_load_transmission":
+                next_task = (
+                    "The actual JAM contact-adjacent region contains a "
+                    "repeat-corrected branch-specific internal signal, but "
+                    "the gripper-proximal segment does not. Do not redesign "
+                    "the gripper yet; repair mechanical load transmission / "
+                    "information-gathering probe mechanics.")
+            else:
+                next_task = (
+                    "The actual JAM contact-adjacent internal constraints do "
+                    "not show a stable branch-specific signal above the "
+                    "FREE-repeat floor. Stop tactile/gripper work and repair "
+                    "hidden-interaction / probe source mechanics.")
+        elif sensor_field == "formal_wrench":
             next_task = (
                 "Add deployable-equivalent gripper-surface tactile without "
                 "changing task physics.")
@@ -144,6 +178,71 @@ def build_result(config_path):
     recovery = pair["recovery"]
     repeatability = pair["repeatability_by_phase"]
     probe_contact = pair["probe_contact"]
+    if load_path is None:
+        load_path_text = (
+            "Spatial repeat-corrected load-path audit: not configured")
+    else:
+        load_path_lines = [
+            "Spatial repeat-corrected load-path audit:",
+            "- Method: {}".format(load_path["method"]),
+            "- Interpretation limit: {}".format(
+                load_path["interpretation_limit"]),
+            "- Actual JAM probe contact bead indices: {}".format(
+                load_path["probe_contact_bead_indices"]),
+            "- Contact-adjacent constraint indices: {}".format(
+                load_path["contact_reference_constraint_indices"]),
+            "- Contact-region branch-specific constraint indices: {}".format(
+                load_path[
+                    "contact_reference_branch_specific_segment_indices"]),
+            "- Contact-region peak segment/excess: {} / {} N".format(
+                load_path["contact_reference_peak_segment_index"],
+                load_path["contact_reference_peak_excess_n"]),
+            "- Global peak segment/excess: {} / {} N".format(
+                load_path["global_peak_segment_index"],
+                load_path["global_peak_excess_n"]),
+            "- Global peak is contact-adjacent: {}".format(
+                load_path["global_peak_is_contact_adjacent"]),
+            "- All branch-specific segment indices: {}".format(
+                load_path["branch_specific_segment_indices"]),
+            "- Furthest branch-specific segment toward gripper: {}".format(
+                load_path[
+                    "furthest_branch_specific_segment_toward_gripper"]),
+            "- Gripper-proximal constraint index: {}".format(
+                load_path["gripper_proximal_constraint_index"]),
+            "- Proximal branch-specific: {}".format(
+                load_path["proximal_branch_specific_vs_repeat"]),
+            "- Proximal repeat-corrected excess: {} N".format(
+                load_path["proximal_repeat_corrected_excess_n"]),
+            "- Proximal mechanically large: {}".format(
+                load_path["proximal_mechanically_large_excess"]),
+            "- Proximal retention ratio: {}".format(
+                load_path["proximal_retention_ratio"]),
+            "- Route hint: {}".format(load_path["route_hint"]),
+            "",
+            "Segment rows:",
+        ]
+        for row in load_path["segments"]:
+            no_action = row["no_action"]
+            probe = row["probe"]
+            load_path_lines.append(
+                "- Segment {index}: no_action branch/repeat sustained "
+                "{na_branch}/{na_repeat} N; no_action excess {na_excess} N; "
+                "probe branch/repeat sustained {p_branch}/{p_repeat} N; "
+                "probe excess {p_excess} N; branch/repeat ratio {ratio}; "
+                "branch-specific {specific}; mechanically large {large}; "
+                "probe emergence excess {emergence} N".format(
+                    index=row["constraint_index"],
+                    na_branch=no_action["branch_sustained_gap_n"],
+                    na_repeat=no_action["repeat_sustained_gap_n"],
+                    na_excess=no_action["repeat_corrected_excess_n"],
+                    p_branch=probe["branch_sustained_gap_n"],
+                    p_repeat=probe["repeat_sustained_gap_n"],
+                    p_excess=probe["repeat_corrected_excess_n"],
+                    ratio=probe["branch_over_repeat_ratio"],
+                    specific=probe["branch_specific_vs_repeat"],
+                    large=probe["mechanically_large_excess"],
+                    emergence=row["probe_emergence_excess_n"]))
+        load_path_text = "\n".join(load_path_lines)
     text = """Verdict: {verdict}
 
 Repository:
@@ -213,8 +312,13 @@ Key values:
 - Repeat phase diagnostics: {repeat_phases}
 - Control verdict: {control_verdict}
 
+{load_path_text}
+
 Leakage statement:
 - Internal cable constraint force used as formal sensor: No
+- Internal cable constraint force used for Gate 3: No
+- Internal cable constraint force used only as oracle mechanism diagnostic: {oracle_diagnostic}
+- Latch-contact bead mask used as formal sensor: No
 - Hidden latch/contact used as formal sensor: No
 
 Tests:
@@ -289,6 +393,8 @@ Next task: {next_task}
             "first_phase_above_equivalence_threshold"],
         repeat_phases=repeatability["phases"],
         control_verdict=control_show.get("verdict", "not run"),
+        load_path_text=load_path_text,
+        oracle_diagnostic="Yes" if load_path is not None else "No",
         passed=tests_passed, failed=tests_failed, pip_check=pip_check,
         next_task=next_task)
     (destination / "RESULT.md").write_text(text, encoding="utf-8")
