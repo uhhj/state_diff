@@ -24,6 +24,9 @@ def synthetic():
         "gripper_surface_tactile_force": np.zeros((n, 3)),
         "gripper_surface_contact_count": np.zeros(n),
         "formal_sensor": np.zeros((n, 9)),
+        "gripper_surface_tactile_patch_force": np.zeros((n, 4, 3)),
+        "gripper_surface_tactile_patch_contact_count": np.zeros((n, 4)),
+        "formal_sensor_spatial": np.zeros((n, 18)),
         "extraction_progress_m": np.linspace(0., .04, n),
         "oracle_latch_contact_force": np.zeros(n),
         "oracle_latch_contact_count": np.zeros(n),
@@ -169,3 +172,33 @@ def test_r5_gate3_can_be_triggered_by_surface_tactile():
     assert metrics["grasp_only_peak_fused_gap"] == 0.0
     assert metrics["tactile_only_peak_fused_gap"] >= 1.0
     assert metrics["sensor_trigger"]["channel"] == "tactile_Fx"
+
+
+def test_r6_spatial_tactile_preserves_cancelled_local_signal():
+    free, jam, repeat, metadata = synthetic()
+    r6 = load_config(
+        "configs/experiment3/phase0/"
+        "ohj_cable_phase0d_r6_tactile4patch18d.json")
+    for branch in (free, jam, repeat):
+        branch["formal_sensor_spatial"] = np.zeros(
+            (len(branch["phase"]), 18), dtype=np.float64)
+        branch["formal_sensor"] = np.zeros(
+            (len(branch["phase"]), 9), dtype=np.float64)
+        branch["gripper_surface_tactile_force"] = np.zeros(
+            (len(branch["phase"]), 3), dtype=np.float64)
+        branch["gripper_surface_contact_count"] = np.ones(
+            len(branch["phase"]), dtype=np.int64)
+        branch["gripper_surface_tactile_patch_contact_count"] = np.ones(
+            (len(branch["phase"]), 4), dtype=np.int64)
+    probe_idx = np.flatnonzero(np.isin(
+        jam["phase"], ["probe_forward", "probe_hold", "probe_return"]))
+    jam["formal_sensor_spatial"][probe_idx[:4], 6] = 0.2
+    jam["formal_sensor_spatial"][probe_idx[:4], 9] = -0.2
+    metrics = evaluate_pair(free, jam, repeat, metadata, r6)
+    assert metrics["gates"]["sensor_observability"] is True
+    assert metrics["aggregate_tactile_peak_fused_gap"] == 0.0
+    assert metrics["tactile_only_peak_fused_gap"] >= 1.0
+    assert metrics["sensor_trigger"]["channel"] == "patch0_Fx"
+    patches = metrics["spatial_tactile_patches"]
+    assert patches[0]["peak_fused_gap"] >= 1.0
+    assert patches[1]["peak_fused_gap"] >= 1.0

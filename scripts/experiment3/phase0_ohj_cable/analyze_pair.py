@@ -259,7 +259,68 @@ def evaluate_pair(free, jam, repeat, branch_metadata, config):
     normalized = gap / scale
     fused = np.max(normalized, axis=1)
     grasp_fused = np.max(normalized[:, :6], axis=1)
-    if normalized.shape[1] >= 9:
+
+    aggregate_tactile_peak = None
+    spatial_patch_metrics = None
+
+    if sensor_field == "formal_sensor_spatial":
+        tactile_normalized = normalized[:, 6:18]
+        tactile_fused = np.max(tactile_normalized, axis=1)
+        tactile_peak = float(np.max(tactile_fused[probe]))
+        patch_normalized = tactile_normalized.reshape(
+            len(tactile_normalized), 4, 3)
+        patch_gap = gap[:, 6:18].reshape(len(gap), 4, 3)
+        free_patch_count = np.asarray(
+            free["gripper_surface_tactile_patch_contact_count"],
+            dtype=np.int64)
+        jam_patch_count = np.asarray(
+            jam["gripper_surface_tactile_patch_contact_count"],
+            dtype=np.int64)
+        spatial_patch_metrics = []
+        for patch in range(4):
+            patch_fused = np.max(patch_normalized[:, patch, :], axis=1)
+            patch_raw_norm = np.linalg.norm(patch_gap[:, patch, :], axis=1)
+            spatial_patch_metrics.append({
+                "patch": patch,
+                "peak_fused_gap": float(np.max(patch_fused[probe])),
+                "raw_force_gap_peak_n": float(
+                    np.max(patch_raw_norm[probe])),
+                "probe_contact_samples": {
+                    "free": int(np.count_nonzero(
+                        free_patch_count[probe, patch])),
+                    "jam_right": int(np.count_nonzero(
+                        jam_patch_count[probe, patch])),
+                },
+                "contact_count_peak_gap": float(np.max(np.abs(
+                    free_patch_count[probe, patch]
+                    - jam_patch_count[probe, patch]))),
+            })
+        tactile_raw_peak = float(max(
+            row["raw_force_gap_peak_n"] for row in spatial_patch_metrics))
+        free_tactile_contacts = free[
+            "gripper_surface_contact_count"][probe]
+        jam_tactile_contacts = jam[
+            "gripper_surface_contact_count"][probe]
+        tactile_contact_samples = {
+            "free": int(np.count_nonzero(free_tactile_contacts)),
+            "jam_right": int(np.count_nonzero(jam_tactile_contacts)),
+        }
+        tactile_contact_count_peak_gap = float(np.max(np.abs(
+            free_tactile_contacts - jam_tactile_contacts)))
+        aggregate_free = np.asarray(
+            free["gripper_surface_tactile_force"], dtype=np.float64)
+        aggregate_jam = np.asarray(
+            jam["gripper_surface_tactile_force"], dtype=np.float64)
+        aggregate_pooled = np.concatenate([
+            aggregate_free[no_action], aggregate_jam[no_action]])
+        aggregate_scale = np.maximum(
+            5.0 * np.std(aggregate_pooled, axis=0),
+            float(sensor_cfg["force_floor_n"]))
+        aggregate_gap = np.abs(aggregate_free - aggregate_jam)
+        aggregate_normalized = aggregate_gap / aggregate_scale
+        aggregate_tactile_peak = float(np.max(
+            np.max(aggregate_normalized, axis=1)[probe]))
+    elif normalized.shape[1] >= 9:
         tactile_fused = np.max(normalized[:, 6:9], axis=1)
         tactile_raw_gap = gap[:, 6:9]
         tactile_peak = float(np.max(tactile_fused[probe]))
@@ -335,6 +396,8 @@ def evaluate_pair(free, jam, repeat, branch_metadata, config):
         "sensor_trace_field": sensor_field,
         "grasp_only_peak_fused_gap": float(np.max(grasp_fused[probe])),
         "tactile_only_peak_fused_gap": tactile_peak,
+        "aggregate_tactile_peak_fused_gap": aggregate_tactile_peak,
+        "spatial_tactile_patches": spatial_patch_metrics,
         "tactile_raw_force_gap_peak_n": tactile_raw_peak,
         "tactile_probe_contact_samples": tactile_contact_samples,
         "tactile_contact_count_peak_gap": tactile_contact_count_peak_gap,
@@ -402,6 +465,8 @@ def analyze(config_path):
         "- Sensor trace field: `{}`\n"
         "- Grasp-only peak fused gap: `{:.6f}`\n"
         "- Tactile-only peak fused gap: `{}`\n"
+        "- R5-equivalent aggregate tactile peak: `{}`\n"
+        "- Spatial tactile patch metrics: `{}`\n"
         "- Tactile raw force-gap peak: `{}`\n"
         "- Tactile probe contact samples: `{}`\n"
         "- Tactile contact-count peak gap: `{}`\n"
@@ -427,6 +492,8 @@ def analyze(config_path):
         metrics["sensor_trace_field"],
         metrics["grasp_only_peak_fused_gap"],
         metrics["tactile_only_peak_fused_gap"],
+        metrics["aggregate_tactile_peak_fused_gap"],
+        metrics["spatial_tactile_patches"],
         metrics["tactile_raw_force_gap_peak_n"],
         metrics["tactile_probe_contact_samples"],
         metrics["tactile_contact_count_peak_gap"],

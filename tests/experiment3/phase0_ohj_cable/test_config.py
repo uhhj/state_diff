@@ -111,3 +111,19 @@ def test_r5_changes_sensor_not_task_physics():
     assert r5["sensor"]["sensor_dim"] == 9
     assert r5["sensor"]["trace_field"] == "formal_sensor"
     assert len(r5["sensor"]["channel_floor"]) == 9
+
+
+def test_r6_only_adds_spatial_tactile():
+    r5 = _load("ohj_cable_phase0d_r5_tactile9d.json")
+    r6 = _load("ohj_cable_phase0d_r6_tactile4patch18d.json")
+    assert r6["motion"] == r5["motion"]
+    assert r6["geometry"] == r5["geometry"]
+    assert r6["execution"] == r5["execution"]
+    assert r6["state"] == r5["state"]
+    assert r6["analysis"] == r5["analysis"]
+    assert r5["sensor"]["sensor_dim"] == 9
+    assert r6["sensor"]["sensor_dim"] == 18
+    assert r6["sensor"]["trace_field"] == "formal_sensor_spatial"
+    assert r6["sensor"]["tactile_patch_count"] == 4
+    assert r6["sensor"]["tactile_patch_layout"] == "tip_xy_quadrants"
+    assert len(r6["sensor"]["channel_floor"]) == 18

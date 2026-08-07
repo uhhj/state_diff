@@ -27,6 +27,7 @@ def validate_config(config):
     expected_sensor_dims = {
         "formal_wrench": 6,
         "formal_sensor": 9,
+        "formal_sensor_spatial": 18,
     }
     if trace_field not in expected_sensor_dims:
         raise ValueError("unsupported OHJ sensor trace field")
@@ -61,7 +62,9 @@ def trace_to_arrays(trace):
         "physics_step", "phase", "statediff_state", "visible_keypoints",
         "all_bead_positions", "ee_position", "formal_wrench",
         "gripper_surface_tactile_force", "gripper_surface_contact_count",
-        "formal_sensor",
+        "formal_sensor", "gripper_surface_tactile_patch_force",
+        "gripper_surface_tactile_patch_contact_count",
+        "formal_sensor_spatial",
         "joint_motor_torque", "joint_reaction_wrench",
         "extraction_progress_m", "oracle_latch_contact_force",
         "oracle_latch_contact_count")

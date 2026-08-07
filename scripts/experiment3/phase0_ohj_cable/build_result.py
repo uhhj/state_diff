@@ -42,6 +42,7 @@ def build_result(config_path):
     ending_submodule = _git("rev-parse", "HEAD:external/deformable-ravens")
     tests_passed = int(os.environ.get("PHASE0D_TESTS_PASSED", "0"))
     tests_failed = int(os.environ.get("PHASE0D_TESTS_FAILED", "0"))
+    pip_check = os.environ.get("PHASE0D_PIP_CHECK", "not recorded")
     evidence = {
         "verdict": verdict,
         "repository": {
@@ -69,7 +70,7 @@ def build_result(config_path):
         "pair": pair,
         "control_relevance": control,
         "tests": {"passed": tests_passed, "failed": tests_failed,
-                  "pip_check": "known multiprocess/dill conflict only"},
+                  "pip_check": pip_check},
         "training": {"B0": False, "B1": False, "CFPM": False,
                      "IDM": False},
     }
@@ -113,28 +114,23 @@ def build_result(config_path):
     elif verdict == "PHASE0D_SENSOR_NOT_OBSERVABLE":
         if sensor_field == "formal_wrench":
             next_task = (
-                "Hidden probe contact exists but the 6D grasp-interface "
-                "wrench is not observable. Add a deployable-equivalent "
-                "gripper-surface tactile sensor without changing task "
-                "physics.")
+                "Add deployable-equivalent gripper-surface tactile without "
+                "changing task physics.")
+        elif sensor_field == "formal_sensor":
+            next_task = (
+                "Aggregate 3D tactile is not observable. Freeze task physics "
+                "and evaluate a minimal four-patch spatial gripper-tactile "
+                "representation.")
         else:
-            tactile_samples = pair.get("tactile_probe_contact_samples")
-            jam_tactile_samples = (
-                0 if tactile_samples is None
-                else int(tactile_samples["jam_right"]))
-            if jam_tactile_samples == 0:
-                next_task = (
-                    "The current suction fixed-constraint grasp exposes no "
-                    "persistent gripper-surface contact manifold during the "
-                    "probe. Do not use internal cable constraint force. "
-                    "Prepare a minimal physical pinch/tactile grasp "
-                    "representation.")
-            else:
-                next_task = (
-                    "Gripper-surface contact exists but the minimal 3D "
-                    "tactile resultant is still not observable. Freeze task "
-                    "physics and prepare a small spatial gripper-tactile "
-                    "representation.")
+            next_task = (
+                "The four-patch spatial tactile sensor is still not "
+                "observable. Do not automatically increase tactile "
+                "resolution and do not change task physics. Compare the "
+                "spatial and aggregate tactile signals: if spatial sensing "
+                "gives no clear gain, revisit physical grasp/sensing "
+                "coupling; if it gives clear localized gain but remains "
+                "below threshold, plan one separate small-resolution tactile "
+                "study.")
     elif verdict == "PHASE0D_FUTURE_BRANCH_NOT_ESTABLISHED":
         next_task = (
             "Deployable contact sensing is now observable. Freeze sensor, "
@@ -203,6 +199,8 @@ Key values:
 - Sensor trigger: {trigger}
 - Grasp-only peak fused gap: {grasp_sensor_peak}
 - Tactile-only peak fused gap: {tactile_sensor_peak}
+- Aggregate 3D tactile peak: {aggregate_tactile_peak}
+- Spatial tactile patch metrics: {spatial_tactile_patches}
 - Tactile raw force-gap peak: {tactile_raw_peak} N
 - Tactile probe contact samples: {tactile_contact_samples}
 - Tactile contact-count peak gap: {tactile_contact_count_gap}
@@ -222,7 +220,7 @@ Leakage statement:
 Tests:
 - Passed: {passed}
 - Failed: {failed}
-- pip check: known multiprocess/dill conflict only
+- pip check: {pip_check}
 
 Training:
 - B0: No
@@ -277,6 +275,8 @@ Next task: {next_task}
         sensor_phase=pair["sensor_onset_phase"], trigger=pair["sensor_trigger"],
         grasp_sensor_peak=pair["grasp_only_peak_fused_gap"],
         tactile_sensor_peak=pair["tactile_only_peak_fused_gap"],
+        aggregate_tactile_peak=pair["aggregate_tactile_peak_fused_gap"],
+        spatial_tactile_patches=pair["spatial_tactile_patches"],
         tactile_raw_peak=pair["tactile_raw_force_gap_peak_n"],
         tactile_contact_samples=pair["tactile_probe_contact_samples"],
         tactile_contact_count_gap=pair["tactile_contact_count_peak_gap"],
@@ -289,7 +289,8 @@ Next task: {next_task}
             "first_phase_above_equivalence_threshold"],
         repeat_phases=repeatability["phases"],
         control_verdict=control_show.get("verdict", "not run"),
-        passed=tests_passed, failed=tests_failed, next_task=next_task)
+        passed=tests_passed, failed=tests_failed, pip_check=pip_check,
+        next_task=next_task)
     (destination / "RESULT.md").write_text(text, encoding="utf-8")
     return evidence
 
