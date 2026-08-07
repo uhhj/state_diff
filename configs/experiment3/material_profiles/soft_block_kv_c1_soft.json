@@ -1,9 +1,0 @@
-{
-  "profile_name": "kv_c1_soft",
-  "structural_stiffness_n_per_m": 5.5,
-  "structural_damping_ns_per_m": 0.016,
-  "shear_stiffness_n_per_m": 2.0,
-  "shear_damping_ns_per_m": 0.009,
-  "bending_stiffness_n_per_m": 0.5,
-  "bending_damping_ns_per_m": 0.003
-}

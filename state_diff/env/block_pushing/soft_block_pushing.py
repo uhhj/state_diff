@@ -15,13 +15,12 @@ from state_diff.env.block_pushing import block_pushing
 from state_diff.env.block_pushing.friction_tiles import (
     CONDITIONS, FrictionTileFloor)
 from state_diff.env.block_pushing.kelvin_voigt_soft_block import (
-    KELVIN_VOIGT_BULLET_SUBSTEPS, KelvinVoigtSoftBlock,
-    load_material_profile, zero_spring_stats)
+    KelvinVoigtSoftBlock, load_material_profile, zero_spring_stats)
 from state_diff.env.block_pushing.soft_block_lattice import SoftBlockLattice
 from state_diff.env.block_pushing.utils import utils_pybullet, xarm_sim_robot
 from state_diff.env.block_pushing.utils.pose3d import Pose3d
-from scripts.experiment3.phase0_soft_blockpush.common import (
-    floor_config, soft_block_config, validate_config)
+from state_diff.env.block_pushing.soft_block_task_config import (
+    floor_config, soft_block_config, validate_hlf_sbp_config)
 
 
 LOWDIM_LAYOUT = {
@@ -42,7 +41,7 @@ class SoftBlockPushEnv(gym.Env):
     CONDITIONS = CONDITIONS
 
     def __init__(self, config: Dict[str, Any], shared_memory: bool = False):
-        validate_config(config)
+        validate_hlf_sbp_config(config)
         self.config = config
         self._connection_mode = (
             pybullet.SHARED_MEMORY if shared_memory else pybullet.DIRECT)
@@ -85,9 +84,6 @@ class SoftBlockPushEnv(gym.Env):
         client.configureDebugVisualizer(pybullet.COV_ENABLE_GUI, 0)
         client.setPhysicsEngineParameter(enableFileCaching=0)
         client.setTimeStep(float(physics["fixed_timestep"]))
-        if self.config["soft_block"].get("material_model") == "kelvin_voigt":
-            client.setPhysicsEngineParameter(
-                numSubSteps=KELVIN_VOIGT_BULLET_SUBSTEPS)
         try:
             client.setPhysicsEngineParameter(
                 numSolverIterations=int(physics["solver_iterations"]),

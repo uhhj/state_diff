@@ -1,9 +1,0 @@
-{
-  "profile_name": "kv_c2_stiff",
-  "structural_stiffness_n_per_m": 12.0,
-  "structural_damping_ns_per_m": 0.030,
-  "shear_stiffness_n_per_m": 4.5,
-  "shear_damping_ns_per_m": 0.018,
-  "bending_stiffness_n_per_m": 1.2,
-  "bending_damping_ns_per_m": 0.006
-}
