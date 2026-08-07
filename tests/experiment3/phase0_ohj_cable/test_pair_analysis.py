@@ -21,6 +21,9 @@ def synthetic():
         "physics_step": np.arange(1, n + 1), "phase": phase,
         "statediff_state": np.zeros((n, 51)),
         "formal_wrench": np.zeros((n, 6)),
+        "gripper_surface_tactile_force": np.zeros((n, 3)),
+        "gripper_surface_contact_count": np.zeros(n),
+        "formal_sensor": np.zeros((n, 9)),
         "extraction_progress_m": np.linspace(0., .04, n),
         "oracle_latch_contact_force": np.zeros(n),
         "oracle_latch_contact_count": np.zeros(n),
@@ -147,3 +150,22 @@ def test_probe_contact_diagnostics_are_phase_local():
     assert result["jam_probe_contact_samples"] == 2
     assert np.isclose(result["jam_probe_contact_fraction"], 2.0 / 6.0)
     assert np.isclose(result["jam_probe_peak_latch_force_n"], 0.7)
+
+
+def test_r5_gate3_can_be_triggered_by_surface_tactile():
+    free, jam, repeat, metadata = synthetic()
+    r5 = load_config(
+        "configs/experiment3/phase0/ohj_cable_phase0d_r5_tactile9d.json")
+    for branch in (free, jam, repeat):
+        branch["formal_sensor"] = np.zeros(
+            (len(branch["phase"]), 9), dtype=np.float64)
+        branch["gripper_surface_contact_count"] = np.ones(
+            len(branch["phase"]), dtype=np.int64)
+    probe_idx = np.flatnonzero(np.isin(
+        jam["phase"], ["probe_forward", "probe_hold", "probe_return"]))
+    jam["formal_sensor"][probe_idx[:4], 6] = 0.2
+    metrics = evaluate_pair(free, jam, repeat, metadata, r5)
+    assert metrics["gates"]["sensor_observability"] is True
+    assert metrics["grasp_only_peak_fused_gap"] == 0.0
+    assert metrics["tactile_only_peak_fused_gap"] >= 1.0
+    assert metrics["sensor_trigger"]["channel"] == "tactile_Fx"

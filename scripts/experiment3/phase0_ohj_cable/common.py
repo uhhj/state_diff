@@ -23,8 +23,15 @@ def validate_config(config):
         raise ValueError("Phase 0D requires FREE and JAM-R only")
     if config["state"]["state_dim"] != 51:
         raise ValueError("OHJ State Diff state must be 51D")
-    if config["sensor"]["sensor_dim"] != 6:
-        raise ValueError("OHJ formal wrench must be 6D")
+    trace_field = config["sensor"].get("trace_field", "formal_wrench")
+    expected_sensor_dims = {
+        "formal_wrench": 6,
+        "formal_sensor": 9,
+    }
+    if trace_field not in expected_sensor_dims:
+        raise ValueError("unsupported OHJ sensor trace field")
+    if config["sensor"]["sensor_dim"] != expected_sensor_dims[trace_field]:
+        raise ValueError("OHJ sensor dimension does not match trace field")
     if not config["execution"]["deterministic"]:
         raise ValueError("Phase 0D must be deterministic")
     if config["execution"]["hz"] != config["sensor"]["sampling_hz"]:
@@ -53,6 +60,8 @@ def trace_to_arrays(trace):
     fields = (
         "physics_step", "phase", "statediff_state", "visible_keypoints",
         "all_bead_positions", "ee_position", "formal_wrench",
+        "gripper_surface_tactile_force", "gripper_surface_contact_count",
+        "formal_sensor",
         "joint_motor_torque", "joint_reaction_wrench",
         "extraction_progress_m", "oracle_latch_contact_force",
         "oracle_latch_contact_count")

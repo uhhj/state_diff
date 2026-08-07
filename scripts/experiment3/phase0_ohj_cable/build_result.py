@@ -79,8 +79,7 @@ def build_result(config_path):
     probe_mm = 1000.0 * float(config["motion"]["probe_delta_xyz_m"][0])
     clearance_mm = 1000.0 * float(
         config["geometry"]["jam_surface_clearance_m"])
-    probe_jam_contacts = int(
-        pair["probe_contact"]["jam_probe_contact_samples"])
+    sensor_field = config["sensor"].get("trace_field", "formal_wrench")
     repeat_floor = float(pair["repeat_peak_visible_rmse_m"])
     equiv_threshold = float(
         config["analysis"]["post_probe_visible_rmse_max_m"])
@@ -112,22 +111,35 @@ def build_result(config_path):
                 "Prepare the canonical-hold same-condition repeatability "
                 "repair.")
     elif verdict == "PHASE0D_SENSOR_NOT_OBSERVABLE":
-        if clearance_mm > 0.25 + 1e-9:
+        if sensor_field == "formal_wrench":
             next_task = (
-                "Keep the 1.0 mm probe, 240-step settle, and canonical hold "
-                "fixed; reduce jam clearance to 0.25 mm.")
-        elif probe_jam_contacts == 0:
-            next_task = (
-                "The 0.25 mm clearance still does not produce probe-phase "
-                "latch engagement. Prepare one further single-variable "
-                "hidden-contact engagement repair; do not change the sensor "
-                "threshold or model.")
+                "Hidden probe contact exists but the 6D grasp-interface "
+                "wrench is not observable. Add a deployable-equivalent "
+                "gripper-surface tactile sensor without changing task "
+                "physics.")
         else:
-            next_task = (
-                "Probe-phase hidden contact now exists but the deployable 6D "
-                "gripper wrench is still not observable. Stop clearance "
-                "tuning and prepare a direct deployable contact-sensing "
-                "repair.")
+            tactile_samples = pair.get("tactile_probe_contact_samples")
+            jam_tactile_samples = (
+                0 if tactile_samples is None
+                else int(tactile_samples["jam_right"]))
+            if jam_tactile_samples == 0:
+                next_task = (
+                    "The current suction fixed-constraint grasp exposes no "
+                    "persistent gripper-surface contact manifold during the "
+                    "probe. Do not use internal cable constraint force. "
+                    "Prepare a minimal physical pinch/tactile grasp "
+                    "representation.")
+            else:
+                next_task = (
+                    "Gripper-surface contact exists but the minimal 3D "
+                    "tactile resultant is still not observable. Freeze task "
+                    "physics and prepare a small spatial gripper-tactile "
+                    "representation.")
+    elif verdict == "PHASE0D_FUTURE_BRANCH_NOT_ESTABLISHED":
+        next_task = (
+            "Deployable contact sensing is now observable. Freeze sensor, "
+            "probe, clearance, and canonical hold; prepare a single-purpose "
+            "future-branch effect-size repair.")
     else:
         next_task = (
             "Stop at the current scientific gate and prepare the next "
@@ -156,6 +168,8 @@ Frozen:
 - Post-probe settle: {settle_steps} steps / {settle_s} s
 - State: {state_dim}D
 - Sensor: {sensor_dim}D
+- Sensor representation: {sensor_representation}
+- Sensor trace field: {sensor_field}
 
 Probe engagement:
 - FREE probe latch contact samples: {probe_free_contacts}
@@ -187,7 +201,12 @@ Key values:
 - JAM post-probe latch peak force: {recovery_force} N
 - Sensor onset: {sensor_step} / {sensor_phase}
 - Sensor trigger: {trigger}
-- Peak fused sensor gap: {sensor_peak}
+- Grasp-only peak fused gap: {grasp_sensor_peak}
+- Tactile-only peak fused gap: {tactile_sensor_peak}
+- Tactile raw force-gap peak: {tactile_raw_peak} N
+- Tactile probe contact samples: {tactile_contact_samples}
+- Tactile contact-count peak gap: {tactile_contact_count_gap}
+- Combined formal peak fused gap: {sensor_peak}
 - Future visible RMSE peak: {future} m
 - Repeat floor: {repeat} m
 - Future/repeat ratio: {future_repeat_ratio}
@@ -195,6 +214,10 @@ Key values:
 - Repeat first phase above equivalence threshold: {repeat_first_phase}
 - Repeat phase diagnostics: {repeat_phases}
 - Control verdict: {control_verdict}
+
+Leakage statement:
+- Internal cable constraint force used as formal sensor: No
+- Hidden latch/contact used as formal sensor: No
 
 Tests:
 - Passed: {passed}
@@ -223,6 +246,8 @@ Next task: {next_task}
                   / config["execution"]["hz"]),
         state_dim=config["state"]["state_dim"],
         sensor_dim=config["sensor"]["sensor_dim"],
+        sensor_representation=config["sensor"]["formal"],
+        sensor_field=sensor_field,
         probe_free_contacts=probe_contact["free_probe_contact_samples"],
         probe_jam_contacts=probe_contact["jam_probe_contact_samples"],
         probe_contact_fraction=probe_contact["jam_probe_contact_fraction"],
@@ -250,6 +275,11 @@ Next task: {next_task}
         recovery_force=recovery["post_probe_jam_peak_latch_force_n"],
         sensor_step=pair["sensor_onset_step"],
         sensor_phase=pair["sensor_onset_phase"], trigger=pair["sensor_trigger"],
+        grasp_sensor_peak=pair["grasp_only_peak_fused_gap"],
+        tactile_sensor_peak=pair["tactile_only_peak_fused_gap"],
+        tactile_raw_peak=pair["tactile_raw_force_gap_peak_n"],
+        tactile_contact_samples=pair["tactile_probe_contact_samples"],
+        tactile_contact_count_gap=pair["tactile_contact_count_peak_gap"],
         sensor_peak=pair["peak_fused_sensor_gap"],
         future=pair["future_peak_visible_rmse_m"],
         repeat=pair["repeat_peak_visible_rmse_m"],

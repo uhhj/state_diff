@@ -96,3 +96,18 @@ def test_r4_only_reduces_jam_clearance():
             == r3["analysis"]["sensor_normalized_gap_min"] == 1.0)
     assert (r4["analysis"]["future_visible_rmse_min_m"]
             == r3["analysis"]["future_visible_rmse_min_m"] == 0.005)
+
+
+def test_r5_changes_sensor_not_task_physics():
+    r4 = _load("ohj_cable_phase0d_r4_clearance025.json")
+    r5 = _load("ohj_cable_phase0d_r5_tactile9d.json")
+    assert r5["motion"] == r4["motion"]
+    assert r5["geometry"] == r4["geometry"]
+    assert r5["state"] == r4["state"]
+    assert r5["analysis"] == r4["analysis"]
+    assert r5["execution"]["post_probe_steps"] == 240
+    assert r5["execution"]["reassert_canonical_hold_after_restore"] is True
+    assert r4["sensor"]["sensor_dim"] == 6
+    assert r5["sensor"]["sensor_dim"] == 9
+    assert r5["sensor"]["trace_field"] == "formal_sensor"
+    assert len(r5["sensor"]["channel_floor"]) == 9

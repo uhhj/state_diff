@@ -31,6 +31,21 @@ def first_sustained(values, mask, threshold, consecutive, steps):
     return None, None
 
 
+def sensor_floor_vector(sensor_cfg):
+    if "channel_floor" in sensor_cfg:
+        return np.asarray(sensor_cfg["channel_floor"], dtype=np.float64)
+    return np.asarray(
+        [sensor_cfg["force_floor_n"]] * 3
+        + [sensor_cfg["torque_floor_nm"]] * 3,
+        dtype=np.float64,
+    )
+
+
+def formal_sensor_array(branch, sensor_cfg):
+    field = sensor_cfg.get("trace_field", "formal_wrench")
+    return np.asarray(branch[field], dtype=np.float64)
+
+
 def _scalar_rmse(left, right):
     return float(np.sqrt(np.mean(np.square(
         np.asarray(left, dtype=np.float64)
@@ -198,6 +213,7 @@ def recovery_curve(free, jam, repeat, config):
 
 def evaluate_pair(free, jam, repeat, branch_metadata, config):
     analysis, sensor_cfg = config["analysis"], config["sensor"]
+    sensor_field = sensor_cfg.get("trace_field", "formal_wrench")
     command_keys = ("command_phase", "command_ee_target",
                     "command_joint_target")
     commands_equal = all(
@@ -209,7 +225,7 @@ def evaluate_pair(free, jam, repeat, branch_metadata, config):
                and np.array_equal(free["phase"], repeat["phase"]))
     finite = all(np.all(np.isfinite(branch[key]))
                  for branch in (free, jam, repeat)
-                 for key in ("statediff_state", "formal_wrench",
+                 for key in ("statediff_state", sensor_field,
                              "extraction_progress_m"))
     initial_free = np.asarray(
         branch_metadata["free"]["initial_statediff_state"])
@@ -232,16 +248,38 @@ def evaluate_pair(free, jam, repeat, branch_metadata, config):
     no_action = phase == "no_action"
     probe = np.isin(phase, PROBE_PHASES)
     future = np.isin(phase, ["test_pull", "post_test"])
+    free_sensor = formal_sensor_array(free, sensor_cfg)
+    jam_sensor = formal_sensor_array(jam, sensor_cfg)
     pooled = np.concatenate([
-        free["formal_wrench"][no_action], jam["formal_wrench"][no_action]])
+        free_sensor[no_action], jam_sensor[no_action]])
     std = np.std(pooled, axis=0)
-    scale = np.concatenate([
-        np.maximum(5.0 * std[:3], float(sensor_cfg["force_floor_n"])),
-        np.maximum(5.0 * std[3:], float(sensor_cfg["torque_floor_nm"])),
-    ])
-    gap = np.abs(free["formal_wrench"] - jam["formal_wrench"])
+    floor = sensor_floor_vector(sensor_cfg)
+    scale = np.maximum(5.0 * std, floor)
+    gap = np.abs(free_sensor - jam_sensor)
     normalized = gap / scale
     fused = np.max(normalized, axis=1)
+    grasp_fused = np.max(normalized[:, :6], axis=1)
+    if normalized.shape[1] >= 9:
+        tactile_fused = np.max(normalized[:, 6:9], axis=1)
+        tactile_raw_gap = gap[:, 6:9]
+        tactile_peak = float(np.max(tactile_fused[probe]))
+        tactile_raw_peak = float(np.max(np.linalg.norm(
+            tactile_raw_gap[probe], axis=1)))
+        free_tactile_contacts = free[
+            "gripper_surface_contact_count"][probe]
+        jam_tactile_contacts = jam[
+            "gripper_surface_contact_count"][probe]
+        tactile_contact_samples = {
+            "free": int(np.count_nonzero(free_tactile_contacts)),
+            "jam_right": int(np.count_nonzero(jam_tactile_contacts)),
+        }
+        tactile_contact_count_peak_gap = float(np.max(np.abs(
+            free_tactile_contacts - jam_tactile_contacts)))
+    else:
+        tactile_peak = None
+        tactile_raw_peak = None
+        tactile_contact_samples = None
+        tactile_contact_count_peak_gap = None
     sensor_step, sensor_index = first_sustained(
         fused, probe, analysis["sensor_normalized_gap_min"],
         sensor_cfg["consecutive_samples"], steps)
@@ -294,6 +332,12 @@ def evaluate_pair(free, jam, repeat, branch_metadata, config):
         "recovery": recovery,
         "repeatability_by_phase": repeatability,
         "probe_contact": probe_contact,
+        "sensor_trace_field": sensor_field,
+        "grasp_only_peak_fused_gap": float(np.max(grasp_fused[probe])),
+        "tactile_only_peak_fused_gap": tactile_peak,
+        "tactile_raw_force_gap_peak_n": tactile_raw_peak,
+        "tactile_probe_contact_samples": tactile_contact_samples,
+        "tactile_contact_count_peak_gap": tactile_contact_count_peak_gap,
         "sensor_onset_step": sensor_step,
         "sensor_onset_phase": (None if sensor_index is None
                                else str(phase[sensor_index])),
@@ -355,7 +399,13 @@ def analyze(config_path):
         "- JAM probe latch contacts: `{}`\n"
         "- JAM probe latch contact fraction: `{}`\n"
         "- JAM probe latch peak force: `{:.6f} N`\n"
-        "- Sensor peak: `{:.6f}`\n"
+        "- Sensor trace field: `{}`\n"
+        "- Grasp-only peak fused gap: `{:.6f}`\n"
+        "- Tactile-only peak fused gap: `{}`\n"
+        "- Tactile raw force-gap peak: `{}`\n"
+        "- Tactile probe contact samples: `{}`\n"
+        "- Tactile contact-count peak gap: `{}`\n"
+        "- Combined formal peak fused gap: `{:.6f}`\n"
         "- Future peak: `{:.6f} m`\n"
         "- Repeat future floor: `{:.6f} m`\n"
         "- Repeat first phase above equivalence threshold: `{}`\n"
@@ -374,6 +424,12 @@ def analyze(config_path):
         probe_contact["jam_probe_contact_samples"],
         probe_contact["jam_probe_contact_fraction"],
         probe_contact["jam_probe_peak_latch_force_n"],
+        metrics["sensor_trace_field"],
+        metrics["grasp_only_peak_fused_gap"],
+        metrics["tactile_only_peak_fused_gap"],
+        metrics["tactile_raw_force_gap_peak_n"],
+        metrics["tactile_probe_contact_samples"],
+        metrics["tactile_contact_count_peak_gap"],
         metrics["peak_fused_sensor_gap"],
         metrics["future_peak_visible_rmse_m"],
         metrics["repeat_peak_visible_rmse_m"],
