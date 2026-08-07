@@ -22,10 +22,10 @@ from state_diff.env.block_pushing.soft_block_pushing import SoftBlockPushEnv  # 
 
 def run_control_relevance(config_path: str) -> dict:
     config = load_config(config_path)
-    pair_metrics = json.loads((report_pair_dir(config) / "pair_metrics.json").read_text(
+    highrate = json.loads((report_pair_dir(config) / "highrate_pair_metrics.json").read_text(
         encoding="utf-8"))
-    if pair_metrics["verdict"] != "PHASE0C_PAIR_COMPLETE":
-        raise RuntimeError("control relevance requires PHASE0C_PAIR_COMPLETE")
+    if highrate["verdict"] != "PHASE0C_R1_SENSOR_OBSERVABILITY_COMPLETE":
+        raise RuntimeError("control relevance requires high-rate observability")
     env = SoftBlockPushEnv(config)
     try:
         probe_plan = build_probe_test_plan(env, config)

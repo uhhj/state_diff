@@ -33,6 +33,11 @@ def validate_hlf_sbp_config(config: Dict[str, Any]) -> None:
     stride = int(config["execution"]["policy_sample_stride_outer_steps"])
     if stride != outer_hz // policy_hz:
         raise ValueError("policy sample stride mismatch")
+    sensor_cfg = config["sensor"]
+    if bool(sensor_cfg.get("outer_rate_recording", False)):
+        expected = outer_hz // policy_hz
+        if int(sensor_cfg["outer_samples_per_policy"]) != expected:
+            raise ValueError("outer sensor window length mismatch")
     if int(config["state"]["state_dim"]) != 74:
         raise ValueError("V4.1 active State Diff state is 74D")
     if int(config["sensor"]["sensor_dim"]) != 45:

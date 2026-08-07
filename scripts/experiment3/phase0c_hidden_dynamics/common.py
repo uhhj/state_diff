@@ -11,7 +11,9 @@ CONDITIONS = ("uniform_low", "right_local_high")
 
 def load_config(path: str) -> dict:
     config = load_hlf_sbp_config(path)
-    if config["phase_name"] != "phase0c-hidden-dynamics-validity":
+    if config["phase_name"] not in (
+            "phase0c-hidden-dynamics-validity",
+            "phase0c-r1-causal-highrate-sensor-observability"):
         raise ValueError("not a Phase 0C config")
     return config
 

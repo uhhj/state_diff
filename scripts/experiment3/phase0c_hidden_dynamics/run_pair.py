@@ -16,71 +16,90 @@ from scripts.experiment3.phase0c_hidden_dynamics.commands import (  # noqa: E402
 from scripts.experiment3.phase0c_hidden_dynamics.common import (  # noqa: E402
     external_pair_dir, load_config)
 from scripts.experiment3.phase0c_hidden_dynamics.io_utils import write_json  # noqa: E402
+from scripts.experiment3.phase0c_hidden_dynamics.highrate_sampling import (  # noqa: E402
+    build_policy_sensor_windows, sample_post_step, stack_rows)
 from state_diff.env.block_pushing.soft_block_pushing import SoftBlockPushEnv  # noqa: E402
 
 
-def _sample(env) -> dict:
-    oracle = env._patch_oracle()
-    return {
-        "state": env.get_statediff_state(),
-        "contact_sensor": env.get_contact_sensor(),
-        "robot_proprio_extended": env.get_extended_proprio(),
-        "goal_distance": float(np.linalg.norm(
-            env.soft_block.center_of_mass()[:2]
-            - np.asarray(env.config["goal"]["center_xy"]))),
-        "oracle_patch_contact_count": len(
-            oracle["oracle_patch_contact_node_indices"]),
-        "oracle_patch_tangential_force":
-            oracle["oracle_patch_tangential_force"],
-        "oracle_patch_mean_slip_speed":
-            oracle["oracle_patch_mean_slip_speed"]}
-
-
 def execute_exact_plan(env, plan: CommandPlan, outer_limit=None) -> dict:
-    """Execute precomputed arrays without branch-local inverse kinematics."""
+    """Execute exact commands and sample only after each real outer step."""
     limit = len(plan.phase) if outer_limit is None else int(outer_limit)
     stride = int(env.config["execution"]["policy_sample_stride_outer_steps"])
     if limit % stride or limit > len(plan.phase):
         raise ValueError("outer_limit must end on a policy boundary")
-    initial = _sample(env)
-    rows = {key: [value] for key, value in initial.items()}
+    policy_states = [env.get_statediff_state()]
+    policy_goals = [float(np.linalg.norm(
+        env.soft_block.center_of_mass()[:2]
+        - np.asarray(env.config["goal"]["center_xy"], dtype=np.float64)))]
     policy_steps, outer_steps = [0], [0]
     sample_phases, sample_actions = ["initial"], [np.zeros(2)]
-    cap_counts, evaluation_counts = [0], [0]
-    policy_caps = policy_evaluations = 0
+    highrate_rows = []
     for index in range(limit):
         env.set_phase(str(plan.phase[index]))
         env.set_ee_target_position(plan.ee_target_xyz[index])
         env.set_fixed_joint_target(plan.joint_target[index])
         env.step_one_physics()
+        fresh = sample_post_step(env)
         stats = env._last_mechanics_stats
-        policy_caps += int(stats.capped_force_count)
-        policy_evaluations += int(stats.force_evaluation_count)
+        oracle = env._patch_oracle()
+        highrate_rows.append({
+            "outer_step": index + 1,
+            "policy_index": index // stride,
+            "phase": str(plan.phase[index]),
+            "state": fresh["state"],
+            "sensor": fresh["sensor"],
+            "proprio": fresh["proprio"],
+            "goal_distance": fresh["goal_distance"],
+            "spring_cap_count": int(stats.capped_force_count),
+            "spring_evaluation_count": int(stats.force_evaluation_count),
+            "oracle_patch_contact_count": len(
+                oracle["oracle_patch_contact_node_indices"]),
+            "oracle_patch_tangential_force": float(
+                oracle["oracle_patch_tangential_force"]),
+            "oracle_patch_mean_slip_speed": float(
+                oracle["oracle_patch_mean_slip_speed"]),
+        })
         if (index + 1) % stride == 0:
             policy_index = (index + 1) // stride
-            sample = _sample(env)
-            for key, value in sample.items():
-                rows[key].append(value)
+            policy_states.append(fresh["state"])
+            policy_goals.append(fresh["goal_distance"])
             policy_steps.append(policy_index)
             outer_steps.append(index + 1)
             sample_phases.append(str(plan.phase[index]))
             sample_actions.append(plan.action_xy[policy_index - 1])
-            cap_counts.append(policy_caps)
-            evaluation_counts.append(policy_evaluations)
-            policy_caps = policy_evaluations = 0
-    result = {key: np.asarray(value) for key, value in rows.items()}
-    result.update({
+    outer = stack_rows(highrate_rows)
+    sensor_windows, sensor_window_phase = build_policy_sensor_windows(
+        outer["sensor"], outer["phase"], stride)
+    result = {
+        "state": np.asarray(policy_states, dtype=np.float64),
+        "goal_distance": np.asarray(policy_goals, dtype=np.float64),
         "policy_step": np.asarray(policy_steps, dtype=np.int64),
         "outer_step": np.asarray(outer_steps, dtype=np.int64),
         "phase": np.asarray(sample_phases),
         "action": np.asarray(sample_actions, dtype=np.float64),
-        "spring_cap_count": np.asarray(cap_counts, dtype=np.int64),
-        "spring_evaluation_count": np.asarray(
-            evaluation_counts, dtype=np.int64),
+        "sensor_window": sensor_windows,
+        "sensor_window_phase": sensor_window_phase,
+        "outer_step_hr": outer["outer_step"].astype(np.int64),
+        "policy_index_hr": outer["policy_index"].astype(np.int64),
+        "phase_hr": outer["phase"],
+        "state_hr": outer["state"],
+        "contact_sensor_hr": outer["sensor"],
+        "robot_proprio_extended_hr": outer["proprio"],
+        "goal_distance_hr": outer["goal_distance"],
+        "spring_cap_count_hr": outer["spring_cap_count"].astype(np.int64),
+        "spring_evaluation_count_hr": outer[
+            "spring_evaluation_count"].astype(np.int64),
+        "oracle_patch_contact_count_hr": outer[
+            "oracle_patch_contact_count"].astype(np.int64),
+        "oracle_patch_tangential_force_hr": outer[
+            "oracle_patch_tangential_force"],
+        "oracle_patch_mean_slip_speed_hr": outer[
+            "oracle_patch_mean_slip_speed"],
         "command_phase": plan.phase[:limit].copy(),
         "command_action": plan.action_xy[:limit // stride].copy(),
         "ee_target": plan.ee_target_xyz[:limit].copy(),
-        "joint_target": plan.joint_target[:limit].copy()})
+        "joint_target": plan.joint_target[:limit].copy(),
+    }
     return result
 
 
