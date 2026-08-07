@@ -3,10 +3,10 @@ Scientific status: sensor_not_separable
 
 Repository:
 - Starting SHA: fc83c62c43f140fd1c293cf5d816a625992e1d0f
-- Ending SHA: b3d79e32470df9992bb5ede108b6564ef1422206
+- Ending SHA: 16d0ffc8324a7465fc5c88fb1100c6e7cd35bc43
 - Branch: Experiment3
 - Clean before result: True
-- Remote tip: b3d79e32470df9992bb5ede108b6564ef1422206
+- Remote tip: 16d0ffc8324a7465fc5c88fb1100c6e7cd35bc43
 - Remote tip matches: True
 - Submodule gitlink: 282b93535b125d1a4487df85ad24aa41551957af
 
@@ -56,6 +56,7 @@ Training:
 - StateDiff B0: No
 - StateDiff-FT B1: No
 - CFPM B2: No
+- IDM: No
 - B3: No
 
 Failure cause: PHASE0C_R1_SENSOR_NOT_SEPARABLE

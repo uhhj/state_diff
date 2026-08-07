@@ -66,9 +66,9 @@
   "repository": {
     "branch": "Experiment3",
     "clean_before_result": true,
-    "ending_sha": "b3d79e32470df9992bb5ede108b6564ef1422206",
+    "ending_sha": "16d0ffc8324a7465fc5c88fb1100c6e7cd35bc43",
     "expected_submodule_gitlink": "282b93535b125d1a4487df85ad24aa41551957af",
-    "remote_tip": "b3d79e32470df9992bb5ede108b6564ef1422206",
+    "remote_tip": "16d0ffc8324a7465fc5c88fb1100c6e7cd35bc43",
     "remote_tip_matches": true,
     "starting_sha": "fc83c62c43f140fd1c293cf5d816a625992e1d0f",
     "submodule_gitlink": "282b93535b125d1a4487df85ad24aa41551957af",
@@ -105,6 +105,7 @@
   "training": {
     "B3": false,
     "CFPM_B2": false,
+    "IDM": false,
     "StateDiff_B0": false,
     "StateDiff_FT_B1": false
   },
