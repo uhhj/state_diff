@@ -1,0 +1,279 @@
+{
+  "control_relevance": null,
+  "gates": {
+    "control_relevance": null,
+    "initial_observable_equivalence": true,
+    "post_probe_observable_equivalence": true,
+    "same_action_future_divergence": false,
+    "sensor_observability": false
+  },
+  "pair": {
+    "aggregate_tactile_peak_fused_gap": 0.30699405091745485,
+    "engineering": {
+      "commands_equal": true,
+      "finite": true,
+      "trace_alignment": true
+    },
+    "final_extraction_progress_m": {
+      "free": 0.009474010769790542,
+      "free_repeat": 0.00961386967304756,
+      "jam_right": 0.015138446928295746
+    },
+    "future_branch_to_repeat_ratio": 8.416121638723707,
+    "future_peak_visible_rmse_m": 0.0026621585774327717,
+    "future_visible_threshold_m": 0.005,
+    "gates": {
+      "initial_observable_equivalence": true,
+      "post_probe_observable_equivalence": true,
+      "same_action_future_divergence": false,
+      "sensor_observability": false
+    },
+    "grasp_only_peak_fused_gap": 0.05934637578044022,
+    "initial_51d_rmse_m": 0.0,
+    "oracle": {
+      "free_peak_latch_force_n": 0.0,
+      "jam_contact_samples": 504,
+      "jam_peak_latch_force_n": 4.02498577654025
+    },
+    "peak_force_norm_gap_n": 0.016813538868560674,
+    "peak_fused_sensor_gap": 0.3338189115908537,
+    "peak_torque_norm_gap_nm": 0.024967816650011434,
+    "post_probe_51d_rmse_m": 6.637808892143848e-05,
+    "post_probe_ee_rmse_m": 0.00013054815521158905,
+    "post_probe_keypoint_rmse_m": 6.0135285441198936e-05,
+    "probe_contact": {
+      "free_probe_contact_samples": 0,
+      "jam_probe_contact_fraction": 1.0,
+      "jam_probe_contact_samples": 72,
+      "jam_probe_peak_latch_force_n": 0.4395324444133227
+    },
+    "recovery": {
+      "checkpoints": [
+        {
+          "branch_excess_over_repeat_m": 5.927373587294412e-06,
+          "free_jam": {
+            "ee_rmse_m": 6.161051064774432e-07,
+            "keypoint_rmse_m": 6.107855057397475e-06,
+            "rmse_51d_m": 5.927373587294412e-06
+          },
+          "free_repeat": {
+            "ee_rmse_m": 0.0,
+            "keypoint_rmse_m": 0.0,
+            "rmse_51d_m": 0.0
+          },
+          "post_probe_steps": 0,
+          "time_s": 0.0
+        },
+        {
+          "branch_excess_over_repeat_m": 2.2326231939614253e-05,
+          "free_jam": {
+            "ee_rmse_m": 3.043177172455996e-06,
+            "keypoint_rmse_m": 2.300077420879257e-05,
+            "rmse_51d_m": 2.2326231939614253e-05
+          },
+          "free_repeat": {
+            "ee_rmse_m": 0.0,
+            "keypoint_rmse_m": 0.0,
+            "rmse_51d_m": 0.0
+          },
+          "post_probe_steps": 24,
+          "time_s": 0.1
+        },
+        {
+          "branch_excess_over_repeat_m": 2.0524725167348972e-05,
+          "free_jam": {
+            "ee_rmse_m": 2.3776714416339e-06,
+            "keypoint_rmse_m": 2.114805031325905e-05,
+            "rmse_51d_m": 2.0524725167348972e-05
+          },
+          "free_repeat": {
+            "ee_rmse_m": 0.0,
+            "keypoint_rmse_m": 0.0,
+            "rmse_51d_m": 0.0
+          },
+          "post_probe_steps": 48,
+          "time_s": 0.2
+        },
+        {
+          "branch_excess_over_repeat_m": 1.6900740467580756e-05,
+          "free_jam": {
+            "ee_rmse_m": 2.4218645086937556e-06,
+            "keypoint_rmse_m": 1.741035980080251e-05,
+            "rmse_51d_m": 1.6900740467580756e-05
+          },
+          "free_repeat": {
+            "ee_rmse_m": 0.0,
+            "keypoint_rmse_m": 0.0,
+            "rmse_51d_m": 0.0
+          },
+          "post_probe_steps": 120,
+          "time_s": 0.5
+        },
+        {
+          "branch_excess_over_repeat_m": 0.0,
+          "free_jam": {
+            "ee_rmse_m": 0.00013054815521158905,
+            "keypoint_rmse_m": 6.0135285441198936e-05,
+            "rmse_51d_m": 6.637808892143848e-05
+          },
+          "free_repeat": {
+            "ee_rmse_m": 0.0001289755277041796,
+            "keypoint_rmse_m": 6.087576798347961e-05,
+            "rmse_51d_m": 6.683096886387268e-05
+          },
+          "post_probe_steps": 240,
+          "time_s": 1.0
+        }
+      ],
+      "final_branch_excess_fraction_of_free_jam": 0.0,
+      "final_branch_excess_over_repeat_m": 0.0,
+      "final_free_jam_rmse_m": 6.637808892143848e-05,
+      "final_free_repeat_rmse_m": 6.683096886387268e-05,
+      "final_repeat_fraction_of_free_jam": 1.0068227324677907,
+      "immediate_free_jam_rmse_m": 5.927373587294412e-06,
+      "post_probe_jam_latch_contact_fraction": 1.0,
+      "post_probe_jam_latch_contact_samples": 240,
+      "post_probe_jam_peak_latch_force_n": 0.3052588358041752,
+      "recovery_fraction": -10.198566775632779
+    },
+    "repeat_peak_visible_rmse_m": 0.0003163165519357304,
+    "repeatability_by_phase": {
+      "equivalence_threshold_m": 0.0015,
+      "first_phase_above_equivalence_threshold": null,
+      "phases": [
+        {
+          "end_51d_rmse_m": 0.0,
+          "peak_51d_rmse_m": 0.0,
+          "peak_ee_rmse_m": 0.0,
+          "peak_keypoint_rmse_m": 0.0,
+          "phase": "no_action",
+          "start_51d_rmse_m": 0.0
+        },
+        {
+          "end_51d_rmse_m": 0.0,
+          "peak_51d_rmse_m": 0.0,
+          "peak_ee_rmse_m": 0.0,
+          "peak_keypoint_rmse_m": 0.0,
+          "phase": "probe_forward",
+          "start_51d_rmse_m": 0.0
+        },
+        {
+          "end_51d_rmse_m": 0.0,
+          "peak_51d_rmse_m": 0.0,
+          "peak_ee_rmse_m": 0.0,
+          "peak_keypoint_rmse_m": 0.0,
+          "phase": "probe_hold",
+          "start_51d_rmse_m": 0.0
+        },
+        {
+          "end_51d_rmse_m": 0.0,
+          "peak_51d_rmse_m": 0.0,
+          "peak_ee_rmse_m": 0.0,
+          "peak_keypoint_rmse_m": 0.0,
+          "phase": "probe_return",
+          "start_51d_rmse_m": 0.0
+        },
+        {
+          "end_51d_rmse_m": 6.683096886387268e-05,
+          "peak_51d_rmse_m": 6.70602574775536e-05,
+          "peak_ee_rmse_m": 0.0001295240903839642,
+          "peak_keypoint_rmse_m": 6.10705730438436e-05,
+          "phase": "post_probe",
+          "start_51d_rmse_m": 0.0
+        },
+        {
+          "end_51d_rmse_m": 6.866758660336229e-05,
+          "peak_51d_rmse_m": 0.00030790956243841337,
+          "peak_ee_rmse_m": 0.00014509853261499795,
+          "peak_keypoint_rmse_m": 0.0003163165519357304,
+          "phase": "test_pull",
+          "start_51d_rmse_m": 6.638570377971164e-05
+        },
+        {
+          "end_51d_rmse_m": 7.844724115941172e-05,
+          "peak_51d_rmse_m": 0.0001044716867527471,
+          "peak_ee_rmse_m": 7.390582941985888e-05,
+          "peak_keypoint_rmse_m": 0.00010688959361410294,
+          "phase": "post_test",
+          "start_51d_rmse_m": 6.769959301575476e-05
+        }
+      ]
+    },
+    "sensor_onset_phase": null,
+    "sensor_onset_step": null,
+    "sensor_trace_field": "formal_sensor_spatial",
+    "sensor_trigger": null,
+    "spatial_tactile_patches": [
+      {
+        "contact_count_peak_gap": 0.0,
+        "patch": 0,
+        "peak_fused_gap": 0.03054599307305918,
+        "probe_contact_samples": {
+          "free": 72,
+          "jam_right": 72
+        },
+        "raw_force_gap_peak_n": 0.006841495934303615
+      },
+      {
+        "contact_count_peak_gap": 0.0,
+        "patch": 1,
+        "peak_fused_gap": 0.0,
+        "probe_contact_samples": {
+          "free": 0,
+          "jam_right": 0
+        },
+        "raw_force_gap_peak_n": 0.0
+      },
+      {
+        "contact_count_peak_gap": 0.0,
+        "patch": 2,
+        "peak_fused_gap": 0.0,
+        "probe_contact_samples": {
+          "free": 0,
+          "jam_right": 0
+        },
+        "raw_force_gap_peak_n": 0.0
+      },
+      {
+        "contact_count_peak_gap": 0.0,
+        "patch": 3,
+        "peak_fused_gap": 0.3338189115908537,
+        "probe_contact_samples": {
+          "free": 72,
+          "jam_right": 72
+        },
+        "raw_force_gap_peak_n": 0.02478854464202563
+      }
+    ],
+    "tactile_contact_count_peak_gap": 0.0,
+    "tactile_only_peak_fused_gap": 0.3338189115908537,
+    "tactile_probe_contact_samples": {
+      "free": 72,
+      "jam_right": 72
+    },
+    "tactile_raw_force_gap_peak_n": 0.02478854464202563,
+    "verdict": "PHASE0D_SENSOR_NOT_OBSERVABLE"
+  },
+  "repository": {
+    "branch": "Experiment3",
+    "clean_before_result": true,
+    "ending_main_sha": "328e4dff78a7ecff774257c78590994395f57522",
+    "ending_submodule_sha": "4e2316fd93e9403be19fd2a9c621f8d6d0acdb6f",
+    "remote_tip": "328e4dff78a7ecff774257c78590994395f57522",
+    "remote_tip_matches": true,
+    "starting_main_sha": "b78d3e1605621b3a99f5bd6a09ac33fd9ac187da",
+    "starting_submodule_sha": "567f64eca2af4956658d141ca625ebed6a24780e"
+  },
+  "tests": {
+    "failed": 0,
+    "passed": 22,
+    "pip_check": "No broken requirements found."
+  },
+  "training": {
+    "B0": false,
+    "B1": false,
+    "CFPM": false,
+    "IDM": false
+  },
+  "verdict": "PHASE0D_SENSOR_NOT_OBSERVABLE"
+}
