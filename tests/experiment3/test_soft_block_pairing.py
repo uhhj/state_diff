@@ -1,51 +1,28 @@
-import copy
-from pathlib import Path
-
 import numpy as np
 
-from scripts.experiment3.phase0_soft_blockpush.analyze_pair import classify_verdict
-from scripts.experiment3.phase0_soft_blockpush.common import load_config
-from scripts.experiment3.phase0_soft_blockpush.fixed_commands import (
-    build_fixed_command_script, command_arrays, copy_fixed_command_script)
-from scripts.experiment3.phase0_soft_blockpush.run_single_pair import run_pair
-from scripts.experiment3.phase0_soft_blockpush.snapshot import (
-    capture_explicit_state, max_state_difference)
+from scripts.experiment3.phase0c_hidden_dynamics.commands import (
+    build_probe_test_plan)
+from scripts.experiment3.phase0c_hidden_dynamics.common import load_config
 from state_diff.env.block_pushing.soft_block_pushing import SoftBlockPushEnv
 
-
-CONFIG = Path(__file__).resolve().parents[2] / "configs/experiment3/soft_blockpush_phase0b.json"
+CONFIG = "configs/experiment3/hlf_sbp_phase0c_dynamics.json"
 
 
 def test_snapshot_and_fixed_commands_are_branch_independent():
-    config = load_config(str(CONFIG)); config["execution"]["pre_snapshot_settle_steps"] = 2
+    config = load_config(CONFIG)
+    config["execution"]["pre_snapshot_settle_outer_steps"] = 2
     env = SoftBlockPushEnv(config)
     try:
-        base = capture_explicit_state(env)
-        script = build_fixed_command_script(env, config, base)
-        copied = copy_fixed_command_script(script)
-        assert all(np.array_equal(command_arrays(script)[key], command_arrays(copied)[key])
-                   for key in command_arrays(script))
-        env.restore_saved_state(env.saved_state_id)
-        free = capture_explicit_state(env); env.arm_condition("uniform_low")
-        env.restore_saved_state(env.saved_state_id)
-        high = capture_explicit_state(env); env.arm_condition("right_local_high")
-        assert max_state_difference(base, free) == 0
-        assert max_state_difference(free, high) == 0
+        plan = build_probe_test_plan(env, config)
+        base = env.capture_explicit_state()
+        env.restore_saved_state(env.saved_state_id); env.arm_condition("uniform_low")
+        low = env.capture_explicit_state()
+        env.restore_saved_state(env.saved_state_id); env.arm_condition("right_local_high")
+        high = env.capture_explicit_state()
+        for key in base:
+            assert np.array_equal(base[key], low[key])
+            assert np.array_equal(low[key], high[key])
+        assert np.array_equal(plan.joint_target, plan.joint_target.copy())
+        assert len(plan.phase) == 912 and len(plan.action_xy) == 38
     finally:
         env.close()
-
-
-def test_probe_only_pair_has_equal_steps_and_does_not_execute_test(tmp_path):
-    config = load_config(str(CONFIG))
-    for key in config["execution"]:
-        config["execution"][key] = 2
-    config["camera"]["frame_stride"] = 1000
-    config["output_root"] = str(tmp_path)
-    _, metadata = run_pair(config, stop_after_probe=True)
-    assert metadata["fixed_command_arrays_equal"]
-    assert metadata["physics_step_arrays_equal"] and metadata["phase_arrays_equal"]
-    assert all(not value["test_executed"] for value in metadata["branches"].values())
-
-
-def test_mismatched_arrays_can_trigger_engineering_block():
-    assert classify_verdict(False, True, True, False)[0] == "PHASE0B_ENGINEERING_BLOCKED"

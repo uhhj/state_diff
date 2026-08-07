@@ -1,10 +1,8 @@
 import numpy as np
 import pytest
 
-from scripts.experiment3.phase0_soft_blockpush_r1.analyze_pair import (
-    displacement_from_reference)
 from state_diff.env.block_pushing.policy_rate_metrics import (
-    formal_feature_scale_floors, onset_with_floor,
+    displacement_from_reference, formal_feature_scale_floors, onset_with_floor,
     resample_phase_aligned_last, resample_phase_aligned_mean)
 
 
@@ -27,7 +25,7 @@ def test_scale_layout_nonzero_threshold_and_policy_lead():
         "joint_reaction_torque_nm": .01, "ee_tracking_error_m": .0002,
         "ee_contact_force_n": .05, "ee_contact_torque_nm": .005}}}
     floors = formal_feature_scale_floors(config)
-    assert floors.shape == (51,)
+    assert floors.shape == (45,)
     assert np.array_equal(floors[6:12], [.1, .1, .1, .01, .01, .01])
     threshold, onset = onset_with_floor(
         np.array([0., 0., 2., 3.]), np.array([True, True, False, False]), 5, 1, 1)

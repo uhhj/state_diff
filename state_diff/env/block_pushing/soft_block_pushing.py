@@ -15,23 +15,25 @@ from state_diff.env.block_pushing import block_pushing
 from state_diff.env.block_pushing.friction_tiles import (
     CONDITIONS, FrictionTileFloor)
 from state_diff.env.block_pushing.kelvin_voigt_soft_block import (
-    KelvinVoigtSoftBlock, load_material_profile, zero_spring_stats)
-from state_diff.env.block_pushing.soft_block_lattice import SoftBlockLattice
+    KelvinVoigtSoftBlock, load_material_profile)
+from state_diff.env.block_pushing.manual_microstep_integrator import (
+    ManualMicrostepConfig, ManualMicrostepIntegrator,
+    OuterStepMechanicsStats)
 from state_diff.env.block_pushing.utils import utils_pybullet, xarm_sim_robot
 from state_diff.env.block_pushing.utils.pose3d import Pose3d
 from state_diff.env.block_pushing.soft_block_task_config import (
     floor_config, soft_block_config, validate_hlf_sbp_config)
 
 
-LOWDIM_LAYOUT = {
-    "deformable_keypoints": [0, 72],
-    "joint_position": [72, 78],
-    "joint_velocity": [78, 84],
-    "ee_position": [84, 87],
-    "ee_velocity": [87, 90],
-    "ee_target_position": [90, 93],
-    "ee_tracking_error": [93, 96],
-    "goal_xy": [96, 98],
+STATEDIFF_STATE_LAYOUT = {
+    "deformable_keypoints_xyz": (0, 72),
+    "ee_xy": (72, 74),
+}
+
+CONTACT_SENSOR_LAYOUT = {
+    "joint_motor_torque": (0, 6),
+    "joint_reaction_wrench": (6, 42),
+    "ee_tracking_error_xyz": (42, 45),
 }
 
 
@@ -77,13 +79,17 @@ class SoftBlockPushEnv(gym.Env):
             raise RuntimeError("common state has not been saved")
         return self._saved_state_id
 
+    @property
+    def physics_step(self) -> int:
+        """Return the number of completed outer 240 Hz intervals."""
+        return self._physics_step
+
     def _setup_scene(self) -> None:
         client = self._pybullet_client
         physics = self.config["physics"]
         client.resetSimulation()
         client.configureDebugVisualizer(pybullet.COV_ENABLE_GUI, 0)
         client.setPhysicsEngineParameter(enableFileCaching=0)
-        client.setTimeStep(float(physics["fixed_timestep"]))
         try:
             client.setPhysicsEngineParameter(
                 numSolverIterations=int(physics["solver_iterations"]),
@@ -93,6 +99,11 @@ class SoftBlockPushEnv(gym.Env):
         except TypeError as exc:
             raise RuntimeError(
                 "PyBullet lacks required deterministic/friction parameters") from exc
+        self._microstep_config = ManualMicrostepConfig(
+            outer_timestep_s=float(physics["outer_timestep_s"]),
+            microsteps_per_outer=int(physics["microsteps_per_outer"]))
+        self._integrator = ManualMicrostepIntegrator(
+            client, self._microstep_config)
         client.setGravity(*[float(v) for v in physics["gravity"]])
         self._workspace_uid = utils_pybullet.load_urdf(
             client, block_pushing.WORKSPACE_URDF_PATH,
@@ -108,7 +119,7 @@ class SoftBlockPushEnv(gym.Env):
             position_gain=robot_cfg["position_gain"],
             velocity_gain=robot_cfg["velocity_gain"])
         if len(self._robot.joint_indices) != 6:
-            raise RuntimeError("Phase 0B lowdim layout requires exactly six joints")
+            raise RuntimeError("Phase 0C sensor layout requires exactly six joints")
         goal = np.asarray(self.config["goal"]["center_xy"], dtype=np.float64)
         self._target_id = utils_pybullet.load_urdf(
             client, block_pushing.ZONE_URDF_PATH, useFixedBase=True,
@@ -117,24 +128,17 @@ class SoftBlockPushEnv(gym.Env):
             rotation=transform.Rotation.identity(),
             translation=np.array([goal[0], goal[1], 0.0001]))
         soft_cfg = self.config["soft_block"]
-        material_model = soft_cfg.get("material_model", "p2p_legacy")
+        material_model = soft_cfg.get("material_model")
         self.material_model = material_model
-        self.material_profile = None
-        if material_model == "p2p_legacy":
-            self.soft_block = SoftBlockLattice(
-                client, soft_block_config(self.config),
-                center_xy=tuple(soft_cfg["center_xy"]),
-                yaw_deg=float(soft_cfg["yaw_deg"]))
-        elif material_model == "kelvin_voigt":
-            material, self.material_profile = load_material_profile(
-                soft_cfg["material_profile_path"])
-            self.soft_block = KelvinVoigtSoftBlock(
-                client, soft_block_config(self.config), material,
-                force_cap_n=float(soft_cfg["spring_force_cap_n"]),
-                center_xy=tuple(soft_cfg["center_xy"]),
-                yaw_deg=float(soft_cfg["yaw_deg"]))
-        else:
-            raise ValueError("unknown material_model: {}".format(material_model))
+        if material_model != "kelvin_voigt":
+            raise ValueError("active HLF-SBP requires kelvin_voigt")
+        material, self.material_profile = load_material_profile(
+            soft_cfg["material_profile_path"])
+        self.soft_block = KelvinVoigtSoftBlock(
+            client, soft_block_config(self.config), material,
+            force_cap_n=float(soft_cfg["spring_force_cap_n"]),
+            center_xy=tuple(soft_cfg["center_xy"]),
+            yaw_deg=float(soft_cfg["yaw_deg"]))
         self._robot.enable_joint_force_torque_sensors()
         start_pose = Pose3d(
             rotation=block_pushing.EFFECTOR_DOWN_ROTATION,
@@ -150,8 +154,9 @@ class SoftBlockPushEnv(gym.Env):
         self._robot.set_target_joint_positions(start_joints)
         self._start_joint_positions = np.asarray(start_joints, dtype=np.float64)
         self._target_effector_pose = start_pose
-        self._last_spring_stats = zero_spring_stats()
-        for _ in range(int(self.config["execution"]["pre_snapshot_settle_steps"])):
+        self._last_mechanics_stats: Optional[OuterStepMechanicsStats] = None
+        for _ in range(int(self.config["execution"][
+                "pre_snapshot_settle_outer_steps"])):
             self._advance_physics(record_trace=False)
         self.settle_recenter_xy_offset = self.soft_block.recenter_xy(
             tuple(soft_cfg["center_xy"]))
@@ -293,19 +298,14 @@ class SoftBlockPushEnv(gym.Env):
         """Advance exactly one Bullet step and append one stride-selected sample."""
         self._advance_physics(record_trace=True)
 
-    def _prepare_physics_step(self):
-        """Apply model-specific internal forces before advancing Bullet."""
-        if hasattr(self.soft_block, "apply_internal_forces"):
-            return self.soft_block.apply_internal_forces()
-        return zero_spring_stats()
-
     def _advance_physics(self, record_trace: bool) -> None:
-        """Apply internal mechanics, advance one step, and optionally trace."""
-        self._last_spring_stats = self._prepare_physics_step()
-        self._pybullet_client.stepSimulation()
+        """Advance one outer interval using force-recomputed microsteps."""
+        self._last_mechanics_stats = self._integrator.advance_outer_step(
+            self.soft_block)
         self._physics_step += 1
         if (record_trace and self._physics_step
-                % int(self.config["execution"]["trace_stride"]) == 0):
+                % int(self.config["execution"][
+                    "policy_sample_stride_outer_steps"]) == 0):
             self._trace.append(self.trace_sample())
 
     def _minimum_pusher_node_distance(self) -> float:
@@ -316,7 +316,7 @@ class SoftBlockPushEnv(gym.Env):
                 minimum = min(minimum, float(point[8]))
         return float(minimum)
 
-    def _ee_contact_wrench(self) -> np.ndarray:
+    def _oracle_ee_contact_wrench(self) -> np.ndarray:
         force = np.zeros(3, dtype=np.float64)
         torque = np.zeros(3, dtype=np.float64)
         ee_position = np.asarray(self._ee_state()[0], dtype=np.float64)
@@ -367,41 +367,42 @@ class SoftBlockPushEnv(gym.Env):
 
     def trace_sample(self) -> dict:
         """Return one fixed-schema formal+oracle physics sample."""
-        observation = self._observation()
-        joints, joint_velocity, motor_torque = self._robot.get_joints_measured()
         oracle = self._patch_oracle()
+        if self._last_mechanics_stats is None:
+            raise RuntimeError("mechanics has not advanced")
+        stats = self._last_mechanics_stats
         row = {
-            "physics_step": int(self._physics_step), "phase": self._phase,
+            "outer_step": int(self._physics_step), "phase": self._phase,
+            "state_diff_state": self.get_statediff_state().tolist(),
+            "contact_sensor": self.get_contact_sensor().tolist(),
+            "robot_proprio_extended": self.get_extended_proprio().tolist(),
             "node_positions": self.soft_block.positions().tolist(),
-            "node_velocities": self.soft_block.velocities().tolist(),
-            "visible_keypoints": observation["deformable_keypoints"].tolist(),
-            "node_orientations": self.soft_block.orientations().tolist(),
-            "joint_positions": np.asarray(joints).tolist(),
-            "joint_velocities": np.asarray(joint_velocity).tolist(),
-            "joint_motor_torque": np.asarray(motor_torque).tolist(),
-            "joint_reaction_wrench": self._robot.get_joint_reaction_wrenches().tolist(),
-            "ee_position": observation["ee_position"].tolist(),
-            "ee_velocity": observation["ee_velocity"].tolist(),
-            "ee_target_position": observation["ee_target_position"].tolist(),
-            "ee_tracking_error_xyz": observation["ee_tracking_error"].tolist(),
-            "ee_contact_wrench": self._ee_contact_wrench().tolist(),
-            "goal_xy": observation["goal_xy"].tolist(),
+            "goal_distance_m": float(np.linalg.norm(
+                self.soft_block.center_of_mass()[:2]
+                - np.asarray(self.config["goal"]["center_xy"]))),
+            "oracle_ee_contact_wrench":
+                self._oracle_ee_contact_wrench().tolist(),
             "oracle_patch_contact_count": len(
                 oracle["oracle_patch_contact_node_indices"]),
             "spring_energy_structural_j": float(
-                self._last_spring_stats.energy_by_kind_j["structural"]),
+                stats.final_energy_by_kind_j["structural"]),
             "spring_energy_shear_j": float(
-                self._last_spring_stats.energy_by_kind_j["shear"]),
+                stats.final_energy_by_kind_j["shear"]),
             "spring_energy_bending_j": float(
-                self._last_spring_stats.energy_by_kind_j["bending"]),
+                stats.final_energy_by_kind_j["bending"]),
             "spring_energy_total_j": float(sum(
-                self._last_spring_stats.energy_by_kind_j.values())),
-            "spring_max_abs_force_n": float(
-                self._last_spring_stats.max_abs_force_n),
+                stats.final_energy_by_kind_j.values())),
+            "spring_max_uncapped_edge_force_n": float(
+                stats.max_uncapped_edge_force_n),
+            "spring_max_applied_edge_force_n": float(
+                stats.max_applied_edge_force_n),
             "spring_capped_force_count": int(
-                self._last_spring_stats.capped_force_count),
+                stats.capped_force_count),
             "spring_force_evaluation_count": int(
-                self._last_spring_stats.force_evaluation_count),
+                stats.force_evaluation_count),
+            "spring_net_internal_force_residual_n": float(
+                stats.max_net_internal_force_residual_n),
+            "microsteps_per_outer": int(stats.microsteps_per_outer),
         }
         row.update(oracle)
         return row
@@ -416,21 +417,43 @@ class SoftBlockPushEnv(gym.Env):
         """Return a shallow copy of trace rows."""
         return [dict(row) for row in self._trace]
 
-    def get_lowdim_state(self) -> np.ndarray:
-        """Return the fixed-layout 98-D formal joint state."""
+    def get_statediff_state(self) -> np.ndarray:
+        """Return the active 74D diffusion state without sensor channels."""
         obs = self._observation()
         state = np.concatenate([
-            obs["deformable_keypoints"].reshape(-1), obs["joint_position"],
-            obs["joint_velocity"], obs["ee_position"], obs["ee_velocity"],
-            obs["ee_target_position"], obs["ee_tracking_error"], obs["goal_xy"]])
-        if state.shape != (98,):
-            raise RuntimeError("unexpected lowdim state shape: {}".format(state.shape))
+            obs["deformable_keypoints"].reshape(-1), obs["ee_position"][:2],
+        ]).astype(np.float64, copy=False)
+        if state.shape != (74,):
+            raise RuntimeError("unexpected State Diff state shape: " + str(state.shape))
         return state
+
+    def get_contact_sensor(self) -> np.ndarray:
+        """Return only the 45D formal force/torque/tracking sensor."""
+        _, _, motor_torque = self._robot.get_joints_measured()
+        reaction = self._robot.get_joint_reaction_wrenches().reshape(-1)
+        tracking = self._observation()["ee_tracking_error"]
+        sensor = np.concatenate([
+            np.asarray(motor_torque, dtype=np.float64),
+            np.asarray(reaction, dtype=np.float64),
+            np.asarray(tracking, dtype=np.float64)])
+        if sensor.shape != (45,):
+            raise RuntimeError("unexpected contact sensor shape: " + str(sensor.shape))
+        return sensor
+
+    def get_extended_proprio(self) -> np.ndarray:
+        """Return the 24D proprioception-only ablation input."""
+        joints, velocities, _ = self._robot.get_joints_measured()
+        obs = self._observation()
+        return np.concatenate([
+            np.asarray(joints), np.asarray(velocities), obs["ee_position"],
+            obs["ee_velocity"], obs["ee_target_position"],
+            obs["ee_tracking_error"]]).astype(np.float64)
 
     def render(self, mode="rgb_array") -> np.ndarray:
         """Render the existing BlockPush camera without exposing the patch."""
         del mode
-        height, width = [int(v) for v in self.config["camera"]["image_size"]]
+        height, width = [int(v) for v in self.config.get(
+            "camera", {"image_size": [240, 320]})["image_size"]]
         front_position = block_pushing.DEFAULT_CAMERA_POSE
         rotation = self._pybullet_client.getQuaternionFromEuler(
             block_pushing.DEFAULT_CAMERA_ORIENTATION)

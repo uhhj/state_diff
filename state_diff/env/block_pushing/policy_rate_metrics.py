@@ -61,16 +61,28 @@ def resample_phase_aligned_last(
 
 def formal_feature_scale_floors(config: dict) -> np.ndarray:
     """Return physical scale floors matching the flattened formal layout."""
-    floors = config["analysis"]["sensor_scale_floors"]
+    floors = config.get("analysis", {}).get("sensor_scale_floors", {})
+    motor = float(floors.get("joint_motor_torque_nm", .02))
+    reaction_force = float(floors.get("joint_reaction_force_n", .10))
+    reaction_torque = float(floors.get("joint_reaction_torque_nm", .01))
+    tracking = float(floors.get("ee_tracking_error_m", .0002))
     values = []
-    values.extend([floors["joint_motor_torque_nm"]] * 6)
+    values.extend([motor] * 6)
     for _ in range(6):
-        values.extend([floors["joint_reaction_force_n"]] * 3)
-        values.extend([floors["joint_reaction_torque_nm"]] * 3)
-    values.extend([floors["ee_tracking_error_m"]] * 3)
-    values.extend([floors["ee_contact_force_n"]] * 3)
-    values.extend([floors["ee_contact_torque_nm"]] * 3)
+        values.extend([reaction_force] * 3)
+        values.extend([reaction_torque] * 3)
+    values.extend([tracking] * 3)
     return np.asarray(values, dtype=np.float64)
+
+
+def displacement_from_reference(
+    positions: np.ndarray, reference: np.ndarray, indices: np.ndarray,
+) -> np.ndarray:
+    """Return mean local displacement for selected nodes over time."""
+    positions = np.asarray(positions, dtype=np.float64)
+    reference = np.asarray(reference, dtype=np.float64)
+    indices = np.asarray(indices, dtype=np.int64)
+    return np.mean(positions[:, indices] - reference[None, indices], axis=1)
 
 
 def scaled_fused_gap(free: np.ndarray, high: np.ndarray,
