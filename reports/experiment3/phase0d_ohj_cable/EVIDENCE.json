@@ -1,0 +1,69 @@
+{
+  "control_relevance": null,
+  "gates": {
+    "control_relevance": null,
+    "initial_observable_equivalence": true,
+    "post_probe_observable_equivalence": false,
+    "same_action_future_divergence": false,
+    "sensor_observability": false
+  },
+  "pair": {
+    "engineering": {
+      "commands_equal": true,
+      "finite": true,
+      "trace_alignment": true
+    },
+    "final_extraction_progress_m": {
+      "free": 0.009665048651547825,
+      "free_repeat": 0.011465949241629914,
+      "jam_right": 0.016774614636455853
+    },
+    "future_peak_visible_rmse_m": 0.007196196734190705,
+    "future_visible_threshold_m": 0.02037924994500438,
+    "gates": {
+      "initial_observable_equivalence": true,
+      "post_probe_observable_equivalence": false,
+      "same_action_future_divergence": false,
+      "sensor_observability": false
+    },
+    "initial_51d_rmse_m": 0.0,
+    "oracle": {
+      "free_peak_latch_force_n": 0.0,
+      "jam_contact_samples": 312,
+      "jam_peak_latch_force_n": 3.9543427102670208
+    },
+    "peak_force_norm_gap_n": 7.266591382786615,
+    "peak_fused_sensor_gap": 0.776681021320769,
+    "peak_torque_norm_gap_nm": 0.04273527001107042,
+    "post_probe_51d_rmse_m": 0.007029667896873058,
+    "post_probe_ee_rmse_m": 0.0033492781960724025,
+    "post_probe_keypoint_rmse_m": 0.007197474635900448,
+    "repeat_peak_visible_rmse_m": 0.00679308331500146,
+    "sensor_onset_phase": null,
+    "sensor_onset_step": null,
+    "sensor_trigger": null,
+    "verdict": "PHASE0D_OBSERVABLE_EQUIVALENCE_FAIL"
+  },
+  "repository": {
+    "branch": "Experiment3",
+    "clean_before_result": true,
+    "ending_main_sha": "ccced9710bd790ab68e8c06812a852f230941fba",
+    "ending_submodule_sha": "7704cc7c5a413971deacf73544d773a51891b5c9",
+    "remote_tip": "ccced9710bd790ab68e8c06812a852f230941fba",
+    "remote_tip_matches": true,
+    "starting_main_sha": "fba086cd2841386bdc04472f0413ddb9a8e623e6",
+    "starting_submodule_sha": "282b93535b125d1a4487df85ad24aa41551957af"
+  },
+  "tests": {
+    "failed": 0,
+    "passed": 26,
+    "pip_check": "known multiprocess/dill conflict only"
+  },
+  "training": {
+    "B0": false,
+    "B1": false,
+    "CFPM": false,
+    "IDM": false
+  },
+  "verdict": "PHASE0D_OBSERVABLE_EQUIVALENCE_FAIL"
+}
