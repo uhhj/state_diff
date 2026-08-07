@@ -1,0 +1,112 @@
+{
+  "control_relevance": null,
+  "frozen_mechanics": {
+    "bullet_num_substeps": 1,
+    "manual_microsteps": 8,
+    "material": "kv_ccda_v41",
+    "micro_timestep_s": 0.0005208333333333333,
+    "outer_timestep_s": 0.004166666666666667
+  },
+  "highrate_pair": {
+    "baseline_state_std_m": 0.00012284753157576966,
+    "command_arrays_equal": {
+      "command_action": true,
+      "command_phase": true,
+      "ee_target": true,
+      "joint_target": true
+    },
+    "engineering_gate": {
+      "actions_equal": true,
+      "ee_targets_equal": true,
+      "finite": true,
+      "initial_state": true,
+      "joint_commands_equal": true,
+      "no_action_stable": true,
+      "oracle_intervention": true,
+      "phases_equal": true,
+      "spring_force_cap": true
+    },
+    "initial_state_max_abs_m": 0.0,
+    "no_action_state_drift_m": {
+      "right_local_high": 0.00012343000925384265,
+      "uniform_low": 0.00012343000925384265
+    },
+    "oracle": {
+      "high_patch_mu": 1.6,
+      "intervention": true,
+      "low_patch_mu": 0.2,
+      "peak_mean_slip_speed_gap_mps": 0.025913494186401605,
+      "peak_tangential_load_gap_n": 0.002246796507955195
+    },
+    "peak_deformable_rmse_m": 0.00525862796021349,
+    "peak_ee_xy_rmse_m": 3.8047644435082514e-06,
+    "peak_fused_sensor_gap": 0.2867526575126078,
+    "peak_joint_state_rmse_m": 0.005187078667648407,
+    "repeat_peak_state_rmse_m": 0.0,
+    "sampling": {
+      "first_outer_step": 1,
+      "formal_pre_step_sensor": false,
+      "outer_samples_per_policy": 24
+    },
+    "sensor_lead_ms": null,
+    "sensor_lead_outer_steps": null,
+    "sensor_onset_ms": null,
+    "sensor_onset_outer_step": null,
+    "sensor_trigger": null,
+    "spring_force_cap_fraction": {
+      "right_local_high": 0.0,
+      "uniform_low": 0.0,
+      "uniform_low_repeat": 0.0
+    },
+    "state_onset_ms": 979.1666666666667,
+    "state_onset_outer_step": 235,
+    "state_threshold_m": 0.0006142376578788483,
+    "verdict": "PHASE0C_R1_SENSOR_NOT_SEPARABLE"
+  },
+  "repository": {
+    "branch": "Experiment3",
+    "clean_before_result": true,
+    "ending_sha": "b3d79e32470df9992bb5ede108b6564ef1422206",
+    "expected_submodule_gitlink": "282b93535b125d1a4487df85ad24aa41551957af",
+    "remote_tip": "b3d79e32470df9992bb5ede108b6564ef1422206",
+    "remote_tip_matches": true,
+    "starting_sha": "fc83c62c43f140fd1c293cf5d816a625992e1d0f",
+    "submodule_gitlink": "282b93535b125d1a4487df85ad24aa41551957af",
+    "submodule_matches": true
+  },
+  "scientific_status": "sensor_not_separable",
+  "sensor": {
+    "formal_pre_step_sensor": false,
+    "outer_rate_hz": 240,
+    "outer_samples_per_policy": 24,
+    "peak_fused_sensor_gap": 0.2867526575126078,
+    "sensor_dim": 45,
+    "sensor_lead_ms": null,
+    "sensor_lead_outer_steps": null,
+    "sensor_onset_ms": null,
+    "sensor_onset_outer_step": null,
+    "trigger": null
+  },
+  "state": {
+    "peak_deformable_rmse_m": 0.00525862796021349,
+    "peak_ee_xy_rmse_m": 3.8047644435082514e-06,
+    "peak_joint_state_rmse_m": 0.005187078667648407,
+    "repeat_peak_state_rmse_m": 0.0,
+    "state_dim": 74,
+    "state_onset_ms": 979.1666666666667,
+    "state_onset_outer_step": 235,
+    "state_threshold_m": 0.0006142376578788483
+  },
+  "tests": {
+    "failed": 0,
+    "passed": 38,
+    "pip_check": "known multiprocess/dill conflict only"
+  },
+  "training": {
+    "B3": false,
+    "CFPM_B2": false,
+    "StateDiff_B0": false,
+    "StateDiff_FT_B1": false
+  },
+  "verdict": "PHASE0C_R1_SENSOR_NOT_SEPARABLE"
+}
