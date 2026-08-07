@@ -52,6 +52,52 @@ def _phase_indices(arrays, phase_name):
     return np.flatnonzero(phase == str(phase_name))
 
 
+REPEAT_PHASES = (
+    "no_action",
+    "probe_forward",
+    "probe_hold",
+    "probe_return",
+    "post_probe",
+    "test_pull",
+    "post_test",
+)
+
+
+def repeatability_by_phase(free, repeat, config):
+    threshold = float(
+        config["analysis"]["post_probe_visible_rmse_max_m"])
+    rows = []
+    first_phase_above = None
+    for phase_name in REPEAT_PHASES:
+        mask = free["phase"].astype(str) == phase_name
+        if not np.any(mask):
+            continue
+        free_state = np.asarray(
+            free["statediff_state"][mask], dtype=np.float64)
+        repeat_state = np.asarray(
+            repeat["statediff_state"][mask], dtype=np.float64)
+        gap_51d = rmse(free_state, repeat_state)
+        gap_keypoint = rmse(free_state[:, :48], repeat_state[:, :48])
+        gap_ee = rmse(free_state[:, 48:], repeat_state[:, 48:])
+        row = {
+            "phase": phase_name,
+            "start_51d_rmse_m": float(gap_51d[0]),
+            "peak_51d_rmse_m": float(np.max(gap_51d)),
+            "end_51d_rmse_m": float(gap_51d[-1]),
+            "peak_keypoint_rmse_m": float(np.max(gap_keypoint)),
+            "peak_ee_rmse_m": float(np.max(gap_ee)),
+        }
+        if (first_phase_above is None
+                and row["peak_51d_rmse_m"] > threshold):
+            first_phase_above = phase_name
+        rows.append(row)
+    return {
+        "phases": rows,
+        "first_phase_above_equivalence_threshold": first_phase_above,
+        "equivalence_threshold_m": threshold,
+    }
+
+
 def recovery_curve(free, jam, repeat, config):
     hz = float(config["execution"]["hz"])
     checkpoints = [int(value) for value in config["analysis"].get(
@@ -150,6 +196,7 @@ def evaluate_pair(free, jam, repeat, branch_metadata, config):
     post_keypoint_rmse = float(rmse(post_free[:48], post_jam[:48]))
     post_ee_rmse = float(rmse(post_free[48:], post_jam[48:]))
     recovery = recovery_curve(free, jam, repeat, config)
+    repeatability = repeatability_by_phase(free, repeat, config)
 
     phase = free["phase"].astype(str)
     steps = free["physics_step"].astype(np.int64)
@@ -216,6 +263,7 @@ def evaluate_pair(free, jam, repeat, branch_metadata, config):
         "post_probe_keypoint_rmse_m": post_keypoint_rmse,
         "post_probe_ee_rmse_m": post_ee_rmse,
         "recovery": recovery,
+        "repeatability_by_phase": repeatability,
         "sensor_onset_step": sensor_step,
         "sensor_onset_phase": (None if sensor_index is None
                                else str(phase[sensor_index])),
@@ -260,6 +308,7 @@ def analyze(config_path):
     output = report_dir(config)
     write_json(output / "pair_metrics.json", metrics)
     recovery = metrics["recovery"]
+    repeatability = metrics["repeatability_by_phase"]
     summary = (
         "# OHJ Phase 0D pair\n\n"
         "- Verdict: `{}`\n"
@@ -274,6 +323,8 @@ def analyze(config_path):
         "- Sensor peak: `{:.6f}`\n"
         "- Future peak: `{:.6f} m`\n"
         "- Repeat future floor: `{:.6f} m`\n"
+        "- Repeat first phase above equivalence threshold: `{}`\n"
+        "- Repeat phase diagnostics: `{}`\n"
     ).format(
         metrics["verdict"],
         1000.0 * config["motion"]["probe_delta_xyz_m"][0],
@@ -286,7 +337,9 @@ def analyze(config_path):
         recovery["post_probe_jam_latch_contact_fraction"],
         metrics["peak_fused_sensor_gap"],
         metrics["future_peak_visible_rmse_m"],
-        metrics["repeat_peak_visible_rmse_m"])
+        metrics["repeat_peak_visible_rmse_m"],
+        repeatability["first_phase_above_equivalence_threshold"],
+        repeatability["phases"])
     (output / "pair_summary.md").write_text(summary, encoding="utf-8")
     return metrics
 

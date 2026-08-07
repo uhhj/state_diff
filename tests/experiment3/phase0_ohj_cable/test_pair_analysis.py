@@ -3,7 +3,7 @@ import copy
 import numpy as np
 
 from scripts.experiment3.phase0_ohj_cable.analyze_pair import (
-    evaluate_pair, recovery_curve)
+    evaluate_pair, recovery_curve, repeatability_by_phase)
 from scripts.experiment3.phase0_ohj_cable.common import load_config
 
 
@@ -95,3 +95,25 @@ def test_recovery_curve_tracks_return_to_one_second():
         recovery["final_branch_excess_fraction_of_free_jam"], 0.8)
     assert np.isclose(
         recovery["post_probe_jam_latch_contact_fraction"], 0.5)
+
+
+def test_repeatability_by_phase_localizes_divergence():
+    phase = np.asarray(
+        ["no_action"] * 3 + ["probe_forward"] * 3 + ["post_probe"] * 3)
+    free = {
+        "phase": phase,
+        "statediff_state": np.zeros((9, 51)),
+    }
+    repeat = {
+        "phase": phase,
+        "statediff_state": np.zeros((9, 51)),
+    }
+    repeat["statediff_state"][3:6, :48] = 0.003
+    config = load_config(
+        "configs/experiment3/phase0/ohj_cable_phase0d_r3_holdrepair.json")
+    result = repeatability_by_phase(free, repeat, config)
+    assert (result["first_phase_above_equivalence_threshold"]
+            == "probe_forward")
+    rows = {row["phase"]: row for row in result["phases"]}
+    assert rows["no_action"]["peak_51d_rmse_m"] == 0.0
+    assert rows["probe_forward"]["peak_keypoint_rmse_m"] > 0.0015

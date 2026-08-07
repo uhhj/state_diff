@@ -5,7 +5,8 @@ import numpy as np
 
 from scripts.experiment3.phase0_ohj_cable.commands import (
     build_candidate_scripts, build_probe_script, command_arrays)
-from scripts.experiment3.phase0_ohj_cable.run_pair import _run_branch
+from scripts.experiment3.phase0_ohj_cable.run_pair import (
+    _run_branch, set_canonical_robot_hold)
 
 
 class FakeEnv:
@@ -15,6 +16,20 @@ class FakeEnv:
     def solve_IK(self, pose):
         self.calls += 1
         return np.full(6, pose[0] + 2 * np.pi * self.calls)
+
+
+class HoldTask:
+    def __init__(self):
+        self.ee_target = None
+
+    def set_ee_target_position(self, value):
+        self.ee_target = np.asarray(value, dtype=np.float64)
+
+
+class HoldEnv:
+    def __init__(self):
+        self.ur5 = 7
+        self.joints = [2, 3, 4, 5, 6, 7]
 
 
 MOTION = {
@@ -53,3 +68,33 @@ def test_branch_execution_contains_no_inverse_kinematics():
     assert "solve_IK" not in source
     assert ".movep(" not in source
     assert ".movej(" not in source
+
+
+def test_canonical_hold_reasserts_position_control(monkeypatch):
+    calls = []
+
+    def fake_set_joint_motor_control_array(**kwargs):
+        calls.append(kwargs)
+
+    monkeypatch.setattr(
+        "scripts.experiment3.phase0_ohj_cable.run_pair."
+        "p.setJointMotorControlArray",
+        fake_set_joint_motor_control_array,
+    )
+    env = HoldEnv()
+    task = HoldTask()
+    joint = np.linspace(-1.0, 1.0, 6)
+    ee = np.array([0.4, -0.1, 0.1])
+    set_canonical_robot_hold(env, task, joint, ee, 0.01)
+    np.testing.assert_allclose(task.ee_target, ee)
+    assert len(calls) == 1
+    call = calls[0]
+    np.testing.assert_allclose(call["targetPositions"], joint)
+    np.testing.assert_allclose(call["targetVelocities"], np.zeros(6))
+
+
+def test_branch_reasserts_hold_before_no_action_step():
+    source = inspect.getsource(_run_branch)
+    hold_at = source.index("set_canonical_robot_hold")
+    no_action_at = source.index('task.set_ccda_phase("no_action")')
+    assert hold_at < no_action_at

@@ -43,6 +43,22 @@ def grasp_retained(env, active_id):
         return False
 
 
+def set_canonical_robot_hold(
+        env, task, joint_target, ee_target, position_gain):
+    joint_target = np.asarray(joint_target, dtype=np.float64)
+    ee_target = np.asarray(ee_target, dtype=np.float64)
+    task.set_ee_target_position(ee_target)
+    p.setJointMotorControlArray(
+        bodyIndex=env.ur5,
+        jointIndices=env.joints,
+        controlMode=p.POSITION_CONTROL,
+        targetPositions=joint_target,
+        targetVelocities=np.zeros(len(env.joints), dtype=np.float64),
+        positionGains=np.full(
+            len(env.joints), float(position_gain), dtype=np.float64),
+    )
+
+
 def acquire_active_endpoint(env, task, motion):
     active_id = task.cable_bead_IDs[task._layout["active_endpoint_index"]]
     bead = np.asarray(p.getBasePositionAndOrientation(active_id)[0])
@@ -73,13 +89,24 @@ def _save_snapshot(path, world):
 
 def _run_branch(env, task, condition, actual_condition, state_id,
                 runtime_state, reference_passive, probe, straight,
-                config, active_id):
+                config, active_id, canonical_joint_hold,
+                canonical_ee_hold):
     p.restoreState(stateId=state_id)
     env.reset_ccda_runtime_after_restore()
     restore_python_runtime_state(env, task, runtime_state)
     task.reset_branch_runtime(actual_condition)
     arm = task.arm_condition(actual_condition)
     task.reference_passive_xyz = np.asarray(reference_passive).copy()
+    reassert_hold = bool(config["execution"].get(
+        "reassert_canonical_hold_after_restore", False))
+    if reassert_hold:
+        set_canonical_robot_hold(
+            env=env,
+            task=task,
+            joint_target=canonical_joint_hold,
+            ee_target=canonical_ee_hold,
+            position_gain=config["motion"]["position_gain"],
+        )
     initial_state = task.statediff_state().copy()
     task.set_ccda_phase("no_action")
     env.step_physics(config["execution"]["no_action_steps"])
@@ -110,6 +137,7 @@ def _run_branch(env, task, condition, actual_condition, state_id,
         "post_probe_statediff_state": post_probe_state,
         "grasp_retained": grasp_retained(env, active_id),
         "reference_passive_xyz": reference_passive,
+        "canonical_hold_reasserted": reassert_hold,
     }
     write_json(output / "metadata.json", metadata)
     return metadata
@@ -141,6 +169,8 @@ def run_pair(config_path):
         orientation = np.asarray(ee_state[1], dtype=np.float64)
         previous = np.asarray([
             p.getJointState(env.ur5, int(joint))[0] for joint in env.joints])
+        canonical_ee_hold = start.copy()
+        canonical_joint_hold = previous.copy()
         probe, _ = build_probe_script(
             env, start, orientation, config["motion"], previous)
         candidates = build_candidate_scripts(
@@ -151,7 +181,8 @@ def run_pair(config_path):
             branches[name] = _run_branch(
                 env, task, name, actual, state_id, runtime_state,
                 reference_passive, probe, candidates["straight"],
-                config, active_id)
+                config, active_id, canonical_joint_hold,
+                canonical_ee_hold)
         commands = command_arrays(tuple(probe) + candidates["straight"])
         write_json(pair_dir(config) / "metadata.json", {
             "config": config,
@@ -160,6 +191,12 @@ def run_pair(config_path):
             "command_shapes": {key: list(value.shape)
                                for key, value in commands.items()},
             "branch_local_ik": False,
+            "canonical_hold": {
+                "reassert_after_restore": bool(config["execution"].get(
+                    "reassert_canonical_hold_after_restore", False)),
+                "ee_target": canonical_ee_hold.astype(float).tolist(),
+                "joint_target": canonical_joint_hold.astype(float).tolist(),
+            },
         })
         return {"pair_dir": str(pair_dir(config)), "branches": list(branches)}
     finally:

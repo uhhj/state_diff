@@ -77,27 +77,40 @@ def build_result(config_path):
         "committed_report_dir", "reports/experiment3/phase0d_ohj_cable")
     write_json(destination / "EVIDENCE.json", evidence)
     probe_mm = 1000.0 * float(config["motion"]["probe_delta_xyz_m"][0])
+    repeat_floor = float(pair["repeat_peak_visible_rmse_m"])
+    equiv_threshold = float(
+        config["analysis"]["post_probe_visible_rmse_max_m"])
+    hold_repair = bool(config["execution"].get(
+        "reassert_canonical_hold_after_restore", False))
     if verdict == "PHASE0D_OHJ_CABLE_VALIDATED":
         next_task = (
             "Generate physics_pairs, then train B0 StateDiff and B1 "
             "StateDiff-FT.")
     elif verdict == "PHASE0D_OBSERVABLE_EQUIVALENCE_FAIL":
-        if probe_mm > 1.0 + 1e-9:
+        if hold_repair and repeat_floor > equiv_threshold:
             next_task = (
-                "Reduce zero-net probe amplitude to 1.0 mm; keep post-probe "
-                "settle at 240 steps and jam clearance at 0.5 mm.")
+                "Same-condition repeatability remains unresolved after "
+                "canonical motor-hold repair. Stop probe/contact tuning and "
+                "isolate same-world restore against fresh-world branch "
+                "execution.")
+        elif hold_repair:
+            next_task = (
+                "The repeat floor is now below the observable-equivalence "
+                "scale, so the remaining post-probe mismatch is "
+                "JAM-specific. Reduce the zero-net probe from 1.0 mm to "
+                "0.5 mm while keeping 240-step settle and 0.5 mm clearance "
+                "fixed.")
+        elif probe_mm > 1.0 + 1e-9:
+            next_task = (
+                "Reduce zero-net probe amplitude to 1.0 mm.")
         else:
             next_task = (
-                "Stop. Do not automatically reduce the probe below 1.0 mm. "
-                "Compare FREE-repeat against FREE/JAM and the JAM post-probe "
-                "contact fraction. If repeat variability dominates, prepare "
-                "a same-condition repeatability repair; if JAM-specific "
-                "excess and persistent latch contact dominate, prepare a "
-                "separate 0.5 mm probe repair.")
+                "Prepare the canonical-hold same-condition repeatability "
+                "repair.")
     elif verdict == "PHASE0D_SENSOR_NOT_OBSERVABLE":
         next_task = (
             "Keep the 1.0 mm probe and 240-step settle fixed; reduce initial "
-            "jam surface clearance from 0.50 mm to 0.25 mm and rerun Gate "
+            "jam clearance from 0.50 mm to 0.25 mm and rerun Gate "
             "2/3.")
     else:
         next_task = (
@@ -105,6 +118,7 @@ def build_result(config_path):
             "single-purpose repair.")
     control_show = control or {}
     recovery = pair["recovery"]
+    repeatability = pair["repeatability_by_phase"]
     text = """Verdict: {verdict}
 
 Repository:
@@ -115,6 +129,9 @@ Repository:
 - Remote tip: {remote}
 - Submodule start: {sub_start}
 - Submodule end: {sub_end}
+
+Repair:
+- Canonical hold reassert after restore: {hold_repair}
 
 Frozen:
 - Probe amplitude: {probe_mm} mm
@@ -152,6 +169,8 @@ Key values:
 - Repeat floor: {repeat} m
 - Future/repeat ratio: {future_repeat_ratio}
 - FREE/JAM extraction progress: {progress}
+- Repeat first phase above equivalence threshold: {repeat_first_phase}
+- Repeat phase diagnostics: {repeat_phases}
 - Control verdict: {control_verdict}
 
 Tests:
@@ -173,6 +192,7 @@ Next task: {next_task}
         clean=evidence["repository"]["clean_before_result"], remote=remote,
         sub_start=config["provenance"]["starting_submodule_sha"],
         sub_end=ending_submodule,
+        hold_repair=hold_repair,
         probe_mm=probe_mm,
         clearance_mm=1000.0 * config["geometry"]["jam_surface_clearance_m"],
         settle_steps=config["execution"]["post_probe_steps"],
@@ -208,6 +228,9 @@ Next task: {next_task}
         repeat=pair["repeat_peak_visible_rmse_m"],
         future_repeat_ratio=pair["future_branch_to_repeat_ratio"],
         progress=pair["final_extraction_progress_m"],
+        repeat_first_phase=repeatability[
+            "first_phase_above_equivalence_threshold"],
+        repeat_phases=repeatability["phases"],
         control_verdict=control_show.get("verdict", "not run"),
         passed=tests_passed, failed=tests_failed, next_task=next_task)
     (destination / "RESULT.md").write_text(text, encoding="utf-8")

@@ -58,3 +58,22 @@ def test_r2_only_reduces_probe_amplitude():
             == r1["analysis"]["sensor_normalized_gap_min"] == 1.0)
     assert (r2["analysis"]["future_vs_repeat_multiplier"]
             == r1["analysis"]["future_vs_repeat_multiplier"] == 3.0)
+
+
+def test_r3_keeps_r2_physics_and_enables_hold_repair():
+    r2 = _load("ohj_cable_phase0d_r2_probe1mm.json")
+    r3 = _load("ohj_cable_phase0d_r3_holdrepair.json")
+    assert (r3["motion"]["probe_delta_xyz_m"]
+            == r2["motion"]["probe_delta_xyz_m"]
+            == [0.001, 0.0, 0.0])
+    assert (r3["execution"]["post_probe_steps"]
+            == r2["execution"]["post_probe_steps"] == 240)
+    assert (r3["geometry"]["jam_surface_clearance_m"]
+            == r2["geometry"]["jam_surface_clearance_m"] == 0.0005)
+    assert (r3["analysis"]["post_probe_visible_rmse_max_m"]
+            == r2["analysis"]["post_probe_visible_rmse_max_m"] == 0.0015)
+    assert (r3["analysis"]["sensor_normalized_gap_min"]
+            == r2["analysis"]["sensor_normalized_gap_min"] == 1.0)
+    assert (r3["analysis"]["future_vs_repeat_multiplier"]
+            == r2["analysis"]["future_vs_repeat_multiplier"] == 3.0)
+    assert r3["execution"]["reassert_canonical_hold_after_restore"] is True
