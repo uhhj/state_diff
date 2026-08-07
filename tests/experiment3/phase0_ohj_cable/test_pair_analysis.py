@@ -3,7 +3,8 @@ import copy
 import numpy as np
 
 from scripts.experiment3.phase0_ohj_cable.analyze_pair import (
-    evaluate_pair, recovery_curve, repeatability_by_phase)
+    evaluate_pair, probe_contact_diagnostics, recovery_curve,
+    repeatability_by_phase)
 from scripts.experiment3.phase0_ohj_cable.common import load_config
 
 
@@ -117,3 +118,32 @@ def test_repeatability_by_phase_localizes_divergence():
     rows = {row["phase"]: row for row in result["phases"]}
     assert rows["no_action"]["peak_51d_rmse_m"] == 0.0
     assert rows["probe_forward"]["peak_keypoint_rmse_m"] > 0.0015
+
+
+def test_probe_contact_diagnostics_are_phase_local():
+    phase = np.asarray(
+        ["no_action"] * 2 + ["probe_forward"] * 2
+        + ["probe_hold"] * 2 + ["probe_return"] * 2
+        + ["post_probe"] * 2 + ["test_pull"] * 2)
+    n = len(phase)
+    free = {
+        "phase": phase,
+        "oracle_latch_contact_count": np.zeros(n),
+        "oracle_latch_contact_force": np.zeros(n),
+    }
+    jam = {
+        "phase": phase,
+        "oracle_latch_contact_count": np.zeros(n),
+        "oracle_latch_contact_force": np.zeros(n),
+    }
+    jam["oracle_latch_contact_count"][3] = 1
+    jam["oracle_latch_contact_count"][5] = 1
+    jam["oracle_latch_contact_force"][3] = 0.4
+    jam["oracle_latch_contact_force"][5] = 0.7
+    jam["oracle_latch_contact_count"][10:] = 1
+    jam["oracle_latch_contact_force"][10:] = 3.0
+    result = probe_contact_diagnostics(free, jam)
+    assert result["free_probe_contact_samples"] == 0
+    assert result["jam_probe_contact_samples"] == 2
+    assert np.isclose(result["jam_probe_contact_fraction"], 2.0 / 6.0)
+    assert np.isclose(result["jam_probe_peak_latch_force_n"], 0.7)

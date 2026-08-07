@@ -62,6 +62,12 @@ REPEAT_PHASES = (
     "post_test",
 )
 
+PROBE_PHASES = (
+    "probe_forward",
+    "probe_hold",
+    "probe_return",
+)
+
 
 def repeatability_by_phase(free, repeat, config):
     threshold = float(
@@ -95,6 +101,28 @@ def repeatability_by_phase(free, repeat, config):
         "phases": rows,
         "first_phase_above_equivalence_threshold": first_phase_above,
         "equivalence_threshold_m": threshold,
+    }
+
+
+def probe_contact_diagnostics(free, jam):
+    free_phase = free["phase"].astype(str)
+    jam_phase = jam["phase"].astype(str)
+    free_mask = np.isin(free_phase, PROBE_PHASES)
+    jam_mask = np.isin(jam_phase, PROBE_PHASES)
+    free_contact_samples = int(np.count_nonzero(
+        free["oracle_latch_contact_count"][free_mask]))
+    jam_contact_samples = int(np.count_nonzero(
+        jam["oracle_latch_contact_count"][jam_mask]))
+    jam_probe_samples = int(np.count_nonzero(jam_mask))
+    return {
+        "free_probe_contact_samples": free_contact_samples,
+        "jam_probe_contact_samples": jam_contact_samples,
+        "jam_probe_contact_fraction": (
+            None if jam_probe_samples == 0 else float(
+                jam_contact_samples / jam_probe_samples)),
+        "jam_probe_peak_latch_force_n": float(np.max(
+            jam["oracle_latch_contact_force"][jam_mask])
+            if np.any(jam_mask) else 0.0),
     }
 
 
@@ -197,11 +225,12 @@ def evaluate_pair(free, jam, repeat, branch_metadata, config):
     post_ee_rmse = float(rmse(post_free[48:], post_jam[48:]))
     recovery = recovery_curve(free, jam, repeat, config)
     repeatability = repeatability_by_phase(free, repeat, config)
+    probe_contact = probe_contact_diagnostics(free, jam)
 
     phase = free["phase"].astype(str)
     steps = free["physics_step"].astype(np.int64)
     no_action = phase == "no_action"
-    probe = np.isin(phase, ["probe_forward", "probe_hold", "probe_return"])
+    probe = np.isin(phase, PROBE_PHASES)
     future = np.isin(phase, ["test_pull", "post_test"])
     pooled = np.concatenate([
         free["formal_wrench"][no_action], jam["formal_wrench"][no_action]])
@@ -264,6 +293,7 @@ def evaluate_pair(free, jam, repeat, branch_metadata, config):
         "post_probe_ee_rmse_m": post_ee_rmse,
         "recovery": recovery,
         "repeatability_by_phase": repeatability,
+        "probe_contact": probe_contact,
         "sensor_onset_step": sensor_step,
         "sensor_onset_phase": (None if sensor_index is None
                                else str(phase[sensor_index])),
@@ -309,6 +339,7 @@ def analyze(config_path):
     write_json(output / "pair_metrics.json", metrics)
     recovery = metrics["recovery"]
     repeatability = metrics["repeatability_by_phase"]
+    probe_contact = metrics["probe_contact"]
     summary = (
         "# OHJ Phase 0D pair\n\n"
         "- Verdict: `{}`\n"
@@ -320,6 +351,10 @@ def analyze(config_path):
         "- Final repeat/FREE-JAM fraction: `{}`\n"
         "- Final branch-excess/FREE-JAM fraction: `{}`\n"
         "- Post-probe JAM contact fraction: `{}`\n"
+        "- FREE probe latch contacts: `{}`\n"
+        "- JAM probe latch contacts: `{}`\n"
+        "- JAM probe latch contact fraction: `{}`\n"
+        "- JAM probe latch peak force: `{:.6f} N`\n"
         "- Sensor peak: `{:.6f}`\n"
         "- Future peak: `{:.6f} m`\n"
         "- Repeat future floor: `{:.6f} m`\n"
@@ -335,6 +370,10 @@ def analyze(config_path):
         recovery["final_repeat_fraction_of_free_jam"],
         recovery["final_branch_excess_fraction_of_free_jam"],
         recovery["post_probe_jam_latch_contact_fraction"],
+        probe_contact["free_probe_contact_samples"],
+        probe_contact["jam_probe_contact_samples"],
+        probe_contact["jam_probe_contact_fraction"],
+        probe_contact["jam_probe_peak_latch_force_n"],
         metrics["peak_fused_sensor_gap"],
         metrics["future_peak_visible_rmse_m"],
         metrics["repeat_peak_visible_rmse_m"],

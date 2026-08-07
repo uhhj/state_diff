@@ -77,3 +77,22 @@ def test_r3_keeps_r2_physics_and_enables_hold_repair():
     assert (r3["analysis"]["future_vs_repeat_multiplier"]
             == r2["analysis"]["future_vs_repeat_multiplier"] == 3.0)
     assert r3["execution"]["reassert_canonical_hold_after_restore"] is True
+
+
+def test_r4_only_reduces_jam_clearance():
+    r3 = _load("ohj_cable_phase0d_r3_holdrepair.json")
+    r4 = _load("ohj_cable_phase0d_r4_clearance025.json")
+    assert r3["geometry"]["jam_surface_clearance_m"] == 0.0005
+    assert r4["geometry"]["jam_surface_clearance_m"] == 0.00025
+    assert (r4["motion"]["probe_delta_xyz_m"]
+            == r3["motion"]["probe_delta_xyz_m"]
+            == [0.001, 0.0, 0.0])
+    assert (r4["execution"]["post_probe_steps"]
+            == r3["execution"]["post_probe_steps"] == 240)
+    assert r4["execution"]["reassert_canonical_hold_after_restore"] is True
+    assert (r4["analysis"]["post_probe_visible_rmse_max_m"]
+            == r3["analysis"]["post_probe_visible_rmse_max_m"] == 0.0015)
+    assert (r4["analysis"]["sensor_normalized_gap_min"]
+            == r3["analysis"]["sensor_normalized_gap_min"] == 1.0)
+    assert (r4["analysis"]["future_visible_rmse_min_m"]
+            == r3["analysis"]["future_visible_rmse_min_m"] == 0.005)

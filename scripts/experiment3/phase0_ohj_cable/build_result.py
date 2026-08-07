@@ -77,6 +77,10 @@ def build_result(config_path):
         "committed_report_dir", "reports/experiment3/phase0d_ohj_cable")
     write_json(destination / "EVIDENCE.json", evidence)
     probe_mm = 1000.0 * float(config["motion"]["probe_delta_xyz_m"][0])
+    clearance_mm = 1000.0 * float(
+        config["geometry"]["jam_surface_clearance_m"])
+    probe_jam_contacts = int(
+        pair["probe_contact"]["jam_probe_contact_samples"])
     repeat_floor = float(pair["repeat_peak_visible_rmse_m"])
     equiv_threshold = float(
         config["analysis"]["post_probe_visible_rmse_max_m"])
@@ -108,10 +112,22 @@ def build_result(config_path):
                 "Prepare the canonical-hold same-condition repeatability "
                 "repair.")
     elif verdict == "PHASE0D_SENSOR_NOT_OBSERVABLE":
-        next_task = (
-            "Keep the 1.0 mm probe and 240-step settle fixed; reduce initial "
-            "jam clearance from 0.50 mm to 0.25 mm and rerun Gate "
-            "2/3.")
+        if clearance_mm > 0.25 + 1e-9:
+            next_task = (
+                "Keep the 1.0 mm probe, 240-step settle, and canonical hold "
+                "fixed; reduce jam clearance to 0.25 mm.")
+        elif probe_jam_contacts == 0:
+            next_task = (
+                "The 0.25 mm clearance still does not produce probe-phase "
+                "latch engagement. Prepare one further single-variable "
+                "hidden-contact engagement repair; do not change the sensor "
+                "threshold or model.")
+        else:
+            next_task = (
+                "Probe-phase hidden contact now exists but the deployable 6D "
+                "gripper wrench is still not observable. Stop clearance "
+                "tuning and prepare a direct deployable contact-sensing "
+                "repair.")
     else:
         next_task = (
             "Stop at the current scientific gate and prepare the next "
@@ -119,6 +135,7 @@ def build_result(config_path):
     control_show = control or {}
     recovery = pair["recovery"]
     repeatability = pair["repeatability_by_phase"]
+    probe_contact = pair["probe_contact"]
     text = """Verdict: {verdict}
 
 Repository:
@@ -139,6 +156,12 @@ Frozen:
 - Post-probe settle: {settle_steps} steps / {settle_s} s
 - State: {state_dim}D
 - Sensor: {sensor_dim}D
+
+Probe engagement:
+- FREE probe latch contact samples: {probe_free_contacts}
+- JAM probe latch contact samples: {probe_jam_contacts}
+- JAM probe latch contact fraction: {probe_contact_fraction}
+- JAM probe latch peak force: {probe_peak_force} N
 
 Five gates:
 - Initial observable equivalence: {gate1}
@@ -194,12 +217,16 @@ Next task: {next_task}
         sub_end=ending_submodule,
         hold_repair=hold_repair,
         probe_mm=probe_mm,
-        clearance_mm=1000.0 * config["geometry"]["jam_surface_clearance_m"],
+        clearance_mm=clearance_mm,
         settle_steps=config["execution"]["post_probe_steps"],
         settle_s=(config["execution"]["post_probe_steps"]
                   / config["execution"]["hz"]),
         state_dim=config["state"]["state_dim"],
         sensor_dim=config["sensor"]["sensor_dim"],
+        probe_free_contacts=probe_contact["free_probe_contact_samples"],
+        probe_jam_contacts=probe_contact["jam_probe_contact_samples"],
+        probe_contact_fraction=probe_contact["jam_probe_contact_fraction"],
+        probe_peak_force=probe_contact["jam_probe_peak_latch_force_n"],
         gate1=evidence["gates"]["initial_observable_equivalence"],
         gate2=evidence["gates"]["post_probe_observable_equivalence"],
         gate3=evidence["gates"]["sensor_observability"],
