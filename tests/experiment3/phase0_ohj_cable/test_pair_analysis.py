@@ -79,6 +79,7 @@ def test_recovery_curve_tracks_return_to_one_second():
     jam["statediff_state"][25:49] = .003
     jam["statediff_state"][49:121] = .002
     jam["statediff_state"][121:] = .001
+    jam["oracle_latch_contact_count"][1:241:2] = 1
     repeat["statediff_state"][:] = .0002
     config = load_config(
         "configs/experiment3/phase0/ohj_cable_phase0d_r1_recovery.json")
@@ -88,3 +89,9 @@ def test_recovery_curve_tracks_return_to_one_second():
             < recovery["immediate_free_jam_rmse_m"])
     assert recovery["recovery_fraction"] > .5
     assert recovery["final_branch_excess_over_repeat_m"] > 0.0
+    assert np.isclose(
+        recovery["final_repeat_fraction_of_free_jam"], 0.2)
+    assert np.isclose(
+        recovery["final_branch_excess_fraction_of_free_jam"], 0.8)
+    assert np.isclose(
+        recovery["post_probe_jam_latch_contact_fraction"], 0.5)

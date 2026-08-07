@@ -76,18 +76,29 @@ def build_result(config_path):
     destination = REPO_ROOT / config.get(
         "committed_report_dir", "reports/experiment3/phase0d_ohj_cable")
     write_json(destination / "EVIDENCE.json", evidence)
+    probe_mm = 1000.0 * float(config["motion"]["probe_delta_xyz_m"][0])
     if verdict == "PHASE0D_OHJ_CABLE_VALIDATED":
         next_task = (
             "Generate physics_pairs, then train B0 StateDiff and B1 "
             "StateDiff-FT.")
     elif verdict == "PHASE0D_OBSERVABLE_EQUIVALENCE_FAIL":
-        next_task = (
-            "Reduce zero-net probe amplitude from 2.0 mm to 1.0 mm; keep "
-            "post-probe settle at 240 steps and jam clearance at 0.5 mm.")
+        if probe_mm > 1.0 + 1e-9:
+            next_task = (
+                "Reduce zero-net probe amplitude to 1.0 mm; keep post-probe "
+                "settle at 240 steps and jam clearance at 0.5 mm.")
+        else:
+            next_task = (
+                "Stop. Do not automatically reduce the probe below 1.0 mm. "
+                "Compare FREE-repeat against FREE/JAM and the JAM post-probe "
+                "contact fraction. If repeat variability dominates, prepare "
+                "a same-condition repeatability repair; if JAM-specific "
+                "excess and persistent latch contact dominate, prepare a "
+                "separate 0.5 mm probe repair.")
     elif verdict == "PHASE0D_SENSOR_NOT_OBSERVABLE":
         next_task = (
-            "Keep the recovered probe and settle fixed; reduce initial jam "
-            "surface clearance from 0.50 mm to 0.25 mm and rerun Gate 2/3.")
+            "Keep the 1.0 mm probe and 240-step settle fixed; reduce initial "
+            "jam surface clearance from 0.50 mm to 0.25 mm and rerun Gate "
+            "2/3.")
     else:
         next_task = (
             "Stop at the current scientific gate and prepare the next "
@@ -128,8 +139,11 @@ Key values:
 - Post-probe recovery curve: {recovery_curve}
 - Final FREE-repeat post-probe RMSE: {recovery_repeat} m
 - Final branch excess over repeat: {recovery_excess} m
+- Final repeat/FREE-JAM fraction: {repeat_fraction}
+- Final branch-excess/FREE-JAM fraction: {excess_fraction}
 - Recovery fraction: {recovery_fraction}
 - JAM post-probe latch contact samples: {recovery_contacts}
+- JAM post-probe latch contact fraction: {contact_fraction}
 - JAM post-probe latch peak force: {recovery_force} N
 - Sensor onset: {sensor_step} / {sensor_phase}
 - Sensor trigger: {trigger}
@@ -159,7 +173,7 @@ Next task: {next_task}
         clean=evidence["repository"]["clean_before_result"], remote=remote,
         sub_start=config["provenance"]["starting_submodule_sha"],
         sub_end=ending_submodule,
-        probe_mm=1000.0 * config["motion"]["probe_delta_xyz_m"][0],
+        probe_mm=probe_mm,
         clearance_mm=1000.0 * config["geometry"]["jam_surface_clearance_m"],
         settle_steps=config["execution"]["post_probe_steps"],
         settle_s=(config["execution"]["post_probe_steps"]
@@ -179,8 +193,13 @@ Next task: {next_task}
         recovery_curve=recovery["checkpoints"],
         recovery_repeat=recovery["final_free_repeat_rmse_m"],
         recovery_excess=recovery["final_branch_excess_over_repeat_m"],
+        repeat_fraction=recovery["final_repeat_fraction_of_free_jam"],
+        excess_fraction=recovery[
+            "final_branch_excess_fraction_of_free_jam"],
         recovery_fraction=recovery["recovery_fraction"],
         recovery_contacts=recovery["post_probe_jam_latch_contact_samples"],
+        contact_fraction=recovery[
+            "post_probe_jam_latch_contact_fraction"],
         recovery_force=recovery["post_probe_jam_peak_latch_force_n"],
         sensor_step=pair["sensor_onset_step"],
         sensor_phase=pair["sensor_onset_phase"], trigger=pair["sensor_trigger"],

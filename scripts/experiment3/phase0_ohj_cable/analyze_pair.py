@@ -93,17 +93,29 @@ def recovery_curve(free, jam, repeat, config):
     recovery_fraction = (None if immediate <= 1e-12
                          else float(1.0 - final / immediate))
     post_mask = jam["phase"].astype(str) == "post_probe"
+    final_repeat = float(rows[-1]["free_repeat"]["rmse_51d_m"])
+    final_excess = float(rows[-1]["branch_excess_over_repeat_m"])
+    final_repeat_fraction = (
+        None if final <= 1e-12 else float(final_repeat / final))
+    final_excess_fraction = (
+        None if final <= 1e-12 else float(final_excess / final))
+    post_probe_samples = int(np.count_nonzero(post_mask))
+    post_probe_contact_samples = int(np.count_nonzero(
+        jam["oracle_latch_contact_count"][post_mask]))
+    post_probe_contact_fraction = (
+        None if post_probe_samples == 0 else float(
+            post_probe_contact_samples / post_probe_samples))
     return {
         "checkpoints": rows,
         "immediate_free_jam_rmse_m": immediate,
         "final_free_jam_rmse_m": final,
-        "final_free_repeat_rmse_m": float(
-            rows[-1]["free_repeat"]["rmse_51d_m"]),
-        "final_branch_excess_over_repeat_m": float(
-            rows[-1]["branch_excess_over_repeat_m"]),
+        "final_free_repeat_rmse_m": final_repeat,
+        "final_branch_excess_over_repeat_m": final_excess,
+        "final_repeat_fraction_of_free_jam": final_repeat_fraction,
+        "final_branch_excess_fraction_of_free_jam": final_excess_fraction,
         "recovery_fraction": recovery_fraction,
-        "post_probe_jam_latch_contact_samples": int(np.count_nonzero(
-            jam["oracle_latch_contact_count"][post_mask])),
+        "post_probe_jam_latch_contact_samples": post_probe_contact_samples,
+        "post_probe_jam_latch_contact_fraction": post_probe_contact_fraction,
         "post_probe_jam_peak_latch_force_n": float(np.max(
             jam["oracle_latch_contact_force"][post_mask])
             if np.any(post_mask) else 0.0),
@@ -249,20 +261,29 @@ def analyze(config_path):
     write_json(output / "pair_metrics.json", metrics)
     recovery = metrics["recovery"]
     summary = (
-        "# OHJ Phase 0D/R1 pair\n\n"
+        "# OHJ Phase 0D pair\n\n"
         "- Verdict: `{}`\n"
+        "- Probe amplitude: `{:.3f} mm`\n"
         "- Final post-probe RMSE: `{:.6f} m`\n"
         "- Immediate-return RMSE: `{:.6f} m`\n"
         "- Recovery fraction: `{}`\n"
         "- Final FREE-repeat RMSE: `{:.6f} m`\n"
+        "- Final repeat/FREE-JAM fraction: `{}`\n"
+        "- Final branch-excess/FREE-JAM fraction: `{}`\n"
+        "- Post-probe JAM contact fraction: `{}`\n"
         "- Sensor peak: `{:.6f}`\n"
         "- Future peak: `{:.6f} m`\n"
         "- Repeat future floor: `{:.6f} m`\n"
     ).format(
-        metrics["verdict"], metrics["post_probe_51d_rmse_m"],
+        metrics["verdict"],
+        1000.0 * config["motion"]["probe_delta_xyz_m"][0],
+        metrics["post_probe_51d_rmse_m"],
         recovery["immediate_free_jam_rmse_m"],
         recovery["recovery_fraction"],
         recovery["final_free_repeat_rmse_m"],
+        recovery["final_repeat_fraction_of_free_jam"],
+        recovery["final_branch_excess_fraction_of_free_jam"],
+        recovery["post_probe_jam_latch_contact_fraction"],
         metrics["peak_fused_sensor_gap"],
         metrics["future_peak_visible_rmse_m"],
         metrics["repeat_peak_visible_rmse_m"])
