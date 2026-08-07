@@ -73,14 +73,27 @@ def build_result(config_path):
         "training": {"B0": False, "B1": False, "CFPM": False,
                      "IDM": False},
     }
-    destination = REPO_ROOT / "reports/experiment3/phase0d_ohj_cable"
+    destination = REPO_ROOT / config.get(
+        "committed_report_dir", "reports/experiment3/phase0d_ohj_cable")
     write_json(destination / "EVIDENCE.json", evidence)
-    next_task = (
-        "Generate ccda_audit/physics_pairs, then train B0 StateDiff and B1 "
-        "StateDiff-FT."
-        if verdict == "PHASE0D_OHJ_CABLE_VALIDATED"
-        else "Stop at this Phase 0D gate and follow its single allowed repair.")
+    if verdict == "PHASE0D_OHJ_CABLE_VALIDATED":
+        next_task = (
+            "Generate physics_pairs, then train B0 StateDiff and B1 "
+            "StateDiff-FT.")
+    elif verdict == "PHASE0D_OBSERVABLE_EQUIVALENCE_FAIL":
+        next_task = (
+            "Reduce zero-net probe amplitude from 2.0 mm to 1.0 mm; keep "
+            "post-probe settle at 240 steps and jam clearance at 0.5 mm.")
+    elif verdict == "PHASE0D_SENSOR_NOT_OBSERVABLE":
+        next_task = (
+            "Keep the recovered probe and settle fixed; reduce initial jam "
+            "surface clearance from 0.50 mm to 0.25 mm and rerun Gate 2/3.")
+    else:
+        next_task = (
+            "Stop at the current scientific gate and prepare the next "
+            "single-purpose repair.")
     control_show = control or {}
+    recovery = pair["recovery"]
     text = """Verdict: {verdict}
 
 Repository:
@@ -92,6 +105,13 @@ Repository:
 - Submodule start: {sub_start}
 - Submodule end: {sub_end}
 
+Frozen:
+- Probe amplitude: {probe_mm} mm
+- Jam clearance: {clearance_mm} mm
+- Post-probe settle: {settle_steps} steps / {settle_s} s
+- State: {state_dim}D
+- Sensor: {sensor_dim}D
+
 Five gates:
 - Initial observable equivalence: {gate1}
 - Post-probe observable equivalence: {gate2}
@@ -102,11 +122,21 @@ Five gates:
 Key values:
 - Initial 51D RMSE: {initial} m
 - Post-probe 51D RMSE: {post} m
+- Post-probe keypoint RMSE: {post_keypoint} m
+- Post-probe EE RMSE: {post_ee} m
+- Immediate-return 51D RMSE: {immediate} m
+- Post-probe recovery curve: {recovery_curve}
+- Final FREE-repeat post-probe RMSE: {recovery_repeat} m
+- Final branch excess over repeat: {recovery_excess} m
+- Recovery fraction: {recovery_fraction}
+- JAM post-probe latch contact samples: {recovery_contacts}
+- JAM post-probe latch peak force: {recovery_force} N
 - Sensor onset: {sensor_step} / {sensor_phase}
 - Sensor trigger: {trigger}
 - Peak fused sensor gap: {sensor_peak}
 - Future visible RMSE peak: {future} m
 - Repeat floor: {repeat} m
+- Future/repeat ratio: {future_repeat_ratio}
 - FREE/JAM extraction progress: {progress}
 - Control verdict: {control_verdict}
 
@@ -129,6 +159,13 @@ Next task: {next_task}
         clean=evidence["repository"]["clean_before_result"], remote=remote,
         sub_start=config["provenance"]["starting_submodule_sha"],
         sub_end=ending_submodule,
+        probe_mm=1000.0 * config["motion"]["probe_delta_xyz_m"][0],
+        clearance_mm=1000.0 * config["geometry"]["jam_surface_clearance_m"],
+        settle_steps=config["execution"]["post_probe_steps"],
+        settle_s=(config["execution"]["post_probe_steps"]
+                  / config["execution"]["hz"]),
+        state_dim=config["state"]["state_dim"],
+        sensor_dim=config["sensor"]["sensor_dim"],
         gate1=evidence["gates"]["initial_observable_equivalence"],
         gate2=evidence["gates"]["post_probe_observable_equivalence"],
         gate3=evidence["gates"]["sensor_observability"],
@@ -136,11 +173,21 @@ Next task: {next_task}
         gate5=evidence["gates"]["control_relevance"],
         initial=pair["initial_51d_rmse_m"],
         post=pair["post_probe_51d_rmse_m"],
+        post_keypoint=pair["post_probe_keypoint_rmse_m"],
+        post_ee=pair["post_probe_ee_rmse_m"],
+        immediate=recovery["immediate_free_jam_rmse_m"],
+        recovery_curve=recovery["checkpoints"],
+        recovery_repeat=recovery["final_free_repeat_rmse_m"],
+        recovery_excess=recovery["final_branch_excess_over_repeat_m"],
+        recovery_fraction=recovery["recovery_fraction"],
+        recovery_contacts=recovery["post_probe_jam_latch_contact_samples"],
+        recovery_force=recovery["post_probe_jam_peak_latch_force_n"],
         sensor_step=pair["sensor_onset_step"],
         sensor_phase=pair["sensor_onset_phase"], trigger=pair["sensor_trigger"],
         sensor_peak=pair["peak_fused_sensor_gap"],
         future=pair["future_peak_visible_rmse_m"],
         repeat=pair["repeat_peak_visible_rmse_m"],
+        future_repeat_ratio=pair["future_branch_to_repeat_ratio"],
         progress=pair["final_extraction_progress_m"],
         control_verdict=control_show.get("verdict", "not run"),
         passed=tests_passed, failed=tests_failed, next_task=next_task)

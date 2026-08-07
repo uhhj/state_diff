@@ -31,6 +31,85 @@ def first_sustained(values, mask, threshold, consecutive, steps):
     return None, None
 
 
+def _scalar_rmse(left, right):
+    return float(np.sqrt(np.mean(np.square(
+        np.asarray(left, dtype=np.float64)
+        - np.asarray(right, dtype=np.float64)))))
+
+
+def _state_gap_payload(left, right):
+    left = np.asarray(left, dtype=np.float64)
+    right = np.asarray(right, dtype=np.float64)
+    return {
+        "rmse_51d_m": _scalar_rmse(left, right),
+        "keypoint_rmse_m": _scalar_rmse(left[:48], right[:48]),
+        "ee_rmse_m": _scalar_rmse(left[48:], right[48:]),
+    }
+
+
+def _phase_indices(arrays, phase_name):
+    phase = arrays["phase"].astype(str)
+    return np.flatnonzero(phase == str(phase_name))
+
+
+def recovery_curve(free, jam, repeat, config):
+    hz = float(config["execution"]["hz"])
+    checkpoints = [int(value) for value in config["analysis"].get(
+        "recovery_checkpoints_steps", [0, 24, 48, 120, 240])]
+    return_indices = _phase_indices(free, "probe_return")
+    if not len(return_indices):
+        raise ValueError("probe_return phase is missing")
+    return_index = int(return_indices[-1])
+    free_post = _phase_indices(free, "post_probe")
+    jam_post = _phase_indices(jam, "post_probe")
+    repeat_post = _phase_indices(repeat, "post_probe")
+    if not (len(free_post) == len(jam_post) == len(repeat_post)):
+        raise ValueError("post_probe trace length mismatch")
+    rows = []
+    for steps_after_return in checkpoints:
+        if steps_after_return == 0:
+            free_index = jam_index = repeat_index = return_index
+        else:
+            offset = min(steps_after_return, len(free_post)) - 1
+            free_index = int(free_post[offset])
+            jam_index = int(jam_post[offset])
+            repeat_index = int(repeat_post[offset])
+        free_jam = _state_gap_payload(
+            free["statediff_state"][free_index],
+            jam["statediff_state"][jam_index])
+        free_repeat = _state_gap_payload(
+            free["statediff_state"][free_index],
+            repeat["statediff_state"][repeat_index])
+        rows.append({
+            "post_probe_steps": int(steps_after_return),
+            "time_s": float(steps_after_return / hz),
+            "free_jam": free_jam,
+            "free_repeat": free_repeat,
+            "branch_excess_over_repeat_m": max(
+                0.0, free_jam["rmse_51d_m"] - free_repeat["rmse_51d_m"]),
+        })
+    immediate = float(rows[0]["free_jam"]["rmse_51d_m"])
+    final = float(rows[-1]["free_jam"]["rmse_51d_m"])
+    recovery_fraction = (None if immediate <= 1e-12
+                         else float(1.0 - final / immediate))
+    post_mask = jam["phase"].astype(str) == "post_probe"
+    return {
+        "checkpoints": rows,
+        "immediate_free_jam_rmse_m": immediate,
+        "final_free_jam_rmse_m": final,
+        "final_free_repeat_rmse_m": float(
+            rows[-1]["free_repeat"]["rmse_51d_m"]),
+        "final_branch_excess_over_repeat_m": float(
+            rows[-1]["branch_excess_over_repeat_m"]),
+        "recovery_fraction": recovery_fraction,
+        "post_probe_jam_latch_contact_samples": int(np.count_nonzero(
+            jam["oracle_latch_contact_count"][post_mask])),
+        "post_probe_jam_peak_latch_force_n": float(np.max(
+            jam["oracle_latch_contact_force"][post_mask])
+            if np.any(post_mask) else 0.0),
+    }
+
+
 def evaluate_pair(free, jam, repeat, branch_metadata, config):
     analysis, sensor_cfg = config["analysis"], config["sensor"]
     command_keys = ("command_phase", "command_ee_target",
@@ -58,6 +137,7 @@ def evaluate_pair(free, jam, repeat, branch_metadata, config):
     post_rmse = float(rmse(post_free, post_jam))
     post_keypoint_rmse = float(rmse(post_free[:48], post_jam[:48]))
     post_ee_rmse = float(rmse(post_free[48:], post_jam[48:]))
+    recovery = recovery_curve(free, jam, repeat, config)
 
     phase = free["phase"].astype(str)
     steps = free["physics_step"].astype(np.int64)
@@ -123,6 +203,7 @@ def evaluate_pair(free, jam, repeat, branch_metadata, config):
         "post_probe_51d_rmse_m": post_rmse,
         "post_probe_keypoint_rmse_m": post_keypoint_rmse,
         "post_probe_ee_rmse_m": post_ee_rmse,
+        "recovery": recovery,
         "sensor_onset_step": sensor_step,
         "sensor_onset_phase": (None if sensor_index is None
                                else str(phase[sensor_index])),
@@ -133,6 +214,8 @@ def evaluate_pair(free, jam, repeat, branch_metadata, config):
         "future_peak_visible_rmse_m": future_peak,
         "repeat_peak_visible_rmse_m": repeat_peak,
         "future_visible_threshold_m": future_threshold,
+        "future_branch_to_repeat_ratio": (
+            None if repeat_peak <= 1e-12 else float(future_peak / repeat_peak)),
         "final_extraction_progress_m": {
             "free": float(free["extraction_progress_m"][-1]),
             "jam_right": float(jam["extraction_progress_m"][-1]),
@@ -164,11 +247,26 @@ def analyze(config_path):
         metadata, config)
     output = report_dir(config)
     write_json(output / "pair_metrics.json", metrics)
-    (output / "pair_summary.md").write_text(
-        "# OHJ Phase 0D pair\n\n- Verdict: `{}`\n"
-        "- Sensor onset: `{}`\n- Future peak: `{:.6f} m\n".format(
-            metrics["verdict"], metrics["sensor_onset_step"],
-            metrics["future_peak_visible_rmse_m"]), encoding="utf-8")
+    recovery = metrics["recovery"]
+    summary = (
+        "# OHJ Phase 0D/R1 pair\n\n"
+        "- Verdict: `{}`\n"
+        "- Final post-probe RMSE: `{:.6f} m`\n"
+        "- Immediate-return RMSE: `{:.6f} m`\n"
+        "- Recovery fraction: `{}`\n"
+        "- Final FREE-repeat RMSE: `{:.6f} m`\n"
+        "- Sensor peak: `{:.6f}`\n"
+        "- Future peak: `{:.6f} m`\n"
+        "- Repeat future floor: `{:.6f} m`\n"
+    ).format(
+        metrics["verdict"], metrics["post_probe_51d_rmse_m"],
+        recovery["immediate_free_jam_rmse_m"],
+        recovery["recovery_fraction"],
+        recovery["final_free_repeat_rmse_m"],
+        metrics["peak_fused_sensor_gap"],
+        metrics["future_peak_visible_rmse_m"],
+        metrics["repeat_peak_visible_rmse_m"])
+    (output / "pair_summary.md").write_text(summary, encoding="utf-8")
     return metrics
 
 

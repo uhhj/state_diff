@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-CONFIG="configs/experiment3/phase0/ohj_cable_phase0d.json"
+CONFIG="${1:-configs/experiment3/phase0/ohj_cable_phase0d.json}"
 
 python -m scripts.experiment3.phase0_ohj_cable.run_pair --config "$CONFIG"
 python -m scripts.experiment3.phase0_ohj_cable.analyze_pair --config "$CONFIG"
