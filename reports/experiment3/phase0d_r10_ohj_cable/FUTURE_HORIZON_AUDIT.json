@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "diagnostic_only": true,
+  "benchmark_gates_unchanged": true,
+  "conclusion": {
+    "plateau_at_horizon_end": false,
+    "reason": "The final sample is the global maximum and the final 24-, 48-, and 96-sample least-squares slopes are all positive."
+  },
+  "sampling": {
+    "hz": 240,
+    "visible_rmse_definition": "sqrt(mean((FREE.visible_keypoints - JAM.visible_keypoints)^2)) over keypoint and XYZ axes"
+  },
+  "invariance_audit": {
+    "r9_total_trajectory_samples": 504,
+    "r10_total_trajectory_samples": 696,
+    "added_post_test_samples": 192,
+    "added_post_test_seconds": 0.8,
+    "r9_prefix_exact_for_all_trajectory_arrays": {
+      "free": true,
+      "jam_right": true,
+      "free_repeat": true
+    },
+    "command_arrays_exact": {
+      "free": true,
+      "jam_right": true,
+      "free_repeat": true
+    }
+  },
+  "future_visible_rmse": {
+    "r9": {
+      "samples": 144,
+      "sample_interval_span_s": 0.5958333333333333,
+      "start_m": 8.401503632087407e-05,
+      "end_m": 0.0026143672158800836,
+      "peak_m": 0.0026143672158800836,
+      "peak_index_zero_based": 143
+    },
+    "r10": {
+      "samples": 336,
+      "sample_interval_span_s": 1.3958333333333333,
+      "start_m": 8.401503632087407e-05,
+      "end_m": 0.0038492195677593283,
+      "peak_m": 0.0038492195677593283,
+      "peak_index_zero_based": 335,
+      "peak_gain_over_r9_m": 0.0012348523518792447,
+      "peak_ratio_to_r9": 1.4723331689513832
+    },
+    "benchmark_threshold_m": 0.005,
+    "benchmark_gate_passed": false
+  },
+  "endpoint_tails": {
+    "24_samples": {
+      "sample_interval_span_s": 0.09583333333333334,
+      "delta_m": 0.00016958311530309526,
+      "least_squares_slope_m_s": 0.0020515169398773207,
+      "positive_step_differences": 22,
+      "total_step_differences": 23
+    },
+    "48_samples": {
+      "sample_interval_span_s": 0.19583333333333333,
+      "delta_m": 3.7463449097385314e-05,
+      "least_squares_slope_m_s": 0.0002172664387095928,
+      "positive_step_differences": 22,
+      "total_step_differences": 47
+    },
+    "96_samples": {
+      "sample_interval_span_s": 0.3958333333333333,
+      "delta_m": 0.00037021586055592526,
+      "least_squares_slope_m_s": 0.00029402201746767624,
+      "positive_step_differences": 59,
+      "total_step_differences": 95
+    }
+  },
+  "trajectory_sha256": {
+    "r9": {
+      "free": "47aa0e7674a3071e77a5f02c5b40f0ead0406ff42f3d1a846750bd2a6243ee28",
+      "jam_right": "fb47c02188f85e860396aab033f1fd8429aad6cacd6fe110e6a1470a78917057",
+      "free_repeat": "fecdafb72293262778e7f7ed8425f19d3ed04fa638e481aefcc9a4140f9b61fb"
+    },
+    "r10": {
+      "free": "c0302da03e1d2b7f07144491cd534e69f4014b1c8b0882645498b1e2aedb45db",
+      "jam_right": "d5671b1ce731231b741fa63d920ffc2ae9a70fa4330d0bde845f27f5d0d1b7ed",
+      "free_repeat": "a7fe4421ff73e8190b721caeeaddb0e92a94b1fa2074b41ffe3caa2a219029d9"
+    }
+  }
+}
