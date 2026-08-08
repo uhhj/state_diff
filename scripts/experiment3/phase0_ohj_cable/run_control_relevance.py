@@ -48,11 +48,12 @@ def _restore_snapshot(env, task, snapshot, condition, reference):
     task.reference_passive_xyz = np.asarray(reference)
 
 
-def run_control_relevance(config_path):
+def collect_control_matrix(config_path, *, require_pair_complete=True):
     config = load_config(config_path)
     pair = json.loads((report_dir(config) / "pair_metrics.json").read_text(
         encoding="utf-8"))
-    if pair["verdict"] != "PHASE0D_PAIR_COMPLETE":
+    if (require_pair_complete
+            and pair["verdict"] != "PHASE0D_PAIR_COMPLETE"):
         raise RuntimeError("control relevance requires PHASE0D_PAIR_COMPLETE")
     env = Environment(
         disp=False, hz=config["execution"]["hz"], deterministic=True,
@@ -108,11 +109,25 @@ def run_control_relevance(config_path):
                     "command_ee_target": commands["ee_target"],
                     "command_joint_target": commands["joint_target"],
                 }
-        output = root / "control_relevance.json"
-        write_json(output, {"matrix": matrix, "branch_local_ik": False})
-        return {"output": str(output), "matrix": matrix}
+        return {
+            "matrix": matrix,
+            "branch_local_ik": False,
+            "source_pair_verdict": pair["verdict"],
+        }
     finally:
         env.stop()
+
+
+def run_control_relevance(config_path):
+    payload = collect_control_matrix(
+        config_path, require_pair_complete=True)
+    config = load_config(config_path)
+    output = pair_dir(config) / "control_relevance.json"
+    write_json(output, {
+        "matrix": payload["matrix"],
+        "branch_local_ik": payload["branch_local_ik"],
+    })
+    return {"output": str(output), "matrix": payload["matrix"]}
 
 
 def main():
