@@ -221,3 +221,19 @@ def test_r9_changes_only_probe_direction_from_r7():
     assert repair["stop_after_this_trial"] is True
     assert repair["baseline"]["result_sha"] == (
         "aa5600408d835f344b580f155e61780c737930d1")
+
+
+def test_r10_only_extends_r9_same_action_future_horizon():
+    r9 = _load("ohj_cable_phase0d_r9_contactloading_minusy1mm.json")
+    r10 = _load("ohj_cable_phase0d_r10_future1s.json")
+    for key in (
+            "conditions", "geometry", "motion", "state", "sensor",
+            "diagnostic", "repair", "analysis", "control_relevance"):
+        assert r10[key] == r9[key]
+    r9_execution = dict(r9["execution"])
+    r10_execution = dict(r10["execution"])
+    assert r9_execution.pop("post_test_steps") == 48
+    assert r10_execution.pop("post_test_steps") == 240
+    assert r10_execution == r9_execution
+    assert r10["motion"]["straight_pull_steps"] == 96
+    assert r10["motion"]["probe_delta_xyz_m"] == [0.0, -0.001, 0.0]
