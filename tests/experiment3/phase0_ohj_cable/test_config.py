@@ -1,6 +1,8 @@
 import json
 from pathlib import Path
 
+import numpy as np
+
 from scripts.experiment3.phase0_ohj_cable.common import load_config
 
 
@@ -178,6 +180,44 @@ def test_r8_doubles_excursion_at_fixed_probe_speed():
     repair = r8["repair"]
     assert repair["mode"] == (
         "single_fixed_speed_probe_excursion_amplification")
+    assert repair["stop_after_this_trial"] is True
+    assert repair["baseline"]["result_sha"] == (
+        "aa5600408d835f344b580f155e61780c737930d1")
+
+
+def test_r9_changes_only_probe_direction_from_r7():
+    r7 = _load("ohj_cable_phase0d_r7_spatial_loadpath.json")
+    r9 = _load("ohj_cable_phase0d_r9_contactloading_minusy1mm.json")
+    assert r9["execution"] == r7["execution"]
+    assert r9["geometry"] == r7["geometry"]
+    assert r9["state"] == r7["state"]
+    assert r9["sensor"] == r7["sensor"]
+    assert r9["diagnostic"] == r7["diagnostic"]
+    assert r9["analysis"] == r7["analysis"]
+    assert r9["control_relevance"] == r7["control_relevance"]
+    r7_motion = dict(r7["motion"])
+    r9_motion = dict(r9["motion"])
+    r7_delta = np.asarray(
+        r7_motion.pop("probe_delta_xyz_m"), dtype=np.float64)
+    r9_delta = np.asarray(
+        r9_motion.pop("probe_delta_xyz_m"), dtype=np.float64)
+    assert r7_motion == r9_motion
+    np.testing.assert_allclose(r7_delta, [0.001, 0.0, 0.0])
+    np.testing.assert_allclose(r9_delta, [0.0, -0.001, 0.0])
+    assert np.isclose(np.linalg.norm(r7_delta), 0.001)
+    assert np.isclose(np.linalg.norm(r9_delta), 0.001)
+    r7_direction = r7_delta / np.linalg.norm(r7_delta)
+    r9_direction = r9_delta / np.linalg.norm(r9_delta)
+    assert np.isclose(np.dot(r7_direction, r9_direction), 0.0)
+    hz = r9["execution"]["hz"]
+    r7_speed = np.linalg.norm(r7_delta) / (
+        r7["motion"]["probe_forward_steps"] / hz)
+    r9_speed = np.linalg.norm(r9_delta) / (
+        r9["motion"]["probe_forward_steps"] / hz)
+    assert np.isclose(r7_speed, 0.01)
+    assert np.isclose(r9_speed, r7_speed)
+    repair = r9["repair"]
+    assert repair["mode"] == "single_orthogonal_contact_loading_probe"
     assert repair["stop_after_this_trial"] is True
     assert repair["baseline"]["result_sha"] == (
         "aa5600408d835f344b580f155e61780c737930d1")

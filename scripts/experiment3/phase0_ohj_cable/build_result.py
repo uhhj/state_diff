@@ -77,7 +77,13 @@ def build_result(config_path):
     destination = REPO_ROOT / config.get(
         "committed_report_dir", "reports/experiment3/phase0d_ohj_cable")
     write_json(destination / "EVIDENCE.json", evidence)
-    probe_mm = 1000.0 * float(config["motion"]["probe_delta_xyz_m"][0])
+    probe_delta = [
+        float(value) for value in config["motion"]["probe_delta_xyz_m"]]
+    probe_norm = sum(value * value for value in probe_delta) ** 0.5
+    probe_mm = 1000.0 * probe_norm
+    probe_direction = [value / probe_norm for value in probe_delta]
+    probe_speed_m_s = probe_norm / (
+        config["motion"]["probe_forward_steps"] / config["execution"]["hz"])
     clearance_mm = 1000.0 * float(
         config["geometry"]["jam_surface_clearance_m"])
     sensor_field = config["sensor"].get("trace_field", "formal_wrench")
@@ -85,6 +91,7 @@ def build_result(config_path):
     load_path = pair.get("load_path_diagnostic")
     repair_mode = config.get("repair", {}).get("mode")
     amplification = pair.get("probe_amplification_diagnostic")
+    direction_diagnostic = pair.get("probe_direction_diagnostic")
     repeat_floor = float(pair["repeat_peak_visible_rmse_m"])
     equiv_threshold = float(
         config["analysis"]["post_probe_visible_rmse_max_m"])
@@ -95,7 +102,14 @@ def build_result(config_path):
             "Generate physics_pairs, then train B0 StateDiff and B1 "
             "StateDiff-FT.")
     elif verdict == "PHASE0D_OBSERVABLE_EQUIVALENCE_FAIL":
-        if repair_mode == "single_fixed_speed_probe_excursion_amplification":
+        if repair_mode == "single_orthogonal_contact_loading_probe":
+            next_task = (
+                "The one-shot 1 mm -Y contact-loading probe breaks post-"
+                "probe observable equivalence. Reject this direction. Do "
+                "not increase its amplitude, do not mirror into the +Y "
+                "release direction, and stop Cartesian translation-probe "
+                "tuning. Prepare a mechanical load-path / coupling redesign.")
+        elif repair_mode == "single_fixed_speed_probe_excursion_amplification":
             next_task = (
                 "The one-shot 2 mm fixed-speed zero-net probe does not "
                 "preserve the required observable equivalence. Reject this "
@@ -124,7 +138,40 @@ def build_result(config_path):
                     "Prepare the canonical-hold same-condition repeatability "
                     "repair.")
     elif verdict == "PHASE0D_SENSOR_NOT_OBSERVABLE":
-        if repair_mode == "single_fixed_speed_probe_excursion_amplification":
+        if repair_mode == "single_orthogonal_contact_loading_probe":
+            route = load_path["route_hint"]
+            if route == "repair_physical_grasp_sensing_coupling":
+                next_task = (
+                    "The 1 mm -Y contact-loading probe preserves Gate 2 and "
+                    "a mechanically-large repeat-corrected branch-specific "
+                    "load reaches the gripper-proximal segment, but the "
+                    "deployable 18D sensor still fails Gate 3. Stop probe "
+                    "tuning and prepare a minimal physical grasp/sensing-"
+                    "coupling repair.")
+            elif route == "amplify_probe_or_mechanical_signal":
+                next_task = (
+                    "The one-shot orthogonal contact-loading probe still "
+                    "leaves the gripper-proximal branch-specific excess "
+                    "below the mechanical reference scale and Gate 3 "
+                    "remains false. Axial amplitude and orthogonal "
+                    "translation have both failed. Stop translational probe "
+                    "tuning and prepare a mechanical load-path / grasp-cable "
+                    "coupling redesign.")
+            elif route == "repair_mechanical_load_transmission":
+                next_task = (
+                    "The actual hidden-contact region contains a repeat-"
+                    "corrected branch-specific signal under the -Y probe, "
+                    "but it is not preserved at the gripper-proximal "
+                    "segment. Stop probe direction tuning and repair "
+                    "mechanical load transmission.")
+            else:
+                next_task = (
+                    "The actual hidden-contact reference region does not "
+                    "show a stable repeat-corrected branch-specific internal "
+                    "signal under the -Y probe. Stop tactile/gripper and "
+                    "translation-probe tuning; redesign the hidden-"
+                    "interaction / mechanical coupling.")
+        elif repair_mode == "single_fixed_speed_probe_excursion_amplification":
             route = load_path["route_hint"]
             if route == "repair_physical_grasp_sensing_coupling":
                 next_task = (
@@ -207,10 +254,18 @@ def build_result(config_path):
                 "below threshold, plan one separate small-resolution tactile "
                 "study.")
     elif verdict == "PHASE0D_FUTURE_BRANCH_NOT_ESTABLISHED":
-        next_task = (
-            "Deployable contact sensing is now observable. Freeze sensor, "
-            "probe, clearance, and canonical hold; prepare a single-purpose "
-            "future-branch effect-size repair.")
+        if repair_mode == "single_orthogonal_contact_loading_probe":
+            next_task = (
+                "The orthogonal contact-loading probe makes the deployable "
+                "sensor observable while preserving the observable-state "
+                "gate. Freeze the R9 probe and 18D sensor. Do not continue "
+                "probe-direction tuning; prepare the single-purpose same-"
+                "action future-branch effect-size repair.")
+        else:
+            next_task = (
+                "Deployable contact sensing is now observable. Freeze "
+                "sensor, probe, clearance, and canonical hold; prepare a "
+                "single-purpose future-branch effect-size repair.")
     else:
         next_task = (
             "Stop at the current scientific gate and prepare the next "
@@ -302,6 +357,26 @@ def build_result(config_path):
             amplification["current"],
             amplification["gain_ratio"],
         )
+    if direction_diagnostic is None:
+        direction_text = (
+            "Orthogonal contact-loading probe comparison: not configured")
+    else:
+        direction_text = (
+            "Orthogonal contact-loading probe comparison:\n"
+            "- Report only: {}\n"
+            "- Stop after this trial: {}\n"
+            "- Direction dot baseline: {}\n"
+            "- Baseline: {}\n"
+            "- Current: {}\n"
+            "- Gain ratios: {}"
+        ).format(
+            direction_diagnostic["report_only"],
+            direction_diagnostic["stop_after_this_trial"],
+            direction_diagnostic["direction_dot_baseline"],
+            direction_diagnostic["baseline"],
+            direction_diagnostic["current"],
+            direction_diagnostic["gain_ratio"],
+        )
     text = """Verdict: {verdict}
 
 Repository:
@@ -318,7 +393,10 @@ Repair:
 
 Frozen:
 - Probe amplitude: {probe_mm} mm
+- Probe delta XYZ: {probe_delta}
+- Probe direction unit: {probe_direction}
 - Probe forward/hold/return: {probe_forward_steps}/{probe_hold_steps}/{probe_return_steps}
+- Probe speed: {probe_speed_m_s} m/s
 - Jam clearance: {clearance_mm} mm
 - Post-probe settle: {settle_steps} steps / {settle_s} s
 - State: {state_dim}D
@@ -376,6 +454,8 @@ Key values:
 
 {amplification_text}
 
+{direction_text}
+
 Leakage statement:
 - Internal cable constraint force used as formal sensor: No
 - Internal cable constraint force used for Gate 3: No
@@ -404,6 +484,9 @@ Next task: {next_task}
         sub_end=ending_submodule,
         hold_repair=hold_repair,
         probe_mm=probe_mm,
+        probe_delta=probe_delta,
+        probe_direction=probe_direction,
+        probe_speed_m_s=probe_speed_m_s,
         probe_forward_steps=config["motion"]["probe_forward_steps"],
         probe_hold_steps=config["motion"]["probe_hold_steps"],
         probe_return_steps=config["motion"]["probe_return_steps"],
@@ -460,6 +543,7 @@ Next task: {next_task}
         control_verdict=control_show.get("verdict", "not run"),
         load_path_text=load_path_text,
         amplification_text=amplification_text,
+        direction_text=direction_text,
         oracle_diagnostic="Yes" if load_path is not None else "No",
         passed=tests_passed, failed=tests_failed, pip_check=pip_check,
         next_task=next_task)

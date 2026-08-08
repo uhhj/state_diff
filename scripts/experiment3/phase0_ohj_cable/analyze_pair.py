@@ -273,6 +273,12 @@ def _ratio_or_none(current, baseline):
     return float(float(current) / baseline)
 
 
+def _unit_probe_direction(delta):
+    delta = np.asarray(delta, dtype=np.float64)
+    amplitude = float(np.linalg.norm(delta))
+    return delta / amplitude
+
+
 def probe_amplification_diagnostics(
         config, *, post_probe_rmse_m, formal_sensor_peak, load_path):
     repair = config.get("repair")
@@ -330,6 +336,88 @@ def probe_amplification_diagnostics(
                 else _ratio_or_none(
                     current["proximal_retention_ratio"],
                     baseline["proximal_retention_ratio"])),
+        },
+    }
+
+
+def probe_direction_diagnostics(
+        config, *, post_probe_rmse_m, formal_sensor_peak, load_path,
+        recovery, future_peak):
+    repair = config.get("repair")
+    if (not repair or repair.get("mode")
+            != "single_orthogonal_contact_loading_probe"):
+        return None
+    baseline = repair["baseline"]
+    motion = config["motion"]
+    hz = float(config["execution"]["hz"])
+    delta = np.asarray(motion["probe_delta_xyz_m"], dtype=np.float64)
+    amplitude = float(np.linalg.norm(delta))
+    forward_steps = int(motion["probe_forward_steps"])
+    speed = float(amplitude / (forward_steps / hz))
+    direction = _unit_probe_direction(delta)
+    baseline_delta = np.asarray(
+        baseline["probe_delta_xyz_m"], dtype=np.float64)
+    baseline_direction = _unit_probe_direction(baseline_delta)
+    direction_dot = float(np.dot(direction, baseline_direction))
+    current = {
+        "probe_delta_xyz_m": delta.astype(float).tolist(),
+        "probe_direction_unit": direction.astype(float).tolist(),
+        "probe_amplitude_m": amplitude,
+        "probe_forward_steps": forward_steps,
+        "probe_return_steps": int(motion["probe_return_steps"]),
+        "probe_speed_m_s": speed,
+        "post_probe_rmse_m": float(post_probe_rmse_m),
+        "formal_sensor_peak_fused_gap": float(formal_sensor_peak),
+        "contact_reference_peak_excess_n": float(
+            load_path["contact_reference_peak_excess_n"]),
+        "proximal_excess_n": float(
+            load_path["proximal_repeat_corrected_excess_n"]),
+        "proximal_retention_ratio": (
+            None if load_path["proximal_retention_ratio"] is None
+            else float(load_path["proximal_retention_ratio"])),
+        "post_probe_jam_latch_contact_fraction": recovery[
+            "post_probe_jam_latch_contact_fraction"],
+        "future_peak_visible_rmse_m": float(future_peak),
+    }
+    return {
+        "mode": repair["mode"],
+        "report_only": True,
+        "stop_after_this_trial": bool(repair["stop_after_this_trial"]),
+        "baseline": dict(baseline),
+        "current": current,
+        "direction_dot_baseline": direction_dot,
+        "gain_ratio": {
+            "probe_amplitude": _ratio_or_none(
+                current["probe_amplitude_m"],
+                baseline["probe_amplitude_m"]),
+            "probe_speed": _ratio_or_none(
+                current["probe_speed_m_s"], baseline["probe_speed_m_s"]),
+            "post_probe_rmse": _ratio_or_none(
+                current["post_probe_rmse_m"],
+                baseline["post_probe_rmse_m"]),
+            "formal_sensor_peak": _ratio_or_none(
+                current["formal_sensor_peak_fused_gap"],
+                baseline["formal_sensor_peak_fused_gap"]),
+            "contact_reference_peak_excess": _ratio_or_none(
+                current["contact_reference_peak_excess_n"],
+                baseline["contact_reference_peak_excess_n"]),
+            "proximal_excess": _ratio_or_none(
+                current["proximal_excess_n"],
+                baseline["proximal_excess_n"]),
+            "proximal_retention": (
+                None if current["proximal_retention_ratio"] is None
+                else _ratio_or_none(
+                    current["proximal_retention_ratio"],
+                    baseline["proximal_retention_ratio"])),
+            "post_probe_jam_latch_contact_fraction": (
+                None if current[
+                    "post_probe_jam_latch_contact_fraction"] is None
+                else _ratio_or_none(
+                    current["post_probe_jam_latch_contact_fraction"],
+                    baseline["post_probe_jam_latch_contact_fraction"])),
+            "future_peak": _ratio_or_none(
+                current["future_peak_visible_rmse_m"],
+                baseline["future_peak_visible_rmse_m"]),
         },
     }
 
@@ -636,6 +724,14 @@ def evaluate_pair(free, jam, repeat, branch_metadata, config):
         formal_sensor_peak=formal_sensor_peak,
         load_path=load_path,
     )
+    direction_diagnostic = probe_direction_diagnostics(
+        config,
+        post_probe_rmse_m=post_rmse,
+        formal_sensor_peak=formal_sensor_peak,
+        load_path=load_path,
+        recovery=recovery,
+        future_peak=future_peak,
+    )
     return {
         "verdict": verdict,
         "engineering": {"commands_equal": commands_equal,
@@ -666,6 +762,7 @@ def evaluate_pair(free, jam, repeat, branch_metadata, config):
         "sensor_trigger": trigger,
         "peak_fused_sensor_gap": formal_sensor_peak,
         "probe_amplification_diagnostic": amplification,
+        "probe_direction_diagnostic": direction_diagnostic,
         "peak_force_norm_gap_n": float(np.max(np.linalg.norm(gap[probe, :3], axis=1))),
         "peak_torque_norm_gap_nm": float(np.max(np.linalg.norm(gap[probe, 3:], axis=1))),
         "future_peak_visible_rmse_m": future_peak,
@@ -709,10 +806,18 @@ def analyze(config_path):
     probe_contact = metrics["probe_contact"]
     load_path = metrics["load_path_diagnostic"]
     amplification = metrics["probe_amplification_diagnostic"]
+    direction_diagnostic = metrics["probe_direction_diagnostic"]
+    probe_delta = np.asarray(
+        config["motion"]["probe_delta_xyz_m"], dtype=np.float64)
+    probe_amplitude_mm = float(1000.0 * np.linalg.norm(probe_delta))
+    probe_direction = _unit_probe_direction(
+        probe_delta).astype(float).tolist()
     summary = (
         "# OHJ Phase 0D pair\n\n"
         "- Verdict: `{}`\n"
         "- Probe amplitude: `{:.3f} mm`\n"
+        "- Probe delta XYZ: `{}`\n"
+        "- Probe direction unit: `{}`\n"
         "- Final post-probe RMSE: `{:.6f} m`\n"
         "- Immediate-return RMSE: `{:.6f} m`\n"
         "- Recovery fraction: `{}`\n"
@@ -739,7 +844,9 @@ def analyze(config_path):
         "- Repeat phase diagnostics: `{}`\n"
     ).format(
         metrics["verdict"],
-        1000.0 * config["motion"]["probe_delta_xyz_m"][0],
+        probe_amplitude_mm,
+        probe_delta.astype(float).tolist(),
+        probe_direction,
         metrics["post_probe_51d_rmse_m"],
         recovery["immediate_free_jam_rmse_m"],
         recovery["recovery_fraction"],
@@ -815,6 +922,23 @@ def analyze(config_path):
             amplification["baseline"],
             amplification["current"],
             amplification["gain_ratio"],
+        )
+    if direction_diagnostic is not None:
+        summary += (
+            "\n## Orthogonal contact-loading probe comparison\n\n"
+            "- Report only: `{}`\n"
+            "- Stop after this trial: `{}`\n"
+            "- Direction dot baseline: `{}`\n"
+            "- Baseline: `{}`\n"
+            "- Current: `{}`\n"
+            "- Gain ratios: `{}`\n"
+        ).format(
+            direction_diagnostic["report_only"],
+            direction_diagnostic["stop_after_this_trial"],
+            direction_diagnostic["direction_dot_baseline"],
+            direction_diagnostic["baseline"],
+            direction_diagnostic["current"],
+            direction_diagnostic["gain_ratio"],
         )
     (output / "pair_summary.md").write_text(summary, encoding="utf-8")
     return metrics

@@ -4,7 +4,7 @@ import numpy as np
 
 from scripts.experiment3.phase0_ohj_cable.analyze_pair import (
     evaluate_pair, probe_amplification_diagnostics,
-    probe_contact_diagnostics, recovery_curve,
+    probe_contact_diagnostics, probe_direction_diagnostics, recovery_curve,
     repeatability_by_phase)
 from scripts.experiment3.phase0_ohj_cable.common import load_config
 
@@ -293,6 +293,35 @@ def test_r8_amplification_comparison_is_report_only():
     assert result["report_only"] is True
     assert result["stop_after_this_trial"] is True
     assert np.isclose(result["gain_ratio"]["probe_amplitude"], 2.0)
+    assert np.isclose(result["gain_ratio"]["probe_speed"], 1.0)
+    assert np.isclose(result["gain_ratio"]["proximal_excess"], 2.0)
+    assert np.isclose(result["gain_ratio"]["formal_sensor_peak"], 2.0)
+
+
+def test_r9_direction_comparison_is_report_only():
+    r9 = load_config(
+        "configs/experiment3/phase0/"
+        "ohj_cable_phase0d_r9_contactloading_minusy1mm.json")
+    load_path = {
+        "contact_reference_peak_excess_n": 0.45,
+        "proximal_repeat_corrected_excess_n": 0.04433220822202633,
+        "proximal_retention_ratio": 0.098515,
+    }
+    recovery = {"post_probe_jam_latch_contact_fraction": 1.0}
+    result = probe_direction_diagnostics(
+        r9,
+        post_probe_rmse_m=8.0e-5,
+        formal_sensor_peak=0.6676378231817074,
+        load_path=load_path,
+        recovery=recovery,
+        future_peak=0.0024,
+    )
+    assert result["report_only"] is True
+    assert result["stop_after_this_trial"] is True
+    assert np.isclose(result["direction_dot_baseline"], 0.0)
+    np.testing.assert_allclose(
+        result["current"]["probe_direction_unit"], [0.0, -1.0, 0.0])
+    assert np.isclose(result["gain_ratio"]["probe_amplitude"], 1.0)
     assert np.isclose(result["gain_ratio"]["probe_speed"], 1.0)
     assert np.isclose(result["gain_ratio"]["proximal_excess"], 2.0)
     assert np.isclose(result["gain_ratio"]["formal_sensor_peak"], 2.0)
