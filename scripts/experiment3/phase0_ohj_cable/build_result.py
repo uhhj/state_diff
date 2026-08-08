@@ -104,7 +104,16 @@ def build_result(config_path):
             "Generate physics_pairs, then train B0 StateDiff and B1 "
             "StateDiff-FT.")
     elif verdict == "PHASE0D_OBSERVABLE_EQUIVALENCE_FAIL":
-        if repair_mode == "single_dual_post_future_consequence_repair":
+        if repair_mode == (
+                "single_continuous_l_slot_future_consequence_repair"):
+            next_task = (
+                "The final one-shot continuous L-slot topology breaks "
+                "observable equivalence. Reject it. Keep the validated R9 "
+                "probe/sensor, R11 5 s horizon, actions, and Gate "
+                "definitions frozen. Do not tune hook dimensions and do "
+                "not begin another geometry search; review the OHJ "
+                "benchmark structure before further Phase-0 work.")
+        elif repair_mode == "single_dual_post_future_consequence_repair":
             next_task = (
                 "The dual-post future-consequence topology breaks "
                 "observable equivalence. Reject this topology. Keep the R9 "
@@ -148,7 +157,15 @@ def build_result(config_path):
                     "Prepare the canonical-hold same-condition repeatability "
                     "repair.")
     elif verdict == "PHASE0D_SENSOR_NOT_OBSERVABLE":
-        if repair_mode == "single_dual_post_future_consequence_repair":
+        if repair_mode == (
+                "single_continuous_l_slot_future_consequence_repair"):
+            next_task = (
+                "The continuous L-slot regresses the previously validated "
+                "Gate 3 sensing chain. Reject the topology. Do not reopen "
+                "probe/tactile tuning and do not tune hook geometry. Review "
+                "the OHJ benchmark structure while preserving the R9 "
+                "sensing result.")
+        elif repair_mode == "single_dual_post_future_consequence_repair":
             next_task = (
                 "The dual-post topology regresses the previously validated "
                 "Gate 3 sensing chain. Reject this topology. Return to "
@@ -271,7 +288,17 @@ def build_result(config_path):
                 "below threshold, plan one separate small-resolution tactile "
                 "study.")
     elif verdict == "PHASE0D_FUTURE_BRANCH_NOT_ESTABLISHED":
-        if repair_mode == "single_dual_post_future_consequence_repair":
+        if repair_mode == (
+                "single_continuous_l_slot_future_consequence_repair"):
+            next_task = (
+                "The final allowed continuous L-slot topology preserves "
+                "Gates 1-3 but still does not establish the frozen Gate 4 "
+                "effect size. Stop OHJ geometry tuning. Do not change hook "
+                "dimensions, horizon, STRAIGHT amplitude, probe, sensor, "
+                "oracle, or thresholds. Review whether the current OHJ "
+                "benchmark/Gate-4 definition is the right scientific "
+                "vehicle before any further Phase-0 task work.")
+        elif repair_mode == "single_dual_post_future_consequence_repair":
             next_task = (
                 "The one-shot dual-post directional guide preserves the "
                 "frozen sensing benchmark but still does not reach the "
@@ -314,6 +341,17 @@ def build_result(config_path):
                 "Deployable contact sensing is now observable. Freeze "
                 "sensor, probe, clearance, and canonical hold; prepare a "
                 "single-purpose future-branch effect-size repair.")
+    elif (verdict == "PHASE0D_CONTROL_NOT_RELEVANT"
+          and repair_mode == (
+              "single_continuous_l_slot_future_consequence_repair")):
+        next_task = (
+            "Gate 4 is established under the final continuous L-slot "
+            "topology, but the fixed action matrix does not establish Gate "
+            "5. Do not tune geometry or thresholds. Inspect the existing "
+            "FREE/JAM matrix once to determine whether FREE STRAIGHT and "
+            "JAM-R LEFT-RELEASE have the intended task semantics. If not, "
+            "treat this as benchmark-structure evidence rather than "
+            "starting another sweep.")
     elif (verdict == "PHASE0D_CONTROL_NOT_RELEVANT"
           and repair_mode == "single_dual_post_future_consequence_repair"):
         next_task = (
@@ -493,9 +531,15 @@ def build_result(config_path):
             horizon_diagnostic["interpretation"],
         )
     future_consequence_text = (
-        "Dual-post future-consequence comparison: not configured")
-    if repair_mode == "single_dual_post_future_consequence_repair":
+        "Future-consequence topology comparison: not configured")
+    future_repair_labels = {
+        "single_dual_post_future_consequence_repair": "Dual-post",
+        "single_continuous_l_slot_future_consequence_repair": (
+            "Continuous L-slot"),
+    }
+    if repair_mode in future_repair_labels:
         baseline = config["repair"]["baseline"]
+        progress = dict(pair["final_extraction_progress_m"])
         current = {
             "post_probe_rmse_m": float(pair["post_probe_51d_rmse_m"]),
             "formal_sensor_peak_fused_gap": float(
@@ -506,11 +550,17 @@ def build_result(config_path):
                 pair["repeat_peak_visible_rmse_m"]),
             "future_branch_to_repeat_ratio": pair[
                 "future_branch_to_repeat_ratio"],
-            "final_extraction_progress_m": dict(
-                pair["final_extraction_progress_m"]),
+            "final_extraction_progress_m": progress,
+            "jam_minus_free_straight_progress_m": float(
+                progress["jam_right"] - progress["free"]),
         }
+        baseline_progress_gap = float(baseline.get(
+            "jam_minus_free_straight_progress_m",
+            baseline["final_extraction_progress_m"]["jam_right"]
+            - baseline["final_extraction_progress_m"]["free"]))
+        label = future_repair_labels[repair_mode]
         future_consequence_text = (
-            "Dual-post future-consequence comparison:\n"
+            "{} future-consequence comparison:\n"
             "- Report only: True\n"
             "- Stop after this trial: {}\n"
             "- Baseline topology: {}\n"
@@ -527,8 +577,11 @@ def build_result(config_path):
             "- Baseline post-probe RMSE: {} m\n"
             "- Current post-probe RMSE: {} m\n"
             "- Baseline extraction progress: {}\n"
-            "- Current extraction progress: {}"
+            "- Current extraction progress: {}\n"
+            "- Baseline JAM-FREE straight progress: {} m\n"
+            "- Current JAM-FREE straight progress: {} m"
         ).format(
+            label,
             config["repair"]["stop_after_this_trial"],
             baseline["latch_topology"],
             latch_topology,
@@ -546,6 +599,8 @@ def build_result(config_path):
             current["post_probe_rmse_m"],
             baseline["final_extraction_progress_m"],
             current["final_extraction_progress_m"],
+            baseline_progress_gap,
+            current["jam_minus_free_straight_progress_m"],
         )
     text = """Verdict: {verdict}
 

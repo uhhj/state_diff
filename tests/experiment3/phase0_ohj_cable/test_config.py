@@ -282,3 +282,31 @@ def test_r12_changes_only_hidden_topology_from_r11():
         repair["baseline"]["future_peak_visible_rmse_m"],
         0.00403363901868536)
     assert repair["baseline"]["formal_sensor_peak_fused_gap"] > 1.0
+
+
+def test_r13_changes_only_hidden_topology_from_r12():
+    r12 = _load("ohj_cable_phase0d_r12_dualpost.json")
+    r13 = _load("ohj_cable_phase0d_r13_lslot.json")
+    for key in (
+            "conditions", "execution", "motion", "state", "sensor",
+            "diagnostic", "analysis", "control_relevance"):
+        assert r13[key] == r12[key]
+    r12_geometry = dict(r12["geometry"])
+    r13_geometry = dict(r13["geometry"])
+    assert r12_geometry.pop("latch_topology") == (
+        "dual_post_directional_guide")
+    assert r13_geometry.pop("latch_topology") == "continuous_l_slot_hook"
+    assert r13_geometry == r12_geometry
+    repair = r13["repair"]
+    assert repair["mode"] == (
+        "single_continuous_l_slot_future_consequence_repair")
+    assert repair["stop_after_this_trial"] is True
+    assert repair["baseline"]["result_main_sha"] == (
+        "56761c6861a9d8648f7262d943f7df21f7334832")
+    assert np.isclose(
+        repair["baseline"]["future_peak_visible_rmse_m"],
+        0.004248737311156111)
+    assert np.isclose(
+        repair["baseline"]["jam_minus_free_straight_progress_m"],
+        0.005986522765098756)
+    assert repair["baseline"]["formal_sensor_peak_fused_gap"] > 1.0

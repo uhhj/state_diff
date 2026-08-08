@@ -1,0 +1,144 @@
+{
+  "task_name": "ccda-ohj-cable-phase0",
+  "phase_name": "phase0d-r13-continuous-l-slot-future-consequence",
+  "dataset_role": "ccda_audit",
+  "seed": 75101,
+  "pair_id": "ohj_free_jamr_r13_lslot_075101",
+  "conditions": ["free", "jam_right"],
+  "execution": {
+    "hz": 240,
+    "deterministic": true,
+    "control_substeps": 1,
+    "initial_settle_seconds": 1.0,
+    "pre_snapshot_settle_steps": 120,
+    "no_action_steps": 48,
+    "post_probe_steps": 240,
+    "post_test_steps": 1200,
+    "reassert_canonical_hold_after_restore": true
+  },
+  "geometry": {
+    "num_beads": 32,
+    "cable_radius_m": 0.005,
+    "bead_mass_kg": 0.05,
+    "spacing_m": 0.011,
+    "cable_z_m": 0.012,
+    "entry_x_m": 0.255,
+    "center_y_m": 0.0,
+    "hidden_start_index": 8,
+    "hidden_end_index": 23,
+    "visible_keypoint_indices": [0, 1, 2, 3, 4, 5, 6, 7, 24, 25, 26, 27, 28, 29, 30, 31],
+    "hidden_peak_tangent_deg": 35.0,
+    "constraint_max_force_n": 100.0,
+    "bead_lateral_friction": 0.45,
+    "linear_damping": 0.04,
+    "angular_damping": 0.9,
+    "latch_radius_m": 0.009,
+    "latch_height_m": 0.06,
+    "jam_surface_clearance_m": 0.00025,
+    "free_lateral_offset_m": 0.04,
+    "latch_topology": "continuous_l_slot_hook",
+    "occluder_padding_x_m": 0.012,
+    "occluder_padding_y_m": 0.03,
+    "occluder_bottom_z_m": 0.025,
+    "occluder_height_m": 0.08
+  },
+  "motion": {
+    "grasp_height_offset_m": 0.0,
+    "acquisition_speed": 0.01,
+    "position_gain": 0.01,
+    "probe_delta_xyz_m": [0.0, -0.001, 0.0],
+    "probe_forward_steps": 24,
+    "probe_hold_steps": 24,
+    "probe_return_steps": 24,
+    "straight_pull_delta_xyz_m": [0.06, 0.0, 0.0],
+    "straight_pull_steps": 96,
+    "release_backoff_xyz_m": [-0.003, 0.0, 0.0],
+    "release_lateral_m": 0.018,
+    "release_backoff_steps": 12,
+    "release_lateral_steps": 36,
+    "release_pull_steps": 96
+  },
+  "state": {
+    "visible_keypoint_count": 16,
+    "visible_keypoint_dim": 48,
+    "robot_minimal": ["ee_x", "ee_y", "ee_z"],
+    "state_dim": 51
+  },
+  "sensor": {
+    "formal": "gripper_wrench_plus_4patch_surface_tactile",
+    "trace_field": "formal_sensor_spatial",
+    "tactile_patch_count": 4,
+    "tactile_patch_layout": "tip_xy_quadrants",
+    "channels": [
+      "grasp_Fx", "grasp_Fy", "grasp_Fz",
+      "grasp_Tx", "grasp_Ty", "grasp_Tz",
+      "patch0_Fx", "patch0_Fy", "patch0_Fz",
+      "patch1_Fx", "patch1_Fy", "patch1_Fz",
+      "patch2_Fx", "patch2_Fy", "patch2_Fz",
+      "patch3_Fx", "patch3_Fy", "patch3_Fz"
+    ],
+    "channel_floor": [
+      0.05, 0.05, 0.05, 0.005, 0.005, 0.005,
+      0.05, 0.05, 0.05, 0.05, 0.05, 0.05,
+      0.05, 0.05, 0.05, 0.05, 0.05, 0.05
+    ],
+    "sensor_dim": 18,
+    "sampling_hz": 240,
+    "force_floor_n": 0.05,
+    "torque_floor_nm": 0.005,
+    "consecutive_samples": 3
+  },
+  "diagnostic": {
+    "mode": "spatial_repeat_corrected_load_path_information",
+    "branch_vs_repeat_multiplier": 3.0,
+    "mechanical_reference_floor_n": 0.05,
+    "consecutive_samples": 3
+  },
+  "repair": {
+    "mode": "single_continuous_l_slot_future_consequence_repair",
+    "stop_after_this_trial": true,
+    "baseline": {
+      "phase_name": "phase0d-r12-dual-post-directional-guide-future-consequence",
+      "result_main_sha": "56761c6861a9d8648f7262d943f7df21f7334832",
+      "latch_topology": "dual_post_directional_guide",
+      "post_probe_rmse_m": 8.982128272931303e-05,
+      "formal_sensor_peak_fused_gap": 2.6147160295345095,
+      "future_peak_visible_rmse_m": 0.004248737311156111,
+      "repeat_peak_visible_rmse_m": 0.0004463241759891249,
+      "future_branch_to_repeat_ratio": 9.519397647999321,
+      "proximal_excess_n": 0.24669686990680706,
+      "proximal_retention_ratio": 0.8197664862430233,
+      "final_extraction_progress_m": {
+        "free": 0.03317207666599059,
+        "jam_right": 0.03915859943108935,
+        "free_repeat": 0.03281747155592113
+      },
+      "jam_minus_free_straight_progress_m": 0.005986522765098756
+    }
+  },
+  "analysis": {
+    "initial_visible_rmse_max_m": 1e-06,
+    "post_probe_visible_rmse_max_m": 0.0015,
+    "future_visible_rmse_min_m": 0.005,
+    "future_vs_repeat_multiplier": 3.0,
+    "sensor_normalized_gap_min": 1.0,
+    "min_extraction_progress_m": 0.03,
+    "max_bruteforce_wrench_force_n": 20.0,
+    "recovery_checkpoints_steps": [0, 24, 48, 120, 240]
+  },
+  "control_relevance": {
+    "candidates": [
+      {"id": "straight"},
+      {"id": "left_release"},
+      {"id": "right_release"}
+    ],
+    "selection": "lexicographic_success_then_peak_force_then_path_length"
+  },
+  "output_root": "/data/Experiment3/data/ccda_phase0d_r13_ohj_cable",
+  "report_root": "/data/Experiment3/reports/phase0d_r13_ohj_cable",
+  "committed_report_dir": "reports/experiment3/phase0d_r13_ohj_cable",
+  "provenance": {
+    "starting_main_sha": "56761c6861a9d8648f7262d943f7df21f7334832",
+    "starting_submodule_sha": "eca7db6ae508457e4c0e001c1622fc1a1bb0d4fb"
+  }
+}
