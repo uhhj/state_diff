@@ -1,0 +1,98 @@
+{
+  "phase_name": "phase0e-r13-scientific-definition-and-control-audit",
+  "repository": {
+    "ending_main_sha": "fab8b5d99f3fad128c6c7096f635bce48b125f2e",
+    "ending_submodule_sha": "5b2c11cc78c1723ff2c223ff8bfedd162bfe6517",
+    "starting_main_sha": "fe4eb7f8e67723faa209d7303759cb82b93eeddf"
+  },
+  "route": "OHJ_CONTROL_STRUCTURE_INSUFFICIENT",
+  "scientific_audit": {
+    "control_relevance_audit": {
+      "best_candidate": {
+        "free": "straight",
+        "jam_right": "straight"
+      },
+      "control_relevant": false,
+      "formal_gate5": false,
+      "interpretation": "existing Gate-5 classifier applied diagnostically to the frozen action matrix",
+      "jam_left_progress_advantage_m": -0.006015747440475727,
+      "matrix": {
+        "free": {
+          "left_release": {
+            "final_progress_m": 0.02649305441743338,
+            "grasp_retained": true,
+            "path_length_m": 0.08100000000000006,
+            "peak_force_n": 73.74483281338996,
+            "success": false
+          },
+          "right_release": {
+            "final_progress_m": 0.027220273638235815,
+            "grasp_retained": true,
+            "path_length_m": 0.08100000000000004,
+            "peak_force_n": 66.39430900294147,
+            "success": false
+          },
+          "straight": {
+            "final_progress_m": 0.030228728993286214,
+            "grasp_retained": true,
+            "path_length_m": 0.05999999999999994,
+            "peak_force_n": 38.91656134968954,
+            "success": false
+          }
+        },
+        "jam_right": {
+          "left_release": {
+            "final_progress_m": 0.027264952787161068,
+            "grasp_retained": true,
+            "path_length_m": 0.08100000000000006,
+            "peak_force_n": 75.10789424334611,
+            "success": false
+          },
+          "right_release": {
+            "final_progress_m": 0.035636008251868856,
+            "grasp_retained": true,
+            "path_length_m": 0.08100000000000004,
+            "peak_force_n": 66.52107209393886,
+            "success": false
+          },
+          "straight": {
+            "final_progress_m": 0.033280700227636795,
+            "grasp_retained": true,
+            "path_length_m": 0.05999999999999994,
+            "peak_force_n": 63.47884812689331,
+            "success": false
+          }
+        }
+      },
+      "same_candidate_commands_across_branches": true,
+      "verdict": "PHASE0D_CONTROL_NOT_RELEVANT"
+    },
+    "diagnostic_only": true,
+    "formal_gate5_executed": false,
+    "formal_phase0_verdict_unchanged": true,
+    "gate4_definition_audit": {
+      "absolute_floor_m": 0.005,
+      "absolute_margin_m": -0.0009462775097037147,
+      "absolute_pass": false,
+      "formal_pass": false,
+      "formal_threshold_m": 0.005,
+      "future_over_repeat": 6.7215185362679035,
+      "future_peak_visible_rmse_m": 0.004053722490296285,
+      "repeat_multiplier": 3.0,
+      "repeat_peak_visible_rmse_m": 0.0006030962301782327,
+      "repeat_relative_floor_m": 0.001809288690534698,
+      "repeat_relative_margin_m": 0.0022444337997615874,
+      "repeat_relative_pass": true
+    },
+    "route": "OHJ_CONTROL_STRUCTURE_INSUFFICIENT",
+    "source_config": "configs/experiment3/phase0/ohj_cable_phase0d_r13_lslot.json",
+    "source_pair_verdict": "PHASE0D_FUTURE_BRANCH_NOT_ESTABLISHED",
+    "training_started": false
+  },
+  "training": {
+    "B0": false,
+    "B1": false,
+    "CFPM": false,
+    "IDM": false
+  }
+}
