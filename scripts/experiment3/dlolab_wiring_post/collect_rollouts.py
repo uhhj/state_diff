@@ -95,6 +95,7 @@ def stack_time(rows, key):
 def replay_batch(env, qpos, *, seed):
     np.random.seed(int(seed))
     torch.manual_seed(int(seed))
+    env.use_qpos = True
     env.reset()
     rows = [sample_env(env)]
     n_intervals = env.steps_interval // env._cmaes_n_steps_sub
