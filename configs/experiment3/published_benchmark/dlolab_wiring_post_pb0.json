@@ -1,0 +1,46 @@
+{
+  "phase_name": "pb0-dlolab-wiring-post-natural-pair-mining",
+  "benchmark": {
+    "repository": "https://github.com/UMass-Embodied-AGI/DLO-Lab.git",
+    "revision": "c5026a9416b03c6bc5186eba13cd4ffd4c0e7796",
+    "task": "wiring_post",
+    "modify_benchmark_physics": false,
+    "modify_reward": false,
+    "modify_geometry": false
+  },
+  "collection": {
+    "n_envs": 32,
+    "batches": 4,
+    "base_seed": 123,
+    "n_steps_sub": 10,
+    "activate_repo_wiring_post_position_randomization": true
+  },
+  "observation_protocol": {
+    "post_occlusion_radius_m": 0.055,
+    "history_samples": 3
+  },
+  "oracle_pair_descriptor": {
+    "rope_radius_m": 0.01,
+    "post_radius_m": 0.02,
+    "post_roi_radius_m": 0.08,
+    "contact_proxy_margin_m": 0.003,
+    "wrap_difference_min_rad": 0.75
+  },
+  "pair_mining": {
+    "max_observable_chamfer_m": 0.01,
+    "max_ee_position_distance_m": 0.01,
+    "min_future_to_observable_ratio": 2.0,
+    "future_horizon_samples": 10,
+    "top_k": 50,
+    "min_candidates_to_continue": 5,
+    "scaleup_batches": 16
+  },
+  "outputs": {
+    "raw_root": "/data/Experiment3/data/pb0_dlolab_wiring_post",
+    "committed_report_dir": "reports/experiment3/pb0_dlolab_wiring_post"
+  },
+  "provenance": {
+    "starting_main_sha": "a39b5fe5d612df22ddbbf10f6fbee73b23a8ec19",
+    "dlolab_revision": "c5026a9416b03c6bc5186eba13cd4ffd4c0e7796"
+  }
+}

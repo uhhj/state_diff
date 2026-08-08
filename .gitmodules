@@ -2,3 +2,6 @@
 	path = external/deformable-ravens
 	url = https://github.com/uhhj/deformable-ravens.git
 	branch = Experiment3-ohj-cable
+[submodule "external/dlo-lab"]
+	path = external/dlo-lab
+	url = https://github.com/UMass-Embodied-AGI/DLO-Lab.git
