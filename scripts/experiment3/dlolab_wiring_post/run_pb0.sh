@@ -8,6 +8,8 @@ fi
 CONFIG="${1:-configs/experiment3/published_benchmark/dlolab_wiring_post_pb0.json}"
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
+export PYTHONPATH="$ROOT${PYTHONPATH:+:$PYTHONPATH}"
+
 DLO="$ROOT/external/dlo-lab"
 EXP="$DLO/experiments"
 
