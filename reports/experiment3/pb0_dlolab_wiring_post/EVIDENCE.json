@@ -1,0 +1,24 @@
+{
+  "phase_name": "pb0-dlolab-wiring-post-natural-pair-mining",
+  "verdict": "PB0_WIRING_POST_NO_NATURAL_CCDA_PAIRS",
+  "repository": {
+    "starting_main_sha": "a39b5fe5d612df22ddbbf10f6fbee73b23a8ec19",
+    "ending_main_sha": "03b79d788a38576381c74734f4101a876b0e36fe",
+    "dlolab_gitlink": "c5026a9416b03c6bc5186eba13cd4ffd4c0e7796"
+  },
+  "scientific": {
+    "verdict": "PB0_WIRING_POST_NO_NATURAL_CCDA_PAIRS",
+    "candidate_count": 0,
+    "minimum_to_continue": 5,
+    "dataset": "/data/Experiment3/data/pb0_dlolab_wiring_post/rollouts_scaleup.npz",
+    "num_rollouts": 512,
+    "time_samples": 101,
+    "finite_replay_reward": true,
+    "official_best_traj_exists": true,
+    "official_best_qpos_exists": true,
+    "top_candidates": [],
+    "benchmark_physics_modified": false,
+    "model_training_started": false,
+    "next_task": "Stop Wiring-post as the primary CCDA benchmark and evaluate another published task. Do not modify Wiring-post physics."
+  }
+}
