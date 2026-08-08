@@ -273,6 +273,109 @@ def _ratio_or_none(current, baseline):
     return float(float(current) / baseline)
 
 
+def _least_squares_slope(values, hz):
+    values = np.asarray(values, dtype=np.float64)
+    time = np.arange(len(values), dtype=np.float64) / float(hz)
+    time = time - np.mean(time)
+    centered = values - np.mean(values)
+    return float(np.dot(time, centered) / np.dot(time, time))
+
+
+def future_horizon_diagnostics(
+        visible_gap, repeat_gap, future_mask, physics_steps, phases, config):
+    audit = config.get("future_horizon_audit")
+    if (not audit
+            or audit.get("mode") != "final_fixed_horizon_sufficiency"):
+        return None
+
+    values = np.asarray(visible_gap[future_mask], dtype=np.float64)
+    repeat_values = np.asarray(repeat_gap[future_mask], dtype=np.float64)
+    future_steps = np.asarray(physics_steps[future_mask], dtype=np.int64)
+    future_phases = np.asarray(phases[future_mask]).astype(str)
+    hz = float(config["execution"]["hz"])
+    repeat_peak = float(np.max(repeat_values))
+    threshold = max(
+        float(config["analysis"]["future_visible_rmse_min_m"]),
+        float(config["analysis"]["future_vs_repeat_multiplier"])
+        * repeat_peak)
+    peak_index = int(np.argmax(values))
+    peak = float(values[peak_index])
+    endpoint = float(values[-1])
+    crossing = np.flatnonzero(values >= threshold)
+    if len(crossing):
+        first_crossing = int(crossing[0])
+        crossing_payload = {
+            "future_index_zero_based": first_crossing,
+            "time_from_future_start_s": float(first_crossing / hz),
+            "physics_step": int(future_steps[first_crossing]),
+            "phase": str(future_phases[first_crossing]),
+            "visible_rmse_m": float(values[first_crossing]),
+        }
+    else:
+        crossing_payload = None
+
+    tails = []
+    for window_s in audit["tail_window_seconds"]:
+        width = int(round(float(window_s) * hz))
+        tail = values[-width:]
+        difference = np.diff(tail)
+        tails.append({
+            "window_seconds": float(window_s),
+            "samples": int(width),
+            "delta_m": float(tail[-1] - tail[0]),
+            "least_squares_slope_m_s": _least_squares_slope(tail, hz),
+            "positive_step_differences": int(np.count_nonzero(
+                difference > 0.0)),
+            "total_step_differences": int(len(difference)),
+        })
+
+    threshold_reached = bool(peak >= threshold)
+    endpoint_is_global_max = bool(peak_index == len(values) - 1)
+    all_tail_slopes_positive = all(
+        row["least_squares_slope_m_s"] > 0.0 for row in tails)
+    tail_still_rising = bool(
+        (not threshold_reached)
+        and endpoint_is_global_max
+        and all_tail_slopes_positive)
+    if threshold_reached:
+        interpretation = "gate4_threshold_reached_with_frozen_benchmark"
+    elif tail_still_rising:
+        interpretation = (
+            "strong_right_censoring_signature_remains_at_final_horizon")
+    else:
+        interpretation = (
+            "threshold_not_reached_without_strong_endpoint_right_censoring")
+
+    return {
+        "mode": audit["mode"],
+        "diagnostic_only": True,
+        "benchmark_gates_unchanged": True,
+        "stop_after_this_trial": bool(audit["stop_after_this_trial"]),
+        "baseline": dict(audit["baseline"]),
+        "future_samples": int(len(values)),
+        "future_span_s": float((len(values) - 1) / hz),
+        "post_test_steps": int(config["execution"]["post_test_steps"]),
+        "post_test_seconds": float(
+            config["execution"]["post_test_steps"] / hz),
+        "future_threshold_m": threshold,
+        "threshold_reached": threshold_reached,
+        "first_threshold_crossing": crossing_payload,
+        "endpoint_visible_rmse_m": endpoint,
+        "peak_visible_rmse_m": peak,
+        "peak_index_zero_based": peak_index,
+        "peak_time_from_future_start_s": float(peak_index / hz),
+        "endpoint_is_global_max": endpoint_is_global_max,
+        "repeat_peak_visible_rmse_m": repeat_peak,
+        "future_to_repeat_ratio": (
+            None if repeat_peak <= 1e-12 else float(peak / repeat_peak)),
+        "remaining_margin_to_threshold_m": float(max(0.0, threshold - peak)),
+        "tail_windows": tails,
+        "all_tail_slopes_positive": bool(all_tail_slopes_positive),
+        "tail_still_rising_at_horizon_end": tail_still_rising,
+        "interpretation": interpretation,
+    }
+
+
 def _unit_probe_direction(delta):
     delta = np.asarray(delta, dtype=np.float64)
     amplitude = float(np.linalg.norm(delta))
@@ -702,6 +805,8 @@ def evaluate_pair(free, jam, repeat, branch_metadata, config):
         float(analysis["future_visible_rmse_min_m"]),
         float(analysis["future_vs_repeat_multiplier"]) * repeat_peak)
     future_peak = float(np.max(visible_gap[future]))
+    horizon_diagnostic = future_horizon_diagnostics(
+        visible_gap, repeat_gap, future, steps, phase, config)
     gate1 = initial_rmse <= analysis["initial_visible_rmse_max_m"]
     gate2 = post_rmse <= analysis["post_probe_visible_rmse_max_m"]
     gate3 = sensor_step is not None
@@ -763,6 +868,7 @@ def evaluate_pair(free, jam, repeat, branch_metadata, config):
         "peak_fused_sensor_gap": formal_sensor_peak,
         "probe_amplification_diagnostic": amplification,
         "probe_direction_diagnostic": direction_diagnostic,
+        "future_horizon_diagnostic": horizon_diagnostic,
         "peak_force_norm_gap_n": float(np.max(np.linalg.norm(gap[probe, :3], axis=1))),
         "peak_torque_norm_gap_nm": float(np.max(np.linalg.norm(gap[probe, 3:], axis=1))),
         "future_peak_visible_rmse_m": future_peak,
@@ -801,6 +907,11 @@ def analyze(config_path):
         metadata, config)
     output = report_dir(config)
     write_json(output / "pair_metrics.json", metrics)
+    horizon_diagnostic = metrics["future_horizon_diagnostic"]
+    if horizon_diagnostic is not None:
+        write_json(
+            output / "FUTURE_HORIZON_SUFFICIENCY.json",
+            horizon_diagnostic)
     recovery = metrics["recovery"]
     repeatability = metrics["repeatability_by_phase"]
     probe_contact = metrics["probe_contact"]

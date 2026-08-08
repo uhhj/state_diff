@@ -237,3 +237,25 @@ def test_r10_only_extends_r9_same_action_future_horizon():
     assert r10_execution == r9_execution
     assert r10["motion"]["straight_pull_steps"] == 96
     assert r10["motion"]["probe_delta_xyz_m"] == [0.0, -0.001, 0.0]
+
+
+def test_r11_only_extends_r10_final_future_horizon():
+    r10 = _load("ohj_cable_phase0d_r10_future1s.json")
+    r11 = _load("ohj_cable_phase0d_r11_future5s.json")
+    for key in (
+            "conditions", "geometry", "motion", "state", "sensor",
+            "diagnostic", "repair", "analysis", "control_relevance"):
+        assert r11[key] == r10[key]
+    r10_execution = dict(r10["execution"])
+    r11_execution = dict(r11["execution"])
+    assert r10_execution.pop("post_test_steps") == 240
+    assert r11_execution.pop("post_test_steps") == 1200
+    assert r11_execution == r10_execution
+    audit = r11["future_horizon_audit"]
+    assert audit["mode"] == "final_fixed_horizon_sufficiency"
+    assert audit["diagnostic_only"] is True
+    assert audit["benchmark_gates_unchanged"] is True
+    assert audit["stop_after_this_trial"] is True
+    assert audit["tail_window_seconds"] == [0.5, 1.0, 2.0]
+    assert audit["baseline"]["result_main_sha"] == (
+        "4f2859cb5ccfbe02010c6d3838d62e607b2eba23")

@@ -92,6 +92,7 @@ def build_result(config_path):
     repair_mode = config.get("repair", {}).get("mode")
     amplification = pair.get("probe_amplification_diagnostic")
     direction_diagnostic = pair.get("probe_direction_diagnostic")
+    horizon_diagnostic = pair.get("future_horizon_diagnostic")
     repeat_floor = float(pair["repeat_peak_visible_rmse_m"])
     equiv_threshold = float(
         config["analysis"]["post_probe_visible_rmse_max_m"])
@@ -254,7 +255,29 @@ def build_result(config_path):
                 "below threshold, plan one separate small-resolution tactile "
                 "study.")
     elif verdict == "PHASE0D_FUTURE_BRANCH_NOT_ESTABLISHED":
-        if repair_mode == "single_orthogonal_contact_loading_probe":
+        if (horizon_diagnostic is not None
+                and horizon_diagnostic["mode"]
+                == "final_fixed_horizon_sufficiency"):
+            if horizon_diagnostic["tail_still_rising_at_horizon_end"]:
+                next_task = (
+                    "The final fixed 5 s post-action observation still "
+                    "ends at the global future-RMSE maximum with positive "
+                    "0.5/1.0/2.0 s tail slopes. Do not modify task physics "
+                    "from this censored measurement and do not extend the "
+                    "horizon again automatically. Keep the R9 probe and "
+                    "18D sensor frozen; review the Gate 4/model prediction "
+                    "horizon definition and task timescale before any "
+                    "future-consequence topology repair.")
+            else:
+                next_task = (
+                    "The final fixed 5 s post-action observation does not "
+                    "reach the existing Gate 4 threshold and no longer "
+                    "shows the strong endpoint right-censoring signature "
+                    "used in R10. Keep the R9 probe and 18D sensor frozen. "
+                    "Do not lower Gate 4 and do not extend the horizon again "
+                    "automatically; prepare a single-purpose future-"
+                    "consequence task/topology repair.")
+        elif repair_mode == "single_orthogonal_contact_loading_probe":
             next_task = (
                 "The orthogonal contact-loading probe makes the deployable "
                 "sensor observable while preserving the observable-state "
@@ -266,6 +289,15 @@ def build_result(config_path):
                 "Deployable contact sensing is now observable. Freeze "
                 "sensor, probe, clearance, and canonical hold; prepare a "
                 "single-purpose future-branch effect-size repair.")
+    elif (verdict == "PHASE0D_CONTROL_NOT_RELEVANT"
+          and horizon_diagnostic is not None):
+        next_task = (
+            "The frozen R9 benchmark now passes Gate 4 within the final "
+            "fixed future horizon, but the fixed action matrix does not "
+            "establish Gate 5 control relevance. Freeze the horizon, probe, "
+            "sensor, and Gate 4 definition. Inspect the existing FREE/JAM "
+            "control matrix once and prepare only the control-consequence "
+            "repair; do not reopen future-horizon or sensing tuning.")
     else:
         next_task = (
             "Stop at the current scientific gate and prepare the next "
@@ -377,6 +409,54 @@ def build_result(config_path):
             direction_diagnostic["current"],
             direction_diagnostic["gain_ratio"],
         )
+    if horizon_diagnostic is None:
+        horizon_text = (
+            "Final future-horizon sufficiency audit: not configured")
+    else:
+        horizon_text = (
+            "Final future-horizon sufficiency audit:\n"
+            "- Diagnostic only: {}\n"
+            "- Gates unchanged: {}\n"
+            "- Stop after this trial: {}\n"
+            "- Future samples/span: {} / {} s\n"
+            "- Post-test observation: {} steps / {} s\n"
+            "- Future threshold: {} m\n"
+            "- Threshold reached: {}\n"
+            "- First threshold crossing: {}\n"
+            "- Endpoint / peak: {} / {} m\n"
+            "- Peak index/time: {} / {} s\n"
+            "- Endpoint is global max: {}\n"
+            "- Repeat peak: {} m\n"
+            "- Future/repeat: {}\n"
+            "- Remaining margin: {} m\n"
+            "- Tail windows: {}\n"
+            "- All tail slopes positive: {}\n"
+            "- Tail still rising at horizon end: {}\n"
+            "- Interpretation: {}"
+        ).format(
+            horizon_diagnostic["diagnostic_only"],
+            horizon_diagnostic["benchmark_gates_unchanged"],
+            horizon_diagnostic["stop_after_this_trial"],
+            horizon_diagnostic["future_samples"],
+            horizon_diagnostic["future_span_s"],
+            horizon_diagnostic["post_test_steps"],
+            horizon_diagnostic["post_test_seconds"],
+            horizon_diagnostic["future_threshold_m"],
+            horizon_diagnostic["threshold_reached"],
+            horizon_diagnostic["first_threshold_crossing"],
+            horizon_diagnostic["endpoint_visible_rmse_m"],
+            horizon_diagnostic["peak_visible_rmse_m"],
+            horizon_diagnostic["peak_index_zero_based"],
+            horizon_diagnostic["peak_time_from_future_start_s"],
+            horizon_diagnostic["endpoint_is_global_max"],
+            horizon_diagnostic["repeat_peak_visible_rmse_m"],
+            horizon_diagnostic["future_to_repeat_ratio"],
+            horizon_diagnostic["remaining_margin_to_threshold_m"],
+            horizon_diagnostic["tail_windows"],
+            horizon_diagnostic["all_tail_slopes_positive"],
+            horizon_diagnostic["tail_still_rising_at_horizon_end"],
+            horizon_diagnostic["interpretation"],
+        )
     text = """Verdict: {verdict}
 
 Repository:
@@ -455,6 +535,8 @@ Key values:
 {amplification_text}
 
 {direction_text}
+
+{horizon_text}
 
 Leakage statement:
 - Internal cable constraint force used as formal sensor: No
@@ -544,6 +626,7 @@ Next task: {next_task}
         load_path_text=load_path_text,
         amplification_text=amplification_text,
         direction_text=direction_text,
+        horizon_text=horizon_text,
         oracle_diagnostic="Yes" if load_path is not None else "No",
         passed=tests_passed, failed=tests_failed, pip_check=pip_check,
         next_task=next_task)

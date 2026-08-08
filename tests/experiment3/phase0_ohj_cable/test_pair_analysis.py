@@ -3,7 +3,7 @@ import copy
 import numpy as np
 
 from scripts.experiment3.phase0_ohj_cable.analyze_pair import (
-    evaluate_pair, probe_amplification_diagnostics,
+    evaluate_pair, future_horizon_diagnostics, probe_amplification_diagnostics,
     probe_contact_diagnostics, probe_direction_diagnostics, recovery_curve,
     repeatability_by_phase)
 from scripts.experiment3.phase0_ohj_cable.common import load_config
@@ -325,3 +325,25 @@ def test_r9_direction_comparison_is_report_only():
     assert np.isclose(result["gain_ratio"]["probe_speed"], 1.0)
     assert np.isclose(result["gain_ratio"]["proximal_excess"], 2.0)
     assert np.isclose(result["gain_ratio"]["formal_sensor_peak"], 2.0)
+
+
+def test_final_horizon_diagnostic_reports_right_censoring_only():
+    r11 = load_config(
+        "configs/experiment3/phase0/ohj_cable_phase0d_r11_future5s.json")
+    samples = 600
+    visible_gap = np.linspace(0.001, 0.004, samples, dtype=np.float64)
+    repeat_gap = np.full(samples, 0.0001, dtype=np.float64)
+    future = np.ones(samples, dtype=bool)
+    steps = np.arange(samples, dtype=np.int64)
+    phase = np.asarray(["post_test"] * samples)
+    result = future_horizon_diagnostics(
+        visible_gap, repeat_gap, future, steps, phase, r11)
+    assert result["diagnostic_only"] is True
+    assert result["benchmark_gates_unchanged"] is True
+    assert result["threshold_reached"] is False
+    assert result["endpoint_is_global_max"] is True
+    assert result["all_tail_slopes_positive"] is True
+    assert result["tail_still_rising_at_horizon_end"] is True
+    assert result["interpretation"] == (
+        "strong_right_censoring_signature_remains_at_final_horizon")
+    assert result["future_threshold_m"] == 0.005
