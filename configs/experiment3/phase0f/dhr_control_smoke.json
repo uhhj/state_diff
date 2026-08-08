@@ -1,0 +1,96 @@
+{
+  "task_name": "ccda-dhr-cable-smoke",
+  "phase_name": "phase0f0-dhr-full-control-matrix-smoke",
+  "dataset_role": "benchmark_smoke",
+  "seed": 76101,
+  "run_id": "dhr_full_control_smoke_076101",
+  "conditions": [
+    "free",
+    "jam_right"
+  ],
+  "execution": {
+    "hz": 240,
+    "deterministic": true,
+    "control_substeps": 1,
+    "initial_settle_seconds": 1.0,
+    "pre_action_settle_steps": 120,
+    "post_test_steps": 1200
+  },
+  "geometry": {
+    "num_beads": 32,
+    "cable_radius_m": 0.005,
+    "bead_mass_kg": 0.05,
+    "spacing_m": 0.011,
+    "cable_z_m": 0.012,
+    "entry_x_m": 0.255,
+    "center_y_m": 0.0,
+    "hidden_start_index": 8,
+    "hidden_end_index": 23,
+    "visible_keypoint_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31
+    ],
+    "route_peak_tangent_deg": 35.0,
+    "constraint_max_force_n": 100.0,
+    "bead_lateral_friction": 0.45,
+    "linear_damping": 0.04,
+    "angular_damping": 0.9,
+    "pocket_clearance_m": 0.00025,
+    "pocket_height_m": 0.06,
+    "occluder_padding_x_m": 0.012,
+    "occluder_padding_y_m": 0.03,
+    "occluder_bottom_z_m": 0.025,
+    "occluder_height_m": 0.08
+  },
+  "motion": {
+    "grasp_height_offset_m": 0.0,
+    "acquisition_speed": 0.01,
+    "position_gain": 0.01,
+    "straight_pull_delta_xyz_m": [
+      0.06,
+      0.0,
+      0.0
+    ],
+    "straight_pull_steps": 96,
+    "release_backoff_xyz_m": [
+      -0.003,
+      0.0,
+      0.0
+    ],
+    "release_lateral_m": 0.018,
+    "release_backoff_steps": 12,
+    "release_lateral_steps": 36,
+    "release_pull_steps": 96
+  },
+  "criteria": {
+    "min_success_progress_m": 0.03,
+    "max_success_peak_force_n": 20.0,
+    "min_jam_left_progress_advantage_m": 0.015,
+    "required_best_candidate": {
+      "free": "straight",
+      "jam_right": "left_release"
+    },
+    "selection": "lexicographic_success_then_peak_force_then_path_length"
+  },
+  "output_root": "/data/Experiment3/reports/phase0f0_dhr_full_control_smoke",
+  "committed_report_dir": "reports/experiment3/phase0f0_dhr_full_control_smoke",
+  "provenance": {
+    "starting_main_sha": "a12679e23880d348482c2ae35c84f98d0a531bdb",
+    "starting_submodule_sha": "5b2c11cc78c1723ff2c223ff8bfedd162bfe6517",
+    "source_phase0e_main_sha": "a12679e23880d348482c2ae35c84f98d0a531bdb"
+  }
+}
