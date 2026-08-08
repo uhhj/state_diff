@@ -90,6 +90,7 @@ def build_result(config_path):
     diagnostic_mode = config.get("diagnostic", {}).get("mode")
     load_path = pair.get("load_path_diagnostic")
     repair_mode = config.get("repair", {}).get("mode")
+    latch_topology = config["geometry"].get("latch_topology", "single_post")
     amplification = pair.get("probe_amplification_diagnostic")
     direction_diagnostic = pair.get("probe_direction_diagnostic")
     horizon_diagnostic = pair.get("future_horizon_diagnostic")
@@ -103,7 +104,15 @@ def build_result(config_path):
             "Generate physics_pairs, then train B0 StateDiff and B1 "
             "StateDiff-FT.")
     elif verdict == "PHASE0D_OBSERVABLE_EQUIVALENCE_FAIL":
-        if repair_mode == "single_orthogonal_contact_loading_probe":
+        if repair_mode == "single_dual_post_future_consequence_repair":
+            next_task = (
+                "The dual-post future-consequence topology breaks "
+                "observable equivalence. Reject this topology. Keep the R9 "
+                "probe, 18D sensor, 5 s horizon, and Gate definitions "
+                "frozen. Do not tune post radius/spacing/count; if another "
+                "future repair is attempted, use a qualitatively different "
+                "continuous slot/hook topology.")
+        elif repair_mode == "single_orthogonal_contact_loading_probe":
             next_task = (
                 "The one-shot 1 mm -Y contact-loading probe breaks post-"
                 "probe observable equivalence. Reject this direction. Do "
@@ -139,7 +148,14 @@ def build_result(config_path):
                     "Prepare the canonical-hold same-condition repeatability "
                     "repair.")
     elif verdict == "PHASE0D_SENSOR_NOT_OBSERVABLE":
-        if repair_mode == "single_orthogonal_contact_loading_probe":
+        if repair_mode == "single_dual_post_future_consequence_repair":
+            next_task = (
+                "The dual-post topology regresses the previously validated "
+                "Gate 3 sensing chain. Reject this topology. Return to "
+                "frozen R9 probe/sensor mechanics; do not reopen tactile "
+                "resolution or probe tuning. Any next future repair must "
+                "preserve Gate 3.")
+        elif repair_mode == "single_orthogonal_contact_loading_probe":
             route = load_path["route_hint"]
             if route == "repair_physical_grasp_sensing_coupling":
                 next_task = (
@@ -255,7 +271,16 @@ def build_result(config_path):
                 "below threshold, plan one separate small-resolution tactile "
                 "study.")
     elif verdict == "PHASE0D_FUTURE_BRANCH_NOT_ESTABLISHED":
-        if (horizon_diagnostic is not None
+        if repair_mode == "single_dual_post_future_consequence_repair":
+            next_task = (
+                "The one-shot dual-post directional guide preserves the "
+                "frozen sensing benchmark but still does not reach the "
+                "existing Gate 4 effect-size threshold. Stop post radius/"
+                "spacing/count tuning and do not change the 5 s horizon or "
+                "STRAIGHT amplitude. If the project continues task repair, "
+                "prepare one qualitatively different continuous hidden "
+                "slot/hook future-consequence topology.")
+        elif (horizon_diagnostic is not None
                 and horizon_diagnostic["mode"]
                 == "final_fixed_horizon_sufficiency"):
             if horizon_diagnostic["tail_still_rising_at_horizon_end"]:
@@ -289,6 +314,16 @@ def build_result(config_path):
                 "Deployable contact sensing is now observable. Freeze "
                 "sensor, probe, clearance, and canonical hold; prepare a "
                 "single-purpose future-branch effect-size repair.")
+    elif (verdict == "PHASE0D_CONTROL_NOT_RELEVANT"
+          and repair_mode == "single_dual_post_future_consequence_repair"):
+        next_task = (
+            "Gate 4 is established under the frozen R9 probe/sensor and "
+            "R11 horizon, but the fixed action matrix does not establish "
+            "Gate 5. Freeze the dual-post task physics, horizon, probe, "
+            "sensor, and Gate 4 definition. Inspect the existing FREE/JAM "
+            "matrix once to distinguish FREE STRAIGHT task success from "
+            "JAM-R LEFT-RELEASE advantage, then prepare only the control-"
+            "consequence repair.")
     elif (verdict == "PHASE0D_CONTROL_NOT_RELEVANT"
           and horizon_diagnostic is not None):
         next_task = (
@@ -457,6 +492,61 @@ def build_result(config_path):
             horizon_diagnostic["tail_still_rising_at_horizon_end"],
             horizon_diagnostic["interpretation"],
         )
+    future_consequence_text = (
+        "Dual-post future-consequence comparison: not configured")
+    if repair_mode == "single_dual_post_future_consequence_repair":
+        baseline = config["repair"]["baseline"]
+        current = {
+            "post_probe_rmse_m": float(pair["post_probe_51d_rmse_m"]),
+            "formal_sensor_peak_fused_gap": float(
+                pair["peak_fused_sensor_gap"]),
+            "future_peak_visible_rmse_m": float(
+                pair["future_peak_visible_rmse_m"]),
+            "repeat_peak_visible_rmse_m": float(
+                pair["repeat_peak_visible_rmse_m"]),
+            "future_branch_to_repeat_ratio": pair[
+                "future_branch_to_repeat_ratio"],
+            "final_extraction_progress_m": dict(
+                pair["final_extraction_progress_m"]),
+        }
+        future_consequence_text = (
+            "Dual-post future-consequence comparison:\n"
+            "- Report only: True\n"
+            "- Stop after this trial: {}\n"
+            "- Baseline topology: {}\n"
+            "- Current topology: {}\n"
+            "- Baseline future peak: {} m\n"
+            "- Current future peak: {} m\n"
+            "- Future-peak ratio: {}\n"
+            "- Baseline repeat peak: {} m\n"
+            "- Current repeat peak: {} m\n"
+            "- Baseline future/repeat: {}\n"
+            "- Current future/repeat: {}\n"
+            "- Baseline formal sensor peak: {}\n"
+            "- Current formal sensor peak: {}\n"
+            "- Baseline post-probe RMSE: {} m\n"
+            "- Current post-probe RMSE: {} m\n"
+            "- Baseline extraction progress: {}\n"
+            "- Current extraction progress: {}"
+        ).format(
+            config["repair"]["stop_after_this_trial"],
+            baseline["latch_topology"],
+            latch_topology,
+            baseline["future_peak_visible_rmse_m"],
+            current["future_peak_visible_rmse_m"],
+            (current["future_peak_visible_rmse_m"]
+             / baseline["future_peak_visible_rmse_m"]),
+            baseline["repeat_peak_visible_rmse_m"],
+            current["repeat_peak_visible_rmse_m"],
+            baseline["future_branch_to_repeat_ratio"],
+            current["future_branch_to_repeat_ratio"],
+            baseline["formal_sensor_peak_fused_gap"],
+            current["formal_sensor_peak_fused_gap"],
+            baseline["post_probe_rmse_m"],
+            current["post_probe_rmse_m"],
+            baseline["final_extraction_progress_m"],
+            current["final_extraction_progress_m"],
+        )
     text = """Verdict: {verdict}
 
 Repository:
@@ -478,6 +568,7 @@ Frozen:
 - Probe forward/hold/return: {probe_forward_steps}/{probe_hold_steps}/{probe_return_steps}
 - Probe speed: {probe_speed_m_s} m/s
 - Jam clearance: {clearance_mm} mm
+- Hidden latch topology: {latch_topology}
 - Post-probe settle: {settle_steps} steps / {settle_s} s
 - State: {state_dim}D
 - Sensor: {sensor_dim}D
@@ -538,6 +629,8 @@ Key values:
 
 {horizon_text}
 
+{future_consequence_text}
+
 Leakage statement:
 - Internal cable constraint force used as formal sensor: No
 - Internal cable constraint force used for Gate 3: No
@@ -573,6 +666,7 @@ Next task: {next_task}
         probe_hold_steps=config["motion"]["probe_hold_steps"],
         probe_return_steps=config["motion"]["probe_return_steps"],
         clearance_mm=clearance_mm,
+        latch_topology=latch_topology,
         settle_steps=config["execution"]["post_probe_steps"],
         settle_s=(config["execution"]["post_probe_steps"]
                   / config["execution"]["hz"]),
@@ -627,6 +721,7 @@ Next task: {next_task}
         amplification_text=amplification_text,
         direction_text=direction_text,
         horizon_text=horizon_text,
+        future_consequence_text=future_consequence_text,
         oracle_diagnostic="Yes" if load_path is not None else "No",
         passed=tests_passed, failed=tests_failed, pip_check=pip_check,
         next_task=next_task)

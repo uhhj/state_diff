@@ -259,3 +259,26 @@ def test_r11_only_extends_r10_final_future_horizon():
     assert audit["tail_window_seconds"] == [0.5, 1.0, 2.0]
     assert audit["baseline"]["result_main_sha"] == (
         "4f2859cb5ccfbe02010c6d3838d62e607b2eba23")
+
+
+def test_r12_changes_only_hidden_topology_from_r11():
+    r11 = _load("ohj_cable_phase0d_r11_future5s.json")
+    r12 = _load("ohj_cable_phase0d_r12_dualpost.json")
+    for key in (
+            "conditions", "execution", "motion", "state", "sensor",
+            "diagnostic", "analysis", "control_relevance"):
+        assert r12[key] == r11[key]
+    r12_geometry = dict(r12["geometry"])
+    topology = r12_geometry.pop("latch_topology")
+    assert r12_geometry == r11["geometry"]
+    assert topology == "dual_post_directional_guide"
+    assert "future_horizon_audit" not in r12
+    repair = r12["repair"]
+    assert repair["mode"] == "single_dual_post_future_consequence_repair"
+    assert repair["stop_after_this_trial"] is True
+    assert repair["baseline"]["result_main_sha"] == (
+        "4467cce92f811e202129cdedb6ba9d7b83c22a17")
+    assert np.isclose(
+        repair["baseline"]["future_peak_visible_rmse_m"],
+        0.00403363901868536)
+    assert repair["baseline"]["formal_sensor_peak_fused_gap"] > 1.0
