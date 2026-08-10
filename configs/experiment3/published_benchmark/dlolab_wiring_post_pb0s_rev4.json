@@ -1,0 +1,39 @@
+{
+  "phase_name": "pb0s-rev4-wiring-post-hidden-descriptor-robustness",
+  "source": {
+    "pb0_config": "configs/experiment3/published_benchmark/dlolab_wiring_post_pb0.json",
+    "rev3_config": "configs/experiment3/published_benchmark/dlolab_wiring_post_pb0s_rev3.json",
+    "rev3_result": "reports/experiment3/pb0s_rev3_wiring_post_screening_audit/RESULT.md",
+    "dataset": "/data/Experiment3/data/pb0_dlolab_wiring_post/rollouts_scaleup.npz",
+    "expected_original_hidden_pair_count": 27569,
+    "formal_pb0_verdict": "PB0_WIRING_POST_NO_NATURAL_CCDA_PAIRS"
+  },
+  "robustness": {
+    "contact_proxy_threshold_m": 0.003,
+    "symmetric_deadband_sweep_m": [
+      0.0,
+      5e-06,
+      1e-05,
+      2.5e-05,
+      5e-05,
+      0.0001,
+      0.00025,
+      0.0005,
+      0.001
+    ],
+    "top_k": 50,
+    "committed_shortlist_k": 20
+  },
+  "replay": {
+    "n_envs_per_batch": 32,
+    "base_seed": 123
+  },
+  "outputs": {
+    "raw_root": "/data/Experiment3/reports/pb0s_rev4_wiring_post_hidden_descriptor",
+    "committed_report_dir": "reports/experiment3/pb0s_rev4_wiring_post_hidden_descriptor"
+  },
+  "provenance": {
+    "starting_main_sha": "66f739c4f49bbea093ac7c5c4a78466ef85a6fc9",
+    "dlolab_revision": "c5026a9416b03c6bc5186eba13cd4ffd4c0e7796"
+  }
+}
