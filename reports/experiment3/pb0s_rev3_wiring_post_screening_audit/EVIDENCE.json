@@ -1,0 +1,1306 @@
+{
+  "phase_name": "pb0s-rev3-wiring-post-screening-assumption-audit",
+  "verdict": "PB0S_REV3_SCREENING_ASSUMPTIONS_AUDITED",
+  "repository": {
+    "starting_main_sha": "660c897d44c09b3829186c93898a42ffb95768e0",
+    "ending_main_sha": "e1b7e0c8573be43833ad8e2c9cd0ad7ea1f3e2fb",
+    "dlolab_gitlink": "c5026a9416b03c6bc5186eba13cd4ffd4c0e7796"
+  },
+  "scientific": {
+    "verdict": "PB0S_REV3_SCREENING_ASSUMPTIONS_AUDITED",
+    "formal_pb0_verdict": "PB0_WIRING_POST_NO_NATURAL_CCDA_PAIRS",
+    "formal_pb0_verdict_changed": false,
+    "new_simulator_rollout": false,
+    "model_training_started": false,
+    "findings": [
+      "PB0S_ORIGINAL_FUNNEL_CHARACTERIZED",
+      "PB0S_ORIGINAL_HIDDEN_PAIRS_EXIST_BEFORE_T10_FILTER"
+    ],
+    "formal_funnel_counts": {
+      "formal_total_same_time_pairs": 11642624,
+      "formal_chamfer_pass": 9465367,
+      "formal_ee_pass_after_chamfer": 9286773,
+      "formal_original_hidden_pass": 27569,
+      "formal_t10_ratio_pass": 0,
+      "all_time_original_hidden_pair_count": 27569,
+      "all_time_global_only_pair_count": 0
+    },
+    "original_hidden_horizon_audit": {
+      "horizon_eligible_pair_count": {
+        "1": 27569,
+        "2": 27569,
+        "5": 27569,
+        "10": 27569,
+        "20": 25034,
+        "40": 25034
+      },
+      "future_distance_summary_by_horizon_m": {
+        "1": {
+          "n": 27569,
+          "min": 1.4263986322745488e-05,
+          "p05": 0.001680613543608117,
+          "median": 0.007488391414555828,
+          "p95": 0.010922643177297353,
+          "max": 0.012772540806959897
+        },
+        "2": {
+          "n": 27569,
+          "min": 1.4977755674395231e-05,
+          "p05": 0.001764751408204275,
+          "median": 0.007822397069060696,
+          "p95": 0.011080319487195525,
+          "max": 0.01316889803137165
+        },
+        "5": {
+          "n": 27569,
+          "min": 1.557648725945002e-05,
+          "p05": 0.0015393186874635692,
+          "median": 0.005942921652515037,
+          "p95": 0.009175358030899434,
+          "max": 0.011685508963697952
+        },
+        "10": {
+          "n": 27569,
+          "min": 1.656594189997774e-05,
+          "p05": 0.0009045048893792848,
+          "median": 0.00317872301631983,
+          "p95": 0.0057501321568281406,
+          "max": 0.006500904344829183
+        },
+        "20": {
+          "n": 25034,
+          "min": 1.0963058988239308e-05,
+          "p05": 0.0002324911946934242,
+          "median": 0.002001192199654232,
+          "p95": 0.004094118298413048,
+          "max": 0.0049866966909258206
+        },
+        "40": {
+          "n": 25034,
+          "min": 3.489855398648745e-06,
+          "p05": 6.179130464374924e-05,
+          "median": 0.0005947224277279033,
+          "p95": 0.0012411139285934262,
+          "max": 0.0014176447045704406
+        }
+      },
+      "horizon_of_maximum_sampled_future_distance_counts": {
+        "1": 7871,
+        "2": 19259,
+        "5": 249,
+        "10": 190
+      },
+      "maximum_sampled_future_distance_over_t10_ratio": {
+        "n": 27569,
+        "min": 1.0,
+        "p05": 1.000619251097298,
+        "median": 2.2002937028188474,
+        "p95": 4.544500169217205,
+        "max": 5.593449378177224
+      },
+      "naming_note": "The reported horizon is only the horizon with the maximum distance among the sampled horizons available for that pair. It is not claimed to be the physical peak-divergence time."
+    },
+    "global_only_horizon_audit": {
+      "horizon_eligible_pair_count": {
+        "1": 0,
+        "2": 0,
+        "5": 0,
+        "10": 0,
+        "20": 0,
+        "40": 0
+      },
+      "future_distance_summary_by_horizon_m": {
+        "1": {
+          "n": 0,
+          "min": null,
+          "p05": null,
+          "median": null,
+          "p95": null,
+          "max": null
+        },
+        "2": {
+          "n": 0,
+          "min": null,
+          "p05": null,
+          "median": null,
+          "p95": null,
+          "max": null
+        },
+        "5": {
+          "n": 0,
+          "min": null,
+          "p05": null,
+          "median": null,
+          "p95": null,
+          "max": null
+        },
+        "10": {
+          "n": 0,
+          "min": null,
+          "p05": null,
+          "median": null,
+          "p95": null,
+          "max": null
+        },
+        "20": {
+          "n": 0,
+          "min": null,
+          "p05": null,
+          "median": null,
+          "p95": null,
+          "max": null
+        },
+        "40": {
+          "n": 0,
+          "min": null,
+          "p05": null,
+          "median": null,
+          "p95": null,
+          "max": null
+        }
+      },
+      "horizon_of_maximum_sampled_future_distance_counts": {},
+      "maximum_sampled_future_distance_over_t10_ratio": {
+        "n": 0,
+        "min": null,
+        "p05": null,
+        "median": null,
+        "p95": null,
+        "max": null
+      },
+      "naming_note": "The reported horizon is only the horizon with the maximum distance among the sampled horizons available for that pair. It is not claimed to be the physical peak-divergence time."
+    },
+    "chamfer_metric_audit": {
+      "enabled": true,
+      "search_is_exhaustive": false,
+      "proposal_method": "same-time cKDTree masked-history signature",
+      "knn_k": 32,
+      "proposal_pairs_examined": 893237,
+      "positive_candidate_count": 0,
+      "top_candidates": [],
+      "interpretation": "Positive candidates are evidence that sparse-vertex Chamfer may reject curve-near states. Zero candidates are non-conclusive because the proposal search is approximate."
+    },
+    "cross_time_audit": {
+      "enabled": true,
+      "search_is_exhaustive": false,
+      "knn_k": 32,
+      "states_indexed": 50176,
+      "unique_knn_pairs_examined": 885456,
+      "positive_candidate_count": 0,
+      "top_candidates": [],
+      "interpretation": "Positive candidates support the possibility that the same-time restriction misses plausible pairs. Zero candidates are not negative evidence because this search is approximate."
+    },
+    "top_original_hidden_pairs": [
+      {
+        "rollout_a": 218,
+        "rollout_b": 426,
+        "time_index": 81,
+        "observable_chamfer_m": 1.3956325303074395e-05,
+        "ee_position_distance_m": 1.854217202194573e-08,
+        "ordered_visibility_diagnostic": {
+          "common_visible_indexed_rmse_m": 1.592718003777586e-05,
+          "visible_mask_mismatch_fraction": 0.0,
+          "common_visible_vertex_count_mean": 20.333333333333332,
+          "only_a_visible_vertex_count_mean": 0.0,
+          "only_b_visible_vertex_count_mean": 0.0
+        },
+        "hidden_descriptor_diagnostic": {
+          "original_hidden_different": true,
+          "contact_like_mismatch": true,
+          "roi_wrap_difference_rad": [
+            0.00026321651163474513,
+            0.00012320872885096534
+          ],
+          "global_angular_difference_rad": [
+            0.00011758986079302147,
+            0.00012673356769621336
+          ],
+          "global_hidden_different_diagnostic": true,
+          "descriptor_a": [
+            {
+              "wrap_angle_rad": 2.5937091839119653,
+              "surface_clearance_m": 0.002998299190963411,
+              "contact_like": true,
+              "nearest_vertex": 20
+            },
+            {
+              "wrap_angle_rad": -2.7329609288202272,
+              "surface_clearance_m": 0.015085412455815319,
+              "contact_like": false,
+              "nearest_vertex": 6
+            }
+          ],
+          "descriptor_b": [
+            {
+              "wrap_angle_rad": 2.5934459674003305,
+              "surface_clearance_m": 0.0030026283041559333,
+              "contact_like": false,
+              "nearest_vertex": 20
+            },
+            {
+              "wrap_angle_rad": -2.733084137549078,
+              "surface_clearance_m": 0.015074086871301743,
+              "contact_like": false,
+              "nearest_vertex": 6
+            }
+          ]
+        }
+      },
+      {
+        "rollout_a": 371,
+        "rollout_b": 399,
+        "time_index": 81,
+        "observable_chamfer_m": 1.486854035178807e-05,
+        "ee_position_distance_m": 1.7811928818696967e-08,
+        "ordered_visibility_diagnostic": {
+          "common_visible_indexed_rmse_m": 1.709942306056437e-05,
+          "visible_mask_mismatch_fraction": 0.0,
+          "common_visible_vertex_count_mean": 20.333333333333332,
+          "only_a_visible_vertex_count_mean": 0.0,
+          "only_b_visible_vertex_count_mean": 0.0
+        },
+        "hidden_descriptor_diagnostic": {
+          "original_hidden_different": true,
+          "contact_like_mismatch": true,
+          "roi_wrap_difference_rad": [
+            0.00029169954212093785,
+            0.00022603078800731424
+          ],
+          "global_angular_difference_rad": [
+            8.873710611423391e-05,
+            7.416543902794004e-05
+          ],
+          "global_hidden_different_diagnostic": true,
+          "descriptor_a": [
+            {
+              "wrap_angle_rad": 2.5941875122317732,
+              "surface_clearance_m": 0.0029989550823005286,
+              "contact_like": true,
+              "nearest_vertex": 20
+            },
+            {
+              "wrap_angle_rad": -2.7329052969863445,
+              "surface_clearance_m": 0.015079798105334021,
+              "contact_like": false,
+              "nearest_vertex": 6
+            }
+          ],
+          "descriptor_b": [
+            {
+              "wrap_angle_rad": 2.5938958126896523,
+              "surface_clearance_m": 0.0030034032432185408,
+              "contact_like": false,
+              "nearest_vertex": 20
+            },
+            {
+              "wrap_angle_rad": -2.733131327774352,
+              "surface_clearance_m": 0.015074967497739632,
+              "contact_like": false,
+              "nearest_vertex": 6
+            }
+          ]
+        }
+      },
+      {
+        "rollout_a": 389,
+        "rollout_b": 422,
+        "time_index": 81,
+        "observable_chamfer_m": 1.6944910336345797e-05,
+        "ee_position_distance_m": 1.7938459431364703e-08,
+        "ordered_visibility_diagnostic": {
+          "common_visible_indexed_rmse_m": 1.901193847726919e-05,
+          "visible_mask_mismatch_fraction": 0.0,
+          "common_visible_vertex_count_mean": 20.333333333333332,
+          "only_a_visible_vertex_count_mean": 0.0,
+          "only_b_visible_vertex_count_mean": 0.0
+        },
+        "hidden_descriptor_diagnostic": {
+          "original_hidden_different": true,
+          "contact_like_mismatch": true,
+          "roi_wrap_difference_rad": [
+            4.8112146250556265e-05,
+            0.00011051789991345373
+          ],
+          "global_angular_difference_rad": [
+            0.00029667700377133954,
+            0.000361146275960067
+          ],
+          "global_hidden_different_diagnostic": true,
+          "descriptor_a": [
+            {
+              "wrap_angle_rad": 2.5946461868103845,
+              "surface_clearance_m": 0.003003601849045131,
+              "contact_like": false,
+              "nearest_vertex": 20
+            },
+            {
+              "wrap_angle_rad": -2.732957261921231,
+              "surface_clearance_m": 0.015058501003838657,
+              "contact_like": false,
+              "nearest_vertex": 6
+            }
+          ],
+          "descriptor_b": [
+            {
+              "wrap_angle_rad": 2.594694298956635,
+              "surface_clearance_m": 0.0029991407417745176,
+              "contact_like": true,
+              "nearest_vertex": 20
+            },
+            {
+              "wrap_angle_rad": -2.7328467440213173,
+              "surface_clearance_m": 0.015074593992604818,
+              "contact_like": false,
+              "nearest_vertex": 6
+            }
+          ]
+        }
+      },
+      {
+        "rollout_a": 351,
+        "rollout_b": 399,
+        "time_index": 81,
+        "observable_chamfer_m": 1.7320754929101667e-05,
+        "ee_position_distance_m": 1.854217202194573e-08,
+        "ordered_visibility_diagnostic": {
+          "common_visible_indexed_rmse_m": 1.8809466847695338e-05,
+          "visible_mask_mismatch_fraction": 0.0,
+          "common_visible_vertex_count_mean": 20.333333333333332,
+          "only_a_visible_vertex_count_mean": 0.0,
+          "only_b_visible_vertex_count_mean": 0.0
+        },
+        "hidden_descriptor_diagnostic": {
+          "original_hidden_different": true,
+          "contact_like_mismatch": true,
+          "roi_wrap_difference_rad": [
+            0.00013848999372623183,
+            0.00022508384223884903
+          ],
+          "global_angular_difference_rad": [
+            0.0001989860216404793,
+            0.0001915247045674029
+          ],
+          "global_hidden_different_diagnostic": true,
+          "descriptor_a": [
+            {
+              "wrap_angle_rad": 2.5940343026833785,
+              "surface_clearance_m": 0.002998285917749626,
+              "contact_like": true,
+              "nearest_vertex": 20
+            },
+            {
+              "wrap_angle_rad": -2.732906243932113,
+              "surface_clearance_m": 0.015081503270934531,
+              "contact_like": false,
+              "nearest_vertex": 6
+            }
+          ],
+          "descriptor_b": [
+            {
+              "wrap_angle_rad": 2.5938958126896523,
+              "surface_clearance_m": 0.0030034032432185408,
+              "contact_like": false,
+              "nearest_vertex": 20
+            },
+            {
+              "wrap_angle_rad": -2.733131327774352,
+              "surface_clearance_m": 0.015074967497739632,
+              "contact_like": false,
+              "nearest_vertex": 6
+            }
+          ]
+        }
+      },
+      {
+        "rollout_a": 255,
+        "rollout_b": 496,
+        "time_index": 81,
+        "observable_chamfer_m": 1.7744796789035862e-05,
+        "ee_position_distance_m": 1.7938459431364703e-08,
+        "ordered_visibility_diagnostic": {
+          "common_visible_indexed_rmse_m": 1.91832186195231e-05,
+          "visible_mask_mismatch_fraction": 0.0,
+          "common_visible_vertex_count_mean": 20.333333333333332,
+          "only_a_visible_vertex_count_mean": 0.0,
+          "only_b_visible_vertex_count_mean": 0.0
+        },
+        "hidden_descriptor_diagnostic": {
+          "original_hidden_different": true,
+          "contact_like_mismatch": true,
+          "roi_wrap_difference_rad": [
+            0.00013378357021487375,
+            0.00018025189974002487
+          ],
+          "global_angular_difference_rad": [
+            0.0002711510983717247,
+            0.00035950074712376434
+          ],
+          "global_hidden_different_diagnostic": true,
+          "descriptor_a": [
+            {
+              "wrap_angle_rad": 2.5943637454908526,
+              "surface_clearance_m": 0.0029982959611319394,
+              "contact_like": true,
+              "nearest_vertex": 20
+            },
+            {
+              "wrap_angle_rad": -2.7328817678368207,
+              "surface_clearance_m": 0.015079981346161658,
+              "contact_like": false,
+              "nearest_vertex": 6
+            }
+          ],
+          "descriptor_b": [
+            {
+              "wrap_angle_rad": 2.5942299619206377,
+              "surface_clearance_m": 0.0030042928335240297,
+              "contact_like": false,
+              "nearest_vertex": 20
+            },
+            {
+              "wrap_angle_rad": -2.7330620197365607,
+              "surface_clearance_m": 0.015061571326727172,
+              "contact_like": false,
+              "nearest_vertex": 6
+            }
+          ]
+        }
+      },
+      {
+        "rollout_a": 149,
+        "rollout_b": 218,
+        "time_index": 81,
+        "observable_chamfer_m": 1.792990941760513e-05,
+        "ee_position_distance_m": 1.7938459431364703e-08,
+        "ordered_visibility_diagnostic": {
+          "common_visible_indexed_rmse_m": 1.9951498760011403e-05,
+          "visible_mask_mismatch_fraction": 0.0,
+          "common_visible_vertex_count_mean": 20.333333333333332,
+          "only_a_visible_vertex_count_mean": 0.0,
+          "only_b_visible_vertex_count_mean": 0.0
+        },
+        "hidden_descriptor_diagnostic": {
+          "original_hidden_different": true,
+          "contact_like_mismatch": true,
+          "roi_wrap_difference_rad": [
+            0.00011868093700151405,
+            0.00012557911831612145
+          ],
+          "global_angular_difference_rad": [
+            0.00028538602587024897,
+            0.0004266350551644926
+          ],
+          "global_hidden_different_diagnostic": true,
+          "descriptor_a": [
+            {
+              "wrap_angle_rad": 2.5935905029749637,
+              "surface_clearance_m": 0.003004563206183277,
+              "contact_like": false,
+              "nearest_vertex": 20
+            },
+            {
+              "wrap_angle_rad": -2.7330865079385434,
+              "surface_clearance_m": 0.01506317165766383,
+              "contact_like": false,
+              "nearest_vertex": 6
+            }
+          ],
+          "descriptor_b": [
+            {
+              "wrap_angle_rad": 2.5937091839119653,
+              "surface_clearance_m": 0.002998299190963411,
+              "contact_like": true,
+              "nearest_vertex": 20
+            },
+            {
+              "wrap_angle_rad": -2.7329609288202272,
+              "surface_clearance_m": 0.015085412455815319,
+              "contact_like": false,
+              "nearest_vertex": 6
+            }
+          ]
+        }
+      },
+      {
+        "rollout_a": 205,
+        "rollout_b": 371,
+        "time_index": 81,
+        "observable_chamfer_m": 2.0417116502450117e-05,
+        "ee_position_distance_m": 1.8327079290066474e-08,
+        "ordered_visibility_diagnostic": {
+          "common_visible_indexed_rmse_m": 2.3832440252146928e-05,
+          "visible_mask_mismatch_fraction": 0.0,
+          "common_visible_vertex_count_mean": 20.333333333333332,
+          "only_a_visible_vertex_count_mean": 0.0,
+          "only_b_visible_vertex_count_mean": 0.0
+        },
+        "hidden_descriptor_diagnostic": {
+          "original_hidden_different": true,
+          "contact_like_mismatch": true,
+          "roi_wrap_difference_rad": [
+            0.00025429990006031744,
+            0.00020270065553606997
+          ],
+          "global_angular_difference_rad": [
+            0.0002689731245837379,
+            0.0005428313893416359
+          ],
+          "global_hidden_different_diagnostic": true,
+          "descriptor_a": [
+            {
+              "wrap_angle_rad": 2.593933212331713,
+              "surface_clearance_m": 0.0030074045985103125,
+              "contact_like": false,
+              "nearest_vertex": 20
+            },
+            {
+              "wrap_angle_rad": -2.7331079976418806,
+              "surface_clearance_m": 0.015047750742271663,
+              "contact_like": false,
+              "nearest_vertex": 6
+            }
+          ],
+          "descriptor_b": [
+            {
+              "wrap_angle_rad": 2.5941875122317732,
+              "surface_clearance_m": 0.0029989550823005286,
+              "contact_like": true,
+              "nearest_vertex": 20
+            },
+            {
+              "wrap_angle_rad": -2.7329052969863445,
+              "surface_clearance_m": 0.015079798105334021,
+              "contact_like": false,
+              "nearest_vertex": 6
+            }
+          ]
+        }
+      },
+      {
+        "rollout_a": 115,
+        "rollout_b": 422,
+        "time_index": 81,
+        "observable_chamfer_m": 2.1623465290695732e-05,
+        "ee_position_distance_m": 1.862645149230957e-09,
+        "ordered_visibility_diagnostic": {
+          "common_visible_indexed_rmse_m": 3.6477995661452005e-05,
+          "visible_mask_mismatch_fraction": 0.0,
+          "common_visible_vertex_count_mean": 20.333333333333332,
+          "only_a_visible_vertex_count_mean": 0.0,
+          "only_b_visible_vertex_count_mean": 0.0
+        },
+        "hidden_descriptor_diagnostic": {
+          "original_hidden_different": true,
+          "contact_like_mismatch": true,
+          "roi_wrap_difference_rad": [
+            0.0002605618906819096,
+            3.662524729763916e-05
+          ],
+          "global_angular_difference_rad": [
+            0.0005679065658217297,
+            0.000251282190970592
+          ],
+          "global_hidden_different_diagnostic": true,
+          "descriptor_a": [
+            {
+              "wrap_angle_rad": 2.594954860847317,
+              "surface_clearance_m": 0.003001193724749506,
+              "contact_like": false,
+              "nearest_vertex": 20
+            },
+            {
+              "wrap_angle_rad": -2.732883369268615,
+              "surface_clearance_m": 0.015071391298487596,
+              "contact_like": false,
+              "nearest_vertex": 6
+            }
+          ],
+          "descriptor_b": [
+            {
+              "wrap_angle_rad": 2.594694298956635,
+              "surface_clearance_m": 0.0029991407417745176,
+              "contact_like": true,
+              "nearest_vertex": 20
+            },
+            {
+              "wrap_angle_rad": -2.7328467440213173,
+              "surface_clearance_m": 0.015074593992604818,
+              "contact_like": false,
+              "nearest_vertex": 6
+            }
+          ]
+        }
+      },
+      {
+        "rollout_a": 205,
+        "rollout_b": 255,
+        "time_index": 81,
+        "observable_chamfer_m": 2.296173903935665e-05,
+        "ee_position_distance_m": 1.8500798122388273e-08,
+        "ordered_visibility_diagnostic": {
+          "common_visible_indexed_rmse_m": 2.6078802314523154e-05,
+          "visible_mask_mismatch_fraction": 0.0,
+          "common_visible_vertex_count_mean": 20.333333333333332,
+          "only_a_visible_vertex_count_mean": 0.0,
+          "only_b_visible_vertex_count_mean": 0.0
+        },
+        "hidden_descriptor_diagnostic": {
+          "original_hidden_different": true,
+          "contact_like_mismatch": true,
+          "roi_wrap_difference_rad": [
+            0.0004305331591396566,
+            0.00022622980505992984
+          ],
+          "global_angular_difference_rad": [
+            1.2059213064130603e-05,
+            0.00042373704476306173
+          ],
+          "global_hidden_different_diagnostic": true,
+          "descriptor_a": [
+            {
+              "wrap_angle_rad": 2.593933212331713,
+              "surface_clearance_m": 0.0030074045985103125,
+              "contact_like": false,
+              "nearest_vertex": 20
+            },
+            {
+              "wrap_angle_rad": -2.7331079976418806,
+              "surface_clearance_m": 0.015047750742271663,
+              "contact_like": false,
+              "nearest_vertex": 6
+            }
+          ],
+          "descriptor_b": [
+            {
+              "wrap_angle_rad": 2.5943637454908526,
+              "surface_clearance_m": 0.0029982959611319394,
+              "contact_like": true,
+              "nearest_vertex": 20
+            },
+            {
+              "wrap_angle_rad": -2.7328817678368207,
+              "surface_clearance_m": 0.015079981346161658,
+              "contact_like": false,
+              "nearest_vertex": 6
+            }
+          ]
+        }
+      },
+      {
+        "rollout_a": 149,
+        "rollout_b": 351,
+        "time_index": 81,
+        "observable_chamfer_m": 2.403967862059099e-05,
+        "ee_position_distance_m": 1.7938459431364703e-08,
+        "ordered_visibility_diagnostic": {
+          "common_visible_indexed_rmse_m": 2.85817429474303e-05,
+          "visible_mask_mismatch_fraction": 0.0,
+          "common_visible_vertex_count_mean": 20.333333333333332,
+          "only_a_visible_vertex_count_mean": 0.0,
+          "only_b_visible_vertex_count_mean": 0.0
+        },
+        "hidden_descriptor_diagnostic": {
+          "original_hidden_different": true,
+          "contact_like_mismatch": true,
+          "roi_wrap_difference_rad": [
+            0.00044379970841479377,
+            0.0001802640064303418
+          ],
+          "global_angular_difference_rad": [
+            0.00027183979917522194,
+            0.0001543916367428011
+          ],
+          "global_hidden_different_diagnostic": true,
+          "descriptor_a": [
+            {
+              "wrap_angle_rad": 2.5935905029749637,
+              "surface_clearance_m": 0.003004563206183277,
+              "contact_like": false,
+              "nearest_vertex": 20
+            },
+            {
+              "wrap_angle_rad": -2.7330865079385434,
+              "surface_clearance_m": 0.01506317165766383,
+              "contact_like": false,
+              "nearest_vertex": 6
+            }
+          ],
+          "descriptor_b": [
+            {
+              "wrap_angle_rad": 2.5940343026833785,
+              "surface_clearance_m": 0.002998285917749626,
+              "contact_like": true,
+              "nearest_vertex": 20
+            },
+            {
+              "wrap_angle_rad": -2.732906243932113,
+              "surface_clearance_m": 0.015081503270934531,
+              "contact_like": false,
+              "nearest_vertex": 6
+            }
+          ]
+        }
+      },
+      {
+        "rollout_a": 255,
+        "rollout_b": 399,
+        "time_index": 81,
+        "observable_chamfer_m": 2.4814089796336884e-05,
+        "ee_position_distance_m": 1.7938459431364703e-08,
+        "ordered_visibility_diagnostic": {
+          "common_visible_indexed_rmse_m": 3.029473581069072e-05,
+          "visible_mask_mismatch_fraction": 0.0,
+          "common_visible_vertex_count_mean": 20.333333333333332,
+          "only_a_visible_vertex_count_mean": 0.0,
+          "only_b_visible_vertex_count_mean": 0.0
+        },
+        "hidden_descriptor_diagnostic": {
+          "original_hidden_different": true,
+          "contact_like_mismatch": true,
+          "roi_wrap_difference_rad": [
+            0.000467932801200277,
+            0.0002495599375311741
+          ],
+          "global_angular_difference_rad": [
+            0.0003697694437621024,
+            4.492890555063411e-05
+          ],
+          "global_hidden_different_diagnostic": true,
+          "descriptor_a": [
+            {
+              "wrap_angle_rad": 2.5943637454908526,
+              "surface_clearance_m": 0.0029982959611319394,
+              "contact_like": true,
+              "nearest_vertex": 20
+            },
+            {
+              "wrap_angle_rad": -2.7328817678368207,
+              "surface_clearance_m": 0.015079981346161658,
+              "contact_like": false,
+              "nearest_vertex": 6
+            }
+          ],
+          "descriptor_b": [
+            {
+              "wrap_angle_rad": 2.5938958126896523,
+              "surface_clearance_m": 0.0030034032432185408,
+              "contact_like": false,
+              "nearest_vertex": 20
+            },
+            {
+              "wrap_angle_rad": -2.733131327774352,
+              "surface_clearance_m": 0.015074967497739632,
+              "contact_like": false,
+              "nearest_vertex": 6
+            }
+          ]
+        }
+      },
+      {
+        "rollout_a": 218,
+        "rollout_b": 320,
+        "time_index": 81,
+        "observable_chamfer_m": 2.508259798761566e-05,
+        "ee_position_distance_m": 1.9092100951910865e-08,
+        "ordered_visibility_diagnostic": {
+          "common_visible_indexed_rmse_m": 3.0011242812462056e-05,
+          "visible_mask_mismatch_fraction": 0.0,
+          "common_visible_vertex_count_mean": 20.333333333333332,
+          "only_a_visible_vertex_count_mean": 0.0,
+          "only_b_visible_vertex_count_mean": 0.0
+        },
+        "hidden_descriptor_diagnostic": {
+          "original_hidden_different": true,
+          "contact_like_mismatch": true,
+          "roi_wrap_difference_rad": [
+            0.0004462007803121004,
+            0.00014665152725701347
+          ],
+          "global_angular_difference_rad": [
+            0.0002519093915118731,
+            0.00023225186967756883
+          ],
+          "global_hidden_different_diagnostic": true,
+          "descriptor_a": [
+            {
+              "wrap_angle_rad": 2.5937091839119653,
+              "surface_clearance_m": 0.002998299190963411,
+              "contact_like": true,
+              "nearest_vertex": 20
+            },
+            {
+              "wrap_angle_rad": -2.7329609288202272,
+              "surface_clearance_m": 0.015085412455815319,
+              "contact_like": false,
+              "nearest_vertex": 6
+            }
+          ],
+          "descriptor_b": [
+            {
+              "wrap_angle_rad": 2.593262983131653,
+              "surface_clearance_m": 0.003004613256623701,
+              "contact_like": false,
+              "nearest_vertex": 20
+            },
+            {
+              "wrap_angle_rad": -2.7331075803474842,
+              "surface_clearance_m": 0.0150612516949566,
+              "contact_like": false,
+              "nearest_vertex": 6
+            }
+          ]
+        }
+      },
+      {
+        "rollout_a": 422,
+        "rollout_b": 496,
+        "time_index": 81,
+        "observable_chamfer_m": 2.54166423134921e-05,
+        "ee_position_distance_m": 1.7938459431364703e-08,
+        "ordered_visibility_diagnostic": {
+          "common_visible_indexed_rmse_m": 3.066432584890374e-05,
+          "visible_mask_mismatch_fraction": 0.0,
+          "common_visible_vertex_count_mean": 20.333333333333332,
+          "only_a_visible_vertex_count_mean": 0.0,
+          "only_b_visible_vertex_count_mean": 0.0
+        },
+        "hidden_descriptor_diagnostic": {
+          "original_hidden_different": true,
+          "contact_like_mismatch": true,
+          "roi_wrap_difference_rad": [
+            0.0004643370359973531,
+            0.0002152757152433793
+          ],
+          "global_angular_difference_rad": [
+            0.0003350324049136155,
+            7.75437739011231e-05
+          ],
+          "global_hidden_different_diagnostic": true,
+          "descriptor_a": [
+            {
+              "wrap_angle_rad": 2.594694298956635,
+              "surface_clearance_m": 0.0029991407417745176,
+              "contact_like": true,
+              "nearest_vertex": 20
+            },
+            {
+              "wrap_angle_rad": -2.7328467440213173,
+              "surface_clearance_m": 0.015074593992604818,
+              "contact_like": false,
+              "nearest_vertex": 6
+            }
+          ],
+          "descriptor_b": [
+            {
+              "wrap_angle_rad": 2.5942299619206377,
+              "surface_clearance_m": 0.0030042928335240297,
+              "contact_like": false,
+              "nearest_vertex": 20
+            },
+            {
+              "wrap_angle_rad": -2.7330620197365607,
+              "surface_clearance_m": 0.015061571326727172,
+              "contact_like": false,
+              "nearest_vertex": 6
+            }
+          ]
+        }
+      },
+      {
+        "rollout_a": 371,
+        "rollout_b": 496,
+        "time_index": 81,
+        "observable_chamfer_m": 2.672309668440313e-05,
+        "ee_position_distance_m": 1.7811928818696967e-08,
+        "ordered_visibility_diagnostic": {
+          "common_visible_indexed_rmse_m": 3.2988570515560856e-05,
+          "visible_mask_mismatch_fraction": 0.0,
+          "common_visible_vertex_count_mean": 20.333333333333332,
+          "only_a_visible_vertex_count_mean": 0.0,
+          "only_b_visible_vertex_count_mean": 0.0
+        },
+        "hidden_descriptor_diagnostic": {
+          "original_hidden_different": true,
+          "contact_like_mismatch": true,
+          "roi_wrap_difference_rad": [
+            4.244968886446543e-05,
+            0.000156722750216165
+          ],
+          "global_angular_difference_rad": [
+            0.0005521834360195932,
+            0.0004785950917023385
+          ],
+          "global_hidden_different_diagnostic": true,
+          "descriptor_a": [
+            {
+              "wrap_angle_rad": 2.5941875122317732,
+              "surface_clearance_m": 0.0029989550823005286,
+              "contact_like": true,
+              "nearest_vertex": 20
+            },
+            {
+              "wrap_angle_rad": -2.7329052969863445,
+              "surface_clearance_m": 0.015079798105334021,
+              "contact_like": false,
+              "nearest_vertex": 6
+            }
+          ],
+          "descriptor_b": [
+            {
+              "wrap_angle_rad": 2.5942299619206377,
+              "surface_clearance_m": 0.0030042928335240297,
+              "contact_like": false,
+              "nearest_vertex": 20
+            },
+            {
+              "wrap_angle_rad": -2.7330620197365607,
+              "surface_clearance_m": 0.015061571326727172,
+              "contact_like": false,
+              "nearest_vertex": 6
+            }
+          ]
+        }
+      },
+      {
+        "rollout_a": 205,
+        "rollout_b": 351,
+        "time_index": 81,
+        "observable_chamfer_m": 3.0357520653674712e-05,
+        "ee_position_distance_m": 1.9092100951910865e-08,
+        "ordered_visibility_diagnostic": {
+          "common_visible_indexed_rmse_m": 3.426408104521682e-05,
+          "visible_mask_mismatch_fraction": 0.0,
+          "common_visible_vertex_count_mean": 20.333333333333332,
+          "only_a_visible_vertex_count_mean": 0.0,
+          "only_b_visible_vertex_count_mean": 0.0
+        },
+        "hidden_descriptor_diagnostic": {
+          "original_hidden_different": true,
+          "contact_like_mismatch": true,
+          "roi_wrap_difference_rad": [
+            0.00010109035166561142,
+            0.00020175370976760476
+          ],
+          "global_angular_difference_rad": [
+            0.0005566962523384511,
+            0.0006601906548810987
+          ],
+          "global_hidden_different_diagnostic": true,
+          "descriptor_a": [
+            {
+              "wrap_angle_rad": 2.593933212331713,
+              "surface_clearance_m": 0.0030074045985103125,
+              "contact_like": false,
+              "nearest_vertex": 20
+            },
+            {
+              "wrap_angle_rad": -2.7331079976418806,
+              "surface_clearance_m": 0.015047750742271663,
+              "contact_like": false,
+              "nearest_vertex": 6
+            }
+          ],
+          "descriptor_b": [
+            {
+              "wrap_angle_rad": 2.5940343026833785,
+              "surface_clearance_m": 0.002998285917749626,
+              "contact_like": true,
+              "nearest_vertex": 20
+            },
+            {
+              "wrap_angle_rad": -2.732906243932113,
+              "surface_clearance_m": 0.015081503270934531,
+              "contact_like": false,
+              "nearest_vertex": 6
+            }
+          ]
+        }
+      },
+      {
+        "rollout_a": 351,
+        "rollout_b": 426,
+        "time_index": 81,
+        "observable_chamfer_m": 3.314369984545162e-05,
+        "ee_position_distance_m": 1.854217202194573e-08,
+        "ordered_visibility_diagnostic": {
+          "common_visible_indexed_rmse_m": 4.7608251724680626e-05,
+          "visible_mask_mismatch_fraction": 0.0,
+          "common_visible_vertex_count_mean": 20.333333333333332,
+          "only_a_visible_vertex_count_mean": 0.0,
+          "only_b_visible_vertex_count_mean": 0.0
+        },
+        "hidden_descriptor_diagnostic": {
+          "original_hidden_different": true,
+          "contact_like_mismatch": true,
+          "roi_wrap_difference_rad": [
+            0.0005883352830480248,
+            0.00017789361696518569
+          ],
+          "global_angular_difference_rad": [
+            0.0006748156858384924,
+            0.00014550985072547817
+          ],
+          "global_hidden_different_diagnostic": true,
+          "descriptor_a": [
+            {
+              "wrap_angle_rad": 2.5940343026833785,
+              "surface_clearance_m": 0.002998285917749626,
+              "contact_like": true,
+              "nearest_vertex": 20
+            },
+            {
+              "wrap_angle_rad": -2.732906243932113,
+              "surface_clearance_m": 0.015081503270934531,
+              "contact_like": false,
+              "nearest_vertex": 6
+            }
+          ],
+          "descriptor_b": [
+            {
+              "wrap_angle_rad": 2.5934459674003305,
+              "surface_clearance_m": 0.0030026283041559333,
+              "contact_like": false,
+              "nearest_vertex": 20
+            },
+            {
+              "wrap_angle_rad": -2.733084137549078,
+              "surface_clearance_m": 0.015074086871301743,
+              "contact_like": false,
+              "nearest_vertex": 6
+            }
+          ]
+        }
+      },
+      {
+        "rollout_a": 149,
+        "rollout_b": 371,
+        "time_index": 81,
+        "observable_chamfer_m": 3.369481798426229e-05,
+        "ee_position_distance_m": 1.72002453574422e-08,
+        "ordered_visibility_diagnostic": {
+          "common_visible_indexed_rmse_m": 4.498020254749226e-05,
+          "visible_mask_mismatch_fraction": 0.0,
+          "common_visible_vertex_count_mean": 20.333333333333332,
+          "only_a_visible_vertex_count_mean": 0.0,
+          "only_b_visible_vertex_count_mean": 0.0
+        },
+        "hidden_descriptor_diagnostic": {
+          "original_hidden_different": true,
+          "contact_like_mismatch": true,
+          "roi_wrap_difference_rad": [
+            0.0005970092568094998,
+            0.000181210952198807
+          ],
+          "global_angular_difference_rad": [
+            0.0005595629269299351,
+            3.7032371203338244e-05
+          ],
+          "global_hidden_different_diagnostic": true,
+          "descriptor_a": [
+            {
+              "wrap_angle_rad": 2.5935905029749637,
+              "surface_clearance_m": 0.003004563206183277,
+              "contact_like": false,
+              "nearest_vertex": 20
+            },
+            {
+              "wrap_angle_rad": -2.7330865079385434,
+              "surface_clearance_m": 0.01506317165766383,
+              "contact_like": false,
+              "nearest_vertex": 6
+            }
+          ],
+          "descriptor_b": [
+            {
+              "wrap_angle_rad": 2.5941875122317732,
+              "surface_clearance_m": 0.0029989550823005286,
+              "contact_like": true,
+              "nearest_vertex": 20
+            },
+            {
+              "wrap_angle_rad": -2.7329052969863445,
+              "surface_clearance_m": 0.015079798105334021,
+              "contact_like": false,
+              "nearest_vertex": 6
+            }
+          ]
+        }
+      },
+      {
+        "rollout_a": 218,
+        "rollout_b": 399,
+        "time_index": 81,
+        "observable_chamfer_m": 3.4787238458540475e-05,
+        "ee_position_distance_m": 1.854217202194573e-08,
+        "ordered_visibility_diagnostic": {
+          "common_visible_indexed_rmse_m": 4.7628294873176324e-05,
+          "visible_mask_mismatch_fraction": 0.0,
+          "common_visible_vertex_count_mean": 20.333333333333332,
+          "only_a_visible_vertex_count_mean": 0.0,
+          "only_b_visible_vertex_count_mean": 0.0
+        },
+        "hidden_descriptor_diagnostic": {
+          "original_hidden_different": true,
+          "contact_like_mismatch": true,
+          "roi_wrap_difference_rad": [
+            0.0001866287776870479,
+            0.0001703989541246287
+          ],
+          "global_angular_difference_rad": [
+            0.0007562118466859502,
+            0.0004637681229890944
+          ],
+          "global_hidden_different_diagnostic": true,
+          "descriptor_a": [
+            {
+              "wrap_angle_rad": 2.5937091839119653,
+              "surface_clearance_m": 0.002998299190963411,
+              "contact_like": true,
+              "nearest_vertex": 20
+            },
+            {
+              "wrap_angle_rad": -2.7329609288202272,
+              "surface_clearance_m": 0.015085412455815319,
+              "contact_like": false,
+              "nearest_vertex": 6
+            }
+          ],
+          "descriptor_b": [
+            {
+              "wrap_angle_rad": 2.5938958126896523,
+              "surface_clearance_m": 0.0030034032432185408,
+              "contact_like": false,
+              "nearest_vertex": 20
+            },
+            {
+              "wrap_angle_rad": -2.733131327774352,
+              "surface_clearance_m": 0.015074967497739632,
+              "contact_like": false,
+              "nearest_vertex": 6
+            }
+          ]
+        }
+      },
+      {
+        "rollout_a": 255,
+        "rollout_b": 389,
+        "time_index": 81,
+        "observable_chamfer_m": 3.6759362957994665e-05,
+        "ee_position_distance_m": 1.7938459431364703e-08,
+        "ordered_visibility_diagnostic": {
+          "common_visible_indexed_rmse_m": 5.285329563831248e-05,
+          "visible_mask_mismatch_fraction": 0.0,
+          "common_visible_vertex_count_mean": 20.333333333333332,
+          "only_a_visible_vertex_count_mean": 0.0,
+          "only_b_visible_vertex_count_mean": 0.0
+        },
+        "hidden_descriptor_diagnostic": {
+          "original_hidden_different": true,
+          "contact_like_mismatch": true,
+          "roi_wrap_difference_rad": [
+            0.0002824413195319231,
+            7.54940844100993e-05
+          ],
+          "global_angular_difference_rad": [
+            0.0009028605070566798,
+            0.0006431032491827082
+          ],
+          "global_hidden_different_diagnostic": true,
+          "descriptor_a": [
+            {
+              "wrap_angle_rad": 2.5943637454908526,
+              "surface_clearance_m": 0.0029982959611319394,
+              "contact_like": true,
+              "nearest_vertex": 20
+            },
+            {
+              "wrap_angle_rad": -2.7328817678368207,
+              "surface_clearance_m": 0.015079981346161658,
+              "contact_like": false,
+              "nearest_vertex": 6
+            }
+          ],
+          "descriptor_b": [
+            {
+              "wrap_angle_rad": 2.5946461868103845,
+              "surface_clearance_m": 0.003003601849045131,
+              "contact_like": false,
+              "nearest_vertex": 20
+            },
+            {
+              "wrap_angle_rad": -2.732957261921231,
+              "surface_clearance_m": 0.015058501003838657,
+              "contact_like": false,
+              "nearest_vertex": 6
+            }
+          ]
+        }
+      },
+      {
+        "rollout_a": 351,
+        "rollout_b": 496,
+        "time_index": 81,
+        "observable_chamfer_m": 3.6910879664600247e-05,
+        "ee_position_distance_m": 1.854217202194573e-08,
+        "ordered_visibility_diagnostic": {
+          "common_visible_indexed_rmse_m": 5.037517728272924e-05,
+          "visible_mask_mismatch_fraction": 0.0,
+          "common_visible_vertex_count_mean": 20.333333333333332,
+          "only_a_visible_vertex_count_mean": 0.0,
+          "only_b_visible_vertex_count_mean": 0.0
+        },
+        "hidden_descriptor_diagnostic": {
+          "original_hidden_different": true,
+          "contact_like_mismatch": true,
+          "roi_wrap_difference_rad": [
+            0.00019565923725917145,
+            0.00015577580444769978
+          ],
+          "global_angular_difference_rad": [
+            0.0008399065637743064,
+            0.0005959543572418013
+          ],
+          "global_hidden_different_diagnostic": true,
+          "descriptor_a": [
+            {
+              "wrap_angle_rad": 2.5940343026833785,
+              "surface_clearance_m": 0.002998285917749626,
+              "contact_like": true,
+              "nearest_vertex": 20
+            },
+            {
+              "wrap_angle_rad": -2.732906243932113,
+              "surface_clearance_m": 0.015081503270934531,
+              "contact_like": false,
+              "nearest_vertex": 6
+            }
+          ],
+          "descriptor_b": [
+            {
+              "wrap_angle_rad": 2.5942299619206377,
+              "surface_clearance_m": 0.0030042928335240297,
+              "contact_like": false,
+              "nearest_vertex": 20
+            },
+            {
+              "wrap_angle_rad": -2.7330620197365607,
+              "surface_clearance_m": 0.015061571326727172,
+              "contact_like": false,
+              "nearest_vertex": 6
+            }
+          ]
+        }
+      }
+    ],
+    "top_global_only_pairs": [],
+    "next_action": "Pre-register snapshot same-action branching on top original-descriptor pairs. Evaluate the future at multiple horizons and compare branch divergence against deterministic repeat/uncertainty at each horizon. Do not reuse future/current>=2 as formal Gate 4.",
+    "non_claims": [
+      "Zero hidden-descriptor hits do not imply a hidden single mode.",
+      "Ordered indexed RMSE never admits a pair.",
+      "Zero same-time Chamfer-audit hits are non-conclusive.",
+      "Zero cross-time hits are non-conclusive.",
+      "The horizon of maximum sampled future distance is not a claimed physical peak time.",
+      "Multi-horizon future distance is diagnostic until compared against a repeat/uncertainty floor."
+    ]
+  }
+}
