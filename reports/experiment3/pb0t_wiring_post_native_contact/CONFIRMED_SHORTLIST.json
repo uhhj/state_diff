@@ -1,0 +1,9 @@
+{
+  "selection_uses_future_divergence": false,
+  "selection_uses_robot_force_or_sensor_signal": false,
+  "selection_uses_native_current_contact": true,
+  "global_replay_alignment_valid": true,
+  "blocked_reason": null,
+  "purpose": "Candidates qualified for PB1-A snapshot same-action multi-horizon causal audit.",
+  "candidates": []
+}
