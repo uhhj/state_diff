@@ -1,0 +1,189 @@
+{
+  "phase_name": "pb2ab-rev2-dlolab-wrapping-reproduction-and-winding-audit",
+  "verdict": "PB2AB_WRAPPING_REPRODUCED_AND_WINDING_AUDITED",
+  "repository": {
+    "starting_main_sha": "7cbac99498bf1d3409e12af41006026f15672eb3",
+    "ending_main_sha": "dd043b212b9f3151dcf786143a14c4520fea3328",
+    "dlolab_gitlink": "c5026a9416b03c6bc5186eba13cd4ffd4c0e7796"
+  },
+  "validated_effective_cmaes_config": {
+    "n_envs": 100,
+    "n_steps": 10,
+    "n_steps_sub": 10,
+    "act_dim": 12,
+    "popsize": 400,
+    "sigma0": 0.05,
+    "per_comp_bound": 0.1,
+    "l2_bound": 0.1,
+    "angle_bound": 1.0,
+    "angle_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "max_iters": 51,
+    "seed": 123,
+    "use_last_state_reward": false,
+    "randomized_args": null
+  },
+  "scientific": {
+    "verdict": "PB2AB_WRAPPING_REPRODUCED_AND_WINDING_AUDITED",
+    "findings": [
+      "PB2A_OFFICIAL_WRAPPING_REPRODUCED",
+      "PB2B_TASK_NATIVE_WINDING_DEFINITION_REPRODUCED",
+      "PB2B_TASK_SEMANTIC_WINDING_TRANSITION_OBSERVED"
+    ],
+    "benchmark": {
+      "task": "wrapping",
+      "dlolab_revision": "c5026a9416b03c6bc5186eba13cd4ffd4c0e7796",
+      "physics_modified": false,
+      "reward_modified": false,
+      "geometry_modified": false
+    },
+    "validated_effective_cmaes_config": {
+      "n_envs": 100,
+      "n_steps": 10,
+      "n_steps_sub": 10,
+      "act_dim": 12,
+      "popsize": 400,
+      "sigma0": 0.05,
+      "per_comp_bound": 0.1,
+      "l2_bound": 0.1,
+      "angle_bound": 1.0,
+      "angle_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "max_iters": 51,
+      "seed": 123,
+      "use_last_state_reward": false,
+      "randomized_args": null
+    },
+    "pb2a_reproduction": {
+      "official_last_iter": 50,
+      "official_best_reward": 161.5045623779297,
+      "best_traj_shape": [
+        10,
+        12
+      ],
+      "best_qpos_shape": [
+        101,
+        18
+      ],
+      "finite_replay": true,
+      "time_samples": 101
+    },
+    "pb2b_winding_audit": {
+      "privileged_variable": "per-post signed winding turns and magnitude from the published Wrapping winding-loss definition",
+      "model_input": false,
+      "official_loss_vs_reconstruction_max_abs": 0.0,
+      "loss_match_atol": 1e-10,
+      "signed_turns_by_post": {
+        "post1": {
+          "min": -5.573244621359663e-08,
+          "max": 1.0000001192092896,
+          "span": 1.0000001749417358,
+          "initial": -3.853839203316056e-08,
+          "final": 1.0
+        },
+        "post2": {
+          "min": -4.2095781083162365e-08,
+          "max": 1.0000003576278687,
+          "span": 1.0000003997236497,
+          "initial": -1.778695057907953e-08,
+          "final": 0.9999999403953552
+        },
+        "post3": {
+          "min": -6.640461691631572e-08,
+          "max": 1.000000238418579,
+          "span": 1.000000304823196,
+          "initial": -2.0158543279080732e-08,
+          "final": 1.0
+        }
+      },
+      "magnitude_turns_by_post": {
+        "post1": {
+          "min": 5.928983526359843e-09,
+          "max": 1.0000001192092896,
+          "span": 1.000000113280306,
+          "initial": 3.853839203316056e-08,
+          "final": 1.0
+        },
+        "post2": {
+          "min": 2.3715933661350164e-09,
+          "max": 1.0000003576278687,
+          "span": 1.0000003552562753,
+          "initial": 1.778695057907953e-08,
+          "final": 0.9999999403953552
+        },
+        "post3": {
+          "min": 0.0,
+          "max": 1.000000238418579,
+          "span": 1.000000238418579,
+          "initial": 2.0158543279080732e-08,
+          "final": 1.0
+        }
+      },
+      "maximum_signed_turn_span": 1.0000003997236497,
+      "task_semantic_excitation_observed": true,
+      "semantic_transition": {
+        "unwrapped_max_magnitude_turns": 0.25,
+        "wrapped_min_magnitude_turns": 0.75,
+        "require_wrapped_sample_after_unwrapped_sample": true,
+        "transition_post_count": 3,
+        "per_post": {
+          "post1": {
+            "transition_observed": true,
+            "first_unwrapped_like_sample": 0,
+            "first_later_wrapped_like_sample": 21,
+            "unwrapped_like_sample_count": 21,
+            "wrapped_like_sample_count": 80,
+            "minimum_magnitude_turns": 5.928983526359843e-09,
+            "maximum_magnitude_turns": 1.0000001192092896
+          },
+          "post2": {
+            "transition_observed": true,
+            "first_unwrapped_like_sample": 0,
+            "first_later_wrapped_like_sample": 13,
+            "unwrapped_like_sample_count": 13,
+            "wrapped_like_sample_count": 88,
+            "minimum_magnitude_turns": 2.3715933661350164e-09,
+            "maximum_magnitude_turns": 1.0000003576278687
+          },
+          "post3": {
+            "transition_observed": true,
+            "first_unwrapped_like_sample": 0,
+            "first_later_wrapped_like_sample": 55,
+            "unwrapped_like_sample_count": 55,
+            "wrapped_like_sample_count": 46,
+            "minimum_magnitude_turns": 0.0,
+            "maximum_magnitude_turns": 1.000000238418579
+          }
+        }
+      },
+      "minimum_transition_posts_required": 1,
+      "winding_loss": {
+        "min": 1.1842379282265398e-15,
+        "max": 1.0,
+        "span": 0.9999999999999988,
+        "initial": 1.0,
+        "final": 1.1842379282265398e-15
+      },
+      "reward": {
+        "min": -0.2648238083372355,
+        "max": 0.9773121032080772,
+        "span": 1.2421359115453128,
+        "initial": -0.2648238083372355,
+        "final": 0.9558464197242239
+      }
+    },
+    "next_action": "Proceed to PB2-C natural pair discovery. Use the published Wrapping task unchanged, keep winding as privileged audit metadata, define deployable partial observation separately, and use repository-provided Wrapping position randomization for rollout diversity without changing task physics. Do not start StateDiff training yet.",
+    "non_claims": [
+      "PB2-A/B does not establish a CCDA pair.",
+      "Winding is privileged audit state and is not deployable model input.",
+      "No pair-mining threshold is introduced in this phase.",
+      "No future-bifurcation or control-relevance gate is tested."
+    ]
+  }
+}
