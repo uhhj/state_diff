@@ -1,689 +1,1210 @@
-# CCDA Agent Master Plan — Published-Benchmark Route
+# CCDA Agent Research Master Plan
+## 科学主线、执行边界与工程守则
 
-> **Canonical repository path**: `docs/experiment3/CCDA_AGENT_MASTER_PLAN.md`  
-> **Purpose**: persistent research guardrail for Agent/Codex. This file supersedes the OHJ-specific active guardrail.  
-> **Current primary benchmark**: **DLO-Lab / Wiring-post**.  
-> **Current main-repo migration start**: `a39b5fe5d612df22ddbbf10f6fbee73b23a8ec19`.  
-> **Official DLO-Lab revision pinned for PB0**: `c5026a9416b03c6bc5186eba13cd4ffd4c0e7796`.
+> **用途**：本文件用于约束 Agent / Codex / 自动化研究执行，防止项目在工程细节、审计、防御性编程、无效仿真调参或局部诊断上偏离主研究目标。  
+> **适用项目**：CCDA — Contact-Conditioned Deformation Branch Ambiguity  
+> **当前主仓库**：`uhhj/state_diff`，主研究分支 `Experiment3`  
+> **当前已发布仿真基座**：DLO-Lab，固定 revision `c5026a9416b03c6bc5186eba13cd4ffd4c0e7796`  
+> **当前科学状态**：Wiring-post 主路线已停止；下一主方向应切换到具有更干净 task-native privileged interaction state 的 published task，优先 DLO-Lab Wrapping。  
+> **原则**：科学结论必须严谨；工程执行必须简洁；一旦机制证据充分，立即推进端到端系统，不继续无限审计。
 
-# 1. Scientific target
+---
 
-CCDA = **Contact-Conditioned Dynamics Ambiguity**.
+# 1. 项目最终目标
 
-The project studies deformable-object manipulation states where deployable observations are nearly indistinguishable but hidden interaction physics differs:
+CCDA 研究的核心问题是：
+
+> 柔性物体在机器人可观察历史、机器人自身状态和过去动作几乎相同的情况下，因为内部或遮挡区域的接触状态不同，在当前时刻看起来几乎一样，但执行相同未来动作后进入不同未来，并最终导致不同的控制决策。
+
+目标不是单纯证明“存在不可观测接触”，而是建立完整因果链：
+
+```text
+hidden contact / routing state
+        ↓
+deployable sensing
+        ↓
+different future deformable dynamics
+        ↓
+different control consequence
+        ↓
+sensor-conditioned prediction / control improves closed-loop result
+```
+
+最终系统必须能够形成：
+
+```text
+observable history H
++
+deployable sensor history Z
+        ↓
+StateDiff / StateDiff-FT
+        ↓
+CFPM contact-conditioned future guidance
+        ↓
+future deformable state
+        ↓
+IDM / action selection
+        ↓
+closed-loop deformable manipulation
+```
+
+项目不能长期停留在：
+
+```text
+环境搭建
+→ debug
+→ audit
+→ threshold tuning
+→ 再 audit
+```
+
+而无法进入模型和闭环实验。
+
+---
+
+# 2. CCDA 的科学判定条件
+
+一个正式 CCDA pair 至少需要满足以下五个条件。
+
+## Condition 1 — Observable-history equivalence
+
+两个状态的可部署可观察历史应相同或足够接近：
 
 \[
-H_t^{obs,1}\approx H_t^{obs,2},
-\qquad
-z_t^1\neq z_t^2
+H_A^{obs} \approx H_B^{obs}
 \]
 
-and therefore:
+包括：
+
+- 柔性物体可见部分；
+- 机器人状态；
+- 必要的历史窗口；
+- 不得依赖部署时不可获得的信息。
+
+“近似”必须通过预先定义、可解释的 observable metric 判断。
+
+## Condition 2 — Past-action equivalence
+
+最近动作历史应相同或足够接近：
 
 \[
-p(S_{t+1:t+H}\mid H_t^{obs},z_t^1)
-\neq
-p(S_{t+1:t+H}\mid H_t^{obs},z_t^2).
+A_{A,t-h:t} \approx A_{B,t-h:t}
 \]
 
-The ambiguity matters only if it propagates to control:
+不能把机器人过去已经执行了明显不同控制的两个状态称为同一 CCDA branch point。
+
+## Condition 3 — Hidden-state difference
+
+必须存在可信的隐藏物理状态差异：
 
 \[
-a_t^*(z_t^1)\neq a_t^*(z_t^2)
+z_A \neq z_B
 \]
 
-or creates a material difference in control regret / closed-loop task success.
+例如：
 
-The final claim is **not** “force/torque classifies a hidden label.”
+- 接触 / 非接触；
+- stick / slip；
+- jam / release；
+- routing / winding topology；
+- prestress；
+- hidden local contact mode。
 
-The intended claim is:
-
-> **Deployable interaction sensing helps bind an ambiguous observed state to a physically compatible future-state branch, improving future prediction, IDM executability and ultimately closed-loop manipulation.**
-
-# 2. What the previous benchmark work established
-
-## 2.1 OHJ
-
-OHJ provided useful mechanism evidence:
-
-- observable ambiguity could be maintained;
-- deployable sensing became strongly branch-specific;
-- same-action future differences exceeded deterministic repeat variability.
-
-But Phase 0E ended with:
+优先级：
 
 ```text
-OHJ_CONTROL_STRUCTURE_INSUFFICIENT
+task-native privileged state
+>
+simulator-native interaction state
+>
+连续且物理可解释的 oracle descriptor
+>
+人工几何 proxy
 ```
 
-The hidden condition did not induce the required useful best-action switch.
+**禁止把未经 native / task-native 验证的 heuristic proxy 当成物理 ground truth。**
 
-Therefore OHJ is historical evidence, not the paper's primary benchmark.
+## Condition 4 — Same-action future bifurcation
 
-## 2.2 DHR
-
-DHR was tested with a complete 2×3 action matrix and ended with:
-
-```text
-PHASE0F0_DHR_ACTION_SWITCH_FAIL
-```
-
-The intended hidden pocket had zero contact in all six rollouts; FREE and JAM-R did not switch best action.
-
-Therefore DHR is also rejected as the paper's primary benchmark.
-
-## 2.3 Consequence
-
-Do **not** continue OHJ/DHR geometry tuning.
-
-The benchmark policy is now:
-
-> **Use a published deformable-manipulation task whose mechanics have already been demonstrated by its authors. Discover naturally occurring CCDA states inside that task rather than building bespoke hidden traps.**
-
-# 3. Primary benchmark — DLO-Lab Wiring-post
-
-Use official DLO-Lab `wiring_post` unchanged.
-
-At the pinned upstream revision the task contains:
-
-```text
-30-vertex rope
-Franka robot
-two fixed cylindrical posts
-DLO/rigid coupling
-published target and reward
-official CMA-ES trajectory optimization
-best_traj.npy / best_qpos.npy replay path
-```
-
-This task already contains physical routing around fixed posts and is therefore a stronger substrate for CCDA than adding new posts/hooks/pockets ourselves.
-
-## Benchmark-integrity rule
-
-For primary CCDA experiments do not modify Wiring-post:
-
-```text
-rigid geometry
-post positions/radii
-rope physics for the purpose of creating ambiguity
-reward
-target
-contact solver
-task semantics
-```
-
-Allowed CCDA additions are outside task physics:
-
-```text
-partial-observation definition
-occlusion/masking used by the model
-logging/instrumentation
-robot force/proprioceptive sensing extraction
-oracle-only hidden routing descriptors
-state-pair mining
-snapshot/replay branching
-StateDiff observation wrapper
-sensor temporal encoder
-CFPM
-IDM and closed-loop evaluation
-```
-
-If Wiring-post does not naturally contain suitable pairs after the precommitted collection route, switch to another **published task**. Do not “repair” Wiring-post physics.
-
-# 4. Strategy — mine pairs, do not build pairs
-
-The active research route is:
-
-```text
-published Wiring-post
-    ↓
-reproduce official task
-    ↓
-collect natural rollouts
-    ↓
-mine observation-near / hidden-different state pairs
-    ↓
-same-command future audit
-    ↓
-control branch audit
-    ↓
-formal CCDA dataset
-    ↓
-B0 StateDiff
-    ↓
-B1 sensor-conditioned StateDiff
-    ↓
-CFPM
-    ↓
-IDM
-    ↓
-closed-loop
-```
-
-No new custom hidden-state mechanism should be introduced unless the published-benchmark route itself is formally abandoned.
-
-# 5. PB0 — published-benchmark migration
-
-PB0 has three jobs only.
-
-## PB0-A — reproduce official benchmark
-
-Integrate official DLO-Lab and reproduce `wiring_post` CMA-ES.
-
-Sufficient reproduction evidence:
-
-```text
-environment builds
-official task runs
-best_traj.npy exists
-best_qpos.npy exists
-best reward is finite
-saved qpos replay completes
-```
-
-Do not block progress while trying to exactly reproduce a paper table percentage unless a discrepancy indicates a real implementation problem.
-
-## PB0-B — collect natural rollouts
-
-Replay the official optimized qpos sequence over batches of the repository's own Wiring-post initialization randomization.
-
-Do not modify reward or physics.
-
-Save compact arrays:
-
-```text
-rope_xyz
-rope_vel
-EE pose
-robot joint position
-actual robot DOF force
-controller DOF force
-reward
-post poses
-common replay qpos
-```
-
-Robot force signals are **candidate deployable sensing**, not a Gate-3 result yet.
-
-## PB0-C — pair mining
-
-At the same replay time, search different rollouts for:
-
-1. close visible rope history after masking local post neighborhoods;
-2. close EE history;
-3. different oracle-only hidden routing/contact proxy;
-4. different future visible evolution under the identical future qpos suffix.
-
-The oracle descriptor may use:
-
-```text
-post-wise wrap angle
-minimum rope-post surface clearance
-nearest rope vertex
-contact-like clearance proxy
-```
-
-Oracle descriptors are for mining/audit only and must never be model input.
-
-# 6. Observation protocol
-
-PB0 must not feed the complete simulator state to StateDiff.
-
-For pair mining:
-
-- hide rope vertices inside a fixed local disk around each post;
-- compare remaining rope point sets using symmetric Chamfer distance;
-- include EE position distance;
-- compare a short history instead of a single frame.
-
-The mask is an **observation definition**, not a physics modification.
-
-Do not tune it after seeing the result merely to obtain candidates. A single principled correction is allowed only if the first mask is clearly degenerate (for example, almost all rope becomes invisible).
-
-# 7. Hidden descriptor semantics
-
-PB0 does not depend on a privileged DLO-rigid contact-force API.
-
-Compute an oracle routing/contact proxy from full rope geometry and known published post geometry.
-
-Use exact language:
-
-```text
-oracle routing descriptor
-minimum surface-clearance proxy
-contact-like clearance proxy
-wrap angle
-```
-
-Do not call geometric clearance a measured contact force.
-
-If the pinned simulator later exposes a clean DLO-rigid contact signal, it can validate the oracle descriptor. It still remains privileged audit information.
-
-# 8. Sensor strategy
-
-Long-term sensor variable:
+从两个 branch state 出发施加相同未来动作：
 
 \[
-Z_t.
+a_{t:t+H}^{A}=a_{t:t+H}^{B}
 \]
 
-Initial DLO-Lab candidate deployable signals:
+并得到明显不同未来：
+
+\[
+D_{branch}(h)
+\]
+
+必须显著超过 deterministic repeat / simulator uncertainty floor：
+
+\[
+D_{branch}(h) \gg D_{repeat}(h)
+\]
+
+不能再把简单的：
 
 ```text
-Franka actual joint/DOF force
-Franka controller force
-their temporal residual/difference
-optional gripper/finger contact sensing if supported cleanly
+future/current >= 2
 ```
 
-Do not train a FREE/JAM classifier.
+作为正式 Gate 4。
 
-Preferred later representation:
+多 horizon 应各自使用自己的有效时间范围，不能统一截到最长 horizon。
+
+如果只在离散 horizons 上取最大值，必须使用：
 
 ```text
-causal sensor window
-→ lightweight Conv1D / temporal encoder
-→ sensor embedding
+horizon_of_maximum_sampled_future_distance
 ```
 
-B1 and CFPM must see the same causal sensor history for a fair comparison.
+而不是误导性的：
 
-# 9. Generalized five scientific gates
+```text
+peak horizon
+```
 
-The old probe-specific OHJ language is generalized for a natural published task.
+因为前者只表示“所采样 horizons 中最大”，并不声称真实连续时间峰值在那里。
 
-## Gate 1 — Observable-history equivalence
+## Condition 5 — Control relevance
 
-\[
-H_t^{obs,1}\approx H_t^{obs,2}.
-\]
-
-Visible DLO + robot observation history must be close.
-
-## Gate 2 — Action/history equivalence
-
-Recent action histories must be equal or sufficiently close.
-
-For same-timestep pairs under a common `best_qpos` replay this is satisfied by construction; verify it once rather than repeatedly auditing it.
-
-## Gate 3 — Sensor observability
-
-Deployable sensor history must contain branch-relevant information beyond repeat/noise variability.
-
-## Gate 4 — Same-action future divergence
-
-With identical future command suffix:
+hidden state 和 future bifurcation 最终必须影响最优动作或控制损失：
 
 \[
-A_{t:t+H}^1=A_{t:t+H}^2
+a_A^* \neq a_B^*
 \]
 
-future observable deformable states must diverge beyond a repeat/uncertainty floor.
+或至少两个状态下的错误动作 regret 明显不同。
 
-Visible deformation is evidence, not the research objective.
+如果 hidden state 对未来预测有影响，但对控制没有影响，则它不是最终需要解决的 CCDA 控制问题。
 
-## Gate 5 — Control relevance
+---
 
-Require:
+# 3. 模型研究主线
 
-\[
-a_1^*\neq a_2^*
-\]
+在任务机制通过前，禁止启动大规模模型训练。
 
-or a robust equivalent cross-condition control-regret / success difference under a shared action set and objective.
+当 CCDA task structure 已经可信后，进入以下模型链。
 
-A weak comparison against only one alternative action is not sufficient.
+## B0 — State-only StateDiff
 
-# 10. StateDiff route
-
-Do not freeze the final Wiring-post StateDiff dimensionality before PB0 proves natural pairs exist.
-
-After PB1 admission define:
+参考 StateDiff 思路，用低维 deformable state：
 
 \[
 S_t=[D_t,R_t]
 \]
 
-where:
+其中：
 
-- \(D_t\): deployably observable DLO keypoints/features;
-- \(R_t\): minimal robot state needed for future prediction/control.
+- \(D_t\)：柔性物体关键点 / task DOF；
+- \(R_t\)：最小机器人 / EE 状态。
 
-Never include as B0/B1 deployable input:
+建立 state-only future predictor：
 
-```text
-oracle wrap label
-contact-like proxy
-masked hidden vertices
-future state
-hidden condition ID
-```
+\[
+p_\theta(S_{future}|H_t)
+\]
 
-# 11. Baselines and method
+用于测量 branch ambiguity。
 
-After published-benchmark feasibility is established:
+## B1 — Direct sensor-conditioned StateDiff
 
-## B0 — StateDiff
+部署可获得的因果传感历史：
 
-```text
-observable state history
-→ future-state diffusion
-```
+\[
+Z_t
+\]
 
-No interaction sensor.
+例如：
 
-## B1 — StateDiff + temporal interaction sensing
+- wrist F/T；
+- robot reaction；
+- tactile；
+- tracking residual；
+- 其他真正部署可获取的信息。
 
-```text
-observable state history
-+ causal Z history
-→ future-state diffusion
-```
+编码：
 
-This is the first critical scientific comparison.
+\[
+c_t^{sensor}=E(Z_{t-h:t})
+\]
+
+并建模：
+
+\[
+p_{\theta}(S_{future}|H_t,c_t^{sensor})
+\]
+
+传感器是 conditioning，不要求作为 future state 本身被预测。
 
 ## B2 — StateDiff + CFPM
 
-CFPM learns future compatibility:
+建立：
 
 \[
-G_\phi(H_t^S,Z_t,Y_k,k)
+G_\phi(H,Z,Y_k,k)
 \]
 
-and guides reverse future-state diffusion.
+在 reverse diffusion 过程中利用 contact/sensor information 引导 future-state denoising。
 
-## B3 — B1 + CFPM
+## B3 — StateDiff-FT + CFPM
 
-Tests complementarity of direct sensor conditioning and inference-time guidance.
+结合直接 sensor conditioning 和 reverse-process guidance。
 
-## Oracle
+## B4 — Oracle
 
-Privileged hidden state/future is an upper bound only.
-
-# 12. Required sensor ablations later
-
-Once B1 exists, include:
+只作为 upper bound：
 
 ```text
-correct Z
-zero Z
-wrong-episode Z
-time-shuffled Z
+oracle hidden interaction state
 ```
 
-A convincing result should improve with physically correct sensing and degrade with wrong/shuffled sensing.
+不能进入部署模型。
 
-# 13. Evaluation priorities
+---
 
-## Primary
+# 4. 已完成任务路线与正式结论
+
+## 4.1 OHJ-Cable
+
+Occluded Hidden-Jam Cable。
+
+最终结论：
 
 ```text
-closed-loop task success
-control regret
+OHJ_CONTROL_STRUCTURE_INSUFFICIENT
 ```
 
-## Secondary
+虽然能够产生一定 future separation，但最优控制动作没有形成预期的 hidden-state-conditioned switch。
+
+因此停止继续调 OHJ geometry。
+
+## 4.2 DHR-Cable
+
+Directional Hidden-Release Cable。
+
+正式 smoke 结果：
 
 ```text
-correct-branch / wrong-branch rate
-future-state physical compatibility
-future prediction error
-IDM executability
+PHASE0F0_DHR_ACTION_SWITCH_FAIL
 ```
 
-## Diagnostic only
+关键问题：
+
+- 目标 hidden contact mechanism 实际没有 engage；
+- intended pocket contact fraction 为 0；
+- 最优动作不符合设计的 FREE/JAM action switch；
+- common load / controller effect 主导结果。
+
+因此停止 DHR。
+
+---
+
+# 5. Published benchmark 路线
+
+为了避免继续人工设计任务，研究转到已发表论文使用的仿真任务。
+
+固定使用：
 
 ```text
-raw deformation magnitude
-curvature
-strain
-raw force magnitude
-wrap angle by itself
+DLO-Lab
+revision:
+c5026a9416b03c6bc5186eba13cd4ffd4c0e7796
 ```
 
-Do not promote an easy diagnostic to the headline contribution.
+原则：
 
-# 14. PB0 decision rule
+> 优先使用 published task 的原始 geometry、physics、reward 和 task semantics，只增加 observation mask、logging、oracle diagnostics、snapshot branching 和模型 wrapper。
 
-Initial collection:
+禁止为了制造 CCDA：
+
+- 修改物理参数；
+- 修改 contact solver；
+- 添加 hidden obstacle；
+- 改 reward；
+- 改目标；
+- 人为设计一个只服务于论文结论的新机制。
+
+---
+
+# 6. Wiring-post 路线最终结论
+
+## PB0 — Natural pair mining
+
+正式冻结协议：
 
 ```text
-32 environments × 4 batches
+same timestep
+observable Chamfer <= 10 mm
+EE distance <= 10 mm
+hidden descriptor different
+future t+10 / current >= 2
 ```
 
-If pair mining finds at least 5 discovery candidates under the frozen PB0 filter, proceed to PB1.
-
-If fewer than 5 are found, one larger collection is allowed:
+512×101 rollout 后：
 
 ```text
-32 environments × 16 batches
+formal candidate = 0
 ```
 
-using the same published environment, replay sequence, observation protocol and filters.
-
-If that still fails:
-
-> stop Wiring-post as the primary CCDA benchmark and evaluate another published task.
-
-Do not move posts, alter friction, change rope stiffness, or tune the target.
-
-# 15. PB1 and model route
-
-If PB0 finds pairs:
-
-## PB1
-
-Snapshot/restore the mined state and branch controls.
-
-Audit:
+正式 verdict：
 
 ```text
-same official replay suffix
-alternative shared local actions
-Gate 4
-Gate 5
+PB0_WIRING_POST_NO_NATURAL_CCDA_PAIRS
 ```
 
-Only after control relevance is established should a larger CCDA dataset be generated.
+正确解释仅为：
 
-## Dataset
+> preregistered PB0 protocol 找到 0 candidate。
 
-Store:
+不能解释为 Wiring-post 不存在 CCDA。
+
+## PB0-S REV3 — Screening assumption audit
+
+发现：
 
 ```text
-H_obs
-causal Z history
-future observable state
-action
-oracle descriptor only as audit metadata
+original hidden-descriptor pairs = 27,569
+formal t+10 ratio pass = 0
 ```
 
-## Models
+并明确发现：
 
-Proceed:
+- future separation 大部分在 `t+1/t+2` 更明显；
+- `t+10` 明显 horizon-sensitive；
+- cross-time / Chamfer approximate audit 的 0 candidate 不能作为不存在证据；
+- multi-horizon 必须各自使用可用时间范围；
+- ordered RMSE 只能做诊断，不能通过 visibility intersection 人为把状态拉近。
+
+因此不能再把原 `t+10` ratio 当作 Gate 4。
+
+## PB0-S REV4 — Hidden descriptor robustness
+
+27,569 个 original-hidden pairs 最终全部是：
 
 ```text
-B0
-→ B1
-→ CFPM
-→ B2/B3
-→ IDM
-→ closed-loop
+contact_proxy_only = 27,569
+original_wrap_only = 0
+contact_and_original_wrap = 0
+global-angle-supported = 0
 ```
 
-# 16. Engineering rules — mandatory
+旧 hidden descriptor 实际依赖：
 
-## 16.1 Progress over security theater
+```text
+surface clearance <= 3 mm
+```
 
-Do not block research because a local development script contains a plaintext local password, temporary token, internal path/IP or simple development credential.
+的 binary geometric proxy。
 
-Security review is not the research task.
+虽然有些 pair 远离 3 mm threshold，不只是微米级翻转，但：
 
-Only intervene for a concrete practical problem such as destructive behavior or an active long-lived external credential about to be publicly committed.
+> 离阈值远仍不等于真实 simulator-native contact difference。
 
-Do not build secret scanners or credential-management frameworks unless they become genuinely necessary.
+所以这些 pair 不得直接进入 Gate 4。
 
-## 16.2 No over-auditing
+## PB0-T REV2 — Simulator-native contact confirmation
 
-Keep only reproducibility evidence that matters:
+对 REV4 shortlist：
+
+```text
+12 unique targeted rollouts
+20 pairs
+```
+
+执行 exact targeted replay。
+
+结果：
+
+```text
+global_replay_alignment_valid = true
+native mismatch confirmed = 0
+stable-core support = 0
+confirmed shortlist = 0
+```
+
+正式 verdict：
+
+```text
+PB0T_NATIVE_POST_CONTACT_MISMATCH_NOT_CONFIRMED
+```
+
+因此：
+
+> REV4 的 3 mm proxy-only candidate generation mechanism 没有得到 simulator-native contact state 支持。
+
+正式结论不是：
+
+```text
+Wiring-post 不存在 CCDA
+```
+
+而是：
+
+```text
+当前 Wiring-post candidate-generation route
+不能提供可进入 causal Gate 4 的可信 hidden-state pair
+```
+
+---
+
+# 7. Wiring-post 停止规则
+
+从现在开始禁止继续：
+
+- 调 3 mm threshold；
+- 再做 deadband；
+- 再发明 clearance proxy；
+- 再修改 Chamfer threshold；
+- 再扩大 proxy-only pair search；
+- 再增加复杂 hidden descriptor 试图 rescue Wiring-post；
+- 重新跑 512×101，只为了寻找同类 proxy pair；
+- 启动 PB1 snapshot；
+- 启动 StateDiff / CFPM 训练。
+
+Wiring-post 主路线正式停止。
+
+只有在未来出现**新的、独立、published-task-native interaction variable**时才允许重新考虑。
+
+---
+
+# 8. 下一主任务：DLO-Lab Wrapping
+
+下一阶段优先：
+
+```text
+DLO-Lab Wrapping
+```
+
+原因：Wrapping 的 task semantics 本身包含 winding / wrapping structure，而不是依赖人工 clearance proxy。
+
+优先 privileged variable：
+
+\[
+W_t=[w_1,w_2,w_3]
+\]
+
+即三个 post 的 signed winding / angular accumulation。
+
+## 推荐阶段
+
+### PB2-A — Official Wrapping reproduction
+
+只确认：
+
+- 官方环境正常；
+- 官方 trajectory optimizer / policy replay 正常；
+- reward / state 有限；
+- 不改 physics；
+- 不改 reward；
+- 不改 geometry。
+
+一旦 reproduction 成功立即停止 reproduction 工程。
+
+### PB2-B — Task-native privileged-state audit
+
+重点检查：
+
+```text
+winding quantity 是否直接来自 task semantics
+是否连续
+是否稳定
+是否物理可解释
+是否能够区分不同 routing state
+```
+
+优先复用 published code 中已有 winding computation。
+
+不要先自己创造新的 binary proxy。
+
+### PB2-C — Natural pair mining
+
+寻找：
+
+```text
+observable-history near
++
+robot/action-history near
++
+task-native winding state different
+```
+
+pair mining 只用于 discovery。
+
+如果 approximate search：
+
+```text
+candidate > 0
+→ positive evidence
+
+candidate = 0
+→ 不能自动解释成不存在
+```
+
+必须输出清楚 funnel counts。
+
+### PB3 — Snapshot causal bifurcation
+
+找到可信 pair 后，使用 snapshot / restore：
+
+```text
+state A
+state B
+```
+
+施加完全相同 future action。
+
+每个 horizon 独立计算：
+
+```text
+h = 1,2,5,10,20,...
+```
+
+比较：
+
+\[
+D_{pair}(h)
+\]
+
+和 deterministic repeat floor：
+
+\[
+D_{repeat}(h)
+\]
+
+通过后即停止 task engineering。
+
+### PB4 — Control relevance
+
+检查 hidden winding/contact mode 是否导致：
+
+- 不同最佳动作；
+- 不同动作 ranking；
+- 明显 regret；
+- closed-loop 策略需求不同。
+
+如果 control relevance 不成立，即使 future diverges，也不进入模型主实验。
+
+### PB5 — StateDiff / sensor / CFPM
+
+只有 PB2–PB4 建立完整科学链之后：
+
+```text
+B0 StateDiff
+B1 sensor-conditioned StateDiff
+B2 StateDiff + CFPM
+B3 StateDiff-FT + CFPM
+B4 oracle
+```
+
+然后进入闭环控制实验。
+
+---
+
+# 9. Agent 执行优先级
+
+Agent 每一步都应优先回答：
+
+```text
+这个工作会不会改变下一个科学决策？
+```
+
+如果答案是：
+
+```text
+不会
+```
+
+则通常不应花大量时间执行。
+
+优先级：
+
+```text
+1. 科学机制成立
+2. 当前实验能够运行
+3. 数据可信
+4. baseline 能跑
+5. 模型训练
+6. closed-loop
+7. 必需的 evidence
+8. 工程美化 / audit / defensive hardening
+```
+
+---
+
+# 10. 强制工程守则
+
+## Rule 1 — 不要过度在意安全性问题
+
+研究服务器和内部实验环境中出现：
+
+- 明文密码；
+- 临时 token；
+- 内部 IP；
+- SSH 命令；
+- 数据路径；
+- 本地用户名；
+
+**本身不能成为阻塞科学进展的理由。**
+
+除非存在明确、现实、即时的风险，例如：
+
+- 即将公开发布真实长期 credential；
+- 即将执行不可逆破坏命令；
+- 用户明确要求安全审查。
+
+否则禁止自动扩展为：
+
+```text
+secret scanner
+credential vault migration
+复杂权限框架
+安全审计阶段
+```
+
+安全问题不能压过研究主线。
+
+## Rule 2 — 不要过度审计
+
+Evidence 的目的：
+
+> 让科学结论可以复查。
+
+不是：
+
+> 为每一个中间文件建立法证级审计链。
+
+通常保留：
 
 ```text
 RESULT.md
 EVIDENCE.json
-final config
-normal Git commit history
-key raw outputs needed to reproduce conclusions
+关键配置
+关键 raw result
+普通 Git commit
 ```
 
-Do not build:
+已经足够。
+
+禁止：
+
+- 为每一步建立重复 manifest；
+- 多层 evidence tree；
+- per-file provenance database；
+- 反复重新验证已经明确通过的固定事实；
+- 为审计本身增加新的审计。
+
+## Rule 3 — 不要设置复杂执行合同
+
+不要把简单实验写成：
 
 ```text
-per-file provenance databases
-nested audit manifests
-duplicate evidence trees
-an audit stage for every small edit
+20 个 execution states
+30 个 hard gates
+resume1/resume2/resume3...
+大量 state machine
 ```
 
-Once an unchanged component has been established, do not repeatedly audit it.
+除非任务本身确实需要。
 
-## 16.3 No complex execution contracts
-
-Each phase should have:
+执行合同只需要表达：
 
 ```text
-one scientific question
-few outputs
-clear continue/stop decision
+输入是什么
+运行什么
+成功/失败如何判断
+下一步是什么
 ```
 
-Do not create dozens of gates, elaborate resume contracts or large state machines.
+如果一个脚本正常可以一次运行完成，就不要人为拆成复杂 state machine。
 
-Use ordinary scripts and ordinary Git.
+## Rule 4 — 禁止过度防御性编程
 
-## 16.4 No over-defensive programming
+只处理现实中可能发生、且会影响实验可信度的问题，例如：
 
-Handle realistic failures:
+- required file missing；
+- shape mismatch；
+- NaN；
+- simulator rollout failure；
+- replay alignment failure；
+- optimizer output missing。
+
+不要为了理论上可能但实际基本不会发生的情况写大量分支。
+
+## Rule 5 — 禁止反复防御基本不可能出现的 case
+
+例如 pinned revision 下已经固定：
 
 ```text
-required asset missing
-array shape mismatch
-NaN rollout
-expected optimizer output missing
+数组 shape
+字段名称
+任务结构
+文件布局
+solver 类型
 ```
 
-Do not write fallback branches for every hypothetical future upstream format.
-
-## 16.5 Do not defend against effectively impossible cases
-
-At the pinned published revision, use documented/stable shapes and APIs directly.
-
-If upstream changes later, adapt later.
-
-Do not pre-write compatibility layers for imagined future versions.
-
-## 16.6 No excessive hashing
-
-Normal Git commit pins are enough:
+就不要持续写：
 
 ```text
-main commit
-DLO-Lab submodule commit
+if upstream future version changes...
+if unknown alternative schema...
+if impossible dtype appears...
+if a field has 6 different hypothetical layouts...
 ```
 
-Do not SHA256 every config, array, directory or dataset unless a concrete integrity issue appears.
+研究代码不是通用 SDK。
 
-## 16.7 Scientific rigor with forward progress
+**对固定 revision 编程。**
 
-Never lower a criterion after seeing a result merely to pass.
+真正发生异常时再修。
 
-Never modify published benchmark physics to manufacture CCDA.
+## Rule 6 — 不要过度使用 SHA / SHA256
 
-But also do not spend days polishing a diagnostic that cannot change the next research decision.
-
-Prefer the shortest end-to-end experiment that tests the next scientific hypothesis.
-
-## 16.8 End-to-end executability is the engineering priority
-
-Once a conclusion is credible, move forward.
-
-The project must converge toward:
-
-\[
-H_t^S,Z_t
-\rightarrow
-StateDiff/CFPM
-\rightarrow
-S_{future}
-\rightarrow
-IDM
-\rightarrow
-closed\text{-}loop.
-\]
-
-Do not optimize isolated subsystems indefinitely.
-
-## 16.9 Regular cleanup is mandatory
-
-At the end of every phase delete:
+正常 Git provenance 通常只需要：
 
 ```text
-temporary clones
-cache directories
-failed scratch outputs
-obsolete duplicate configs
-superseded generated instructions
-one-off debugging files
-unused plots/videos
+main commit SHA
+submodule gitlink SHA
 ```
 
-Preserve:
+足够。
+
+禁止默认：
+
+- 给全部数据逐文件 SHA256；
+- 给全部 JSON / NPZ / checkpoint 建 hash database；
+- 每一步生成 whole-tree hash；
+- 为每个中间 tensor 建 checksum；
+- 因 hash 不存在阻塞研究。
+
+只有当：
+
+- 数据不可变性本身就是实验核心；
+- 明确怀疑文件被篡改；
+- byte-exact reproducibility 是当前科学问题；
+
+才增加额外 hash。
+
+## Rule 7 — 科学可信前提下，最大化推进速度
+
+Agent 应不断判断：
+
+> 当前证据是否已经足够支持“继续”或“停止”？
+
+一旦足够，就立刻推进。
+
+不要为了：
 
 ```text
-final RESULT.md
-final EVIDENCE.json
-final config
-code required to reproduce the conclusion
-small canonical artifacts
+再确认一次
+再做一个额外图
+再多跑 5 个 diagnostic
+再提高 audit coverage
 ```
 
-Historical OHJ/DHR final reports stay. Redundant active planning documents should be archived or removed once the DLO-Lab route is stable.
+拖延主流程。
 
-# 17. Canonical active repository layout
+必须避免：
 
 ```text
-docs/experiment3/CCDA_AGENT_MASTER_PLAN.md
-
-external/dlo-lab/
-
-configs/experiment3/published_benchmark/
-
-scripts/experiment3/dlolab_wiring_post/
-
-tests/experiment3/dlolab_wiring_post/
-
-reports/experiment3/pb0_dlolab_wiring_post/
+diagnostic perfection
+>
+research progress
 ```
 
-Keep `external/deformable-ravens` temporarily for historical reproducibility. It is no longer the active primary simulator.
+## Rule 8 — 结论可信后，重心转向端到端可执行性
 
-# 18. Agent decision checklist
+一旦：
 
-Before substantial work, ask:
+```text
+observable equivalence
+hidden state
+future bifurcation
+control relevance
+```
 
-1. Does this advance a published-benchmark CCDA pair, model or closed-loop result?
-2. Am I changing benchmark physics when I should only change observation/modeling?
-3. Am I adding an audit/contract rather than answering a scientific question?
-4. Can the question be tested by a smaller end-to-end smoke first?
-5. Is this file/output still necessary?
+都得到可信证据，立即停止任务机制调试。
 
-If the work does not push the causal chain forward, lower its priority.
+研究重心转为：
 
-# 19. Immediate task
+```text
+data generation
+→ baseline
+→ StateDiff
+→ sensor conditioning
+→ CFPM
+→ IDM
+→ closed-loop
+```
 
-Execute:
+最终论文贡献必须落在完整系统表现，而不是几十个 task-audit scripts。
 
-> **PB0 — DLO-Lab Wiring-post reproduction and natural CCDA pair mining.**
+## Rule 9 — 定期清理不需要的文件
 
-Do not resume OHJ/DHR geometry work.
+每完成一个阶段，执行一次轻量 cleanup。
 
-Do not start B0/B1 until PB0/PB1 establish a credible natural hidden-state/control structure.
+删除：
+
+- temporary clones；
+- `.pytest_cache`；
+- scratch JSON；
+- one-off debug scripts；
+- obsolete duplicated configs；
+- 无用 video / plot；
+- 中间测试数据；
+- abandoned implementation；
+- 已被新版替代且不再需要的 active instruction 文件。
+
+保留：
+
+```text
+最终代码
+最终 config
+RESULT.md
+EVIDENCE.json
+关键 raw outputs
+论文需要的图表/数据
+```
+
+不要让 repo 逐渐变成无法判断哪个文件仍然有效的 archive dump。
+
+---
+
+# 11. 禁止行为清单
+
+Agent 在没有明确必要性的情况下不得主动做以下事情：
+
+```text
+❌ 新建安全扫描系统
+❌ secret manager 工程
+❌ 大规模 credential remediation
+❌ 巨型 audit framework
+❌ per-file SHA256 manifest
+❌ 多层 provenance tree
+❌ 复杂 execution state machine
+❌ 为 pinned revision 写未来兼容层
+❌ 为不可复现的 hypothetical case 写大量 fallback
+❌ 无止境调 threshold
+❌ 看到 FAIL 就降低 gate
+❌ 看到 0 candidate 就直接宣告任务不存在 CCDA
+❌ 用 future divergence 反过来定义 hidden state
+❌ 用 deployment 不可用的 oracle 当正式传感输入
+❌ task mechanism 未通过就开始大规模模型训练
+❌ scientific gate 已通过后继续 task engineering
+❌ 为“代码更完整”增加与下一个科学决策无关的功能
+```
+
+---
+
+# 12. 阈值原则
+
+所有科学 threshold 必须遵守：
+
+## 可以
+
+- 在实验前冻结；
+- 来源于 deterministic repeat floor；
+- 来源于 measurement resolution；
+- 来源于 task semantics；
+- sensitivity analysis；
+- held-out validation。
+
+## 不可以
+
+```text
+实验结果 FAIL
+→ 把 threshold 调低
+→ 宣布 PASS
+```
+
+也不可以：
+
+```text
+在同一批数据上找最有利 threshold
+→ 再把它称作 pre-registered criterion
+```
+
+Diagnostic sensitivity analysis 可以做，但必须明确：
+
+> diagnostic only。
+
+---
+
+# 13. Positive evidence 与 negative evidence
+
+对于 approximate search：
+
+```text
+candidate > 0
+```
+
+可以作为 positive evidence。
+
+但：
+
+```text
+candidate = 0
+```
+
+通常不能证明不存在。
+
+尤其：
+
+- kNN search；
+- heuristic pair mining；
+- approximate cross-time search；
+- sampled horizon；
+- limited rollout policy distribution。
+
+必须区分：
+
+```text
+no candidate found
+```
+
+和：
+
+```text
+candidate does not exist
+```
+
+这是整个 CCDA 项目长期需要保持的推理纪律。
+
+---
+
+# 14. Pair mining 与正式 causal experiment 的边界
+
+Pair miner 的任务只是：
+
+> 找到值得做 causal branching 的候选。
+
+它不能直接完成 Gate 4。
+
+正式流程：
+
+```text
+pair discovery
+        ↓
+snapshot A / B
+        ↓
+same future action
+        ↓
+repeat baseline
+        ↓
+multi-horizon branch divergence
+        ↓
+control relevance
+```
+
+不能拿自然 rollout 中本来不同的 future action 当 same-action causal evidence。
+
+---
+
+# 15. Deployable sensor 原则
+
+如果后续研究使用传感器：
+
+优先：
+
+- robot joint reaction；
+- wrist F/T；
+- tactile；
+- deployable tracking residual；
+- 现实机器人可部署的 proprioceptive / contact signal。
+
+Oracle 信息只用于：
+
+```text
+hidden-state labeling
+mechanism validation
+upper bound
+```
+
+不能泄漏到部署模型输入。
+
+并且：
+
+> 没有物理 signal path，就不要盲目增加 sensor model capacity。
+
+---
+
+# 16. GPU 使用原则
+
+GPU 有成本。
+
+默认：
+
+```text
+CPU first
+```
+
+CPU 能完成的：
+
+- 代码实现；
+- unit test；
+- pair analysis；
+- config；
+- offline statistics；
+- report generation；
+- repository work；
+
+全部先做。
+
+只有在：
+
+- simulator 必须 GPU；
+- model training；
+- GPU-only reproduction；
+
+确实需要时才启动 GPU。
+
+启动后：
+
+```text
+一次解决明确科学问题
+→ 输出结果
+→ 立即停止
+```
+
+不要长时间让 GPU 做无决策价值的 diagnostic sweep。
+
+---
+
+# 17. 每阶段标准输出
+
+每个正式 research phase 尽量只保持：
+
+```text
+config
+main execution script
+minimal tests
+RESULT.md
+EVIDENCE.json
+necessary raw result
+```
+
+RESULT.md 应回答：
+
+```text
+做了什么？
+关键数字是什么？
+科学 verdict 是什么？
+为什么？
+下一步是什么？
+```
+
+EVIDENCE.json 保存机器可读数据。
+
+不要把同一信息复制到 5 个不同报告。
+
+---
+
+# 18. Stop / Go 规则
+
+## 任务机制尚未成立
+
+```text
+STOP MODEL TRAINING
+```
+
+继续修 task / benchmark selection。
+
+## observable + hidden + future divergence + control relevance 都成立
+
+```text
+STOP TASK ENGINEERING
+GO MODELING
+```
+
+Agent 不得继续花数周优化任务。
+
+## 某条 task rescue 连续失败且 failure mechanism 已明确
+
+```text
+STOP RESCUE
+SWITCH TASK
+```
+
+不要 sunk-cost。
+
+Wiring-post 当前已经属于这一状态。
+
+---
+
+# 19. 当前立即下一步
+
+当前不得继续 Wiring-post。
+
+下一步：
+
+```text
+PB2-A
+DLO-Lab Wrapping official reproduction
+        ↓
+PB2-B
+task-native winding privileged-state audit
+        ↓
+PB2-C
+natural observation-near / winding-different pair mining
+        ↓
+PB3
+snapshot same-action multi-horizon vs repeat floor
+        ↓
+PB4
+control relevance
+        ↓
+B0/B1/B2/B3/B4
+StateDiff / sensor / CFPM
+        ↓
+closed-loop
+```
+
+Agent 的首要任务不是再讨论 Wiring-post，而是尽快确认：
+
+> Wrapping 的 task-native winding state 是否可以成为 CCDA 所需的可信 privileged interaction variable。
+
+---
+
+# 20. Agent 自检问题
+
+每开始一个新工作前，只问以下问题：
+
+1. **它解决当前哪个科学问题？**
+2. **结果会改变下一步决策吗？**
+3. **有没有更简单的方法得到同样结论？**
+4. **是否在重复已经完成的 audit？**
+5. **是否在为基本不会发生的 case 写代码？**
+6. **是否正在因为工程完美主义阻塞研究？**
+7. **如果当前结果通过，能否立刻推进下一阶段？**
+8. **如果当前结果失败，是否已经足够决定换路线？**
+9. **这个文件/脚本完成阶段后是否还需要保留？**
+
+如果第 2 条答案是“不改变决策”，通常应删除或取消该工作。
+
+---
+
+# 21. 最终原则
+
+本项目的研究执行应始终保持：
+
+```text
+科学性
+    >
+结论可信
+    >
+端到端可执行
+    >
+工程简洁
+    >
+审计完整度
+    >
+防御性完美
+```
+
+目标不是建设一个“最安全、最复杂、最可审计”的研究仓库。
+
+目标是：
+
+> **用最少但足够可信的工程和证据，尽快证明或否定 CCDA 机制，然后完成 StateDiff + sensing + CFPM + IDM + closed-loop 的端到端研究。**

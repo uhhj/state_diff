@@ -1,0 +1,58 @@
+{
+  "phase_name": "pb2ab-rev2-dlolab-wrapping-reproduction-and-winding-audit",
+  "benchmark": {
+    "repository": "https://github.com/UMass-Embodied-AGI/DLO-Lab.git",
+    "revision": "c5026a9416b03c6bc5186eba13cd4ffd4c0e7796",
+    "task": "wrapping",
+    "modify_benchmark_physics": false,
+    "modify_reward": false,
+    "modify_geometry": false
+  },
+  "official_cmaes": {
+    "exp_name": "cmaes-01",
+    "n_envs": 100,
+    "max_iter": 51,
+    "n_steps": 10,
+    "n_steps_sub": 10,
+    "act_dim": 12,
+    "popsize": 400,
+    "seed": 123,
+    "bound": 0.1,
+    "l2_bound": 0.1,
+    "angle_bound": 1.0,
+    "angle_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "sigma": 0.05,
+    "use_last_state_reward": false,
+    "randomized_args": null
+  },
+  "replay_audit": {
+    "n_envs": 1,
+    "expected_best_traj_shape": [
+      10,
+      12
+    ],
+    "expected_best_qpos_shape": [
+      101,
+      18
+    ],
+    "winding_loss_match_atol": 1e-10,
+    "semantic_winding_transition": {
+      "unwrapped_max_magnitude_turns": 0.25,
+      "wrapped_min_magnitude_turns": 0.75,
+      "minimum_transition_posts": 1,
+      "require_wrapped_sample_after_unwrapped_sample": true
+    }
+  },
+  "outputs": {
+    "raw_root": "/data/Experiment3/data/pb2ab_dlolab_wrapping",
+    "committed_report_dir": "reports/experiment3/pb2ab_dlolab_wrapping"
+  },
+  "provenance": {
+    "starting_main_sha": "7cbac99498bf1d3409e12af41006026f15672eb3",
+    "dlolab_revision": "c5026a9416b03c6bc5186eba13cd4ffd4c0e7796"
+  }
+}
