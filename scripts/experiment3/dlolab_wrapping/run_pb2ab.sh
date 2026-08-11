@@ -130,6 +130,5 @@ case "${status}" in
     ;;
 esac
 
-python \
-  scripts/experiment3/dlolab_wrapping/replay_winding_audit.py \
+python -m scripts.experiment3.dlolab_wrapping.replay_winding_audit \
   --config "${CONFIG}"
