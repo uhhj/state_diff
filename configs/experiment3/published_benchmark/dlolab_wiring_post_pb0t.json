@@ -1,0 +1,41 @@
+{
+  "phase_name": "pb0t-rev2-wiring-post-native-contact-targeted-replay",
+  "source": {
+    "pb0_config": "configs/experiment3/published_benchmark/dlolab_wiring_post_pb0.json",
+    "rev4_shortlist": "reports/experiment3/pb0s_rev4_wiring_post_hidden_descriptor/CANDIDATE_SHORTLIST.json",
+    "frozen_dataset": "/data/Experiment3/data/pb0_dlolab_wiring_post/rollouts_scaleup.npz",
+    "expected_shortlist_count": 20,
+    "formal_pb0_verdict": "PB0_WIRING_POST_NO_NATURAL_CCDA_PAIRS"
+  },
+  "replay": {
+    "target_sample": 18,
+    "window_samples": [
+      16,
+      17,
+      18,
+      19,
+      20
+    ],
+    "core_stability_samples": [
+      17,
+      18,
+      19
+    ],
+    "replay_match_max_abs_tol_m": 5e-05,
+    "stop_after_sample": 20
+  },
+  "native_contact": {
+    "use_rod_rigid_vertices_collision": true,
+    "use_rod_rod_rr_constraints": true,
+    "require_post_geom_mapping": true
+  },
+  "outputs": {
+    "raw_root": "/data/Experiment3/reports/pb0t_wiring_post_native_contact",
+    "committed_report_dir": "reports/experiment3/pb0t_wiring_post_native_contact",
+    "confirmed_shortlist_k": 10
+  },
+  "provenance": {
+    "starting_main_sha": "2dd0376494e4766196c3b00b9043963828c110aa",
+    "dlolab_revision": "c5026a9416b03c6bc5186eba13cd4ffd4c0e7796"
+  }
+}
