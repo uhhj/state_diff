@@ -2329,7 +2329,7 @@ def run_worker_process(
     return {"process_returncode": int(proc.returncode), "logs": {key: str(value) for key, value in paths.items()}}
 
 
-def aggregate(config_path):
+def aggregate(config_path, resume_policy_path=None):
     config = load_json(
         config_path
     )
@@ -2377,101 +2377,94 @@ def aggregate(config_path):
     )
 
     worker_records = []
+    policy = None
+    actions = {}
+    failure_verdict = "PB3R2_WORKER_EXECUTION_FAILED"
+
+    if resume_policy_path is not None:
+        policy = load_json(resume_policy_path)
+        expected_policy = derive_resume_policy(config, calibration_set, raw_root)
+        if policy != expected_policy:
+            return write_blocked(
+                config,
+                "PB3R2_RESUME_POLICY_MISMATCH",
+                {"policy_path": str(resume_policy_path)},
+            )
+        actions = {
+            row["logical_worker_id"]: row
+            for row in policy["resume_actions"]
+        }
+        failure_verdict = policy["retry_failure_verdict"]
 
     try:
-        for batch_index in config[
-                "calibration_selection"
-        ][
-            "batch_indices"
-        ]:
-            for repeat_index in range(
-                    repeat_count):
-                execution = run_worker_process(
-                    config_path,
-                    REPO_ROOT / config["calibration_selection"]["calibration_set_path"],
-                    raw_root,
-                    batch_index,
-                    repeat_index,
-                    attempt_index=0,
-                )
-                if execution["process_returncode"] != 0:
-                    return write_blocked(
-                        config,
-                        "PB3R2_WORKER_EXECUTION_FAILED",
-                        {
-                            "batch_index": int(batch_index),
-                            "repeat_index": int(repeat_index),
-                            "process_returncode": execution["process_returncode"],
-                            "worker_verdict": None,
-                            "execution_logs": execution["logs"],
-                        },
-                    )
+        for batch_index, repeat_index in expected_worker_ids(config):
+            logical_worker_id = worker_stem(batch_index, repeat_index)
+            validation = validate_reusable_worker_artifact(
+                raw_root,
+                calibration_set,
+                batch_index,
+                repeat_index,
+            )
+            if validation["reusable"]:
+                worker_records.append(load_json(validation["json_path"]))
+                continue
 
-                path = (
-                    raw_root
-                    / (
-                        f"batch{batch_index}_repeat"
-                        f"{repeat_index}.json"
-                    )
+            if policy is not None and logical_worker_id not in actions:
+                return write_blocked(
+                    config,
+                    "PB3R2_RESUME_POLICY_MISMATCH",
+                    {
+                        "logical_worker_id": logical_worker_id,
+                        "artifact_validation": validation,
+                    },
                 )
 
-                worker_record = load_json(
-                    path
+            attempt_index = int(
+                actions.get(logical_worker_id, {}).get("attempt_index", 0)
+            )
+            execution = run_worker_process(
+                config_path,
+                REPO_ROOT / config["calibration_selection"]["calibration_set_path"],
+                raw_root,
+                batch_index,
+                repeat_index,
+                attempt_index=attempt_index,
+            )
+            # Completion requires both a clean process exit and fully validated
+            # final artifacts.  Attempt logs/stage journals are diagnostic only.
+            final_validation = validate_reusable_worker_artifact(
+                raw_root,
+                calibration_set,
+                batch_index,
+                repeat_index,
+            )
+            if (
+                execution["process_returncode"] != 0
+                or not final_validation["reusable"]
+            ):
+                json_path = raw_root / f"{logical_worker_id}.json"
+                return write_blocked(
+                    config,
+                    failure_verdict,
+                    {
+                        "logical_worker_id": logical_worker_id,
+                        "attempt_index": attempt_index,
+                        "process_returncode": execution["process_returncode"],
+                        "worker_verdict": (
+                            load_json(json_path).get("worker_verdict")
+                            if json_path.is_file() else None
+                        ),
+                        "final_artifact_validation": final_validation,
+                        "execution_logs": execution["logs"],
+                    },
                 )
-
-                worker_verdict = worker_record.get(
-                    "worker_verdict"
-                )
-
-                if worker_verdict != "PB3R2_WORKER_COMPLETE":
-                    return write_blocked(
-                        config,
-                        worker_verdict,
-                        {
-                            "batch_index":
-                                int(
-                                    batch_index
-                                ),
-
-                            "repeat_index":
-                                int(
-                                    repeat_index
-                                ),
-
-                            "t0_checked_before_any_future_step":
-                                bool(
-                                    worker_record.get(
-                                        "t0_checked_before_any_future_step",
-                                        False,
-                                    )
-                                ),
-
-                            "future_steps_executed":
-                                int(
-                                    worker_record.get(
-                                        "future_steps_executed",
-                                        0,
-                                    )
-                                ),
-
-                            "worker_blocked_details":
-                                worker_record.get(
-                                    "blocked_details"
-                                ),
-                        },
-                    )
-
-                worker_records.append(
-                    worker_record
-                )
+            worker_records.append(load_json(final_validation["json_path"]))
 
     except Exception as exc:
         return write_blocked(
             config,
-            "PB3R2_WORKER_EXECUTION_FAILED",
-            {
-                "exception": f"{type(exc).__name__}: {exc}",
-            },
+            failure_verdict,
+            {"exception": f"{type(exc).__name__}: {exc}"},
         )
 
     reconstruction_rows = [
@@ -3108,6 +3101,18 @@ def main():
         required=True,
     )
 
+    resume = subparsers.add_parser(
+        "resume"
+    )
+    resume.add_argument(
+        "--config",
+        required=True,
+    )
+    resume.add_argument(
+        "--policy",
+        required=True,
+    )
+
     args = parser.parse_args()
 
     if args.command == "freeze-set":
@@ -3156,6 +3161,12 @@ def main():
     elif args.command == "run":
         aggregate(
             args.config
+        )
+
+    elif args.command == "resume":
+        aggregate(
+            args.config,
+            args.policy,
         )
 
 
