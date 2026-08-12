@@ -5,7 +5,7 @@
 > **适用项目**：CCDA — Contact-Conditioned Deformation Branch Ambiguity  
 > **当前主仓库**：`uhhj/state_diff`，主研究分支 `Experiment3`  
 > **当前已发布仿真基座**：DLO-Lab，固定 revision `c5026a9416b03c6bc5186eba13cd4ffd4c0e7796`  
-> **当前科学状态**：Wiring-post 主路线已停止。DLO-Lab Wrapping 的 PB2-A/B 已正式通过：官方任务复现、task-native winding 定义和语义 winding 转换均成立。PB2-C 已正式通过并得到 5,534 个 frozen discovery candidates。PB3 已在 future suffix 前因 targeted replay alignment 失败而阻断，未产生 Gate 4 结论。当前立即任务为 PB3-R1 sequential acquisition-history replay diagnosis；在 PB3 恢复并通过以及 PB4 完成前禁止启动 StateDiff/CFPM 大规模训练。
+> **当前科学状态**：Wiring-post 主路线已停止。DLO-Lab Wrapping 的 PB2-A/B 已正式通过：官方任务复现、task-native winding 定义和语义 winding 转换均成立。PB2-C 已正式通过并得到 5,534 个 frozen discovery candidates。PB3 已在 future suffix 前因 targeted replay alignment 失败而阻断，未产生 Gate 4 结论。PB3-R1 已完成并未确认 acquisition-history dependence；当前立即任务为 PB3-R2 independent replay reconstruction-floor calibration。PB3 future suffix / Gate 4 仍未运行；在 PB3 恢复并通过以及 PB4 完成前禁止启动 StateDiff/CFPM 大规模训练。
 > **原则**：科学结论必须严谨；工程执行必须简洁；一旦机制证据充分，立即推进端到端系统，不继续无限审计。
 
 ---
@@ -600,79 +600,162 @@ ordinary isolated collector replay 也出现约 5.17e-5 m 局部误差
 
 误差集中在局部 rope vertices，而不是统一平移。
 
-### PB3-R1 — Sequential acquisition-history replay（当前立即任务）
+### PB3-R1 — Sequential acquisition-history replay（已完成）
 
-PB3-R1 只区分：
-
-```text
-原始 PB2-C sequential batch history
-vs
-isolated replay reconstruction
-```
-
-目标 branch 固定为 rollout 46 @ t13。
-
-三种模式：
-
-```text
-M0:
-fresh process
-→ batch0 seed123 完整 PB2-C collector
-→ batch1 seed124 到 t13
-× 3
-
-M1:
-fresh process
-→ isolated batch1 seed124 到 t13
-× 3
-
-M2:
-fresh process
-→ build_state reset
-→ batch1 seed124 到 t13
-× 1
-```
-
-M0 preceding batch 必须直接复用 committed PB2-C `replay_batch()`，target prefix 必须保留 PB2-C `sample_env()` / validity call order。
-
-PB3-R1 不运行 future suffix，不修改 PB3 shortlist / Gate 4 / frozen alignment。
-
-history dependence 只在以下全部成立时确认：
-
-```text
-M0/M1 t0 reconstruction valid
-
-所有 M0 t13 repeat
-均通过原 PB3 50 um alignment
-
-median M0 coordinate RMSE
-<= 0.5 * median M1 coordinate RMSE
-
-median M0 rope max abs
-<= 0.5 * median M1 rope max abs
-```
-
-positive diagnostic verdict：
-
-```text
-PB3R1_ACQUISITION_HISTORY_DEPENDENCE_CONFIRMED
-```
-
-若未确认：
+正式 verdict：
 
 ```text
 PB3R1_ACQUISITION_HISTORY_NOT_CONFIRMED_REPLAY_FLOOR_CALIBRATION_REQUIRED
 ```
 
-若 t0 失败：
+结果：
 
 ```text
-PB3R1_T0_RECONSTRUCTION_FAILED
+M0 sequential-history:
+  3/3 pass original 50 um
+  median coordinate RMSE ≈ 7.886e-6 m
+  median rope max abs ≈ 4.667e-5 m
+
+M1 isolated collector:
+  3/3 pass original 50 um
+  median coordinate RMSE ≈ 8.120e-6 m
+  median rope max abs ≈ 4.724e-5 m
+
+M2 build-state restore:
+  1/1 pass
 ```
 
-如果 history dependence 成立，先检查 snapshot 是否能够保存该 history-dependent simulator state；必要时将 PB3 repeat 改为 full acquisition-history replay，但 formal shortlist 与 Gate-4 条件不变。
+冻结 diagnostic criterion：
 
-如果 history dependence 不成立，进入 PB3-R2：使用 formal shortlist 外的 official-valid PB2-C states 做独立 replay-floor calibration，之后才能重新预注册 alignment criterion。
+```text
+M0/M1 coordinate-RMSE ratio <= 0.5
+AND
+M0/M1 rope-max-abs ratio <= 0.5
+```
+
+实际：
+
+```text
+coordinate-RMSE ratio = 0.971148
+rope-max-abs ratio    = 0.988013
+```
+
+因此 acquisition-history dependence 未得到确认。
+
+PB3-R1 没有修改：
+
+```text
+PB3 50 um alignment
+formal shortlist
+Gate 4
+future suffix
+```
+
+停止继续研究 batch0 history。
+
+### PB3-R2 — Independent replay-floor calibration（当前立即任务）
+
+PB3-R2 只测量 independent replay reconstruction floor。
+
+Calibration states：
+
+```text
+20 official-valid PB2-C states
+20 unique rollouts
+0 overlap with formal PB3 20 rollouts
+
+5 states per original batch
+10 states at t13
+10 states at t20
+```
+
+selection 只允许使用：
+
+```text
+official validity
+batch/env/rollout metadata
+```
+
+禁止使用：
+
+```text
+state geometry
+winding
+candidate rank
+future
+reward
+force
+sensor
+replay error
+```
+
+selection rule：
+
+```text
+per batch:
+  remove formal PB3 rollouts
+  sort eligible by env_index
+  choose evenly-spaced order positions
+  floor(j*(n-1)/4), j=0..4
+```
+
+calibration set 必须在 GPU floor measurement 前生成并 commit。
+
+每个 state 3 个 fresh-process isolated replays。
+
+通过 batching：
+
+```text
+4 batches × 3 repeats
+= 12 fresh Genesis processes
+```
+
+每个 process 只跑到 t20。
+
+必须分开测：
+
+```text
+A. fresh replay vs frozen PB2-C reconstruction error
+B. fresh replay vs fresh replay repeat error
+```
+
+分别报告：
+
+```text
+median
+P95
+P99
+max
+```
+
+以及原 50 um reference coverage。
+
+PB3-R2 successful verdict：
+
+```text
+PB3R2_REPLAY_FLOOR_CALIBRATED
+```
+
+PB3-R2 明确禁止自动选择新 alignment threshold。
+
+完成后停止并进入：
+
+```text
+PB3-R3
+→ 使用 PB3-R2 independent calibration
+→ 在重新运行 formal PB3 前
+→ re-preregister alignment handling
+```
+
+PB3 formal causal quantities保持：
+
+```text
+10 formal pairs
+1 mm absolute Gate-4 effect
+5x repeat floor
+>=3 passing pairs
+>=2 winding strata
+```
 
 ### PB4 — Control relevance
 
@@ -1306,3 +1389,25 @@ Agent 的首要任务不是再讨论 Wiring-post，而是尽快确认：
 目标是：
 
 > **用最少但足够可信的工程和证据，尽快证明或否定 CCDA 机制，然后完成 StateDiff + sensing + CFPM + IDM + closed-loop 的端到端研究。**
+
+
+### PB3-R2 REV1 implementation invariants
+
+PB3-R2 execution additionally requires:
+
+```text
+t0 precondition inside each worker
+before first future command
+
+all 60 target samples explicitly finite
+
+50 um coverage = rope-only max-abs coverage
+```
+
+`t0` uses the historical full PB3 alignment identity predicate, but the reported 50 um coverage must use only:
+
+```text
+rope_max_abs_coordinate_m <= 5e-5 m
+```
+
+These are implementation correctness conditions, not new scientific gates.

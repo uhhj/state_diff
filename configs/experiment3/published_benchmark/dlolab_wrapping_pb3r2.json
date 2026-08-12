@@ -1,0 +1,122 @@
+{
+  "phase_name": "pb3r2-dlolab-wrapping-independent-replay-floor-calibration",
+  "source": {
+    "pb3_evidence": "reports/experiment3/pb3_dlolab_wrapping/EVIDENCE.json",
+    "expected_pb3_verdict": "PB3_TARGETED_REPLAY_ALIGNMENT_FAILED",
+    "pb3r1_evidence": "reports/experiment3/pb3r1_replay_alignment/EVIDENCE.json",
+    "expected_pb3r1_verdict": "PB3R1_ACQUISITION_HISTORY_NOT_CONFIRMED_REPLAY_FLOOR_CALIBRATION_REQUIRED",
+    "pb3_shortlist": "configs/experiment3/published_benchmark/dlolab_wrapping_pb3_shortlist.json",
+    "pb2c_raw_rollouts": "/data/Experiment3/data/pb2c_dlolab_wrapping/rollouts_initial.npz"
+  },
+  "benchmark": {
+    "task": "wrapping",
+    "revision": "c5026a9416b03c6bc5186eba13cd4ffd4c0e7796",
+    "modify_physics": false,
+    "modify_reward": false,
+    "modify_geometry": false
+  },
+  "calibration_selection": {
+    "batch_indices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "states_per_batch": 5,
+    "total_states": 20,
+    "target_times": [
+      13,
+      20
+    ],
+    "time_pattern_even_batch": [
+      13,
+      20,
+      13,
+      20,
+      13
+    ],
+    "time_pattern_odd_batch": [
+      20,
+      13,
+      20,
+      13,
+      20
+    ],
+    "selection_rule": "Within each batch, remove official-invalid rollouts and all 20 formal PB3 shortlist rollouts; sort remaining rollouts by env_index; select five evenly-spaced order positions floor(j*(n-1)/4), j=0..4. Assign frozen t13/t20 pattern by batch parity. No state value, replay error, winding, future, force, sensor, or reward is used.",
+    "calibration_set_path": "configs/experiment3/published_benchmark/dlolab_wrapping_pb3r2_calibration_set.json"
+  },
+  "replay": {
+    "fresh_process_repeats": 3,
+    "n_envs": 32,
+    "n_steps_sub": 10,
+    "base_seed": 123,
+    "official_stretch_ratio_limit": 1.2,
+    "expected_wrapping_args": {
+      "pos_bound": [
+        -0.025,
+        -0.01,
+        0.025,
+        0.01
+      ]
+    },
+    "max_target_time": 20
+  },
+  "frozen_pb3_alignment_reference": {
+    "rope_max_abs_m": 5e-05,
+    "ee_max_abs_m": 5e-05,
+    "motor_qpos_max_abs_rad": 5e-05,
+    "require_winding_index_exact": true,
+    "reference_only": true,
+    "must_not_be_modified_by_pb3r2": true
+  },
+  "statistics": {
+    "quantiles": [
+      0.5,
+      0.95,
+      0.99
+    ],
+    "report_metrics": [
+      "coordinate_rmse_m",
+      "rope_max_abs_coordinate_m",
+      "max_vertex_l2_m",
+      "translation_removed_coordinate_rmse_m",
+      "ee_max_abs_m",
+      "motor_qpos_max_abs_rad"
+    ],
+    "separate_by_time": true,
+    "separate_by_batch": true,
+    "report_argmax_vertex_histogram": true
+  },
+  "outputs": {
+    "raw_root": "/data/Experiment3/data/pb3r2_replay_floor",
+    "committed_report_dir": "reports/experiment3/pb3r2_replay_floor"
+  },
+  "provenance": {
+    "starting_main_sha": "0fd9cb6f110ee89687310718f83d9caa06d00cda",
+    "dlolab_revision": "c5026a9416b03c6bc5186eba13cd4ffd4c0e7796"
+  },
+  "success_requirements": {
+    "t0_precondition_timing": "Each worker must evaluate all five selected t0 states immediately after env.reset/sample_env and before the first _dual_arm_command. Any t0 failure stops that worker with future_steps_executed=0 and stops the coordinator before launching later workers.",
+    "target_sample_count": 60,
+    "all_target_samples_finite": true,
+    "finite_fields": [
+      "rope_xyz",
+      "ee1_pos",
+      "ee2_pos",
+      "motor_qpos_1",
+      "motor_qpos_2",
+      "signed_winding_turns"
+    ],
+    "derived_metrics_must_be_finite": true
+  },
+  "coverage_reporting": {
+    "name": "original_50um_rope_reference",
+    "definition": "rope_max_abs_coordinate_m <= 5e-5 m only",
+    "must_not_include": [
+      "EE alignment",
+      "motor qpos alignment",
+      "winding-index equality"
+    ],
+    "historical_full_pb3_alignment_may_be_reported_separately": true
+  }
+}
