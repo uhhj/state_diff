@@ -1,0 +1,22 @@
+{
+  "phase_name": "pb3r2-dlolab-wrapping-independent-replay-floor-calibration",
+  "verdict": "PB3R2_WORKER_EXECUTION_FAILED",
+  "repository": {
+    "starting_main_sha": "0fd9cb6f110ee89687310718f83d9caa06d00cda",
+    "ending_main_sha": "feddd43eaa1cdd45853f0a89ce5b50dd6f63c5fe",
+    "dlolab_gitlink": "c5026a9416b03c6bc5186eba13cd4ffd4c0e7796"
+  },
+  "scientific": {
+    "verdict": "PB3R2_WORKER_EXECUTION_FAILED",
+    "scope": {
+      "future_suffix_executed": false,
+      "gate4_executed": false,
+      "pb3_alignment_threshold_modified": false,
+      "pb3_shortlist_modified": false,
+      "new_alignment_threshold_selected": false
+    },
+    "blocked_details": {
+      "returncode": 120
+    }
+  }
+}
