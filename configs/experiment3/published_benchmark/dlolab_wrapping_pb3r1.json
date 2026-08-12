@@ -1,0 +1,72 @@
+{
+  "phase_name": "pb3r1-dlolab-wrapping-sequential-acquisition-history-replay",
+  "purpose": "Distinguish acquisition-history dependence from ordinary replay reconstruction error without changing any frozen PB3 threshold.",
+  "source": {
+    "pb3_evidence": "reports/experiment3/pb3_dlolab_wrapping/EVIDENCE.json",
+    "expected_pb3_verdict": "PB3_TARGETED_REPLAY_ALIGNMENT_FAILED",
+    "pb2c_raw_rollouts": "/data/Experiment3/data/pb2c_dlolab_wrapping/rollouts_initial.npz"
+  },
+  "target": {
+    "rollout_id": 46,
+    "batch_index": 1,
+    "env_index": 14,
+    "batch_seed": 124,
+    "time_index": 13,
+    "preceding_batch_index": 0,
+    "preceding_batch_seed": 123
+  },
+  "benchmark": {
+    "task": "wrapping",
+    "revision": "c5026a9416b03c6bc5186eba13cd4ffd4c0e7796",
+    "modify_physics": false,
+    "modify_reward": false,
+    "modify_geometry": false
+  },
+  "replay": {
+    "n_envs": 32,
+    "n_steps_sub": 10,
+    "expected_wrapping_args": {
+      "pos_bound": [
+        -0.025,
+        -0.01,
+        0.025,
+        0.01
+      ]
+    },
+    "modes": {
+      "m0_sequential_history": {
+        "repeats": 3,
+        "description": "Fresh process; exact PB2-C batch0 seed123 to completion, then batch1 seed124 prefix through t13."
+      },
+      "m1_isolated_collector": {
+        "repeats": 3,
+        "description": "Fresh process; directly run batch1 seed124 prefix through t13."
+      },
+      "m2_build_state_restore": {
+        "repeats": 1,
+        "description": "Fresh process; capture/reset build_state, then batch1 seed124 prefix through t13."
+      }
+    },
+    "official_stretch_ratio_limit": 1.2
+  },
+  "frozen_pb3_alignment": {
+    "rope_max_abs_m": 5e-05,
+    "ee_max_abs_m": 5e-05,
+    "motor_qpos_max_abs_rad": 5e-05,
+    "require_winding_index_exact": true,
+    "threshold_is_not_modified_by_pb3r1": true
+  },
+  "diagnostic_decision": {
+    "history_dependence_material_reduction_ratio": 0.5,
+    "confirmation_rule": "Confirm only if every M0 repeat passes original PB3 alignment AND median M0 coordinate RMSE <= 0.5*median M1 coordinate RMSE AND median M0 rope max-abs <= 0.5*median M1 rope max-abs.",
+    "if_not_confirmed": "Proceed to PB3-R2 independent non-shortlist replay-floor calibration; do not modify PB3 thresholds."
+  },
+  "outputs": {
+    "raw_root": "/data/Experiment3/data/pb3r1_replay_alignment",
+    "committed_report_dir": "reports/experiment3/pb3r1_replay_alignment"
+  },
+  "provenance": {
+    "starting_main_sha": "f82b96f67219bd53c7da6a3e32705db46485f0b7",
+    "dlolab_revision": "c5026a9416b03c6bc5186eba13cd4ffd4c0e7796"
+  }
+}

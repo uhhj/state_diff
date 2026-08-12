@@ -5,7 +5,7 @@
 > **适用项目**：CCDA — Contact-Conditioned Deformation Branch Ambiguity  
 > **当前主仓库**：`uhhj/state_diff`，主研究分支 `Experiment3`  
 > **当前已发布仿真基座**：DLO-Lab，固定 revision `c5026a9416b03c6bc5186eba13cd4ffd4c0e7796`  
-> **当前科学状态**：Wiring-post 主路线已停止。DLO-Lab Wrapping 的 PB2-A/B 已正式通过：官方任务复现、task-native winding 定义和语义 winding 转换均成立。PB2-C 已正式通过并得到 5,534 个 frozen discovery candidates。当前立即任务为 PB3 snapshot same-action causal bifurcation audit；PB3/PB4 通过前禁止启动 StateDiff/CFPM 大规模训练。  
+> **当前科学状态**：Wiring-post 主路线已停止。DLO-Lab Wrapping 的 PB2-A/B 已正式通过：官方任务复现、task-native winding 定义和语义 winding 转换均成立。PB2-C 已正式通过并得到 5,534 个 frozen discovery candidates。PB3 已在 future suffix 前因 targeted replay alignment 失败而阻断，未产生 Gate 4 结论。当前立即任务为 PB3-R1 sequential acquisition-history replay diagnosis；在 PB3 恢复并通过以及 PB4 完成前禁止启动 StateDiff/CFPM 大规模训练。
 > **原则**：科学结论必须严谨；工程执行必须简洁；一旦机制证据充分，立即推进端到端系统，不继续无限审计。
 
 ---
@@ -541,52 +541,138 @@ PB2-C candidate selection 未使用 future divergence、force 或 sensor。rope 
 
 停止 PB2-C collection / threshold / ranking 工程，进入 PB3。
 
-### PB3 — Snapshot causal bifurcation（当前立即任务）
+### PB3 — Snapshot causal bifurcation（已阻断，冻结不变）
 
-冻结 10 个 PB2-C pair / 20 unique rollouts。shortlist 只按 PB2-C frozen rank 与 rollout 去重产生，禁止 future-based replacement。
-
-每个 branch state 做 3 次 snapshot repeat；相同 official qpos suffix；horizon `1,2,5,10,20,40`。
-
-formal primary metric 是 ordered rope displacement-field divergence：
+正式 blocked verdict：
 
 ```text
-RMSE(
-  [X_A(t+h)-X_A(t)]
-  -
-  [X_B(t+h)-X_B(t)]
-)
+PB3_TARGETED_REPLAY_ALIGNMENT_FAILED
 ```
 
-per-horizon repeat floor：
+阻断发生在 future suffix 之前，因此：
 
 ```text
-max(within-A repeat divergence,
-    within-B repeat divergence)
+Gate 4 未运行
+PAIR_METRICS 为空
+PB3_TRAJECTORIES.npz 未生成
+PB4 未启动
 ```
 
-formal pass：
+失败 branch：
 
 ```text
-min cross-repeat branch divergence
->=
-max(1 mm, 5 * repeat floor)
+rollout 46
+batch 1
+env 14
+seed 124
+t = 13
 ```
 
-PB3 phase positive：
+冻结 alignment：
 
 ```text
->= 3 independent pair pass
-AND
->= 2 winding strata pass
+rope max abs <= 5e-5 m
+EE max abs <= 5e-5 m
+motor qpos max abs <= 5e-5 rad
+winding index exact
 ```
 
-positive verdict：
+实际失败仅在 rope：
 
 ```text
-PB3_CAUSAL_FUTURE_BIFURCATION_CONFIRMED
+rope max abs = 5.1826239e-5 m
+EE / qpos pass
+winding index exact
 ```
 
-通过后立即进入 PB4，不继续 future-branch engineering。
+禁止事后放宽 `5e-5`。
+
+已完成的 root-cause checks：
+
+```text
+seed / RNG state matched
+position randomization matched
+t0 rope exact
+global translation 不是主要来源
+build_state restore 只贡献较小局部误差
+ordinary isolated collector replay 也出现约 5.17e-5 m 局部误差
+```
+
+误差集中在局部 rope vertices，而不是统一平移。
+
+### PB3-R1 — Sequential acquisition-history replay（当前立即任务）
+
+PB3-R1 只区分：
+
+```text
+原始 PB2-C sequential batch history
+vs
+isolated replay reconstruction
+```
+
+目标 branch 固定为 rollout 46 @ t13。
+
+三种模式：
+
+```text
+M0:
+fresh process
+→ batch0 seed123 完整 PB2-C collector
+→ batch1 seed124 到 t13
+× 3
+
+M1:
+fresh process
+→ isolated batch1 seed124 到 t13
+× 3
+
+M2:
+fresh process
+→ build_state reset
+→ batch1 seed124 到 t13
+× 1
+```
+
+M0 preceding batch 必须直接复用 committed PB2-C `replay_batch()`，target prefix 必须保留 PB2-C `sample_env()` / validity call order。
+
+PB3-R1 不运行 future suffix，不修改 PB3 shortlist / Gate 4 / frozen alignment。
+
+history dependence 只在以下全部成立时确认：
+
+```text
+M0/M1 t0 reconstruction valid
+
+所有 M0 t13 repeat
+均通过原 PB3 50 um alignment
+
+median M0 coordinate RMSE
+<= 0.5 * median M1 coordinate RMSE
+
+median M0 rope max abs
+<= 0.5 * median M1 rope max abs
+```
+
+positive diagnostic verdict：
+
+```text
+PB3R1_ACQUISITION_HISTORY_DEPENDENCE_CONFIRMED
+```
+
+若未确认：
+
+```text
+PB3R1_ACQUISITION_HISTORY_NOT_CONFIRMED_REPLAY_FLOOR_CALIBRATION_REQUIRED
+```
+
+若 t0 失败：
+
+```text
+PB3R1_T0_RECONSTRUCTION_FAILED
+```
+
+如果 history dependence 成立，先检查 snapshot 是否能够保存该 history-dependent simulator state；必要时将 PB3 repeat 改为 full acquisition-history replay，但 formal shortlist 与 Gate-4 条件不变。
+
+如果 history dependence 不成立，进入 PB3-R2：使用 formal shortlist 外的 official-valid PB2-C states 做独立 replay-floor calibration，之后才能重新预注册 alignment criterion。
 
 ### PB4 — Control relevance
 
