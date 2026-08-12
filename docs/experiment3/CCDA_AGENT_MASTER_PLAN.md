@@ -5,7 +5,7 @@
 > **适用项目**：CCDA — Contact-Conditioned Deformation Branch Ambiguity  
 > **当前主仓库**：`uhhj/state_diff`，主研究分支 `Experiment3`  
 > **当前已发布仿真基座**：DLO-Lab，固定 revision `c5026a9416b03c6bc5186eba13cd4ffd4c0e7796`  
-> **当前科学状态**：Wiring-post 主路线已停止。DLO-Lab Wrapping 的 PB2-A/B 已正式通过：官方任务复现、task-native winding 定义和语义 winding 转换均成立。PB2-C 已正式通过并得到 5,534 个 frozen discovery candidates。PB3 已在 future suffix 前因 targeted replay alignment 失败而阻断，未产生 Gate 4 结论。PB3-R1 已完成并未确认 acquisition-history dependence；当前立即任务为 PB3-R2 independent replay reconstruction-floor calibration。PB3 future suffix / Gate 4 仍未运行；在 PB3 恢复并通过以及 PB4 完成前禁止启动 StateDiff/CFPM 大规模训练。
+> **当前科学状态**：Wiring-post 主路线已停止。DLO-Lab Wrapping 的 PB2-A/B 已正式通过：官方任务复现、task-native winding 定义和语义 winding 转换均成立。PB2-C 已正式通过并得到 5,534 个 frozen discovery candidates。PB3 已在 future suffix 前因 targeted replay alignment 失败而阻断，未产生 Gate 4 结论。PB3-R1 未确认 acquisition-history dependence。PB3-R2 在第 8 个 logical worker 无 artifact 的 returncode 120 后 blocked；当前立即任务为 PB3-R2E execution-harness diagnosis 与 resume freeze。PB3 future suffix / Gate 4 仍未运行；在 PB3 恢复并通过以及 PB4 完成前禁止启动 StateDiff/CFPM 大规模训练。
 > **原则**：科学结论必须严谨；工程执行必须简洁；一旦机制证据充分，立即推进端到端系统，不继续无限审计。
 
 ---
@@ -653,7 +653,7 @@ future suffix
 
 停止继续研究 batch0 history。
 
-### PB3-R2 — Independent replay-floor calibration（当前立即任务）
+### PB3-R2 — Independent replay-floor calibration（blocked; do not infer a floor）
 
 PB3-R2 只测量 independent replay reconstruction floor。
 

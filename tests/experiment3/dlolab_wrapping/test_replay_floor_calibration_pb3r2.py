@@ -3,11 +3,14 @@ import copy
 import numpy as np
 
 from scripts.experiment3.dlolab_wrapping.replay_floor_calibration_pb3r2 import (
+    attempt_paths,
     derive_calibration_set,
+    derive_resume_policy,
     evenly_spaced_positions,
     full_alignment_metrics,
     quantile_summary,
     sample_finiteness,
+    validate_reusable_worker_artifact,
 )
 
 
@@ -432,3 +435,90 @@ def test_50um_rope_reference_fails_only_when_rope_exceeds_limit():
     assert row[
         "old_50um_rope_reference_pass"
     ] is False
+
+
+def _complete_worker_artifact(root, calibration_set, batch, repeat):
+    states = [
+        state for state in calibration_set["states"]
+        if state["batch_index"] == batch
+    ]
+    stem = f"batch{batch}_repeat{repeat}"
+    npz_path = root / f"{stem}.npz"
+    np.savez_compressed(
+        npz_path,
+        rollout_id=np.asarray([s["rollout_id"] for s in states]),
+        time_index=np.asarray([s["time_index"] for s in states]),
+        rope_xyz=np.zeros((5, 50, 3), dtype=np.float32),
+    )
+    (root / f"{stem}.json").write_text(
+        __import__("json").dumps(
+            {
+                "worker_verdict": "PB3R2_WORKER_COMPLETE",
+                "future_steps_executed": 20,
+                "target_metrics": [
+                    {
+                        "rollout_id": s["rollout_id"],
+                        "time_index": s["time_index"],
+                    }
+                    for s in states
+                ],
+                "all_target_samples_finite": True,
+            }
+        ),
+        encoding="utf-8",
+    )
+
+
+def test_reusable_artifact_requires_complete_json_npz_and_finite_ropes(tmp_path):
+    calibration_set = derive_calibration_set(_config(), _frozen(), [])
+    _complete_worker_artifact(tmp_path, calibration_set, 0, 0)
+
+    valid = validate_reusable_worker_artifact(
+        tmp_path, calibration_set, 0, 0
+    )
+    absent = validate_reusable_worker_artifact(
+        tmp_path, calibration_set, 2, 1
+    )
+
+    assert valid["reusable"] is True
+    assert absent == {
+        "reusable": False,
+        "reason": "final_artifact_missing",
+    }
+
+
+def test_resume_policy_reuses_seven_and_allows_only_five_new_workers(tmp_path):
+    config = _config()
+    config["replay"] = {"fresh_process_repeats": 3}
+    calibration_set = derive_calibration_set(config, _frozen(), [])
+
+    for batch, repeat in [
+            (0, 0), (0, 1), (0, 2),
+            (1, 0), (1, 1), (1, 2), (2, 0)]:
+        _complete_worker_artifact(
+            tmp_path, calibration_set, batch, repeat
+        )
+
+    policy = derive_resume_policy(
+        config, calibration_set, tmp_path
+    )
+
+    assert len(policy["reusable_workers"]) == 7
+    assert policy["maximum_new_fresh_workers"] == 5
+    assert [row["logical_worker_id"] for row in policy["resume_actions"]] == [
+        "batch2_repeat1",
+        "batch2_repeat2",
+        "batch3_repeat0",
+        "batch3_repeat1",
+        "batch3_repeat2",
+    ]
+    assert policy["resume_actions"][0]["attempt_index"] == 1
+    assert policy["resume_actions"][0]["action"] == "retry_once"
+
+
+def test_attempt_paths_are_per_attempt_and_not_final_worker_artifacts(tmp_path):
+    paths = attempt_paths(tmp_path, 2, 1, 1)
+
+    assert paths["stage"].name == "batch2_repeat1_attempt1.stage.jsonl"
+    assert paths["stdout"].name == "batch2_repeat1_attempt1.stdout.log"
+    assert paths["stderr"].name == "batch2_repeat1_attempt1.stderr.log"

@@ -20,8 +20,10 @@ Each worker replays only through t=20 and evaluates five calibration states.
 from __future__ import annotations
 
 import argparse
+import faulthandler
 import itertools
 import json
+import os
 from pathlib import Path
 import subprocess
 import sys
@@ -57,6 +59,61 @@ MODULE = (
     "scripts.experiment3.dlolab_wrapping."
     "replay_floor_calibration_pb3r2"
 )
+
+
+class StageJournal:
+    """Tiny durable execution trace; never a scientific artifact."""
+
+    def __init__(self, path):
+        self.path = Path(path)
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+        self.handle = self.path.open("a", encoding="utf-8")
+
+    def write(self, stage):
+        self.handle.write(json.dumps({"stage": stage}) + "\n")
+        self.handle.flush()
+        os.fsync(self.handle.fileno())
+
+    def close(self):
+        self.handle.close()
+
+
+def atomic_write_json(path, value):
+    path = Path(path)
+    tmp = path.with_name(path.name + ".tmp")
+    with tmp.open("w", encoding="utf-8") as handle:
+        json.dump(value, handle, indent=2)
+        handle.write("\n")
+        handle.flush()
+        os.fsync(handle.fileno())
+    os.replace(tmp, path)
+
+
+def atomic_savez(path, **arrays):
+    path = Path(path)
+    tmp = path.with_name(path.name + ".tmp")
+    with tmp.open("wb") as handle:
+        np.savez_compressed(handle, **arrays)
+        handle.flush()
+        os.fsync(handle.fileno())
+    os.replace(tmp, path)
+
+
+def worker_stem(batch_index, repeat_index):
+    return f"batch{int(batch_index)}_repeat{int(repeat_index)}"
+
+
+def attempt_paths(output_root, batch_index, repeat_index, attempt_index):
+    root = Path(output_root)
+    prefix = (
+        f"{worker_stem(batch_index, repeat_index)}_attempt"
+        f"{int(attempt_index)}"
+    )
+    return {
+        "stdout": root / f"{prefix}.stdout.log",
+        "stderr": root / f"{prefix}.stderr.log",
+        "stage": root / f"{prefix}.stage.jsonl",
+    }
 
 
 class PB3R2Blocked(RuntimeError):
@@ -922,7 +979,19 @@ def worker_batch(
         calibration_set_path,
         batch_index,
         repeat_index,
-        output_root):
+        output_root,
+        attempt_index=0,
+        stage_path=None):
+    if stage_path is None:
+        stage_path = attempt_paths(
+            output_root,
+            batch_index,
+            repeat_index,
+            attempt_index,
+        )["stage"]
+    journal = StageJournal(stage_path)
+    journal.write("worker_started")
+    faulthandler.enable(file=sys.stderr, all_threads=True)
     config = load_json(
         config_path
     )
@@ -1033,10 +1102,12 @@ def worker_batch(
         ),
         log_dir=official_log_dir(),
     )
+    journal.write("env_built")
 
     env.init_domain_randomization(
         **wrapping_args
     )
+    journal.write("domain_randomization_ready")
 
     try:
         seed = (
@@ -1056,6 +1127,7 @@ def worker_batch(
 
         env.use_qpos = True
         env.reset()
+        journal.write("reset_complete")
 
         total_micro_steps = int(
             qpos.shape[0]
@@ -1190,20 +1262,16 @@ def worker_batch(
                 },
             }
 
-            json_path.write_text(
-                json.dumps(
-                    result,
-                    indent=2,
-                )
-                + "\n",
-                encoding="utf-8",
-            )
+            atomic_write_json(json_path, result)
+            journal.write("worker_returning")
 
             print(
                 "worker_verdict="
                 "PB3R2_T0_RECONSTRUCTION_FAILED"
             )
             return result
+
+        journal.write("t0_passed")
 
         n_intervals = (
             env.steps_interval
@@ -1266,6 +1334,11 @@ def worker_batch(
             row = sample_env(
                 env
             )
+
+            if global_step == 13:
+                journal.write("t13_captured")
+            if global_step == 20:
+                journal.write("t20_captured")
 
             if global_step not in states_by_time:
                 continue
@@ -1335,14 +1408,8 @@ def worker_batch(
                         },
                     }
 
-                    json_path.write_text(
-                        json.dumps(
-                            result,
-                            indent=2,
-                        )
-                        + "\n",
-                        encoding="utf-8",
-                    )
+                    atomic_write_json(json_path, result)
+                    journal.write("worker_returning")
 
                     print(
                         "worker_verdict="
@@ -1428,14 +1495,8 @@ def worker_batch(
                         },
                     }
 
-                    json_path.write_text(
-                        json.dumps(
-                            result,
-                            indent=2,
-                        )
-                        + "\n",
-                        encoding="utf-8",
-                    )
+                    atomic_write_json(json_path, result)
+                    journal.write("worker_returning")
 
                     print(
                         "worker_verdict="
@@ -1533,14 +1594,8 @@ def worker_batch(
                         },
                     }
 
-                    json_path.write_text(
-                        json.dumps(
-                            result,
-                            indent=2,
-                        )
-                        + "\n",
-                        encoding="utf-8",
-                    )
+                    atomic_write_json(json_path, result)
+                    journal.write("worker_returning")
 
                     print(
                         "worker_verdict="
@@ -1623,7 +1678,7 @@ def worker_batch(
             / f"{stem}.npz"
         )
 
-        np.savez_compressed(
+        atomic_savez(
             npz_path,
             rollout_id=np.asarray(
                 target_ids,
@@ -1638,6 +1693,7 @@ def worker_batch(
                 axis=0,
             ),
         )
+        journal.write("npz_committed")
 
         result = {
             "worker_verdict":
@@ -1678,14 +1734,9 @@ def worker_batch(
                 ),
         }
 
-        json_path.write_text(
-            json.dumps(
-                result,
-                indent=2,
-            )
-            + "\n",
-            encoding="utf-8",
-        )
+        atomic_write_json(json_path, result)
+        journal.write("json_committed")
+        journal.write("worker_returning")
 
         print(
             json.dumps(
@@ -1720,7 +1771,10 @@ def worker_batch(
         return result
 
     finally:
+        journal.write("env_stop_begin")
         env.stop()
+        journal.write("env_stop_end")
+        journal.close()
 
 
 def quantile_summary(values):
@@ -2155,6 +2209,126 @@ def write_blocked(
     return result
 
 
+def expected_worker_ids(config):
+    return [
+        (int(batch_index), int(repeat_index))
+        for batch_index in config["calibration_selection"]["batch_indices"]
+        for repeat_index in range(int(config["replay"]["fresh_process_repeats"]))
+    ]
+
+
+def validate_reusable_worker_artifact(
+        output_root, calibration_set, batch_index, repeat_index):
+    """Validate a completed logical slot before it may be reused."""
+    root = Path(output_root)
+    stem = worker_stem(batch_index, repeat_index)
+    json_path = root / f"{stem}.json"
+    npz_path = root / f"{stem}.npz"
+    if not json_path.is_file() or not npz_path.is_file():
+        return {"reusable": False, "reason": "final_artifact_missing"}
+    try:
+        row = load_json(json_path)
+        if row.get("worker_verdict") != "PB3R2_WORKER_COMPLETE":
+            return {"reusable": False, "reason": "worker_verdict"}
+        if int(row.get("future_steps_executed", -1)) != 20:
+            return {"reusable": False, "reason": "future_steps_executed"}
+        if len(row.get("target_metrics", [])) != 5:
+            return {"reusable": False, "reason": "target_metrics_count"}
+        if row.get("all_target_samples_finite") is not True:
+            return {"reusable": False, "reason": "target_finiteness"}
+        expected = {
+            (int(state["rollout_id"]), int(state["time_index"]))
+            for state in calibration_set["states"]
+            if int(state["batch_index"]) == int(batch_index)
+        }
+        actual = {
+            (int(item["rollout_id"]), int(item["time_index"]))
+            for item in row["target_metrics"]
+        }
+        if actual != expected:
+            return {"reusable": False, "reason": "json_target_mapping"}
+        with np.load(npz_path, allow_pickle=False) as handle:
+            ids = np.asarray(handle["rollout_id"], dtype=np.int64)
+            times = np.asarray(handle["time_index"], dtype=np.int64)
+            ropes = np.asarray(handle["rope_xyz"])
+        if ropes.shape != (5, 50, 3) or not np.isfinite(ropes).all():
+            return {"reusable": False, "reason": "npz_rope_arrays"}
+        if {(int(i), int(t)) for i, t in zip(ids, times)} != expected:
+            return {"reusable": False, "reason": "npz_target_mapping"}
+    except Exception as exc:
+        return {"reusable": False, "reason": "artifact_parse_or_load_error", "error": f"{type(exc).__name__}: {exc}"}
+    return {"reusable": True, "json_path": str(json_path), "npz_path": str(npz_path)}
+
+
+def derive_resume_policy(config, calibration_set, output_root):
+    """Freeze the one-retry policy after validating the seven final artifacts."""
+    reusable = []
+    pending = []
+    for batch_index, repeat_index in expected_worker_ids(config):
+        validation = validate_reusable_worker_artifact(output_root, calibration_set, batch_index, repeat_index)
+        item = {"logical_worker_id": worker_stem(batch_index, repeat_index), "batch_index": batch_index, "repeat_index": repeat_index, "validation": validation}
+        (reusable if validation["reusable"] else pending).append(item)
+    expected_reuse = [worker_stem(batch, repeat) for batch, repeat in expected_worker_ids(config)[:7]]
+    if [row["logical_worker_id"] for row in reusable] != expected_reuse:
+        raise RuntimeError("PB3-R2E reusable worker set is not exactly the first seven slots")
+    expected_pending = ["batch2_repeat1", "batch2_repeat2", "batch3_repeat0", "batch3_repeat1", "batch3_repeat2"]
+    if [row["logical_worker_id"] for row in pending] != expected_pending:
+        raise RuntimeError("PB3-R2E pending worker set does not match the blocked execution")
+    actions = [
+        {
+            "logical_worker_id": row["logical_worker_id"],
+            "batch_index": row["batch_index"],
+            "repeat_index": row["repeat_index"],
+            "attempt_index": 1 if row["logical_worker_id"] == "batch2_repeat1" else 0,
+            "action": "retry_once" if row["logical_worker_id"] == "batch2_repeat1" else "run_once",
+        }
+        for row in pending
+    ]
+    return {
+        "phase": "PB3-R2E",
+        "purpose": "Execution harness diagnosis and frozen PB3-R2 resume policy only.",
+        "expected_logical_workers": [worker_stem(b, r) for b, r in expected_worker_ids(config)],
+        "reusable_workers": reusable,
+        "failed_attempt": {"logical_worker_id": "batch2_repeat1", "attempt_index": 0, "process_returncode": 120, "final_artifact_present": False},
+        "resume_actions": actions,
+        "maximum_new_fresh_workers": 5,
+        "retry_failure_verdict": "PB3R2_RESUME_WORKER_EXECUTION_FAILED",
+        "retry_policy": "Do not retry any logical worker more than once; do not count attempt0 as a repeat realization.",
+    }
+
+
+def freeze_resume_policy(config_path, output_path):
+    config = load_json(config_path)
+    frozen = load_frozen(config)
+    _, formal_rollouts = load_shortlist(config)
+    calibration_set = load_and_validate_calibration_set(config, frozen, formal_rollouts)
+    policy = derive_resume_policy(config, calibration_set, config["outputs"]["raw_root"])
+    output = Path(output_path)
+    if not output.is_absolute():
+        output = REPO_ROOT / output
+    atomic_write_json(output, policy)
+    return policy
+
+
+def run_worker_process(
+        config_path, calibration_set_path, output_root,
+        batch_index, repeat_index, attempt_index):
+    paths = attempt_paths(output_root, batch_index, repeat_index, attempt_index)
+    command = [
+        sys.executable, "-u", "-m", MODULE, "worker",
+        "--config", str(config_path),
+        "--calibration-set", str(calibration_set_path),
+        "--batch-index", str(batch_index),
+        "--repeat-index", str(repeat_index),
+        "--attempt-index", str(attempt_index),
+        "--stage-path", str(paths["stage"]),
+        "--output-root", str(output_root),
+    ]
+    with paths["stdout"].open("wb") as stdout_f, paths["stderr"].open("wb") as stderr_f:
+        proc = subprocess.run(command, cwd=REPO_ROOT, stdin=subprocess.DEVNULL, stdout=stdout_f, stderr=stderr_f, check=False, start_new_session=True)
+    return {"process_returncode": int(proc.returncode), "logs": {key: str(value) for key, value in paths.items()}}
+
+
 def aggregate(config_path):
     config = load_json(
         config_path
@@ -2212,41 +2386,26 @@ def aggregate(config_path):
         ]:
             for repeat_index in range(
                     repeat_count):
-                subprocess.run(
-                    [
-                        sys.executable,
-                        "-m",
-                        MODULE,
-                        "worker",
-                        "--config",
-                        str(
-                            config_path
-                        ),
-                        "--calibration-set",
-                        str(
-                            REPO_ROOT
-                            / config[
-                                "calibration_selection"
-                            ][
-                                "calibration_set_path"
-                            ]
-                        ),
-                        "--batch-index",
-                        str(
-                            batch_index
-                        ),
-                        "--repeat-index",
-                        str(
-                            repeat_index
-                        ),
-                        "--output-root",
-                        str(
-                            raw_root
-                        ),
-                    ],
-                    cwd=REPO_ROOT,
-                    check=True,
+                execution = run_worker_process(
+                    config_path,
+                    REPO_ROOT / config["calibration_selection"]["calibration_set_path"],
+                    raw_root,
+                    batch_index,
+                    repeat_index,
+                    attempt_index=0,
                 )
+                if execution["process_returncode"] != 0:
+                    return write_blocked(
+                        config,
+                        "PB3R2_WORKER_EXECUTION_FAILED",
+                        {
+                            "batch_index": int(batch_index),
+                            "repeat_index": int(repeat_index),
+                            "process_returncode": execution["process_returncode"],
+                            "worker_verdict": None,
+                            "execution_logs": execution["logs"],
+                        },
+                    )
 
                 path = (
                     raw_root
@@ -2306,15 +2465,12 @@ def aggregate(config_path):
                     worker_record
                 )
 
-    except subprocess.CalledProcessError as exc:
+    except Exception as exc:
         return write_blocked(
             config,
             "PB3R2_WORKER_EXECUTION_FAILED",
             {
-                "returncode":
-                    int(
-                        exc.returncode
-                    ),
+                "exception": f"{type(exc).__name__}: {exc}",
             },
         )
 
@@ -2923,6 +3079,26 @@ def main():
         "--output-root",
         required=True,
     )
+    worker.add_argument(
+        "--attempt-index",
+        type=int,
+        default=0,
+    )
+    worker.add_argument(
+        "--stage-path",
+    )
+
+    freeze_resume = subparsers.add_parser(
+        "freeze-resume-policy"
+    )
+    freeze_resume.add_argument(
+        "--config",
+        required=True,
+    )
+    freeze_resume.add_argument(
+        "--output",
+        required=True,
+    )
 
     run = subparsers.add_parser(
         "run"
@@ -2967,6 +3143,14 @@ def main():
             args.batch_index,
             args.repeat_index,
             args.output_root,
+            args.attempt_index,
+            args.stage_path,
+        )
+
+    elif args.command == "freeze-resume-policy":
+        freeze_resume_policy(
+            args.config,
+            args.output,
         )
 
     elif args.command == "run":
