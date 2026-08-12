@@ -1,0 +1,80 @@
+{
+  "phase_name": "pb2c-rev1-dlolab-wrapping-natural-pair-discovery",
+  "source": {
+    "pb2ab_evidence": "reports/experiment3/pb2ab_dlolab_wrapping/EVIDENCE.json",
+    "expected_pb2ab_verdict": "PB2AB_WRAPPING_REPRODUCED_AND_WINDING_AUDITED"
+  },
+  "benchmark": {
+    "task": "wrapping",
+    "revision": "c5026a9416b03c6bc5186eba13cd4ffd4c0e7796",
+    "modify_physics": false,
+    "modify_reward": false,
+    "modify_geometry": false
+  },
+  "collection": {
+    "n_envs": 32,
+    "n_steps_sub": 10,
+    "base_seed": 123,
+    "initial_batches": 4,
+    "max_batches": 16,
+    "activate_repo_wrapping_position_randomization": true,
+    "expected_wrapping_args": {
+      "pos_bound": [
+        -0.025,
+        -0.01,
+        0.025,
+        0.01
+      ]
+    },
+    "inherit_official_rollout_validity": true,
+    "official_stretch_ratio_limit": 1.2
+  },
+  "hidden_state": {
+    "descriptor": "rounded_signed_task_native_winding_index",
+    "rounding": "nearest_integer",
+    "require_different_index_vector": true,
+    "save_integer_residual_per_candidate": true
+  },
+  "discovery": {
+    "min_candidates_to_proceed": 5,
+    "top_k": 50,
+    "pair_batch_size": 256
+  },
+  "outputs": {
+    "raw_root": "/data/Experiment3/data/pb2c_dlolab_wrapping",
+    "committed_report_dir": "reports/experiment3/pb2c_dlolab_wrapping"
+  },
+  "provenance": {
+    "starting_main_sha": "4ee307741b57a4d5cbfdea4ef1cdfcd0700d7d05",
+    "dlolab_revision": "c5026a9416b03c6bc5186eba13cd4ffd4c0e7796"
+  },
+  "partial_state_observation": {
+    "name": "artificial_post_local_occlusion_surrogate",
+    "claim_deployable": false,
+    "history_samples": 3,
+    "rope_component": {
+      "visible_quantity": "rope_vertex_xyz",
+      "velocity_used_for_pair_selection": false,
+      "post_radius_m": 0.015,
+      "rope_radius_m": 0.01,
+      "local_occlusion_radius_multiplier": 2.0,
+      "max_visible_history_chamfer_m": 0.01,
+      "chamfer_dims": 3
+    },
+    "robot_component": {
+      "definition_source": "published_Train_Env_Wrapping.compute_observation",
+      "per_arm_fields": [
+        "ee_position_xyz",
+        "ee_quaternion",
+        "motor_joint_qpos_7d"
+      ],
+      "max_dual_ee_position_history_mean_m": 0.01,
+      "max_dual_ee_quaternion_geodesic_history_mean_rad": 0.08726646259971647,
+      "max_dual_motor_qpos_history_rms_rad": 0.05
+    },
+    "post_component": {
+      "status": "fixed_shared_context",
+      "pair_metric_required": false
+    }
+  }
+}

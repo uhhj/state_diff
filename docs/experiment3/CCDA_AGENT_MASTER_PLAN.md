@@ -5,7 +5,7 @@
 > **适用项目**：CCDA — Contact-Conditioned Deformation Branch Ambiguity  
 > **当前主仓库**：`uhhj/state_diff`，主研究分支 `Experiment3`  
 > **当前已发布仿真基座**：DLO-Lab，固定 revision `c5026a9416b03c6bc5186eba13cd4ffd4c0e7796`  
-> **当前科学状态**：Wiring-post 主路线已停止；下一主方向应切换到具有更干净 task-native privileged interaction state 的 published task，优先 DLO-Lab Wrapping。  
+> **当前科学状态**：Wiring-post 主路线已停止。DLO-Lab Wrapping 的 PB2-A/B 已正式通过：官方任务复现、task-native winding 定义和语义 winding 转换均成立。当前立即任务为 PB2-C natural pair discovery；在 PB2-C/PB3/PB4 通过前禁止启动 StateDiff/CFPM 大规模训练。  
 > **原则**：科学结论必须严谨；工程执行必须简洁；一旦机制证据充分，立即推进端到端系统，不继续无限审计。
 
 ---
@@ -519,31 +519,46 @@ winding quantity 是否直接来自 task semantics
 
 不要先自己创造新的 binary proxy。
 
-### PB2-C — Natural pair mining
+### PB2-C — Natural pair discovery（当前立即任务）
 
-寻找：
-
-```text
-observable-history near
-+
-robot/action-history near
-+
-task-native winding state different
-```
-
-pair mining 只用于 discovery。
-
-如果 approximate search：
+PB2-A/B 已于当前 Wrapping 路线正式通过：
 
 ```text
-candidate > 0
-→ positive evidence
-
-candidate = 0
-→ 不能自动解释成不存在
+PB2AB_WRAPPING_REPRODUCED_AND_WINDING_AUDITED
 ```
 
-必须输出清楚 funnel counts。
+已确认：
+
+```text
+官方 CMA-ES/replay 可复现
+published winding loss 可零误差重建
+三个 post 均经历 task-semantic unwrapped→wrapped transition
+```
+
+PB2-C 只寻找：
+
+```text
+artificial partial-state history near
++
+published robot-state history near
++
+same-time common action history
++
+task-native signed winding index different
+```
+
+固定原则：
+
+```text
+不使用 future divergence 选 pair
+不使用 robot force / sensor 选 pair
+不复用 PB2-B 0.25/0.75 作为 hidden pair threshold
+不修改 Wrapping physics / reward / geometry
+```
+
+初始 128 rollouts；不足 5 个 discovery candidates 时只允许一次扩展到 512 total。
+
+找到足够 candidate 后立即进入 PB3，不继续 pair-mining perfection。
 
 ### PB3 — Snapshot causal bifurcation
 
@@ -1208,3 +1223,28 @@ Agent 的首要任务不是再讨论 Wiring-post，而是尽快确认：
 目标是：
 
 > **用最少但足够可信的工程和证据，尽快证明或否定 CCDA 机制，然后完成 StateDiff + sensing + CFPM + IDM + closed-loop 的端到端研究。**
+
+
+## PB2-C REV1 observation / validity clarification
+
+PB2-C execution must obey these clarifications:
+
+```text
+1. pair mining uses only full rollouts satisfying the published Wrapping
+   rollout-validity logic;
+
+2. every candidate preserves winding integer residual for both states;
+
+3. the post-local hidden rope XYZ representation is an artificial
+   partial-state discovery observation, not a claimed deployable perception stack;
+
+4. robot observation mirrors the published robot component:
+   per arm = EE position + EE quaternion + 7 motor-joint qpos.
+```
+
+Published Wrapping rollout validity is inherited rather than replaced by a
+CCDA-specific validity rule. A rollout rejected by the published evaluator must
+not contribute pre-failure states to PB2-C pair mining.
+
+Robot force and controller force may be stored for later sensing work but must
+not be used for PB2-C candidate admission.
