@@ -1,342 +1,252 @@
-# CCDA V9.4 — PB2-C REV1 DLO-Lab Wrapping Natural Pair Discovery
+# CCDA V9.5 — PB3 Wrapping Snapshot Same-Action Causal Bifurcation Audit
 
-> Main start SHA: `4ee307741b57a4d5cbfdea4ef1cdfcd0700d7d05`  
+> Start main SHA: `bc2baa7aef5e0e0f593ef26d4a2c11debb83236b`  
 > DLO-Lab gitlink: `c5026a9416b03c6bc5186eba13cd4ffd4c0e7796`
 
-## 1. Scientific question
+## Scientific question
 
-PB2-A/B has passed. PB2-C asks only:
+PB2-C is complete and produced 5,534 frozen discovery candidates from 123 official-valid rollouts. PB3 now tests only CCDA Condition 4:
 
-> Under the unchanged published Wrapping task and repository-provided rope-position randomization, are there naturally occurring same-time states whose **artificial partial-state observation histories** and **published robot-state histories** are near, while their **task-native signed winding indices** differ?
+> Do hidden-winding-different branch states undergo different deformation motion under the identical future qpos suffix, beyond deterministic snapshot/replay uncertainty?
 
-PB2-C is a discovery phase. It does not establish future bifurcation, control relevance, sensing observability, or a deployable perception stack.
+No new pair discovery is allowed.
 
----
+## Formal shortlist
 
-## 2. REV1 corrections
+Freeze 10 pairs / 20 unique rollouts before any PB3 future simulation.
 
-This revision fixes four issues before the formal PB2-C run:
-
-1. the collector inherits the official Wrapping rollout-validity logic;
-2. winding integer residual is stored in every candidate;
-3. the rope observation is explicitly called an **artificial partial-state discovery observation**, not a deployable observation;
-4. robot observation is explicitly defined from the published Wrapping `compute_observation()` robot component.
-
----
-
-## 3. Official rollout validity
-
-The published Wrapping evaluator marks a rollout failed when either:
+Selection rule:
 
 ```text
-geodesic_distance(control_idx[0], control_idx[1])
-/
-control_dist_init
-> 1.2
+scan PB2-C saved top candidates in frozen rank order
+accept iff neither rollout has appeared previously
+stop after 10
 ```
 
-or rope vertices become NaN during the rollout.
+This rule uses no future, force, sensor, or reward information.
 
-A surviving final state with NaN reward is also not usable as a valid completed rollout.
+The frozen shortlist contains three `t=13` pairs with `[0,0,0] ↔ [0,1,0]` and seven `t=20` pairs with `[0,1,0] ↔ [1,1,0]`.
 
-PB2-C therefore records for every rollout:
+## Targeted replay alignment
+
+Reuse:
 
 ```text
-official_rollout_valid
-official_first_fail_step
-official_failed_stretch
-official_failed_rope_nan
-official_final_reward_nan
-official_max_stretch_ratio
+/data/Experiment3/data/pb2c_dlolab_wrapping/rollouts_initial.npz
 ```
 
-Raw failed rollouts are preserved, but **only full official-valid rollouts may enter pair mining**.
+Every branch state must be replayed from its exact batch/seed/env/time and aligned to frozen PB2-C data before causal interpretation.
 
-Do not rescue pre-failure states from a rollout that the published evaluator would reject.
-
----
-
-## 4. Collection protocol
-
-Use the completed official `best_qpos.npy` as the common action sequence.
-
-Activate only the pinned repository Wrapping position randomization:
+Engineering identity limits:
 
 ```text
-pos_bound = (-0.025, -0.01, 0.025, 0.01)
+rope max abs      <= 5e-5 m
+EE max abs        <= 5e-5 m
+motor-qpos maxabs <= 5e-5 rad
+winding index     exact
 ```
 
-No mass/radius/stiffness/friction randomization is added.
-
-Budget:
+Failure verdict:
 
 ```text
-initial:
-32 env × 4 batches = 128 rollouts
-
-if discovery candidates < 5:
-collect only 12 additional batches
-
-maximum:
-32 env × 16 batches = 512 rollouts
+PB3_TARGETED_REPLAY_ALIGNMENT_FAILED
 ```
 
-The initial 128 are not recollected during scale-up.
+## Snapshot protocol
 
----
+Use pinned Genesis:
 
-## 5. Action equivalence
+```python
+snapshot = env.scene.get_state()
+env.scene.reset(state=snapshot)
+```
 
-Only same-time states are compared:
+Pinned Genesis `reset(state=...)` replaces the registered initial state. Therefore preserve one pristine built state and explicitly restore it before creating each new randomized source batch.
+
+For each branch state:
 
 ```text
-rollout A @ t
-rollout B @ t
+snapshot repeats = 3
+future horizons  = 1,2,5,10,20,40
 ```
 
-All rollouts replay the identical `best_qpos.npy`, so action history is equal by construction.
+Snapshot restore rope error must remain <= `5e-5 m`.
 
-No cross-time mining is performed in PB2-C.
+Formal selected repeats must stay finite and inside the published stretch-validity condition.
 
----
+## Primary Gate-4 metric
 
-## 6. Artificial partial-state rope observation
+Raw full-rope distance is not the formal metric, because hidden full geometry already differs at `t`.
 
-PB2-C does not have a camera reconstruction pipeline. Therefore do not call this a deployable observation.
+Use differential deformation:
+
+\[
+\Delta X_A(h)=X_A(t+h)-X_A(t)
+\]
+
+\[
+\Delta X_B(h)=X_B(t+h)-X_B(t)
+\]
+
+and
+
+\[
+D_\Delta(h)=
+\sqrt{
+\frac{1}{N}
+\sum_i
+\|
+\Delta x_{A,i}(h)-\Delta x_{B,i}(h)
+\|_2^2
+}.
+\]
+
+This tests whether the same future command induces different material-point motion rather than merely detecting the already-present hidden topology.
+
+With 3 repeats per side, each horizon has 9 cross-branch values. Report minimum/median/maximum. Formal Gate 4 uses the minimum.
+
+## Repeat floor
+
+Within each side, compare all 3 choose 2 repeat pairs with the same displacement-field metric.
+
+\[
+F(h)=\max(F_A(h),F_B(h)).
+\]
+
+Use the maximum repeat divergence, not a percentile.
+
+## Frozen formal criterion
+
+A sampled horizon passes iff:
+
+\[
+\min D_\Delta(h)
+\ge
+\max(1\text{ mm},5F(h)).
+\]
+
+The 1 mm absolute effect is fixed as 0.1 × the published 10 mm rope radius.
+
+A pair passes if at least one sampled horizon passes.
+
+PB3 positive requires:
+
+```text
+passing pairs >= 3
+AND
+passing winding strata >= 2
+```
+
+Positive verdict:
+
+```text
+PB3_CAUSAL_FUTURE_BIFURCATION_CONFIRMED
+```
+
+Negative verdict:
+
+```text
+PB3_CAUSAL_FUTURE_BIFURCATION_NOT_CONFIRMED
+```
+
+Do not change `1 mm`, `5×`, `3 pairs`, or `2 strata` after seeing results.
+
+## Diagnostics only
+
+Report, but never use as Gate 4:
+
+```text
+raw ordered full-rope position RMSE
+artificial partial-state future Chamfer
+partial Chamfer growth from h=0
+signed winding L-inf difference
+```
+
+The PB2-C 10 mm discovery threshold is not reused.
 
 Use the term:
 
-> **artificial partial-state discovery observation**
-
-The rope component is:
-
 ```text
-3-frame history
-of simulator rope-vertex XYZ
-with post-local vertices hidden
+horizon_of_maximum_sampled_displacement_divergence
 ```
 
-Published geometry:
+not `peak horizon`.
+
+## Outputs
+
+Raw:
 
 ```text
-post radius = 0.015 m
-rope radius = 0.010 m
+/data/Experiment3/data/pb3_dlolab_wrapping/
+  PB3_TRAJECTORIES.npz
+  AUDIT.json
 ```
 
-Frozen local occlusion radius:
+Committed:
 
 ```text
-2 × (0.015 + 0.010) = 0.050 m
+reports/experiment3/pb3_dlolab_wrapping/
+  RESULT.md
+  EVIDENCE.json
+  PAIR_METRICS.json
 ```
 
-A rope vertex is hidden when its XY center lies within 50 mm of any post center.
+## Next action
 
-Rope velocity is stored in raw data but is **not** part of PB2-C pair selection.
+If PB3 is positive, stop branch engineering and enter PB4 control relevance/action regret. Do not train StateDiff until PB4 is established.
 
-Visible-rope discovery metric:
+If PB3 is negative, do not rescue it by changing formal criteria or replacing failed pairs with future-selected candidates.
+
+
+## REV1 shortlist-validation correction
+
+The shortlist file is not trusted merely because its pairs are members of the
+PB2-C top-50, use unique rollouts, and have monotonically increasing
+`source_rank`.
+
+PB3 now **recomputes the greedy rank-order scan from committed
+`CANDIDATES.json`**:
 
 ```text
-mean 3-frame symmetric XYZ Chamfer <= 0.010 m
+used = {}
+expected = []
+
+for source_rank, candidate in enumerate(top_candidates, start=1):
+    if candidate.rollout_a in used:
+        continue
+    if candidate.rollout_b in used:
+        continue
+
+    expected.append(candidate)
+    used += {rollout_a, rollout_b}
+
+    if len(expected) == 10:
+        break
 ```
 
-The 10 mm threshold is a discovery tolerance, not formal Gate 1.
-
----
-
-## 7. Robot observation definition
-
-Mirror the published Wrapping robot component of `compute_observation()`.
-
-Per Franka:
+The supplied shortlist must then equal this recomputed sequence pair-by-pair,
+including:
 
 ```text
-EE position       3
-EE quaternion     4
-motor joint qpos  7
--------------------
-14 dimensions / arm
+source_rank
+rollout A/B
+time index
+winding indices
+differing posts
+PB2-C visible-history Chamfer
+winding integer residual
+replay batch/env/seed metadata
 ```
 
-Both arms are included.
+A shortlist that is merely monotonic and rollout-disjoint but skips an
+earlier admissible candidate is rejected.
 
-Do not use finger qpos, motor force, controller force, reward, or hidden winding as robot observation.
-
-PB2-C uses three interpretable history metrics:
+`EVIDENCE.json` records:
 
 ```text
-A. dual-arm mean EE position-history distance
-   <= 0.010 m
-
-B. dual-arm mean sign-invariant quaternion geodesic history distance
-   <= 5 deg
-   = 0.08726646259971647 rad
-
-C. dual-arm mean motor-joint-qpos history RMS
-   <= 0.050 rad
+shortlist_validation.rank_order_scan_verified = true
+derived_source_ranks
+actual_source_ranks
+target_pair_count
+unique_rollout_count
 ```
-
-Quaternion distance:
-
-```text
-2 * acos(abs(dot(normalize(qA), normalize(qB))))
-```
-
-The three fixed post states are shared task context. Since PB2-C randomizes only the rope, no separate post-state near threshold is needed.
-
-These robot thresholds are discovery tolerances only.
-
----
-
-## 8. Hidden privileged state
-
-Use PB2-A/B-validated signed task-native winding:
-
-```text
-W = [w1, w2, w3]
-I = round(W)
-```
-
-Candidate hidden-state difference:
-
-```text
-I_A != I_B
-```
-
-on at least one post.
-
-Do not reuse PB2-B `0.25 / 0.75` semantic bands as PB2-C pair thresholds.
-
----
-
-## 9. Winding integer residual
-
-For every state/post:
-
-```text
-r_j = |w_j - round(w_j)|
-```
-
-Every saved candidate must include:
-
-```text
-winding_integer_residual_a [3]
-winding_integer_residual_b [3]
-
-winding_integer_residual_linf_a
-winding_integer_residual_linf_b
-
-pair_max_winding_integer_residual
-```
-
-Residual is diagnostic evidence about the cleanliness of the integer topology label.
-
-PB2-C REV1 does not invent a post-hoc residual pass threshold.
-
----
-
-## 10. Exact same-time pair search
-
-Only official-valid full rollouts are included.
-
-Search all same-time hidden-index-different pairs exactly. Do not use kNN as the formal search.
-
-Filter order:
-
-```text
-official-valid full rollout
-→ same time
-→ winding index different
-→ non-empty 3-frame partial rope observation
-→ robot EE-position near
-→ robot EE-quaternion near
-→ robot motor-qpos near
-→ visible-rope history Chamfer near
-→ discovery candidate
-```
-
-Future divergence, robot force, sensor separability, and reward are prohibited from selection.
-
-A safe computational shortcut may reject a current-frame Chamfer larger than `history × final_mean_threshold`; this cannot create false negatives for the final non-negative history mean and is not a scientific gate.
-
----
-
-## 11. Funnel
-
-Report exact counts:
-
-```text
-total_rollouts
-official_valid_rollouts
-official_invalid_rollouts
-
-total_valid_same_time_pair_comparisons
-hidden_winding_index_different
-nonempty_partial_rope_history
-
-robot_ee_position_pass
-robot_ee_quaternion_pass
-robot_motor_qpos_pass
-robot_observation_pass
-
-visible_history_chamfer_pass
-candidate_count
-```
-
-Also report mixed winding-index class histograms and valid-state global residual statistics.
-
----
-
-## 12. Candidate ranking
-
-Rank top 50 by:
-
-```text
-1. visible-rope history Chamfer ascending
-2. EE-position history distance ascending
-3. EE-quaternion history distance ascending
-4. motor-qpos RMS ascending
-5. number of differing winding posts descending
-```
-
-Integer residual is saved but is not used to manufacture a pass.
-
----
-
-## 13. Decision
-
-If candidate count >= 5:
-
-```text
-PB2C_NATURAL_WINDING_PAIRS_FOUND
-```
-
-Stop PB2-C and proceed directly to PB3.
-
-If initial 128 gives <5, perform the single precommitted scale-up to 512 total.
-
-If 512 total still gives <5:
-
-```text
-PB2C_INSUFFICIENT_NATURAL_PAIRS_UNDER_FROZEN_PROTOCOL
-```
-
-Do not lower thresholds, enlarge the mask, modify Wrapping physics, or invent another hidden proxy.
-
-This does not prove Wrapping contains no CCDA.
-
----
-
-## 14. PB3 boundary
-
-PB3, not PB2-C, tests:
-
-```text
-snapshot A/B
-same future command
-multi-horizon divergence
-deterministic repeat / uncertainty floor
-```
-
-No `future/current >= 2`.
-
-Do not start StateDiff / CFPM / IDM training before PB3 and later control-relevance validation.

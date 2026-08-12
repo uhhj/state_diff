@@ -1,0 +1,341 @@
+{
+  "phase": "PB3",
+  "source": {
+    "pb2c_verdict": "PB2C_NATURAL_WINDING_PAIRS_FOUND",
+    "candidate_file": "reports/experiment3/pb2c_dlolab_wrapping/CANDIDATES.json",
+    "candidate_count": 5534,
+    "source_pool": "PB2-C saved top 50"
+  },
+  "selection_rule": {
+    "future_information_used": false,
+    "rule": "Scan PB2-C top_candidates in frozen rank order; accept a candidate iff neither rollout has appeared in a previously accepted pair; stop after 10 accepted pairs.",
+    "max_rollout_use_count": 1,
+    "target_pair_count": 10,
+    "observed_time_indices": [
+      13,
+      20
+    ]
+  },
+  "pairs": [
+    {
+      "pair_id": "pb3_pair_00",
+      "source_rank": 1,
+      "rollout_a": 24,
+      "rollout_b": 109,
+      "time_index": 13,
+      "winding_index_a": [
+        0,
+        0,
+        0
+      ],
+      "winding_index_b": [
+        0,
+        1,
+        0
+      ],
+      "differing_post_indices": [
+        1
+      ],
+      "visible_rope_history_chamfer_m": 0.0003079943126067519,
+      "pair_max_winding_integer_residual": 4.5060275510877545e-08,
+      "replay_a": {
+        "batch_index": 0,
+        "env_index": 24,
+        "seed": 123
+      },
+      "replay_b": {
+        "batch_index": 3,
+        "env_index": 13,
+        "seed": 126
+      }
+    },
+    {
+      "pair_id": "pb3_pair_01",
+      "source_rank": 4,
+      "rollout_a": 39,
+      "rollout_b": 105,
+      "time_index": 20,
+      "winding_index_a": [
+        1,
+        1,
+        0
+      ],
+      "winding_index_b": [
+        0,
+        1,
+        0
+      ],
+      "differing_post_indices": [
+        0
+      ],
+      "visible_rope_history_chamfer_m": 0.00042366606066934764,
+      "pair_max_winding_integer_residual": 1.1920928955078125e-07,
+      "replay_a": {
+        "batch_index": 1,
+        "env_index": 7,
+        "seed": 124
+      },
+      "replay_b": {
+        "batch_index": 3,
+        "env_index": 9,
+        "seed": 126
+      }
+    },
+    {
+      "pair_id": "pb3_pair_02",
+      "source_rank": 5,
+      "rollout_a": 5,
+      "rollout_b": 73,
+      "time_index": 20,
+      "winding_index_a": [
+        1,
+        1,
+        0
+      ],
+      "winding_index_b": [
+        0,
+        1,
+        0
+      ],
+      "differing_post_indices": [
+        0
+      ],
+      "visible_rope_history_chamfer_m": 0.00044086652148204547,
+      "pair_max_winding_integer_residual": 1.7881393432617188e-07,
+      "replay_a": {
+        "batch_index": 0,
+        "env_index": 5,
+        "seed": 123
+      },
+      "replay_b": {
+        "batch_index": 2,
+        "env_index": 9,
+        "seed": 125
+      }
+    },
+    {
+      "pair_id": "pb3_pair_03",
+      "source_rank": 6,
+      "rollout_a": 10,
+      "rollout_b": 61,
+      "time_index": 20,
+      "winding_index_a": [
+        1,
+        1,
+        0
+      ],
+      "winding_index_b": [
+        0,
+        1,
+        0
+      ],
+      "differing_post_indices": [
+        0
+      ],
+      "visible_rope_history_chamfer_m": 0.0004523405514191836,
+      "pair_max_winding_integer_residual": 1.7881393432617188e-07,
+      "replay_a": {
+        "batch_index": 0,
+        "env_index": 10,
+        "seed": 123
+      },
+      "replay_b": {
+        "batch_index": 1,
+        "env_index": 29,
+        "seed": 124
+      }
+    },
+    {
+      "pair_id": "pb3_pair_04",
+      "source_rank": 9,
+      "rollout_a": 36,
+      "rollout_b": 46,
+      "time_index": 13,
+      "winding_index_a": [
+        0,
+        1,
+        0
+      ],
+      "winding_index_b": [
+        0,
+        0,
+        0
+      ],
+      "differing_post_indices": [
+        1
+      ],
+      "visible_rope_history_chamfer_m": 0.0005135332855085532,
+      "pair_max_winding_integer_residual": 4.802476638587905e-08,
+      "replay_a": {
+        "batch_index": 1,
+        "env_index": 4,
+        "seed": 124
+      },
+      "replay_b": {
+        "batch_index": 1,
+        "env_index": 14,
+        "seed": 124
+      }
+    },
+    {
+      "pair_id": "pb3_pair_05",
+      "source_rank": 10,
+      "rollout_a": 6,
+      "rollout_b": 55,
+      "time_index": 20,
+      "winding_index_a": [
+        0,
+        1,
+        0
+      ],
+      "winding_index_b": [
+        1,
+        1,
+        0
+      ],
+      "differing_post_indices": [
+        0
+      ],
+      "visible_rope_history_chamfer_m": 0.0005648574733640999,
+      "pair_max_winding_integer_residual": 5.960464477539063e-08,
+      "replay_a": {
+        "batch_index": 0,
+        "env_index": 6,
+        "seed": 123
+      },
+      "replay_b": {
+        "batch_index": 1,
+        "env_index": 23,
+        "seed": 124
+      }
+    },
+    {
+      "pair_id": "pb3_pair_06",
+      "source_rank": 15,
+      "rollout_a": 69,
+      "rollout_b": 83,
+      "time_index": 13,
+      "winding_index_a": [
+        0,
+        0,
+        0
+      ],
+      "winding_index_b": [
+        0,
+        1,
+        0
+      ],
+      "differing_post_indices": [
+        1
+      ],
+      "visible_rope_history_chamfer_m": 0.0006483320418434838,
+      "pair_max_winding_integer_residual": 1.1920928955078125e-07,
+      "replay_a": {
+        "batch_index": 2,
+        "env_index": 5,
+        "seed": 125
+      },
+      "replay_b": {
+        "batch_index": 2,
+        "env_index": 19,
+        "seed": 125
+      }
+    },
+    {
+      "pair_id": "pb3_pair_07",
+      "source_rank": 19,
+      "rollout_a": 2,
+      "rollout_b": 97,
+      "time_index": 20,
+      "winding_index_a": [
+        1,
+        1,
+        0
+      ],
+      "winding_index_b": [
+        0,
+        1,
+        0
+      ],
+      "differing_post_indices": [
+        0
+      ],
+      "visible_rope_history_chamfer_m": 0.0006715615551608304,
+      "pair_max_winding_integer_residual": 1.1920928955078125e-07,
+      "replay_a": {
+        "batch_index": 0,
+        "env_index": 2,
+        "seed": 123
+      },
+      "replay_b": {
+        "batch_index": 3,
+        "env_index": 1,
+        "seed": 126
+      }
+    },
+    {
+      "pair_id": "pb3_pair_08",
+      "source_rank": 33,
+      "rollout_a": 18,
+      "rollout_b": 124,
+      "time_index": 20,
+      "winding_index_a": [
+        0,
+        1,
+        0
+      ],
+      "winding_index_b": [
+        1,
+        1,
+        0
+      ],
+      "differing_post_indices": [
+        0
+      ],
+      "visible_rope_history_chamfer_m": 0.0007917414380547901,
+      "pair_max_winding_integer_residual": 3.5762786865234375e-07,
+      "replay_a": {
+        "batch_index": 0,
+        "env_index": 18,
+        "seed": 123
+      },
+      "replay_b": {
+        "batch_index": 3,
+        "env_index": 28,
+        "seed": 126
+      }
+    },
+    {
+      "pair_id": "pb3_pair_09",
+      "source_rank": 37,
+      "rollout_a": 72,
+      "rollout_b": 78,
+      "time_index": 20,
+      "winding_index_a": [
+        1,
+        1,
+        0
+      ],
+      "winding_index_b": [
+        0,
+        1,
+        0
+      ],
+      "differing_post_indices": [
+        0
+      ],
+      "visible_rope_history_chamfer_m": 0.0008112293144222349,
+      "pair_max_winding_integer_residual": 1.7881393432617188e-07,
+      "replay_a": {
+        "batch_index": 2,
+        "env_index": 8,
+        "seed": 125
+      },
+      "replay_b": {
+        "batch_index": 2,
+        "env_index": 14,
+        "seed": 125
+      }
+    }
+  ]
+}
