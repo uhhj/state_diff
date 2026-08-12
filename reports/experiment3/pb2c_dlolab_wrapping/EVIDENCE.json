@@ -1,0 +1,4233 @@
+{
+  "phase_name": "pb2c-rev1-dlolab-wrapping-natural-pair-discovery",
+  "verdict": "PB2C_NATURAL_WINDING_PAIRS_FOUND",
+  "repository": {
+    "starting_main_sha": "4ee307741b57a4d5cbfdea4ef1cdfcd0700d7d05",
+    "ending_main_sha": "c7323ad1700067e436f6eab6c2e7c5240d36cf57",
+    "dlolab_gitlink": "c5026a9416b03c6bc5186eba13cd4ffd4c0e7796"
+  },
+  "scientific": {
+    "verdict": "PB2C_NATURAL_WINDING_PAIRS_FOUND",
+    "label": "initial",
+    "rollout_count": 128,
+    "official_valid_rollout_count": 123,
+    "official_invalid_rollout_count": 5,
+    "official_validity_summary": {
+      "failed_stretch_count": 5,
+      "failed_rope_nan_count": 0,
+      "final_reward_nan_count": 0
+    },
+    "batch_count": 4,
+    "candidate_count": 5534,
+    "minimum_candidates_to_proceed": 5,
+    "funnel": {
+      "total_rollouts": 128,
+      "official_valid_rollouts": 123,
+      "official_invalid_rollouts": 5,
+      "total_valid_same_time_pair_comparisons": 742797,
+      "hidden_winding_index_different": 16012,
+      "nonempty_partial_rope_history": 16012,
+      "robot_ee_position_pass": 13636,
+      "robot_ee_quaternion_pass": 13636,
+      "robot_motor_qpos_pass": 13636,
+      "robot_observation_pass": 13636,
+      "visible_history_chamfer_pass": 5534,
+      "candidate_count": 5534
+    },
+    "mixed_winding_time_histograms": {
+      "10": {
+        "0,0,0": 122,
+        "0,1,0": 1
+      },
+      "13": {
+        "0,0,0": 58,
+        "0,1,0": 65
+      },
+      "15": {
+        "0,0,0": 1,
+        "0,1,0": 122
+      },
+      "16": {
+        "0,0,0": 1,
+        "0,1,0": 122
+      },
+      "19": {
+        "0,0,0": 1,
+        "0,1,0": 122
+      },
+      "20": {
+        "0,0,0": 1,
+        "0,1,0": 104,
+        "1,1,0": 18
+      },
+      "21": {
+        "0,0,0": 1,
+        "1,1,0": 122
+      },
+      "22": {
+        "0,0,0": 1,
+        "1,1,0": 122
+      },
+      "23": {
+        "0,0,0": 1,
+        "1,1,0": 122
+      },
+      "24": {
+        "0,0,0": 1,
+        "1,1,0": 122
+      },
+      "25": {
+        "0,0,0": 1,
+        "1,1,0": 122
+      },
+      "26": {
+        "0,0,0": 1,
+        "1,1,0": 122
+      },
+      "27": {
+        "0,0,0": 1,
+        "1,1,0": 122
+      },
+      "28": {
+        "0,0,0": 1,
+        "1,1,0": 122
+      },
+      "29": {
+        "0,0,0": 1,
+        "1,1,0": 122
+      },
+      "30": {
+        "0,0,0": 1,
+        "1,1,0": 122
+      },
+      "31": {
+        "0,0,0": 1,
+        "1,1,0": 122
+      },
+      "32": {
+        "0,0,0": 1,
+        "1,1,0": 122
+      },
+      "33": {
+        "0,0,0": 1,
+        "1,1,0": 122
+      },
+      "34": {
+        "0,0,0": 1,
+        "1,1,0": 122
+      },
+      "35": {
+        "0,0,0": 1,
+        "1,1,0": 122
+      },
+      "36": {
+        "0,0,0": 1,
+        "1,1,0": 122
+      },
+      "37": {
+        "0,0,0": 1,
+        "1,1,0": 122
+      },
+      "38": {
+        "0,0,0": 1,
+        "1,1,0": 122
+      },
+      "39": {
+        "0,0,0": 1,
+        "1,1,0": 122
+      },
+      "40": {
+        "0,0,0": 1,
+        "1,1,0": 122
+      },
+      "41": {
+        "0,0,0": 1,
+        "1,1,0": 122
+      },
+      "42": {
+        "0,0,0": 1,
+        "1,1,0": 122
+      },
+      "43": {
+        "0,0,0": 1,
+        "1,1,0": 122
+      },
+      "44": {
+        "0,0,0": 1,
+        "1,1,0": 122
+      },
+      "45": {
+        "0,0,0": 1,
+        "1,1,0": 122
+      },
+      "46": {
+        "0,0,0": 1,
+        "1,1,0": 122
+      },
+      "47": {
+        "0,0,0": 1,
+        "1,1,0": 122
+      },
+      "48": {
+        "0,0,0": 1,
+        "1,1,0": 122
+      },
+      "49": {
+        "0,0,0": 1,
+        "1,1,0": 122
+      },
+      "50": {
+        "0,0,0": 1,
+        "1,1,0": 122
+      },
+      "51": {
+        "0,0,0": 1,
+        "1,1,0": 122
+      },
+      "52": {
+        "0,0,0": 1,
+        "1,1,0": 122
+      },
+      "53": {
+        "0,0,0": 1,
+        "1,1,0": 122
+      },
+      "54": {
+        "0,0,0": 1,
+        "1,1,0": 122
+      },
+      "55": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "56": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "57": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "58": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "59": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "60": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "61": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "62": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "63": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "64": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "65": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "66": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "67": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "68": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "69": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "70": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "71": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "72": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "73": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "74": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "75": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "76": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "77": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "78": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "79": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "80": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "81": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "82": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "83": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "84": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "85": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "86": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "87": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "88": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "89": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "90": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "91": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "92": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "93": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "94": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "95": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "96": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "97": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "98": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "99": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      },
+      "100": {
+        "0,0,0": 1,
+        "1,1,1": 122
+      }
+    },
+    "winding_index_residual": {
+      "max_abs_turns": 5.364418029785156e-07,
+      "p99_abs_turns": 2.980232238769531e-07
+    },
+    "partial_state_observation": {
+      "name": "artificial_post_local_occlusion_surrogate",
+      "claim_deployable": false,
+      "history_samples": 3,
+      "local_occlusion_radius_m": 0.05,
+      "max_visible_history_chamfer_m": 0.01,
+      "robot_component": {
+        "definition_source": "published_Train_Env_Wrapping.compute_observation",
+        "per_arm_fields": [
+          "ee_position_xyz",
+          "ee_quaternion",
+          "motor_joint_qpos_7d"
+        ],
+        "max_dual_ee_position_history_mean_m": 0.01,
+        "max_dual_ee_quaternion_geodesic_history_mean_rad": 0.08726646259971647,
+        "max_dual_motor_qpos_history_rms_rad": 0.05
+      },
+      "post_component": {
+        "status": "fixed_shared_context",
+        "pair_metric_required": false
+      }
+    },
+    "hidden_state": {
+      "descriptor": "rounded_signed_task_native_winding_index",
+      "task_native": true,
+      "model_input": false,
+      "candidate_residual_saved": true
+    },
+    "selection_contract": {
+      "official_valid_rollouts_only": true,
+      "same_time_only": true,
+      "common_action_history": true,
+      "future_divergence_used": false,
+      "force_or_sensor_used": false
+    },
+    "top_candidates": [
+      {
+        "rollout_a": 24,
+        "rollout_b": 109,
+        "time_index": 13,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0003079943126067519,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.00017483574629295617,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 6.672862861035785e-05,
+          "dual_motor_qpos_history_rms_rad": 0.00029145670123398304
+        },
+        "signed_winding_turns_a": [
+          5.928983526359843e-09,
+          1.837984875407983e-08,
+          -1.3636662465899008e-08
+        ],
+        "signed_winding_turns_b": [
+          4.5060275510877545e-08,
+          1.0,
+          6.521881701360144e-09
+        ],
+        "winding_index_a": [
+          0,
+          0,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          5.928983526359843e-09,
+          1.837984875407983e-08,
+          1.3636662465899008e-08
+        ],
+        "winding_integer_residual_b": [
+          4.5060275510877545e-08,
+          0.0,
+          6.521881701360144e-09
+        ],
+        "winding_integer_residual_linf_a": 1.837984875407983e-08,
+        "winding_integer_residual_linf_b": 4.5060275510877545e-08,
+        "pair_max_winding_integer_residual": 4.5060275510877545e-08,
+        "differing_post_indices": [
+          1
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 0.9999999816201512,
+        "visible_vertex_counts_a": [
+          39,
+          38,
+          38
+        ],
+        "visible_vertex_counts_b": [
+          39,
+          38,
+          38
+        ],
+        "replay_a": {
+          "batch_index": 0,
+          "env_index": 24,
+          "seed": 123
+        },
+        "replay_b": {
+          "batch_index": 3,
+          "env_index": 13,
+          "seed": 126
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 6,
+        "rollout_b": 109,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0003928842391663541,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.00025903471396304667,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 0.0001037462322885318,
+          "dual_motor_qpos_history_rms_rad": 0.00043223227839916945
+        },
+        "signed_winding_turns_a": [
+          -1.778695057907953e-08,
+          0.9999999403953552,
+          -4.150288557269732e-09
+        ],
+        "signed_winding_turns_b": [
+          0.9999999403953552,
+          0.9999998211860657,
+          1.897274692908013e-08
+        ],
+        "winding_index_a": [
+          0,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          1,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          1.778695057907953e-08,
+          5.960464477539063e-08,
+          4.150288557269732e-09
+        ],
+        "winding_integer_residual_b": [
+          5.960464477539063e-08,
+          1.7881393432617188e-07,
+          1.897274692908013e-08
+        ],
+        "winding_integer_residual_linf_a": 5.960464477539063e-08,
+        "winding_integer_residual_linf_b": 1.7881393432617188e-07,
+        "pair_max_winding_integer_residual": 1.7881393432617188e-07,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 0.9999999581823058,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          35
+        ],
+        "replay_a": {
+          "batch_index": 0,
+          "env_index": 6,
+          "seed": 123
+        },
+        "replay_b": {
+          "batch_index": 3,
+          "env_index": 13,
+          "seed": 126
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 6,
+        "rollout_b": 24,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0004152409480108569,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.00021621130872517824,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 9.044643324080393e-05,
+          "dual_motor_qpos_history_rms_rad": 0.00036280706990510225
+        },
+        "signed_winding_turns_a": [
+          -1.778695057907953e-08,
+          0.9999999403953552,
+          -4.150288557269732e-09
+        ],
+        "signed_winding_turns_b": [
+          1.0,
+          0.9999999403953552,
+          8.300577114539465e-09
+        ],
+        "winding_index_a": [
+          0,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          1,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          1.778695057907953e-08,
+          5.960464477539063e-08,
+          4.150288557269732e-09
+        ],
+        "winding_integer_residual_b": [
+          0.0,
+          5.960464477539063e-08,
+          8.300577114539465e-09
+        ],
+        "winding_integer_residual_linf_a": 5.960464477539063e-08,
+        "winding_integer_residual_linf_b": 5.960464477539063e-08,
+        "pair_max_winding_integer_residual": 5.960464477539063e-08,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 1.0000000177869506,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          35
+        ],
+        "replay_a": {
+          "batch_index": 0,
+          "env_index": 6,
+          "seed": 123
+        },
+        "replay_b": {
+          "batch_index": 0,
+          "env_index": 24,
+          "seed": 123
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 39,
+        "rollout_b": 105,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.00042366606066934764,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.00012922757014166564,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 6.790980447790662e-05,
+          "dual_motor_qpos_history_rms_rad": 0.00022327712213154882
+        },
+        "signed_winding_turns_a": [
+          1.0000001192092896,
+          1.0,
+          -6.225432969131361e-08
+        ],
+        "signed_winding_turns_b": [
+          2.2530137755438773e-08,
+          0.9999999403953552,
+          1.2450865227719987e-08
+        ],
+        "winding_index_a": [
+          1,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          1.1920928955078125e-07,
+          0.0,
+          6.225432969131361e-08
+        ],
+        "winding_integer_residual_b": [
+          2.2530137755438773e-08,
+          5.960464477539063e-08,
+          1.2450865227719987e-08
+        ],
+        "winding_integer_residual_linf_a": 1.1920928955078125e-07,
+        "winding_integer_residual_linf_b": 5.960464477539063e-08,
+        "pair_max_winding_integer_residual": 1.1920928955078125e-07,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 1.0000000966791518,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          36
+        ],
+        "replay_a": {
+          "batch_index": 1,
+          "env_index": 7,
+          "seed": 124
+        },
+        "replay_b": {
+          "batch_index": 3,
+          "env_index": 9,
+          "seed": 126
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 5,
+        "rollout_b": 73,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.00044086652148204547,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 5.553582013817504e-05,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 3.1403911260318164e-05,
+          "dual_motor_qpos_history_rms_rad": 8.83320317370817e-05
+        },
+        "signed_winding_turns_a": [
+          0.9999999403953552,
+          1.0000001192092896,
+          1.0672170702719086e-08
+        ],
+        "signed_winding_turns_b": [
+          2.9644917631799217e-08,
+          0.9999998211860657,
+          3.735259568315996e-08
+        ],
+        "winding_index_a": [
+          1,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          5.960464477539063e-08,
+          1.1920928955078125e-07,
+          1.0672170702719086e-08
+        ],
+        "winding_integer_residual_b": [
+          2.9644917631799217e-08,
+          1.7881393432617188e-07,
+          3.735259568315996e-08
+        ],
+        "winding_integer_residual_linf_a": 1.1920928955078125e-07,
+        "winding_integer_residual_linf_b": 1.7881393432617188e-07,
+        "pair_max_winding_integer_residual": 1.7881393432617188e-07,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 0.9999999107504376,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          35
+        ],
+        "replay_a": {
+          "batch_index": 0,
+          "env_index": 5,
+          "seed": 123
+        },
+        "replay_b": {
+          "batch_index": 2,
+          "env_index": 9,
+          "seed": 125
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 10,
+        "rollout_b": 61,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0004523405514191836,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.0001750243827700615,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 8.640880520525504e-05,
+          "dual_motor_qpos_history_rms_rad": 0.00029706518398597836
+        },
+        "signed_winding_turns_a": [
+          1.0000001192092896,
+          0.9999998211860657,
+          -7.114780320449654e-09
+        ],
+        "signed_winding_turns_b": [
+          4.0317086558161463e-08,
+          0.9999999403953552,
+          1.0672170702719086e-08
+        ],
+        "winding_index_a": [
+          1,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          1.1920928955078125e-07,
+          1.7881393432617188e-07,
+          7.114780320449654e-09
+        ],
+        "winding_integer_residual_b": [
+          4.0317086558161463e-08,
+          5.960464477539063e-08,
+          1.0672170702719086e-08
+        ],
+        "winding_integer_residual_linf_a": 1.7881393432617188e-07,
+        "winding_integer_residual_linf_b": 5.960464477539063e-08,
+        "pair_max_winding_integer_residual": 1.7881393432617188e-07,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 1.000000078892203,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          35
+        ],
+        "replay_a": {
+          "batch_index": 0,
+          "env_index": 10,
+          "seed": 123
+        },
+        "replay_b": {
+          "batch_index": 1,
+          "env_index": 29,
+          "seed": 124
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 10,
+        "rollout_b": 97,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.00048511324954840046,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.00022728691692464054,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 9.351904931078101e-05,
+          "dual_motor_qpos_history_rms_rad": 0.0003763908171094954
+        },
+        "signed_winding_turns_a": [
+          1.0000001192092896,
+          0.9999998211860657,
+          -7.114780320449654e-09
+        ],
+        "signed_winding_turns_b": [
+          4.743186732270033e-09,
+          1.0000001192092896,
+          7.114780320449654e-09
+        ],
+        "winding_index_a": [
+          1,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          1.1920928955078125e-07,
+          1.7881393432617188e-07,
+          7.114780320449654e-09
+        ],
+        "winding_integer_residual_b": [
+          4.743186732270033e-09,
+          1.1920928955078125e-07,
+          7.114780320449654e-09
+        ],
+        "winding_integer_residual_linf_a": 1.7881393432617188e-07,
+        "winding_integer_residual_linf_b": 1.1920928955078125e-07,
+        "pair_max_winding_integer_residual": 1.7881393432617188e-07,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 1.0000001144661028,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          35
+        ],
+        "replay_a": {
+          "batch_index": 0,
+          "env_index": 10,
+          "seed": 123
+        },
+        "replay_b": {
+          "batch_index": 3,
+          "env_index": 1,
+          "seed": 126
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 10,
+        "rollout_b": 38,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0005129933900510272,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.0002573690435383469,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 0.0001234741832204584,
+          "dual_motor_qpos_history_rms_rad": 0.0004291256773285568
+        },
+        "signed_winding_turns_a": [
+          1.0000001192092896,
+          0.9999998211860657,
+          -7.114780320449654e-09
+        ],
+        "signed_winding_turns_b": [
+          -7.114780320449654e-09,
+          0.9999998211860657,
+          -2.9644917631799217e-09
+        ],
+        "winding_index_a": [
+          1,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          1.1920928955078125e-07,
+          1.7881393432617188e-07,
+          7.114780320449654e-09
+        ],
+        "winding_integer_residual_b": [
+          7.114780320449654e-09,
+          1.7881393432617188e-07,
+          2.9644917631799217e-09
+        ],
+        "winding_integer_residual_linf_a": 1.7881393432617188e-07,
+        "winding_integer_residual_linf_b": 1.7881393432617188e-07,
+        "pair_max_winding_integer_residual": 1.7881393432617188e-07,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 1.0000001263240699,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          35
+        ],
+        "replay_a": {
+          "batch_index": 0,
+          "env_index": 10,
+          "seed": 123
+        },
+        "replay_b": {
+          "batch_index": 1,
+          "env_index": 6,
+          "seed": 124
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 36,
+        "rollout_b": 46,
+        "time_index": 13,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0005135332855085532,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.0002655846474226564,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 0.0001459489333326022,
+          "dual_motor_qpos_history_rms_rad": 0.0004366509383544326
+        },
+        "signed_winding_turns_a": [
+          4.6838970035878447e-08,
+          1.0,
+          1.4229560640899308e-08
+        ],
+        "signed_winding_turns_b": [
+          -4.802476638587905e-08,
+          2.7866223106798316e-08,
+          1.541535787907833e-08
+        ],
+        "winding_index_a": [
+          0,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          0,
+          0
+        ],
+        "winding_integer_residual_a": [
+          4.6838970035878447e-08,
+          0.0,
+          1.4229560640899308e-08
+        ],
+        "winding_integer_residual_b": [
+          4.802476638587905e-08,
+          2.7866223106798316e-08,
+          1.541535787907833e-08
+        ],
+        "winding_integer_residual_linf_a": 4.6838970035878447e-08,
+        "winding_integer_residual_linf_b": 4.802476638587905e-08,
+        "pair_max_winding_integer_residual": 4.802476638587905e-08,
+        "differing_post_indices": [
+          1
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 0.9999999721337769,
+        "visible_vertex_counts_a": [
+          39,
+          38,
+          38
+        ],
+        "visible_vertex_counts_b": [
+          39,
+          38,
+          38
+        ],
+        "replay_a": {
+          "batch_index": 1,
+          "env_index": 4,
+          "seed": 124
+        },
+        "replay_b": {
+          "batch_index": 1,
+          "env_index": 14,
+          "seed": 124
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 6,
+        "rollout_b": 55,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0005648574733640999,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 9.543455962557346e-05,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 5.022851295055645e-05,
+          "dual_motor_qpos_history_rms_rad": 0.0001534839830128476
+        },
+        "signed_winding_turns_a": [
+          -1.778695057907953e-08,
+          0.9999999403953552,
+          -4.150288557269732e-09
+        ],
+        "signed_winding_turns_b": [
+          1.0,
+          1.0,
+          -2.3715934105439374e-08
+        ],
+        "winding_index_a": [
+          0,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          1,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          1.778695057907953e-08,
+          5.960464477539063e-08,
+          4.150288557269732e-09
+        ],
+        "winding_integer_residual_b": [
+          0.0,
+          0.0,
+          2.3715934105439374e-08
+        ],
+        "winding_integer_residual_linf_a": 5.960464477539063e-08,
+        "winding_integer_residual_linf_b": 2.3715934105439374e-08,
+        "pair_max_winding_integer_residual": 5.960464477539063e-08,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 1.0000000177869506,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          35
+        ],
+        "replay_a": {
+          "batch_index": 0,
+          "env_index": 6,
+          "seed": 123
+        },
+        "replay_b": {
+          "batch_index": 1,
+          "env_index": 23,
+          "seed": 124
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 39,
+        "rollout_b": 104,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0006020849590034535,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 6.572401616722345e-05,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 2.213243605108168e-05,
+          "dual_motor_qpos_history_rms_rad": 0.0001114870683522895
+        },
+        "signed_winding_turns_a": [
+          1.0000001192092896,
+          1.0,
+          -6.225432969131361e-08
+        ],
+        "signed_winding_turns_b": [
+          1.4229560640899308e-08,
+          1.0,
+          -1.7786950801124135e-09
+        ],
+        "winding_index_a": [
+          1,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          1.1920928955078125e-07,
+          0.0,
+          6.225432969131361e-08
+        ],
+        "winding_integer_residual_b": [
+          1.4229560640899308e-08,
+          0.0,
+          1.7786950801124135e-09
+        ],
+        "winding_integer_residual_linf_a": 1.1920928955078125e-07,
+        "winding_integer_residual_linf_b": 1.4229560640899308e-08,
+        "pair_max_winding_integer_residual": 1.1920928955078125e-07,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 1.000000104979729,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          36
+        ],
+        "replay_a": {
+          "batch_index": 1,
+          "env_index": 7,
+          "seed": 124
+        },
+        "replay_b": {
+          "batch_index": 3,
+          "env_index": 8,
+          "seed": 126
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 2,
+        "rollout_b": 6,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0006062849036728343,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.0002001988177653402,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 7.667934114205886e-05,
+          "dual_motor_qpos_history_rms_rad": 0.000348815752658993
+        },
+        "signed_winding_turns_a": [
+          1.0000001192092896,
+          0.9999999403953552,
+          -2.6087526805440575e-08
+        ],
+        "signed_winding_turns_b": [
+          -1.778695057907953e-08,
+          0.9999999403953552,
+          -4.150288557269732e-09
+        ],
+        "winding_index_a": [
+          1,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          1.1920928955078125e-07,
+          5.960464477539063e-08,
+          2.6087526805440575e-08
+        ],
+        "winding_integer_residual_b": [
+          1.778695057907953e-08,
+          5.960464477539063e-08,
+          4.150288557269732e-09
+        ],
+        "winding_integer_residual_linf_a": 1.1920928955078125e-07,
+        "winding_integer_residual_linf_b": 5.960464477539063e-08,
+        "pair_max_winding_integer_residual": 1.1920928955078125e-07,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 1.0000001369962401,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          35
+        ],
+        "replay_a": {
+          "batch_index": 0,
+          "env_index": 2,
+          "seed": 123
+        },
+        "replay_b": {
+          "batch_index": 0,
+          "env_index": 6,
+          "seed": 123
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 5,
+        "rollout_b": 18,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0006162490656909844,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.00018136978906113654,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 9.001902916259586e-05,
+          "dual_motor_qpos_history_rms_rad": 0.0002913207863457501
+        },
+        "signed_winding_turns_a": [
+          0.9999999403953552,
+          1.0000001192092896,
+          1.0672170702719086e-08
+        ],
+        "signed_winding_turns_b": [
+          2.3715934105439374e-08,
+          0.9999996423721313,
+          -3.557390160224827e-09
+        ],
+        "winding_index_a": [
+          1,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          5.960464477539063e-08,
+          1.1920928955078125e-07,
+          1.0672170702719086e-08
+        ],
+        "winding_integer_residual_b": [
+          2.3715934105439374e-08,
+          3.5762786865234375e-07,
+          3.557390160224827e-09
+        ],
+        "winding_integer_residual_linf_a": 1.1920928955078125e-07,
+        "winding_integer_residual_linf_b": 3.5762786865234375e-07,
+        "pair_max_winding_integer_residual": 3.5762786865234375e-07,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 0.9999999166794211,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          35
+        ],
+        "replay_a": {
+          "batch_index": 0,
+          "env_index": 5,
+          "seed": 123
+        },
+        "replay_b": {
+          "batch_index": 0,
+          "env_index": 18,
+          "seed": 123
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 73,
+        "rollout_b": 124,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0006272690564704438,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.00020497903460636735,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 9.261365420412462e-05,
+          "dual_motor_qpos_history_rms_rad": 0.0003355342778377235
+        },
+        "signed_winding_turns_a": [
+          2.9644917631799217e-08,
+          0.9999998211860657,
+          3.735259568315996e-08
+        ],
+        "signed_winding_turns_b": [
+          0.9999999403953552,
+          1.0000001192092896,
+          2.3123035930439073e-08
+        ],
+        "winding_index_a": [
+          0,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          1,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          2.9644917631799217e-08,
+          1.7881393432617188e-07,
+          3.735259568315996e-08
+        ],
+        "winding_integer_residual_b": [
+          5.960464477539063e-08,
+          1.1920928955078125e-07,
+          2.3123035930439073e-08
+        ],
+        "winding_integer_residual_linf_a": 1.7881393432617188e-07,
+        "winding_integer_residual_linf_b": 1.1920928955078125e-07,
+        "pair_max_winding_integer_residual": 1.7881393432617188e-07,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 0.9999999107504376,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          35
+        ],
+        "replay_a": {
+          "batch_index": 2,
+          "env_index": 9,
+          "seed": 125
+        },
+        "replay_b": {
+          "batch_index": 3,
+          "env_index": 28,
+          "seed": 126
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 69,
+        "rollout_b": 83,
+        "time_index": 13,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0006483320418434838,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.00041771269752644,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 0.00019464693963116525,
+          "dual_motor_qpos_history_rms_rad": 0.0006972202681936324
+        },
+        "signed_winding_turns_a": [
+          -2.1344341405438172e-08,
+          -2.7866223106798316e-08,
+          -4.1502882908162064e-08
+        ],
+        "signed_winding_turns_b": [
+          -1.7786950801124135e-09,
+          1.0000001192092896,
+          -3.557390160224827e-09
+        ],
+        "winding_index_a": [
+          0,
+          0,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          2.1344341405438172e-08,
+          2.7866223106798316e-08,
+          4.1502882908162064e-08
+        ],
+        "winding_integer_residual_b": [
+          1.7786950801124135e-09,
+          1.1920928955078125e-07,
+          3.557390160224827e-09
+        ],
+        "winding_integer_residual_linf_a": 4.1502882908162064e-08,
+        "winding_integer_residual_linf_b": 1.1920928955078125e-07,
+        "pair_max_winding_integer_residual": 1.1920928955078125e-07,
+        "differing_post_indices": [
+          1
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 1.0000001470755127,
+        "visible_vertex_counts_a": [
+          39,
+          38,
+          38
+        ],
+        "visible_vertex_counts_b": [
+          39,
+          38,
+          38
+        ],
+        "replay_a": {
+          "batch_index": 2,
+          "env_index": 5,
+          "seed": 125
+        },
+        "replay_b": {
+          "batch_index": 2,
+          "env_index": 19,
+          "seed": 125
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 39,
+        "rollout_b": 81,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0006496313241465638,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.00018066680058836937,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 7.511503558729022e-05,
+          "dual_motor_qpos_history_rms_rad": 0.0003044696641154587
+        },
+        "signed_winding_turns_a": [
+          1.0000001192092896,
+          1.0,
+          -6.225432969131361e-08
+        ],
+        "signed_winding_turns_b": [
+          2.3715933661350164e-09,
+          1.0000001192092896,
+          -5.336085351359543e-09
+        ],
+        "winding_index_a": [
+          1,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          1.1920928955078125e-07,
+          0.0,
+          6.225432969131361e-08
+        ],
+        "winding_integer_residual_b": [
+          2.3715933661350164e-09,
+          1.1920928955078125e-07,
+          5.336085351359543e-09
+        ],
+        "winding_integer_residual_linf_a": 1.1920928955078125e-07,
+        "winding_integer_residual_linf_b": 1.1920928955078125e-07,
+        "pair_max_winding_integer_residual": 1.1920928955078125e-07,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 1.0000001168376962,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          35
+        ],
+        "replay_a": {
+          "batch_index": 1,
+          "env_index": 7,
+          "seed": 124
+        },
+        "replay_b": {
+          "batch_index": 2,
+          "env_index": 17,
+          "seed": 125
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 46,
+        "rollout_b": 104,
+        "time_index": 13,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0006559414129393796,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.0004096339689567685,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 0.0001895236286681982,
+          "dual_motor_qpos_history_rms_rad": 0.000693286070600152
+        },
+        "signed_winding_turns_a": [
+          -4.802476638587905e-08,
+          2.7866223106798316e-08,
+          1.541535787907833e-08
+        ],
+        "signed_winding_turns_b": [
+          -1.541535787907833e-08,
+          1.0,
+          -2.2530137755438773e-08
+        ],
+        "winding_index_a": [
+          0,
+          0,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          4.802476638587905e-08,
+          2.7866223106798316e-08,
+          1.541535787907833e-08
+        ],
+        "winding_integer_residual_b": [
+          1.541535787907833e-08,
+          0.0,
+          2.2530137755438773e-08
+        ],
+        "winding_integer_residual_linf_a": 4.802476638587905e-08,
+        "winding_integer_residual_linf_b": 2.2530137755438773e-08,
+        "pair_max_winding_integer_residual": 4.802476638587905e-08,
+        "differing_post_indices": [
+          1
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 0.9999999721337769,
+        "visible_vertex_counts_a": [
+          39,
+          38,
+          38
+        ],
+        "visible_vertex_counts_b": [
+          39,
+          38,
+          38
+        ],
+        "replay_a": {
+          "batch_index": 1,
+          "env_index": 14,
+          "seed": 124
+        },
+        "replay_b": {
+          "batch_index": 3,
+          "env_index": 8,
+          "seed": 126
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 36,
+        "rollout_b": 69,
+        "time_index": 13,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0006610995042137802,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.000304046378005296,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 0.00014724329761388812,
+          "dual_motor_qpos_history_rms_rad": 0.0005287480307742953
+        },
+        "signed_winding_turns_a": [
+          4.6838970035878447e-08,
+          1.0,
+          1.4229560640899308e-08
+        ],
+        "signed_winding_turns_b": [
+          -2.1344341405438172e-08,
+          -2.7866223106798316e-08,
+          -4.1502882908162064e-08
+        ],
+        "winding_index_a": [
+          0,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          0,
+          0
+        ],
+        "winding_integer_residual_a": [
+          4.6838970035878447e-08,
+          0.0,
+          1.4229560640899308e-08
+        ],
+        "winding_integer_residual_b": [
+          2.1344341405438172e-08,
+          2.7866223106798316e-08,
+          4.1502882908162064e-08
+        ],
+        "winding_integer_residual_linf_a": 4.6838970035878447e-08,
+        "winding_integer_residual_linf_b": 4.1502882908162064e-08,
+        "pair_max_winding_integer_residual": 4.6838970035878447e-08,
+        "differing_post_indices": [
+          1
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 1.000000027866223,
+        "visible_vertex_counts_a": [
+          39,
+          38,
+          38
+        ],
+        "visible_vertex_counts_b": [
+          39,
+          38,
+          38
+        ],
+        "replay_a": {
+          "batch_index": 1,
+          "env_index": 4,
+          "seed": 124
+        },
+        "replay_b": {
+          "batch_index": 2,
+          "env_index": 5,
+          "seed": 125
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 2,
+        "rollout_b": 97,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0006715615551608304,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.00045784824760630727,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 0.00020065955512883136,
+          "dual_motor_qpos_history_rms_rad": 0.0007555702468380332
+        },
+        "signed_winding_turns_a": [
+          1.0000001192092896,
+          0.9999999403953552,
+          -2.6087526805440575e-08
+        ],
+        "signed_winding_turns_b": [
+          4.743186732270033e-09,
+          1.0000001192092896,
+          7.114780320449654e-09
+        ],
+        "winding_index_a": [
+          1,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          1.1920928955078125e-07,
+          5.960464477539063e-08,
+          2.6087526805440575e-08
+        ],
+        "winding_integer_residual_b": [
+          4.743186732270033e-09,
+          1.1920928955078125e-07,
+          7.114780320449654e-09
+        ],
+        "winding_integer_residual_linf_a": 1.1920928955078125e-07,
+        "winding_integer_residual_linf_b": 1.1920928955078125e-07,
+        "pair_max_winding_integer_residual": 1.1920928955078125e-07,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 1.0000001144661028,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          35
+        ],
+        "replay_a": {
+          "batch_index": 0,
+          "env_index": 2,
+          "seed": 123
+        },
+        "replay_b": {
+          "batch_index": 3,
+          "env_index": 1,
+          "seed": 126
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 10,
+        "rollout_b": 123,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0006744941153253118,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.0002636678982526064,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 0.000125628041359565,
+          "dual_motor_qpos_history_rms_rad": 0.0004415293806232512
+        },
+        "signed_winding_turns_a": [
+          1.0000001192092896,
+          0.9999998211860657,
+          -7.114780320449654e-09
+        ],
+        "signed_winding_turns_b": [
+          4.743186821087875e-08,
+          0.9999998211860657,
+          1.778695057907953e-08
+        ],
+        "winding_index_a": [
+          1,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          1.1920928955078125e-07,
+          1.7881393432617188e-07,
+          7.114780320449654e-09
+        ],
+        "winding_integer_residual_b": [
+          4.743186821087875e-08,
+          1.7881393432617188e-07,
+          1.778695057907953e-08
+        ],
+        "winding_integer_residual_linf_a": 1.7881393432617188e-07,
+        "winding_integer_residual_linf_b": 1.7881393432617188e-07,
+        "pair_max_winding_integer_residual": 1.7881393432617188e-07,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 1.0000000717774213,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          35
+        ],
+        "replay_a": {
+          "batch_index": 0,
+          "env_index": 10,
+          "seed": 123
+        },
+        "replay_b": {
+          "batch_index": 3,
+          "env_index": 27,
+          "seed": 126
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 24,
+        "rollout_b": 61,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.000677111151162535,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.00042342074448242784,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 0.0002139412654687725,
+          "dual_motor_qpos_history_rms_rad": 0.0006938607548363507
+        },
+        "signed_winding_turns_a": [
+          1.0,
+          0.9999999403953552,
+          8.300577114539465e-09
+        ],
+        "signed_winding_turns_b": [
+          4.0317086558161463e-08,
+          0.9999999403953552,
+          1.0672170702719086e-08
+        ],
+        "winding_index_a": [
+          1,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          0.0,
+          5.960464477539063e-08,
+          8.300577114539465e-09
+        ],
+        "winding_integer_residual_b": [
+          4.0317086558161463e-08,
+          5.960464477539063e-08,
+          1.0672170702719086e-08
+        ],
+        "winding_integer_residual_linf_a": 5.960464477539063e-08,
+        "winding_integer_residual_linf_b": 5.960464477539063e-08,
+        "pair_max_winding_integer_residual": 5.960464477539063e-08,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 0.9999999596829134,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          35
+        ],
+        "replay_a": {
+          "batch_index": 0,
+          "env_index": 24,
+          "seed": 123
+        },
+        "replay_b": {
+          "batch_index": 1,
+          "env_index": 29,
+          "seed": 124
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 2,
+        "rollout_b": 109,
+        "time_index": 13,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0006811054578671852,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.00024620379554107785,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 0.00015261578301504843,
+          "dual_motor_qpos_history_rms_rad": 0.0003906718920916319
+        },
+        "signed_winding_turns_a": [
+          -1.837984875407983e-08,
+          -2.6680424980440876e-08,
+          1.1265068877719386e-08
+        ],
+        "signed_winding_turns_b": [
+          4.5060275510877545e-08,
+          1.0,
+          6.521881701360144e-09
+        ],
+        "winding_index_a": [
+          0,
+          0,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          1.837984875407983e-08,
+          2.6680424980440876e-08,
+          1.1265068877719386e-08
+        ],
+        "winding_integer_residual_b": [
+          4.5060275510877545e-08,
+          0.0,
+          6.521881701360144e-09
+        ],
+        "winding_integer_residual_linf_a": 2.6680424980440876e-08,
+        "winding_integer_residual_linf_b": 4.5060275510877545e-08,
+        "pair_max_winding_integer_residual": 4.5060275510877545e-08,
+        "differing_post_indices": [
+          1
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 1.000000026680425,
+        "visible_vertex_counts_a": [
+          39,
+          38,
+          38
+        ],
+        "visible_vertex_counts_b": [
+          39,
+          38,
+          38
+        ],
+        "replay_a": {
+          "batch_index": 0,
+          "env_index": 2,
+          "seed": 123
+        },
+        "replay_b": {
+          "batch_index": 3,
+          "env_index": 13,
+          "seed": 126
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 2,
+        "rollout_b": 61,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0007126565130117039,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.0004050299758091569,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 0.00019474840615090453,
+          "dual_motor_qpos_history_rms_rad": 0.0006761440308764577
+        },
+        "signed_winding_turns_a": [
+          1.0000001192092896,
+          0.9999999403953552,
+          -2.6087526805440575e-08
+        ],
+        "signed_winding_turns_b": [
+          4.0317086558161463e-08,
+          0.9999999403953552,
+          1.0672170702719086e-08
+        ],
+        "winding_index_a": [
+          1,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          1.1920928955078125e-07,
+          5.960464477539063e-08,
+          2.6087526805440575e-08
+        ],
+        "winding_integer_residual_b": [
+          4.0317086558161463e-08,
+          5.960464477539063e-08,
+          1.0672170702719086e-08
+        ],
+        "winding_integer_residual_linf_a": 1.1920928955078125e-07,
+        "winding_integer_residual_linf_b": 5.960464477539063e-08,
+        "pair_max_winding_integer_residual": 1.1920928955078125e-07,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 1.000000078892203,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          35
+        ],
+        "replay_a": {
+          "batch_index": 0,
+          "env_index": 2,
+          "seed": 123
+        },
+        "replay_b": {
+          "batch_index": 1,
+          "env_index": 29,
+          "seed": 124
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 10,
+        "rollout_b": 73,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0007167036334673563,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.00013587751891463995,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 6.689676234679007e-05,
+          "dual_motor_qpos_history_rms_rad": 0.00022967498807702214
+        },
+        "signed_winding_turns_a": [
+          1.0000001192092896,
+          0.9999998211860657,
+          -7.114780320449654e-09
+        ],
+        "signed_winding_turns_b": [
+          2.9644917631799217e-08,
+          0.9999998211860657,
+          3.735259568315996e-08
+        ],
+        "winding_index_a": [
+          1,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          1.1920928955078125e-07,
+          1.7881393432617188e-07,
+          7.114780320449654e-09
+        ],
+        "winding_integer_residual_b": [
+          2.9644917631799217e-08,
+          1.7881393432617188e-07,
+          3.735259568315996e-08
+        ],
+        "winding_integer_residual_linf_a": 1.7881393432617188e-07,
+        "winding_integer_residual_linf_b": 1.7881393432617188e-07,
+        "pair_max_winding_integer_residual": 1.7881393432617188e-07,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 1.000000089564372,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          35
+        ],
+        "replay_a": {
+          "batch_index": 0,
+          "env_index": 10,
+          "seed": 123
+        },
+        "replay_b": {
+          "batch_index": 2,
+          "env_index": 9,
+          "seed": 125
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 55,
+        "rollout_b": 76,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0007244453493816158,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.0003037305432371795,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 0.00015589253228467695,
+          "dual_motor_qpos_history_rms_rad": 0.0005006200517527759
+        },
+        "signed_winding_turns_a": [
+          1.0,
+          1.0,
+          -2.3715934105439374e-08
+        ],
+        "signed_winding_turns_b": [
+          -5.098925726088055e-08,
+          0.9999999403953552,
+          -1.1265068877719386e-08
+        ],
+        "winding_index_a": [
+          1,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          0.0,
+          0.0,
+          2.3715934105439374e-08
+        ],
+        "winding_integer_residual_b": [
+          5.098925726088055e-08,
+          5.960464477539063e-08,
+          1.1265068877719386e-08
+        ],
+        "winding_integer_residual_linf_a": 2.3715934105439374e-08,
+        "winding_integer_residual_linf_b": 5.960464477539063e-08,
+        "pair_max_winding_integer_residual": 5.960464477539063e-08,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 1.0000000509892573,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          36
+        ],
+        "replay_a": {
+          "batch_index": 1,
+          "env_index": 23,
+          "seed": 124
+        },
+        "replay_b": {
+          "batch_index": 2,
+          "env_index": 12,
+          "seed": 125
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 55,
+        "rollout_b": 56,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0007310604366163412,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.00024479697458446026,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 0.00011497487670372686,
+          "dual_motor_qpos_history_rms_rad": 0.0004120578523725271
+        },
+        "signed_winding_turns_a": [
+          1.0,
+          1.0,
+          -2.3715934105439374e-08
+        ],
+        "signed_winding_turns_b": [
+          -3.083071575815666e-08,
+          0.9999999403953552,
+          -2.9052019456798917e-08
+        ],
+        "winding_index_a": [
+          1,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          0.0,
+          0.0,
+          2.3715934105439374e-08
+        ],
+        "winding_integer_residual_b": [
+          3.083071575815666e-08,
+          5.960464477539063e-08,
+          2.9052019456798917e-08
+        ],
+        "winding_integer_residual_linf_a": 2.3715934105439374e-08,
+        "winding_integer_residual_linf_b": 5.960464477539063e-08,
+        "pair_max_winding_integer_residual": 5.960464477539063e-08,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 1.0000000308307158,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          36
+        ],
+        "replay_a": {
+          "batch_index": 1,
+          "env_index": 23,
+          "seed": 124
+        },
+        "replay_b": {
+          "batch_index": 1,
+          "env_index": 24,
+          "seed": 124
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 2,
+        "rollout_b": 73,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0007477356508995096,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.00010144807311007753,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 4.390089046612653e-05,
+          "dual_motor_qpos_history_rms_rad": 0.00015883886953815818
+        },
+        "signed_winding_turns_a": [
+          1.0000001192092896,
+          0.9999999403953552,
+          -2.6087526805440575e-08
+        ],
+        "signed_winding_turns_b": [
+          2.9644917631799217e-08,
+          0.9999998211860657,
+          3.735259568315996e-08
+        ],
+        "winding_index_a": [
+          1,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          1.1920928955078125e-07,
+          5.960464477539063e-08,
+          2.6087526805440575e-08
+        ],
+        "winding_integer_residual_b": [
+          2.9644917631799217e-08,
+          1.7881393432617188e-07,
+          3.735259568315996e-08
+        ],
+        "winding_integer_residual_linf_a": 1.1920928955078125e-07,
+        "winding_integer_residual_linf_b": 1.7881393432617188e-07,
+        "pair_max_winding_integer_residual": 1.7881393432617188e-07,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 1.000000089564372,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          35
+        ],
+        "replay_a": {
+          "batch_index": 0,
+          "env_index": 2,
+          "seed": 123
+        },
+        "replay_b": {
+          "batch_index": 2,
+          "env_index": 9,
+          "seed": 125
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 55,
+        "rollout_b": 107,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0007577041202845672,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.00025934336008504033,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 0.00012643246655052252,
+          "dual_motor_qpos_history_rms_rad": 0.00044034532038494945
+        },
+        "signed_winding_turns_a": [
+          1.0,
+          1.0,
+          -2.3715934105439374e-08
+        ],
+        "signed_winding_turns_b": [
+          -3.794549385816026e-08,
+          0.9999999403953552,
+          8.893475289539765e-09
+        ],
+        "winding_index_a": [
+          1,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          0.0,
+          0.0,
+          2.3715934105439374e-08
+        ],
+        "winding_integer_residual_b": [
+          3.794549385816026e-08,
+          5.960464477539063e-08,
+          8.893475289539765e-09
+        ],
+        "winding_integer_residual_linf_a": 2.3715934105439374e-08,
+        "winding_integer_residual_linf_b": 5.960464477539063e-08,
+        "pair_max_winding_integer_residual": 5.960464477539063e-08,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 1.0000000379454939,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          36
+        ],
+        "replay_a": {
+          "batch_index": 1,
+          "env_index": 23,
+          "seed": 124
+        },
+        "replay_b": {
+          "batch_index": 3,
+          "env_index": 11,
+          "seed": 126
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 39,
+        "rollout_b": 46,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0007591284423445662,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.00016557681374251842,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 6.452248989904435e-05,
+          "dual_motor_qpos_history_rms_rad": 0.00027603760827332735
+        },
+        "signed_winding_turns_a": [
+          1.0000001192092896,
+          1.0,
+          -6.225432969131361e-08
+        ],
+        "signed_winding_turns_b": [
+          -4.3874479160876945e-08,
+          0.9999997615814209,
+          -8.300577114539465e-09
+        ],
+        "winding_index_a": [
+          1,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          1.1920928955078125e-07,
+          0.0,
+          6.225432969131361e-08
+        ],
+        "winding_integer_residual_b": [
+          4.3874479160876945e-08,
+          2.384185791015625e-07,
+          8.300577114539465e-09
+        ],
+        "winding_integer_residual_linf_a": 1.1920928955078125e-07,
+        "winding_integer_residual_linf_b": 2.384185791015625e-07,
+        "pair_max_winding_integer_residual": 2.384185791015625e-07,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 1.0000001630837687,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          35
+        ],
+        "replay_a": {
+          "batch_index": 1,
+          "env_index": 7,
+          "seed": 124
+        },
+        "replay_b": {
+          "batch_index": 1,
+          "env_index": 14,
+          "seed": 124
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 17,
+        "rollout_b": 55,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0007714206100596736,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.0003055949346162379,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 0.0001527893903631816,
+          "dual_motor_qpos_history_rms_rad": 0.0005061286501586437
+        },
+        "signed_winding_turns_a": [
+          3.083071575815666e-08,
+          1.0000001192092896,
+          2.0751441454081032e-08
+        ],
+        "signed_winding_turns_b": [
+          1.0,
+          1.0,
+          -2.3715934105439374e-08
+        ],
+        "winding_index_a": [
+          0,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          1,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          3.083071575815666e-08,
+          1.1920928955078125e-07,
+          2.0751441454081032e-08
+        ],
+        "winding_integer_residual_b": [
+          0.0,
+          0.0,
+          2.3715934105439374e-08
+        ],
+        "winding_integer_residual_linf_a": 1.1920928955078125e-07,
+        "winding_integer_residual_linf_b": 2.3715934105439374e-08,
+        "pair_max_winding_integer_residual": 1.1920928955078125e-07,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 0.9999999691692842,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          36
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          35
+        ],
+        "replay_a": {
+          "batch_index": 0,
+          "env_index": 17,
+          "seed": 123
+        },
+        "replay_b": {
+          "batch_index": 1,
+          "env_index": 23,
+          "seed": 124
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 5,
+        "rollout_b": 123,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0007814567264479896,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.00045114156091585755,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 0.0002226023619985832,
+          "dual_motor_qpos_history_rms_rad": 0.0007540700025856495
+        },
+        "signed_winding_turns_a": [
+          0.9999999403953552,
+          1.0000001192092896,
+          1.0672170702719086e-08
+        ],
+        "signed_winding_turns_b": [
+          4.743186821087875e-08,
+          0.9999998211860657,
+          1.778695057907953e-08
+        ],
+        "winding_index_a": [
+          1,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          5.960464477539063e-08,
+          1.1920928955078125e-07,
+          1.0672170702719086e-08
+        ],
+        "winding_integer_residual_b": [
+          4.743186821087875e-08,
+          1.7881393432617188e-07,
+          1.778695057907953e-08
+        ],
+        "winding_integer_residual_linf_a": 1.1920928955078125e-07,
+        "winding_integer_residual_linf_b": 1.7881393432617188e-07,
+        "pair_max_winding_integer_residual": 1.7881393432617188e-07,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 0.999999892963487,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          35
+        ],
+        "replay_a": {
+          "batch_index": 0,
+          "env_index": 5,
+          "seed": 123
+        },
+        "replay_b": {
+          "batch_index": 3,
+          "env_index": 27,
+          "seed": 126
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 6,
+        "rollout_b": 120,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0007911065476946533,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.00033539265859872103,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 0.00013301188864861166,
+          "dual_motor_qpos_history_rms_rad": 0.0005510272458195686
+        },
+        "signed_winding_turns_a": [
+          -1.778695057907953e-08,
+          0.9999999403953552,
+          -4.150288557269732e-09
+        ],
+        "signed_winding_turns_b": [
+          1.0,
+          0.9999997615814209,
+          -2.3715934105439374e-08
+        ],
+        "winding_index_a": [
+          0,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          1,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          1.778695057907953e-08,
+          5.960464477539063e-08,
+          4.150288557269732e-09
+        ],
+        "winding_integer_residual_b": [
+          0.0,
+          2.384185791015625e-07,
+          2.3715934105439374e-08
+        ],
+        "winding_integer_residual_linf_a": 5.960464477539063e-08,
+        "winding_integer_residual_linf_b": 2.384185791015625e-07,
+        "pair_max_winding_integer_residual": 2.384185791015625e-07,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 1.0000000177869506,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          35
+        ],
+        "replay_a": {
+          "batch_index": 0,
+          "env_index": 6,
+          "seed": 123
+        },
+        "replay_b": {
+          "batch_index": 3,
+          "env_index": 24,
+          "seed": 126
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 18,
+        "rollout_b": 124,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0007917414380547901,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.000332281575538218,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 0.00015237354186082154,
+          "dual_motor_qpos_history_rms_rad": 0.0005413450417108834
+        },
+        "signed_winding_turns_a": [
+          2.3715934105439374e-08,
+          0.9999996423721313,
+          -3.557390160224827e-09
+        ],
+        "signed_winding_turns_b": [
+          0.9999999403953552,
+          1.0000001192092896,
+          2.3123035930439073e-08
+        ],
+        "winding_index_a": [
+          0,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          1,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          2.3715934105439374e-08,
+          3.5762786865234375e-07,
+          3.557390160224827e-09
+        ],
+        "winding_integer_residual_b": [
+          5.960464477539063e-08,
+          1.1920928955078125e-07,
+          2.3123035930439073e-08
+        ],
+        "winding_integer_residual_linf_a": 3.5762786865234375e-07,
+        "winding_integer_residual_linf_b": 1.1920928955078125e-07,
+        "pair_max_winding_integer_residual": 3.5762786865234375e-07,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 0.9999999166794211,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          35
+        ],
+        "replay_a": {
+          "batch_index": 0,
+          "env_index": 18,
+          "seed": 123
+        },
+        "replay_b": {
+          "batch_index": 3,
+          "env_index": 28,
+          "seed": 126
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 61,
+        "rollout_b": 109,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0007940979558043182,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.000466410128865391,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 0.0002259129428387998,
+          "dual_motor_qpos_history_rms_rad": 0.0007629447500221431
+        },
+        "signed_winding_turns_a": [
+          4.0317086558161463e-08,
+          0.9999999403953552,
+          1.0672170702719086e-08
+        ],
+        "signed_winding_turns_b": [
+          0.9999999403953552,
+          0.9999998211860657,
+          1.897274692908013e-08
+        ],
+        "winding_index_a": [
+          0,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          1,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          4.0317086558161463e-08,
+          5.960464477539063e-08,
+          1.0672170702719086e-08
+        ],
+        "winding_integer_residual_b": [
+          5.960464477539063e-08,
+          1.7881393432617188e-07,
+          1.897274692908013e-08
+        ],
+        "winding_integer_residual_linf_a": 5.960464477539063e-08,
+        "winding_integer_residual_linf_b": 1.7881393432617188e-07,
+        "pair_max_winding_integer_residual": 1.7881393432617188e-07,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 0.9999999000782687,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          35
+        ],
+        "replay_a": {
+          "batch_index": 1,
+          "env_index": 29,
+          "seed": 124
+        },
+        "replay_b": {
+          "batch_index": 3,
+          "env_index": 13,
+          "seed": 126
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 18,
+        "rollout_b": 115,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0007948763571524372,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 7.426385127473623e-05,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 4.762864856136828e-05,
+          "dual_motor_qpos_history_rms_rad": 0.0001232934300787747
+        },
+        "signed_winding_turns_a": [
+          2.3715934105439374e-08,
+          0.9999996423721313,
+          -3.557390160224827e-09
+        ],
+        "signed_winding_turns_b": [
+          1.0,
+          1.0000001192092896,
+          -4.743186732270033e-09
+        ],
+        "winding_index_a": [
+          0,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          1,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          2.3715934105439374e-08,
+          3.5762786865234375e-07,
+          3.557390160224827e-09
+        ],
+        "winding_integer_residual_b": [
+          0.0,
+          1.1920928955078125e-07,
+          4.743186732270033e-09
+        ],
+        "winding_integer_residual_linf_a": 3.5762786865234375e-07,
+        "winding_integer_residual_linf_b": 1.1920928955078125e-07,
+        "pair_max_winding_integer_residual": 3.5762786865234375e-07,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 0.9999999762840659,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          35
+        ],
+        "replay_a": {
+          "batch_index": 0,
+          "env_index": 18,
+          "seed": 123
+        },
+        "replay_b": {
+          "batch_index": 3,
+          "env_index": 19,
+          "seed": 126
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 55,
+        "rollout_b": 57,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0008014524549556276,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.00034832608071155846,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 0.0001710975028185408,
+          "dual_motor_qpos_history_rms_rad": 0.0005716212326660752
+        },
+        "signed_winding_turns_a": [
+          1.0,
+          1.0,
+          -2.3715934105439374e-08
+        ],
+        "signed_winding_turns_b": [
+          -4.743186732270033e-09,
+          1.0000001192092896,
+          -1.897274692908013e-08
+        ],
+        "winding_index_a": [
+          1,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          0.0,
+          0.0,
+          2.3715934105439374e-08
+        ],
+        "winding_integer_residual_b": [
+          4.743186732270033e-09,
+          1.1920928955078125e-07,
+          1.897274692908013e-08
+        ],
+        "winding_integer_residual_linf_a": 2.3715934105439374e-08,
+        "winding_integer_residual_linf_b": 1.1920928955078125e-07,
+        "pair_max_winding_integer_residual": 1.1920928955078125e-07,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 1.0000000047431867,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          36
+        ],
+        "replay_a": {
+          "batch_index": 1,
+          "env_index": 23,
+          "seed": 124
+        },
+        "replay_b": {
+          "batch_index": 1,
+          "env_index": 25,
+          "seed": 124
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 72,
+        "rollout_b": 78,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0008112293144222349,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.0001049797865562141,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 0.00012695282785780813,
+          "dual_motor_qpos_history_rms_rad": 0.00016005203360691667
+        },
+        "signed_winding_turns_a": [
+          0.9999998211860657,
+          1.0000001192092896,
+          -1.897274692908013e-08
+        ],
+        "signed_winding_turns_b": [
+          9.249214372175629e-08,
+          0.9999999403953552,
+          -8.893475289539765e-09
+        ],
+        "winding_index_a": [
+          1,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          1.7881393432617188e-07,
+          1.1920928955078125e-07,
+          1.897274692908013e-08
+        ],
+        "winding_integer_residual_b": [
+          9.249214372175629e-08,
+          5.960464477539063e-08,
+          8.893475289539765e-09
+        ],
+        "winding_integer_residual_linf_a": 1.7881393432617188e-07,
+        "winding_integer_residual_linf_b": 9.249214372175629e-08,
+        "pair_max_winding_integer_residual": 1.7881393432617188e-07,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 0.999999728693922,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          36
+        ],
+        "replay_a": {
+          "batch_index": 2,
+          "env_index": 8,
+          "seed": 125
+        },
+        "replay_b": {
+          "batch_index": 2,
+          "env_index": 14,
+          "seed": 125
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 14,
+        "rollout_b": 78,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0008156025724019855,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 8.904221613192931e-05,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 0.00011671165968945148,
+          "dual_motor_qpos_history_rms_rad": 0.0001368575030937791
+        },
+        "signed_winding_turns_a": [
+          1.0,
+          0.9999997615814209,
+          -8.893475289539765e-09
+        ],
+        "signed_winding_turns_b": [
+          9.249214372175629e-08,
+          0.9999999403953552,
+          -8.893475289539765e-09
+        ],
+        "winding_index_a": [
+          1,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          0.0,
+          2.384185791015625e-07,
+          8.893475289539765e-09
+        ],
+        "winding_integer_residual_b": [
+          9.249214372175629e-08,
+          5.960464477539063e-08,
+          8.893475289539765e-09
+        ],
+        "winding_integer_residual_linf_a": 2.384185791015625e-07,
+        "winding_integer_residual_linf_b": 9.249214372175629e-08,
+        "pair_max_winding_integer_residual": 2.384185791015625e-07,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 0.9999999075078563,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          36
+        ],
+        "replay_a": {
+          "batch_index": 0,
+          "env_index": 14,
+          "seed": 123
+        },
+        "replay_b": {
+          "batch_index": 2,
+          "env_index": 14,
+          "seed": 125
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 5,
+        "rollout_b": 97,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0008376998788056275,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.00041477533522993326,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 0.0001892780755639028,
+          "dual_motor_qpos_history_rms_rad": 0.0006885803304612637
+        },
+        "signed_winding_turns_a": [
+          0.9999999403953552,
+          1.0000001192092896,
+          1.0672170702719086e-08
+        ],
+        "signed_winding_turns_b": [
+          4.743186732270033e-09,
+          1.0000001192092896,
+          7.114780320449654e-09
+        ],
+        "winding_index_a": [
+          1,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          5.960464477539063e-08,
+          1.1920928955078125e-07,
+          1.0672170702719086e-08
+        ],
+        "winding_integer_residual_b": [
+          4.743186732270033e-09,
+          1.1920928955078125e-07,
+          7.114780320449654e-09
+        ],
+        "winding_integer_residual_linf_a": 1.1920928955078125e-07,
+        "winding_integer_residual_linf_b": 1.1920928955078125e-07,
+        "pair_max_winding_integer_residual": 1.1920928955078125e-07,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 0.9999999356521685,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          35
+        ],
+        "replay_a": {
+          "batch_index": 0,
+          "env_index": 5,
+          "seed": 123
+        },
+        "replay_b": {
+          "batch_index": 3,
+          "env_index": 1,
+          "seed": 126
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 55,
+        "rollout_b": 91,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0008453011396341026,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.0004261749272700399,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 0.00019786758505102966,
+          "dual_motor_qpos_history_rms_rad": 0.0007029696134850383
+        },
+        "signed_winding_turns_a": [
+          1.0,
+          1.0,
+          -2.3715934105439374e-08
+        ],
+        "signed_winding_turns_b": [
+          2.0158543279080732e-08,
+          1.0,
+          -5.336085351359543e-09
+        ],
+        "winding_index_a": [
+          1,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          0.0,
+          0.0,
+          2.3715934105439374e-08
+        ],
+        "winding_integer_residual_b": [
+          2.0158543279080732e-08,
+          0.0,
+          5.336085351359543e-09
+        ],
+        "winding_integer_residual_linf_a": 2.3715934105439374e-08,
+        "winding_integer_residual_linf_b": 2.0158543279080732e-08,
+        "pair_max_winding_integer_residual": 2.3715934105439374e-08,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 0.9999999798414567,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          35
+        ],
+        "replay_a": {
+          "batch_index": 1,
+          "env_index": 23,
+          "seed": 124
+        },
+        "replay_b": {
+          "batch_index": 2,
+          "env_index": 27,
+          "seed": 125
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 2,
+        "rollout_b": 38,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0008495055565920969,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.0004884536610916257,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 0.00023240711593255,
+          "dual_motor_qpos_history_rms_rad": 0.000809504883363843
+        },
+        "signed_winding_turns_a": [
+          1.0000001192092896,
+          0.9999999403953552,
+          -2.6087526805440575e-08
+        ],
+        "signed_winding_turns_b": [
+          -7.114780320449654e-09,
+          0.9999998211860657,
+          -2.9644917631799217e-09
+        ],
+        "winding_index_a": [
+          1,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          1.1920928955078125e-07,
+          5.960464477539063e-08,
+          2.6087526805440575e-08
+        ],
+        "winding_integer_residual_b": [
+          7.114780320449654e-09,
+          1.7881393432617188e-07,
+          2.9644917631799217e-09
+        ],
+        "winding_integer_residual_linf_a": 1.1920928955078125e-07,
+        "winding_integer_residual_linf_b": 1.7881393432617188e-07,
+        "pair_max_winding_integer_residual": 1.7881393432617188e-07,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 1.0000001263240699,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          35
+        ],
+        "replay_a": {
+          "batch_index": 0,
+          "env_index": 2,
+          "seed": 123
+        },
+        "replay_b": {
+          "batch_index": 1,
+          "env_index": 6,
+          "seed": 124
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 73,
+        "rollout_b": 115,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0008539473831964036,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 6.320115062408149e-05,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 3.368111171841278e-05,
+          "dual_motor_qpos_history_rms_rad": 9.39540404942818e-05
+        },
+        "signed_winding_turns_a": [
+          2.9644917631799217e-08,
+          0.9999998211860657,
+          3.735259568315996e-08
+        ],
+        "signed_winding_turns_b": [
+          1.0,
+          1.0000001192092896,
+          -4.743186732270033e-09
+        ],
+        "winding_index_a": [
+          0,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          1,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          2.9644917631799217e-08,
+          1.7881393432617188e-07,
+          3.735259568315996e-08
+        ],
+        "winding_integer_residual_b": [
+          0.0,
+          1.1920928955078125e-07,
+          4.743186732270033e-09
+        ],
+        "winding_integer_residual_linf_a": 1.7881393432617188e-07,
+        "winding_integer_residual_linf_b": 1.1920928955078125e-07,
+        "pair_max_winding_integer_residual": 1.7881393432617188e-07,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 0.9999999703550824,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          35
+        ],
+        "replay_a": {
+          "batch_index": 2,
+          "env_index": 9,
+          "seed": 125
+        },
+        "replay_b": {
+          "batch_index": 3,
+          "env_index": 19,
+          "seed": 126
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 24,
+        "rollout_b": 97,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.000855002086609602,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.00047638046089559793,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 0.00021987764693037157,
+          "dual_motor_qpos_history_rms_rad": 0.0007732960511930287
+        },
+        "signed_winding_turns_a": [
+          1.0,
+          0.9999999403953552,
+          8.300577114539465e-09
+        ],
+        "signed_winding_turns_b": [
+          4.743186732270033e-09,
+          1.0000001192092896,
+          7.114780320449654e-09
+        ],
+        "winding_index_a": [
+          1,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          0.0,
+          5.960464477539063e-08,
+          8.300577114539465e-09
+        ],
+        "winding_integer_residual_b": [
+          4.743186732270033e-09,
+          1.1920928955078125e-07,
+          7.114780320449654e-09
+        ],
+        "winding_integer_residual_linf_a": 5.960464477539063e-08,
+        "winding_integer_residual_linf_b": 1.1920928955078125e-07,
+        "pair_max_winding_integer_residual": 1.1920928955078125e-07,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 0.9999999952568133,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          35
+        ],
+        "replay_a": {
+          "batch_index": 0,
+          "env_index": 24,
+          "seed": 123
+        },
+        "replay_b": {
+          "batch_index": 3,
+          "env_index": 1,
+          "seed": 126
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 31,
+        "rollout_b": 103,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0008554801267261306,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.0001480144856031984,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 0.00019007174938519972,
+          "dual_motor_qpos_history_rms_rad": 0.0001913451706059277
+        },
+        "signed_winding_turns_a": [
+          1.0,
+          0.9999998211860657,
+          -2.0751441454081032e-08
+        ],
+        "signed_winding_turns_b": [
+          -6.403302421631452e-08,
+          0.9999998211860657,
+          -7.114780320449654e-09
+        ],
+        "winding_index_a": [
+          1,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          0.0,
+          1.7881393432617188e-07,
+          2.0751441454081032e-08
+        ],
+        "winding_integer_residual_b": [
+          6.403302421631452e-08,
+          1.7881393432617188e-07,
+          7.114780320449654e-09
+        ],
+        "winding_integer_residual_linf_a": 1.7881393432617188e-07,
+        "winding_integer_residual_linf_b": 1.7881393432617188e-07,
+        "pair_max_winding_integer_residual": 1.7881393432617188e-07,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 1.0000000640330242,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          35
+        ],
+        "replay_a": {
+          "batch_index": 0,
+          "env_index": 31,
+          "seed": 123
+        },
+        "replay_b": {
+          "batch_index": 3,
+          "env_index": 7,
+          "seed": 126
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 1,
+        "rollout_b": 39,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0008599703432992101,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.0003702258109115064,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 0.00014962418805740835,
+          "dual_motor_qpos_history_rms_rad": 0.0006247239653021097
+        },
+        "signed_winding_turns_a": [
+          -3.557390115815906e-08,
+          1.0,
+          1.0672170702719086e-08
+        ],
+        "signed_winding_turns_b": [
+          1.0000001192092896,
+          1.0,
+          -6.225432969131361e-08
+        ],
+        "winding_index_a": [
+          0,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          1,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          3.557390115815906e-08,
+          0.0,
+          1.0672170702719086e-08
+        ],
+        "winding_integer_residual_b": [
+          1.1920928955078125e-07,
+          0.0,
+          6.225432969131361e-08
+        ],
+        "winding_integer_residual_linf_a": 3.557390115815906e-08,
+        "winding_integer_residual_linf_b": 1.1920928955078125e-07,
+        "pair_max_winding_integer_residual": 1.1920928955078125e-07,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 1.0000001547831907,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          35
+        ],
+        "replay_a": {
+          "batch_index": 0,
+          "env_index": 1,
+          "seed": 123
+        },
+        "replay_b": {
+          "batch_index": 1,
+          "env_index": 7,
+          "seed": 124
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 55,
+        "rollout_b": 114,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0008745698335890969,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.00038522196700796485,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 0.00018269125927031351,
+          "dual_motor_qpos_history_rms_rad": 0.0006397032411769032
+        },
+        "signed_winding_turns_a": [
+          1.0,
+          1.0,
+          -2.3715934105439374e-08
+        ],
+        "signed_winding_turns_b": [
+          4.6246071860878146e-08,
+          1.0,
+          7.114780320449654e-09
+        ],
+        "winding_index_a": [
+          1,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          0.0,
+          0.0,
+          2.3715934105439374e-08
+        ],
+        "winding_integer_residual_b": [
+          4.6246071860878146e-08,
+          0.0,
+          7.114780320449654e-09
+        ],
+        "winding_integer_residual_linf_a": 2.3715934105439374e-08,
+        "winding_integer_residual_linf_b": 4.6246071860878146e-08,
+        "pair_max_winding_integer_residual": 4.6246071860878146e-08,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 0.9999999537539281,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          36
+        ],
+        "replay_a": {
+          "batch_index": 1,
+          "env_index": 23,
+          "seed": 124
+        },
+        "replay_b": {
+          "batch_index": 3,
+          "env_index": 18,
+          "seed": 126
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 5,
+        "rollout_b": 38,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0008783369363906482,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.0004448724212124944,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 0.00022046357949323636,
+          "dual_motor_qpos_history_rms_rad": 0.0007416889420710504
+        },
+        "signed_winding_turns_a": [
+          0.9999999403953552,
+          1.0000001192092896,
+          1.0672170702719086e-08
+        ],
+        "signed_winding_turns_b": [
+          -7.114780320449654e-09,
+          0.9999998211860657,
+          -2.9644917631799217e-09
+        ],
+        "winding_index_a": [
+          1,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          5.960464477539063e-08,
+          1.1920928955078125e-07,
+          1.0672170702719086e-08
+        ],
+        "winding_integer_residual_b": [
+          7.114780320449654e-09,
+          1.7881393432617188e-07,
+          2.9644917631799217e-09
+        ],
+        "winding_integer_residual_linf_a": 1.1920928955078125e-07,
+        "winding_integer_residual_linf_b": 1.7881393432617188e-07,
+        "pair_max_winding_integer_residual": 1.7881393432617188e-07,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 0.9999999475101355,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          35
+        ],
+        "replay_a": {
+          "batch_index": 0,
+          "env_index": 5,
+          "seed": 123
+        },
+        "replay_b": {
+          "batch_index": 1,
+          "env_index": 6,
+          "seed": 124
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 10,
+        "rollout_b": 18,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0008794120124851664,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 2.54779115493875e-05,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 2.204894992211028e-05,
+          "dual_motor_qpos_history_rms_rad": 4.1956885979743674e-05
+        },
+        "signed_winding_turns_a": [
+          1.0000001192092896,
+          0.9999998211860657,
+          -7.114780320449654e-09
+        ],
+        "signed_winding_turns_b": [
+          2.3715934105439374e-08,
+          0.9999996423721313,
+          -3.557390160224827e-09
+        ],
+        "winding_index_a": [
+          1,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          1.1920928955078125e-07,
+          1.7881393432617188e-07,
+          7.114780320449654e-09
+        ],
+        "winding_integer_residual_b": [
+          2.3715934105439374e-08,
+          3.5762786865234375e-07,
+          3.557390160224827e-09
+        ],
+        "winding_integer_residual_linf_a": 1.7881393432617188e-07,
+        "winding_integer_residual_linf_b": 3.5762786865234375e-07,
+        "pair_max_winding_integer_residual": 3.5762786865234375e-07,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 1.0000000954933554,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          35
+        ],
+        "replay_a": {
+          "batch_index": 0,
+          "env_index": 10,
+          "seed": 123
+        },
+        "replay_b": {
+          "batch_index": 0,
+          "env_index": 18,
+          "seed": 123
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 14,
+        "rollout_b": 87,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0008905797925156852,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 0.00027742492966353893,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 0.0003211078855905211,
+          "dual_motor_qpos_history_rms_rad": 0.0003968853270635009
+        },
+        "signed_winding_turns_a": [
+          1.0,
+          0.9999997615814209,
+          -8.893475289539765e-09
+        ],
+        "signed_winding_turns_b": [
+          4.980346091087995e-08,
+          1.000000238418579,
+          2.0158543279080732e-08
+        ],
+        "winding_index_a": [
+          1,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          0.0,
+          2.384185791015625e-07,
+          8.893475289539765e-09
+        ],
+        "winding_integer_residual_b": [
+          4.980346091087995e-08,
+          2.384185791015625e-07,
+          2.0158543279080732e-08
+        ],
+        "winding_integer_residual_linf_a": 2.384185791015625e-07,
+        "winding_integer_residual_linf_b": 2.384185791015625e-07,
+        "pair_max_winding_integer_residual": 2.384185791015625e-07,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 0.9999999501965391,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          35
+        ],
+        "replay_a": {
+          "batch_index": 0,
+          "env_index": 14,
+          "seed": 123
+        },
+        "replay_b": {
+          "batch_index": 2,
+          "env_index": 23,
+          "seed": 125
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      },
+      {
+        "rollout_a": 6,
+        "rollout_b": 10,
+        "time_index": 20,
+        "official_rollout_valid_a": true,
+        "official_rollout_valid_b": true,
+        "partial_state_observation_type": "artificial_post_local_occlusion_surrogate",
+        "claim_deployable_observation": false,
+        "visible_rope_history_chamfer_m": 0.0008962562618156275,
+        "robot_observation": {
+          "dual_ee_position_history_mean_m": 6.136778392829001e-05,
+          "dual_ee_quaternion_geodesic_history_mean_rad": 5.506206875773659e-05,
+          "dual_motor_qpos_history_rms_rad": 7.785912021063268e-05
+        },
+        "signed_winding_turns_a": [
+          -1.778695057907953e-08,
+          0.9999999403953552,
+          -4.150288557269732e-09
+        ],
+        "signed_winding_turns_b": [
+          1.0000001192092896,
+          0.9999998211860657,
+          -7.114780320449654e-09
+        ],
+        "winding_index_a": [
+          0,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          1,
+          1,
+          0
+        ],
+        "winding_integer_residual_a": [
+          1.778695057907953e-08,
+          5.960464477539063e-08,
+          4.150288557269732e-09
+        ],
+        "winding_integer_residual_b": [
+          1.1920928955078125e-07,
+          1.7881393432617188e-07,
+          7.114780320449654e-09
+        ],
+        "winding_integer_residual_linf_a": 5.960464477539063e-08,
+        "winding_integer_residual_linf_b": 1.7881393432617188e-07,
+        "pair_max_winding_integer_residual": 1.7881393432617188e-07,
+        "differing_post_indices": [
+          0
+        ],
+        "differing_post_count": 1,
+        "winding_delta_linf_turns": 1.0000001369962401,
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          35
+        ],
+        "replay_a": {
+          "batch_index": 0,
+          "env_index": 6,
+          "seed": 123
+        },
+        "replay_b": {
+          "batch_index": 0,
+          "env_index": 10,
+          "seed": 123
+        },
+        "action_history_equal_by_construction": true,
+        "selection_used_future_divergence": false,
+        "selection_used_force_or_sensor": false
+      }
+    ],
+    "next_action": "Proceed to PB3 snapshot same-action multi-horizon causal audit. Compare pair divergence against deterministic repeat/uncertainty. Do not reuse PB2-C discovery thresholds as Gate 4.",
+    "non_claims": [
+      "The rope observation is an artificial partial-state surrogate, not a demonstrated deployable perception stack.",
+      "PB2-C discovery candidates are not yet formal same-action future-bifurcation evidence.",
+      "The PB2-B 0.25/0.75 semantic bands are not used for PB2-C pair admission.",
+      "A low candidate count does not prove CCDA is absent from Wrapping."
+    ]
+  }
+}
