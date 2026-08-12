@@ -1,0 +1,338 @@
+{
+  "phase_name": "pb3r1-dlolab-wrapping-sequential-acquisition-history-replay",
+  "verdict": "PB3R1_ACQUISITION_HISTORY_NOT_CONFIRMED_REPLAY_FLOOR_CALIBRATION_REQUIRED",
+  "repository": {
+    "starting_main_sha": "f82b96f67219bd53c7da6a3e32705db46485f0b7",
+    "ending_main_sha": "374fc6c13f5a263196d664c872c30ea262775e91",
+    "dlolab_gitlink": "c5026a9416b03c6bc5186eba13cd4ffd4c0e7796"
+  },
+  "scientific": {
+    "verdict": "PB3R1_ACQUISITION_HISTORY_NOT_CONFIRMED_REPLAY_FLOOR_CALIBRATION_REQUIRED",
+    "target": {
+      "rollout_id": 46,
+      "batch_index": 1,
+      "env_index": 14,
+      "batch_seed": 124,
+      "time_index": 13,
+      "preceding_batch_index": 0,
+      "preceding_batch_seed": 123
+    },
+    "scope": {
+      "future_suffix_executed": false,
+      "gate4_executed": false,
+      "pb3_threshold_modified": false,
+      "pb3_shortlist_modified": false,
+      "pb2c_frozen_data_modified": false
+    },
+    "mode_summaries": {
+      "m0_sequential_history": {
+        "repeat_count": 3,
+        "all_t0_alignment_pass": true,
+        "all_original_pb3_alignment_pass": true,
+        "original_pb3_alignment_pass_count": 3,
+        "median_coordinate_rmse_m": 7.886020456333891e-06,
+        "median_rope_max_abs_coordinate_m": 4.667043685913086e-05,
+        "median_max_vertex_l2_m": 5.0597611343082965e-05,
+        "median_translation_removed_coordinate_rmse_m": 7.633517571270559e-06,
+        "target_alignments": [
+          {
+            "frozen_pb3_alignment_pass": true,
+            "coordinate_rmse_m": 7.886020456333891e-06,
+            "rope_max_abs_coordinate_m": 4.750490188598633e-05,
+            "max_vertex_l2_m": 5.11924583776931e-05,
+            "argmax_vertex": 28,
+            "argmax_signed_xyz_difference_m": [
+              -4.750490188598633e-05,
+              -5.315989255905151e-06,
+              1.832190901041031e-05
+            ],
+            "median_vertex_l2_m": 2.9655925172078093e-06,
+            "min_vertex_l2_m": 4.029517556127894e-08,
+            "mean_translation_xyz_m": [
+              -3.1369924545288087e-06,
+              4.370929673314094e-08,
+              1.3833120465278625e-06
+            ],
+            "mean_translation_norm_m": 3.428729266136463e-06,
+            "translation_removed_coordinate_rmse_m": 7.633517571270559e-06,
+            "translation_removed_fraction": 0.9679809497754311,
+            "ee_max_abs_m": 3.2782554626464844e-07,
+            "motor_qpos_max_abs_rad": 2.384185791015625e-07,
+            "live_winding_index": [
+              0,
+              0,
+              0
+            ],
+            "frozen_winding_index": [
+              0,
+              0,
+              0
+            ],
+            "winding_index_exact": true
+          },
+          {
+            "frozen_pb3_alignment_pass": true,
+            "coordinate_rmse_m": 8.635235397307225e-06,
+            "rope_max_abs_coordinate_m": 4.667043685913086e-05,
+            "max_vertex_l2_m": 5.0597611343082965e-05,
+            "argmax_vertex": 28,
+            "argmax_signed_xyz_difference_m": [
+              -4.571676254272461e-05,
+              -9.80868935585022e-06,
+              1.9336119294166565e-05
+            ],
+            "median_vertex_l2_m": 4.05724335380129e-06,
+            "min_vertex_l2_m": 4.470348358154297e-08,
+            "mean_translation_xyz_m": [
+              -3.0690431594848634e-06,
+              -8.633523248136044e-07,
+              1.834183931350708e-06
+            ],
+            "mean_translation_norm_m": 3.6781291230144473e-06,
+            "translation_removed_coordinate_rmse_m": 8.370050522650306e-06,
+            "translation_removed_fraction": 0.969290371083617,
+            "ee_max_abs_m": 2.980232238769531e-07,
+            "motor_qpos_max_abs_rad": 2.384185791015625e-07,
+            "live_winding_index": [
+              0,
+              0,
+              0
+            ],
+            "frozen_winding_index": [
+              0,
+              0,
+              0
+            ],
+            "winding_index_exact": true
+          },
+          {
+            "frozen_pb3_alignment_pass": true,
+            "coordinate_rmse_m": 1.0445307040464145e-07,
+            "rope_max_abs_coordinate_m": 5.494803190231323e-07,
+            "max_vertex_l2_m": 6.114499758684053e-07,
+            "argmax_vertex": 20,
+            "argmax_signed_xyz_difference_m": [
+              0.0,
+              2.682209014892578e-07,
+              -5.494803190231323e-07
+            ],
+            "median_vertex_l2_m": 1.5088979197990524e-08,
+            "min_vertex_l2_m": 0.0,
+            "mean_translation_xyz_m": [
+              -6.556510925292969e-09,
+              3.871973603963852e-08,
+              -2.8852373361587525e-08
+            ],
+            "mean_translation_norm_m": 4.8730537069574905e-08,
+            "translation_removed_coordinate_rmse_m": 1.0059268778558036e-07,
+            "translation_removed_fraction": 0.9630419421458237,
+            "ee_max_abs_m": 0.0,
+            "motor_qpos_max_abs_rad": 0.0,
+            "live_winding_index": [
+              0,
+              0,
+              0
+            ],
+            "frozen_winding_index": [
+              0,
+              0,
+              0
+            ],
+            "winding_index_exact": true
+          }
+        ],
+        "fresh_process_repeat_spread": {
+          "pair_count": 3,
+          "max_coordinate_rmse_m": 8.63352544204281e-06,
+          "max_rope_max_abs_coordinate_m": 4.7594308853149414e-05,
+          "max_max_vertex_l2_m": 5.127342207619131e-05
+        }
+      },
+      "m1_isolated_collector": {
+        "repeat_count": 3,
+        "all_t0_alignment_pass": true,
+        "all_original_pb3_alignment_pass": true,
+        "original_pb3_alignment_pass_count": 3,
+        "median_coordinate_rmse_m": 8.12030605623171e-06,
+        "median_rope_max_abs_coordinate_m": 4.723668098449707e-05,
+        "median_max_vertex_l2_m": 5.169861932078156e-05,
+        "median_translation_removed_coordinate_rmse_m": 7.846655553374782e-06,
+        "target_alignments": [
+          {
+            "frozen_pb3_alignment_pass": true,
+            "coordinate_rmse_m": 8.12030605623171e-06,
+            "rope_max_abs_coordinate_m": 4.723668098449707e-05,
+            "max_vertex_l2_m": 5.169861932078156e-05,
+            "argmax_vertex": 28,
+            "argmax_signed_xyz_difference_m": [
+              -4.723668098449707e-05,
+              -8.299946784973145e-06,
+              1.9301660358905792e-05
+            ],
+            "median_vertex_l2_m": 6.305023436209816e-06,
+            "min_vertex_l2_m": 1.2111491119123146e-07,
+            "mean_translation_xyz_m": [
+              -3.083348274230957e-06,
+              7.797940634191036e-07,
+              1.7300248146057128e-06
+            ],
+            "mean_translation_norm_m": 3.620511182236319e-06,
+            "translation_removed_coordinate_rmse_m": 7.846655553374782e-06,
+            "translation_removed_fraction": 0.9663004693466053,
+            "ee_max_abs_m": 2.682209014892578e-07,
+            "motor_qpos_max_abs_rad": 2.384185791015625e-07,
+            "live_winding_index": [
+              0,
+              0,
+              0
+            ],
+            "frozen_winding_index": [
+              0,
+              0,
+              0
+            ],
+            "winding_index_exact": true
+          },
+          {
+            "frozen_pb3_alignment_pass": true,
+            "coordinate_rmse_m": 8.12030605623171e-06,
+            "rope_max_abs_coordinate_m": 4.723668098449707e-05,
+            "max_vertex_l2_m": 5.169861932078156e-05,
+            "argmax_vertex": 28,
+            "argmax_signed_xyz_difference_m": [
+              -4.723668098449707e-05,
+              -8.299946784973145e-06,
+              1.9301660358905792e-05
+            ],
+            "median_vertex_l2_m": 6.305023436209816e-06,
+            "min_vertex_l2_m": 1.2111491119123146e-07,
+            "mean_translation_xyz_m": [
+              -3.083348274230957e-06,
+              7.797940634191036e-07,
+              1.7300248146057128e-06
+            ],
+            "mean_translation_norm_m": 3.620511182236319e-06,
+            "translation_removed_coordinate_rmse_m": 7.846655553374782e-06,
+            "translation_removed_fraction": 0.9663004693466053,
+            "ee_max_abs_m": 2.682209014892578e-07,
+            "motor_qpos_max_abs_rad": 2.384185791015625e-07,
+            "live_winding_index": [
+              0,
+              0,
+              0
+            ],
+            "frozen_winding_index": [
+              0,
+              0,
+              0
+            ],
+            "winding_index_exact": true
+          },
+          {
+            "frozen_pb3_alignment_pass": true,
+            "coordinate_rmse_m": 8.12030605623171e-06,
+            "rope_max_abs_coordinate_m": 4.723668098449707e-05,
+            "max_vertex_l2_m": 5.169861932078156e-05,
+            "argmax_vertex": 28,
+            "argmax_signed_xyz_difference_m": [
+              -4.723668098449707e-05,
+              -8.299946784973145e-06,
+              1.9301660358905792e-05
+            ],
+            "median_vertex_l2_m": 6.305023436209816e-06,
+            "min_vertex_l2_m": 1.2111491119123146e-07,
+            "mean_translation_xyz_m": [
+              -3.083348274230957e-06,
+              7.797940634191036e-07,
+              1.7300248146057128e-06
+            ],
+            "mean_translation_norm_m": 3.620511182236319e-06,
+            "translation_removed_coordinate_rmse_m": 7.846655553374782e-06,
+            "translation_removed_fraction": 0.9663004693466053,
+            "ee_max_abs_m": 2.682209014892578e-07,
+            "motor_qpos_max_abs_rad": 2.384185791015625e-07,
+            "live_winding_index": [
+              0,
+              0,
+              0
+            ],
+            "frozen_winding_index": [
+              0,
+              0,
+              0
+            ],
+            "winding_index_exact": true
+          }
+        ],
+        "fresh_process_repeat_spread": {
+          "pair_count": 3,
+          "max_coordinate_rmse_m": 0.0,
+          "max_rope_max_abs_coordinate_m": 0.0,
+          "max_max_vertex_l2_m": 0.0
+        }
+      },
+      "m2_build_state_restore": {
+        "repeat_count": 1,
+        "all_t0_alignment_pass": true,
+        "all_original_pb3_alignment_pass": true,
+        "original_pb3_alignment_pass_count": 1,
+        "median_coordinate_rmse_m": 8.12030605623171e-06,
+        "median_rope_max_abs_coordinate_m": 4.723668098449707e-05,
+        "median_max_vertex_l2_m": 5.169861932078156e-05,
+        "median_translation_removed_coordinate_rmse_m": 7.846655553374782e-06,
+        "target_alignments": [
+          {
+            "frozen_pb3_alignment_pass": true,
+            "coordinate_rmse_m": 8.12030605623171e-06,
+            "rope_max_abs_coordinate_m": 4.723668098449707e-05,
+            "max_vertex_l2_m": 5.169861932078156e-05,
+            "argmax_vertex": 28,
+            "argmax_signed_xyz_difference_m": [
+              -4.723668098449707e-05,
+              -8.299946784973145e-06,
+              1.9301660358905792e-05
+            ],
+            "median_vertex_l2_m": 6.305023436209816e-06,
+            "min_vertex_l2_m": 1.2111491119123146e-07,
+            "mean_translation_xyz_m": [
+              -3.083348274230957e-06,
+              7.797940634191036e-07,
+              1.7300248146057128e-06
+            ],
+            "mean_translation_norm_m": 3.620511182236319e-06,
+            "translation_removed_coordinate_rmse_m": 7.846655553374782e-06,
+            "translation_removed_fraction": 0.9663004693466053,
+            "ee_max_abs_m": 2.682209014892578e-07,
+            "motor_qpos_max_abs_rad": 2.384185791015625e-07,
+            "live_winding_index": [
+              0,
+              0,
+              0
+            ],
+            "frozen_winding_index": [
+              0,
+              0,
+              0
+            ],
+            "winding_index_exact": true
+          }
+        ],
+        "fresh_process_repeat_spread": {
+          "pair_count": 0,
+          "max_coordinate_rmse_m": null,
+          "max_rope_max_abs_coordinate_m": null,
+          "max_max_vertex_l2_m": null
+        }
+      }
+    },
+    "decision": {
+      "t0_reconstruction_valid_for_m0_m1": true,
+      "history_dependence_confirmed": false,
+      "m0_over_m1_coordinate_rmse_ratio": 0.9711481810814234,
+      "m0_over_m1_rope_max_abs_ratio": 0.98801261829653,
+      "material_reduction_ratio_limit": 0.5,
+      "m0_all_original_pb3_alignment_pass": true
+    },
+    "next_action": "Proceed to PB3-R2 independent replay reconstruction-floor calibration using official-valid non-shortlist PB2-C states. Do not change the frozen PB3 50 um alignment threshold before that calibration."
+  }
+}
