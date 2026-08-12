@@ -1,0 +1,95 @@
+{
+  "phase_name": "pb3-dlolab-wrapping-snapshot-causal-bifurcation",
+  "verdict": "PB3_TARGETED_REPLAY_ALIGNMENT_FAILED",
+  "repository": {
+    "starting_main_sha": "bc2baa7aef5e0e0f593ef26d4a2c11debb83236b",
+    "ending_main_sha": "edaf3ee4c63d923ff6366302b8ed822b40053b9f",
+    "dlolab_gitlink": "c5026a9416b03c6bc5186eba13cd4ffd4c0e7796"
+  },
+  "scientific": {
+    "verdict": "PB3_TARGETED_REPLAY_ALIGNMENT_FAILED",
+    "shortlist_pair_count": 10,
+    "shortlist_unique_rollout_count": 20,
+    "shortlist_selection": {
+      "future_information_used": false,
+      "rule": "Scan PB2-C top_candidates in frozen rank order; accept a candidate iff neither rollout has appeared in a previously accepted pair; stop after 10 accepted pairs.",
+      "max_rollout_use_count": 1,
+      "target_pair_count": 10,
+      "observed_time_indices": [
+        13,
+        20
+      ]
+    },
+    "shortlist_validation": {
+      "rank_order_scan_verified": true,
+      "derived_source_ranks": [
+        1,
+        4,
+        5,
+        6,
+        9,
+        10,
+        15,
+        19,
+        33,
+        37
+      ],
+      "actual_source_ranks": [
+        1,
+        4,
+        5,
+        6,
+        9,
+        10,
+        15,
+        19,
+        33,
+        37
+      ],
+      "target_pair_count": 10,
+      "unique_rollout_count": 20
+    },
+    "horizons": [
+      1,
+      2,
+      5,
+      10,
+      20,
+      40
+    ],
+    "snapshot_repeat_count": 3,
+    "gate4": {
+      "primary_metric": "ordered_rope_displacement_field_rmse",
+      "absolute_effect_min_m": 0.001,
+      "absolute_effect_rationale": "0.1 * published rope radius (0.01 m)",
+      "repeat_floor_multiplier": 5.0,
+      "pair_pass_rule": "At any sampled horizon, minimum A-vs-B cross-repeat displacement divergence >= max(1 mm, 5 * repeat_floor).",
+      "minimum_passing_pairs": 3,
+      "minimum_passing_winding_strata": 2,
+      "pb2c_discovery_thresholds_reused": false
+    },
+    "alignment_records": [],
+    "audit": null,
+    "blocked_details": {
+      "failed_alignment": {
+        "rollout_id": 46,
+        "time_index": 13,
+        "valid": false,
+        "rope_max_abs_m": 5.182623863220215e-05,
+        "ee_max_abs_m": 3.8743019104003906e-07,
+        "motor_qpos_max_abs_rad": 3.5762786865234375e-07,
+        "live_winding_index": [
+          0,
+          0,
+          0
+        ],
+        "frozen_winding_index": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    "trajectories_path": null
+  }
+}
