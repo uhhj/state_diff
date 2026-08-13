@@ -1,4 +1,5 @@
 import json
+import inspect
 from pathlib import Path
 
 import pytest
@@ -8,6 +9,7 @@ from scripts.experiment3.dlolab_wrapping.snapshot_causal_audit_pb3 import (
     PB3Blocked,
     enforce_live_pair_barrier,
     enforce_targeted_alignment_barrier,
+    run_snapshot_replays_r3,
 )
 
 
@@ -97,3 +99,16 @@ def test_resume_rule_forbids_pair_drop_and_replacement():
     assert pair_rule["all_10_formal_pairs_required"] is True
     assert pair_rule["allow_pair_drop"] is False
     assert pair_rule["allow_pair_replacement"] is False
+
+
+def test_branch_snapshot_creation_is_after_both_global_barriers():
+    source = inspect.getsource(run_snapshot_replays_r3)
+    targeted_barrier = source.index(
+        "enforce_targeted_alignment_barrier(alignment_records)"
+    )
+    pair_barrier = source.index(
+        "enforce_live_pair_barrier(pair_revalidation_records)"
+    )
+    branch_snapshot = source.index("snapshot = env.scene.get_state()")
+
+    assert targeted_barrier < pair_barrier < branch_snapshot

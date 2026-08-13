@@ -1337,8 +1337,6 @@ def run_snapshot_replays_r3(
         alignment_records = []
     if pair_revalidation_records is None:
         pair_revalidation_records = []
-    snapshot_records = {}
-
     groups_by_batch = {}
     for (batch_index, time_index), members in groups.items():
         groups_by_batch.setdefault(batch_index, {})[time_index] = members
@@ -1364,12 +1362,8 @@ def run_snapshot_replays_r3(
             }
             max_target = max(target_times)
             sampled_batches = {}
-            snapshots = {}
-
             if 0 in history_times:
                 sampled_batches[0] = sample_env(env)
-            if 0 in target_times:
-                snapshots[0] = env.scene.get_state()
 
             for step_index in range(1, max_target + 1):
                 _dual_arm_command(env, qpos[step_index])
@@ -1377,18 +1371,10 @@ def run_snapshot_replays_r3(
                     env.scene.step()
                 if step_index in history_times:
                     sampled_batches[step_index] = sample_env(env)
-                if step_index in target_times:
-                    snapshots[step_index] = env.scene.get_state()
 
             for time_index in target_times:
                 members = batch_groups[time_index]
                 reference_batch = sampled_batches[time_index]
-                snapshot_records[(batch_index, time_index)] = {
-                    "snapshot": snapshots[time_index],
-                    "reference_batch": reference_batch,
-                    "members": members,
-                }
-
                 for key, row in members:
                     rollout_id = int(row["rollout_id"])
                     frozen_index = frozen_lookup[rollout_id]
@@ -1459,100 +1445,133 @@ def run_snapshot_replays_r3(
 
         enforce_live_pair_barrier(pair_revalidation_records)
 
-        # Phase 3: only after both complete pre-future barriers pass may any
-        # snapshot be restored or any future suffix command be issued.
-        for batch_time in sorted(snapshot_records):
-            time_index = int(batch_time[1])
-            record = snapshot_records[batch_time]
-            snapshot = record["snapshot"]
-            reference_batch = record["reference_batch"]
-            members = record["members"]
+        # Phase 3: only after both complete pre-future barriers pass do we
+        # replay the frozen recipe again to each branch time, create the
+        # snapshot, and execute its identical future suffix.  This second
+        # deterministic pass avoids creating or retaining any snapshot before
+        # the global 20-state/10-pair admission decision.
+        for batch_index in sorted(groups_by_batch):
+            batch_groups = groups_by_batch[batch_index]
+            env.scene.reset(state=build_state)
+            seed = int(config["replay"]["base_seed"]) + int(batch_index)
+            seed_everything(seed)
+            env.use_qpos = True
+            env.reset()
 
-            for repeat_index in range(repeat_count):
-                env.scene.reset(state=snapshot)
-                restored_batch = sample_env(env)
-                repeat_store = {}
-                suffix_valid = {key: True for key, _ in members}
+            target_times = sorted(int(v) for v in batch_groups)
+            max_target = max(target_times)
+            for step_index in range(1, max_target + 1):
+                _dual_arm_command(env, qpos[step_index])
+                for _ in range(n_intervals):
+                    env.scene.step()
+                if step_index not in batch_groups:
+                    continue
 
-                for key, row in members:
-                    env_index = int(row["env_index"])
-                    reference = extract_env_sample(reference_batch, env_index)
-                    restored = extract_env_sample(restored_batch, env_index)
-                    restore_error = float(
-                        np.max(
-                            np.abs(
-                                restored["rope_xyz"] - reference["rope_xyz"]
-                            )
-                        )
-                    )
-                    side_output[key]["snapshot_restore_errors_m"].append(
-                        restore_error
-                    )
-                    if restore_error > float(
-                        rule["snapshot_restore_alignment"]["threshold_m"]
-                    ):
-                        raise PB3Blocked(
-                            "PB3_SNAPSHOT_RESTORE_ALIGNMENT_FAILED",
-                            {
-                                "rollout_id": int(row["rollout_id"]),
-                                "time_index": time_index,
-                                "repeat_index": int(repeat_index),
-                                "rope_max_abs_m": restore_error,
-                            },
-                        )
-                    repeat_store[key] = {0: restored}
+                time_index = int(step_index)
+                members = batch_groups[time_index]
+                reference_batch = sample_env(env)
+                snapshot = env.scene.get_state()
 
-                for relative_step in range(1, max_horizon + 1):
-                    command_index = time_index + relative_step
-                    if command_index >= len(qpos):
-                        raise RuntimeError(
-                            "PB3 horizon exceeds best_qpos length: "
-                            f"{command_index}"
-                        )
-                    _dual_arm_command(env, qpos[command_index])
-                    for _ in range(n_intervals):
-                        env.scene.step()
+                for repeat_index in range(repeat_count):
+                    env.scene.reset(state=snapshot)
+                    restored_batch = sample_env(env)
+                    repeat_store = {}
+                    suffix_valid = {key: True for key, _ in members}
 
-                    rope_now = np.asarray(env.rope.get_all_verts())
-                    dist_now = to_numpy(
-                        env.rope.get_geodesic_distance(
-                            env.control_idx[0],
-                            env.control_idx[1],
-                        )
-                    ).reshape(env.n_envs)
-                    stretch_ratio = dist_now / to_numpy(
-                        env.control_dist_init
-                    ).reshape(env.n_envs)
                     for key, row in members:
                         env_index = int(row["env_index"])
-                        if (
-                            np.isnan(rope_now[env_index]).any()
-                            or stretch_ratio[env_index]
-                            > float(
-                                config["replay"]["official_stretch_ratio_limit"]
-                            )
-                        ):
-                            suffix_valid[key] = False
-
-                    if relative_step in horizons:
-                        sampled = sample_env(env)
-                        for key, row in members:
-                            repeat_store[key][relative_step] = extract_env_sample(
-                                sampled,
-                                int(row["env_index"]),
-                            )
-
-                for key, row in members:
-                    if not suffix_valid[key]:
-                        raise PB3Blocked(
-                            "PB3_REPEAT_SUFFIX_INVALID",
-                            {
-                                "rollout_id": int(row["rollout_id"]),
-                                "time_index": time_index,
-                                "repeat_index": int(repeat_index),
-                            },
+                        reference = extract_env_sample(
+                            reference_batch,
+                            env_index,
                         )
-                    side_output[key]["repeats"].append(repeat_store[key])
+                        restored = extract_env_sample(
+                            restored_batch,
+                            env_index,
+                        )
+                        restore_error = float(
+                            np.max(
+                                np.abs(
+                                    restored["rope_xyz"]
+                                    - reference["rope_xyz"]
+                                )
+                            )
+                        )
+                        side_output[key]["snapshot_restore_errors_m"].append(
+                            restore_error
+                        )
+                        if restore_error > float(
+                            rule["snapshot_restore_alignment"]["threshold_m"]
+                        ):
+                            raise PB3Blocked(
+                                "PB3_SNAPSHOT_RESTORE_ALIGNMENT_FAILED",
+                                {
+                                    "rollout_id": int(row["rollout_id"]),
+                                    "time_index": time_index,
+                                    "repeat_index": int(repeat_index),
+                                    "rope_max_abs_m": restore_error,
+                                },
+                            )
+                        repeat_store[key] = {0: restored}
+
+                    for relative_step in range(1, max_horizon + 1):
+                        command_index = time_index + relative_step
+                        if command_index >= len(qpos):
+                            raise RuntimeError(
+                                "PB3 horizon exceeds best_qpos length: "
+                                f"{command_index}"
+                            )
+                        _dual_arm_command(env, qpos[command_index])
+                        for _ in range(n_intervals):
+                            env.scene.step()
+
+                        rope_now = np.asarray(env.rope.get_all_verts())
+                        dist_now = to_numpy(
+                            env.rope.get_geodesic_distance(
+                                env.control_idx[0],
+                                env.control_idx[1],
+                            )
+                        ).reshape(env.n_envs)
+                        stretch_ratio = dist_now / to_numpy(
+                            env.control_dist_init
+                        ).reshape(env.n_envs)
+                        for key, row in members:
+                            env_index = int(row["env_index"])
+                            if (
+                                np.isnan(rope_now[env_index]).any()
+                                or stretch_ratio[env_index]
+                                > float(
+                                    config["replay"][
+                                        "official_stretch_ratio_limit"
+                                    ]
+                                )
+                            ):
+                                suffix_valid[key] = False
+
+                        if relative_step in horizons:
+                            sampled = sample_env(env)
+                            for key, row in members:
+                                repeat_store[key][relative_step] = (
+                                    extract_env_sample(
+                                        sampled,
+                                        int(row["env_index"]),
+                                    )
+                                )
+
+                    for key, row in members:
+                        if not suffix_valid[key]:
+                            raise PB3Blocked(
+                                "PB3_REPEAT_SUFFIX_INVALID",
+                                {
+                                    "rollout_id": int(row["rollout_id"]),
+                                    "time_index": time_index,
+                                    "repeat_index": int(repeat_index),
+                                },
+                            )
+                        side_output[key]["repeats"].append(repeat_store[key])
+
+                # Resume the canonical branch-history trajectory before
+                # advancing to a later branch time in the same batch.
+                env.scene.reset(state=snapshot)
 
     finally:
         env.stop()
