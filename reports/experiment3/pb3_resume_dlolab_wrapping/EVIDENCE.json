@@ -1,0 +1,602 @@
+{
+  "phase_name": "pb3-resume-dlolab-wrapping-snapshot-causal-bifurcation",
+  "verdict": "PB3_R3_LIVE_BRANCH_ALIGNMENT_FAILED",
+  "repository": {
+    "starting_main_sha": "d83640b0e9ce8cd3c2fe366a2acb3e2cf535fc69",
+    "ending_main_sha": "f18d7b318493bbede01f21c2893d78e4858d22d8",
+    "dlolab_gitlink": "c5026a9416b03c6bc5186eba13cd4ffd4c0e7796"
+  },
+  "scientific": {
+    "verdict": "PB3_R3_LIVE_BRANCH_ALIGNMENT_FAILED",
+    "shortlist_pair_count": 10,
+    "shortlist_unique_rollout_count": 20,
+    "shortlist_selection": {
+      "future_information_used": false,
+      "rule": "Scan PB2-C top_candidates in frozen rank order; accept a candidate iff neither rollout has appeared in a previously accepted pair; stop after 10 accepted pairs.",
+      "max_rollout_use_count": 1,
+      "target_pair_count": 10,
+      "observed_time_indices": [
+        13,
+        20
+      ]
+    },
+    "shortlist_validation": {
+      "rank_order_scan_verified": true,
+      "derived_source_ranks": [
+        1,
+        4,
+        5,
+        6,
+        9,
+        10,
+        15,
+        19,
+        33,
+        37
+      ],
+      "actual_source_ranks": [
+        1,
+        4,
+        5,
+        6,
+        9,
+        10,
+        15,
+        19,
+        33,
+        37
+      ],
+      "target_pair_count": 10,
+      "unique_rollout_count": 20
+    },
+    "horizons": [
+      1,
+      2,
+      5,
+      10,
+      20,
+      40
+    ],
+    "snapshot_repeat_count": 3,
+    "gate4": {
+      "primary_metric": "ordered_rope_displacement_field_rmse",
+      "absolute_effect_min_m": 0.001,
+      "absolute_effect_rationale": "0.1 * published rope radius (0.01 m)",
+      "repeat_floor_multiplier": 5.0,
+      "pair_pass_rule": "At any sampled horizon, minimum A-vs-B cross-repeat displacement divergence >= max(1 mm, 5 * repeat_floor).",
+      "minimum_passing_pairs": 3,
+      "minimum_passing_winding_strata": 2,
+      "pb2c_discovery_thresholds_reused": false
+    },
+    "alignment_records": [
+      {
+        "rollout_id": 24,
+        "time_index": 13,
+        "valid": true,
+        "rope_coordinate_rmse_m": 0.0,
+        "rope_max_abs_coordinate_m_diagnostic": 0.0,
+        "ee_max_abs_m": 0.0,
+        "motor_qpos_max_abs_rad": 0.0,
+        "live_winding_index": [
+          0,
+          0,
+          0
+        ],
+        "frozen_winding_index": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "rollout_id": 5,
+        "time_index": 20,
+        "valid": true,
+        "rope_coordinate_rmse_m": 0.0,
+        "rope_max_abs_coordinate_m_diagnostic": 0.0,
+        "ee_max_abs_m": 0.0,
+        "motor_qpos_max_abs_rad": 0.0,
+        "live_winding_index": [
+          1,
+          1,
+          0
+        ],
+        "frozen_winding_index": [
+          1,
+          1,
+          0
+        ]
+      },
+      {
+        "rollout_id": 10,
+        "time_index": 20,
+        "valid": true,
+        "rope_coordinate_rmse_m": 3.1874279846982425e-09,
+        "rope_max_abs_coordinate_m_diagnostic": 2.9802322387695312e-08,
+        "ee_max_abs_m": 7.450580596923828e-09,
+        "motor_qpos_max_abs_rad": 0.0,
+        "live_winding_index": [
+          1,
+          1,
+          0
+        ],
+        "frozen_winding_index": [
+          1,
+          1,
+          0
+        ]
+      },
+      {
+        "rollout_id": 6,
+        "time_index": 20,
+        "valid": true,
+        "rope_coordinate_rmse_m": 6.552545431610728e-09,
+        "rope_max_abs_coordinate_m_diagnostic": 5.960464477539063e-08,
+        "ee_max_abs_m": 2.9802322387695312e-08,
+        "motor_qpos_max_abs_rad": 0.0,
+        "live_winding_index": [
+          0,
+          1,
+          0
+        ],
+        "frozen_winding_index": [
+          0,
+          1,
+          0
+        ]
+      },
+      {
+        "rollout_id": 2,
+        "time_index": 20,
+        "valid": true,
+        "rope_coordinate_rmse_m": 9.047500429547135e-09,
+        "rope_max_abs_coordinate_m_diagnostic": 2.9802322387695312e-08,
+        "ee_max_abs_m": 2.2351741790771484e-08,
+        "motor_qpos_max_abs_rad": 1.1920928955078125e-07,
+        "live_winding_index": [
+          1,
+          1,
+          0
+        ],
+        "frozen_winding_index": [
+          1,
+          1,
+          0
+        ]
+      },
+      {
+        "rollout_id": 18,
+        "time_index": 20,
+        "valid": true,
+        "rope_coordinate_rmse_m": 7.273265593934593e-09,
+        "rope_max_abs_coordinate_m_diagnostic": 2.9802322387695312e-08,
+        "ee_max_abs_m": 1.4901161193847656e-08,
+        "motor_qpos_max_abs_rad": 1.1920928955078125e-07,
+        "live_winding_index": [
+          0,
+          1,
+          0
+        ],
+        "frozen_winding_index": [
+          0,
+          1,
+          0
+        ]
+      },
+      {
+        "rollout_id": 36,
+        "time_index": 13,
+        "valid": true,
+        "rope_coordinate_rmse_m": 3.76566101467699e-06,
+        "rope_max_abs_coordinate_m_diagnostic": 1.9848346710205078e-05,
+        "ee_max_abs_m": 8.195638656616211e-08,
+        "motor_qpos_max_abs_rad": 1.1920928955078125e-07,
+        "live_winding_index": [
+          0,
+          1,
+          0
+        ],
+        "frozen_winding_index": [
+          0,
+          1,
+          0
+        ]
+      },
+      {
+        "rollout_id": 46,
+        "time_index": 13,
+        "valid": true,
+        "rope_coordinate_rmse_m": 7.821969990786864e-06,
+        "rope_max_abs_coordinate_m_diagnostic": 4.5299530029296875e-05,
+        "ee_max_abs_m": 2.682209014892578e-07,
+        "motor_qpos_max_abs_rad": 2.384185791015625e-07,
+        "live_winding_index": [
+          0,
+          0,
+          0
+        ],
+        "frozen_winding_index": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "rollout_id": 39,
+        "time_index": 20,
+        "valid": false,
+        "rope_coordinate_rmse_m": 0.00031341783035073774,
+        "rope_max_abs_coordinate_m_diagnostic": 0.0015099570155143738,
+        "ee_max_abs_m": 1.8775463104248047e-06,
+        "motor_qpos_max_abs_rad": 2.1457672119140625e-06,
+        "live_winding_index": [
+          1,
+          1,
+          0
+        ],
+        "frozen_winding_index": [
+          1,
+          1,
+          0
+        ]
+      },
+      {
+        "rollout_id": 61,
+        "time_index": 20,
+        "valid": true,
+        "rope_coordinate_rmse_m": 3.2437700305241044e-05,
+        "rope_max_abs_coordinate_m_diagnostic": 0.00016242265701293945,
+        "ee_max_abs_m": 7.003545761108398e-07,
+        "motor_qpos_max_abs_rad": 1.3113021850585938e-06,
+        "live_winding_index": [
+          0,
+          1,
+          0
+        ],
+        "frozen_winding_index": [
+          0,
+          1,
+          0
+        ]
+      },
+      {
+        "rollout_id": 55,
+        "time_index": 20,
+        "valid": false,
+        "rope_coordinate_rmse_m": 0.0008244199725039843,
+        "rope_max_abs_coordinate_m_diagnostic": 0.004064053297042847,
+        "ee_max_abs_m": 6.020069122314453e-06,
+        "motor_qpos_max_abs_rad": 8.225440979003906e-06,
+        "live_winding_index": [
+          0,
+          1,
+          0
+        ],
+        "frozen_winding_index": [
+          1,
+          1,
+          0
+        ]
+      },
+      {
+        "rollout_id": 69,
+        "time_index": 13,
+        "valid": true,
+        "rope_coordinate_rmse_m": 2.185954217062915e-06,
+        "rope_max_abs_coordinate_m_diagnostic": 6.198883056640625e-06,
+        "ee_max_abs_m": 9.685754776000977e-08,
+        "motor_qpos_max_abs_rad": 2.384185791015625e-07,
+        "live_winding_index": [
+          0,
+          0,
+          0
+        ],
+        "frozen_winding_index": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "rollout_id": 83,
+        "time_index": 13,
+        "valid": true,
+        "rope_coordinate_rmse_m": 7.566395798643788e-06,
+        "rope_max_abs_coordinate_m_diagnostic": 4.5925378799438477e-05,
+        "ee_max_abs_m": 5.960464477539063e-08,
+        "motor_qpos_max_abs_rad": 2.384185791015625e-07,
+        "live_winding_index": [
+          0,
+          1,
+          0
+        ],
+        "frozen_winding_index": [
+          0,
+          1,
+          0
+        ]
+      },
+      {
+        "rollout_id": 73,
+        "time_index": 20,
+        "valid": true,
+        "rope_coordinate_rmse_m": 4.721181093370891e-05,
+        "rope_max_abs_coordinate_m_diagnostic": 0.00027593784034252167,
+        "ee_max_abs_m": 9.201467037200928e-07,
+        "motor_qpos_max_abs_rad": 1.7881393432617188e-06,
+        "live_winding_index": [
+          0,
+          1,
+          0
+        ],
+        "frozen_winding_index": [
+          0,
+          1,
+          0
+        ]
+      },
+      {
+        "rollout_id": 72,
+        "time_index": 20,
+        "valid": true,
+        "rope_coordinate_rmse_m": 2.8303184399010265e-05,
+        "rope_max_abs_coordinate_m_diagnostic": 0.00015635043382644653,
+        "ee_max_abs_m": 6.034970283508301e-07,
+        "motor_qpos_max_abs_rad": 1.6689300537109375e-06,
+        "live_winding_index": [
+          1,
+          1,
+          0
+        ],
+        "frozen_winding_index": [
+          1,
+          1,
+          0
+        ]
+      },
+      {
+        "rollout_id": 78,
+        "time_index": 20,
+        "valid": true,
+        "rope_coordinate_rmse_m": 2.3456388957449687e-05,
+        "rope_max_abs_coordinate_m_diagnostic": 0.0001518726348876953,
+        "ee_max_abs_m": 7.040798664093018e-07,
+        "motor_qpos_max_abs_rad": 1.9073486328125e-06,
+        "live_winding_index": [
+          0,
+          1,
+          0
+        ],
+        "frozen_winding_index": [
+          0,
+          1,
+          0
+        ]
+      },
+      {
+        "rollout_id": 109,
+        "time_index": 13,
+        "valid": true,
+        "rope_coordinate_rmse_m": 4.6130324627847065e-06,
+        "rope_max_abs_coordinate_m_diagnostic": 2.1494925022125244e-05,
+        "ee_max_abs_m": 1.341104507446289e-07,
+        "motor_qpos_max_abs_rad": 2.384185791015625e-07,
+        "live_winding_index": [
+          0,
+          1,
+          0
+        ],
+        "frozen_winding_index": [
+          0,
+          1,
+          0
+        ]
+      },
+      {
+        "rollout_id": 105,
+        "time_index": 20,
+        "valid": true,
+        "rope_coordinate_rmse_m": 5.113330077390593e-05,
+        "rope_max_abs_coordinate_m_diagnostic": 0.0003154277801513672,
+        "ee_max_abs_m": 6.295740604400635e-07,
+        "motor_qpos_max_abs_rad": 1.6689300537109375e-06,
+        "live_winding_index": [
+          0,
+          1,
+          0
+        ],
+        "frozen_winding_index": [
+          0,
+          1,
+          0
+        ]
+      },
+      {
+        "rollout_id": 97,
+        "time_index": 20,
+        "valid": false,
+        "rope_coordinate_rmse_m": 0.0001576423955645504,
+        "rope_max_abs_coordinate_m_diagnostic": 0.0008927993476390839,
+        "ee_max_abs_m": 1.296401023864746e-06,
+        "motor_qpos_max_abs_rad": 4.172325134277344e-06,
+        "live_winding_index": [
+          0,
+          1,
+          0
+        ],
+        "frozen_winding_index": [
+          0,
+          1,
+          0
+        ]
+      },
+      {
+        "rollout_id": 124,
+        "time_index": 20,
+        "valid": true,
+        "rope_coordinate_rmse_m": 1.1200008170704013e-05,
+        "rope_max_abs_coordinate_m_diagnostic": 7.358193397521973e-05,
+        "ee_max_abs_m": 7.189810276031494e-07,
+        "motor_qpos_max_abs_rad": 1.7881393432617188e-06,
+        "live_winding_index": [
+          1,
+          1,
+          0
+        ],
+        "frozen_winding_index": [
+          1,
+          1,
+          0
+        ]
+      }
+    ],
+    "live_pair_revalidation_records": [],
+    "pre_future_barrier": {
+      "all_20_targeted_replay_alignments_valid": false,
+      "all_10_live_pairs_valid": false,
+      "valid": false,
+      "future_suffix_executed": false
+    },
+    "pb3r3_alignment_rule": {
+      "phase": "PB3-R3",
+      "verdict": "PB3R3_ALIGNMENT_RULE_PREREGISTERED",
+      "source": {
+        "pb3r2_verdict": "PB3R2_REPLAY_FLOOR_CALIBRATED",
+        "independent_calibration_states": 20,
+        "fresh_repeats_per_state": 3,
+        "formal_pb3_outcomes_used_for_threshold": false
+      },
+      "targeted_replay_engineering_alignment": {
+        "rope": {
+          "formal_metric": "coordinate_rmse_m",
+          "definition": "sqrt(mean((live_rope_xyz - frozen_rope_xyz)^2)) over all material-vertex XYZ coordinates",
+          "threshold_m": 6.194575673578751e-05,
+          "threshold_derivation": "max over 20 independent PB3-R2 calibration states of median over 3 fresh-process frozen-reconstruction coordinate_rmse_m values",
+          "arbitrary_multiplier": null,
+          "rope_max_abs_coordinate_m_role": "diagnostic_only",
+          "state_level_governing_calibration_id": "pb3r2_b1_s1",
+          "state_level_governing_rollout_id": 40,
+          "state_level_governing_time_index": 13
+        },
+        "ee_max_abs_m": 5e-05,
+        "motor_qpos_max_abs_rad": 5e-05,
+        "require_live_winding_index_equal_frozen": true,
+        "all_20_formal_branch_states_required": true
+      },
+      "snapshot_restore_alignment": {
+        "metric": "rope_max_abs_coordinate_m",
+        "threshold_m": 5e-05,
+        "status": "unchanged_from_frozen_pb3"
+      },
+      "live_pair_revalidation": {
+        "history_samples": 3,
+        "partial_rope": {
+          "occlusion_radius_m": 0.05,
+          "max_visible_history_chamfer_m": 0.01,
+          "require_nonempty_visible_rope_each_frame": true
+        },
+        "robot": {
+          "max_dual_ee_position_history_mean_m": 0.01,
+          "max_dual_ee_quaternion_geodesic_history_mean_rad": 0.08726646259971647,
+          "max_dual_motor_qpos_history_rms_rad": 0.05
+        },
+        "hidden_state": {
+          "descriptor": "rounded_signed_task_native_winding_index",
+          "require_live_index_vector_different": true
+        },
+        "past_action": {
+          "require_same_time": true,
+          "require_common_action_history_equal": true
+        },
+        "all_10_formal_pairs_required": true,
+        "allow_pair_drop": false,
+        "allow_pair_replacement": false,
+        "blocked_verdict": "PB3_R3_LIVE_BRANCH_ALIGNMENT_FAILED"
+      },
+      "gate4": {
+        "status": "unchanged",
+        "absolute_effect_min_m": 0.001,
+        "repeat_floor_multiplier": 5.0,
+        "minimum_passing_pairs": 3,
+        "minimum_passing_winding_strata": 2
+      },
+      "execution_order_for_future_pb3_resume": [
+        "replay all required formal branch histories to branch time",
+        "validate all 20 targeted-replay engineering alignments",
+        "revalidate all 10 live PB2-C pair semantics using 3-frame histories",
+        "if any branch/pair fails, stop with PB3_R3_LIVE_BRANCH_ALIGNMENT_FAILED",
+        "only if all pass, execute snapshot restore and future suffix",
+        "apply the unchanged formal Gate 4"
+      ],
+      "state_level_calibration_count": 20
+    },
+    "audit": null,
+    "blocked_details": {
+      "failure_component": "targeted_replay_alignment",
+      "expected_branch_state_count": 20,
+      "actual_branch_state_count": 20,
+      "unique_branch_state_count": 20,
+      "failed_alignments": [
+        {
+          "rollout_id": 39,
+          "time_index": 20,
+          "valid": false,
+          "rope_coordinate_rmse_m": 0.00031341783035073774,
+          "rope_max_abs_coordinate_m_diagnostic": 0.0015099570155143738,
+          "ee_max_abs_m": 1.8775463104248047e-06,
+          "motor_qpos_max_abs_rad": 2.1457672119140625e-06,
+          "live_winding_index": [
+            1,
+            1,
+            0
+          ],
+          "frozen_winding_index": [
+            1,
+            1,
+            0
+          ]
+        },
+        {
+          "rollout_id": 55,
+          "time_index": 20,
+          "valid": false,
+          "rope_coordinate_rmse_m": 0.0008244199725039843,
+          "rope_max_abs_coordinate_m_diagnostic": 0.004064053297042847,
+          "ee_max_abs_m": 6.020069122314453e-06,
+          "motor_qpos_max_abs_rad": 8.225440979003906e-06,
+          "live_winding_index": [
+            0,
+            1,
+            0
+          ],
+          "frozen_winding_index": [
+            1,
+            1,
+            0
+          ]
+        },
+        {
+          "rollout_id": 97,
+          "time_index": 20,
+          "valid": false,
+          "rope_coordinate_rmse_m": 0.0001576423955645504,
+          "rope_max_abs_coordinate_m_diagnostic": 0.0008927993476390839,
+          "ee_max_abs_m": 1.296401023864746e-06,
+          "motor_qpos_max_abs_rad": 4.172325134277344e-06,
+          "live_winding_index": [
+            0,
+            1,
+            0
+          ],
+          "frozen_winding_index": [
+            0,
+            1,
+            0
+          ]
+        }
+      ],
+      "future_suffix_executed": false
+    },
+    "trajectories_path": null
+  }
+}
