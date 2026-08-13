@@ -1,0 +1,94 @@
+{
+  "phase_name": "pb3b1-dlolab-wrapping-prospective-live-cohort-discovery",
+  "source": {
+    "pb2c_config": "configs/experiment3/published_benchmark/dlolab_wrapping_pb2c.json",
+    "pb2c_candidates": "reports/experiment3/pb2c_dlolab_wrapping/CANDIDATES.json",
+    "pb2c_raw_rollouts": "/data/Experiment3/data/pb2c_dlolab_wrapping/rollouts_initial.npz",
+    "expected_pb2c_verdict": "PB2C_NATURAL_WINDING_PAIRS_FOUND",
+    "pb2c_evidence": "reports/experiment3/pb2c_dlolab_wrapping/EVIDENCE.json",
+    "historical_pb3_shortlist": "configs/experiment3/published_benchmark/dlolab_wrapping_pb3_shortlist.json",
+    "historical_pb3_resume_evidence": "reports/experiment3/pb3_resume_dlolab_wrapping/EVIDENCE.json",
+    "expected_historical_pb3_resume_verdict": "PB3_R3_LIVE_BRANCH_ALIGNMENT_FAILED",
+    "pb3r2_evidence": "reports/experiment3/pb3r2_replay_floor/EVIDENCE.json",
+    "expected_pb3r2_verdict": "PB3R2_REPLAY_FLOOR_CALIBRATED",
+    "pb3r3_rule": "configs/experiment3/published_benchmark/dlolab_wrapping_pb3r3_alignment_rule.json",
+    "expected_pb3r3_verdict": "PB3R3_ALIGNMENT_RULE_PREREGISTERED"
+  },
+  "benchmark": {
+    "task": "wrapping",
+    "revision": "c5026a9416b03c6bc5186eba13cd4ffd4c0e7796",
+    "modify_physics": false,
+    "modify_reward": false,
+    "modify_geometry": false
+  },
+  "candidate_queue": {
+    "source": "prefix-only frozen PB2-C-style candidate ranking",
+    "historical_survivor_subset_regression_check": true,
+    "exclude_historical_formal_pb3_rollouts": true,
+    "exclude_pb3r2_calibration_rollouts": true,
+    "expected_exclusion_union_size": 40,
+    "ranking_rule": [
+      "visible_rope_history_chamfer_m ascending",
+      "dual_ee_position_history_mean_m ascending",
+      "dual_ee_quaternion_geodesic_history_mean_rad ascending",
+      "dual_motor_qpos_history_rms_rad ascending",
+      "differing_post_count descending"
+    ],
+    "candidate_branch_validity": "finite selection history and no rope-NaN/stretch failure at or before candidate time; post-branch survival and final reward are ignored",
+    "full_rollout_official_valid_used_for_queue": false,
+    "final_reward_used_for_queue": false,
+    "future_information_used": false
+  },
+  "live_collection": {
+    "n_envs": 32,
+    "n_steps_sub": 10,
+    "batch_indices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "base_seed": 123,
+    "expected_wrapping_args": {
+      "pos_bound": [
+        -0.025,
+        -0.01,
+        0.025,
+        0.01
+      ]
+    },
+    "official_stretch_ratio_limit": 1.2,
+    "reuse_original_replay_batch": true,
+    "screening_validity": "finite_and_no_rope_nan_or_stretch_failure_through_branch_time",
+    "post_branch_validity_used_for_admission": false,
+    "future_divergence_used_for_admission": false,
+    "force_or_sensor_used_for_admission": false,
+    "reward_used_for_admission": false
+  },
+  "cohort": {
+    "target_pair_count": 10,
+    "max_rollout_use_count": 1,
+    "scan_rule": "Scan the frozen prefix-only PB2-C-style candidate ranking after fixed rollout exclusions. For each candidate, evaluate only the fresh live t-2:t history at its frozen candidate time. Accept iff the live pair satisfies the frozen PB2-C observation/robot/winding semantics and neither rollout was used by a previously accepted pair. Stop immediately after the first 10 accepted pairs.",
+    "minimum_live_winding_strata_to_proceed": 2,
+    "do_not_continue_scanning_to_rescue_strata_after_first_10": true,
+    "allow_pair_replacement": false,
+    "allow_pair_drop": false
+  },
+  "formal_future_gate": {
+    "not_executed_in_this_phase": true,
+    "absolute_effect_min_m": 0.001,
+    "repeat_floor_multiplier": 5.0,
+    "minimum_passing_pairs": 3,
+    "minimum_passing_winding_strata": 2
+  },
+  "outputs": {
+    "protocol": "configs/experiment3/published_benchmark/dlolab_wrapping_pb3b1_protocol.json",
+    "cohort": "configs/experiment3/published_benchmark/dlolab_wrapping_pb3b1_cohort.json",
+    "raw_root": "/data/Experiment3/data/pb3b1_prospective_live_cohort",
+    "committed_report_dir": "reports/experiment3/pb3b1_prospective_live_cohort"
+  },
+  "provenance": {
+    "starting_main_sha": "1545b89224bb55cc5b396048dba986f53de49b1e",
+    "dlolab_revision": "c5026a9416b03c6bc5186eba13cd4ffd4c0e7796"
+  }
+}

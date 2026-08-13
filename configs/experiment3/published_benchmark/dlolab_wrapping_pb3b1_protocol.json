@@ -1,0 +1,187 @@
+{
+  "phase": "PB3-B1",
+  "verdict": "PB3B1_PROTOCOL_PREREGISTERED",
+  "purpose": "Prospective live-pair cohort discovery only; no causal future suffix in this phase.",
+  "source_state": {
+    "historical_pb3_resume_verdict": "PB3_R3_LIVE_BRANCH_ALIGNMENT_FAILED",
+    "historical_pb3_future_suffix_executed": false,
+    "pb3r2_verdict": "PB3R2_REPLAY_FLOOR_CALIBRATED",
+    "pb3r3_verdict": "PB3R3_ALIGNMENT_RULE_PREREGISTERED"
+  },
+  "fixed_exclusions": {
+    "historical_formal_pb3_rollout_ids": [
+      2,
+      5,
+      6,
+      10,
+      18,
+      24,
+      36,
+      39,
+      46,
+      55,
+      61,
+      69,
+      72,
+      73,
+      78,
+      83,
+      97,
+      105,
+      109,
+      124
+    ],
+    "pb3r2_calibration_rollout_ids": [
+      0,
+      9,
+      16,
+      23,
+      31,
+      32,
+      40,
+      47,
+      56,
+      63,
+      64,
+      71,
+      81,
+      89,
+      95,
+      96,
+      103,
+      113,
+      119,
+      127
+    ],
+    "union_count": 40,
+    "union_rollout_ids": [
+      0,
+      2,
+      5,
+      6,
+      9,
+      10,
+      16,
+      18,
+      23,
+      24,
+      31,
+      32,
+      36,
+      39,
+      40,
+      46,
+      47,
+      55,
+      56,
+      61,
+      63,
+      64,
+      69,
+      71,
+      72,
+      73,
+      78,
+      81,
+      83,
+      89,
+      95,
+      96,
+      97,
+      103,
+      105,
+      109,
+      113,
+      119,
+      124,
+      127
+    ],
+    "reason": "Keep the prospective cohort independent of historical formal PB3 branch outcomes and PB3-R2 threshold-calibration states."
+  },
+  "candidate_queue": {
+    "source": "prefix-only frozen PB2-C-style candidate ranking",
+    "prefix_candidate_count": 5534,
+    "historical_survivor_subset_validation": {
+      "historical_survivor_candidate_count": 5534,
+      "historical_committed_candidate_count": 5534,
+      "historical_top_k_validated": true
+    },
+    "selection_used_full_rollout_survival": false,
+    "selection_used_final_reward": false,
+    "eligible_candidate_count": 2191,
+    "ranking_rule": [
+      "visible_rope_history_chamfer_m ascending",
+      "dual_ee_position_history_mean_m ascending",
+      "dual_ee_quaternion_geodesic_history_mean_rad ascending",
+      "dual_motor_qpos_history_rms_rad ascending",
+      "differing_post_count descending"
+    ],
+    "source_rank_preserved_after_exclusion": true,
+    "future_information_used": false
+  },
+  "live_collection": {
+    "batch_indices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "n_envs": 32,
+    "n_steps_sub": 10,
+    "base_seed": 123,
+    "wrapping_args": {
+      "pos_bound": [
+        -0.025,
+        -0.01,
+        0.025,
+        0.01
+      ]
+    },
+    "common_official_best_qpos": true,
+    "reuse_original_pb2c_replay_batch": true
+  },
+  "live_admission": {
+    "history_samples": 3,
+    "branch_validity": "finite selection fields and no rope-NaN/stretch failure at or before the candidate branch time",
+    "post_branch_validity_used": false,
+    "partial_rope": {
+      "occlusion_radius_m": 0.05,
+      "max_visible_history_chamfer_m": 0.01,
+      "require_nonempty_visible_rope_each_frame": true
+    },
+    "robot": {
+      "max_dual_ee_position_history_mean_m": 0.01,
+      "max_dual_ee_quaternion_geodesic_history_mean_rad": 0.08726646259971647,
+      "max_dual_motor_qpos_history_rms_rad": 0.05
+    },
+    "hidden_state": {
+      "descriptor": "rounded_signed_task_native_winding_index",
+      "require_live_index_vector_different": true
+    },
+    "same_time_required": true,
+    "common_action_history_equal_by_construction": true,
+    "future_divergence_used": false,
+    "force_or_sensor_used": false,
+    "reward_used": false,
+    "historical_frozen_to_live_alignment_used_as_gate": false,
+    "pb3r3_61_945756736um_rule_used_as_gate": false
+  },
+  "cohort_selection": {
+    "target_pair_count": 10,
+    "max_rollout_use_count": 1,
+    "scan_rule": "Scan the frozen prefix-only PB2-C-style candidate ranking after fixed rollout exclusions. For each candidate, evaluate only the fresh live t-2:t history at its frozen candidate time. Accept iff the live pair satisfies the frozen PB2-C observation/robot/winding semantics and neither rollout was used by a previously accepted pair. Stop immediately after the first 10 accepted pairs.",
+    "stop_after_first_target_pair_count": true,
+    "minimum_live_winding_strata_to_proceed": 2,
+    "continue_scanning_to_rescue_strata_after_first_10": false,
+    "allow_pair_drop": false,
+    "allow_pair_replacement": false
+  },
+  "phase_boundary": {
+    "branch_snapshot_created": false,
+    "future_suffix_executed": false,
+    "gate4_executed": false,
+    "pb4_started": false,
+    "training_started": false,
+    "next_if_success": "PB3-B2: revalidate the frozen prospective cohort live, then run the unchanged snapshot same-action multi-horizon Gate 4."
+  }
+}
