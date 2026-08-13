@@ -1,0 +1,113 @@
+{
+  "phase_name": "pb4-dlolab-wrapping-control-relevance-action-regret",
+  "source": {
+    "cohort": "configs/experiment3/published_benchmark/dlolab_wrapping_pb3b1_cohort.json",
+    "pb3b1_evidence": "reports/experiment3/pb3b1_prospective_live_cohort/EVIDENCE.json",
+    "pb3b1_raw_rollouts": "/data/Experiment3/data/pb3b1_prospective_live_cohort/LIVE_SCREEN_ROLLOUTS.npz",
+    "expected_pb3b1_verdict": "PB3B1_PROSPECTIVE_LIVE_COHORT_FROZEN",
+    "pb3r3_alignment_rule": "configs/experiment3/published_benchmark/dlolab_wrapping_pb3r3_alignment_rule.json",
+    "expected_pb3r3_verdict": "PB3R3_ALIGNMENT_RULE_PREREGISTERED",
+    "pb3b2_evidence": "reports/experiment3/pb3b2_prospective_causal_audit/EVIDENCE.json",
+    "expected_pb3b2_verdict": "PB3_CAUSAL_FUTURE_BIFURCATION_CONFIRMED"
+  },
+  "benchmark": {
+    "task": "wrapping",
+    "revision": "c5026a9416b03c6bc5186eba13cd4ffd4c0e7796",
+    "modify_physics": false,
+    "modify_reward": false,
+    "modify_geometry": false
+  },
+  "replay": {
+    "n_envs": 32,
+    "n_steps_sub": 10,
+    "base_seed": 123,
+    "expected_wrapping_args": {
+      "pos_bound": [
+        -0.025,
+        -0.01,
+        0.025,
+        0.01
+      ]
+    },
+    "snapshot_repeat_count": 3,
+    "official_stretch_ratio_limit": 1.2
+  },
+  "barriers": {
+    "require_all_10_live_pairs": true,
+    "require_20_unique_branches": true,
+    "allow_pair_drop": false,
+    "allow_pair_replacement": false,
+    "snapshot_restore_rope_max_abs_m": 5e-05,
+    "action_before_live_barrier": false,
+    "action_before_snapshot_barrier": false,
+    "live_prefix_validity_required": true,
+    "live_prefix_validity_rule": "For each PB4 fresh branch at time t: no stretch or rope-NaN failure may have occurred at or before t. first_fail_step must be > t or absent."
+  },
+  "action_library": {
+    "interface": "verified_best_qpos_position_control_suffix",
+    "primary_horizon_microsteps": 20,
+    "macro_step_equivalents": 2,
+    "arm_dof_block": 9,
+    "construction": "For branch time t and relative microstep r, each 9-DOF arm block is q_t_arm + mask_arm * (q_nominal[t+r]_arm - q_t_arm).",
+    "actions": [
+      {
+        "action_id": "both_continue",
+        "arm1_mask": 1.0,
+        "arm2_mask": 1.0
+      },
+      {
+        "action_id": "arm1_continue_arm2_hold",
+        "arm1_mask": 1.0,
+        "arm2_mask": 0.0
+      },
+      {
+        "action_id": "arm1_hold_arm2_continue",
+        "arm1_mask": 0.0,
+        "arm2_mask": 1.0
+      },
+      {
+        "action_id": "hold_both",
+        "arm1_mask": 0.0,
+        "arm2_mask": 0.0
+      }
+    ],
+    "uses_hidden_winding_to_construct_action": false,
+    "uses_pb3_pair_future_metrics_to_construct_action": false,
+    "uses_pb4_outcomes_to_construct_action": false,
+    "allow_action_addition_after_gpu": false,
+    "allow_action_removal_after_gpu": false
+  },
+  "task_score": {
+    "name": "official_normalized_cumulative_reward",
+    "definition": "(1/H) * sum_h contribution_h; after each microstep, rope NaN or stretch ratio >1.2 permanently clears alive. If alive and reward is finite, contribution_h=env.reward()+1. If reward alone is NaN, contribution_h=0 for that microstep but alive is not cleared. This matches the pinned Wrapping eval_traj cumulative-reward contribution.",
+    "higher_is_better": true,
+    "physical_failure_semantics": "rope NaN or stretch ratio >1.2 permanently makes the branch inactive. reward NaN alone contributes zero for the current microstep and does not by itself change alive.",
+    "store_score_contributions": true,
+    "score_contribution_count_per_record": 20
+  },
+  "control_relevance": {
+    "repeat_count": 3,
+    "best_action_statistic": "median_of_three_task_scores",
+    "repeat_floor": "max_pairwise_absolute_score_difference_over_repeats",
+    "absolute_regret_min": 0.05,
+    "repeat_floor_multiplier": 5.0,
+    "unique_best_rule": "top median minus second-best median >= max(0.05, 5 * branch repeat floor)",
+    "robust_cross_regret": "min repeat score of branch-optimal action minus max repeat score of the other branch's optimal action",
+    "pair_pass_rule": "Both branches have unique best actions; best action IDs differ; and robust cross-regret on both branches is >= max(0.05, 5 * max(branch repeat floors)).",
+    "minimum_passing_pairs": 3,
+    "minimum_passing_winding_strata": 2,
+    "positive_verdict": "PB4_CONTROL_RELEVANCE_CONFIRMED",
+    "negative_verdict": "PB4_CONTROL_RELEVANCE_NOT_CONFIRMED",
+    "winding_strata_source": "PB4 fresh live revalidation winding indices at branch time",
+    "historical_pb3b1_stratum_is_formal_gate": false
+  },
+  "outputs": {
+    "protocol": "configs/experiment3/published_benchmark/dlolab_wrapping_pb4_protocol.json",
+    "raw_root": "/data/Experiment3/data/pb4_control_relevance",
+    "committed_report_dir": "reports/experiment3/pb4_control_relevance"
+  },
+  "provenance": {
+    "starting_main_sha": "8e076445cc95caa8b4015ed8d7ab5900034af4d8",
+    "dlolab_revision": "c5026a9416b03c6bc5186eba13cd4ffd4c0e7796"
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "phase": "PB4",
+  "verdict": "PB4_CONTROL_RELEVANCE_PROTOCOL_PREREGISTERED",
+  "scientific_question": "Does the hidden winding branch change the preferred control suffix with repeat-robust task regret?",
+  "source": {
+    "pb3b1_cohort_pair_count": 10,
+    "pb3b1_unique_rollout_count": 20,
+    "pb3b1_live_winding_strata_count": 2,
+    "pb3b2_verdict": "PB3_CAUSAL_FUTURE_BIFURCATION_CONFIRMED",
+    "pb3b2_gate4_passing_pairs": 10,
+    "pb3b2_passing_winding_strata": [
+      "0,0,0<->0,1,0",
+      "0,1,0<->1,1,0"
+    ]
+  },
+  "action_library": {
+    "interface": "verified_best_qpos_position_control_suffix",
+    "primary_horizon_microsteps": 20,
+    "macro_step_equivalents": 2,
+    "arm_dof_block": 9,
+    "construction": "For branch time t and relative microstep r, each 9-DOF arm block is q_t_arm + mask_arm * (q_nominal[t+r]_arm - q_t_arm).",
+    "actions": [
+      {
+        "action_id": "both_continue",
+        "arm1_mask": 1.0,
+        "arm2_mask": 1.0
+      },
+      {
+        "action_id": "arm1_continue_arm2_hold",
+        "arm1_mask": 1.0,
+        "arm2_mask": 0.0
+      },
+      {
+        "action_id": "arm1_hold_arm2_continue",
+        "arm1_mask": 0.0,
+        "arm2_mask": 1.0
+      },
+      {
+        "action_id": "hold_both",
+        "arm1_mask": 0.0,
+        "arm2_mask": 0.0
+      }
+    ],
+    "uses_hidden_winding_to_construct_action": false,
+    "uses_pb3_pair_future_metrics_to_construct_action": false,
+    "uses_pb4_outcomes_to_construct_action": false,
+    "allow_action_addition_after_gpu": false,
+    "allow_action_removal_after_gpu": false
+  },
+  "task_score": {
+    "name": "official_normalized_cumulative_reward",
+    "definition": "(1/H) * sum_h contribution_h; after each microstep, rope NaN or stretch ratio >1.2 permanently clears alive. If alive and reward is finite, contribution_h=env.reward()+1. If reward alone is NaN, contribution_h=0 for that microstep but alive is not cleared. This matches the pinned Wrapping eval_traj cumulative-reward contribution.",
+    "higher_is_better": true,
+    "physical_failure_semantics": "rope NaN or stretch ratio >1.2 permanently makes the branch inactive. reward NaN alone contributes zero for the current microstep and does not by itself change alive.",
+    "store_score_contributions": true,
+    "score_contribution_count_per_record": 20
+  },
+  "barriers": {
+    "all_10_live_pairs_before_snapshot": true,
+    "live_prefix_validity_required": true,
+    "live_prefix_validity_rule": "For each PB4 fresh branch at time t: no stretch or rope-NaN failure may have occurred at or before t. first_fail_step must be > t or absent.",
+    "all_20_branches_restore_before_actions": true,
+    "snapshot_restore_rope_max_abs_m": 5e-05,
+    "pair_drop_allowed": false,
+    "pair_replacement_allowed": false
+  },
+  "control_relevance": {
+    "repeat_count": 3,
+    "best_action_statistic": "median_of_three_task_scores",
+    "repeat_floor": "max_pairwise_absolute_score_difference_over_repeats",
+    "absolute_regret_min": 0.05,
+    "repeat_floor_multiplier": 5.0,
+    "unique_best_rule": "top median minus second-best median >= max(0.05, 5 * branch repeat floor)",
+    "robust_cross_regret": "min repeat score of branch-optimal action minus max repeat score of the other branch's optimal action",
+    "pair_pass_rule": "Both branches have unique best actions; best action IDs differ; and robust cross-regret on both branches is >= max(0.05, 5 * max(branch repeat floors)).",
+    "minimum_passing_pairs": 3,
+    "minimum_passing_winding_strata": 2,
+    "positive_verdict": "PB4_CONTROL_RELEVANCE_CONFIRMED",
+    "negative_verdict": "PB4_CONTROL_RELEVANCE_NOT_CONFIRMED",
+    "winding_strata_source": "PB4 fresh live revalidation winding indices at branch time",
+    "historical_pb3b1_stratum_is_formal_gate": false
+  },
+  "qpos": {
+    "shape": [
+      101,
+      18
+    ],
+    "action_horizon_fits_all_pairs": true
+  },
+  "phase_boundary": {
+    "deployable_sensor_test_started": false,
+    "state_diff_training_started": false,
+    "cfpm_training_started": false
+  }
+}
