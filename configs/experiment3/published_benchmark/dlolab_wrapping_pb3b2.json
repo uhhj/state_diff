@@ -1,0 +1,63 @@
+{
+  "phase_name": "pb3b2-dlolab-wrapping-prospective-causal-audit",
+  "source": {
+    "cohort": "configs/experiment3/published_benchmark/dlolab_wrapping_pb3b1_cohort.json",
+    "pb3b1_evidence": "reports/experiment3/pb3b1_prospective_live_cohort/EVIDENCE.json",
+    "pb3b1_raw_rollouts": "/data/Experiment3/data/pb3b1_prospective_live_cohort/LIVE_SCREEN_ROLLOUTS.npz",
+    "expected_pb3b1_verdict": "PB3B1_PROSPECTIVE_LIVE_COHORT_FROZEN",
+    "pb3r3_alignment_rule": "configs/experiment3/published_benchmark/dlolab_wrapping_pb3r3_alignment_rule.json",
+    "expected_pb3r3_verdict": "PB3R3_ALIGNMENT_RULE_PREREGISTERED"
+  },
+  "benchmark": {
+    "task": "wrapping",
+    "revision": "c5026a9416b03c6bc5186eba13cd4ffd4c0e7796",
+    "modify_physics": false,
+    "modify_reward": false,
+    "modify_geometry": false
+  },
+  "replay": {
+    "n_envs": 32,
+    "n_steps_sub": 10,
+    "base_seed": 123,
+    "expected_wrapping_args": {
+      "pos_bound": [-0.025, -0.01, 0.025, 0.01]
+    },
+    "snapshot_repeat_count": 3,
+    "horizons": [1, 2, 5, 10, 20, 40],
+    "official_stretch_ratio_limit": 1.2
+  },
+  "barriers": {
+    "require_all_10_live_pairs": true,
+    "require_20_unique_branches": true,
+    "allow_pair_drop": false,
+    "allow_pair_replacement": false,
+    "live_failure_verdict": "PB3B2_LIVE_COHORT_REVALIDATION_FAILED",
+    "snapshot_failure_verdict": "PB3B2_SNAPSHOT_RESTORE_FAILED",
+    "snapshot_restore_rope_max_abs_m": 0.00005,
+    "future_before_live_barrier": false,
+    "future_before_snapshot_barrier": false,
+    "targeted_frozen_alignment_is_gate": false
+  },
+  "gate4": {
+    "primary_metric": "ordered_rope_displacement_field_rmse",
+    "absolute_effect_min_m": 0.001,
+    "repeat_floor_multiplier": 5.0,
+    "pair_pass_rule": "At any sampled horizon, minimum A-vs-B cross-repeat displacement divergence >= max(1 mm, 5 * repeat_floor).",
+    "minimum_passing_pairs": 3,
+    "minimum_passing_winding_strata": 2
+  },
+  "diagnostics": {
+    "partial_observation_occlusion_radius_m": 0.05,
+    "report_partial_future_chamfer": true,
+    "partial_future_chamfer_is_formal_gate": false,
+    "report_winding": true
+  },
+  "outputs": {
+    "raw_root": "/data/Experiment3/data/pb3b2_prospective_causal_audit",
+    "committed_report_dir": "reports/experiment3/pb3b2_prospective_causal_audit"
+  },
+  "provenance": {
+    "starting_main_sha": "8f607a22c35b7e436a6d2aa34471b2ba13a4a598",
+    "dlolab_revision": "c5026a9416b03c6bc5186eba13cd4ffd4c0e7796"
+  }
+}
