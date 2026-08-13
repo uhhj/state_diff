@@ -1,13 +1,13 @@
 # CCDA Agent Research Master Plan
 ## 科学主线、执行边界与工程守则
 
-> **PB3 current status (2026-08-13)**: PB3-B2 is complete with `PB3_CAUSAL_FUTURE_BIFURCATION_CONFIRMED`. The frozen PB3-B1 cohort passed 10/10 fresh live-pair revalidations with no pair drop or replacement; all 20 native snapshots passed all three restore checks (60/60); and the unchanged same-action suffix and Gate 4 were then executed. All 10/10 pairs passed Gate 4 across two winding strata. This confirms causal same-action future bifurcation for the prospective Wrapping cohort, but does not establish control relevance, deployable sensing, or model performance. The next permitted phase is PB4 control relevance/action regret; do not start StateDiff/CFPM training yet.
+> **PB4 current status (2026-08-13)**: PB4 completed with `PB4_CONTROL_RELEVANCE_NOT_CONFIRMED` under the preregistered four-action library. All 10/10 fresh live pairs and all 60/60 native snapshot restore checks passed before action evaluation; the complete 20 branches × 4 actions × 3 repeats = 240-record matrix was then evaluated. No pair passed the frozen unique-best and robust cross-regret criterion: each branch's `both_continue` advantage over its runner-up was below the fixed 0.05 unique-best threshold. Do not expand, tune, or rerun the action library in this phase. Conditions 1–4 are established for this prospective Wrapping cohort; Condition 5 is not confirmed under this action library. Deployable sensing and all model training remain unstarted.
 
 > **用途**：本文件用于约束 Agent / Codex / 自动化研究执行，防止项目在工程细节、审计、防御性编程、无效仿真调参或局部诊断上偏离主研究目标。  
 > **适用项目**：CCDA — Contact-Conditioned Deformation Branch Ambiguity  
 > **当前主仓库**：`uhhj/state_diff`，主研究分支 `Experiment3`  
 > **当前已发布仿真基座**：DLO-Lab，固定 revision `c5026a9416b03c6bc5186eba13cd4ffd4c0e7796`  
-> **当前科学状态**：Wiring-post 主路线已停止。DLO-Lab Wrapping 的 PB2-A/B、PB2-C 与 replay-floor/alignment 预注册链均已完成。PB3-B1 冻结的独立 prospective live cohort 已在 PB3-B2 中通过：10/10 live pair 重验、20/20 native snapshot（每个 3 次，60/60 restore）全部有效，之后才执行不变的 same-action future suffix 与 Gate 4；10/10 pairs、2 个 winding strata 均通过，因此正式结论为 `PB3_CAUSAL_FUTURE_BIFURCATION_CONFIRMED`。该结果只确认 causal future bifurcation，尚未确认 control relevance、deployable sensing 或模型性能。当前唯一允许的下一步是 PB4 control relevance/action regret；PB4 完成前禁止启动 StateDiff/CFPM 大规模训练。
+> **当前科学状态**：Wiring-post 主路线已停止。DLO-Lab Wrapping 的 PB2-A/B、PB2-C、replay-floor/alignment 预注册以及 PB3 future bifurcation 均已完成。PB4 在冻结的四动作库下完成：10/10 fresh live pair、20 个 native snapshot 的 60/60 restore 均在 action evaluation 前通过，随后完成 20 branches × 4 actions × 3 repeats = 240 条记录。正式结论为 `PB4_CONTROL_RELEVANCE_NOT_CONFIRMED`：所有 branch 虽以 `both_continue` 为 median argmax，但其相对第二名的优势均未达到固定的 0.05 unique-best 门槛，因此无 pair 满足 robust cross-regret criterion。不得在本 phase 扩展、调参或重跑 action library。该 prospective Wrapping cohort 的 Conditions 1–4 已建立；Condition 5 在该冻结 action library 下未确认。deployable sensing、StateDiff/CFPM training 仍未启动。
 > **原则**：科学结论必须严谨；工程执行必须简洁；一旦机制证据充分，立即推进端到端系统，不继续无限审计。
 
 ---
