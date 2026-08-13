@@ -1,0 +1,60 @@
+{
+  "phase_name": "pb3r3-dlolab-wrapping-alignment-preregistration",
+  "source": {
+    "pb3r2_evidence": "reports/experiment3/pb3r2_replay_floor/EVIDENCE.json",
+    "pb3r2_summary": "reports/experiment3/pb3r2_replay_floor/CALIBRATION_SUMMARY.json",
+    "expected_pb3r2_verdict": "PB3R2_REPLAY_FLOOR_CALIBRATED",
+    "pb3r2_raw_root": "/data/Experiment3/data/pb3r2_replay_floor",
+    "pb2c_config": "configs/experiment3/published_benchmark/dlolab_wrapping_pb2c.json",
+    "pb3_config": "configs/experiment3/published_benchmark/dlolab_wrapping_pb3.json",
+    "pb3_shortlist": "configs/experiment3/published_benchmark/dlolab_wrapping_pb3_shortlist.json"
+  },
+  "derivation": {
+    "independent_calibration_state_count": 20,
+    "fresh_repeats_per_state": 3,
+    "reconstruction_metric": "coordinate_rmse_m",
+    "coordinate_rmse_definition": "sqrt(mean((live_rope_xyz - frozen_rope_xyz)^2)) over all material-vertex XYZ coordinates",
+    "state_level_statistic": "median_of_three_fresh_reconstruction_errors",
+    "envelope_statistic": "maximum_over_20_state_level_medians",
+    "rope_max_abs_role": "diagnostic_only",
+    "use_formal_pb3_outcomes": false,
+    "use_pb3r2_fresh_repeat_floor_to_inflate_threshold": false,
+    "arbitrary_multiplier": null
+  },
+  "future_pb3_targeted_replay_alignment": {
+    "rope_metric": "coordinate_rmse_m",
+    "rope_threshold_source": "derived_pb3r2_independent_state_envelope",
+    "rope_max_abs_role": "diagnostic_only",
+    "retain_pb3_ee_max_abs_m": true,
+    "retain_pb3_motor_qpos_max_abs_rad": true,
+    "retain_frozen_winding_index_exact": true,
+    "snapshot_restore_rule_unchanged": true
+  },
+  "future_pb3_live_pair_revalidation": {
+    "history_samples": 3,
+    "source": "original_pb2c_pair_admission_semantics",
+    "require_same_time": true,
+    "require_common_action_history_equal": true,
+    "require_nonempty_visible_rope_each_frame": true,
+    "require_live_winding_index_different": true,
+    "require_all_10_formal_pairs": true,
+    "allow_pair_drop": false,
+    "allow_pair_replacement": false,
+    "blocked_verdict": "PB3_R3_LIVE_BRANCH_ALIGNMENT_FAILED"
+  },
+  "formal_gate4": {
+    "must_remain_unchanged": true,
+    "absolute_effect_min_m": 0.001,
+    "repeat_floor_multiplier": 5.0,
+    "minimum_passing_pairs": 3,
+    "minimum_passing_winding_strata": 2
+  },
+  "outputs": {
+    "alignment_rule": "configs/experiment3/published_benchmark/dlolab_wrapping_pb3r3_alignment_rule.json",
+    "committed_report_dir": "reports/experiment3/pb3r3_alignment_preregistration"
+  },
+  "provenance": {
+    "starting_main_sha": "2d7324106bf15622f07ed2990870ec0f7f754919",
+    "dlolab_revision": "c5026a9416b03c6bc5186eba13cd4ffd4c0e7796"
+  }
+}

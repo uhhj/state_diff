@@ -1,6 +1,8 @@
 # CCDA Agent Research Master Plan
 ## 科学主线、执行边界与工程守则
 
+> **PB3-R3 current status (2026-08-13)**: `PB3-R2: PB3R2_REPLAY_FLOOR_CALIBRATED`; `PB3-R3: PB3R3_ALIGNMENT_RULE_PREREGISTERED`; next: separate PB3 Resume implementation using the committed R3 rule. Targeted replay rope alignment uses the independent coordinate-RMSE calibration envelope; rope max-abs is diagnostic only. Snapshot restore remains `rope max-abs <= 5e-5 m`; all 10 live pairs must re-pass the original PB2-C three-frame history semantics, with no pair drop or replacement. Gate 4 is unchanged. PB3 future suffix / Gate 4 remain unexecuted, and PB4/StateDiff training remain prohibited until a separate PB3 Resume phase completes.
+
 > **用途**：本文件用于约束 Agent / Codex / 自动化研究执行，防止项目在工程细节、审计、防御性编程、无效仿真调参或局部诊断上偏离主研究目标。  
 > **适用项目**：CCDA — Contact-Conditioned Deformation Branch Ambiguity  
 > **当前主仓库**：`uhhj/state_diff`，主研究分支 `Experiment3`  

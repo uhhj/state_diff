@@ -1,0 +1,301 @@
+{
+  "metric": "coordinate_rmse_m",
+  "state_level_statistic": "median_of_three",
+  "state_count": 20,
+  "states": [
+    {
+      "calibration_id": "pb3r2_b0_s0",
+      "rollout_id": 0,
+      "batch_index": 0,
+      "time_index": 13,
+      "repeat_coordinate_rmse_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "state_median_coordinate_rmse_m": 0.0,
+      "state_min_coordinate_rmse_m": 0.0,
+      "state_max_coordinate_rmse_m": 0.0
+    },
+    {
+      "calibration_id": "pb3r2_b0_s1",
+      "rollout_id": 9,
+      "batch_index": 0,
+      "time_index": 20,
+      "repeat_coordinate_rmse_m": [
+        3.0502887803528436e-09,
+        1.8688678253105572e-09,
+        3.0502887803528436e-09
+      ],
+      "state_median_coordinate_rmse_m": 3.0502887803528436e-09,
+      "state_min_coordinate_rmse_m": 1.8688678253105572e-09,
+      "state_max_coordinate_rmse_m": 3.0502887803528436e-09
+    },
+    {
+      "calibration_id": "pb3r2_b0_s2",
+      "rollout_id": 16,
+      "batch_index": 0,
+      "time_index": 13,
+      "repeat_coordinate_rmse_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "state_median_coordinate_rmse_m": 0.0,
+      "state_min_coordinate_rmse_m": 0.0,
+      "state_max_coordinate_rmse_m": 0.0
+    },
+    {
+      "calibration_id": "pb3r2_b0_s3",
+      "rollout_id": 23,
+      "batch_index": 0,
+      "time_index": 20,
+      "repeat_coordinate_rmse_m": [
+        7.993774864943817e-09,
+        5.648562908619111e-09,
+        7.3997437594844466e-09
+      ],
+      "state_median_coordinate_rmse_m": 7.3997437594844466e-09,
+      "state_min_coordinate_rmse_m": 5.648562908619111e-09,
+      "state_max_coordinate_rmse_m": 7.993774864943817e-09
+    },
+    {
+      "calibration_id": "pb3r2_b0_s4",
+      "rollout_id": 31,
+      "batch_index": 0,
+      "time_index": 13,
+      "repeat_coordinate_rmse_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "state_median_coordinate_rmse_m": 0.0,
+      "state_min_coordinate_rmse_m": 0.0,
+      "state_max_coordinate_rmse_m": 0.0
+    },
+    {
+      "calibration_id": "pb3r2_b1_s0",
+      "rollout_id": 32,
+      "batch_index": 1,
+      "time_index": 20,
+      "repeat_coordinate_rmse_m": [
+        4.458861651655782e-05,
+        4.458957416810446e-05,
+        4.458861651655782e-05
+      ],
+      "state_median_coordinate_rmse_m": 4.458861651655782e-05,
+      "state_min_coordinate_rmse_m": 4.458861651655782e-05,
+      "state_max_coordinate_rmse_m": 4.458957416810446e-05
+    },
+    {
+      "calibration_id": "pb3r2_b1_s1",
+      "rollout_id": 40,
+      "batch_index": 1,
+      "time_index": 13,
+      "repeat_coordinate_rmse_m": [
+        6.194575673578751e-05,
+        6.194575673578751e-05,
+        6.194575673578751e-05
+      ],
+      "state_median_coordinate_rmse_m": 6.194575673578751e-05,
+      "state_min_coordinate_rmse_m": 6.194575673578751e-05,
+      "state_max_coordinate_rmse_m": 6.194575673578751e-05
+    },
+    {
+      "calibration_id": "pb3r2_b1_s2",
+      "rollout_id": 47,
+      "batch_index": 1,
+      "time_index": 20,
+      "repeat_coordinate_rmse_m": [
+        3.3724154525051512e-06,
+        3.3724154525051512e-06,
+        3.3739887764843984e-06
+      ],
+      "state_median_coordinate_rmse_m": 3.3724154525051512e-06,
+      "state_min_coordinate_rmse_m": 3.3724154525051512e-06,
+      "state_max_coordinate_rmse_m": 3.3739887764843984e-06
+    },
+    {
+      "calibration_id": "pb3r2_b1_s3",
+      "rollout_id": 56,
+      "batch_index": 1,
+      "time_index": 13,
+      "repeat_coordinate_rmse_m": [
+        4.165168176490447e-06,
+        4.165168176490447e-06,
+        4.165168176490447e-06
+      ],
+      "state_median_coordinate_rmse_m": 4.165168176490447e-06,
+      "state_min_coordinate_rmse_m": 4.165168176490447e-06,
+      "state_max_coordinate_rmse_m": 4.165168176490447e-06
+    },
+    {
+      "calibration_id": "pb3r2_b1_s4",
+      "rollout_id": 63,
+      "batch_index": 1,
+      "time_index": 20,
+      "repeat_coordinate_rmse_m": [
+        5.818342088368399e-06,
+        5.819588017487922e-06,
+        5.820306186835697e-06
+      ],
+      "state_median_coordinate_rmse_m": 5.819588017487922e-06,
+      "state_min_coordinate_rmse_m": 5.818342088368399e-06,
+      "state_max_coordinate_rmse_m": 5.820306186835697e-06
+    },
+    {
+      "calibration_id": "pb3r2_b2_s0",
+      "rollout_id": 64,
+      "batch_index": 2,
+      "time_index": 13,
+      "repeat_coordinate_rmse_m": [
+        9.92353064685308e-06,
+        9.92353064685308e-06,
+        9.92353064685308e-06
+      ],
+      "state_median_coordinate_rmse_m": 9.92353064685308e-06,
+      "state_min_coordinate_rmse_m": 9.92353064685308e-06,
+      "state_max_coordinate_rmse_m": 9.92353064685308e-06
+    },
+    {
+      "calibration_id": "pb3r2_b2_s1",
+      "rollout_id": 71,
+      "batch_index": 2,
+      "time_index": 20,
+      "repeat_coordinate_rmse_m": [
+        3.970032465685158e-06,
+        3.97003353993092e-06,
+        3.9700324999794e-06
+      ],
+      "state_median_coordinate_rmse_m": 3.9700324999794e-06,
+      "state_min_coordinate_rmse_m": 3.970032465685158e-06,
+      "state_max_coordinate_rmse_m": 3.97003353993092e-06
+    },
+    {
+      "calibration_id": "pb3r2_b2_s2",
+      "rollout_id": 81,
+      "batch_index": 2,
+      "time_index": 13,
+      "repeat_coordinate_rmse_m": [
+        1.8316935429567097e-05,
+        1.8316935429567097e-05,
+        1.8316935429567097e-05
+      ],
+      "state_median_coordinate_rmse_m": 1.8316935429567097e-05,
+      "state_min_coordinate_rmse_m": 1.8316935429567097e-05,
+      "state_max_coordinate_rmse_m": 1.8316935429567097e-05
+    },
+    {
+      "calibration_id": "pb3r2_b2_s3",
+      "rollout_id": 89,
+      "batch_index": 2,
+      "time_index": 20,
+      "repeat_coordinate_rmse_m": [
+        9.683545716187763e-06,
+        9.685383884908018e-06,
+        9.684245845297512e-06
+      ],
+      "state_median_coordinate_rmse_m": 9.684245845297512e-06,
+      "state_min_coordinate_rmse_m": 9.683545716187763e-06,
+      "state_max_coordinate_rmse_m": 9.685383884908018e-06
+    },
+    {
+      "calibration_id": "pb3r2_b2_s4",
+      "rollout_id": 95,
+      "batch_index": 2,
+      "time_index": 13,
+      "repeat_coordinate_rmse_m": [
+        2.141461822628579e-05,
+        2.1416755590756168e-05,
+        2.1417773323911843e-05
+      ],
+      "state_median_coordinate_rmse_m": 2.1416755590756168e-05,
+      "state_min_coordinate_rmse_m": 2.141461822628579e-05,
+      "state_max_coordinate_rmse_m": 2.1417773323911843e-05
+    },
+    {
+      "calibration_id": "pb3r2_b3_s0",
+      "rollout_id": 96,
+      "batch_index": 3,
+      "time_index": 20,
+      "repeat_coordinate_rmse_m": [
+        1.4031959036313507e-06,
+        1.4027978481501766e-06,
+        1.4027978481501766e-06
+      ],
+      "state_median_coordinate_rmse_m": 1.4027978481501766e-06,
+      "state_min_coordinate_rmse_m": 1.4027978481501766e-06,
+      "state_max_coordinate_rmse_m": 1.4031959036313507e-06
+    },
+    {
+      "calibration_id": "pb3r2_b3_s1",
+      "rollout_id": 103,
+      "batch_index": 3,
+      "time_index": 13,
+      "repeat_coordinate_rmse_m": [
+        1.732830828566358e-05,
+        1.732830828566358e-05,
+        1.732830828566358e-05
+      ],
+      "state_median_coordinate_rmse_m": 1.732830828566358e-05,
+      "state_min_coordinate_rmse_m": 1.732830828566358e-05,
+      "state_max_coordinate_rmse_m": 1.732830828566358e-05
+    },
+    {
+      "calibration_id": "pb3r2_b3_s2",
+      "rollout_id": 113,
+      "batch_index": 3,
+      "time_index": 20,
+      "repeat_coordinate_rmse_m": [
+        1.7503489870543152e-05,
+        1.750389650884966e-05,
+        1.7502566606759e-05
+      ],
+      "state_median_coordinate_rmse_m": 1.7503489870543152e-05,
+      "state_min_coordinate_rmse_m": 1.7502566606759e-05,
+      "state_max_coordinate_rmse_m": 1.750389650884966e-05
+    },
+    {
+      "calibration_id": "pb3r2_b3_s3",
+      "rollout_id": 119,
+      "batch_index": 3,
+      "time_index": 13,
+      "repeat_coordinate_rmse_m": [
+        4.488840288828574e-05,
+        4.488840288828574e-05,
+        4.478177886073743e-05
+      ],
+      "state_median_coordinate_rmse_m": 4.488840288828574e-05,
+      "state_min_coordinate_rmse_m": 4.478177886073743e-05,
+      "state_max_coordinate_rmse_m": 4.488840288828574e-05
+    },
+    {
+      "calibration_id": "pb3r2_b3_s4",
+      "rollout_id": 127,
+      "batch_index": 3,
+      "time_index": 20,
+      "repeat_coordinate_rmse_m": [
+        4.325043045693298e-06,
+        4.326678281259975e-06,
+        4.324516553013103e-06
+      ],
+      "state_median_coordinate_rmse_m": 4.325043045693298e-06,
+      "state_min_coordinate_rmse_m": 4.324516553013103e-06,
+      "state_max_coordinate_rmse_m": 4.326678281259975e-06
+    }
+  ],
+  "governing_state": {
+    "calibration_id": "pb3r2_b1_s1",
+    "rollout_id": 40,
+    "batch_index": 1,
+    "time_index": 13,
+    "repeat_coordinate_rmse_m": [
+      6.194575673578751e-05,
+      6.194575673578751e-05,
+      6.194575673578751e-05
+    ],
+    "state_median_coordinate_rmse_m": 6.194575673578751e-05,
+    "state_min_coordinate_rmse_m": 6.194575673578751e-05,
+    "state_max_coordinate_rmse_m": 6.194575673578751e-05
+  }
+}

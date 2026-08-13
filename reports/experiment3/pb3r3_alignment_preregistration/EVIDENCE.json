@@ -1,0 +1,49 @@
+{
+  "phase_name": "pb3r3-dlolab-wrapping-alignment-preregistration",
+  "verdict": "PB3R3_ALIGNMENT_RULE_PREREGISTERED",
+  "repository": {
+    "starting_main_sha": "2d7324106bf15622f07ed2990870ec0f7f754919",
+    "ending_main_sha": "2d7324106bf15622f07ed2990870ec0f7f754919",
+    "dlolab_gitlink": "c5026a9416b03c6bc5186eba13cd4ffd4c0e7796"
+  },
+  "scientific": {
+    "verdict": "PB3R3_ALIGNMENT_RULE_PREREGISTERED",
+    "scope": {
+      "cpu_only": true,
+      "genesis_worker_executed": false,
+      "future_suffix_executed": false,
+      "gate4_executed": false,
+      "pb4_started": false,
+      "training_started": false,
+      "formal_pb3_pair_outcomes_used_for_threshold": false
+    },
+    "raw_pb3r2_coordinate_rmse_reproduced": {
+      "count": 60,
+      "min": 0.0,
+      "median": 5.0725101848141865e-06,
+      "p95": 4.5741270580660784e-05,
+      "p99": 6.194575673578751e-05,
+      "max": 6.194575673578751e-05
+    },
+    "derived_rope_coordinate_rmse_threshold_m": 6.194575673578751e-05,
+    "governing_calibration_state": {
+      "calibration_id": "pb3r2_b1_s1",
+      "rollout_id": 40,
+      "batch_index": 1,
+      "time_index": 13,
+      "repeat_coordinate_rmse_m": [
+        6.194575673578751e-05,
+        6.194575673578751e-05,
+        6.194575673578751e-05
+      ],
+      "state_median_coordinate_rmse_m": 6.194575673578751e-05,
+      "state_min_coordinate_rmse_m": 6.194575673578751e-05,
+      "state_max_coordinate_rmse_m": 6.194575673578751e-05
+    },
+    "snapshot_restore_alignment_changed": false,
+    "gate4_changed": false,
+    "pair_drop_allowed": false,
+    "pair_replacement_allowed": false,
+    "next_action": "Commit this rule before any formal PB3 Resume. The later Resume must first validate all 20 branch alignments and all 10 live PB2-C pair semantics, then and only then run future suffix/Gate 4."
+  }
+}

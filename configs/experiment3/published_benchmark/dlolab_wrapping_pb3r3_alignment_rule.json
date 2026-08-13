@@ -1,0 +1,73 @@
+{
+  "phase": "PB3-R3",
+  "verdict": "PB3R3_ALIGNMENT_RULE_PREREGISTERED",
+  "source": {
+    "pb3r2_verdict": "PB3R2_REPLAY_FLOOR_CALIBRATED",
+    "independent_calibration_states": 20,
+    "fresh_repeats_per_state": 3,
+    "formal_pb3_outcomes_used_for_threshold": false
+  },
+  "targeted_replay_engineering_alignment": {
+    "rope": {
+      "formal_metric": "coordinate_rmse_m",
+      "definition": "sqrt(mean((live_rope_xyz - frozen_rope_xyz)^2)) over all material-vertex XYZ coordinates",
+      "threshold_m": 6.194575673578751e-05,
+      "threshold_derivation": "max over 20 independent PB3-R2 calibration states of median over 3 fresh-process frozen-reconstruction coordinate_rmse_m values",
+      "arbitrary_multiplier": null,
+      "rope_max_abs_coordinate_m_role": "diagnostic_only",
+      "state_level_governing_calibration_id": "pb3r2_b1_s1",
+      "state_level_governing_rollout_id": 40,
+      "state_level_governing_time_index": 13
+    },
+    "ee_max_abs_m": 5e-05,
+    "motor_qpos_max_abs_rad": 5e-05,
+    "require_live_winding_index_equal_frozen": true,
+    "all_20_formal_branch_states_required": true
+  },
+  "snapshot_restore_alignment": {
+    "metric": "rope_max_abs_coordinate_m",
+    "threshold_m": 5e-05,
+    "status": "unchanged_from_frozen_pb3"
+  },
+  "live_pair_revalidation": {
+    "history_samples": 3,
+    "partial_rope": {
+      "occlusion_radius_m": 0.05,
+      "max_visible_history_chamfer_m": 0.01,
+      "require_nonempty_visible_rope_each_frame": true
+    },
+    "robot": {
+      "max_dual_ee_position_history_mean_m": 0.01,
+      "max_dual_ee_quaternion_geodesic_history_mean_rad": 0.08726646259971647,
+      "max_dual_motor_qpos_history_rms_rad": 0.05
+    },
+    "hidden_state": {
+      "descriptor": "rounded_signed_task_native_winding_index",
+      "require_live_index_vector_different": true
+    },
+    "past_action": {
+      "require_same_time": true,
+      "require_common_action_history_equal": true
+    },
+    "all_10_formal_pairs_required": true,
+    "allow_pair_drop": false,
+    "allow_pair_replacement": false,
+    "blocked_verdict": "PB3_R3_LIVE_BRANCH_ALIGNMENT_FAILED"
+  },
+  "gate4": {
+    "status": "unchanged",
+    "absolute_effect_min_m": 0.001,
+    "repeat_floor_multiplier": 5.0,
+    "minimum_passing_pairs": 3,
+    "minimum_passing_winding_strata": 2
+  },
+  "execution_order_for_future_pb3_resume": [
+    "replay all required formal branch histories to branch time",
+    "validate all 20 targeted-replay engineering alignments",
+    "revalidate all 10 live PB2-C pair semantics using 3-frame histories",
+    "if any branch/pair fails, stop with PB3_R3_LIVE_BRANCH_ALIGNMENT_FAILED",
+    "only if all pass, execute snapshot restore and future suffix",
+    "apply the unchanged formal Gate 4"
+  ],
+  "state_level_calibration_count": 20
+}
