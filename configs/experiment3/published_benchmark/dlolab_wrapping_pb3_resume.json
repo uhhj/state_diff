@@ -1,0 +1,64 @@
+{
+  "phase_name": "pb3-resume-dlolab-wrapping-snapshot-causal-bifurcation",
+  "source": {
+    "pb2c_evidence": "reports/experiment3/pb2c_dlolab_wrapping/EVIDENCE.json",
+    "pb2c_candidates": "reports/experiment3/pb2c_dlolab_wrapping/CANDIDATES.json",
+    "pb2c_raw_rollouts": "/data/Experiment3/data/pb2c_dlolab_wrapping/rollouts_initial.npz",
+    "expected_pb2c_verdict": "PB2C_NATURAL_WINDING_PAIRS_FOUND",
+    "shortlist": "configs/experiment3/published_benchmark/dlolab_wrapping_pb3_shortlist.json",
+    "pb3r3": {
+      "config": "configs/experiment3/published_benchmark/dlolab_wrapping_pb3r3.json",
+      "alignment_rule": "configs/experiment3/published_benchmark/dlolab_wrapping_pb3r3_alignment_rule.json",
+      "evidence": "reports/experiment3/pb3r3_alignment_preregistration/EVIDENCE.json",
+      "expected_verdict": "PB3R3_ALIGNMENT_RULE_PREREGISTERED"
+    }
+  },
+  "benchmark": {
+    "task": "wrapping",
+    "revision": "c5026a9416b03c6bc5186eba13cd4ffd4c0e7796",
+    "modify_physics": false,
+    "modify_reward": false,
+    "modify_geometry": false
+  },
+  "replay": {
+    "n_envs": 32,
+    "n_steps_sub": 10,
+    "base_seed": 123,
+    "expected_wrapping_args": {
+      "pos_bound": [-0.025, -0.01, 0.025, 0.01]
+    },
+    "snapshot_repeat_count": 3,
+    "horizons": [1, 2, 5, 10, 20, 40],
+    "official_stretch_ratio_limit": 1.2
+  },
+  "alignment": {
+    "rope_max_abs_m": 5e-05,
+    "ee_max_abs_m": 5e-05,
+    "motor_qpos_max_abs_rad": 5e-05,
+    "require_winding_index_exact": true,
+    "snapshot_restore_rope_max_abs_m": 5e-05
+  },
+  "gate4": {
+    "primary_metric": "ordered_rope_displacement_field_rmse",
+    "absolute_effect_min_m": 0.001,
+    "absolute_effect_rationale": "0.1 * published rope radius (0.01 m)",
+    "repeat_floor_multiplier": 5.0,
+    "pair_pass_rule": "At any sampled horizon, minimum A-vs-B cross-repeat displacement divergence >= max(1 mm, 5 * repeat_floor).",
+    "minimum_passing_pairs": 3,
+    "minimum_passing_winding_strata": 2
+  },
+  "diagnostics": {
+    "partial_observation_occlusion_radius_m": 0.05,
+    "report_partial_future_chamfer": true,
+    "partial_future_chamfer_is_formal_gate": false,
+    "report_winding": true
+  },
+  "outputs": {
+    "raw_root": "/data/Experiment3/data/pb3_resume_dlolab_wrapping",
+    "committed_report_dir": "reports/experiment3/pb3_resume_dlolab_wrapping"
+  },
+  "provenance": {
+    "starting_main_sha": "d83640b0e9ce8cd3c2fe366a2acb3e2cf535fc69",
+    "dlolab_revision": "c5026a9416b03c6bc5186eba13cd4ffd4c0e7796"
+  }
+}

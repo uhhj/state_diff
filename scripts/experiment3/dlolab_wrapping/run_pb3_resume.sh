@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
+CONFIG="${1:-configs/experiment3/published_benchmark/dlolab_wrapping_pb3_resume.json}"
+
+cd "${ROOT}"
+
+python -u -m \
+  scripts.experiment3.dlolab_wrapping.snapshot_causal_audit_pb3 \
+  --config "${CONFIG}"

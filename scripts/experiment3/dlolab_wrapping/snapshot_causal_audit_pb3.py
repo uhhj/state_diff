@@ -49,6 +49,11 @@ from scripts.experiment3.dlolab_wrapping.pair_discovery_pb2c import (
     compute_visibility_mask,
     signed_winding_index,
 )
+from scripts.experiment3.dlolab_wrapping.preregister_alignment_pb3r3 import (
+    live_pair_revalidation,
+    targeted_replay_alignment,
+    validate_generated_rule,
+)
 from utils.domain_randomization import wrapping_args  # noqa: E402
 
 
@@ -337,13 +342,80 @@ def validate_sources(config):
             f"Pinned wrapping_args mismatch: {actual_args} != {expected_args}"
         )
 
-    return {
+    result = {
         "evidence": evidence,
         "candidates": candidates,
         "shortlist": shortlist,
         "shortlist_validation": shortlist_validation,
         "raw_path": raw_path,
     }
+
+    r3_source = config["source"].get("pb3r3")
+    if r3_source is not None:
+        r3_config_path = REPO_ROOT / r3_source["config"]
+        r3_rule_path = REPO_ROOT / r3_source["alignment_rule"]
+        r3_evidence_path = REPO_ROOT / r3_source["evidence"]
+        for path in (r3_config_path, r3_rule_path, r3_evidence_path):
+            if not path.is_file():
+                raise FileNotFoundError(str(path))
+
+        # Recompute the independent PB3-R2 state envelope before accepting
+        # the committed R3 rule for a formal Resume.
+        validate_generated_rule(r3_config_path)
+        rule = load_json(r3_rule_path)
+        r3_evidence = load_json(r3_evidence_path)
+        expected_r3_verdict = r3_source["expected_verdict"]
+        if (
+            rule.get("verdict") != expected_r3_verdict
+            or r3_evidence.get("verdict") != expected_r3_verdict
+        ):
+            raise RuntimeError("PB3-R3 rule/evidence verdict mismatch")
+
+        threshold = float(
+            rule["targeted_replay_engineering_alignment"]["rope"][
+                "threshold_m"
+            ]
+        )
+        evidence_threshold = float(
+            r3_evidence["scientific"][
+                "derived_rope_coordinate_rmse_threshold_m"
+            ]
+        )
+        if not np.isclose(
+            threshold,
+            evidence_threshold,
+            rtol=1e-12,
+            atol=1e-15,
+        ):
+            raise RuntimeError("PB3-R3 rule/evidence threshold mismatch")
+
+        if rule["live_pair_revalidation"].get("allow_pair_drop"):
+            raise RuntimeError("PB3 Resume must not allow pair dropping")
+        if rule["live_pair_revalidation"].get("allow_pair_replacement"):
+            raise RuntimeError("PB3 Resume must not allow pair replacement")
+        if not rule["live_pair_revalidation"].get(
+            "all_10_formal_pairs_required"
+        ):
+            raise RuntimeError("PB3 Resume requires all 10 formal pairs")
+        if not rule["targeted_replay_engineering_alignment"].get(
+            "all_20_formal_branch_states_required"
+        ):
+            raise RuntimeError("PB3 Resume requires all 20 branch states")
+
+        frozen_gate = rule["gate4"]
+        for key in (
+            "absolute_effect_min_m",
+            "repeat_floor_multiplier",
+            "minimum_passing_pairs",
+            "minimum_passing_winding_strata",
+        ):
+            if float(frozen_gate[key]) != float(config["gate4"][key]):
+                raise RuntimeError(f"PB3-R3 Gate 4 mismatch at {key}")
+
+        result["r3_rule"] = rule
+        result["r3_evidence"] = r3_evidence
+
+    return result
 
 
 def load_frozen_rollouts(path):
@@ -1165,6 +1237,329 @@ def run_snapshot_replays(
     )
 
 
+def enforce_targeted_alignment_barrier(alignment_records):
+    """Require all 20 formal branch states before any future suffix."""
+    keys = {
+        (int(row["rollout_id"]), int(row["time_index"]))
+        for row in alignment_records
+    }
+    failures = [row for row in alignment_records if not row.get("valid", False)]
+    if len(alignment_records) != 20 or len(keys) != 20 or failures:
+        raise PB3Blocked(
+            "PB3_R3_LIVE_BRANCH_ALIGNMENT_FAILED",
+            {
+                "failure_component": "targeted_replay_alignment",
+                "expected_branch_state_count": 20,
+                "actual_branch_state_count": len(alignment_records),
+                "unique_branch_state_count": len(keys),
+                "failed_alignments": failures,
+                "future_suffix_executed": False,
+            },
+        )
+
+
+def enforce_live_pair_barrier(pair_records):
+    """Require all 10 frozen formal pairs before any snapshot/future work."""
+    pair_ids = [row["pair_id"] for row in pair_records]
+    failures = [row for row in pair_records if not row.get("valid", False)]
+    if len(pair_records) != 10 or len(set(pair_ids)) != 10 or failures:
+        raise PB3Blocked(
+            "PB3_R3_LIVE_BRANCH_ALIGNMENT_FAILED",
+            {
+                "failure_component": "live_pair_revalidation",
+                "expected_pair_count": 10,
+                "actual_pair_count": len(pair_records),
+                "unique_pair_count": len(set(pair_ids)),
+                "failed_pairs": failures,
+                "future_suffix_executed": False,
+            },
+        )
+
+
+def _frozen_branch_sample(frozen, frozen_index, time_index):
+    keys = (
+        "rope_xyz",
+        "ee1_pos",
+        "ee2_pos",
+        "motor_qpos_1",
+        "motor_qpos_2",
+        "signed_winding_turns",
+    )
+    return {
+        key: np.asarray(frozen[key][frozen_index, time_index]).copy()
+        for key in keys
+    }
+
+
+def run_snapshot_replays_r3(
+        config,
+        shortlist,
+        frozen,
+        qpos,
+        rule,
+        alignment_records=None,
+        pair_revalidation_records=None):
+    """Run PB3 Resume with a strict all-branches/all-pairs future barrier."""
+    side_records = required_side_records(shortlist)
+    groups = group_sides_by_batch_time(side_records)
+    frozen_lookup = frozen_index_by_rollout(frozen)
+    n_envs = int(config["replay"]["n_envs"])
+
+    env = build_env(
+        n_envs=n_envs,
+        n_steps_sub=config["replay"]["n_steps_sub"],
+        log_dir=official_log_dir(),
+    )
+    env.init_domain_randomization(**wrapping_args)
+    build_state = env.scene.get_state()
+
+    n_intervals = env.steps_interval // env._cmaes_n_steps_sub
+    if n_intervals <= 0:
+        env.stop()
+        raise RuntimeError("Invalid Wrapping replay interval count")
+
+    horizons = [int(v) for v in config["replay"]["horizons"]]
+    max_horizon = max(horizons)
+    repeat_count = int(config["replay"]["snapshot_repeat_count"])
+
+    side_output = {
+        key: {
+            "meta": row,
+            "alignment": None,
+            "live_history": None,
+            "common_action_history": None,
+            "snapshot_restore_errors_m": [],
+            "repeats": [],
+        }
+        for key, row in side_records.items()
+    }
+    if alignment_records is None:
+        alignment_records = []
+    if pair_revalidation_records is None:
+        pair_revalidation_records = []
+    snapshot_records = {}
+
+    groups_by_batch = {}
+    for (batch_index, time_index), members in groups.items():
+        groups_by_batch.setdefault(batch_index, {})[time_index] = members
+
+    try:
+        # Phase 1: replay every required formal branch history.  No snapshot
+        # restore or future command is executed in this phase.
+        for batch_index in sorted(groups_by_batch):
+            batch_groups = groups_by_batch[batch_index]
+            env.scene.reset(state=build_state)
+            seed = int(config["replay"]["base_seed"]) + int(batch_index)
+            seed_everything(seed)
+            env.use_qpos = True
+            env.reset()
+
+            target_times = sorted(int(v) for v in batch_groups)
+            if min(target_times) < 2:
+                raise RuntimeError("PB3 live pair history requires t >= 2")
+            history_times = {
+                step
+                for time_index in target_times
+                for step in (time_index - 2, time_index - 1, time_index)
+            }
+            max_target = max(target_times)
+            sampled_batches = {}
+            snapshots = {}
+
+            if 0 in history_times:
+                sampled_batches[0] = sample_env(env)
+            if 0 in target_times:
+                snapshots[0] = env.scene.get_state()
+
+            for step_index in range(1, max_target + 1):
+                _dual_arm_command(env, qpos[step_index])
+                for _ in range(n_intervals):
+                    env.scene.step()
+                if step_index in history_times:
+                    sampled_batches[step_index] = sample_env(env)
+                if step_index in target_times:
+                    snapshots[step_index] = env.scene.get_state()
+
+            for time_index in target_times:
+                members = batch_groups[time_index]
+                reference_batch = sampled_batches[time_index]
+                snapshot_records[(batch_index, time_index)] = {
+                    "snapshot": snapshots[time_index],
+                    "reference_batch": reference_batch,
+                    "members": members,
+                }
+
+                for key, row in members:
+                    rollout_id = int(row["rollout_id"])
+                    frozen_index = frozen_lookup[rollout_id]
+                    if not bool(frozen["official_rollout_valid"][frozen_index]):
+                        raise RuntimeError(
+                            "PB3 shortlist contains a frozen official-invalid rollout"
+                        )
+
+                    env_index = int(row["env_index"])
+                    live = extract_env_sample(reference_batch, env_index)
+                    frozen_sample = _frozen_branch_sample(
+                        frozen,
+                        frozen_index,
+                        time_index,
+                    )
+                    alignment = targeted_replay_alignment(
+                        live,
+                        frozen_sample,
+                        rule,
+                    )
+                    side_output[key]["alignment"] = alignment
+                    side_output[key]["live_history"] = [
+                        extract_env_sample(sampled_batches[step], env_index)
+                        for step in (time_index - 2, time_index - 1, time_index)
+                    ]
+                    side_output[key]["common_action_history"] = np.asarray(
+                        qpos[time_index - 2: time_index + 1]
+                    ).copy()
+                    alignment_records.append(
+                        {
+                            "rollout_id": rollout_id,
+                            "time_index": int(time_index),
+                            **alignment,
+                        }
+                    )
+
+        # This barrier is evaluated only after all 20 states were attempted.
+        enforce_targeted_alignment_barrier(alignment_records)
+
+        # Phase 2: re-evaluate every frozen formal pair on the actual live
+        # three-frame histories.  Still no future command has been executed.
+        for pair in shortlist["pairs"]:
+            time_index = int(pair["time_index"])
+            key_a = (int(pair["rollout_a"]), time_index)
+            key_b = (int(pair["rollout_b"]), time_index)
+            action_a = side_output[key_a]["common_action_history"]
+            action_b = side_output[key_b]["common_action_history"]
+            pair_result = live_pair_revalidation(
+                side_output[key_a]["live_history"],
+                side_output[key_b]["live_history"],
+                rule,
+                same_time=(
+                    side_output[key_a]["meta"]["time_index"]
+                    == side_output[key_b]["meta"]["time_index"]
+                    == time_index
+                ),
+                common_action_history_equal=np.array_equal(action_a, action_b),
+            )
+            pair_revalidation_records.append(
+                {
+                    "pair_id": pair["pair_id"],
+                    "rollout_a": int(pair["rollout_a"]),
+                    "rollout_b": int(pair["rollout_b"]),
+                    "time_index": time_index,
+                    **pair_result,
+                }
+            )
+
+        enforce_live_pair_barrier(pair_revalidation_records)
+
+        # Phase 3: only after both complete pre-future barriers pass may any
+        # snapshot be restored or any future suffix command be issued.
+        for batch_time in sorted(snapshot_records):
+            time_index = int(batch_time[1])
+            record = snapshot_records[batch_time]
+            snapshot = record["snapshot"]
+            reference_batch = record["reference_batch"]
+            members = record["members"]
+
+            for repeat_index in range(repeat_count):
+                env.scene.reset(state=snapshot)
+                restored_batch = sample_env(env)
+                repeat_store = {}
+                suffix_valid = {key: True for key, _ in members}
+
+                for key, row in members:
+                    env_index = int(row["env_index"])
+                    reference = extract_env_sample(reference_batch, env_index)
+                    restored = extract_env_sample(restored_batch, env_index)
+                    restore_error = float(
+                        np.max(
+                            np.abs(
+                                restored["rope_xyz"] - reference["rope_xyz"]
+                            )
+                        )
+                    )
+                    side_output[key]["snapshot_restore_errors_m"].append(
+                        restore_error
+                    )
+                    if restore_error > float(
+                        rule["snapshot_restore_alignment"]["threshold_m"]
+                    ):
+                        raise PB3Blocked(
+                            "PB3_SNAPSHOT_RESTORE_ALIGNMENT_FAILED",
+                            {
+                                "rollout_id": int(row["rollout_id"]),
+                                "time_index": time_index,
+                                "repeat_index": int(repeat_index),
+                                "rope_max_abs_m": restore_error,
+                            },
+                        )
+                    repeat_store[key] = {0: restored}
+
+                for relative_step in range(1, max_horizon + 1):
+                    command_index = time_index + relative_step
+                    if command_index >= len(qpos):
+                        raise RuntimeError(
+                            "PB3 horizon exceeds best_qpos length: "
+                            f"{command_index}"
+                        )
+                    _dual_arm_command(env, qpos[command_index])
+                    for _ in range(n_intervals):
+                        env.scene.step()
+
+                    rope_now = np.asarray(env.rope.get_all_verts())
+                    dist_now = to_numpy(
+                        env.rope.get_geodesic_distance(
+                            env.control_idx[0],
+                            env.control_idx[1],
+                        )
+                    ).reshape(env.n_envs)
+                    stretch_ratio = dist_now / to_numpy(
+                        env.control_dist_init
+                    ).reshape(env.n_envs)
+                    for key, row in members:
+                        env_index = int(row["env_index"])
+                        if (
+                            np.isnan(rope_now[env_index]).any()
+                            or stretch_ratio[env_index]
+                            > float(
+                                config["replay"]["official_stretch_ratio_limit"]
+                            )
+                        ):
+                            suffix_valid[key] = False
+
+                    if relative_step in horizons:
+                        sampled = sample_env(env)
+                        for key, row in members:
+                            repeat_store[key][relative_step] = extract_env_sample(
+                                sampled,
+                                int(row["env_index"]),
+                            )
+
+                for key, row in members:
+                    if not suffix_valid[key]:
+                        raise PB3Blocked(
+                            "PB3_REPEAT_SUFFIX_INVALID",
+                            {
+                                "rollout_id": int(row["rollout_id"]),
+                                "time_index": time_index,
+                                "repeat_index": int(repeat_index),
+                            },
+                        )
+                    side_output[key]["repeats"].append(repeat_store[key])
+
+    finally:
+        env.stop()
+
+    return side_output, alignment_records, pair_revalidation_records
+
+
 def analyze_pairs(
         config,
         shortlist,
@@ -1820,6 +2215,8 @@ def write_outputs(
         shortlist_validation,
         verdict,
         alignment_records,
+        pair_revalidation_records=None,
+        r3_rule=None,
         audit=None,
         blocked_details=None,
         trajectories_path=None):
@@ -1842,6 +2239,21 @@ def write_outputs(
     committed.mkdir(
         parents=True,
         exist_ok=True,
+    )
+
+    pair_revalidation_records = pair_revalidation_records or []
+    pre_future_valid = bool(
+        len(alignment_records) == 20
+        and all(row.get("valid", False) for row in alignment_records)
+        and len(pair_revalidation_records) == 10
+        and all(row.get("valid", False) for row in pair_revalidation_records)
+    )
+    future_suffix_executed = bool(
+        verdict in (
+            "PB3_CAUSAL_FUTURE_BIFURCATION_CONFIRMED",
+            "PB3_CAUSAL_FUTURE_BIFURCATION_NOT_CONFIRMED",
+            "PB3_REPEAT_SUFFIX_INVALID",
+        )
     )
 
     result = {
@@ -1909,6 +2321,27 @@ def write_outputs(
 
         "alignment_records":
             alignment_records,
+
+        "live_pair_revalidation_records":
+            pair_revalidation_records,
+
+        "pre_future_barrier": {
+            "all_20_targeted_replay_alignments_valid": bool(
+                len(alignment_records) == 20
+                and all(row.get("valid", False) for row in alignment_records)
+            ),
+            "all_10_live_pairs_valid": bool(
+                len(pair_revalidation_records) == 10
+                and all(
+                    row.get("valid", False)
+                    for row in pair_revalidation_records
+                )
+            ),
+            "valid": pre_future_valid,
+            "future_suffix_executed": future_suffix_executed,
+        },
+
+        "pb3r3_alignment_rule": r3_rule,
 
         "audit":
             audit,
@@ -2035,6 +2468,11 @@ def write_outputs(
             "interpret future bifurcation and do not loosen the alignment "
             "tolerance automatically."
         )
+    elif verdict == "PB3_R3_LIVE_BRANCH_ALIGNMENT_FAILED":
+        next_action = (
+            "Stop before all snapshot/future work. Preserve the frozen R3 "
+            "rule and formal 10-pair shortlist; do not drop or replace pairs."
+        )
     elif verdict == (
         "PB3_SNAPSHOT_RESTORE_ALIGNMENT_FAILED"
     ):
@@ -2080,6 +2518,12 @@ def write_outputs(
             "- Targeted replay alignment valid: "
             f"{all(row.get('valid', False) for row in alignment_records) if alignment_records else False}"
         ),
+        (
+            "- Live PB2-C pair revalidation valid: "
+            f"{all(row.get('valid', False) for row in pair_revalidation_records) if pair_revalidation_records else False}"
+        ),
+        f"- Pre-future barrier passed: {pre_future_valid}",
+        f"- Future suffix executed: {future_suffix_executed}",
     ]
 
     if audit is not None:
@@ -2189,18 +2633,29 @@ def run(config_path):
         )
 
     alignment_records = []
+    pair_revalidation_records = []
+    r3_rule = sources.get("r3_rule")
 
     try:
-        side_output, alignment_records = (
-            run_snapshot_replays(
+        if r3_rule is None:
+            side_output, alignment_records = run_snapshot_replays(
                 config,
-                sources[
-                    "shortlist"
-                ],
+                sources["shortlist"],
                 frozen,
                 qpos,
             )
-        )
+        else:
+            side_output, alignment_records, pair_revalidation_records = (
+                run_snapshot_replays_r3(
+                    config,
+                    sources["shortlist"],
+                    frozen,
+                    qpos,
+                    r3_rule,
+                    alignment_records=alignment_records,
+                    pair_revalidation_records=pair_revalidation_records,
+                )
+            )
 
         audit = analyze_pairs(
             config,
@@ -2241,6 +2696,8 @@ def run(config_path):
             verdict=verdict,
             alignment_records=
                 alignment_records,
+            pair_revalidation_records=pair_revalidation_records,
+            r3_rule=r3_rule,
             audit=audit,
             trajectories_path=
                 trajectories_path,
@@ -2259,6 +2716,8 @@ def run(config_path):
             verdict=blocked.verdict,
             alignment_records=
                 alignment_records,
+            pair_revalidation_records=pair_revalidation_records,
+            r3_rule=r3_rule,
             blocked_details=
                 blocked.details,
         )
@@ -2274,16 +2733,50 @@ def run(config_path):
     return result
 
 
+def validate_resume_sources(config_path):
+    """CPU-only validation of frozen PB3 Resume inputs and R3 rule."""
+    config = load_json(config_path)
+    sources = validate_sources(config)
+    if "r3_rule" not in sources:
+        raise RuntimeError("PB3 Resume config must provide a validated R3 rule")
+    frozen = load_frozen_rollouts(sources["raw_path"])
+    qpos_path = official_log_dir() / "best_qpos.npy"
+    if not qpos_path.is_file():
+        raise FileNotFoundError(str(qpos_path))
+    qpos = normalize_qpos(np.load(qpos_path))
+    if not np.array_equal(qpos, frozen["common_qpos_replay"]):
+        raise RuntimeError(
+            "PB3 official best_qpos differs from frozen PB2-C common replay"
+        )
+    print("PB3 Resume source validation: PASS")
+    print(
+        "formal_pairs={} formal_rollouts={} rope_threshold_m={:.17g}".format(
+            len(sources["shortlist"]["pairs"]),
+            sources["shortlist_validation"]["unique_rollout_count"],
+            float(
+                sources["r3_rule"][
+                    "targeted_replay_engineering_alignment"
+                ]["rope"]["threshold_m"]
+            ),
+        )
+    )
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--config",
         required=True,
     )
-    args = parser.parse_args()
-    run(
-        args.config
+    parser.add_argument(
+        "--validate-only",
+        action="store_true",
     )
+    args = parser.parse_args()
+    if args.validate_only:
+        validate_resume_sources(args.config)
+    else:
+        run(args.config)
 
 
 if __name__ == "__main__":
