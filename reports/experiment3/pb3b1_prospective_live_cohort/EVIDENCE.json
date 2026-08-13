@@ -1,0 +1,735 @@
+{
+  "phase_name": "pb3b1-dlolab-wrapping-prospective-live-cohort-discovery",
+  "verdict": "PB3B1_PROSPECTIVE_LIVE_COHORT_FROZEN",
+  "repository": {
+    "starting_main_sha": "1545b89224bb55cc5b396048dba986f53de49b1e",
+    "ending_main_sha": "fa6badcf110bf70e252f8f65e7c438b8f89ea9b4",
+    "dlolab_gitlink": "c5026a9416b03c6bc5186eba13cd4ffd4c0e7796"
+  },
+  "scientific": {
+    "verdict": "PB3B1_PROSPECTIVE_LIVE_COHORT_FROZEN",
+    "protocol": {
+      "phase": "PB3-B1",
+      "verdict": "PB3B1_PROTOCOL_PREREGISTERED",
+      "purpose": "Prospective live-pair cohort discovery only; no causal future suffix in this phase.",
+      "source_state": {
+        "historical_pb3_resume_verdict": "PB3_R3_LIVE_BRANCH_ALIGNMENT_FAILED",
+        "historical_pb3_future_suffix_executed": false,
+        "pb3r2_verdict": "PB3R2_REPLAY_FLOOR_CALIBRATED",
+        "pb3r3_verdict": "PB3R3_ALIGNMENT_RULE_PREREGISTERED"
+      },
+      "fixed_exclusions": {
+        "historical_formal_pb3_rollout_ids": [
+          2,
+          5,
+          6,
+          10,
+          18,
+          24,
+          36,
+          39,
+          46,
+          55,
+          61,
+          69,
+          72,
+          73,
+          78,
+          83,
+          97,
+          105,
+          109,
+          124
+        ],
+        "pb3r2_calibration_rollout_ids": [
+          0,
+          9,
+          16,
+          23,
+          31,
+          32,
+          40,
+          47,
+          56,
+          63,
+          64,
+          71,
+          81,
+          89,
+          95,
+          96,
+          103,
+          113,
+          119,
+          127
+        ],
+        "union_count": 40,
+        "union_rollout_ids": [
+          0,
+          2,
+          5,
+          6,
+          9,
+          10,
+          16,
+          18,
+          23,
+          24,
+          31,
+          32,
+          36,
+          39,
+          40,
+          46,
+          47,
+          55,
+          56,
+          61,
+          63,
+          64,
+          69,
+          71,
+          72,
+          73,
+          78,
+          81,
+          83,
+          89,
+          95,
+          96,
+          97,
+          103,
+          105,
+          109,
+          113,
+          119,
+          124,
+          127
+        ],
+        "reason": "Keep the prospective cohort independent of historical formal PB3 branch outcomes and PB3-R2 threshold-calibration states."
+      },
+      "candidate_queue": {
+        "source": "prefix-only frozen PB2-C-style candidate ranking",
+        "prefix_candidate_count": 5534,
+        "historical_survivor_subset_validation": {
+          "historical_survivor_candidate_count": 5534,
+          "historical_committed_candidate_count": 5534,
+          "historical_top_k_validated": true
+        },
+        "selection_used_full_rollout_survival": false,
+        "selection_used_final_reward": false,
+        "eligible_candidate_count": 2191,
+        "ranking_rule": [
+          "visible_rope_history_chamfer_m ascending",
+          "dual_ee_position_history_mean_m ascending",
+          "dual_ee_quaternion_geodesic_history_mean_rad ascending",
+          "dual_motor_qpos_history_rms_rad ascending",
+          "differing_post_count descending"
+        ],
+        "source_rank_preserved_after_exclusion": true,
+        "future_information_used": false
+      },
+      "live_collection": {
+        "batch_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "n_envs": 32,
+        "n_steps_sub": 10,
+        "base_seed": 123,
+        "wrapping_args": {
+          "pos_bound": [
+            -0.025,
+            -0.01,
+            0.025,
+            0.01
+          ]
+        },
+        "common_official_best_qpos": true,
+        "reuse_original_pb2c_replay_batch": true
+      },
+      "live_admission": {
+        "history_samples": 3,
+        "branch_validity": "finite selection fields and no rope-NaN/stretch failure at or before the candidate branch time",
+        "post_branch_validity_used": false,
+        "partial_rope": {
+          "occlusion_radius_m": 0.05,
+          "max_visible_history_chamfer_m": 0.01,
+          "require_nonempty_visible_rope_each_frame": true
+        },
+        "robot": {
+          "max_dual_ee_position_history_mean_m": 0.01,
+          "max_dual_ee_quaternion_geodesic_history_mean_rad": 0.08726646259971647,
+          "max_dual_motor_qpos_history_rms_rad": 0.05
+        },
+        "hidden_state": {
+          "descriptor": "rounded_signed_task_native_winding_index",
+          "require_live_index_vector_different": true
+        },
+        "same_time_required": true,
+        "common_action_history_equal_by_construction": true,
+        "future_divergence_used": false,
+        "force_or_sensor_used": false,
+        "reward_used": false,
+        "historical_frozen_to_live_alignment_used_as_gate": false,
+        "pb3r3_61_945756736um_rule_used_as_gate": false
+      },
+      "cohort_selection": {
+        "target_pair_count": 10,
+        "max_rollout_use_count": 1,
+        "scan_rule": "Scan the frozen prefix-only PB2-C-style candidate ranking after fixed rollout exclusions. For each candidate, evaluate only the fresh live t-2:t history at its frozen candidate time. Accept iff the live pair satisfies the frozen PB2-C observation/robot/winding semantics and neither rollout was used by a previously accepted pair. Stop immediately after the first 10 accepted pairs.",
+        "stop_after_first_target_pair_count": true,
+        "minimum_live_winding_strata_to_proceed": 2,
+        "continue_scanning_to_rescue_strata_after_first_10": false,
+        "allow_pair_drop": false,
+        "allow_pair_replacement": false
+      },
+      "phase_boundary": {
+        "branch_snapshot_created": false,
+        "future_suffix_executed": false,
+        "gate4_executed": false,
+        "pb4_started": false,
+        "training_started": false,
+        "next_if_success": "PB3-B2: revalidate the frozen prospective cohort live, then run the unchanged snapshot same-action multi-horizon Gate 4."
+      }
+    },
+    "prefix_candidate_count": 5534,
+    "historical_survivor_subset_validation": {
+      "historical_survivor_candidate_count": 5534,
+      "historical_committed_candidate_count": 5534,
+      "historical_top_k_validated": true
+    },
+    "eligible_candidate_count_after_fixed_exclusions": 2191,
+    "screen_funnel": {
+      "eligible_queue_candidates": 2191,
+      "scanned_until_stop": 73,
+      "rejected_rollout_already_used": 63,
+      "rejected_branch_invalid_through_time": 0,
+      "rejected_live_hidden_same": 0,
+      "rejected_empty_visible_history": 0,
+      "rejected_ee_position": 0,
+      "rejected_ee_quaternion": 0,
+      "rejected_motor_qpos": 0,
+      "rejected_visible_chamfer": 0,
+      "live_valid_before_rollout_uniqueness": 10,
+      "accepted_pairs": 10
+    },
+    "cohort": {
+      "phase": "PB3-B1",
+      "verdict": "PB3B1_PROSPECTIVE_LIVE_COHORT_FROZEN",
+      "protocol_verdict": "PB3B1_PROTOCOL_PREREGISTERED",
+      "selection": {
+        "target_pair_count": 10,
+        "accepted_pair_count": 10,
+        "unique_rollout_count": 20,
+        "source_rank_scan_preserved": true,
+        "first_10_live_valid_rollout_disjoint_pairs": true,
+        "continued_after_first_10_to_rescue_strata": false,
+        "pair_drop_allowed": false,
+        "pair_replacement_allowed": false,
+        "future_information_used": false
+      },
+      "live_winding_strata": [
+        "0,0,0<->0,1,0",
+        "0,1,0<->1,1,0"
+      ],
+      "live_winding_strata_count": 2,
+      "pairs": [
+        {
+          "cohort_rank": 1,
+          "source_rank": 49,
+          "rollout_a": 14,
+          "rollout_b": 87,
+          "time_index": 20,
+          "replay_a": {
+            "batch_index": 0,
+            "env_index": 14,
+            "seed": 123
+          },
+          "replay_b": {
+            "batch_index": 2,
+            "env_index": 23,
+            "seed": 125
+          },
+          "live_metrics": {
+            "visible_rope_history_chamfer_m": 0.0008905755173631761,
+            "dual_ee_position_history_mean_m": 0.00027742478414438665,
+            "dual_ee_quaternion_geodesic_history_mean_rad": 0.00032112750607860084,
+            "dual_motor_qpos_history_rms_rad": 0.0003969053504988551,
+            "winding_index_a": [
+              1,
+              1,
+              0
+            ],
+            "winding_index_b": [
+              0,
+              1,
+              0
+            ],
+            "winding_stratum": "0,1,0<->1,1,0",
+            "visible_vertex_counts_a": [
+              36,
+              36,
+              35
+            ],
+            "visible_vertex_counts_b": [
+              36,
+              36,
+              35
+            ]
+          },
+          "action_history_equal_by_construction": true,
+          "selection_used_future_divergence": false,
+          "selection_used_force_or_sensor": false,
+          "selection_used_reward": false
+        },
+        {
+          "cohort_rank": 2,
+          "source_rank": 70,
+          "rollout_a": 68,
+          "rollout_b": 88,
+          "time_index": 13,
+          "replay_a": {
+            "batch_index": 2,
+            "env_index": 4,
+            "seed": 125
+          },
+          "replay_b": {
+            "batch_index": 2,
+            "env_index": 24,
+            "seed": 125
+          },
+          "live_metrics": {
+            "visible_rope_history_chamfer_m": 0.0010247558216031035,
+            "dual_ee_position_history_mean_m": 0.00042228924576193094,
+            "dual_ee_quaternion_geodesic_history_mean_rad": 0.00018343396855575184,
+            "dual_motor_qpos_history_rms_rad": 0.0006932757096365094,
+            "winding_index_a": [
+              0,
+              1,
+              0
+            ],
+            "winding_index_b": [
+              0,
+              0,
+              0
+            ],
+            "winding_stratum": "0,0,0<->0,1,0",
+            "visible_vertex_counts_a": [
+              40,
+              39,
+              39
+            ],
+            "visible_vertex_counts_b": [
+              39,
+              39,
+              39
+            ]
+          },
+          "action_history_equal_by_construction": true,
+          "selection_used_future_divergence": false,
+          "selection_used_force_or_sensor": false,
+          "selection_used_reward": false
+        },
+        {
+          "cohort_rank": 3,
+          "source_rank": 80,
+          "rollout_a": 38,
+          "rollout_b": 115,
+          "time_index": 20,
+          "replay_a": {
+            "batch_index": 1,
+            "env_index": 6,
+            "seed": 124
+          },
+          "replay_b": {
+            "batch_index": 3,
+            "env_index": 19,
+            "seed": 126
+          },
+          "live_metrics": {
+            "visible_rope_history_chamfer_m": 0.0010836034648554033,
+            "dual_ee_position_history_mean_m": 0.00033779614022932947,
+            "dual_ee_quaternion_geodesic_history_mean_rad": 0.00015835466060871645,
+            "dual_motor_qpos_history_rms_rad": 0.0005708183161914349,
+            "winding_index_a": [
+              0,
+              1,
+              0
+            ],
+            "winding_index_b": [
+              1,
+              1,
+              0
+            ],
+            "winding_stratum": "0,1,0<->1,1,0",
+            "visible_vertex_counts_a": [
+              36,
+              36,
+              35
+            ],
+            "visible_vertex_counts_b": [
+              36,
+              36,
+              35
+            ]
+          },
+          "action_history_equal_by_construction": true,
+          "selection_used_future_divergence": false,
+          "selection_used_force_or_sensor": false,
+          "selection_used_reward": false
+        },
+        {
+          "cohort_rank": 4,
+          "source_rank": 92,
+          "rollout_a": 27,
+          "rollout_b": 43,
+          "time_index": 20,
+          "replay_a": {
+            "batch_index": 0,
+            "env_index": 27,
+            "seed": 123
+          },
+          "replay_b": {
+            "batch_index": 1,
+            "env_index": 11,
+            "seed": 124
+          },
+          "live_metrics": {
+            "visible_rope_history_chamfer_m": 0.0011357489261263735,
+            "dual_ee_position_history_mean_m": 8.075886580627412e-05,
+            "dual_ee_quaternion_geodesic_history_mean_rad": 0.00010287841368706271,
+            "dual_motor_qpos_history_rms_rad": 0.00011937113595195115,
+            "winding_index_a": [
+              1,
+              1,
+              0
+            ],
+            "winding_index_b": [
+              0,
+              1,
+              0
+            ],
+            "winding_stratum": "0,1,0<->1,1,0",
+            "visible_vertex_counts_a": [
+              36,
+              36,
+              35
+            ],
+            "visible_vertex_counts_b": [
+              36,
+              36,
+              36
+            ]
+          },
+          "action_history_equal_by_construction": true,
+          "selection_used_future_divergence": false,
+          "selection_used_force_or_sensor": false,
+          "selection_used_reward": false
+        },
+        {
+          "cohort_rank": 5,
+          "source_rank": 122,
+          "rollout_a": 107,
+          "rollout_b": 120,
+          "time_index": 20,
+          "replay_a": {
+            "batch_index": 3,
+            "env_index": 11,
+            "seed": 126
+          },
+          "replay_b": {
+            "batch_index": 3,
+            "env_index": 24,
+            "seed": 126
+          },
+          "live_metrics": {
+            "visible_rope_history_chamfer_m": 0.0012346853132522296,
+            "dual_ee_position_history_mean_m": 0.0004992559552192688,
+            "dual_ee_quaternion_geodesic_history_mean_rad": 0.0002250320386165962,
+            "dual_motor_qpos_history_rms_rad": 0.0008393683820031583,
+            "winding_index_a": [
+              0,
+              1,
+              0
+            ],
+            "winding_index_b": [
+              1,
+              1,
+              0
+            ],
+            "winding_stratum": "0,1,0<->1,1,0",
+            "visible_vertex_counts_a": [
+              36,
+              36,
+              36
+            ],
+            "visible_vertex_counts_b": [
+              36,
+              36,
+              35
+            ]
+          },
+          "action_history_equal_by_construction": true,
+          "selection_used_future_divergence": false,
+          "selection_used_force_or_sensor": false,
+          "selection_used_reward": false
+        },
+        {
+          "cohort_rank": 6,
+          "source_rank": 217,
+          "rollout_a": 80,
+          "rollout_b": 123,
+          "time_index": 20,
+          "replay_a": {
+            "batch_index": 2,
+            "env_index": 16,
+            "seed": 125
+          },
+          "replay_b": {
+            "batch_index": 3,
+            "env_index": 27,
+            "seed": 126
+          },
+          "live_metrics": {
+            "visible_rope_history_chamfer_m": 0.001435160741367668,
+            "dual_ee_position_history_mean_m": 0.0006561828195117414,
+            "dual_ee_quaternion_geodesic_history_mean_rad": 0.0003015523908854408,
+            "dual_motor_qpos_history_rms_rad": 0.0010955166071653366,
+            "winding_index_a": [
+              1,
+              1,
+              0
+            ],
+            "winding_index_b": [
+              0,
+              1,
+              0
+            ],
+            "winding_stratum": "0,1,0<->1,1,0",
+            "visible_vertex_counts_a": [
+              36,
+              36,
+              35
+            ],
+            "visible_vertex_counts_b": [
+              36,
+              36,
+              35
+            ]
+          },
+          "action_history_equal_by_construction": true,
+          "selection_used_future_divergence": false,
+          "selection_used_force_or_sensor": false,
+          "selection_used_reward": false
+        },
+        {
+          "cohort_rank": 7,
+          "source_rank": 223,
+          "rollout_a": 84,
+          "rollout_b": 90,
+          "time_index": 13,
+          "replay_a": {
+            "batch_index": 2,
+            "env_index": 20,
+            "seed": 125
+          },
+          "replay_b": {
+            "batch_index": 2,
+            "env_index": 26,
+            "seed": 125
+          },
+          "live_metrics": {
+            "visible_rope_history_chamfer_m": 0.0014472975187402452,
+            "dual_ee_position_history_mean_m": 0.0008954177028499544,
+            "dual_ee_quaternion_geodesic_history_mean_rad": 0.0003523569122031579,
+            "dual_motor_qpos_history_rms_rad": 0.0015009362250566483,
+            "winding_index_a": [
+              0,
+              1,
+              0
+            ],
+            "winding_index_b": [
+              0,
+              0,
+              0
+            ],
+            "winding_stratum": "0,0,0<->0,1,0",
+            "visible_vertex_counts_a": [
+              39,
+              38,
+              38
+            ],
+            "visible_vertex_counts_b": [
+              39,
+              38,
+              38
+            ]
+          },
+          "action_history_equal_by_construction": true,
+          "selection_used_future_divergence": false,
+          "selection_used_force_or_sensor": false,
+          "selection_used_reward": false
+        },
+        {
+          "cohort_rank": 8,
+          "source_rank": 232,
+          "rollout_a": 3,
+          "rollout_b": 4,
+          "time_index": 20,
+          "replay_a": {
+            "batch_index": 0,
+            "env_index": 3,
+            "seed": 123
+          },
+          "replay_b": {
+            "batch_index": 0,
+            "env_index": 4,
+            "seed": 123
+          },
+          "live_metrics": {
+            "visible_rope_history_chamfer_m": 0.0014780428166939784,
+            "dual_ee_position_history_mean_m": 7.483396620955318e-05,
+            "dual_ee_quaternion_geodesic_history_mean_rad": 8.325016810393927e-05,
+            "dual_motor_qpos_history_rms_rad": 0.00010478010517545044,
+            "winding_index_a": [
+              0,
+              1,
+              0
+            ],
+            "winding_index_b": [
+              1,
+              1,
+              0
+            ],
+            "winding_stratum": "0,1,0<->1,1,0",
+            "visible_vertex_counts_a": [
+              36,
+              36,
+              36
+            ],
+            "visible_vertex_counts_b": [
+              36,
+              36,
+              35
+            ]
+          },
+          "action_history_equal_by_construction": true,
+          "selection_used_future_divergence": false,
+          "selection_used_force_or_sensor": false,
+          "selection_used_reward": false
+        },
+        {
+          "cohort_rank": 9,
+          "source_rank": 270,
+          "rollout_a": 67,
+          "rollout_b": 104,
+          "time_index": 13,
+          "replay_a": {
+            "batch_index": 2,
+            "env_index": 3,
+            "seed": 125
+          },
+          "replay_b": {
+            "batch_index": 3,
+            "env_index": 8,
+            "seed": 126
+          },
+          "live_metrics": {
+            "visible_rope_history_chamfer_m": 0.0015514439798881487,
+            "dual_ee_position_history_mean_m": 0.0009178023901768029,
+            "dual_ee_quaternion_geodesic_history_mean_rad": 0.00036767490237587933,
+            "dual_motor_qpos_history_rms_rad": 0.001553443493321538,
+            "winding_index_a": [
+              0,
+              0,
+              0
+            ],
+            "winding_index_b": [
+              0,
+              1,
+              0
+            ],
+            "winding_stratum": "0,0,0<->0,1,0",
+            "visible_vertex_counts_a": [
+              39,
+              38,
+              38
+            ],
+            "visible_vertex_counts_b": [
+              39,
+              38,
+              38
+            ]
+          },
+          "action_history_equal_by_construction": true,
+          "selection_used_future_divergence": false,
+          "selection_used_force_or_sensor": false,
+          "selection_used_reward": false
+        },
+        {
+          "cohort_rank": 10,
+          "source_rank": 419,
+          "rollout_a": 102,
+          "rollout_b": 125,
+          "time_index": 13,
+          "replay_a": {
+            "batch_index": 3,
+            "env_index": 6,
+            "seed": 126
+          },
+          "replay_b": {
+            "batch_index": 3,
+            "env_index": 29,
+            "seed": 126
+          },
+          "live_metrics": {
+            "visible_rope_history_chamfer_m": 0.0018429945688485242,
+            "dual_ee_position_history_mean_m": 0.0011465562274679542,
+            "dual_ee_quaternion_geodesic_history_mean_rad": 0.00047464029411862607,
+            "dual_motor_qpos_history_rms_rad": 0.001912912935949862,
+            "winding_index_a": [
+              0,
+              1,
+              0
+            ],
+            "winding_index_b": [
+              0,
+              0,
+              0
+            ],
+            "winding_stratum": "0,0,0<->0,1,0",
+            "visible_vertex_counts_a": [
+              39,
+              38,
+              38
+            ],
+            "visible_vertex_counts_b": [
+              39,
+              38,
+              38
+            ]
+          },
+          "action_history_equal_by_construction": true,
+          "selection_used_future_divergence": false,
+          "selection_used_force_or_sensor": false,
+          "selection_used_reward": false
+        }
+      ],
+      "phase_boundary": {
+        "branch_snapshot_created": false,
+        "future_suffix_executed": false,
+        "gate4_executed": false,
+        "pb4_started": false,
+        "training_started": false
+      }
+    },
+    "non_claims": [
+      "PB3-B1 is prospective pair discovery only; it does not establish same-action future bifurcation.",
+      "The artificial partial-rope observation remains a discovery surrogate and is not claimed deployable.",
+      "Historical frozen-to-live reconstruction error is not a formal PB3-B1 admission gate."
+    ]
+  }
+}

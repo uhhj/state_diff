@@ -1,13 +1,13 @@
 # CCDA Agent Research Master Plan
 ## 科学主线、执行边界与工程守则
 
-> **PB3 current status (2026-08-13)**: PB3-R2 is `PB3R2_REPLAY_FLOOR_CALIBRATED` and PB3-R3 is frozen at `PB3R3_ALIGNMENT_RULE_PREREGISTERED`. Formal PB3 Resume stopped with `PB3_R3_LIVE_BRANCH_ALIGNMENT_FAILED` at `failure_component=targeted_replay_alignment`: all 20 formal branch states were evaluated, 17 passed and rollouts 39/55/97 at t20 failed; rollout 55 also failed exact winding-index equality. The global pre-future barrier worked: live-pair revalidation, branch snapshot creation, future suffix, Gate 4, PB4, and StateDiff training were not executed. Preserve the committed 61.945756736 um coordinate-RMSE rule, 50 um snapshot max-abs rule, and frozen 10-pair shortlist; do not drop/replace pairs or resume automatically.
+> **PB3 current status (2026-08-13)**: PB3-R2 remains `PB3R2_REPLAY_FLOOR_CALIBRATED`; PB3-R3 is frozen at `PB3R3_ALIGNMENT_RULE_PREREGISTERED`; and the historical formal PB3 Resume remains `PB3_R3_LIVE_BRANCH_ALIGNMENT_FAILED` at `failure_component=targeted_replay_alignment`. PB3-B1 has now frozen a new independent prospective live cohort: 10/10 rollout-disjoint pairs across two live winding strata, selected from the prefix-only frozen ranking after the fixed 40-rollout exclusion. PB3-B1 used no future divergence, reward, force/sensor signal, branch snapshot, suffix, or Gate 4. The next permitted step is PB3-B2: revalidate these exact live pairs before any causal suffix; retain the committed 61.945756736 um reconstruction rule, 50 um snapshot max-abs rule, and all no-drop/no-replacement boundaries.
 
 > **用途**：本文件用于约束 Agent / Codex / 自动化研究执行，防止项目在工程细节、审计、防御性编程、无效仿真调参或局部诊断上偏离主研究目标。  
 > **适用项目**：CCDA — Contact-Conditioned Deformation Branch Ambiguity  
 > **当前主仓库**：`uhhj/state_diff`，主研究分支 `Experiment3`  
 > **当前已发布仿真基座**：DLO-Lab，固定 revision `c5026a9416b03c6bc5186eba13cd4ffd4c0e7796`  
-> **当前科学状态**：Wiring-post 主路线已停止。DLO-Lab Wrapping 的 PB2-A/B 已正式通过：官方任务复现、task-native winding 定义和语义 winding 转换均成立。PB2-C 已正式通过并得到 5,534 个 frozen discovery candidates。PB3 已在 future suffix 前因 targeted replay alignment 失败而阻断，未产生 Gate 4 结论。PB3-R1 未确认 acquisition-history dependence。PB3-R2 在第 8 个 logical worker 无 artifact 的 returncode 120 后 blocked；当前立即任务为 PB3-R2E execution-harness diagnosis 与 resume freeze。PB3 future suffix / Gate 4 仍未运行；在 PB3 恢复并通过以及 PB4 完成前禁止启动 StateDiff/CFPM 大规模训练。
+> **当前科学状态**：Wiring-post 主路线已停止。DLO-Lab Wrapping 的 PB2-A/B 已正式通过：官方任务复现、task-native winding 定义和语义 winding 转换均成立。PB2-C 已正式通过并得到 5,534 个 frozen discovery candidates。历史 formal PB3 Resume 在 targeted replay alignment 失败时停止，未产生 Gate 4 结论；PB3-R1 未确认 acquisition-history dependence，PB3-R2 已完成 replay-floor calibration，PB3-R3 已冻结 alignment rule。PB3-B1 现已从 prefix-only frozen ranking（固定排除 40 个 rollout）冻结新的独立 prospective live cohort：10/10 rollout-disjoint pairs、2 个 live winding strata；未使用 future、reward、force/sensor、snapshot、future suffix 或 Gate 4。当前唯一允许的下一步是 PB3-B2：先重验这同一批 live pairs，再决定是否进入不变的 causal suffix。PB3 future suffix / Gate 4 尚未运行；在 PB3 通过和 PB4 完成前禁止启动 StateDiff/CFPM 大规模训练。
 > **原则**：科学结论必须严谨；工程执行必须简洁；一旦机制证据充分，立即推进端到端系统，不继续无限审计。
 
 ---

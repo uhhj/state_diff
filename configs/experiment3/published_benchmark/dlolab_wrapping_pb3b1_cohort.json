@@ -1,0 +1,510 @@
+{
+  "phase": "PB3-B1",
+  "verdict": "PB3B1_PROSPECTIVE_LIVE_COHORT_FROZEN",
+  "protocol_verdict": "PB3B1_PROTOCOL_PREREGISTERED",
+  "selection": {
+    "target_pair_count": 10,
+    "accepted_pair_count": 10,
+    "unique_rollout_count": 20,
+    "source_rank_scan_preserved": true,
+    "first_10_live_valid_rollout_disjoint_pairs": true,
+    "continued_after_first_10_to_rescue_strata": false,
+    "pair_drop_allowed": false,
+    "pair_replacement_allowed": false,
+    "future_information_used": false
+  },
+  "live_winding_strata": [
+    "0,0,0<->0,1,0",
+    "0,1,0<->1,1,0"
+  ],
+  "live_winding_strata_count": 2,
+  "pairs": [
+    {
+      "cohort_rank": 1,
+      "source_rank": 49,
+      "rollout_a": 14,
+      "rollout_b": 87,
+      "time_index": 20,
+      "replay_a": {
+        "batch_index": 0,
+        "env_index": 14,
+        "seed": 123
+      },
+      "replay_b": {
+        "batch_index": 2,
+        "env_index": 23,
+        "seed": 125
+      },
+      "live_metrics": {
+        "visible_rope_history_chamfer_m": 0.0008905755173631761,
+        "dual_ee_position_history_mean_m": 0.00027742478414438665,
+        "dual_ee_quaternion_geodesic_history_mean_rad": 0.00032112750607860084,
+        "dual_motor_qpos_history_rms_rad": 0.0003969053504988551,
+        "winding_index_a": [
+          1,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          1,
+          0
+        ],
+        "winding_stratum": "0,1,0<->1,1,0",
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          35
+        ]
+      },
+      "action_history_equal_by_construction": true,
+      "selection_used_future_divergence": false,
+      "selection_used_force_or_sensor": false,
+      "selection_used_reward": false
+    },
+    {
+      "cohort_rank": 2,
+      "source_rank": 70,
+      "rollout_a": 68,
+      "rollout_b": 88,
+      "time_index": 13,
+      "replay_a": {
+        "batch_index": 2,
+        "env_index": 4,
+        "seed": 125
+      },
+      "replay_b": {
+        "batch_index": 2,
+        "env_index": 24,
+        "seed": 125
+      },
+      "live_metrics": {
+        "visible_rope_history_chamfer_m": 0.0010247558216031035,
+        "dual_ee_position_history_mean_m": 0.00042228924576193094,
+        "dual_ee_quaternion_geodesic_history_mean_rad": 0.00018343396855575184,
+        "dual_motor_qpos_history_rms_rad": 0.0006932757096365094,
+        "winding_index_a": [
+          0,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          0,
+          0
+        ],
+        "winding_stratum": "0,0,0<->0,1,0",
+        "visible_vertex_counts_a": [
+          40,
+          39,
+          39
+        ],
+        "visible_vertex_counts_b": [
+          39,
+          39,
+          39
+        ]
+      },
+      "action_history_equal_by_construction": true,
+      "selection_used_future_divergence": false,
+      "selection_used_force_or_sensor": false,
+      "selection_used_reward": false
+    },
+    {
+      "cohort_rank": 3,
+      "source_rank": 80,
+      "rollout_a": 38,
+      "rollout_b": 115,
+      "time_index": 20,
+      "replay_a": {
+        "batch_index": 1,
+        "env_index": 6,
+        "seed": 124
+      },
+      "replay_b": {
+        "batch_index": 3,
+        "env_index": 19,
+        "seed": 126
+      },
+      "live_metrics": {
+        "visible_rope_history_chamfer_m": 0.0010836034648554033,
+        "dual_ee_position_history_mean_m": 0.00033779614022932947,
+        "dual_ee_quaternion_geodesic_history_mean_rad": 0.00015835466060871645,
+        "dual_motor_qpos_history_rms_rad": 0.0005708183161914349,
+        "winding_index_a": [
+          0,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          1,
+          1,
+          0
+        ],
+        "winding_stratum": "0,1,0<->1,1,0",
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          35
+        ]
+      },
+      "action_history_equal_by_construction": true,
+      "selection_used_future_divergence": false,
+      "selection_used_force_or_sensor": false,
+      "selection_used_reward": false
+    },
+    {
+      "cohort_rank": 4,
+      "source_rank": 92,
+      "rollout_a": 27,
+      "rollout_b": 43,
+      "time_index": 20,
+      "replay_a": {
+        "batch_index": 0,
+        "env_index": 27,
+        "seed": 123
+      },
+      "replay_b": {
+        "batch_index": 1,
+        "env_index": 11,
+        "seed": 124
+      },
+      "live_metrics": {
+        "visible_rope_history_chamfer_m": 0.0011357489261263735,
+        "dual_ee_position_history_mean_m": 8.075886580627412e-05,
+        "dual_ee_quaternion_geodesic_history_mean_rad": 0.00010287841368706271,
+        "dual_motor_qpos_history_rms_rad": 0.00011937113595195115,
+        "winding_index_a": [
+          1,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          1,
+          0
+        ],
+        "winding_stratum": "0,1,0<->1,1,0",
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          36
+        ]
+      },
+      "action_history_equal_by_construction": true,
+      "selection_used_future_divergence": false,
+      "selection_used_force_or_sensor": false,
+      "selection_used_reward": false
+    },
+    {
+      "cohort_rank": 5,
+      "source_rank": 122,
+      "rollout_a": 107,
+      "rollout_b": 120,
+      "time_index": 20,
+      "replay_a": {
+        "batch_index": 3,
+        "env_index": 11,
+        "seed": 126
+      },
+      "replay_b": {
+        "batch_index": 3,
+        "env_index": 24,
+        "seed": 126
+      },
+      "live_metrics": {
+        "visible_rope_history_chamfer_m": 0.0012346853132522296,
+        "dual_ee_position_history_mean_m": 0.0004992559552192688,
+        "dual_ee_quaternion_geodesic_history_mean_rad": 0.0002250320386165962,
+        "dual_motor_qpos_history_rms_rad": 0.0008393683820031583,
+        "winding_index_a": [
+          0,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          1,
+          1,
+          0
+        ],
+        "winding_stratum": "0,1,0<->1,1,0",
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          36
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          35
+        ]
+      },
+      "action_history_equal_by_construction": true,
+      "selection_used_future_divergence": false,
+      "selection_used_force_or_sensor": false,
+      "selection_used_reward": false
+    },
+    {
+      "cohort_rank": 6,
+      "source_rank": 217,
+      "rollout_a": 80,
+      "rollout_b": 123,
+      "time_index": 20,
+      "replay_a": {
+        "batch_index": 2,
+        "env_index": 16,
+        "seed": 125
+      },
+      "replay_b": {
+        "batch_index": 3,
+        "env_index": 27,
+        "seed": 126
+      },
+      "live_metrics": {
+        "visible_rope_history_chamfer_m": 0.001435160741367668,
+        "dual_ee_position_history_mean_m": 0.0006561828195117414,
+        "dual_ee_quaternion_geodesic_history_mean_rad": 0.0003015523908854408,
+        "dual_motor_qpos_history_rms_rad": 0.0010955166071653366,
+        "winding_index_a": [
+          1,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          1,
+          0
+        ],
+        "winding_stratum": "0,1,0<->1,1,0",
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          35
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          35
+        ]
+      },
+      "action_history_equal_by_construction": true,
+      "selection_used_future_divergence": false,
+      "selection_used_force_or_sensor": false,
+      "selection_used_reward": false
+    },
+    {
+      "cohort_rank": 7,
+      "source_rank": 223,
+      "rollout_a": 84,
+      "rollout_b": 90,
+      "time_index": 13,
+      "replay_a": {
+        "batch_index": 2,
+        "env_index": 20,
+        "seed": 125
+      },
+      "replay_b": {
+        "batch_index": 2,
+        "env_index": 26,
+        "seed": 125
+      },
+      "live_metrics": {
+        "visible_rope_history_chamfer_m": 0.0014472975187402452,
+        "dual_ee_position_history_mean_m": 0.0008954177028499544,
+        "dual_ee_quaternion_geodesic_history_mean_rad": 0.0003523569122031579,
+        "dual_motor_qpos_history_rms_rad": 0.0015009362250566483,
+        "winding_index_a": [
+          0,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          0,
+          0
+        ],
+        "winding_stratum": "0,0,0<->0,1,0",
+        "visible_vertex_counts_a": [
+          39,
+          38,
+          38
+        ],
+        "visible_vertex_counts_b": [
+          39,
+          38,
+          38
+        ]
+      },
+      "action_history_equal_by_construction": true,
+      "selection_used_future_divergence": false,
+      "selection_used_force_or_sensor": false,
+      "selection_used_reward": false
+    },
+    {
+      "cohort_rank": 8,
+      "source_rank": 232,
+      "rollout_a": 3,
+      "rollout_b": 4,
+      "time_index": 20,
+      "replay_a": {
+        "batch_index": 0,
+        "env_index": 3,
+        "seed": 123
+      },
+      "replay_b": {
+        "batch_index": 0,
+        "env_index": 4,
+        "seed": 123
+      },
+      "live_metrics": {
+        "visible_rope_history_chamfer_m": 0.0014780428166939784,
+        "dual_ee_position_history_mean_m": 7.483396620955318e-05,
+        "dual_ee_quaternion_geodesic_history_mean_rad": 8.325016810393927e-05,
+        "dual_motor_qpos_history_rms_rad": 0.00010478010517545044,
+        "winding_index_a": [
+          0,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          1,
+          1,
+          0
+        ],
+        "winding_stratum": "0,1,0<->1,1,0",
+        "visible_vertex_counts_a": [
+          36,
+          36,
+          36
+        ],
+        "visible_vertex_counts_b": [
+          36,
+          36,
+          35
+        ]
+      },
+      "action_history_equal_by_construction": true,
+      "selection_used_future_divergence": false,
+      "selection_used_force_or_sensor": false,
+      "selection_used_reward": false
+    },
+    {
+      "cohort_rank": 9,
+      "source_rank": 270,
+      "rollout_a": 67,
+      "rollout_b": 104,
+      "time_index": 13,
+      "replay_a": {
+        "batch_index": 2,
+        "env_index": 3,
+        "seed": 125
+      },
+      "replay_b": {
+        "batch_index": 3,
+        "env_index": 8,
+        "seed": 126
+      },
+      "live_metrics": {
+        "visible_rope_history_chamfer_m": 0.0015514439798881487,
+        "dual_ee_position_history_mean_m": 0.0009178023901768029,
+        "dual_ee_quaternion_geodesic_history_mean_rad": 0.00036767490237587933,
+        "dual_motor_qpos_history_rms_rad": 0.001553443493321538,
+        "winding_index_a": [
+          0,
+          0,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          1,
+          0
+        ],
+        "winding_stratum": "0,0,0<->0,1,0",
+        "visible_vertex_counts_a": [
+          39,
+          38,
+          38
+        ],
+        "visible_vertex_counts_b": [
+          39,
+          38,
+          38
+        ]
+      },
+      "action_history_equal_by_construction": true,
+      "selection_used_future_divergence": false,
+      "selection_used_force_or_sensor": false,
+      "selection_used_reward": false
+    },
+    {
+      "cohort_rank": 10,
+      "source_rank": 419,
+      "rollout_a": 102,
+      "rollout_b": 125,
+      "time_index": 13,
+      "replay_a": {
+        "batch_index": 3,
+        "env_index": 6,
+        "seed": 126
+      },
+      "replay_b": {
+        "batch_index": 3,
+        "env_index": 29,
+        "seed": 126
+      },
+      "live_metrics": {
+        "visible_rope_history_chamfer_m": 0.0018429945688485242,
+        "dual_ee_position_history_mean_m": 0.0011465562274679542,
+        "dual_ee_quaternion_geodesic_history_mean_rad": 0.00047464029411862607,
+        "dual_motor_qpos_history_rms_rad": 0.001912912935949862,
+        "winding_index_a": [
+          0,
+          1,
+          0
+        ],
+        "winding_index_b": [
+          0,
+          0,
+          0
+        ],
+        "winding_stratum": "0,0,0<->0,1,0",
+        "visible_vertex_counts_a": [
+          39,
+          38,
+          38
+        ],
+        "visible_vertex_counts_b": [
+          39,
+          38,
+          38
+        ]
+      },
+      "action_history_equal_by_construction": true,
+      "selection_used_future_divergence": false,
+      "selection_used_force_or_sensor": false,
+      "selection_used_reward": false
+    }
+  ],
+  "phase_boundary": {
+    "branch_snapshot_created": false,
+    "future_suffix_executed": false,
+    "gate4_executed": false,
+    "pb4_started": false,
+    "training_started": false
+  }
+}
