@@ -1,0 +1,58 @@
+{
+  "phase_name": "pb4c0-dlolab-wrapping-feasibility-normalized-signed-qpos-family",
+  "classification": "CPU_ONLY_ACTION_FAMILY_DERIVATION",
+  "source": {
+    "pb4_config": "configs/experiment3/published_benchmark/dlolab_wrapping_pb4.json",
+    "pb4_evidence": "reports/experiment3/pb4_control_relevance/EVIDENCE.json",
+    "expected_pb4_verdict": "PB4_CONTROL_RELEVANCE_NOT_CONFIRMED"
+  },
+  "benchmark": {
+    "task": "wrapping",
+    "revision": "c5026a9416b03c6bc5186eba13cd4ffd4c0e7796",
+    "modify_physics": false,
+    "modify_reward": false,
+    "modify_geometry": false
+  },
+  "family_rule": {
+    "intervention_space": "per_arm_joint_position_target_qpos",
+    "cartesian_motion_reversal_claim": false,
+    "primary_horizon_microsteps": 20,
+    "arm_dof_block": 9,
+    "unit_mask_template": [
+      -1.0,
+      0.0,
+      1.0
+    ],
+    "symmetric_scale_cap": 1.0,
+    "feasibility_safety_factor": 0.95,
+    "formal_alpha_definition": "alpha_formal = feasibility_safety_factor * min(alpha_max_hard_limits, symmetric_scale_cap)",
+    "alpha_max_definition": "Across every frozen cohort branch time t, r=1..H, both 9-DOF arm blocks and each qpos DOF with nonzero nominal delta d, alpha_limit = min(q_t-lower, upper-q_t)/abs(d); alpha_max_hard_limits is the global minimum alpha_limit.",
+    "position_limit_source": "external/dlo-lab/genesis/assets/urdf/panda_bullet/panda.urdf hard <limit>",
+    "position_limit_tolerance_native_units": 1e-12,
+    "allow_clipping": false,
+    "allow_per_joint_scale": false,
+    "allow_per_arm_scale": false,
+    "allow_per_pair_scale": false,
+    "allow_horizon_change": false,
+    "uses_pb4_reward_or_regret": false,
+    "uses_pb3_future_divergence": false,
+    "uses_winding_labels": false,
+    "require_unit_scale_infeasible": true,
+    "require_formal_grid_zero_limit_violations": true
+  },
+  "next_phase_boundary": {
+    "gpu_allowed_in_this_phase": false,
+    "condition5_confirmation_allowed": false,
+    "if_family_derived": "STOP. PB4-C1 GPU exploratory audit requires a separate pre-GPU protocol using the frozen alpha_formal.",
+    "if_derivation_fails": "STOP. Do not tune safety factor, horizon, per-joint scales, or clip commands inside PB4-C0."
+  },
+  "outputs": {
+    "rule": "configs/experiment3/published_benchmark/dlolab_wrapping_pb4c0_feasibility_rule.json",
+    "family": "configs/experiment3/published_benchmark/dlolab_wrapping_pb4c_family.json",
+    "committed_report_dir": "reports/experiment3/pb4c0_feasibility_normalized_family"
+  },
+  "provenance": {
+    "starting_main_sha": "795ce37d308a9651db26cb9d6d83de05e154c0c9",
+    "dlolab_revision": "c5026a9416b03c6bc5186eba13cd4ffd4c0e7796"
+  }
+}
