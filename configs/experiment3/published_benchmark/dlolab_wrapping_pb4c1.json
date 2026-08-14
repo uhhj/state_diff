@@ -1,0 +1,58 @@
+{
+  "phase_name": "pb4c1-dlolab-wrapping-feasibility-normalized-signed-qpos-exploration",
+  "classification": "EXPLORATORY",
+  "source": {
+    "pb4_config": "configs/experiment3/published_benchmark/dlolab_wrapping_pb4.json",
+    "pb4_evidence": "reports/experiment3/pb4_control_relevance/EVIDENCE.json",
+    "expected_pb4_verdict": "PB4_CONTROL_RELEVANCE_NOT_CONFIRMED",
+    "pb4c0_family": "configs/experiment3/published_benchmark/dlolab_wrapping_pb4c_family.json",
+    "pb4c0_evidence": "reports/experiment3/pb4c0_feasibility_normalized_family/EVIDENCE.json",
+    "expected_pb4c0_verdict": "PB4C0_FEASIBILITY_NORMALIZED_FAMILY_FROZEN"
+  },
+  "benchmark": {
+    "task": "wrapping",
+    "revision": "c5026a9416b03c6bc5186eba13cd4ffd4c0e7796",
+    "modify_physics": false,
+    "modify_reward": false,
+    "modify_geometry": false
+  },
+  "family_lock": {
+    "source_of_truth": "configs/experiment3/published_benchmark/dlolab_wrapping_pb4c_family.json",
+    "recompute_alpha": false,
+    "round_alpha": false,
+    "rescale_alpha": false,
+    "clip_qpos_targets": false,
+    "modify_action_ids": false,
+    "modify_action_order": false,
+    "modify_horizon": false,
+    "require_zero_hard_limit_violations_pre_gpu": true
+  },
+  "control_rules": {
+    "inherit_from_pb4": true,
+    "primary_horizon_microsteps": 20,
+    "repeat_count": 3,
+    "absolute_regret_min": 0.05,
+    "repeat_floor_multiplier": 5.0,
+    "minimum_passing_pairs": 3,
+    "minimum_passing_winding_strata": 2,
+    "winding_strata_source": "PB4-C1 fresh live revalidation winding indices at branch time"
+  },
+  "exploratory_scope": {
+    "same_cohort_reused_after_pb4_outcome_seen": true,
+    "formal_condition5_confirmed": false,
+    "condition5_confirmation_allowed": false,
+    "positive_verdict": "PB4C1_NORMALIZED_QPOS_SIGNAL_FOUND",
+    "negative_verdict": "PB4C1_NORMALIZED_QPOS_SIGNAL_NOT_FOUND",
+    "if_positive": "STOP. The result is exploratory only. The next allowed scientific step is a new independent prospective confirmatory cohort using the exact frozen PB4-C0 family.",
+    "if_negative": "STOP the Wrapping control-relevance route. Do not introduce more alpha values, horizons, per-joint/per-arm/per-pair scales, clipping, or hand-designed rescue actions."
+  },
+  "outputs": {
+    "protocol": "configs/experiment3/published_benchmark/dlolab_wrapping_pb4c1_protocol.json",
+    "raw_root": "/data/Experiment3/data/pb4c1_normalized_qpos_exploration",
+    "committed_report_dir": "reports/experiment3/pb4c1_normalized_qpos_exploration"
+  },
+  "provenance": {
+    "starting_main_sha": "c95e8211179b9e65a5a85996fdfaa0d1883deae8",
+    "dlolab_revision": "c5026a9416b03c6bc5186eba13cd4ffd4c0e7796"
+  }
+}

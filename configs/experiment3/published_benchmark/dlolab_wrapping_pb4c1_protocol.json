@@ -1,0 +1,135 @@
+{
+  "phase": "PB4-C1",
+  "verdict": "PB4C1_NORMALIZED_QPOS_PROTOCOL_PREREGISTERED",
+  "classification": "EXPLORATORY",
+  "formal_condition5_confirmed": false,
+  "condition5_confirmation_allowed": false,
+  "scientific_question": "Does the exact feasibility-normalized signed qpos-target family frozen by PB4-C0 show repeat-robust branch-dependent control preference on the already-observed cohort?",
+  "source": {
+    "starting_pb4_verdict": "PB4_CONTROL_RELEVANCE_NOT_CONFIRMED",
+    "pb4c0_verdict": "PB4C0_FEASIBILITY_NORMALIZED_FAMILY_FROZEN",
+    "same_cohort_reused_after_pb4_outcome_seen": true,
+    "cohort_pair_count": 10,
+    "unique_rollout_count": 20,
+    "dlo_gitlink": "c5026a9416b03c6bc5186eba13cd4ffd4c0e7796"
+  },
+  "frozen_family": {
+    "source_of_truth": "configs/experiment3/published_benchmark/dlolab_wrapping_pb4c_family.json",
+    "alpha_formal": 0.2546772721216831,
+    "mask_values": [
+      -0.2546772721216831,
+      0.0,
+      0.2546772721216831
+    ],
+    "actions": [
+      {
+        "action_id": "both_negative",
+        "arm1_mask": -0.2546772721216831,
+        "arm2_mask": -0.2546772721216831
+      },
+      {
+        "action_id": "arm1_negative_arm2_hold",
+        "arm1_mask": -0.2546772721216831,
+        "arm2_mask": 0.0
+      },
+      {
+        "action_id": "arm1_negative_arm2_positive",
+        "arm1_mask": -0.2546772721216831,
+        "arm2_mask": 0.2546772721216831
+      },
+      {
+        "action_id": "arm1_hold_arm2_negative",
+        "arm1_mask": 0.0,
+        "arm2_mask": -0.2546772721216831
+      },
+      {
+        "action_id": "hold_both",
+        "arm1_mask": 0.0,
+        "arm2_mask": 0.0
+      },
+      {
+        "action_id": "arm1_hold_arm2_positive",
+        "arm1_mask": 0.0,
+        "arm2_mask": 0.2546772721216831
+      },
+      {
+        "action_id": "arm1_positive_arm2_negative",
+        "arm1_mask": 0.2546772721216831,
+        "arm2_mask": -0.2546772721216831
+      },
+      {
+        "action_id": "arm1_positive_arm2_hold",
+        "arm1_mask": 0.2546772721216831,
+        "arm2_mask": 0.0
+      },
+      {
+        "action_id": "both_positive",
+        "arm1_mask": 0.2546772721216831,
+        "arm2_mask": 0.2546772721216831
+      }
+    ],
+    "primary_horizon_microsteps": 20,
+    "recompute_alpha": false,
+    "round_alpha": false,
+    "rescale_alpha": false,
+    "clip_qpos_targets": false,
+    "modify_action_ids": false,
+    "modify_action_order": false,
+    "pre_gpu_hard_limit_validation": {
+      "generated_command_count": 360,
+      "out_of_limit_command_count": 0,
+      "joint_limit_violation_event_count": 0,
+      "first_violation": null,
+      "minimum_revolute_joint_limit_margin_rad": 0.004375225429534835,
+      "minimum_prismatic_finger_limit_margin_m": 0.0,
+      "joint_limit_validation": true,
+      "position_limit_source": "external/dlo-lab/genesis/assets/urdf/panda_bullet/panda.urdf hard <limit>",
+      "comparison_tolerance_native_units": 1e-12
+    }
+  },
+  "task_score": {
+    "name": "official_normalized_cumulative_reward",
+    "definition": "(1/H) * sum_h contribution_h; after each microstep, rope NaN or stretch ratio >1.2 permanently clears alive. If alive and reward is finite, contribution_h=env.reward()+1. If reward alone is NaN, contribution_h=0 for that microstep but alive is not cleared. This matches the pinned Wrapping eval_traj cumulative-reward contribution.",
+    "higher_is_better": true,
+    "physical_failure_semantics": "rope NaN or stretch ratio >1.2 permanently makes the branch inactive. reward NaN alone contributes zero for the current microstep and does not by itself change alive.",
+    "store_score_contributions": true,
+    "score_contribution_count_per_record": 20
+  },
+  "barriers": {
+    "all_10_live_pairs_before_snapshot": true,
+    "live_prefix_validity_required": true,
+    "live_prefix_validity_rule": "For each PB4 fresh branch at time t: no stretch or rope-NaN failure may have occurred at or before t. first_fail_step must be > t or absent.",
+    "all_20_branches_restore_before_actions": true,
+    "snapshot_restore_rope_max_abs_m": 5e-05,
+    "pair_drop_allowed": false,
+    "pair_replacement_allowed": false
+  },
+  "control_relevance": {
+    "repeat_count": 3,
+    "best_action_statistic": "median_of_three_task_scores",
+    "repeat_floor": "max_pairwise_absolute_score_difference_over_repeats",
+    "absolute_regret_min": 0.05,
+    "repeat_floor_multiplier": 5.0,
+    "unique_best_rule": "top median minus second-best median >= max(0.05, 5 * branch repeat floor)",
+    "robust_cross_regret": "min repeat score of branch-optimal action minus max repeat score of the other branch's optimal action",
+    "pair_pass_rule": "Both branches have unique best actions; best action IDs differ; and robust cross-regret on both branches is >= max(0.05, 5 * max(branch repeat floors)).",
+    "minimum_passing_pairs": 3,
+    "minimum_passing_winding_strata": 2,
+    "winding_strata_source": "PB4-C1 fresh live revalidation winding indices at branch time"
+  },
+  "expected_action_evaluation_records": 540,
+  "stop_rule": {
+    "same_cohort_reused_after_pb4_outcome_seen": true,
+    "formal_condition5_confirmed": false,
+    "condition5_confirmation_allowed": false,
+    "positive_verdict": "PB4C1_NORMALIZED_QPOS_SIGNAL_FOUND",
+    "negative_verdict": "PB4C1_NORMALIZED_QPOS_SIGNAL_NOT_FOUND",
+    "if_positive": "STOP. The result is exploratory only. The next allowed scientific step is a new independent prospective confirmatory cohort using the exact frozen PB4-C0 family.",
+    "if_negative": "STOP the Wrapping control-relevance route. Do not introduce more alpha values, horizons, per-joint/per-arm/per-pair scales, clipping, or hand-designed rescue actions."
+  },
+  "phase_boundary": {
+    "deployable_sensor_test_started": false,
+    "state_diff_training_started": false,
+    "cfpm_training_started": false
+  }
+}
