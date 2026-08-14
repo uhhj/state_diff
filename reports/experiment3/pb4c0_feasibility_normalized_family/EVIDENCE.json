@@ -1,0 +1,278 @@
+{
+  "phase_name": "pb4c0-dlolab-wrapping-feasibility-normalized-signed-qpos-family",
+  "verdict": "PB4C0_FEASIBILITY_NORMALIZED_FAMILY_FROZEN",
+  "repository": {
+    "starting_main_sha": "795ce37d308a9651db26cb9d6d83de05e154c0c9",
+    "ending_main_sha": "54a14a8e7539fe56857c4821a18c398e8a558f0d",
+    "dlolab_gitlink": "c5026a9416b03c6bc5186eba13cd4ffd4c0e7796"
+  },
+  "scientific": {
+    "classification": "CPU_ONLY_ACTION_FAMILY_DERIVATION",
+    "formal_condition5_confirmed": false,
+    "gpu_executed": false,
+    "rule": {
+      "phase": "PB4-C0",
+      "verdict": "PB4C0_FEASIBILITY_RULE_PREREGISTERED",
+      "classification": "CPU_ONLY_ACTION_FAMILY_DERIVATION",
+      "source": {
+        "pb4_verdict": "PB4_CONTROL_RELEVANCE_NOT_CONFIRMED",
+        "cohort_pair_count": 10,
+        "unique_rollout_count": 20,
+        "dlo_gitlink": "c5026a9416b03c6bc5186eba13cd4ffd4c0e7796"
+      },
+      "family_rule": {
+        "intervention_space": "per_arm_joint_position_target_qpos",
+        "cartesian_motion_reversal_claim": false,
+        "primary_horizon_microsteps": 20,
+        "arm_dof_block": 9,
+        "unit_mask_template": [
+          -1.0,
+          0.0,
+          1.0
+        ],
+        "symmetric_scale_cap": 1.0,
+        "feasibility_safety_factor": 0.95,
+        "formal_alpha_definition": "alpha_formal = feasibility_safety_factor * min(alpha_max_hard_limits, symmetric_scale_cap)",
+        "alpha_max_definition": "Across every frozen cohort branch time t, r=1..H, both 9-DOF arm blocks and each qpos DOF with nonzero nominal delta d, alpha_limit = min(q_t-lower, upper-q_t)/abs(d); alpha_max_hard_limits is the global minimum alpha_limit.",
+        "position_limit_source": "external/dlo-lab/genesis/assets/urdf/panda_bullet/panda.urdf hard <limit>",
+        "position_limit_tolerance_native_units": 1e-12,
+        "allow_clipping": false,
+        "allow_per_joint_scale": false,
+        "allow_per_arm_scale": false,
+        "allow_per_pair_scale": false,
+        "allow_horizon_change": false,
+        "uses_pb4_reward_or_regret": false,
+        "uses_pb3_future_divergence": false,
+        "uses_winding_labels": false,
+        "require_unit_scale_infeasible": true,
+        "require_formal_grid_zero_limit_violations": true
+      },
+      "derivation_inputs": {
+        "frozen_best_qpos_only": true,
+        "frozen_cohort_branch_times_only": true,
+        "pinned_hard_joint_limits_only": true,
+        "pb4_reward_or_regret_used": false,
+        "pb3_future_divergence_used": false,
+        "winding_labels_used": false
+      },
+      "phase_boundary": {
+        "gpu_allowed_in_this_phase": false,
+        "condition5_confirmation_allowed": false,
+        "if_family_derived": "STOP. PB4-C1 GPU exploratory audit requires a separate pre-GPU protocol using the frozen alpha_formal.",
+        "if_derivation_fails": "STOP. Do not tune safety factor, horizon, per-joint scales, or clip commands inside PB4-C0."
+      }
+    },
+    "family": {
+      "phase": "PB4-C0",
+      "verdict": "PB4C0_FEASIBILITY_NORMALIZED_FAMILY_FROZEN",
+      "classification": "CPU_ONLY_ACTION_FAMILY_DERIVATION",
+      "formal_condition5_confirmed": false,
+      "gpu_executed": false,
+      "source_rule_verdict": "PB4C0_FEASIBILITY_RULE_PREREGISTERED",
+      "intervention_space": "per_arm_joint_position_target_qpos",
+      "cartesian_motion_reversal_claim": false,
+      "branch_times": [
+        13,
+        20
+      ],
+      "primary_horizon_microsteps": 20,
+      "position_limits": {
+        "source": "external/dlo-lab/genesis/assets/urdf/panda_bullet/panda.urdf hard <limit>",
+        "urdf_path": "/data/Experiment3/state_diff/external/dlo-lab/genesis/assets/urdf/panda_bullet/panda.urdf",
+        "joint_metadata": [
+          {
+            "joint_name": "panda_joint1",
+            "joint_type": "revolute",
+            "unit": "rad",
+            "lower": -2.9671,
+            "upper": 2.9671
+          },
+          {
+            "joint_name": "panda_joint2",
+            "joint_type": "revolute",
+            "unit": "rad",
+            "lower": -1.8326,
+            "upper": 1.8326
+          },
+          {
+            "joint_name": "panda_joint3",
+            "joint_type": "revolute",
+            "unit": "rad",
+            "lower": -2.9671,
+            "upper": 2.9671
+          },
+          {
+            "joint_name": "panda_joint4",
+            "joint_type": "revolute",
+            "unit": "rad",
+            "lower": -3.1416,
+            "upper": 0.0
+          },
+          {
+            "joint_name": "panda_joint5",
+            "joint_type": "revolute",
+            "unit": "rad",
+            "lower": -2.9671,
+            "upper": 2.9671
+          },
+          {
+            "joint_name": "panda_joint6",
+            "joint_type": "revolute",
+            "unit": "rad",
+            "lower": -0.0873,
+            "upper": 3.8223
+          },
+          {
+            "joint_name": "panda_joint7",
+            "joint_type": "revolute",
+            "unit": "rad",
+            "lower": -2.9671,
+            "upper": 2.9671
+          },
+          {
+            "joint_name": "panda_finger_joint1",
+            "joint_type": "prismatic",
+            "unit": "m",
+            "lower": 0.0,
+            "upper": 0.04
+          },
+          {
+            "joint_name": "panda_finger_joint2",
+            "joint_type": "prismatic",
+            "unit": "m",
+            "lower": 0.0,
+            "upper": 0.04
+          }
+        ],
+        "comparison_tolerance_native_units": 1e-12
+      },
+      "unit_scale_diagnostic": {
+        "generated_command_count": 360,
+        "out_of_limit_command_count": 98,
+        "joint_limit_violation_event_count": 114,
+        "first_violation": {
+          "time_index": 13,
+          "relative_step": 17,
+          "arm1_mask": -1.0,
+          "arm2_mask": -1.0,
+          "violations": [
+            {
+              "arm_index": 2,
+              "joint_index": 1,
+              "joint_name": "panda_joint2",
+              "value": -1.8379298448562622,
+              "lower": -1.8326,
+              "upper": 1.8326
+            }
+          ]
+        }
+      },
+      "derivation": {
+        "alpha_max_hard_limits": 0.26808133907545595,
+        "constraint_count": 560,
+        "limiting_constraint": {
+          "time_index": 20,
+          "relative_step": 20,
+          "arm_index": 1,
+          "joint_index": 1,
+          "joint_name": "panda_joint2",
+          "joint_type": "revolute",
+          "unit": "rad",
+          "base_qpos": -1.7450954914093018,
+          "nominal_qpos": -1.4186851978302002,
+          "nominal_delta": 0.32641029357910156,
+          "lower": -1.8326,
+          "upper": 1.8326,
+          "lower_slack": 0.08750450859069825,
+          "upper_slack": 3.577695491409302,
+          "limiting_bound": "lower",
+          "limiting_unit_mask_sign": -1,
+          "alpha_limit": 0.26808133907545595
+        },
+        "symmetric_scale_cap": 1.0,
+        "feasibility_safety_factor": 0.95,
+        "alpha_reference_before_safety_factor": 0.26808133907545595,
+        "alpha_formal": 0.2546772721216831,
+        "formula": "alpha_formal = feasibility_safety_factor * min(alpha_max_hard_limits, symmetric_scale_cap)",
+        "uses_reward_or_regret": false,
+        "uses_future_divergence": false,
+        "uses_winding_labels": false
+      },
+      "formal_family": {
+        "mask_values": [
+          -0.2546772721216831,
+          0.0,
+          0.2546772721216831
+        ],
+        "actions": [
+          {
+            "action_id": "both_negative",
+            "arm1_mask": -0.2546772721216831,
+            "arm2_mask": -0.2546772721216831
+          },
+          {
+            "action_id": "arm1_negative_arm2_hold",
+            "arm1_mask": -0.2546772721216831,
+            "arm2_mask": 0.0
+          },
+          {
+            "action_id": "arm1_negative_arm2_positive",
+            "arm1_mask": -0.2546772721216831,
+            "arm2_mask": 0.2546772721216831
+          },
+          {
+            "action_id": "arm1_hold_arm2_negative",
+            "arm1_mask": 0.0,
+            "arm2_mask": -0.2546772721216831
+          },
+          {
+            "action_id": "hold_both",
+            "arm1_mask": 0.0,
+            "arm2_mask": 0.0
+          },
+          {
+            "action_id": "arm1_hold_arm2_positive",
+            "arm1_mask": 0.0,
+            "arm2_mask": 0.2546772721216831
+          },
+          {
+            "action_id": "arm1_positive_arm2_negative",
+            "arm1_mask": 0.2546772721216831,
+            "arm2_mask": -0.2546772721216831
+          },
+          {
+            "action_id": "arm1_positive_arm2_hold",
+            "arm1_mask": 0.2546772721216831,
+            "arm2_mask": 0.0
+          },
+          {
+            "action_id": "both_positive",
+            "arm1_mask": 0.2546772721216831,
+            "arm2_mask": 0.2546772721216831
+          }
+        ],
+        "allow_clipping": false,
+        "allow_per_joint_scale": false,
+        "allow_per_arm_scale": false,
+        "allow_per_pair_scale": false,
+        "allow_horizon_change": false,
+        "joint_limit_validation": true,
+        "out_of_limit_command_count": 0,
+        "generated_command_count": 360,
+        "minimum_revolute_joint_limit_margin_rad": 0.004375225429534835,
+        "minimum_prismatic_finger_limit_margin_m": 0.0
+      },
+      "next_phase_boundary": {
+        "gpu_allowed_in_pb4c0": false,
+        "pb4c1_automatically_started": false,
+        "next_if_success": "STOP. A separate PB4-C1 exploratory GPU protocol may use this exact frozen alpha_formal and action family."
+      }
+    },
+    "boundaries": {
+      "pb4_result_modified": false,
+      "gpu_started": false,
+      "sensor_started": false,
+      "training_started": false
+    }
+  }
+}
